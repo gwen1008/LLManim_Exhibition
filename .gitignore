@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Manim output
+media/
+stable_outputs/
+
+# Logs
+logs/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
