@@ -22,11 +22,16 @@ brew install --cask mactex-no-gui  # 安裝 BasicTeX (較輕量)
 
 ## 🚀 快速開始 (Getting Started)
 
-### 1. 取得專案
+### 1. 取得專案 (Clone)
+
+**如果是私有倉庫 (Private Repo)，請確保您已接受協作者邀請。**
 
 ```bash
-git clone <repository-url>
-cd LLManim_Agent
+# 推薦使用 SSH (需設定 GitHub SSH Key)
+git clone git@github.com:childe0905/LLManim_Agent.git
+
+# 或者使用 HTTPS (需使用 Personal Access Token)
+git clone https://github.com/childe0905/LLManim_Agent.git
 ```
 
 ### 2. 建立並啟用虛擬環境
@@ -75,11 +80,21 @@ echo "Pythagorean theorem" | python main.py
 python main.py
 ```
 
+**一鍵執行 `ema`**：在 `~/.zshrc` 加入  
+`export PATH="/path/to/LLManim_Agent:$PATH"`  
+並 `source ~/.zshrc` 後，輸入 `ema` 即等於 `python main.py`。
+
+**Web 介面 (Streamlit)**：若尚未安裝則先執行 `pip install streamlit`。在專案根目錄執行  
+`streamlit run app.py`  
+或 `python -m streamlit run app.py`  
+即可在瀏覽器輸入主題、即時查看 log、並播放生成影片。詳見 `streamlit_app_spec.md`。
+
 生成結果將存放於 `stable_outputs/` 目錄中。
 
 ## 📂 專案結構
 
 - `main.py`: 程式入口，協調各個 Agent。
+- `app.py`: Streamlit Web 介面。
 - `agents/`: 包含各個專職 Agent (Planner, Coder, Reviewer...)。
 - `media/`: Manim 的臨時輸出目錄 (可隨時清理)。
 - `stable_outputs/`: 最終生成的影片和代碼備份。
