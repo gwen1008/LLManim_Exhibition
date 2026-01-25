@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 import time
 import shutil
 import json
@@ -280,11 +281,22 @@ Lesson: [Your concise lesson here]
     return False
 
 if __name__ == "__main__":
+    # 支援非互動：argv[1] > stdin > input()
+    if len(sys.argv) >= 2:
+        user_input = sys.argv[1].strip()
+    elif not sys.stdin.isatty():
+        line = sys.stdin.readline()
+        user_input = (line or "").strip()
+    else:
+        user_input = input("\n📝 請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): ")
+
+    if not user_input and not sys.stdin.isatty():
+        print("錯誤：請提供動畫主題（經由參數或 stdin）")
+        sys.exit(1)
+
     print("\n" + "╔" + "═"*48 + "╗")
     print("║" + " "*10 + "EMA System: Multi-stage Manim Agent" + " "*9 + "║")
     print("╚" + "═"*48 + "╝")
-    
-    user_input = input("\n📝 請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): ")
     
     # Initialize session logger
     logger = SessionLogger()
