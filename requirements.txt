@@ -4,3 +4,4 @@ pydantic
 manim
 certifi
 requests
+streamlit
