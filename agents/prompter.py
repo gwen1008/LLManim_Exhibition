@@ -51,8 +51,32 @@ class ManimDiagnoser:
             # ========== 顏色相關錯誤 (Color Errors) ==========
             "ValueError.*color": "顏色值錯誤。Manim 顏色應使用預定義常數（YELLOW, RED, GREEN）或十六進制字串（'#FF0000'）。如果從 JSON 讀取顏色字串，請使用 color_map 字典轉換。",
             
+            
             # ========== 動畫時間錯誤 (Animation Timing Errors) ==========
             "wait.*negative": "wait() 時間不能為負數。檢查 duration - animation_time 的計算，確保 duration 足夠長。如果計算結果為負，使用 max(0, remaining_time) 或增加 JSON 中的 duration 值。",
+            
+            # ========== Polygon 幾何錯誤 (Polygon Dimension Errors) ==========
+            "ValueError.*setting an array element with a sequence": """CRITICAL POLYGON SYNTAX ERROR detected!
+
+You are passing points to Polygon INCORRECTLY. This error occurs when points are nested in a list.
+
+❌ WRONG (causes this error):
+   Polygon([(-3, 0, 0), (0, 0, 0), (0, 4, 0)])
+   Polygon([(-3, 0), (0, 0), (0, 4)])
+
+✅ CORRECT (unpacked arguments):
+   Polygon((-3, 0, 0), (0, 0, 0), (0, 4, 0))
+   
+Or use numpy arrays for each point:
+   Polygon(np.array([-3, 0, 0]), np.array([0, 0, 0]), np.array([0, 4, 0]))
+
+KEY RULES:
+1. Polygon expects *args (multiple separate arguments), NOT a single list
+2. Each point can be a tuple OR numpy array
+3. Points should be 3D: (x, y, z) where z=0 for 2D scenes
+4. DO NOT wrap all points in a list - unpack them as separate arguments
+
+Fix ALL Polygon calls in your code to use the correct unpacked syntax.""",
         }
 
     def generate_fix_prompt(self, error_message, original_code, script_json=None):
@@ -306,6 +330,57 @@ obj.shift(parse_position(position))  # You need to parse position string
 # Store the object with its ID for future reference
 <store obj with obj_id for later steps>
 ```
+
+**🚨 CRITICAL: Polygon API (MOST COMMON ERROR)**
+
+Manim's `Polygon` class has a specific syntax that MUST be followed exactly:
+
+❌ **WRONG** (will cause ValueError: dimension mismatch):
+```python
+# DO NOT pass a list of points
+Polygon([(-3, 0, 0), (0, 0, 0), (0, 4, 0)])  # ERROR!
+Polygon([p1, p2, p3])  # ERROR!
+```
+
+✅ **CORRECT** (unpacked arguments):
+```python
+# Each point is a separate argument
+Polygon((-3, 0, 0), (0, 0, 0), (0, 4, 0))
+Polygon(np.array([-3, 0, 0]), np.array([0, 0, 0]), np.array([0, 4, 0]))
+
+# For right triangle example:
+right_triangle = Polygon(
+    np.array([-3, 0, 0]),  # bottom-left
+    np.array([0, 0, 0]),   # bottom-right  
+    np.array([0, 4, 0])    # top-right
+)
+```
+
+**KEY RULES FOR POLYGON**:
+1. Use `*args` syntax (multiple separate arguments), NOT a single list
+2. Each point should be a tuple `(x, y, z)` or `np.array([x, y, z])`
+3. For 2D scenes, z-coordinate should be 0
+4. Points must be 3D (x, y, z), not 2D (x, y)
+
+**Dynamic Polygon Creation from JSON**:
+If the JSON specifies a Polygon, you cannot use the empty `Polygon()` constructor.
+You must either:
+1. Define vertices explicitly based on content
+2. Use a helper shape like `Triangle()` or `Square()`
+
+Example:
+```python
+elif obj_type == "Polygon":
+    # Parse content to determine shape (e.g., "3, 4, 5" for a right triangle)
+    # Define vertices based on the content
+    vertices = [
+        np.array([-3, 0, 0]),
+        np.array([0, 0, 0]),
+        np.array([0, 4, 0])
+    ]
+    # Unpack the list using *vertices
+    obj = Polygon(*vertices)  # Note the * unpacking operator
+
 
 **Action Type Mapping**:
 

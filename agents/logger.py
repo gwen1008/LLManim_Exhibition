@@ -17,8 +17,13 @@ class SessionLogger:
         self.max_files = max_files
         
         self.log_file = None
-        self.original_stdout = sys.stdout
-        self.original_stderr = sys.stderr
+        # Wrap original streams with SafeStream to handle encoding errors
+        self.original_stdout = SafeStream(sys.stdout)
+        self.original_stderr = SafeStream(sys.stderr)
+        
+        # Replace sys.stdout and sys.stderr immediately to handle encoding errors globally
+        sys.stdout = self.original_stdout
+        sys.stderr = self.original_stderr
         
     def start_session(self, topic="unknown"):
         """Start a new logging session with timestamped file."""
@@ -80,6 +85,35 @@ class SessionLogger:
         
         if removed_count > 0:
             print(f"🧹 Cleaned up {removed_count} old log file(s)")
+
+
+class SafeStream:
+    """Wrapper for streams that handles Unicode encoding errors gracefully."""
+    def __init__(self, stream):
+        self.stream = stream
+        self.encoding = getattr(stream, 'encoding', 'utf-8')
+        self.buffer = getattr(stream, 'buffer', None)
+    
+    def write(self, data):
+        try:
+            self.stream.write(data)
+        except UnicodeEncodeError:
+            # Handle encoding errors by replacing problematic characters
+            if self.buffer:
+                # For sys.stdout/stderr with buffer attribute
+                encoded = data.encode(self.encoding, errors='replace')
+                self.buffer.write(encoded)
+            else:
+                # Fallback: try to write with ASCII replacement
+                safe_data = data.encode('ascii', errors='replace').decode('ascii')
+                self.stream.write(safe_data)
+    
+    def flush(self):
+        self.stream.flush()
+    
+    def __getattr__(self, name):
+        # Delegate all other attributes to the wrapped stream
+        return getattr(self.stream, name)
 
 
 class TeeOutput:

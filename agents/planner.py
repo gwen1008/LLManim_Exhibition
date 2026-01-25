@@ -240,6 +240,8 @@ CRITICAL CONSTRAINTS (Mandatory Checklist)
 
 ✗ NO monolithic steps (break down into micro-steps per Segmenting Principle)
 
+✓ **OUTPUT FORMAT**: Output ONLY the raw JSON object. No explanatory text, no preamble, no markdown, no code fences (no \`\`\`json). Start your response with {{ and end with }}.
+
 ═══════════════════════════════════════════════════════════════════
 CONCRETE EXAMPLE (Arithmetic)
 ═══════════════════════════════════════════════════════════════════
@@ -268,21 +270,48 @@ Good Output Structure:
 }
 """
 
+    @staticmethod
+    def _extract_first_json_object(text: str) -> str | None:
+        """從可能含前後文的字串中，以括號匹配擷取第一個完整 JSON 物件。"""
+        i = text.find("{")
+        if i == -1:
+            return None
+        depth = 0
+        for j, c in enumerate(text[i:], start=i):
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    return text[i : j + 1]
+        return None
+
     def plan_script(self, topic: str):
         """
         根據主題生成腳本，並確保輸出為可解析的 JSON
         """
-        user_prompt = f"Design a professional educational animation for: '{topic}'. Include 3-5 well-structured steps."
+        user_prompt = f"Design a professional educational animation for: '{topic}'. Include 3-5 well-structured steps. Output ONLY the JSON object."
         
         raw_response = self.client.ask(self.system_prompt, user_prompt, role="planner")
         
-        # 清理可能存在的 Markdown 代碼塊標籤
-        clean_json = re.sub(r'```json\n?|```', '', raw_response).strip()
+        # 清理 Markdown 代碼塊標籤
+        clean = re.sub(r"```json\n?|```", "", raw_response).strip()
         
+        # 1) 直接解析
         try:
-            # 測試是否可被解析，若失敗則回傳原始文字（雖然這會影響後續，但可供 Debug）
-            json.loads(clean_json)
-            return clean_json
+            json.loads(clean)
+            return clean
         except json.JSONDecodeError:
-            print("⚠️ 警告：Planner 產出的 JSON 格式有誤，將嘗試直接使用原始輸出。")
-            return clean_json
+            pass
+        
+        # 2) 若有前後文，以括號匹配擷取第一個 { ... }
+        print("⚠️ 警告：Planner 產出的 JSON 格式有誤，正以括號匹配擷取 JSON 物件…")
+        extracted = self._extract_first_json_object(clean)
+        if extracted:
+            try:
+                obj = json.loads(extracted)
+                return json.dumps(obj, ensure_ascii=False, indent=2)
+            except json.JSONDecodeError:
+                pass
+        print("⚠️ 擷取後仍無法解析，將使用原始輸出。")
+        return clean

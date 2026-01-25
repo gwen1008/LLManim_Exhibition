@@ -17,6 +17,11 @@ stable_outputs/
 # Logs
 logs/
 
+# Benchmark results (generated files)
+benchmark_result.csv
+benchmark_result.md
+test_logger_fix.py
+
 # IDE
 .vscode/
 .idea/

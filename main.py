@@ -1,5 +1,6 @@
 import subprocess
 import os
+import sys
 import time
 import shutil
 import json
@@ -9,6 +10,23 @@ from agents.llm_client import LLMClient
 from agents.reviewer import CodeReviewer
 from agents.audio_engine import AudioEngine
 from agents.logger import SessionLogger
+
+
+def _extract_first_json_object(text: str):
+    """從可能含前後文的字串中，以括號匹配擷取第一個完整 JSON 物件。"""
+    i = text.find("{")
+    if i == -1:
+        return None
+    depth = 0
+    for j, c in enumerate(text[i:], start=i):
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+            if depth == 0:
+                return text[i : j + 1]
+    return None
+
 
 def run_manim_task(file_path, scene_name):
     """
@@ -35,22 +53,6 @@ def run_manim_task(file_path, scene_name):
             return False, result.stderr
     except FileNotFoundError:
         return False, "錯誤：找不到 'manim' 指令。請確保已安裝 Manim 且路徑正確。"
-
-# ... (omitted) ...
-
-    # 1. 備份影片檔案（先備份影片，因為這是最重要的）
-    if os.path.exists(video_source):
-        print(f"📦 正在將影片移動至: {backup_video_path}")
-        shutil.move(video_source, backup_video_path)
-        
-        # 移動完成後，手動開啟影片進行預覽
-        try:
-            print(f"▶️ 正在播放影片...")
-            subprocess.run(["open", backup_video_path])
-        except Exception as e:
-            print(f"⚠️ 無法自動播放影片: {e}")
-    else:
-        print(f"⚠️ 警告：找不到生成的影片檔案：{video_source}")
 
 def _format_reflection_memory(reflection_memory):
     """
@@ -145,8 +147,10 @@ Fix this immediately.
                 if not os.path.exists(output_folder):
                     os.makedirs(output_folder)
 
-                # 修正：星號也需要替換，避免檔名問題
-                safe_name = user_topic.replace(" ", "_").replace(".", "_").replace("/", "_").replace("*", "x")
+                # 修正：星號及其他非法字元也需要替換，避免檔名問題
+                safe_name = user_topic.replace(" ", "_").replace(".", "_")
+                for char in '<>:"/\\|?*':
+                    safe_name = safe_name.replace(char, "_")
                 
                 # 1. 備份影片檔案（先備份影片，因為這是最重要的）
                 module_name = os.path.splitext(os.path.basename(file_path))[0]
@@ -157,6 +161,16 @@ Fix this immediately.
                     # 使用 move 而非 copy，確保複製當前的影片並避免殘留
                     shutil.move(video_source, backup_video_path)
                     print(f"💾 影片已備份至: {backup_video_path}")
+                    # 手動開啟影片預覽（BENCHMARK=1 時不播放，避免批量測試彈窗）
+                    if not os.environ.get("BENCHMARK"):
+                        try:
+                            print(f"▶️ 正在播放影片...")
+                            if sys.platform == "win32":
+                                os.startfile(backup_video_path)
+                            else:
+                                subprocess.run(["open", backup_video_path])
+                        except Exception as e:
+                            print(f"⚠️ 無法自動播放影片: {e}")
                 else:
                     print(f"⚠️ 警告：未找到影片檔 {video_source}")
                     print(f"🔍 [Debug] Manim 可能未產生輸出。Manim 輸出日誌：")
@@ -266,8 +280,19 @@ Lesson: [Your concise lesson here]
         # ========== Step 4: Request AI to Fix Code (with Memory Injection) ==========
         # ========== Step 4: Request AI to Fix Code (with Memory Injection) ==========
         print("\n🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...")
-        new_code = llm.ask_for_fix(feedback_for_llm)
         
+        # [Fix] Retry loop for empty fix code generation
+        new_code = ""
+        for attempt in range(3):
+            new_code = llm.ask_for_fix(feedback_for_llm)
+            if new_code and len(new_code.strip()) > 0:
+                break
+            print(f"⚠️ [AICodeFix] 生成的修復代碼為空，正在重試 ({attempt+1}/3)...")
+
+        if not new_code or len(new_code.strip()) == 0:
+            print("❌ [Critical] 無法生成有效的修復代碼，跳過此輪修復 (保留舊代碼)。")
+            continue 
+
         # 【強制修正】：使用 Regex 強制替換類名，確保修復後的代碼也能被 Manim 識別
         import re
         print(f"🔧 [Debug] 強制檢查並修正類名為 {target_scene} (In Fix Loop)...")
@@ -284,7 +309,7 @@ if __name__ == "__main__":
     print("║" + " "*10 + "EMA System: Multi-stage Manim Agent" + " "*9 + "║")
     print("╚" + "═"*48 + "╝")
     
-    user_input = input("\n📝 請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): ")
+    user_input = input("\n請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): ")
     
     # Initialize session logger
     logger = SessionLogger()
@@ -327,26 +352,23 @@ if __name__ == "__main__":
                 print(f"  - 步驟 {i+1}: {desc}")
         except Exception as e:
             print(f"⚠️ JSON 解析失敗: {e}")
-            # 嘗試從 markdown 代碼塊中提取 JSON（使用貪婪匹配以捕獲完整 JSON）
-            import re
-            # 匹配 ```json ... ``` 或 ``` ... ``` 內的內容
-            json_match = re.search(r'```(?:json)?\s*(\{[\s\S]*?\n\})\s*```', script_json, re.DOTALL)
-            if not json_match:
-                # 嘗試直接查找 JSON 對象（不在代碼塊中）
-                json_match = re.search(r'(\{[\s\S]*?"sequence"[\s\S]*?\n\})', script_json, re.DOTALL)
-            
-            if json_match:
+            extracted = _extract_first_json_object(script_json)
+            if extracted:
                 try:
-                    parsed_script = json.loads(json_match.group(1))
+                    parsed_script = json.loads(extracted)
                     print("✅ 成功從文本中提取 JSON")
                 except Exception as ex:
                     print(f"❌ JSON 提取後解析失敗: {ex}")
-                    print(f"📄 提取的內容: {json_match.group(1)[:200]}...")
+                    print(f"📄 提取的內容: {extracted[:200]}...")
                     parsed_script = None
             else:
                 print(f"❌ 無法在輸出中找到有效的 JSON 結構")
                 print(f"🎬 規劃腳本內容（前 500 字元）：\n{script_json[:500]}")
                 parsed_script = None
+
+        # 成功取得 parsed_script 時，將 script_json 統一為乾淨的 JSON 字串，供 Coder / Reviewer 使用
+        if parsed_script is not None and isinstance(parsed_script, dict):
+            script_json = json.dumps(parsed_script, ensure_ascii=False, indent=2)
 
         # 階段 1.5: Audio Generation
         # 從 Director 的 Visual Rationale 中提取 sequence
@@ -377,7 +399,7 @@ if __name__ == "__main__":
                     if "sequence" in parsed_script:
                         parsed_script["sequence"] = updated_sequence
                     else:
-                        parsed_script[" scenes"] = updated_sequence
+                        parsed_script["scenes"] = updated_sequence
                     
                     # 更新 script_json 供後續使用
                     script_json = json.dumps(parsed_script, ensure_ascii=False, indent=2)
@@ -399,7 +421,14 @@ if __name__ == "__main__":
         coder_prompter = CoderPrompter()
         initial_prompt = coder_prompter.generate_initial_prompt(script_json, target_scene)
         
-        first_code = llm.ask_for_fix(initial_prompt)
+        # [Fix] Retry loop for empty code generation
+        max_retries = 3
+        first_code = ""
+        for attempt in range(max_retries):
+            first_code = llm.ask_for_fix(initial_prompt)
+            if first_code and len(first_code.strip()) > 0:
+                break
+            print(f"⚠️ 生成的代碼為空，正在重試 ({attempt+1}/{max_retries})...")
         
         # 【強制修正】：使用 Regex 強制替換類名，確保 Manim 能找到 GeneratedScene
         import re
