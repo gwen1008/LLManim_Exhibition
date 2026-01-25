@@ -22,11 +22,16 @@ brew install --cask mactex-no-gui  # 安裝 BasicTeX (較輕量)
 
 ## 🚀 快速開始 (Getting Started)
 
-### 1. 取得專案
+### 1. 取得專案 (Clone)
+
+**如果是私有倉庫 (Private Repo)，請確保您已接受協作者邀請。**
 
 ```bash
-git clone <repository-url>
-cd LLManim_Agent
+# 推薦使用 SSH (需設定 GitHub SSH Key)
+git clone git@github.com:childe0905/LLManim_Agent.git
+
+# 或者使用 HTTPS (需使用 Personal Access Token)
+git clone https://github.com/childe0905/LLManim_Agent.git
 ```
 
 ### 2. 建立並啟用虛擬環境
