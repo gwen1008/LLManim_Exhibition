@@ -9,6 +9,7 @@ from agents.prompter import ManimDiagnoser, CoderPrompter
 from agents.llm_client import LLMClient
 from agents.reviewer import CodeReviewer
 from agents.audio_engine import AudioEngine
+from agents.rag_retriever import RAGRetriever
 from agents.logger import SessionLogger
 
 
@@ -162,15 +163,16 @@ Fix this immediately.
                     shutil.move(video_source, backup_video_path)
                     print(f"💾 影片已備份至: {backup_video_path}")
                     # 手動開啟影片預覽（BENCHMARK=1 時不播放，避免批量測試彈窗）
-                    if not os.environ.get("BENCHMARK"):
-                        try:
-                            print(f"▶️ 正在播放影片...")
-                            if sys.platform == "win32":
-                                os.startfile(backup_video_path)
-                            else:
-                                subprocess.run(["open", backup_video_path])
-                        except Exception as e:
-                            print(f"⚠️ 無法自動播放影片: {e}")
+                    # 自動播放功能已停用
+                    # if not os.environ.get("BENCHMARK"):
+                    #     try:
+                    #         print(f"▶️ 正在播放影片...")
+                    #         if sys.platform == "win32":
+                    #             os.startfile(backup_video_path)
+                    #         else:
+                    #             subprocess.run(["open", backup_video_path])
+                    #     except Exception as e:
+                    #         print(f"⚠️ 無法自動播放影片: {e}")
                 else:
                     print(f"⚠️ 警告：未找到影片檔 {video_source}")
                     print(f"🔍 [Debug] Manim 可能未產生輸出。Manim 輸出日誌：")
@@ -413,13 +415,21 @@ if __name__ == "__main__":
                     print(traceback.format_exc())
                     print(f"⚠️ 將使用預設時長繼續（影片無音檔）")
 
+        # 階段 1.8: RAG Search (Golden Examples)
+        print("\n📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例 (Golden Examples)...")
+        rag_retriever = RAGRetriever()
+        # 使用 user_topic 進行檢索 (未來可以改進為使用 Director 的視覺描述)
+        rag_results = rag_retriever.retrieve_examples(user_topic, limit=3)
+        rag_context = rag_retriever.format_for_prompt(rag_results)
+        rag_retriever.close() # 查完就關，節省資源
 
         # 階段二：Coder 初始代碼生成
         # 【重點修改】：這裡的 Prompt 必須跟 Reviewer 的標準一致，不然一開始就會 FAIL
         print("\n✍️ [階段 2: Coder] 正在撰寫初始 Manim 程式碼...")
         llm = LLMClient()
         coder_prompter = CoderPrompter()
-        initial_prompt = coder_prompter.generate_initial_prompt(script_json, target_scene)
+        # 注入 RAG Context
+        initial_prompt = coder_prompter.generate_initial_prompt(script_json, target_scene, rag_context=rag_context)
         
         # [Fix] Retry loop for empty code generation
         max_retries = 3

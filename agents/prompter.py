@@ -158,10 +158,12 @@ Fix ALL Polygon calls in your code to use the correct unpacked syntax.""",
         return prompt
 
 class CoderPrompter:
-    def generate_initial_prompt(self, script_json, target_scene):
-        return f"""You are an Expert Manim Developer serving as the \"Code Translation Engine\" (The Engineer) in a multi-agent system.
-Your upstream colleague is the \"Director\" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+    def generate_initial_prompt(self, script_json, target_scene, rag_context=""):
+        prompt = f"""You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
 Your job is to translate the Director's JSON Plan into PRODUCTION-READY Manim Community (v0.18.0+) Python code.
+
+{rag_context}
 
 ═══════════════════════════════════════════════════════════════════
 🚨 CRITICAL: CLASS NAME REQUIREMENT (HIGHEST PRIORITY)
@@ -595,3 +597,4 @@ Trust the Director's design. Implement it perfectly.
 
 Generate the complete, production-ready Manim code now.
 """
+        return prompt
