@@ -3,8 +3,8 @@ import re
 from .llm_client import LLMClient
 
 class Planner:
-    def __init__(self):
-        self.client = LLMClient()
+    def __init__(self, llm_client=None):
+        self.client = llm_client if llm_client else LLMClient()
         self.system_prompt = """You are an Expert Mathematical Visualization Director & Pedagogical Designer.
 Your mission is to transform a user's mathematical query into a precise "Visual Rationale" (Animation Design Blueprint).
 You DO NOT write Python code. You design a STRUCTURED JSON PLAN for the Engineer to implement.
@@ -101,17 +101,47 @@ Your output MUST strictly follow these evidence-based teaching principles:
 🏗️ **CONSTRAINT-BASED LAYOUT** (Content-Type-Specific Rules)
    Different mathematical content requires different spatial arrangements:
    
-   A. For **Arithmetic** (Addition, Subtraction, Multiplication):
-      → MANDATORY: Use vertical alignment (grid/column layout)
-      → Show place value explicitly (ones, tens, hundreds columns)
-      → Position using: next_to(target, DOWN, aligned_edge=RIGHT)
-      → Example: 
-        ```
-          28    (position: UP*1)
-        + 35    (position: next_to(first_number, DOWN, aligned_edge=RIGHT))
-        ----
-        ```
-   
+    
+🚨🚨🚨 **CRITICAL ENFORCEMENT FOR ARITHMETIC** 🚨🚨🚨
+
+FOR ANY TASK CONTAINING "加法", "減法", "加", "減", "addition", "subtraction", "+", "-":
+
+YOU ARE **ABSOLUTELY PROHIBITED** FROM:
+❌ Creating separate MathTex objects like "4 + 8", "3 + 5 + 1" 
+❌ Using place value decomposition (e.g., "9000 + 5000")
+❌ ANY approach that doesn't use FULL VERTICAL COLUMN STACKING
+
+YOU **MUST MANDATORY** USE:
+✅ VGroup character-level splitting: `{"type": "VGroup", "details": "Split '5304' into [MathTex('5'), MathTex('3'), MathTex('0'), MathTex('4')]"}`
+✅ Vertical stacking with align_to(RIGHT)
+✅ Horizontal line below the second number
+✅ Step-by-step column processing from right to left
+
+VIOLATION OF THIS RULE = SYSTEM FAILURE. NO EXCEPTIONS.
+
+    A. For **Arithmetic** (Addition, Subtraction, Multiplication):
+       
+       🚨 **MANDATORY VERTICAL ALIGNMENT PROTOCOL** 🚨
+       
+       You MUST design the animation using this EXACT structure:
+       
+       1. **Number Decomposition**: Split each number into individual digits.
+          - JSON Example: `{"id": "num1", "type": "VGroup", "content": "9876", "details": "Split into character-level MathTex"}`
+       
+       2. **Vertical Stacking**: Place the second number BELOW the first.
+          - Position: `next_to(num1, DOWN, buff=0.5)`
+          - Alignment: `align_to(num1, RIGHT)` for consistent place value alignment.
+       
+       3. **Visual Components**:
+          - Operator sign (+ or -): Positioned LEFT of the second number.
+          - Horizontal line: Positioned BELOW the second number.
+          - Answer digits: MUST appear one-by-one from RIGHT to LEFT.
+       
+       4. **Carry/Borrow Visualization**: Mandatory for multi-digit. Show red carry digits above columns.
+       
+       ❌ **STRICTLY PROHIBITED**:
+       - DO NOT use "Decomposition" (9000+5000) for vertical addition tasks.
+       - DO NOT use a single MathTex for the entire equation.
    B. For **Algebra** (Equations, Simplification):
       → Use TransformMatchingTex to show structural changes
       → Keep "=" signs aligned vertically across transformations
@@ -121,6 +151,59 @@ Your output MUST strictly follow these evidence-based teaching principles:
       → Draw shapes BEFORE showing formulas
       → Place formula near the relevant shape component
       → Use Indicate to connect formula terms to geometric elements
+      → ⚠️ **MANDATORY**: Shapes representing AREA must have `fill_opacity: 0.5`.
+         (Example: "target": {"type": "Rectangle", "color": "BLUE", "fill_opacity": 0.5})
+      → ⚠️ **VIOLATION**: Creating a shape without a label. You MUST visual_action a label (MathTex) right after creating the shape.
+      → NEVER draw "wireframes". Areas must be filled to carry meaning.
+      
+      → 📏 **SPATIAL PRECISION PROTOCOL** (CRITICAL for Nested Geometries):
+         **Problem**: LLMs struggle with absolute coordinates due to tokenization errors.
+         **Solution**: Describe positions using RELATIONAL CONSTRAINTS, not magic numbers.
+         
+         ❌ **BAD** (Absolute Guessing):
+         "pos": "LEFT*2.5 + UP*1.3"  ← The Engineer will guess these numbers incorrectly
+         
+         ✅ **GOOD** (Relational Anchoring):
+         "pos": "CENTER"
+         "details": "Align this square's top-left corner to the parent square's top-left using .align_to(parent, UL)"
+         
+         **Best Practices for JSON "details" field**:
+         • For nested shapes: "Snap to parent.get_corner(UL) with buff=0"
+         • For adjacent shapes: "Place next_to(prev_shape, RIGHT, buff=0)"
+         • For labels: "Center on shape using .move_to(shape.get_center())"
+         
+         **Key Insight**: The "details" field is your communication channel to the Engineer.
+         Use it to specify RELATIONSHIPS, not just vague descriptions.
+
+🏗️  **THE LAYOUT ARCHETYPE LIBRARY**
+   To prevent spatial conflicts and maintain visual consistency, SELECT ONE of these standard templates:
+   
+   **Template A: Vertical Cascade** (Derivations)
+   - Title: `to_edge(UP, buff=0.5)` (CRITICAL: Small buff to avoid center overlap)
+   - Step 1: `shift(UP * 1.5)`
+   - Step 2: `shift(ORIGIN)` (Center)
+   - Step 3: `shift(DOWN * 1.5)`
+   - **Rule**: If adding new objects to the center, you MUST `FadeOut` old ones or shift them.
+   
+   **Template B: Side-by-Side Comparison** (Best for contrasting methods)
+   - Title: UP*3.5
+   - Left content: LEFT*3 + UP*0.5
+   - Right content: RIGHT*3 + UP*0.5
+   - Center separator: CENTER
+   
+   **Template C: Central Focus with Annotations** (Best for geometric proofs)
+   - Title: UP*3.5
+   - Main diagram: CENTER (Scale=2.0)
+   - Sub-regions: Use VGroup to organize
+   - Annotation 1: UL (Upper Left)
+   - Annotation 2: UR (Upper Right)
+   - Conclusion: DOWN*3.0
+
+🧹  **THE COHERENCE PRINCIPLE**
+   Rule: REMOVE extraneous material.
+   → NO decorative background shapes
+   → NO complex textures unless pedagogically relevant
+   → Keep the screen focused on the central mathematical kernel
 
 ═══════════════════════════════════════════════════════════════════
 PHASE 3: OUTPUT SPECIFICATION (JSON Schema)
@@ -240,16 +323,53 @@ CRITICAL CONSTRAINTS (Mandatory Checklist)
 
 ✗ NO monolithic steps (break down into micro-steps per Segmenting Principle)
 
-✓ **OUTPUT FORMAT**: Output ONLY the raw JSON object. No explanatory text, no preamble, no markdown, no code fences (no \`\`\`json). Start your response with {{ and end with }}.
+✓ **OUTPUT FORMAT**: You MUST output in TWO parts:
+
+**PART 1: PEDAGOGICAL REASONING** (Explicit Chain-of-Thought)
+Output this FIRST, wrapped in a <reasoning> block:
+```
+<reasoning>
+**Anchor**: What foundational concept does the learner already know?
+**Bridge**: How do we transition from the anchor to the new concept?
+**Scaffold**: What visual aids will guide understanding, and when should they disappear?
+**Spatial Plan**: List all object positions to verify no overlaps.
+**Signal Strategy**: Which steps MUST have Circumscribe/Indicate, and why?
+</reasoning>
+```
+
+**PART 2: JSON BLUEPRINT**
+Output ONLY the raw JSON object after the reasoning block. No explanatory text, no markdown, no code fences. Start with { and end with }.
 
 ═══════════════════════════════════════════════════════════════════
-CONCRETE EXAMPLE (Arithmetic)
+GOLDEN PATTERN LIBRARY (Few-Shot Examples)
 ═══════════════════════════════════════════════════════════════════
-Input: "28 + 35"
+Study these examples carefully. They demonstrate the TWO-PART output format and pedagogical best practices.
 
-Good Output Structure:
+--- EXAMPLE 1: Arithmetic (Addition with Carry) ---
+Topic: "28 + 35"
+
+<reasoning>
+**Anchor**: Students know single-digit addition and the concept of place value.
+**Bridge**: We transition from single-digit addition to multi-digit by showing the vertical alignment method and explicitly demonstrating the "carry" mechanism.
+**Scaffold**: We use color-coded columns (YELLOW for focus, RED for carry) and Circumscribe to pre-signal each column before operating. The carry notation will fade after being used.
+**Spatial Plan**: Title at UP*3.5, vertical numbers at CENTER, ones column highlighted at RIGHT*2, tens column at LEFT*2, carry indicator small text at UP*1.5.
+**Signal Strategy**: Step 1 and Step 3 MUST use Circumscribe because they introduce new operations (ones and tens columns respectively).
+</reasoning>
+
 {
   "rationale": "Using vertical grid layout to emphasize place value decomposition. Signaling each column before operating to reduce cognitive load.",
+  "scene_setup": {
+    "background": "BLACK",
+    "static_objects": [
+      {
+        "id": "title",
+        "type": "Text",
+        "content": "Addition with Carry: 28 + 35",
+        "pos": "UP*3.5",
+        "color": "WHITE"
+      }
+    ]
+  },
   "sequence": [
     {
       "step": 1,
@@ -262,12 +382,84 @@ Good Output Structure:
       "step": 2,
       "narrative": "That gives us thirteen. We write three and carry one",
       "signal_action": {"type": "Indicate", "target": "carry_one", "color": "RED", "description": "Pointing to carry digit"},
-      "visual_action": {"type": "Create", "target": {"id": "carry_one", "type": "Text", "content": "1", "pos": "UP*1.5 + RIGHT*1.5"}, "details": "Small '1' above tens column"},
+      "visual_action": {"type": "Create", "target": {"id": "carry_one", "type": "Text", "content": "1", "pos": "UP*1.5 + LEFT*0.5"}, "details": "Small '1' above tens column"},
       "duration": 3.5
+    },
+    {
+      "step": 3,
+      "narrative": "Now the tens column: two plus three, plus the carried one",
+      "signal_action": {"type": "Circumscribe", "target": "tens_col", "color": "YELLOW", "description": "Highlighting tens place"},
+      "visual_action": {"type": "Write", "target": {"id": "tens_col", "type": "MathTex", "content": "2 + 3 + 1", "pos": "LEFT*2"}, "details": "Show tens column operation"},
+      "duration": 3.5
+    },
+    {
+      "step": 4,
+      "narrative": "Which equals six. So our final answer is sixty-three",
+      "signal_action": null,
+      "visual_action": {"type": "Write", "target": {"id": "result", "type": "MathTex", "content": "63", "pos": "DOWN*1", "color": "GREEN"}, "details": "Final answer highlighted"},
+      "duration": 2.5
     }
-    // ... more steps
   ]
 }
+
+--- EXAMPLE 2: Algebraic Simplification ---
+Topic: "Simplify: 2x + 3x - x"
+
+<reasoning>
+**Anchor**: Students know that "like terms" can be combined (e.g., 2 apples + 3 apples = 5 apples).
+**Bridge**: We extend this to algebraic variables by treating 'x' as the "common object" and visualizing the coefficients as counts.
+**Scaffold**: We use color to distinguish each term initially (BLUE, YELLOW, RED), then unify them to GREEN when combined. Circumscribe is used before each transformation to show WHAT is changing.
+**Spatial Plan**: Title at UP*3.5, original expression at UP*1.5, intermediate steps cascade downward (UP*0.5, DOWN*0.5, DOWN*1.5), final answer at DOWN*2.5 in GREEN.
+**Signal Strategy**: Steps 1 and 2 require Circumscribe to show which terms are being combined (the positive terms first, then subtracting the final x).
+</reasoning>
+
+{
+  "rationale": "Using color-coded term highlighting and TransformMatchingTex to show structural changes. Circumscribe signals guide attention to the terms being combined.",
+  "scene_setup": {
+    "background": "BLACK",
+    "static_objects": [
+      {
+        "id": "title",
+        "type": "Text",
+        "content": "Simplifying Algebraic Expressions",
+        "pos": "UP*3.5",
+        "color": "WHITE"
+      }
+    ]
+  },
+  "sequence": [
+    {
+      "step": 1,
+      "narrative": "We have three terms with x. Let's combine the positive ones first: two x plus three x",
+      "signal_action": {"type": "Circumscribe", "target": "positive_terms", "color": "YELLOW", "description": "Highlighting 2x and 3x"},
+      "visual_action": {"type": "Write", "target": {"id": "positive_terms", "type": "MathTex", "content": "2x + 3x", "pos": "UP*0.5"}, "details": "Show first two terms"},
+      "duration": 3.0
+    },
+    {
+      "step": 2,
+      "narrative": "Two x plus three x equals five x",
+      "signal_action": null,
+      "visual_action": {"type": "Transform", "target": {"id": "intermediate", "type": "MathTex", "content": "5x", "pos": "DOWN*0.5"}, "details": "Transform using matching"},
+      "duration": 2.5
+    },
+    {
+      "step": 3,
+      "narrative": "Now we subtract one x",
+      "signal_action": {"type": "Indicate", "target": "subtract_term", "color": "RED", "description": "Pointing to the -x term"},
+      "visual_action": {"type": "Write", "target": {"id": "subtract_term", "type": "MathTex", "content": "5x - x", "pos": "DOWN*1.5"}, "details": "Show subtraction"},
+      "duration": 2.5
+    },
+    {
+      "step": 4,
+      "narrative": "Five x minus one x gives us four x. That's our simplified form",
+      "signal_action": null,
+      "visual_action": {"type": "Write", "target": {"id": "final", "type": "MathTex", "content": "4x", "pos": "DOWN*2.5", "color": "GREEN"}, "details": "Final answer"},
+      "duration": 2.5
+    }
+  ]
+}
+
+═══════════════════════════════════════════════════════════════════
 """
 
     @staticmethod
@@ -289,10 +481,26 @@ Good Output Structure:
     def plan_script(self, topic: str):
         """
         根據主題生成腳本，並確保輸出為可解析的 JSON
+        現在包含教學推理區塊的提取與記錄
         """
-        user_prompt = f"Design a professional educational animation for: '{topic}'. Include 3-5 well-structured steps. Output ONLY the JSON object."
+        user_prompt = f"Design a professional educational animation for: '{topic}'. Include 3-5 well-structured steps. Follow the two-part output format."
         
         raw_response = self.client.ask(self.system_prompt, user_prompt, role="planner")
+        
+        # Extract reasoning block if present
+        reasoning = ""
+        if "<reasoning>" in raw_response and "</reasoning>" in raw_response:
+            start = raw_response.find("<reasoning>") + len("<reasoning>")
+            end = raw_response.find("</reasoning>")
+            reasoning = raw_response[start:end].strip()
+            # Remove reasoning block from response for JSON extraction
+            raw_response = raw_response[end + len("</reasoning>"):].strip()
+            if reasoning:
+                print("\n" + "="*60)
+                print("🧠 **PEDAGOGICAL REASONING**")
+                print("="*60)
+                print(reasoning)
+                print("="*60 + "\n")
         
         # 清理 Markdown 代碼塊標籤
         clean = re.sub(r"```json\n?|```", "", raw_response).strip()

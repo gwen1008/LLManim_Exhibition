@@ -101,17 +101,28 @@ class WeaviateVideoLinker:
     """Links video descriptions to existing code chunks in Weaviate."""
     
     def __init__(self, url: str = "http://localhost:8080"):
-        self.client = weaviate.connect_to_local(host=url.replace("http://", ""))
+        self.client = weaviate.connect_to_local()
     
-    def update_chunk_with_video(self, source_file: str, video_description: str):
-        """Find the code chunk by source_file and add video description."""
+    def update_chunk_with_video(self, video_stem: str, video_description: str):
+        """Find the code chunk by class_name or source_file and add video description."""
         collection = self.client.collections.get("ManimGoldenPair")
         
-        # Query for the matching code chunk
+        # Try finding by class_name first (assuming video name contains it)
+        # Handle formats like "EducationalExamples_AdditionScene"
+        class_name = video_stem.split('_')[-1] if '_' in video_stem else video_stem
+        
         result = collection.query.fetch_objects(
-            filters=weaviate.classes.query.Filter.by_property("source_file").equal(source_file),
+            filters=weaviate.classes.query.Filter.by_property("class_name").equal(class_name),
             limit=1
         )
+        
+        if not result.objects:
+            # Fallback to source_file matching
+            source_file = video_stem.split('_')[0] + ".py" if '_' in video_stem else video_stem + ".py"
+            result = collection.query.fetch_objects(
+                filters=weaviate.classes.query.Filter.by_property("source_file").like(f"*{source_file}*"),
+                limit=1
+            )
         
         if result.objects:
             obj = result.objects[0]
@@ -120,9 +131,9 @@ class WeaviateVideoLinker:
                 uuid=obj.uuid,
                 properties={"video_description": video_description}
             )
-            print(f"✅ Updated {source_file} with video description")
+            print(f"✅ Updated {obj.properties.get('class_name')} with video description")
         else:
-            print(f"⚠️  No code chunk found for {source_file}")
+            print(f"⚠️  No code chunk found for {video_stem}")
     
     def close(self):
         self.client.close()
@@ -149,9 +160,8 @@ if __name__ == "__main__":
         caption = captioner.generate_caption(frames, video_file.stem)
         print(f"   Caption: {caption[:100]}...")
         
-        # Step 3: Link to code chunk (assumes video name matches .py file)
-        source_file = f"{video_file.stem}.py"
-        linker.update_chunk_with_video(source_file, caption)
+        # Step 3: Link to code chunk
+        linker.update_chunk_with_video(video_file.stem, caption)
     
     linker.close()
     print("🎉 Video ingestion complete!")

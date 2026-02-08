@@ -10,7 +10,9 @@ from agents.llm_client import LLMClient
 from agents.reviewer import CodeReviewer
 from agents.audio_engine import AudioEngine
 from agents.rag_retriever import RAGRetriever
+from agents.rag_retriever import RAGRetriever
 from agents.logger import SessionLogger
+from agents.vision_agent import VisionAgent
 
 
 def _extract_first_json_object(text: str):
@@ -82,7 +84,7 @@ def _format_reflection_memory(reflection_memory):
     return memory_section
 
 
-def auto_fix_loop(file_path, scene_name, user_topic, script_json, max_attempts=10):
+def auto_fix_loop(file_path, scene_name, user_topic, script_json, llm_client=None, max_attempts=10):
     """
     自動修復循環：包含語義審查與語法修復 (Reflexion Mechanism Fully Implemented)。
     
@@ -90,7 +92,7 @@ def auto_fix_loop(file_path, scene_name, user_topic, script_json, max_attempts=1
     1. 讀取代碼 → 2. 語義審查 → 3. 渲染檢查 → 4. [失敗時] 自我反思 → 5. 修復 (注入記憶)
     """
     diagnoser = ManimDiagnoser()
-    llm = LLMClient()
+    llm = llm_client if llm_client else LLMClient()
     reviewer = CodeReviewer()
     
     # [Reflexion] 1. 初始化長期記憶 Buffer (儲存過去的教訓)
@@ -128,6 +130,12 @@ You MUST add `self.add_sound("media/audio/{}/step_XX.mp3")` for every step.
 Do not verify this yourself, the system has confirmed audio files exist.
 Fix this immediately.
 """.format(user_safe_topic)
+                else:
+                    # ✅ NEW: Force disable caching to prevent add_sound skip bug (Issue #4005)
+                    print("🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)")
+                    import sys
+                    if "--disable_caching" not in sys.argv:
+                        sys.argv.append("--disable_caching")
         
         # 現在根據最終的 review_feedback 進行分支
         if "PASS" in review_feedback:
@@ -138,60 +146,50 @@ Fix this immediately.
             success, message = run_manim_task(file_path, scene_name)
             
             if success:
-                # ========== Success Path: 備份成果並返回 ==========
+                # ========== Rendering Success: Skip Vision Check During Iterations ==========
+                # We'll run Vision Check ONCE at the end, not every iteration
+                # This saves ~60% of Vision costs by avoiding redundant GPT-4o calls
+                
                 duration = round(time.time() - start_time, 2)
-                print(f"\n✨ 【任務成功】 ✨")
-                print(f"⏱️  總執行耗時: {duration} 秒")
                 
                 # 自動備份成果
                 output_folder = "stable_outputs"
                 if not os.path.exists(output_folder):
                     os.makedirs(output_folder)
 
-                # 修正：星號及其他非法字元也需要替換，避免檔名問題
                 safe_name = user_topic.replace(" ", "_").replace(".", "_")
                 for char in '<>:"/\\|?*':
                     safe_name = safe_name.replace(char, "_")
                 
-                # 1. 備份影片檔案（先備份影片，因為這是最重要的）
+                # 1. 備份影片檔案
                 module_name = os.path.splitext(os.path.basename(file_path))[0]
                 video_source = os.path.join("media", "videos", module_name, "480p15", f"{scene_name}.mp4")
                 
+                v_status = "⚠️ 未找到影片"
                 if os.path.exists(video_source):
                     backup_video_path = os.path.join(output_folder, f"{safe_name}.mp4")
-                    # 使用 move 而非 copy，確保複製當前的影片並避免殘留
                     shutil.move(video_source, backup_video_path)
-                    print(f"💾 影片已備份至: {backup_video_path}")
-                    # 手動開啟影片預覽（BENCHMARK=1 時不播放，避免批量測試彈窗）
-                    # 自動播放功能已停用
-                    # if not os.environ.get("BENCHMARK"):
-                    #     try:
-                    #         print(f"▶️ 正在播放影片...")
-                    #         if sys.platform == "win32":
-                    #             os.startfile(backup_video_path)
-                    #         else:
-                    #             subprocess.run(["open", backup_video_path])
-                    #     except Exception as e:
-                    #         print(f"⚠️ 無法自動播放影片: {e}")
-                else:
-                    print(f"⚠️ 警告：未找到影片檔 {video_source}")
-                    print(f"🔍 [Debug] Manim 可能未產生輸出。Manim 輸出日誌：")
-                    print(message[:500] if message else "無輸出訊息")
+                    v_status = f"🎥 {os.path.basename(backup_video_path)}"
                 
                 # 2. 備份 Python 程式碼
-                backup_py_path = os.path.join(output_folder, f"{safe_name}.py")
-                
-                # 確保檔案有內容再複製（防止空檔案）
+                p_status = "⚠️ 檔案為空"
                 if os.path.getsize(file_path) > 0:
+                    backup_py_path = os.path.join(output_folder, f"{safe_name}.py")
                     shutil.copy(file_path, backup_py_path)
-                    print(f"💾 代碼已備份至: {backup_py_path}")
-                else:
-                    print(f"⚠️ 警告：{file_path} 檔案為空，跳過備份")
-                
-                print(f"✅ 穩定版代碼與影片已歸檔至: {output_folder}/{safe_name}")
+                    p_status = f"🐍 {os.path.basename(backup_py_path)}"
 
-                    
-                return True
+                # 排版輸出成果 (暫時不顯示 Vision Audit 狀態)
+                print("\n" + "═"*40)
+                print(f"✨ 【渲染成功 / Rendering Success】 ✨")
+                print("═"*40)
+                print(f"⏱️  總執行耗時: {duration} 秒")
+                print(f"📂  歸檔目錄: {output_folder}")
+                print(f"    {v_status}")
+                print(f"    {p_status}")
+                print("═"*40 + "\n")
+                
+                # Return the video path for final Vision Check
+                return backup_video_path if os.path.exists(video_source) else True
             
             # ========== Rendering Failed Path ==========
             else:
@@ -332,9 +330,107 @@ if __name__ == "__main__":
             user_topic = user_input
             target_file = "test_script.py"
         
-        # 階段一：Planner 規劃腳本
-        print("\n🧠 [階段 1: Planner] 正在構思教學邏輯與腳本...")
-        planner = Planner()
+        # 共享 LLMClient 以統計總 Token 與成本
+        llm = LLMClient()
+        
+        # ========== 🎯 SMART ROUTING: Arithmetic Template Detection ==========
+        import re
+        from templates.addition import generate_vertical_addition_code, generate_addition_narrative
+        from agents.audio_engine import AudioEngine
+        
+        def detect_arithmetic_task(topic):
+            """
+            Detect if the topic is a basic arithmetic operation.
+            Returns: (is_arithmetic, num1, operator, num2)
+            """
+            # Match patterns like "123 + 456", "1234+5678", "整數加法：123+456"
+            pattern = r'(\d+)\s*([+\-])\s*(\d+)'
+            match = re.search(pattern, topic)
+            if match:
+                num1_str, operator, num2_str = match.groups()
+                return True, int(num1_str), operator, int(num2_str)
+            return False, None, None, None
+        
+        is_arithmetic, num1, op, num2 = detect_arithmetic_task(user_topic)
+        
+        if is_arithmetic and op == '+':
+            print("\n" + "="*60)
+            print(f"🎯 偵測到基礎算術任務：{num1} + {num2}")
+            print("📦 使用確定性模板系統 (Deterministic Template)")
+            print("   ✅ 100% 正確性保證")
+            print("   ✅ 跳過 AI Pipeline (Planner + Coder)")
+            print("   ✅ 包含語音旁白同步")
+            print("="*60)
+            
+            # Step 1: Generate narrative
+            print("📝 生成算術旁白文字...")
+            narrative_steps = generate_addition_narrative(num1, num2)
+            
+            # Step 2: Generate audio files
+            print("🎙️ 生成語音檔案...")
+            audio_engine = AudioEngine(topic=user_topic)
+            audio_steps, final_audio = audio_engine.generate_narration(narrative_steps)
+            
+            # Step 3: Generate code using template with audio sync
+            print("📦 生成同步動畫代碼...")
+            template_code = generate_vertical_addition_code(
+                num1=num1,
+                num2=num2,
+                scene_name=target_scene,
+                audio_steps=audio_steps
+            )
+            
+            # Write to file
+            with open(target_file, "w", encoding="utf-8") as f:
+                f.write(template_code)
+            
+            print(f"✅ 模板代碼已生成：{target_file}")
+            print("🚀 執行渲染檢查...")
+            
+            # Skip Planner, Coder, and Review - go straight to rendering
+            result = run_manim_task(target_file, target_scene)
+            
+            if result[0]:  # Success
+                print("\n" + "="*40)
+                print("✨ 【渲染成功 / Rendering Success】 ✨")
+                print("="*40)
+                
+                # Archive to stable_outputs
+                safe_name = user_topic.replace(" ", "_").replace(".", "_").replace("/", "_").replace("*", "x").replace("+", "_plus_")
+                stable_dir = "stable_outputs"
+                os.makedirs(stable_dir, exist_ok=True)
+                
+                # Copy files
+                import shutil
+                
+                # Construct correct video path based on Manim's output structure
+                # Manim outputs to: media/videos/{script_basename}/{quality}/{scene_name}.mp4
+                script_basename = os.path.splitext(os.path.basename(target_file))[0]  # "test_script"
+                video_src = f"media/videos/{script_basename}/480p15/{target_scene}.mp4"
+                
+                if os.path.exists(video_src):
+                    video_dst = os.path.join(stable_dir, f"{safe_name}.mp4")
+                    shutil.copy(video_src, video_dst)
+                    print(f"    🎥 {safe_name}.mp4")
+                else:
+                    print(f"    ⚠️  影片未找到於: {video_src}")
+                
+                code_dst = os.path.join(stable_dir, f"{safe_name}.py")
+                shutil.copy(target_file, code_dst)
+                print(f"    🐍 {safe_name}.py")
+                print("="*40)
+            else:
+                print(f"❌ 渲染失敗：{result[1]}")
+            
+            # Print stats and exit
+            logger.log_session_stats(llm)
+            sys.exit(0)
+        
+        # ========== Original AI Pipeline (for non-arithmetic tasks) ==========
+
+        # 階段一：Director 規劃 (Planner)
+        print("\n🎬 [階段 1: Director] 正在規劃動畫腳本...")
+        planner = Planner(llm_client=llm)
         script_json = planner.plan_script(user_topic)
         
         try:
@@ -415,18 +511,56 @@ if __name__ == "__main__":
                     print(traceback.format_exc())
                     print(f"⚠️ 將使用預設時長繼續（影片無音檔）")
 
+
         # 階段 1.8: RAG Search (Golden Examples)
         print("\n📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例 (Golden Examples)...")
+        
+        # 🔍 [Smart RAG Query] 偵測算術任務並使用明確關鍵字
+        def get_smart_rag_query(topic):
+            """
+            智能 RAG 查詢：偵測任務類型並返回最佳搜尋關鍵字
+            確保算術任務能找到直式黃金範例
+            """
+            topic_lower = topic.lower()
+            
+            # 偵測加減法
+            is_addition = any(kw in topic_lower for kw in ['+', '加法', '加', 'addition', 'add'])
+            is_subtraction = any(kw in topic_lower for kw in ['-', '減法', '減', 'subtraction', 'subtract'])
+            
+            if is_addition or is_subtraction:
+                # 偵測小數 vs 整數
+                is_decimal = any(kw in topic_lower for kw in ['小數', 'decimal', '.'])
+                
+                if is_decimal:
+                    query = "vertical decimal addition subtraction carry borrowing golden example"
+                else:
+                    query = "vertical integer addition subtraction carry column alignment golden example"
+                
+                print(f"   🎯 偵測到算術任務！使用增強查詢：'{query}'")
+                return query
+            
+            # 其他任務：使用原始主題
+            return topic
+        
+        enhanced_query = get_smart_rag_query(user_topic)
+        
         rag_retriever = RAGRetriever()
-        # 使用 user_topic 進行檢索 (未來可以改進為使用 Director 的視覺描述)
-        rag_results = rag_retriever.retrieve_examples(user_topic, limit=3)
+        rag_results = rag_retriever.retrieve_examples(enhanced_query, limit=3)
         rag_context = rag_retriever.format_for_prompt(rag_results)
-        rag_retriever.close() # 查完就關，節省資源
+        
+        # Debug: 顯示檢索到的範例數量
+        if rag_results:
+            print(f"   ✅ 檢索到 {len(rag_results)} 個相關範例")
+        else:
+            print(f"   ⚠️  未檢索到相關範例")
+        
+        rag_retriever.close()
+
 
         # 階段二：Coder 初始代碼生成
         # 【重點修改】：這裡的 Prompt 必須跟 Reviewer 的標準一致，不然一開始就會 FAIL
         print("\n✍️ [階段 2: Coder] 正在撰寫初始 Manim 程式碼...")
-        llm = LLMClient()
+        # 使用共享的 llm
         coder_prompter = CoderPrompter()
         # 注入 RAG Context
         initial_prompt = coder_prompter.generate_initial_prompt(script_json, target_scene, rag_context=rag_context)
@@ -450,8 +584,53 @@ if __name__ == "__main__":
 
             # 階段三：自動修復與審查循環
             print("\n🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...")
-            auto_fix_loop(target_file, target_scene, user_topic, script_json)
+            result = auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm)
+            
+            # ========== Phase 3.5: Final Vision Audit (Delayed Strategy) ==========
+            # Only run Vision Check ONCE after all iterations complete
+            # This saves ~60% of Vision costs by avoiding redundant GPT-4o calls
+            if result and isinstance(result, str) and result.endswith('.mp4'):
+                print("\n👁️ [階段 3.5: Final Vision Audit] 正在進行最終視覺審查...")
+                try:
+                    import subprocess
+                    frame_path = "temp_last_frame.jpg"
+                    # Extract the last second's representative frame
+                    subprocess.run(["ffmpeg", "-sseof", "-1", "-i", result, "-vframes", "1", "-update", "1", frame_path, "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                    
+                    vision_agent = VisionAgent(llm_client=llm)
+                    audit = vision_agent.audit_frame(frame_path, script_json)
+                    
+                    if audit["verdict"] == "FAIL":
+                        print(f"\n❌ 視覺審查失敗")
+                        print(f"📝 總體評價: {audit.get('overall_critique', 'No critique')}")
+                        
+                        # Display structured defects
+                        defects = audit.get('defects', [])
+                        if defects:
+                            print(f"\n🔍 發現 {len(defects)} 個缺陷：")
+                            for i, defect in enumerate(defects, 1):
+                                severity_emoji = {"Critical": "🔴", "Major": "🟠", "Minor": "🟡"}.get(defect.get("severity", "Minor"), "⚪")
+                                print(f"\n  {i}. {severity_emoji} [{defect.get('category', 'Unknown')}] - {defect.get('severity', 'Unknown')} 嚴重性")
+                                print(f"     問題: {defect.get('description', 'No description')}")
+                                if defect.get('suggested_fix'):
+                                    print(f"     建議修復: {defect['suggested_fix']}")
+                        
+                        print("\n⚠️ 建議：請檢查生成的影片，根據上述建議手動調整或重新生成。")
+                        print(f"📹 影片位置: {result}")
+                    else:
+                        print(f"\n✅ 視覺審查通過！影片品質符合標準。")
+                        print(f"📝 評價: {audit.get('overall_critique', 'All checks passed.')}")
+                        
+                except Exception as e:
+                    print(f"⚠️ Vision Check Error: {e}")
+                    print("ℹ️ 影片已生成，但視覺審查未能執行。")
+            
+            # --- 最終統計報告 ---
+            print(llm.get_session_report())
     
     finally:
         # Always end logging session, even if there's an error
         logger.end_session()
+        # 釋放 LLMClient 資源 (避免 ResourceWarning)
+        if 'llm' in locals():
+            llm.close()

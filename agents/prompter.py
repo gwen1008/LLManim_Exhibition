@@ -165,6 +165,46 @@ Your job is to translate the Director's JSON Plan into PRODUCTION-READY Manim Co
 
 {rag_context}
 
+🚨 **CRITICAL: RAG GOLDEN EXAMPLE DIRECTIVE** 🚨
+═════════════════════════════════════════════════════════════════════════════
+IF the above RAG section contains code examples (Golden Examples):
+
+1. **YOU MUST PRIORITIZE the coding patterns shown in those examples**.
+   - Example: If RAG shows `VGroup(*[MathTex(c) for c in str_num])` for vertical arithmetic,
+     you MUST use character-level splitting, NOT a single `MathTex("9876 + 5432")`.
+
+2. **YOU MUST adopt the same structural approach** (e.g., alignment methods, animation sequences).
+   - The Director's JSON specifies WHAT to animate.
+   - RAG examples show HOW to implement it in code.
+
+3. **MANDATORY OVERRIDE for Arithmetic Tasks**:
+   
+   ⚠️ IF the JSON contains fragmented steps like:
+   ```
+   "content": "4 + 8"
+   "content": "3 + 5 + 1"
+   ```
+   
+   AND the RAG section shows a vertical column structure with VGroup...
+   
+   → **YOU MUST IGNORE the JSON's fragmented content**.
+   → **YOU MUST IMPLEMENT the full vertical column structure from RAG**.
+   → The JSON only tells you WHICH columns to calculate (ones, tens, etc.).
+   → The RAG example is the **ABSOLUTE AUTHORITY** on code structure.
+   
+   ✅ CORRECT approach:
+   - Use character-level VGroup splitting
+   - Use `align_to(RIGHT)` for alignment
+   - Implement for-loop for digit-by-digit calculation
+   - Follow the exact positioning strategy from RAG
+
+4. **Failure to follow RAG patterns will result in code rejection by the Reviewer.**
+   - The Reviewer checks for consistency with best practices (as defined in RAG examples).
+   - Ignoring RAG guidance will trigger the auto-fix loop.
+
+═════════════════════════════════════════════════════════════════════════════
+
+
 ═══════════════════════════════════════════════════════════════════
 🚨 CRITICAL: CLASS NAME REQUIREMENT (HIGHEST PRIORITY)
 ═══════════════════════════════════════════════════════════════════
@@ -176,6 +216,18 @@ Your job is to translate the Director's JSON Plan into PRODUCTION-READY Manim Co
 This is NOT negotiable. If you use any other class name, the code will fail to execute.
 The system will call: `manim test_script.py {target_scene}`
 If your class is named differently, Manim will report: "{target_scene} is not in the script"
+
+═══════════════════════════════════════════════════════════════════
+🎯 K-12 EDUCATIONAL FOCUS & VISUAL STYLE
+═══════════════════════════════════════════════════════════════════
+The system is currently focused on K-12 (Elementary, Middle, High School) mathematics.
+Your implementation MUST prioritize clarity, labeling, and pedagogical flow:
+
+✓ **Clear Labeling**: Use `Brace`, `Label`, and `MathTex` to explicitly label parts of a diagram.
+✓ **Visual Scaffolding**: Use colors (YELLOW for focus, BLUE for neutral) to help students track changes.
+✓ **Step-by-Step Transition**: Use `ReplacementTransform` and `Write` to show logic flow.
+✓ **Dynamic Feedback**: Use `DecimalNumber` or `ValueTracker` for concepts involving change.
+✓ **Avoid Clutter**: Keep the scene focused on one mathematical concept at a time.
 
 ═══════════════════════════════════════════════════════════════════
 CORE PRINCIPLE: STRICT ADHERENCE TO DESIGN SPECIFICATION
@@ -479,6 +531,149 @@ def construct(self):
 1. Store EVERY object you create with its `id` from JSON
 2. Use the dictionary to look up objects for signal_action.target
 3. Handle missing IDs gracefully (but this shouldn't happen if Director is correct)
+
+═══════════════════════════════════════════════════════════════════
+🎯 SPATIAL PRECISION SOP (Standard Operating Procedure)
+═══════════════════════════════════════════════════════════════════
+**CRITICAL**: LLMs are prone to "Spatial Hallucination" when generating coordinates.
+This section provides MANDATORY rules to ensure pixel-perfect geometric alignment.
+
+**Research Background**:
+Large Language Models struggle with continuous numerical coordinates due to tokenization.
+The solution is to shift from "absolute coordinate guessing" to "constraint-based positioning".
+
+### Rule 1: PREFER RELATIONAL METHODS OVER ABSOLUTE COORDINATES
+
+When positioning objects, ALWAYS prioritize Manim's relational API methods:
+
+✅ **PREFERRED** (Constraint-Based):
+```python
+# Align to existing object's corner
+small_square.move_to(big_square.get_corner(UL))
+
+# Place next to with explicit buffer
+label.next_to(shape, DOWN, buff=0)
+
+# Align edges precisely
+rect_b.align_to(rect_a, LEFT)
+
+# Snap to screen corners
+title.to_corner(UL, buff=0.5)
+```
+
+❌ **AVOID** (Absolute Guessing):
+```python
+# These are prone to misalignment errors
+small_square.shift(LEFT*2.5 + UP*1.3)  # Magic numbers!
+label.move_to([1.5, -0.8, 0])  # Guesswork!
+```
+
+**When Absolute Coordinates ARE Acceptable**:
+- Top-level scene elements (e.g., title at `3.5 * UP`)
+- Initial object creation at ORIGIN before grouping
+
+### Rule 2: THE BUFF=0 IMPERATIVE (For Geometric Nesting)
+
+Manim's default `buff=0.5` creates visual gaps. For precise tiling/nesting:
+
+```python
+# ✅ CORRECT: Perfect edge-to-edge alignment
+square_a.next_to(square_b, RIGHT, buff=0)
+label.next_to(shape, UP, buff=0)
+
+# ❌ WRONG: Creates unwanted gap
+square_a.next_to(square_b, RIGHT)  # Default buff=0.5 causes drift
+```
+
+**When to Use buff=0**:
+- Subdividing a shape into regions (e.g., $(a+b)^2$ proof)
+- Creating grids or tilings
+- Placing labels directly on shape boundaries
+
+**When buff > 0 is OK**:
+- Aesthetic spacing for readability (e.g., `buff=0.3` for text labels)
+- Separating distinct UI elements
+
+### Rule 3: VGROUP HIERARCHICAL ALIGNMENT (Prevent Coordinate Drift)
+
+For composite geometries, use VGroup to manage alignment as a single unit:
+
+✅ **CORRECT** (Hierarchical Approach):
+```python
+# Step 1: Create components at ORIGIN
+square_a = Square(side_length=2, color=YELLOW, fill_opacity=0.5)
+square_b = Square(side_length=1, color=BLUE, fill_opacity=0.5)
+label_a = MathTex("a^2").scale(0.8)
+
+# Step 2: Arrange internally (relative to each other)
+square_b.move_to(square_a.get_corner(UL))
+label_a.move_to(square_a.get_center())
+
+# Step 3: Group them
+composite = VGroup(square_a, square_b, label_a)
+
+# Step 4: Move the entire group to final position
+composite.shift(2 * UP)
+```
+
+❌ **WRONG** (Individual Positioning - Accumulates Error):
+```python
+# Moving objects one-by-one causes drift
+square_a.shift(2 * UP)
+square_b.shift(2 * UP + LEFT*0.5)  # Guessing offset!
+label_a.shift(2 * UP + LEFT*0.25)  # More guessing!
+```
+
+### Rule 4: SYMBOLIC ANCHOR VARIABLES (Reduce Mental Load)
+
+For complex scenes, define anchor points as variables:
+
+```python
+# Define key reference points
+main_square_corner = main_square.get_corner(UL)
+center_axis = main_square.get_center()
+
+# Use anchors for precise placement
+nested_obj.move_to(main_square_corner)
+divider_line.move_to(center_axis)
+```
+
+This prevents "forgetting" where objects are in long code sequences.
+
+### Rule 5: GEOMETRY-SPECIFIC CONSTRAINTS
+
+**For Subdividing Shapes** (e.g., $(a+b)^2$ visual proof):
+```python
+# Create main container
+outer_square = Square(side_length=4).shift(CENTER)
+
+# Subdivide using get_corner() anchors
+top_left_region = Square(side_length=2, fill_opacity=0.5)
+top_left_region.align_to(outer_square, UL)  # Snap to corner
+
+top_right_region = Rectangle(width=2, height=2, fill_opacity=0.5)
+top_right_region.next_to(top_left_region, RIGHT, buff=0)  # No gap!
+```
+
+**For Grids/Arrays**:
+```python
+# Use VGroup.arrange() for uniform spacing
+squares = VGroup(*[Square() for _ in range(5)])
+squares.arrange(RIGHT, buff=0.2)  # Automatic alignment
+```
+
+### Rule 6: DIAGNOSTIC CHECKLIST (Before Submitting Code)
+
+Before finalizing your code, verify:
+- [ ] No hardcoded coordinates like `[2.5, 1.3, 0]` for nested objects
+- [ ] All geometric nesting uses `buff=0`
+- [ ] Composite shapes are grouped in VGroup before final positioning
+- [ ] Anchor points are defined for complex multi-object scenes
+- [ ] `.get_corner()`, `.align_to()`, `.next_to()` are used instead of `.shift()` for precision tasks
+
+**Failure to follow these rules will result in misaligned animations that fail Vision Check.**
+
+═══════════════════════════════════════════════════════════════════
 
 ### 7. ARITHMETIC LAYOUT (Special Case - Vertical Alignment)
 

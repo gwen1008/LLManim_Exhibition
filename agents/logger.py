@@ -10,7 +10,7 @@ class SessionLogger:
     Creates a new log file for each EMA run with timestamp and topic name.
     Automatically cleans up old logs.
     """
-    def __init__(self, log_dir="logs", max_age_days=7, max_files=50):
+    def __init__(self, log_dir="logs", max_age_days=None, max_files=100):
         self.log_dir = Path(log_dir)
         self.log_dir.mkdir(exist_ok=True)
         self.max_age_days = max_age_days
@@ -54,9 +54,19 @@ class SessionLogger:
             sys.stderr = self.original_stderr
             
             # Close log file
-            self.log_file.close()
+            try:
+                self.log_file.close()
+            except Exception:
+                pass
             self.log_file = None
-    
+
+    def log_session_stats(self, llm_client):
+        """Log token usage and estimated cost for the session."""
+        if hasattr(llm_client, 'get_session_report'):
+            print(llm_client.get_session_report())
+        else:
+            print("\n⚠️ LLMClient does not support session reporting.\n")
+
     def _sanitize_filename(self, topic):
         """Convert topic to safe filename."""
         # Remove or replace unsafe characters
@@ -69,17 +79,19 @@ class SessionLogger:
         """Remove log files older than max_age_days or keep only max_files recent logs."""
         log_files = sorted(self.log_dir.glob("*.log"), key=os.path.getmtime, reverse=True)
         
-        cutoff_date = datetime.now() - timedelta(days=self.max_age_days)
-        
         removed_count = 0
         for i, log_file in enumerate(log_files):
-            # Remove if too old
-            file_time = datetime.fromtimestamp(log_file.stat().st_mtime)
-            if file_time < cutoff_date:
-                log_file.unlink()
-                removed_count += 1
+            # Remove if too old (only if max_age_days is set)
+            if self.max_age_days is not None:
+                cutoff_date = datetime.now() - timedelta(days=self.max_age_days)
+                file_time = datetime.fromtimestamp(log_file.stat().st_mtime)
+                if file_time < cutoff_date:
+                    log_file.unlink()
+                    removed_count += 1
+                    continue
+
             # Remove if exceeds max_files (keep only the most recent max_files)
-            elif i >= self.max_files:
+            if i >= self.max_files:
                 log_file.unlink()
                 removed_count += 1
         

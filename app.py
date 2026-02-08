@@ -15,7 +15,7 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 def topic_to_safe_name(topic: str) -> str:
     """與 main.py 一致：用於 stable_outputs/{safe_name}.mp4"""
-    return topic.replace(" ", "_").replace(".", "_").replace("/", "_").replace("*", "x")
+    return topic.replace(" ", "_").replace(".", "_").replace("/", "_").replace("*", "x").replace("+", "_plus_").replace("-", "_minus_")
 
 
 def run_main_stream(topic: str):

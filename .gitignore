@@ -9,10 +9,16 @@ __pycache__/
 env/
 venv/
 ENV/
+rag_env/
 
 # Manim output
 media/
 stable_outputs/
+stable_outputs_math/
+stable_outputs_math_interactive/
+stable_outputs_fix/
+stable_outputs_instant_fix/
+stable_outputs_instant_interactive/
 
 # Logs
 logs/
