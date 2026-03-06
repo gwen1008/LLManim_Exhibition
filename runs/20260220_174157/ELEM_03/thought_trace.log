@@ -1,0 +1,491 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_17-50-42_畫一個_4x3_的長方形用填充小方格來呈現面積並用一條沿著邊界移動的線來呈現周長.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.64 秒
+📊 [Token 統計]: 輸入 225 | 輸出 90 | 總計 315
+
+📢 [AI 審查/反饋意見]:
+Create a 4x3 rectangle. Fill the rectangle with small squares to represent the area. Draw a line along the boundary of the rectangle to represent the perimeter. Animate the line moving along the boundary to emphasize the perimeter. Use the Transform() function to move the line smoothly around the edges of the rectangle, highlighting the length of each side. Apply the Create() function to generate the small squares filling the rectangle, visually representing the area.
+------------------------------
+   📝 初稿: Create a 4x3 rectangle. Fill the rectangle with small squares to represent the area. Draw a line along the boundary of the rectangle to represent the perimeter. Animate the line moving along the boundary to emphasize the perimeter. Use the Transform() function to move the line smoothly around the edges of the rectangle, highlighting the length of each side. Apply the Create() function to generate the small squares filling the rectangle, visually representing the area.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.49 秒
+📊 [Token 統計]: 輸入 328 | 輸出 95 | 總計 423
+
+📢 [AI 審查/反饋意見]:
+Create a 4x3 rectangle. Fill the rectangle with small squares to visually represent the area. Draw a line along the perimeter of the rectangle to represent its boundary. Animate the line moving along the perimeter to emphasize its length. Use the Transform() function to smoothly move the line around the edges of the rectangle, highlighting the length of each side. Apply the Create() function to generate the small squares that fill the rectangle, providing a visual representation of the area.
+------------------------------
+✨ [翻譯完成]: Create a 4x3 rectangle. Fill the rectangle with small squares to visually represent the area. Draw a line along the perimeter of the rectangle to represent its boundary. Animate the line moving along the perimeter to emphasize its length. Use the Transform() function to smoothly move the line around the edges of the rectangle, highlighting the length of each side. Apply the Create() function to generate the small squares that fill the rectangle, providing a visual representation of the area.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 53.15 秒
+📊 [Token 統計]: 輸入 4071 | 輸出 2824 | 總計 6895
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world tiling analogy: Show a 4x3 floor being tiled with square tiles. A measuring tape wraps around the perimeter. Emphasizes area as "covering" and perimeter as "fencing."</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction: Build the rectangle from lines, then systematically fill it with a grid of unit squares. Animate a point tracing the perimeter, leaving a trail. Clean, mathematical, and directly maps to coordinate geometry.</metaphor>
+    <scores pedagogy="8" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step reveal: First draw the rectangle outline. Then, one by one, squares pop in row-by-row to fill it. Finally, a glowing "runner" dot travels along the perimeter, with side lengths displayed as it moves.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C offers the highest pedagogical value through clear chunking (outline -> area -> perimeter) and high visual engagement with the sequential fill and traveling dot. It's highly feasible in Manim using standard animations (Create, Transform, MoveAlongPath). It best matches the user's request for distinct steps and explicit use of Create() and Transform().</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 4x3 rectangle, area (12 square units), perimeter (14 units). Visual representation of area via tiling with unit squares. Perimeter as a continuous boundary line.
+
+**Selected Strategy (C) Spatial Logic**:
+- **Global Layout**: High-Low Split to prevent overflow.
+  - **HEADER Zone (y ~ 3.0)**: Title "Area vs. Perimeter: A 4x3 Rectangle".
+  - **CONTENT Zone (y ~ 0)**: The main rectangle, its fill squares, and perimeter animation. This is the primary visual stage.
+  - **FOOTER Zone (y ~ -3.0)**: Explanatory text that updates with each step.
+
+- **Coordinate Calculations**:
+  - Rectangle: Width = 4 units, Height = 3 units. Place center at ORIGIN.
+  - Vertices: Bottom-left = (-2, -1.5, 0), Bottom-right = (2, -1.5, 0), Top-right = (2, 1.5, 0), Top-left = (-2, 1.5, 0).
+  - Unit Squares: Side length = 0.5 units (to fit 8 across, 6 down, totaling 48 small squares for visual density, not 12, to make "filling" more visually appealing). Grid spacing = 0.5.
+  - Perimeter Path: A closed path following the rectangle vertices in order: BL -> BR -> TR -> TL -> BL.
+
+- **Visual Hierarchy**:
+  1. Primary: Rectangle outline (thick, white).
+  2. Secondary: Filling squares (lighter color, lower opacity).
+  3. Tertiary: Perimeter tracer (glowing dot) and length labels (red, scale 0.8).
+  4. Explanatory text (bottom, scale 0.7).
+
+- **Signal Strategy**:
+  - Step 1: Create rectangle outline. Indicate dimensions with arrows and labels (4, 3).
+  - Step 2: Fill with squares using Create() in a row-by-row pattern. This is the "area" representation.
+  - Step 3: Animate perimeter line. Use a dot transformed along the path (Transform). Highlight each side length as the dot moves (4, 3, 4, 3).
+  - Step 4: Summarize area (12) and perimeter (14) formulas.
+
+- **Preventing Overflow**: All main action stays in CONTENT zone (y ~ 0). Explanations in FOOTER. Title in HEADER. No vertical stacking of equations.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 7521 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 4.85s | Let's start wit...
+  - 語音片段 1: 3.41s | We label its wi...
+  - 語音片段 2: 6.58s | The area of a r...
+  - 語音片段 3: 6.62s | Now, let's look...
+  - 語音片段 4: 8.40s | The perimeter i...
+✅ 語音處理完成！合併音檔: media/audio/畫一個_4x3_的長方形_用填充小方格來_dc1af9b532/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a 4x3 rectangle. Fill the rectangle with small squares to visually represent the area. Draw a line along the perimeter of the rectangle to represent its boundary. Animate the line moving along the perimeter to emphasize its length. Use the Transform() function to smoothly move the line around the edges of the rectangle, highlighting the length of each side. Apply the Create() function to generate the small squares that fill the rectangle, providing a visual representation of the area.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 62.26 秒
+📊 [Token 統計]: 輸入 12282 | 輸出 3369 | 總計 15651
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.36 秒
+📊 [Token 統計]: 輸入 7204 | 輸出 799 | 總計 8003
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12292 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /opt/homebrew/lib/python3.11/site-packages/manim/cli/render/commands.py:125  │
+│ in render                                                                    │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /opt/homebrew/lib/python3.11/site-packages/manim/scene/scene.py:237 in       │
+│ render                                                                       │
+│                                                                              │
+│    234 │   │   """                                                           │
+│    235 │   │   self.setup()                                                  │
+│    236 │   │   try:                                                          │
+│ ❱  237 │   │   │   self.construct()                                          │
+│    238 │   │   except EndSceneEarlyException:                                │
+│    239 │   │   │   pass                                                      │
+│    240 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:76 in construct     │
+│                                                                              │
+│    73 │   │   self.objects["perimeter_tracer"] = perimeter_tracer            │
+│    74 │   │                                                                  │
+│    75 │   │   # Perimeter path (invisible, same as rectangle outline)        │
+│ ❱  76 │   │   perimeter_path = Polygon(*rect_vertices, color=TRANSPARENT, st │
+│    77 │   │   perimeter_path.move_to(content_center)                         │
+│    78 │   │   self.objects["perimeter_path"] = perimeter_path                │
+│    79                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'TRANSPARENT' is not defined
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /opt/homebrew/lib/python3.11/site-packages/manim/cli/render/commands.py:125  │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 8.29 秒
+📊 [Token 統計]: 輸入 629 | 輸出 396 | 總計 1025
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /opt/homebrew/lib/python3.11/site-packages/manim/cli/render/commands.py:125  │
+│ in render                     ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 57.04 秒
+📊 [Token 統計]: 輸入 6658 | 輸出 3116 | 總計 9774
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.05 秒
+📊 [Token 統計]: 輸入 6914 | 輸出 989 | 總計 7903
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11275 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.60 秒
+📊 [Token 統計]: 輸入 17395 | 輸出 286
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Multiple issues identified related to alignment and clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The bottom left corner of the rectangle is misaligned, causing gaps between the fill squares and the rectangle outline, particularly in the fill area.",
+      "suggested_fix": "Adjust the positioning of the fill squares to ensure they snugly fit within the rectangle outline."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The labels for dimensions '3' and '4' are positioned too close to the edge, which may lead to truncation in certain viewports.",
+      "suggested_fix": "Increase the buffer distance to the edges in the positioning of dimension labels."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The text color of the narration description is difficult to read against the background.",
+      "suggested_fix": "Adjust the color of the text in the step explanation to ensure better contrast against the black background."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The bottom left corner of the rectangle is misaligned, causing gaps between the ...
+  🔴 [OVERFLOW] The labels for dimensions '3' and '4' are positioned too close to the edge, whic...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Multiple issues identified related to alignment and clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The bottom left corner of the rectangle is misaligned, causing gaps between ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.36 秒
+📊 [Token 統計]: 輸入 6005 | 輸出 2743 | 總計 8748
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.37 秒
+📊 [Token 統計]: 輸入 6914 | 輸出 769 | 總計 7683
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11275 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.50 秒
+📊 [Token 統計]: 輸入 17395 | 輸出 265
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation has several critical issues regarding alignment and overflow of content.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The perimeter label '4' is overlapping with the rectangle, indicating it is out of bounds.",
+      "suggested_fix": "Adjust the position of the dimension labels to ensure they are within the Action Safe area."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The connection between the '4' label and the rectangle has a gap exceeding 0.15 units.",
+      "suggested_fix": "Reposition the dimension labels to eliminate any visible gaps."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The visibility of the perimeter dimension labels may not meet the contrast standard against the background.",
+      "suggested_fix": "Consider using a brighter color or shadowing effect on the dimension labels."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The perimeter label '4' is overlapping with the rectangle, indicating it is out ...
+  🟠 [MISALIGNED] The connection between the '4' label and the rectangle has a gap exceeding 0.15 ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation has several critical issues regarding alignment and overflow of content.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The perimeter label '4' is overlapping with the rectangle, indicating it is ou...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.53 秒
+📊 [Token 統計]: 輸入 6001 | 輸出 3097 | 總計 9098
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.21 秒
+📊 [Token 統計]: 輸入 6914 | 輸出 906 | 總計 7820
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11275 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.65 秒
+📊 [Token 統計]: 輸入 17395 | 輸出 325
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame has several defects related to text visibility and alignment.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The mathematical expression 'Step 5: Perimeter = 4+3+4+3 = 14 units.' overlaps with the bottom area of the screen, breaching the mandatory boundary for edge safety.",
+      "suggested_fix": "Adjust the position of the step explanation text to ensure it stays within the action safe area."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The yellow dimension labels (3 and 4) do not meet the contrast requirement against the dark background, making them difficult to read.",
+      "suggested_fix": "Change the color of the dimension labels to a more vivid shade (e.g., bright yellow or white) to improve visibility."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "The position of the dimensions (3 and 4) appears slightly off, potentially resulting in visual misalignment.",
+      "suggested_fix": "Review the alignment calculations and adjust the positions of the dimension labels accordingly to ensure they are visually centered near the rectangle's sides."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The mathematical expression 'Step 5: Perimeter = 4+3+4+3 = 14 units.' overlaps w...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame has several defects related to text visibility and alignment.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 218.44 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫一個_4x3_的長方形。用填充小方格來呈現面積，並用一條沿著邊界移動的線來呈現周長。_20260220_175623.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 11
+Total Tokens: 104,990
+  - Prompt: 88,384
+  - Completion: 16,606
+----------------------------------------
+Estimated Cost: $0.018169 USD
+約合台幣: NT$ 0.5632
+========================================
+
+
+
+=== STDERR ===

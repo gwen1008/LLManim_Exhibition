@@ -1,0 +1,97 @@
+{
+  "total_prompt_tokens": 175662,
+  "total_completion_tokens": 17833,
+  "total_cost_usd": 0.03170664,
+  "calls": [
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 229,
+      "completion": 297,
+      "cost": 0.00036974
+    },
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 538,
+      "completion": 334,
+      "cost": 0.00058128
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 4311,
+      "completion": 3107,
+      "cost": 0.0014735
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 13242,
+      "completion": 2517,
+      "cost": 0.0025586400000000005
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 695,
+      "completion": 105,
+      "cost": 0.00012670000000000002
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 3618,
+      "completion": 104,
+      "cost": 0.0005356400000000001
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 196,
+      "completion": 83,
+      "cost": 5.068e-05
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 3092,
+      "completion": 2061,
+      "cost": 0.00100996
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40512,
+      "completion": 216,
+      "cost": 0.006206399999999999
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 5833,
+      "completion": 2137,
+      "cost": 0.0014149800000000001
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 7343,
+      "completion": 2137,
+      "cost": 0.0016263800000000002
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40512,
+      "completion": 179,
+      "cost": 0.006184199999999999
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 5782,
+      "completion": 2069,
+      "cost": 0.0013888
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 9247,
+      "completion": 2137,
+      "cost": 0.00189294
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40512,
+      "completion": 350,
+      "cost": 0.0062867999999999995
+    }
+  ]
+}

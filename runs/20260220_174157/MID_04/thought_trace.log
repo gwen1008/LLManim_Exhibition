@@ -1,0 +1,377 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_18-17-05_畫出平行線與一條截線用綠色標示出內錯角並呈現它們是相等的.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.76 秒
+📊 [Token 統計]: 輸入 218 | 輸出 86 | 總計 304
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal using green color. Apply the Create() function to draw the parallel lines and the transversal. Utilize the Transform() function to highlight the interior angles on the same side of the transversal, demonstrating their equality by displaying a congruence statement or an equality symbol between the angles.
+------------------------------
+   📝 初稿: Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal using green color. Apply the Create() function to draw the parallel lines and the transversal. Utilize the Transform() function to highlight the interior angles on the same side of the transversal, demonstrating their equality by displaying a congruence statement or an equality symbol between the angles.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.49 秒
+📊 [Token 統計]: 輸入 317 | 輸出 90 | 總計 407
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal. Identify the corresponding interior angles on the same side of the transversal using green color. Apply the Create() function to draw the parallel lines and the transversal. Utilize the Transform() and Write() or AddText() functions to highlight the interior angles on the same side of the transversal and display an equality symbol between the angles, demonstrating their congruence.
+------------------------------
+✨ [翻譯完成]: Create a scene with two parallel lines and a transversal. Identify the corresponding interior angles on the same side of the transversal using green color. Apply the Create() function to draw the parallel lines and the transversal. Utilize the Transform() and Write() or AddText() functions to highlight the interior angles on the same side of the transversal and display an equality symbol between the angles, demonstrating their congruence.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 66.58 秒
+📊 [Token 統計]: 輸入 4055 | 輸出 3577 | 總計 7632
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+<metaphor>Railroad Tracks & Crossing: Visualize the parallel lines as train tracks and the transversal as a road crossing them. Use train cars (colored rectangles) to "park" on the corresponding interior angles, showing they are identical in shape and position relative to the tracks and crossing.</metaphor>
+<scores pedagogy="7" feasibility="6" engagement="8" />
+</branch>
+<branch id="B" type="Abstract">
+<metaphor>Geometric Construction & Highlight: A clean, minimal construction. First, draw the two parallel lines. Then, draw the transversal. Systematically identify the four pairs of corresponding angles. Isolate and highlight the specific "interior angles on the same side of the transversal" (co-interior/consecutive interior angles) in green, then demonstrate their supplementary relationship (sum to 180°) rather than congruence, correcting the user's prompt which contains a common misconception.</metaphor>
+<scores pedagogy="10" feasibility="10" engagement="7" />
+</branch>
+<branch id="C" type="Interactive/Progressive">
+<metaphor>Angle Slider & Proof: Start with two non-parallel lines and a transversal, showing angle measures are not equal. Then, animate the lines becoming parallel via a rotation, during which the marked corresponding angles become equal. Finally, highlight the interior angles on the same side and show their sum is 180° using a dynamic pie chart or angle arc addition.</metaphor>
+<scores pedagogy="9" feasibility="7" engagement="9" />
+</branch>
+<selection>
+<winner>B</winner>
+<reason>Strategy B scores highest on Pedagogy (10) and Feasibility (10). It directly addresses the core geometric concept, allows for precise, clean visuals in Manim, and crucially provides an opportunity to correct the user's prompt by demonstrating that interior angles on the same side of the transversal are supplementary (sum to 180°), not congruent. This is a critical learning moment. The abstract style aligns perfectly with 3Blue1Brown's aesthetic and ensures clarity without visual clutter.</reason>
+</selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction & Correction**: The user requests demonstrating congruence for "interior angles on the same side of the transversal". In standard geometry (parallel lines cut by a transversal), these are "consecutive interior angles" or "co-interior angles," and they are *supplementary* (sum to 180°), not congruent. The congruent pairs are corresponding angles, alternate interior angles, and alternate exterior angles. The animation must first correctly identify the angles in question, then demonstrate their supplementary relationship.
+
+**Visual Metaphor**: Clean, labeled diagram. Use color coding (green) for the target angle pair. Use arcs to denote angles. Use a separate equation area to state the relationship.
+
+**Spatial Plan**:
+- **HEADER ZONE (y ~ 3.2)**: Title.
+- **CONTENT ZONE (y ~ 0)**: Main diagram. Two parallel horizontal lines, one slanted transversal. Ample space for angle arcs and labels.
+- **FOOTER ZONE (y ~ -3.0)**: Explanation/relationship statement.
+
+**Geometric Rigor**:
+- Parallel lines: `y = 1` and `y = -1`.
+- Transversal: Slanted line passing through `(-3, -1)` and `(3, 1)` to create clear, non-right angles.
+- Calculate intersection points for labeling: Intersection of transversal with top line (`line_t`) and bottom line (`line_b`).
+- Define angles using `Angle` between line segments.
+
+**Signal Strategy**:
+1. Build the basic diagram (lines).
+2. Label lines as parallel.
+3. Identify and highlight the two target interior angles on the same side (using green arcs).
+4. Show their measures (e.g., α and β) and establish α + β = 180°.
+5. Emphasize this is the property of parallel lines.
+
+**Chunking**:
+- Step 1: Draw parallel lines and transversal.
+- Step 2: Mark parallelism.
+- Step 3: Identify and highlight the specific co-interior angles.
+- Step 4: Derive and display the supplementary relationship.
+- Step 5: Summarize.
+
+**Overflow Prevention**: The diagram is central. The equation will be placed in the FOOTER zone, ensuring no overlap. All text is concise.
+============================================================
+
+⚠️ 警告：Planner 產出的 JSON 格式有誤，正以括號匹配擷取 JSON 物件…
+⚠️ 擷取後仍無法解析，將使用原始輸出。
+⚠️  最終解析失敗，嘗試使用原始輸出做為上下文。
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two parallel lines and a transversal. Identify the corresponding interior angles on the same side of the transversal using green color. Apply the Create() function to draw the parallel lines and the transversal. Utilize the Transform() and Write() or AddText() functions to highlight the interior angles on the same side of the transversal and display an equality symbol between the angles, demonstrating their congruence.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 81.25 秒
+📊 [Token 統計]: 輸入 12888 | 輸出 4421 | 總計 17309
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.43 秒
+📊 [Token 統計]: 輸入 8608 | 輸出 762 | 總計 9370
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 16099 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.70 秒
+📊 [Token 統計]: 輸入 17838 | 輸出 187
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several alignment and contrast issues were identified in the final frame.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The parallel lines have overlapping areas with the yellow transversal, indicating misalignment.",
+      "suggested_fix": "Adjust the position of the yellow transversal to ensure no overlaps with the blue parallel lines."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The green circle highlighting the intersection has a low contrast against the black background.",
+      "suggested_fix": "Increase the stroke width of the circle or change its color to enhance visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🟠 [MISALIGNED] The parallel lines have overlapping areas with the yellow transversal, indicatin...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several alignment and contrast issues were identified in the final frame.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The parallel lines have overlapping areas with the yellow transversal, indic...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 67.97 秒
+📊 [Token 統計]: 輸入 7447 | 輸出 3760 | 總計 11207
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.40 秒
+📊 [Token 統計]: 輸入 8608 | 輸出 762 | 總計 9370
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 16099 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.34 秒
+📊 [Token 統計]: 輸入 17838 | 輸出 206
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame has overlapping elements and misalignment between mathematical objects.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The green circle that marks the intersection of the lines overlaps with the angle labels, reducing clarity.",
+      "suggested_fix": "Adjust the position of the angle labels to prevent overlap with the green circle."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The angle labels α and β have visual displacements that lead to a lack of symmetry with respect to their respective arcs.",
+      "suggested_fix": "Reposition angle labels using 'next_to()' with appropriate buffers to ensure they align properly with their respective arcs."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] The green circle that marks the intersection of the lines overlaps with the angl...
+  🟠 [MISALIGNED] The angle labels α and β have visual displacements that lead to a lack of symmet...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame has overlapping elements and misalignment between mathematical objects.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The green circle that marks the intersection of the lines overlaps with the ang...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 67.19 秒
+📊 [Token 統計]: 輸入 7569 | 輸出 3789 | 總計 11358
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.07 秒
+📊 [Token 統計]: 輸入 8608 | 輸出 768 | 總計 9376
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 16099 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.82 秒
+📊 [Token 統計]: 輸入 17838 | 輸出 280
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame has several critical defects affecting pedagogical clarity and accuracy.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "There is a significant gap between the angle arcs and the respective lines, indicating a misalignment of over 0.15 units.",
+      "suggested_fix": "Adjust the angle arcs to ensure they touch their respective lines without gaps."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The angle arc for β overlaps with the angle label, which distracts from the information.",
+      "suggested_fix": "Reposition the angle label β slightly further away from the arc to ensure clarity."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The yellow transversal line against the black background does not provide sufficient contrast with the same structure as fitted to human visual cognition.",
+      "suggested_fix": "Increase the stroke width of the yellow line or alter its color to improve visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] There is a significant gap between the angle arcs and the respective lines, indi...
+  🔴 [OVERFLOW] The angle arc for β overlaps with the angle label, which distracts from the info...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame has several critical defects affecting pedagogical clarity and accuracy.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 167.14 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。_20260220_182222.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 9
+Total Tokens: 102,404
+  - Prompt: 86,008
+  - Completion: 16,396
+----------------------------------------
+Estimated Cost: $0.017713 USD
+約合台幣: NT$ 0.5491
+========================================
+
+
+
+=== STDERR ===

@@ -1,0 +1,567 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_03-02-40_在_3_到_4_之間的數線上標示出_3.7並標出距離來解釋為什麼它四捨五入後是_4.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 1.04 秒
+📊 [Token 統計]: 輸入 228 | 輸出 133 | 總計 361
+
+📢 [AI 審查/反饋意見]:
+Create a number line with a range from 3 to 4. Add a point at 3.7 on the number line. Annotate the point with the label "3.7". Create a line segment from 3.7 to 4, and another line segment from 3.7 to 3. Label the line segment from 3.7 to 4 as "0.3" and the line segment from 3.7 to 3 as "0.7". Use a Transform animation to highlight that since 0.7 is greater than 0.5, 3.7 rounds up to 4.
+------------------------------
+   📝 初稿: Create a number line with a range from 3 to 4. Add a point at 3.7 on the number line. Annotate the point with the label "3.7". Create a line segment from 3.7 to 4, and another line segment from 3.7 to 3. Label the line segment from 3.7 to 4 as "0.3" and the line segment from 3.7 to 3 as "0.7". Use a Transform animation to highlight that since 0.7 is greater than 0.5, 3.7 rounds up to 4.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.60 秒
+📊 [Token 統計]: 輸入 373 | 輸出 136 | 總計 509
+
+📢 [AI 審查/反饋意見]:
+Create a number line with a range from 3 to 4. Add a point at 3.7 on the number line. Annotate the point with the label "3.7". Create a line segment from 3.7 to 4, and another line segment from 3.7 to 3. Label the line segment from 3.7 to 4 as "0.3" and the line segment from 3.7 to 3 as "0.7". Use a Transform animation to highlight that since 0.7 is greater than or equal to 0.5, 3.7 rounds up to 4.
+------------------------------
+✨ [翻譯完成]: Create a number line with a range from 3 to 4. Add a point at 3.7 on the number line. Annotate the point with the label "3.7". Create a line segment from 3.7 to 4, and another line segment from 3.7 to 3. Label the line segment from 3.7 to 4 as "0.3" and the line segment from 3.7 to 3 as "0.7". Use a Transform animation to highlight that since 0.7 is greater than or equal to 0.5, 3.7 rounds up to 4.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 63.27 秒
+📊 [Token 統計]: 輸入 4248 | 輸出 3393 | 總計 7641
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A physical ruler or measuring tape. The point 3.7 is a mark on the ruler. The segments to 3 and 4 are physical gaps that can be measured with a caliper. Rounding is shown by "tipping the scale" where the longer segment (0.7) pulls the point toward 4.</metaphor>
+    <scores pedagogy="7" feasibility="8" engagement="6" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A clean, minimalist number line as the primary scaffold. The segments from 3.7 to its endpoints are distinct colored lines. The rounding logic is demonstrated by a dynamic comparison: the 0.7 segment morphs into a "≥ 0.5" inequality, which then triggers a transformation of the point 3.7 into the number 4.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step construction: First the number line appears, then ticks and labels, then the point. The segments grow out from 3.7. Then, the two segment lengths are extracted and placed below for direct comparison using a bar chart or balance visualization before concluding the round-up.</metaphor>
+    <scores pedagogy="8" feasibility="7" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) scores highest on Pedagogy and Feasibility. It directly maps the user's request into a clear, code-friendly sequence using Manim's core strengths (creating lines, labels, and TransformMatchingTex). It avoids complex metaphors (A) or extra comparative visuals (C) that could distract from the core rounding rule. The visual is elegant, focused, and the transformation from the inequality to the rounded number provides a satisfying "aha" moment.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line interval [3,4], point at 3.7, distances to endpoints (0.3 and 0.7), rounding rule (compare to 0.5).
+
+**Selected Strategy (B - Abstract) Spatial Logic**:
+- **Global Layout**: Use a high-low split to prevent overflow.
+  - `HEADER ZONE`: Title "Rounding on a Number Line" at y=3.0.
+  - `CONTENT ZONE`: The entire number line visualization lives here, centered at ORIGIN (y=0). This is the main stage.
+  - `FOOTER ZONE`: The key explanatory text ("Since 0.7 ≥ 0.5, 3.7 rounds up to 4") will appear here at y=-2.8.
+
+**Number Line Geometry**:
+- To ensure clarity, the number line should be sufficiently wide.
+- **Anchor Points**: Define `line_start = LEFT*4` and `line_end = RIGHT*4`. This gives an 8-unit line.
+- **Tick Mapping**: We need to map the mathematical interval [3,4] onto this physical line.
+  - `tick_3` will be at `line_start`.
+  - `tick_4` will be at `line_end`.
+  - `point_3_7` will be at a calculated position: Since 3.7 is 70% of the way from 3 to 4, its position is `line_start + 0.7*(line_end - line_start)` = `LEFT*4 + 0.7*(RIGHT*8)` = `LEFT*4 + RIGHT*5.6` = `RIGHT*1.6`.
+
+**Visual Hierarchy**:
+- Primary: Number line, point at 3.7, segments (0.7, 0.3).
+- Secondary: Tick labels ("3", "4"), point label ("3.7"), segment labels ("0.7", "0.3").
+- Tertiary: The rounding logic text in the footer.
+
+**Signal Strategy**:
+1. Create the number line and ticks.
+2. Introduce the point 3.7 and its label.
+3. Draw the two segments *from* the point *to* the endpoints.
+4. Label each segment with its length.
+5. **Critical Step**: Isolate the 0.7 segment and its label. Transform them into the inequality "0.7 ≥ 0.5" near the point.
+6. Use that inequality to trigger the final transformation: the point label "3.7" morphs into "4", and the point itself moves to the `tick_4` position.
+
+**Chunking**:
+- Each step corresponds to one clear visual action and a short narration.
+- The final transformation (step 5) is the cognitive climax and will be slightly longer.
+
+**Overflow Prevention**:
+- All primary action is in the CONTENT zone (y near 0).
+- The footer text is a single line, scaled appropriately.
+- We will use `ReplacementTransform` for the label morphing to avoid ghosting.
+- The inequality "0.7 ≥ 0.5" will be created temporarily in the CONTENT zone, then cleaned up.
+============================================================
+
+⚠️ 警告：Planner 產出的 JSON 格式有誤，正以括號匹配擷取 JSON 物件…
+📉 [Compression] Planner Context Reduced: 7899 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 2.98s | Let's start wit...
+  - 語音片段 1: 2.74s | We place a poin...
+  - 語音片段 2: 7.94s | The distance fr...
+  - 語音片段 3: 13.49s | To decide wheth...
+  - 語音片段 4: 3.62s | Therefore, 3.7 ...
+✅ 語音處理完成！合併音檔: media/audio/在_3_到_4_之間的數線上標示出_3__7eab4021cf/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a number line with a range from 3 to 4. Add a point at 3.7 on the number line. Annotate the point with the label "3.7". Create a line segment from 3.7 to 4, and another line segment from 3.7 to 3. Label the line segment from 3.7 to 4 as "0.3" and the line segment from 3.7 to 3 as "0.7". Use a Transform animation to highlight that since 0.7 is greater than or equal to 0.5, 3.7 rounds up to 4.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 45.72 秒
+📊 [Token 統計]: 輸入 13642 | 輸出 2465 | 總計 16107
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 8448 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 13.65 秒
+📊 [Token 統計]: 輸入 40411 | 輸出 282
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Significant defects noted, particularly with overlapping elements and text clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label '3.7' overlaps with the segments and ticks, causing confusion in reading.",
+      "suggested_fix": "Change label_3_7.next_to(point_3_7, UP, buff=0.3) to increase vertical spacing."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The footer text overflows the action safe area, compromising visibility.",
+      "suggested_fix": "Move footer_text to stay within the safe zone, ensuring it is within y in [-3.5, 3.5]."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text color of the footer text is too similar to the background, impacting readability.",
+      "suggested_fix": "Consider changing footer_text.color to a contrasting color for improved visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] The label '3.7' overlaps with the segments and ticks, causing confusion in readi...
+  🔴 [OVERFLOW] The footer text overflows the action safe area, compromising visibility....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Significant defects noted, particularly with overlapping elements and text clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Significant defects noted, particularly with overlapping elements and text clarity.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues ba...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 45.57 秒
+📊 [Token 統計]: 輸入 6244 | 輸出 2494 | 總計 8738
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The label '3.7' overlaps with the segments and ticks, causing confusion in read...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 40.52 秒
+📊 [Token 統計]: 輸入 5384 | 輸出 2238 | 總計 7622
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OV...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 38.80 秒
+📊 [Token 統計]: 輸入 10391 | 輸出 2122 | 總計 12513
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7165 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 10.80 秒
+📊 [Token 統計]: 輸入 40411 | 輸出 266
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains overlapping elements and exceeds the Action Safe area.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The labels '3.7' and '0.3' overlap with the edge of the 'Rounding on a Number Line' title and visually crowd the space.",
+      "suggested_fix": "Reposition label_3_7 and label_0_3: Use label_3_7.next_to(point_3_7, UP, buff=0.4) and label_0_3.next_to(segment_to_4, UP, buff=0.3)."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The footer text extends beyond the mandatory safe zone for content, violating the Action Safe area.",
+      "suggested_fix": "Adjust footer_text initial_pos to ensure it moves within the safe zone: Move to footer_anchor but ensure the text does not extend past y = -3.5."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] The labels '3.7' and '0.3' overlap with the edge of the 'Rounding on a Number Li...
+  🔴 [OVERFLOW] The footer text extends beyond the mandatory safe zone for content, violating th...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains overlapping elements and exceeds the Action Safe area.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The animation contains overlapping elements and exceeds the Action Safe area.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 38.04 秒
+📊 [Token 統計]: 輸入 5920 | 輸出 2134 | 總計 8054
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The labels '3.7' and '0.3' overlap with the edge of the 'Rounding on a Number L...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 39.42 秒
+📊 [Token 統計]: 輸入 5120 | 輸出 2173 | 總計 7293
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OV...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 38.50 秒
+📊 [Token 統計]: 輸入 7313 | 輸出 2134 | 總計 9447
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7200 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 9.19 秒
+📊 [Token 統計]: 輸入 40411 | 輸出 337
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains multiple issues related to text overflow and stark contrast problems.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "Footer text extends beyond the mandatory bounding box, with part of the text cropping off the lower edge of the frame.",
+      "suggested_fix": "Adjust footer_text.position to ensure it fits within the bounding box, specifically change position from move_to(footer_anchor) to move_to(footer_anchor).shift(UP*0.5) to lift it clearly into the action safe area."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The footer text has low contrast compared to the black background, failing visibility standards.",
+      "suggested_fix": "Change the color of footer_text from LIGHT_BLUE to a higher contrast color like WHITE or adjust the background to a lighter shade to enhance visibility."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label '3.7' is overlapping slightly with the previous visual elements and may confuse viewers.",
+      "suggested_fix": "Use label_3_7.next_to(point_3_7, UP, buff=0.3) to increase the spacing between the label and the point for clarity."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] Footer text extends beyond the mandatory bounding box, with part of the text cro...
+  🟠 [OVERLAP] The label '3.7' is overlapping slightly with the previous visual elements and ma...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains multiple issues related to text overflow and stark contrast problems.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7200 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.03 秒
+📊 [Token 統計]: 輸入 40411 | 輸出 237
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The visual rendering suffers from overlapping text and an inconsistency in the displayed inequality.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The labels '3.7' and '0.7' are overlapping with the lower text explanation, compromising readability.",
+      "suggested_fix": "Shift '3.7' label downwards using next_to(label_3_7, UP, buff=0.4) to avoid overlap."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The inequality '0.7 ≥ 0.5' appears cluttered and is visually unstable due to proximity to other elements.",
+      "suggested_fix": "Adjust the positioning of the inequality using next_to(inequality, RIGHT, buff=1.5) to enhance clarity and remove visual clutter."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] The labels '3.7' and '0.7' are overlapping with the lower text explanation, comp...
+  🔴 [MISALIGNED] The inequality '0.7 ≥ 0.5' appears cluttered and is visually unstable due to pro...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The visual rendering suffers from overlapping text and an inconsistency in the displayed inequality.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7200 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 9.78 秒
+📊 [Token 統計]: 輸入 40411 | 輸出 312
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects found in symbolic rendering and overflowing elements.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The title 'Rounding on a Nu' has insufficient contrast against the black background, especially in the left segment, affecting readability.",
+      "suggested_fix": "Change the title color to a brighter shade like 'WHITE' for better contrast."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The inequality '0.7 ≥ 0.5' is cut off and not fully visible in the bottom right corner of the frame.",
+      "suggested_fix": "Adjust the position of the inequality label to fit within the action safe area by shifting it left or up."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The footer text stating 'Since 0.7 is greater than or equal to 0.5, 3.7 rounds up to 4.' is too small for adequate visibility.",
+      "suggested_fix": "Increase the font size of the footer text from 28 to at least 30 for improved readability."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The inequality '0.7 ≥ 0.5' is cut off and not fully visible in the bottom right ...
+  🟡 [TINY_TEXT] The footer text stating 'Since 0.7 is greater than or equal to 0.5, 3.7 rounds u...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects found in symbolic rendering and overflowing elements.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 15
+Total Tokens: 281,774
+  - Prompt: 260,918
+  - Completion: 20,856
+----------------------------------------
+Estimated Cost: $0.045255 USD
+約合台幣: NT$ 1.4029
+========================================
+
+
+
+=== STDERR ===

@@ -1,0 +1,375 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_18-04-35_在_-5_到_5_的數線上示範從_-2_到_+3_的跳躍並畫出移動_5_個單位的箭頭動畫.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.64 秒
+📊 [Token 統計]: 輸入 226 | 輸出 74 | 總計 300
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow Transform() to a length of 5 units, indicating the distance of the jump.
+------------------------------
+   📝 初稿: Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow Transform() to a length of 5 units, indicating the distance of the jump.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.42 秒
+📊 [Token 統計]: 輸入 312 | 輸出 74 | 總計 386
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow to scale to a length of 5 units, indicating the distance of the translation.
+------------------------------
+✨ [翻譯完成]: Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow to scale to a length of 5 units, indicating the distance of the translation.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 58.11 秒
+📊 [Token 統計]: 輸入 4050 | 輸出 2997 | 總計 7047
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete (Real-world analogy)">
+<metaphor>A "train track" number line. The points are stations (-2 and 3). A train (a point) travels from station -2 to station 3. A measuring tape (the arrow) unrolls to show the distance traveled.</metaphor>
+<scores pedagogy="8" feasibility="9" engagement="7" />
+</branch>
+<branch id="B" type="Abstract (Geometric/Symbolic)">
+<metaphor>A clean, minimalist number line as a mathematical object. The translation is shown as a vector displacement. The arrow is the vector itself, scaling from zero to its full magnitude, with its length labeled explicitly as "5 units".</metaphor>
+<scores pedagogy="9" feasibility="10" engagement="8" />
+</branch>
+<branch id="C" type="Interactive/Progressive (Step-by-step build-up)">
+<metaphor>Start with an empty scene. Draw the number line incrementally, labeling ticks. Then plot the points one by one. Introduce the concept of translation as "hopping" from one point to another. Finally, grow the arrow from the start point, emphasizing it measures the "hop distance".</metaphor>
+<scores pedagogy="10" feasibility="9" engagement="9" />
+</branch>
+<selection>
+<winner>C</winner>
+<reason>Strategy C scores highest in Pedagogy and Engagement while maintaining high feasibility. Its step-by-step, "chunked" approach perfectly matches the user's request for 3-5 structured steps. It builds understanding incrementally, reducing cognitive load and making the final concept of translation distance clear and intuitive.</reason>
+</selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line, integer points from -5 to 5, points at -2 and 3, translation as movement, vector arrow representing displacement, distance = 5 units.
+
+**Visual Metaphor**: Progressive construction (C). The scene is built piece by piece to focus attention.
+
+**Spatial Plan (High-Low Split)**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y = 0 to y = 1.5)**: Number line, points, and arrow animation. This is the primary visual stage.
+- **FOOTER Zone (y ~ -2.5)**: Explanatory text for each step.
+
+**Layout & Coordinate Calculations**:
+1. **Number Line**: Horizontal line from x = -6 to x = 6 (to comfortably fit -5 to 5 with buffer). Place at `y=0`.
+2. **Tick Marks**: At each integer x from -5 to 5. Place small vertical lines at (x, 0, 0).
+3. **Labels**: MathTex numbers below each tick at (x, -0.5, 0).
+4. **Points**: `point_a` at (-2, 0, 0), `point_b` at (3, 0, 0). Use Dot objects.
+5. **Arrow**: Will be a `Vector` object. Its start is `point_a`. Its initial tip is also at `point_a` (zero length). Its final tip is at `point_b` (length = 5 units along x-axis).
+6. **Distance Label**: MathTex "5 \text{ units}" placed above the arrow's midpoint.
+
+**Constraints & Overflow Prevention**:
+- The number line width (12 units) fits safely within the screen (x ∈ [-6.5, 6.5]).
+- All primary action (line, points, arrow) is centered at y=0.
+- Explanatory text is placed in the FOOTER zone (y=-2.5) to avoid clutter.
+- The title is in the HEADER zone (y=3.0).
+- We will use `ReplacementTransform` for the arrow scaling to avoid ghosting. The arrow will be created, then its `tip` point will be animated to move from start to end.
+
+**Signal Strategy**:
+- Step 1: Create number line. Use `Write` for line and labels.
+- Step 2: Plot points. Use `Create` for dots and `Indicate` (yellow) for each.
+- Step 3: Animate translation. Use `MoveAlongPath` for the dot moving along the line.
+- Step 4: Introduce arrow. Create it at zero length (start=end).
+- Step 5: Animate arrow scaling. Use `Transform` on the arrow's end point (or create a new arrow via `ReplacementTransform`). Use `Circumscribe` on the final arrow and label the distance.
+
+**Pedagogical Chunking**:
+1. Build the stage (Number Line).
+2. Introduce the actors (Points).
+3. Show the action (Translation).
+4. Measure the action (Arrow as vector).
+5. Quantify the measurement (Distance = 5 units).
+============================================================
+
+📉 [Compression] Planner Context Reduced: 7762 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 4.97s | Let's start wit...
+  - 語音片段 1: 6.02s | Now, we plot ou...
+  - 語音片段 2: 8.18s | A translation m...
+  - 語音片段 3: 8.95s | We can represen...
+  - 語音片段 4: 7.49s | The length of t...
+✅ 語音處理完成！合併音檔: media/audio/在__5_到_5_的數線上_示範從__2_e541ae2fca/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow to scale to a length of 5 units, indicating the distance of the translation.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.61 秒
+📊 [Token 統計]: 輸入 11780 | 輸出 3013 | 總計 14793
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.30 秒
+📊 [Token 統計]: 輸入 6558 | 輸出 806 | 總計 7364
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10571 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.04 秒
+📊 [Token 統計]: 輸入 17446 | 輸出 247
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains defects regarding alignment and symbolic consistency.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label '5 units' is positioned slightly above the midpoint of the arrow instead of centered on it, resulting in a 0.1-unit vertical misalignment.",
+      "suggested_fix": "Adjust the position of the distance label to be horizontally centered on the arrow using next_to(arrow_full, UP, buff=0) for exact placement."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The text 'Step 5: The arrow length is the distance: 5 units.' overlaps with the bottom 15% of the screen which is not in the Action Safe area.",
+      "suggested_fix": "Reposition the caption higher so that it remains within the Action Safe area and does not overlap with the mathematical content."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The label '5 units' is positioned slightly above the midpoint of the arrow inste...
+  🔴 [OVERLAP] The text 'Step 5: The arrow length is the distance: 5 units.' overlaps with the ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains defects regarding alignment and symbolic consistency.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The label '5 units' is positioned slightly above the midpoint of the arrow i...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 51.70 秒
+📊 [Token 統計]: 輸入 5384 | 輸出 2832 | 總計 8216
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.17 秒
+📊 [Token 統計]: 輸入 6558 | 輸出 810 | 總計 7368
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10571 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.28 秒
+📊 [Token 統計]: 輸入 17446 | 輸出 224
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "One or more elements do not adhere to the expected layout and guidelines.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The explanation text 'Step 5: The arrow length is the distance: 5 units.' overlaps with the content area in the bottom 15% of the screen.",
+      "suggested_fix": "Adjust the position of the explanation text to ensure it remains above the action safe area."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label '5 units' is misplaced, having obvious gaps from the arrow, violating the positioning consistency.",
+      "suggested_fix": "Ensure the label is centered relative to the arrow, using next_to(arrow_full, UP, buff=0.2) appropriately."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The explanation text 'Step 5: The arrow length is the distance: 5 units.' overla...
+  🟠 [MISALIGNED] The label '5 units' is misplaced, having obvious gaps from the arrow, violating ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: One or more elements do not adhere to the expected layout and guidelines.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The explanation text 'Step 5: The arrow length is the distance: 5 units.' over...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.97 秒
+📊 [Token 統計]: 輸入 5372 | 輸出 2742 | 總計 8114
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.43 秒
+📊 [Token 統計]: 輸入 6558 | 輸出 896 | 總計 7454
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10571 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 3.09 秒
+📊 [Token 統計]: 輸入 17446 | 輸出 124
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains a critical overflow defect as the bottom explanation overlaps with the footer zone.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The explanatory text at the bottom of the screen overlaps with the footer zone, violating the mandatory boundaries.",
+      "suggested_fix": "Adjust the initial position of the explanation text to ensure it is above the footer zone."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The explanatory text at the bottom of the screen overlaps with the footer zone, ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains a critical overflow defect as the bottom explanation overlaps with the footer zone.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 138.7 秒
+📂  歸檔目錄: stable_outputs
+    🎥 在__minus_5_到_5_的數線上，示範從__minus_2_到__plus_3_的跳躍，並畫出_20260220_180853.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 9
+Total Tokens: 91,789
+  - Prompt: 79,462
+  - Completion: 12,327
+----------------------------------------
+Estimated Cost: $0.015608 USD
+約合台幣: NT$ 0.4838
+========================================
+
+
+
+=== STDERR ===

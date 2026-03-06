@@ -10,6 +10,41 @@
 
 ## ✨ 核心功能 (Key Features)
 
+## 🏗️ 系統架構 (System Architecture)
+
+```mermaid
+graph TD
+    User([👤 User]) -->|Input Topic| Streamlit[🖥️ Streamlit UI]
+    Streamlit -->|subprocess| Main[⚙️ Main Loop]
+    
+    subgraph "Phase 1: Planning & Coding"
+        Main -->|Topic| Planner[🧠 Planner Agent]
+        Planner -->|Script JSON| Coder[💻 Coder Agent]
+        Coder -->|Python Code| ManimFile[🐍 Generated Scene]
+    end
+    
+    subgraph "Phase 2: Rendering & QA"
+        ManimFile -->|Render| ManimEngine[🎬 Manim Engine]
+        ManimEngine -->|Success?| CheckRender{Render OK?}
+        CheckRender -->|No| FixRender[🔧 Syntax Fixer]
+        FixRender --> Coder
+        CheckRender -->|Yes| VisionQA[👁️ Vision Agent]
+    end
+    
+    subgraph "Phase 3: Visual Audit Loop"
+        VisionQA -->|Audit Frame| AuditResult{Audit Pass?}
+        AuditResult -->|Fail| CheckLimit{Attempts < 5?}
+        CheckLimit -->|Yes| VisualFixER[🛠️ Visual Fix Prompter]
+        VisualFixER -->|Fix Instructions| Coder
+        CheckLimit -->|No| Inbox
+    end
+    
+    subgraph "Phase 4: Output"
+        AuditResult -->|Pass| Inbox[📥 Inbox]
+        Inbox -->|Auto-Sort| Categories[📂 Subject Folders]
+    end
+```
+
 ### 1. 🤖 智能代理工作流 (Agentic Workflow)
 
 系統內建多個專職 Agent，透過協作完成任務：

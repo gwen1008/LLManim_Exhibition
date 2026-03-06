@@ -1,0 +1,558 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_03-45-13_演示單位圓運動同步正弦波左邊有一個點在單位圓上移動右邊同步描繪出_y__sinx_的圖形.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.91 秒
+📊 [Token 統計]: 輸入 229 | 輸出 163 | 總計 392
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two main components: a unit circle on the left and a graph on the right. The unit circle has a point moving along its circumference. Simultaneously, on the right graph, plot the function y = sin(x) as the point on the unit circle moves. Use the Parametric Equation of a Circle, x = cos(t), y = sin(t), where t is the parameter, to generate the point's movement on the unit circle. On the graph, use the same parameter t as the input for the function y = sin(x) to create a synchronized sine wave. Animate the point moving along the unit circle and the corresponding sine wave being drawn on the graph using the Transform() function to update the point's position and the Create() function to draw the sine wave.
+------------------------------
+   📝 初稿: Create a scene with two main components: a unit circle on the left and a graph on the right. The unit circle has a point moving along its circumference. Simultaneously, on the right graph, plot the function y = sin(x) as the point on the unit circle moves. Use the Parametric Equation of a Circle, x = cos(t), y = sin(t), where t is the parameter, to generate the point's movement on the unit circle. On the graph, use the same parameter t as the input for the function y = sin(x) to create a synchronized sine wave. Animate the point moving along the unit circle and the corresponding sine wave being drawn on the graph using the Transform() function to update the point's position and the Create() function to draw the sine wave.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.69 秒
+📊 [Token 統計]: 輸入 404 | 輸出 178 | 總計 582
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two primary components: a unit circle on the left and a graph on the right. The unit circle features a point moving along its circumference, defined by the parametric equations x = cos(t) and y = sin(t), where t is the parameter. Simultaneously, on the right graph, plot the function y = sin(x) as the point on the unit circle moves, using the same parameter t as the input for the function. To achieve this, use the parametric equation of the circle to generate the point's movement and the function y = sin(t) to create a synchronized sine wave on the graph. Animate the point moving along the unit circle and the corresponding sine wave being drawn on the graph, utilizing the Transform() function to update the point's position and the Create() function, or a suitable alternative, to draw the sine wave.
+------------------------------
+✨ [翻譯完成]: Create a scene with two primary components: a unit circle on the left and a graph on the right. The unit circle features a point moving along its circumference, defined by the parametric equations x = cos(t) and y = sin(t), where t is the parameter. Simultaneously, on the right graph, plot the function y = sin(x) as the point on the unit circle moves, using the same parameter t as the input for the function. To achieve this, use the parametric equation of the circle to generate the point's movement and the function y = sin(t) to create a synchronized sine wave on the graph. Animate the point moving along the unit circle and the corresponding sine wave being drawn on the graph, utilizing the Transform() function to update the point's position and the Create() function, or a suitable alternative, to draw the sine wave.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 68.69 秒
+📊 [Token 統計]: 輸入 4287 | 輸出 3687 | 總計 7974
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A mechanical linkage: Imagine a rotating arm on the left (circle) driving a pen on the right (graph). The arm's vertical position directly controls the pen's height on the sine wave plot.</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A pure, clean split-screen visualization. Left: The unit circle with a moving point and its projections onto the axes. Right: The sine function graph, with a vertical line scanning across it. The connection is shown via a shared parameter t and synchronized motion.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="9" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Start with just the unit circle and point. As the point moves, "extract" its y-coordinate and "project" it across the screen to the right, where it starts building the sine wave point-by-point, creating a direct visual transfer of data.</metaphor>
+    <scores pedagogy="8" feasibility="6" engagement="10" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract Split-Screen) offers the best balance. It provides maximum pedagogical clarity by explicitly showing the geometric relationship (the point's y-coordinate is sin(t)) and the functional relationship (plotting y=sin(x)). It is highly feasible in Manim using standard VGroups, parametric functions, and updaters. Its clean, 3Blue1Brown-style aesthetic ensures visual engagement without unnecessary complexity.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: The core concept is linking the parametric definition of sine on the unit circle (y = sin(θ)) to its Cartesian graph (y = sin(x)). The parameter 't' (or θ) is the common input.
+
+**Visual Metaphor (Selected: Abstract Split-Screen)**:
+- **Left Panel (Geometry)**: Unit circle centered at an anchor point. A moving point on its circumference. Vertical line from the point to the x-axis, and a horizontal line to the y-axis to highlight the sine value.
+- **Right Panel (Function)**: Cartesian coordinate system. A vertical line scans from left to right. A trace (a `ParametricFunction` or a `VGroup` of dots/lines) builds the sine wave y = sin(x) in sync with the left point's movement.
+
+**Spatial Plan & Overflow Prevention**:
+- Use a **High-Low Split**, not Left-Right, to prevent horizontal overflow. Equations and labels are wide.
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0)**: The two visualizations will be placed **side-by-side** here because they are the primary content and are graphical, not textual. This is an exception to the "avoid left-right split" rule for equations. We will ensure each graph fits within a width of ~5 units.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text and the parameter display (t = value).
+- **Anchors**: `left_anchor` at ORIGIN + LEFT*4, `right_anchor` at ORIGIN + RIGHT*4. This gives ample space (8 units apart) and keeps each graph centered in its half of the screen.
+
+**Object Registry & Constraints**:
+1.  **Left Circle System**:
+    - `circle`: Unit circle, radius=2 (for visibility), centered at `left_anchor`.
+    - `moving_point_dot`: Dot on circle, position = circle.center + [2*cos(t), 2*sin(t), 0].
+    - `vertical_line`: Line from `moving_point_dot` to x-axis.
+    - `angle_arc`: Arc from positive x-axis to the point.
+    - `angle_label`: MathTex(r"\theta = t").
+2.  **Right Graph System**:
+    - `axes`: Axes for y=sin(x), x_range [-0.5, 2π+0.5], y_range [-1.5, 1.5]. Centered at `right_anchor`.
+    - `sin_graph`: The *static* sine curve y=sin(x) (dashed/grey for reference).
+    - `traced_path`: A `VGroup()` that will be built up dot-by-dot or as a `ParametricFunction` with a dynamic `t_max`.
+    - `vertical_tracker_line`: A vertical line on the axes that moves with parameter t.
+    - `current_sin_point`: A dot at (t, sin(t)) on the axes.
+
+**Signal Strategy**:
+- Step 1: Introduce the unit circle and the parametric definition. Use `Indicate` on the point and the equations.
+- Step 2: Show the projection onto the y-axis to extract sin(t). Use `Circumscribe` on the y-coordinate label.
+- Step 3: Introduce the right graph. Show the vertical line at x=t and the point (t, sin(t)).
+- Step 4: Animate the point moving and the trace being drawn simultaneously. The connection is the shared y-value.
+- Step 5: Summarize the mapping: angle t (circle) -> horizontal coordinate x (graph), y-coordinate (circle) -> function value y (graph).
+
+**Mathematical Rigor**:
+- The unit circle radius is scaled to 2 Manim units for clarity.
+- The right graph's x-axis will be labeled in radians (0, π/2, π, 3π/2, 2π).
+- The parameter t will animate from 0 to 2π.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9250 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 12.86s | We begin with t...
+  - 語音片段 1: 8.35s | The angle t swe...
+  - 語音片段 2: 12.29s | Now, let's look...
+  - 語音片段 3: 10.25s | The connection ...
+  - 語音片段 4: 14.66s | As we animate t...
+✅ 語音處理完成！合併音檔: media/audio/演示單位圓運動同步正弦波_左邊有一個點在_e90b3e33c7/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two primary components: a unit circle on the left and a graph on the right. The unit circle features a point moving along its circumference, defined by the parametric equations x = cos(t) and y = sin(t), where t is the parameter. Simultaneously, on the right graph, plot the function y = sin(x) as the point on the unit circle moves, using the same parameter t as the input for the function. To achieve this, use the parametric equation of the circle to generate the point's movement and the function y = sin(t) to create a synchronized sine wave on the graph. Animate the point moving along the unit circle and the corresponding sine wave being drawn on the graph, utilizing the Transform() function to update the point's position and the Create() function, or a suitable alternative, to draw the sine wave.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 53.63 秒
+📊 [Token 統計]: 輸入 14509 | 輸出 2999 | 總計 17508
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10684 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+Render Error: Manim process timed out after 120 seconds.
+ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) rebuilding a complex object (ParametricFunction, DashedLine, MathTex) every frame.
+MANDATORY FIX — Replace ALL add_updater+become with always_redraw:
+  REMOVE: obj.add_updater(lambda m: m.become(HeavyObject(...)))
+  REPLACE:
+    tracker = ValueTracker(0)
+    obj = always_redraw(lambda: HeavyObject(...))
+    self.add(obj)
+    self.play(tracker.animate.set_value(TARGET), run_time=N, rate_func=linear)
+Search your code for ALL .add_updater( calls where the lambda contains .become(). Replace every one. See MANIM_API_RULES Rule 7.
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+Render Error: Manim process timed out after 120 seconds.
+ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) rebuilding a complex object (ParametricFunction, DashedLine, MathTex) every frame.
+MAND...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 4.64 秒
+📊 [Token 統計]: 輸入 3365 | 輸出 213 | 總計 3578
+------------------------------
+🔄 [Full Rewrite] 未識別錯誤或架構問題 → 使用完整重寫
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+Render Error: Manim process timed out after 120 seconds.
+ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) rebuilding a complex object (ParametricFunction, DashedLine, MathTex) e...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.56 秒
+📊 [Token 統計]: 輸入 6390 | 輸出 2791 | 總計 9181
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9824 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+Render Error: Manim process timed out after 120 seconds.
+ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) rebuilding a complex object (ParametricFunction, DashedLine, MathTex) every frame.
+MANDATORY FIX — Replace ALL add_updater+become with always_redraw:
+  REMOVE: obj.add_updater(lambda m: m.become(HeavyObject(...)))
+  REPLACE:
+    tracker = ValueTracker(0)
+    obj = always_redraw(lambda: HeavyObject(...))
+    self.add(obj)
+    self.play(tracker.animate.set_value(TARGET), run_time=N, rate_func=linear)
+Search your code for ALL .add_updater( calls where the lambda contains .become(). Replace every one. See MANIM_API_RULES Rule 7.
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+Render Error: Manim process timed out after 120 seconds.
+ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) rebuilding a complex object (ParametricFunction, DashedLine, MathTex) every frame.
+MAND...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.63 秒
+📊 [Token 統計]: 輸入 3122 | 輸出 121 | 總計 3243
+------------------------------
+🔄 [Full Rewrite] 未識別錯誤或架構問題 → 使用完整重寫
+
+🚨 [Template Override] 連續 2 次渲染超時！啟動極簡 ValueTracker 骨架模式...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+[TEMPLATE OVERRIDE ACTIVATED]
+Your previous attempts all caused infinite render loops. You have lost the freedom to design the animation architecture.
+You MUST use the following skeleton EXACTLY. Only fill in the mathematical functions and axis ranges:
+
+```python
+from manim import *
+import numpy as...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 9.31 秒
+📊 [Token 統計]: 輸入 1030 | 輸出 501 | 總計 1531
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 1818 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.62 秒
+📊 [Token 統計]: 輸入 40656 | 輸出 145
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains a critical overlap issue with the sine graph and the unit circle elements.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The sine graph in the right panel overlaps with the label for the sine function, as well as other elements, causing confusion.",
+      "suggested_fix": "Adjust the vertical position of the sine graph. Use 'right_axes.move_to(axes.get_center() + UP*0.2)' to lift it higher."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 1 defect(s):
+  🔴 [OVERLAP] The sine graph in the right panel overlaps with the label for the sine function,...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains a critical overlap issue with the sine graph and the unit circle elements.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The animation contains a critical overlap issue with the sine graph and the unit circle elements.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix t...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 9.92 秒
+📊 [Token 統計]: 輸入 4064 | 輸出 508 | 總計 4572
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The sine graph in the right panel overlaps with the label for the sine function...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 9.80 秒
+📊 [Token 統計]: 輸入 4369 | 輸出 508 | 總計 4877
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+Render Error: Manim process timed out after 120 seconds.
+ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) rebuilding a complex object (ParametricFunction, DashedLine, MathTex) e...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 9.52 秒
+📊 [Token 統計]: 輸入 1783 | 輸出 501 | 總計 2284
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 1818 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.56 秒
+📊 [Token 統計]: 輸入 40656 | 輸出 308
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains alignment issues and overlaps that impair clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The red dot representing the moving point on the unit circle is misaligned with the corresponding y-coordinate on the sine graph.",
+      "suggested_fix": "Adjust the vertical position of the red dot. Use dot.move_to(right_axes.c2p(t_tracker.get_value(), np.sin(t_tracker.get_value()))) to ensure it aligns correctly with the sine wave."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The sine wave overlaps with the vertical line at x=t, reducing readability.",
+      "suggested_fix": "Adjust the position of the sine wave or the vertical line so there is a buffer zone of at least 0.2 units between them."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The yellow sine wave may not have sufficient contrast against the dark background.",
+      "suggested_fix": "Consider increasing the stroke width of the sine wave to at least 2.0pt to enhance visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The red dot representing the moving point on the unit circle is misaligned with ...
+  🟠 [OVERLAP] The sine wave overlaps with the vertical line at x=t, reducing readability....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains alignment issues and overlaps that impair clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The final frame contains alignment issues and overlaps that impair clarity.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on t...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 10.35 秒
+📊 [Token 統計]: 輸入 4160 | 輸出 512 | 總計 4672
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The red dot representing the moving point on the unit circle is misaligned w...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 10.25 秒
+📊 [Token 統計]: 輸入 4769 | 輸出 503 | 總計 5272
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+Render Error: Manim process timed out after 120 seconds.
+ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) rebuilding a complex object (ParametricFunction, DashedLine, MathTex) e...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 9.49 秒
+📊 [Token 統計]: 輸入 2082 | 輸出 501 | 總計 2583
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 1818 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.14 秒
+📊 [Token 統計]: 輸入 40656 | 輸出 336
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several alignment issues and overlapping elements in the final frame compromise clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The moving point on the unit circle has a visible gap (approx. 0.3 units) from the edge of the circle at its current position.",
+      "suggested_fix": "Change dot's position to align with the circle's perimeter by using 'always_redraw(lambda: Dot(circle_center + 2*[np.cos(t_tracker.get_value()), np.sin(t_tracker.get_value()), 0]))'."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The vertical line marking the y-coordinate of the sine function is overlapping with the sine curve, causing confusion.",
+      "suggested_fix": "Adjust the position of the vertical line separating it from the sine curve by modifying its 'next_to' parameters to add more buffer."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The sine graph extends beyond the defined action safe area on the right side of the frame.",
+      "suggested_fix": "Ensure that the sine graph's x-axis remains within the range x in [-0.5, 6.8] to fit the safe zone."
+    }
+  ]
+}
+```
+========================================
+
+🔇 [Dynamic Scene] Filtered 1 MISALIGNED noise defect(s) (ValueTracker scene - static frame jitter expected)
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] The vertical line marking the y-coordinate of the sine function is overlapping w...
+  🔴 [OVERFLOW] The sine graph extends beyond the defined action safe area on the right side of ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several alignment issues and overlapping elements in the final frame compromise clarity.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 17
+Total Tokens: 191,006
+  - Prompt: 176,531
+  - Completion: 14,475
+----------------------------------------
+Estimated Cost: $0.030698 USD
+約合台幣: NT$ 0.9516
+========================================
+
+
+
+=== STDERR ===

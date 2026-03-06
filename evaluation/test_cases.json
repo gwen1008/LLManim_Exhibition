@@ -1,0 +1,107 @@
+[
+    {
+        "id": "ELEM_01",
+        "category": "Elementary",
+        "topic": "用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。",
+        "topic_en": "Show why 1/2 is the same as 2/4 using two identical pizzas. Shade sectors to compare.",
+        "description": "Visual metaphor: Area comparison."
+    },
+    {
+        "id": "ELEM_02",
+        "category": "Elementary",
+        "topic": "解釋 3 * 4 的意義：呈現 3 組各有 4 顆星星，並將它們聚集起來總計為 12 顆。",
+        "topic_en": "Explain 3 * 4 by showing 3 groups of 4 stars. Animate them gathering into a total of 12.",
+        "description": "Set theory: Grouping objects."
+    },
+    {
+        "id": "ELEM_03",
+        "category": "Elementary",
+        "topic": "畫一個 4x3 的長方形。用填充小方格來呈現面積，並用一條沿著邊界移動的線來呈現周長。",
+        "topic_en": "Draw a 4x3 rectangle. Show its area by filling with squares, and perimeter by a line walking around the border.",
+        "description": "Geometry basics: Measurement concepts."
+    },
+    {
+        "id": "ELEM_04",
+        "category": "Elementary",
+        "topic": "繪製一個 60 度的角，並疊加一個半圓形量角器來示範如何測量它。",
+        "topic_en": "Create a 60-degree angle and use a semi-circle protractor overlay to show its measurement.",
+        "description": "Geometry: Angle visualization."
+    },
+    {
+        "id": "ELEM_05",
+        "category": "Elementary",
+        "topic": "在 3 到 4 之間的數線上標示出 3.7，並標出距離來解釋為什麼它四捨五入後是 4。",
+        "topic_en": "Show 3.7 on a number line between 3 and 4. Mark the distances to show why it rounds to 4.",
+        "description": "Number sense: Approximation."
+    },
+    {
+        "id": "MID_01",
+        "category": "Middle",
+        "topic": "在 -5 到 5 的數線上，示範從 -2 到 +3 的跳躍，並畫出移動 5 個單位的箭頭動畫。",
+        "topic_en": "On a number line from -5 to 5, show a jump from -2 to +3. Animate an arrow moving +5 units.",
+        "description": "Algebra: Directed numbers."
+    },
+    {
+        "id": "MID_02",
+        "category": "Middle",
+        "topic": "一種混合物含有 2 份牛奶與 5 份水。使用帶有標籤的條型圖（Tape Diagram）來視覺化 2:5 的比例。",
+        "topic_en": "A mixture has 2 parts milk to 5 parts water. Use a Tape Diagram (labeled blocks) to visualize this 2:5 ratio.",
+        "description": "Modeling: Tape diagrams."
+    },
+    {
+        "id": "MID_03",
+        "category": "Middle",
+        "topic": "用天平模型視覺化 2x = 6。一邊放兩個箱子，另一邊放 6 個圓圈。最後演示除法得出 x 的過程。",
+        "topic_en": "Visualize 2x = 6 using a balanced scale with two boxes on one side and 6 circles on the other. Show division.",
+        "description": "Algebra: Balance model."
+    },
+    {
+        "id": "MID_04",
+        "category": "Middle",
+        "topic": "畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。",
+        "topic_en": "Draw parallel lines with a transversal. Highlight alternate interior angles in green and show they are equal.",
+        "description": "Geometry: Angle properties."
+    },
+    {
+        "id": "MID_05",
+        "category": "Middle",
+        "topic": "呈現一個直徑為 D 的圓。將圓周「展開」成一條直線，證明其長度略大於 3 倍的直徑 (Pi)。",
+        "topic_en": "Show a circle with diameter D. 'Unroll' the circumference into a line to show it is slightly more than 3D.",
+        "description": "Geometry: Investigating Pi."
+    },
+    {
+        "id": "HIGH_01",
+        "category": "High",
+        "topic": "畫出 y = 2x - 1 的函數圖形。用「階梯動畫（Rise/Run）」呈現這條線的斜率是 2。",
+        "topic_en": "Graph y = 2x - 1. Use a 'moving stairs' animation to show rise=2 and run=1 for the slope.",
+        "description": "Functions: Rate of change."
+    },
+    {
+        "id": "HIGH_02",
+        "category": "High",
+        "topic": "畫出 y = (x-2)^2 - 3 的拋物線。標註頂點 (2, -3) 並畫出垂直的對稱軸。",
+        "topic_en": "Plot y = (x-2)^2 - 3. Label the vertex (2,-3) and draw the vertical line of symmetry.",
+        "description": "Functions: Parabola features."
+    },
+    {
+        "id": "HIGH_03",
+        "category": "High",
+        "topic": "演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出 y = sin(x) 的圖形。",
+        "topic_en": "Sync a point moving on a unit circle with a sine wave y=sin(theta) being traced on the right.",
+        "description": "Trigonometry: Dynamic mapping."
+    },
+    {
+        "id": "HIGH_04",
+        "category": "High",
+        "topic": "畫出 y = 0.5 * x^2 的曲線。顯示一條沿著曲線移動的切線，並即時顯示更新的斜率數值。",
+        "topic_en": "Plot y = 0.5*x^2. Show a tangent line moving along the curve, with its slope value updating in real-time.",
+        "description": "Calculus: Tangent and derivative."
+    },
+    {
+        "id": "HIGH_05",
+        "category": "High",
+        "topic": "畫出向量 A=(3, 1) 與 B=(1, 2)。使用三角形法（首尾相接）來呈現合成向量 C=(4, 3) 的過程。",
+        "topic_en": "Draw vectors A=(3,1) and B=(1,2). Use the tip-to-tail method to show the resultant vector C=(4,3).",
+        "description": "Algebra: Vector geometry."
+    }
+]

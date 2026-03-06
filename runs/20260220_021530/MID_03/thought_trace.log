@@ -1,0 +1,535 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_02-48-08_用天平模型視覺化_2x__6一邊放兩個箱子另一邊放_6_個圓圈最後演示除法得出_x_的過程.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 1.21 秒
+📊 [Token 統計]: 輸入 230 | 輸出 196 | 總計 426
+
+📢 [AI 審查/反饋意見]:
+Create a scene with a balance scale model to visualize the equation 2x = 6. 
+On one side of the scale, place two boxes labeled as 2x. 
+On the other side, place six circles, each representing a unit value of 1. 
+Next, create an animation to demonstrate the division process to solve for x. 
+Divide the six circles into two equal groups, resulting in two groups of three circles each. 
+Transform the two boxes labeled as 2x into a single box labeled as x, and the two groups of three circles into a single group of three circles, now representing the value of x. 
+The final frame should display the equation x = 3, with the single box labeled as x and the group of three circles on the other side of the scale. 
+Use the Transform() function to smoothly transition between the initial and final states of the equation, illustrating the division process to find the value of x.
+------------------------------
+   📝 初稿: Create a scene with a balance scale model to visualize the equation 2x = 6. 
+On one side of the scale, place two boxes labeled as 2x. 
+On the other side, place six circles, each representing a unit value of 1. 
+Next, create an animation to demonstrate the division process to solve for x. 
+Divide the six circles into two equal groups, resulting in two groups of three circles each. 
+Transform the two boxes labeled as 2x into a single box labeled as x, and the two groups of three circles into a single group of three circles, now representing the value of x. 
+The final frame should display the equation x = 3, with the single box labeled as x and the group of three circles on the other side of the scale. 
+Use the Transform() function to smoothly transition between the initial and final states of the equation, illustrating the division process to find the value of x.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.57 秒
+📊 [Token 統計]: 輸入 438 | 輸出 200 | 總計 638
+
+📢 [AI 審查/反饋意見]:
+Create a scene with a balance scale model to visualize the equation 2x = 6. 
+On one side of the scale, place two identical boxes labeled as x, combined to represent 2x. 
+On the other side, place six circles, each representing a unit value of 1. 
+Next, create an animation to demonstrate the division process to solve for x. 
+Divide the six circles into two equal groups, resulting in two groups of three circles each. 
+Transform the two boxes labeled as x into a single box labeled as x, and the two groups of three circles into a single group of three circles, now representing the value of x. 
+The final frame should display the equation x = 3, with the single box labeled as x and the group of three circles on the other side of the scale. 
+Use the Transform() function to smoothly transition between the initial and final states of the equation, illustrating the division process to find the value of x.
+------------------------------
+✨ [翻譯完成]: Create a scene with a balance scale model to visualize the equation 2x = 6. 
+On one side of the scale, place two identical boxes labeled as x, combined to represent 2x. 
+On the other side, place six circles, each representing a unit value of 1. 
+Next, create an animation to demonstrate the division process to solve for x. 
+Divide the six circles into two equal groups, resulting in two groups of three circles each. 
+Transform the two boxes labeled as x into a single box labeled as x, and the two groups of three circles into a single group of three circles, now representing the value of x. 
+The final frame should display the equation x = 3, with the single box labeled as x and the group of three circles on the other side of the scale. 
+Use the Transform() function to smoothly transition between the initial and final states of the equation, illustrating the division process to find the value of x.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 91.96 秒
+📊 [Token 統計]: 輸入 4175 | 輸出 4974 | 總計 9149
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A physical balance scale with two pans. Left pan holds two labeled boxes (x). Right pan holds six unit circles. The scale is initially balanced. The division is shown by physically removing the scale pans and grouping the circles into two piles, then matching one pile to one box.</metaphor>
+    <scores pedagogy="9" feasibility="8" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>No physical scale. Use a pure equation transformation with visual annotations. Start with "2x = 6" as MathTex. Annotate with boxes and circles as decorative elements above/below the equation. The division is shown by splitting the "6" into two "3"s and canceling a "2".</metaphor>
+    <scores pedagogy="7" feasibility="10" engagement="6" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Interactive scale where the user "clicks" to divide. The two boxes on the left are connected by a bracket labeled "÷2". The six circles on the right are simultaneously grouped into two highlighted sets of three. Then one box and one set of three slide together to form a new, simplified scale showing x=3.</metaphor>
+    <scores pedagogy="10" feasibility="7" engagement="9" />
+  </branch>
+  <selection>
+    <winner>A</winner>
+    <reason>Strategy A (Concrete balance scale) scores highest on pedagogy (9) and engagement (8), with good feasibility (8). It directly matches the user's request for a "balance scale model," providing a strong, intuitive visual metaphor for equation solving. The physical manipulation of objects makes the division process concrete and memorable. Feasibility is slightly lower than the abstract approach but remains high as it uses standard Manim shapes and animations (Create, Transform, ReplacementTransform).</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Equation 2x = 6. Balance scale as metaphor for equality. Left side: 2x represented as two identical boxes. Right side: 6 represented as six unit circles. Solving via division: dividing both sides by 2. Visual outcome: x = 3, shown as one box vs. three circles.
+
+**Visual Metaphor**: Physical balance scale centered on screen. Two pans suspended from a central beam. Objects reside in pans.
+
+**Spatial Plan & Calculations**:
+- **Global Center**: ORIGIN (0,0,0).
+- **Scale Structure**: Beam is a horizontal line (length=10). Fulcrum at center. Two pans (squares or circles) hanging from beam at x=-3 and x=3.
+- **Left Pan Anchor**: Position for left-side objects. We'll place at (-3, -1.5, 0) to be below beam.
+- **Right Pan Anchor**: Position for right-side objects at (3, -1.5, 0).
+- **Object Layout in Pans**:
+  - Left Pan (2x): Two squares (side_length=0.8) labeled "x". Arrange vertically stacked with small gap.
+    - Square1 vertices: centered at (-3, -1.5, 0). Actually, define center then use `Square(side_length=0.8).move_to(anchor)`.
+    - Square2: place above Square1.
+  - Right Pan (6): Six circles (radius=0.3) arranged in a 2x3 grid (2 rows, 3 columns) centered at right pan anchor.
+    - Grid spacing: 0.8 horizontally, 0.8 vertically.
+- **Division Animation**:
+  1. Highlight the two boxes and the six circles.
+  2. Move circles into two groups: one group of three circles slides left, the other group of three slides right, separating from each other.
+  3. Simultaneously, separate the two boxes, moving one slightly left, one slightly right.
+  4. Then, pair one box with one group of three circles, and fade out the other box and the other group of three circles (representing division by 2).
+  5. The remaining box and circle group move to their respective pans on a *new, simplified scale* that appears, or the original scale is transformed.
+- **Final Equation**: "x = 3" displayed above the simplified scale. The box (x) on left, three circles on right.
+
+**Constraints**:
+- All objects have z=0.
+- Pans are at y ≈ -1.5 to allow space for objects above them.
+- Beam at y=0.
+- Title at HEADER zone (y=3.0).
+- Explanation at FOOTER zone (y=-3.0).
+
+**Signal Strategy**:
+- Step 1: Show scale and objects. Indicate left side (boxes) and right side (circles).
+- Step 2: Emphasize we must divide both sides by 2. Use a dividing line or bracket.
+- Step 3: Animate the separation into two groups.
+- Step 4: Transform to the simplified scale (one box, three circles).
+- Step 5: Display final equation x=3.
+
+**Preventing Overflow**: The scene is horizontally wide but within bounds (x from -5 to 5). The scale beam is length 10, but pans at x=±3. We will keep all active objects within x ∈ [-4, 4]. The final equation will be placed at the top (HEADER zone) or above the scale, not overlapping.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 14739 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 18.26s | We start with t...
+  - 語音片段 1: 7.54s | The scale is ba...
+  - 語音片段 2: 6.98s | Now, let's add ...
+  - 語音片段 3: 4.99s | We write the co...
+  - 語音片段 4: 8.69s | To solve for x,...
+  - 語音片段 5: 4.32s | First, separate...
+  - 語音片段 6: 3.67s | And separate th...
+  - 語音片段 7: 7.75s | Now, we divide ...
+  - 語音片段 8: 9.22s | We are left wit...
+  - 語音片段 9: 5.06s | Thus, the solut...
+✅ 語音處理完成！合併音檔: media/audio/用天平模型視覺化_2x___6_一邊放兩_985d84b2a1/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with a balance scale model to visualize the equation 2x = 6. 
+On one side of the scale, place two identical boxes labeled as x, combined to represent 2x. 
+On the other side, place six circles, each representing a unit value of 1. 
+Next, create an animation to demonstrate the division process to solve for x. 
+Divide the six circles into two equal groups, resulting in two groups of three circles each. 
+Transform the two boxes labeled as x into a single box labeled as x, and the two groups of three circles into a single group of three circles, now representing the value of x. 
+The final frame should display the equation x = 3, with the single box labeled as x and the group of three circles on the other side of the scale. 
+Use the Transform() function to smoothly transition between the initial and final states of the equation, illustrating the division process to find the value of x.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 62.41 秒
+📊 [Token 統計]: 輸入 14606 | 輸出 3443 | 總計 18049
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.32 秒
+📊 [Token 統計]: 輸入 9127 | 輸出 767 | 總計 9894
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11060 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:96 in construct     │
+│                                                                              │
+│    93 │   │   self.objects["equation_initial"] = equation_initial            │
+│    94 │   │                                                                  │
+│    95 │   │   # Step label (explanation)                                     │
+│ ❱  96 │   │   step_label = Text("Divide both sides by 2", color=LIGHT_BLUE,  │
+│    97 │   │   step_label.move_to(explanation_anchor)                         │
+│    98 │   │   self.objects["step_label"] = step_label                        │
+│    99                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'LIGHT_BLUE' is not defined
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 4.41 秒
+📊 [Token 統計]: 輸入 654 | 輸出 161 | 總計 815
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                          ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.36 秒
+📊 [Token 統計]: 輸入 8399 | 輸出 3164 | 總計 11563
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.11 秒
+📊 [Token 統計]: 輸入 9144 | 輸出 764 | 總計 9908
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11131 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.27 秒
+📊 [Token 統計]: 輸入 19474 | 輸出 307
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains several critical alignment and contrast issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The pan on the right has a gap of 0.1 units from the bottom of the circles, affecting the visual balance.",
+      "suggested_fix": "Ensure that the circles align perfectly with the bottom edge of the right pan."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text color 'LIGHT_BLUE' for the step label has insufficient contrast against the black background, resulting in a contrast ratio of 2.5:1.",
+      "suggested_fix": "Use a darker color for the step label text to meet the ≥ 4.5:1 contrast ratio requirement."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The left pan extends slightly beyond the mandatory boundaries on the x-axis, which is a rejection criterion.",
+      "suggested_fix": "Adjust the position of the left pan to be within the boundaries $x \\in [-7.0, 7.0]$."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The pan on the right has a gap of 0.1 units from the bottom of the circles, affe...
+  🔴 [OVERFLOW] The left pan extends slightly beyond the mandatory boundaries on the x-axis, whi...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains several critical alignment and contrast issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The pan on the right has a gap of 0.1 units from the bottom of the circles, ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.41 秒
+📊 [Token 統計]: 輸入 8038 | 輸出 3133 | 總計 11171
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.22 秒
+📊 [Token 統計]: 輸入 9144 | 輸出 764 | 總計 9908
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11131 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.13 秒
+📊 [Token 統計]: 輸入 19474 | 輸出 299
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The visual elements do not maintain correct depth positioning and color contrast fails to meet accessibility standards.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "Text 'Divide both sides by 2' has a contrast ratio that does not meet the ≥ 4.5:1 requirement against the background.",
+      "suggested_fix": "Change the text color to a brighter shade or a different color that contrasts better with the black background."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The left pan is incorrectly positioned with a noticeable gap (> 0.15 units) from the beam's vertical center on the y-axis.",
+      "suggested_fix": "Adjust the position of the left pan square to align centrally with the beam."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERLAP",
+      "severity": "Minor",
+      "description": "The circles and the square in the right pan overlap slightly with each other due to insufficient spacing.",
+      "suggested_fix": "Increase the horizontal spacing of the circles within the right pan to ensure clarity."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The left pan is incorrectly positioned with a noticeable gap (> 0.15 units) from...
+  🟡 [OVERLAP] The circles and the square in the right pan overlap slightly with each other due...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The visual elements do not maintain correct depth positioning and color contrast fails to meet accessibility standards.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The left pan is incorrectly positioned with a noticeable gap (> 0.15 units) ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 60.33 秒
+📊 [Token 統計]: 輸入 8058 | 輸出 3316 | 總計 11374
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.01 秒
+📊 [Token 統計]: 輸入 9144 | 輸出 765 | 總計 9909
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11131 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.51 秒
+📊 [Token 統計]: 輸入 19474 | 輸出 225
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains critical failures related to overlap and color contrast.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The label 'Divide both sides by 2' overlaps with the blue box labeled 'x', making both elements difficult to distinguish.",
+      "suggested_fix": "Move the label downwards to prevent overlap, ensuring a gap of at least 0.2 units."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast ratio of the label 'x = 3' against the black background is below the WCAG AA standard of 4.5:1.",
+      "suggested_fix": "Change the color of the label 'x = 3' to a brighter shade to improve contrast."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERLAP] The label 'Divide both sides by 2' overlaps with the blue box labeled 'x', makin...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains critical failures related to overlap and color contrast.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 222.4 秒
+📂  歸檔目錄: stable_outputs
+    🎥 用天平模型視覺化_2x_=_6。一邊放兩個箱子，另一邊放_6_個圓圈。最後演示除法得出_x_的過程。_20260220_025435.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 11
+Total Tokens: 122,438
+  - Prompt: 103,020
+  - Completion: 19,418
+----------------------------------------
+Estimated Cost: $0.021213 USD
+約合台幣: NT$ 0.6576
+========================================
+
+
+
+=== STDERR ===

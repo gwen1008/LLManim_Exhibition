@@ -1,0 +1,474 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-22_03-13-26_在_3_到_4_之間的數線上標示出_3.7並標出距離來解釋為什麼它四捨五入後是_4.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.91 秒
+📊 [Token 統計]: 輸入 228 | 輸出 133 | 總計 361
+
+📢 [AI 審查/反饋意見]:
+Create a number line with a range from 3 to 4. Add a point at 3.7 on the number line. Annotate the point with the label "3.7". Create a line segment from 3.7 to 4, and another line segment from 3.7 to 3. Use Transform() to highlight the midpoint between 3 and 4, which is 3.5. Since 3.7 is to the right of the midpoint 3.5, it rounds up to 4. Use Vertical Addition to display the rounding result, showing that 3.7 rounds up to 4.
+------------------------------
+   📝 初稿: Create a number line with a range from 3 to 4. Add a point at 3.7 on the number line. Annotate the point with the label "3.7". Create a line segment from 3.7 to 4, and another line segment from 3.7 to 3. Use Transform() to highlight the midpoint between 3 and 4, which is 3.5. Since 3.7 is to the right of the midpoint 3.5, it rounds up to 4. Use Vertical Addition to display the rounding result, showing that 3.7 rounds up to 4.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.47 秒
+📊 [Token 統計]: 輸入 373 | 輸出 128 | 總計 501
+
+📢 [AI 審查/反饋意見]:
+Create a number line with a range from 3 to 4. Plot a point at 3.7 on the number line and label it as "3.7". Draw a line segment from 3.7 to 4 and another line segment from 3.7 to 3. Use Transform() to highlight the midpoint between 3 and 4, which is 3.5. Since 3.7 is to the right of the midpoint 3.5, it rounds up to 4. Utilize Vertical Addition to display the rounding result, illustrating that 3.7 rounds up to 4.
+------------------------------
+✨ [翻譯完成]: Create a number line with a range from 3 to 4. Plot a point at 3.7 on the number line and label it as "3.7". Draw a line segment from 3.7 to 4 and another line segment from 3.7 to 3. Use Transform() to highlight the midpoint between 3 and 4, which is 3.5. Since 3.7 is to the right of the midpoint 3.5, it rounds up to 4. Utilize Vertical Addition to display the rounding result, illustrating that 3.7 rounds up to 4.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 78.86 秒
+📊 [Token 統計]: 輸入 4103 | 輸出 4201 | 總計 8304
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A physical ruler with tick marks from 3 to 4. A bead slides to 3.7. Two rubber bands stretch from 3.7 to the endpoints. A scale balances at 3.5, showing 3.7 tips it to the right (up). Vertical addition shows the rounding operation.</metaphor>
+    <scores pedagogy="8" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A clean, minimalist number line. Points and segments are geometric. The midpoint is found via a dynamic construction (compass/straightedge style). The comparison is shown by overlaying a coordinate axis. Vertical addition is shown in a separate, aligned panel.</metaphor>
+    <scores pedagogy="9" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step build: First, draw the number line and point. Then, "measure" the distances by animating the segments growing. Then, construct the midpoint via a "folding" animation of the entire segment [3,4]. The comparison is a simple arrow from 3.7 to 4. Vertical addition appears as a final, separate visual proof.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C offers the clearest pedagogical progression, perfectly matches the user's requested step-by-step actions, and is highly feasible in Manim with standard transforms and animations. It avoids complex metaphors, focusing on the mathematical actions themselves.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line interval [3,4], point at 3.7, distances to endpoints, midpoint at 3.5, inequality comparison (3.7 > 3.5), rounding rule, vertical addition as verification.
+
+**Visual Metaphor (Selected)**: Progressive, geometric construction.
+
+**Spatial Plan**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0.0)**: Primary action area. Split into two sub-anchors:
+  - `number_line_anchor`: At ORIGIN for the number line, point, segments, and midpoint.
+  - `addition_anchor`: At DOWN*2.0 for the vertical addition.
+- **FOOTER Zone (y ~ -3.0)**: Brief explanation text.
+
+**Layout Logic**:
+1. **Number Line**: Horizontal line from x=-4 to x=4 (world coordinates). Scale and position so that the segment from 3 to 4 is clearly visible and centered. We'll define a `unit_length` (e.g., 2.0) so that the interval [3,4] has length 2.0. Thus:
+   - `start_3 = LEFT * unit_length` (since 3 is one unit left of center if 3.5 is center? Let's calculate).
+   - We want 3.5 at ORIGIN. So: 3.5 -> (0,0,0). Then 3.0 -> (-0.5 * unit_length, 0, 0) and 4.0 -> (0.5 * unit_length, 0, 0). Let `unit_length = 4.0` for clarity. Then:
+     - `pos_3 = LEFT * 2.0`
+     - `pos_3.5 = ORIGIN`
+     - `pos_4 = RIGHT * 2.0`
+     - `pos_3.7 = interpolate(pos_3, pos_4, 0.7)` = LEFT*2.0 + 0.7*(RIGHT*4.0) = LEFT*2.0 + RIGHT*2.8 = RIGHT*0.8.
+2. **Segments**: From `pos_3.7` to `pos_3` and `pos_3.7` to `pos_4`.
+3. **Midpoint Highlight**: A point at `pos_3.5`. We'll use `Transform()` to create it from something (e.g., morph a dot from the center of the segment [3,4]).
+4. **Vertical Addition**: Positioned below the number line, centered. It will show 3.7 + 0.3 = 4.0, illustrating the "round up" by adding to the next whole number.
+5. **Cleanup**: To prevent overflow, the vertical addition will replace the detailed segment view. We'll fade out the segments and midpoint highlight before bringing in the addition.
+
+**Signal Strategy**:
+- Use `Indicate` (red) for the point 3.7.
+- Use `Circumscribe` (yellow) for the midpoint 3.5.
+- Use `Transform` to morph the segment [3,4] into a point at its center (3.5).
+- Use arrow and color change to show 3.7 > 3.5.
+- For vertical addition, use standard addition signals (circumscribe digits, animate carry).
+
+**Constraints**:
+- All main number line objects have `z_index=1`.
+- Labels are `scale=0.8`.
+- Vertical addition digits are `scale=1.0`.
+- Ensure all content fits within x ∈ [-6.5, 6.5], y ∈ [-3.5, 3.5].
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10952 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.71s | We start with a...
+  - 語音片段 1: 2.88s | Here is our num...
+  - 語音片段 2: 6.89s | Now, let's see ...
+  - 語音片段 4: 6.12s | The key to roun...
+  - 語音片段 5: 9.26s | Compare: 3.7 is...
+  - 語音片段 6: 6.98s | We can verify t...
+  - 語音片段 7: 4.03s | Adding 3.7 and ...
+  - 語音片段 8: 3.26s | Thus, 3.7 round...
+✅ 語音處理完成！合併音檔: media/audio/在_3_到_4_之間的數線上標示出_3__7eab4021cf/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a number line with a range from 3 to 4. Plot a point at 3.7 on the number line and label it as "3.7". Draw a line segment from 3.7 to 4 and another line segment from 3.7 to 3. Use Transform() to highlight the midpoint between 3 and 4, which is 3.5. Since 3.7 is to the right of the midpoint 3.5, it rounds up to 4. Utilize Vertical Addition to display the rounding result, illustrating that 3.7 rounds up to 4.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 59.84 秒
+📊 [Token 統計]: 輸入 14379 | 輸出 3187 | 總計 17566
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 66 [INVALID_CONSTRUCTOR_ARG]: 'MathTex' does not accept 'opacity' as a constructor argument. Use MathTex(...).set_opacity(value) instead.
+- Line 71 [INVALID_CONSTRUCTOR_ARG]: 'Line' does not accept 'opacity' as a constructor argument. Use Line(...).set_opacity(value) instead.
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The code failed STATIC ANALYSIS / SEMANTIC REVIEW.
+
+**REVIEW FEEDBACK**:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 66 [INVALID_CONSTRUCTOR_ARG]: 'MathTex' does not accept 'opacity' as a constructor argument. Use MathTex(...).set_opacity(value) instead.
+- Line 71 ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 2.91 秒
+📊 [Token 統計]: 輸入 239 | 輸出 83 | 總計 322
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 66 [INVALID_CONSTRUCTOR_ARG]: 'MathTex' does not accept 'opacity' as a constructor argument. Use MathTex(...).set_opacity(value) instead.
+- Line 71 [IN...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 7.00 秒
+📊 [Token 統計]: 輸入 3395 | 輸出 334 | 總計 3729
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9171 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.42 秒
+📊 [Token 統計]: 輸入 41367 | 輸出 290
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Multiple defects identified, including content overflow and low visibility of essential elements.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "Content extends beyond the mandatory action safe area of y = -3.5, particularly in the explanation text at the bottom.",
+      "suggested_fix": "Move the explanation text up to fit within the action safe area, ensuring y is greater than -3.5."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast between the light yellow label (3.5) and the black background is below the recommended standard.",
+      "suggested_fix": "Change label_3.5 color to a darker tone ensuring compliance with contrast standards."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The font size for the explanation text is 20pt which may be too small for optimal legibility.",
+      "suggested_fix": "Increase font size for step_explanation to at least 24pt."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] Content extends beyond the mandatory action safe area of y = -3.5, particularly ...
+  🟡 [TINY_TEXT] The font size for the explanation text is 20pt which may be too small for optima...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Multiple defects identified, including content overflow and low visibility of essential elements.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Multiple defects identified, including content overflow and low visibility of essential elements.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix t...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 52.10 秒
+📊 [Token 統計]: 輸入 7537 | 輸出 2861 | 總計 10398
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- Content extends beyond the mandatory action safe area of y = -3.5, particularl...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 52.22 秒
+📊 [Token 統計]: 輸入 9566 | 輸出 2861 | 總計 12427
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9171 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.94 秒
+📊 [Token 統計]: 輸入 41367 | 輸出 325
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Significant rendering issues have affected clarity and readability in the final frame.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "There is overlap between the addition line and the text 'Verification by Addition:' due to insufficient vertical spacing.",
+      "suggested_fix": "Increase the vertical position of the addition title to avoid overlap. Change addition_title's position from move_to(addition_anchor + UP*0.8) to move_to(addition_anchor + UP*1.2)."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast of the text 'Step 6: 3.7 is right of 3.5, so it rounds up to 4.' is below the acceptable ratio against the background.",
+      "suggested_fix": "Change the text color from LIGHT_GRAY to WHITE to ensure sufficient contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "Label '3.5' is misaligned concerning the midpoint dot, with a noticeable gap.",
+      "suggested_fix": "Use label_3.5.move_to(midpoint_dot.get_center()) to ensure perfect alignment."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] There is overlap between the addition line and the text 'Verification by Additio...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Significant rendering issues have affected clarity and readability in the final frame.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Significant rendering issues have affected clarity and readability in the final frame.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.05 秒
+📊 [Token 統計]: 輸入 7486 | 輸出 2815 | 總計 10301
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- There is overlap between the addition line and the text 'Verification by Additi...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 51.12 秒
+📊 [Token 統計]: 輸入 12333 | 輸出 2815 | 總計 15148
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9171 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 17.84 秒
+📊 [Token 統計]: 輸入 41367 | 輸出 226
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame has overlapping text with numerical content and critical content extending beyond acceptable safe zones.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The text 'Step 6: 3.7 is right of 3.5, so it rounds up to 4.' overlaps with the vertical addition segment, obscuring important information.",
+      "suggested_fix": "Adjust the position of the vertical addition components downward to prevent overlap with the explanation text."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The main content, specifically the addition components, extends below the mandatory bounds of y = -3.5.",
+      "suggested_fix": "Shift all addition components to fit within y values of -3.5 to -1.0."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🔴 [OVERLAP] The text 'Step 6: 3.7 is right of 3.5, so it rounds up to 4.' overlaps with the ...
+  🔴 [OVERFLOW] The main content, specifically the addition components, extends below the mandat...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame has overlapping text with numerical content and critical content extending beyond acceptable safe zones.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 266.14 秒
+📂  歸檔目錄: stable_outputs
+    🎥 在_3_到_4_之間的數線上標示出_3_7，並標出距離來解釋為什麼它四捨五入後是_4。_20260222_032019.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 13
+Total Tokens: 203,999
+  - Prompt: 183,740
+  - Completion: 20,259
+----------------------------------------
+Estimated Cost: $0.033310 USD
+約合台幣: NT$ 1.0326
+========================================
+
+
+
+=== STDERR ===

@@ -1,0 +1,600 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-21_02-58-48_畫出平行線與一條截線用綠色標示出內錯角並呈現它們是相等的.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.86 秒
+📊 [Token 統計]: 輸入 218 | 輸出 76 | 總計 294
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles by rotating or translating one angle to overlap with the other, showcasing their congruence.
+------------------------------
+   📝 初稿: Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles by rotating or translating one angle to overlap with the other, showcasing their congruence.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.52 秒
+📊 [Token 統計]: 輸入 307 | 輸出 79 | 總計 386
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the equality of the angles by rotating or translating one angle to overlap with the other, showcasing their congruence.
+------------------------------
+✨ [翻譯完成]: Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the equality of the angles by rotating or translating one angle to overlap with the other, showcasing their congruence.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 78.61 秒
+📊 [Token 統計]: 輸入 4048 | 輸出 4157 | 總計 8205
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A real-world analogy: A road (transversal) crossing two parallel train tracks. The angles formed by the road and the tracks are like the crossing gates, which are always the same at each intersection because the tracks are parallel.</metaphor>
+    <scores pedagogy="7" feasibility="9" engagement="6" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A pure geometric construction: Two parallel lines and a transversal are drawn. Corresponding angles are marked with matching arc symbols. The congruence is proven by a logical sequence: 1) Show corresponding angles are equal (postulate), 2) Show interior angles on the same side are supplementary, 3) Use a transformation (rotation/translation) to visually map one angle onto its corresponding partner, proving congruence.</metaphor>
+    <scores pedagogy="9" feasibility="8" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step build-up: Start with one line, then draw the second parallel line using a compass/ruler construction to emphasize parallelism. Draw the transversal. Build angles one by one, labeling them. Animate a "copy" of one angle detaching, flying over, and perfectly fitting onto its corresponding angle.</metaphor>
+    <scores pedagogy="8" feasibility="7" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) provides the clearest, most direct pedagogical path. It cleanly separates the definition, the property (corresponding angles postulate), and the visual proof via transformation. It is highly feasible in Manim using standard geometry objects and Transform, and it maintains visual engagement through clean animations and color coding. It best matches the user's specific request to "Apply the property... Use the Transform() function."</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parallel lines (l1, l2), a transversal (t). Corresponding interior angles on the same side (e.g., ∠1 and ∠5 in standard diagram). Property: Corresponding angles are congruent. Goal: Visually demonstrate ∠1 ≅ ∠5 via transformation.
+
+**Visual Metaphor**: Clean, labeled geometric diagram. Use color (green) to highlight the target angles. Use a transformation (likely a composite of rotation and translation) to map one angle arc onto the other.
+
+**Spatial Plan & Calculations**:
+- **Global Center (CONTENT zone)**: ORIGIN (0,0,0). This is the stage for the main diagram.
+- **Parallel Lines**: l1: y = 1.5, from x = -4 to 4. l2: y = -1.5, from x = -4 to 4. This gives a clear 3-unit separation.
+- **Transversal**: t: Line with slope, not horizontal. Choose points: Start at (-4, 2.5) to (4, -2.5). This creates clear intersections with both parallels.
+- **Intersection Points**:
+  - l1 ∩ t: Solve y=1.5, line through (-4,2.5) & (4,-2.5). Slope = (-2.5-2.5)/(4-(-4)) = -5/8 = -0.625.
+  - Equation: y - 2.5 = -0.625(x + 4). Set y=1.5: 1.5 - 2.5 = -0.625(x+4) => -1 = -0.625x - 2.5 => 0.625x = -1.5 => x = -2.4.
+  - Point A (on l1): (-2.4, 1.5, 0).
+  - l2 ∩ t: Solve y=-1.5. -1.5 - 2.5 = -0.625(x+4) => -4 = -0.625x - 2.5 => 0.625x = -1.5 => x = -2.4.
+  - Point B (on l2): (-2.4, -1.5, 0).
+  - (Interesting: Because of symmetry about origin, x-coordinate is the same).
+- **Angle Arcs**: Need arcs for interior angles on the same side of transversal. Standard numbering: Let ∠1 be interior at A on the upper-left side. Let ∠5 be corresponding interior at B on the lower-left side.
+- **Arc Geometry**: Use `Angle` object between vectors. For ∠1: Between vector along l1 (pointing left from A) and vector along t (pointing down-left from A). For ∠5: Between vector along t (pointing up-left from B) and vector along l2 (pointing left from B).
+- **Transformation Path**: To show ∠1 ≅ ∠5, we will create a duplicate of the ∠1 arc (green_arc_copy), and animate it rotating and translating to exactly overlap ∠5. The transformation must rotate the arc ~180 degrees and translate it down 3 units.
+
+**Layout Zones**:
+- HEADER (y ~ 3.0): Title.
+- CONTENT (y ~ 0): Main diagram (lines, points, arcs, labels).
+- FOOTER (y ~ -3.0): Explanatory text.
+
+**Signal Strategy**:
+1. Create lines, label them.
+2. Indicate and label the two target interior angles, color them green.
+3. State the Corresponding Angles Postulate.
+4. Perform the Transform animation: copy one green arc, rotate/translate it to match the other.
+5. Conclude with congruence statement.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 11143 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 6.02s | Let's start wit...
+  - 語音片段 3: 3.79s | We label the li...
+  - 語音片段 4: 8.38s | Now, let's iden...
+  - 語音片段 6: 3.58s | We label these ...
+  - 語音片段 8: 8.69s | A fundamental p...
+  - 語音片段 9: 7.78s | Let's visualize...
+  - 語音片段 10: 8.88s | The transformat...
+✅ 語音處理完成！合併音檔: media/audio/畫出平行線與一條截線_用綠色標示出內錯角_3027b6b499/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the equality of the angles by rotating or translating one angle to overlap with the other, showcasing their congruence.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 48.65 秒
+📊 [Token 統計]: 輸入 13474 | 輸出 2536 | 總計 16010
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9102 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:79 in construct     │
+│                                                                              │
+│    76 │   │                                                                  │
+│    77 │   │   # green_arc1 - Angle at A between LEFT (along l1) and vector d │
+│    78 │   │   # Vector from A to B is (0, -3, 0)                             │
+│ ❱  79 │   │   green_arc1 = Angle(line1=LEFT, line2=DOWN, vertex=point_A.get_ │
+│    80 │   │   self.objects["green_arc1"] = green_arc1                        │
+│    81 │   │                                                                  │
+│    82 │   │   # green_arc2 - Angle at B between vector up along t (from B to │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/line.py:989 in __init__                            │
+│                                                                              │
+│    986 │   │   elbow: bool = False,                                          │
+│    987 │   │   **kwargs: Any,                                                │
+│    988 │   ) -> None:                                                        │
+│ ❱  989 │   │   super().__init__(**kwargs)                                    │
+│    990 │   │   self.lines = (line1, line2)                                   │
+│    991 │   │   self.quadrant = quadrant                                      │
+│    992 │   │   self.dot_distance = dot_distance                              │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/types/vectorized_mobject.py:160 in __init__                 │
+│                                                                              │
+│    157 │   │   │   0, 1, n_points_per_cubic_curve                            │
+│    158 │   │   )                                                             │
+│    159 │   │   self.cap_style: CapStyleType = cap_style                      │
+│ ❱  160 │   │   super().__init__(**kwargs)                                    │
+│    161 │   │   self.submobjects: list[VMobject]                              │
+│    162 │   │                                                                 │
+│    163 │   │   # TODO: Find where color overwrites are happening and remove  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TypeError: Mobject.__init__() got an unexpected keyword argument 'vertex'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.54 秒
+📊 [Token 統計]: 輸入 1102 | 輸出 138 | 總計 1240
+------------------------------
+🔬 [Smart Patch] 已識別為局部可修復錯誤 → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.p...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 10.58 秒
+📊 [Token 統計]: 輸入 4126 | 輸出 503 | 總計 4629
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9142 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:79 in construct     │
+│                                                                              │
+│    76 │   │                                                                  │
+│    77 │   │   # green_arc1 - Angle at A between LEFT (along l1) and vector d │
+│    78 │   │   # Vector from A to B is (0, -3, 0)                             │
+│ ❱  79 │   │   green_arc1 = Angle(line1=LEFT, line2=DOWN, radius=0.4, other_a │
+│    80 │   │   green_arc1.move_to(point_A.get_center())                       │
+│    81 │   │   self.objects["green_arc1"] = green_arc1                        │
+│    82                                                                        │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/line.py:995 in __init__                            │
+│                                                                              │
+│    992 │   │   self.dot_distance = dot_distance                              │
+│    993 │   │   self.elbow = elbow                                            │
+│    994 │   │   inter = line_intersection(                                    │
+│ ❱  995 │   │   │   [line1.get_start(), line1.get_end()],                     │
+│    996 │   │   │   [line2.get_start(), line2.get_end()],                     │
+│    997 │   │   )                                                             │
+│    998                                                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'numpy.ndarray' object has no attribute 'get_start'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 4.25 秒
+📊 [Token 統計]: 輸入 907 | 輸出 163 | 總計 1070
+------------------------------
+🔬 [Smart Patch] 已識別為局部可修復錯誤 → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.p...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 11.77 秒
+📊 [Token 統計]: 輸入 4112 | 輸出 605 | 總計 4717
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9466 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.73 秒
+📊 [Token 統計]: 輸入 41215 | 輸出 202
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The scene contains overlapping text and complexity in the bottom margin that fails accessibility standards.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The dynamic explanatory text overlaps with the line labels at the bottom of the screen, causing visual confusion.",
+      "suggested_fix": "Move the explanatory text further up in the footer zone to avoid overlap with labels."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The contrast ratio between the yellow text and the black background does not meet WCAG requirements as the text appears faint.",
+      "suggested_fix": "Use a darker shade of yellow or a thicker font for better visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERLAP] The dynamic explanatory text overlaps with the line labels at the bottom of the ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The scene contains overlapping text and complexity in the bottom margin that fails accessibility standards.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The scene contains overlapping text and complexity in the bottom margin that fails accessibility standards.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your cod...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 44.22 秒
+📊 [Token 統計]: 輸入 7256 | 輸出 2426 | 總計 9682
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The dynamic explanatory text overlaps with the line labels at the bottom of the...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 44.13 秒
+📊 [Token 統計]: 輸入 6651 | 輸出 2419 | 總計 9070
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9466 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.11 秒
+📊 [Token 統計]: 輸入 41215 | 輸出 215
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame exhibits overlapping elements and insufficient contrast in some areas, leading to potential confusion in educational context.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The text labels for angles 1 and 5 are overlapping with the respective angle arcs, causing confusion.",
+      "suggested_fix": "Adjust the position of angle_label1 and angle_label2 to ensure they are clearly visible and do not overlap with the angle arcs."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The label text for the corresponding angles is difficult to read due to insufficient contrast against the background.",
+      "suggested_fix": "Increase the brightness of the yellow text for better visibility against the black background."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] The text labels for angles 1 and 5 are overlapping with the respective angle arc...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame exhibits overlapping elements and insufficient contrast in some areas, leading to potential confusion in educational context.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The final frame exhibits overlapping elements and insufficient contrast in some areas, leading to potential confusion in educational context.
+I have audited your previous animation frame and found specific visu...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 44.23 秒
+📊 [Token 統計]: 輸入 7272 | 輸出 2427 | 總計 9699
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The text labels for angles 1 and 5 are overlapping with the respective angle ar...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 43.93 秒
+📊 [Token 統計]: 輸入 6714 | 輸出 2393 | 總計 9107
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9466 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.99 秒
+📊 [Token 統計]: 輸入 41215 | 輸出 240
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The scene exhibits overlapping text in the footer and inconsistent labeling, affecting clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The text 'Corresponding Angles Postulate: If lines are parallel' overlaps with 'Conclusion: ∠1 ≅ ∠5. Corresponding interior angles are congruent.' in the footer area, compromising clarity.",
+      "suggested_fix": "Adjust the positioning of the explanatory text to ensure it does not overlap with any other elements."
+    },
+    {
+      "id": "ERR_002",
+      "code": "CLAIM_MISMATCH",
+      "severity": "Major",
+      "description": "The label for angle 1 is inconsistent; both angle labels are set to '∠1', which may confuse the viewer.",
+      "suggested_fix": "Ensure labels for angles are distinct, e.g., adjust one label to '∠5' or similar."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🔴 [OVERLAP] The text 'Corresponding Angles Postulate: If lines are parallel' overlaps with '...
+  🟠 [CLAIM_MISMATCH] The label for angle 1 is inconsistent; both angle labels are set to '∠1', which ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The scene exhibits overlapping text in the footer and inconsistent labeling, affecting clarity.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 244.24 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。_20260221_030506.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 15
+Total Tokens: 198,411
+  - Prompt: 179,832
+  - Completion: 18,579
+----------------------------------------
+Estimated Cost: $0.032141 USD
+約合台幣: NT$ 0.9964
+========================================
+
+
+
+=== STDERR ===

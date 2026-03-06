@@ -1,0 +1,2 @@
+﻿Case ID,Topic,Status,Iterations,Defects,Total Tokens,Cost USD,Duration Sec
+ELEM_01,用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。,Success,3,7,196061 (177185/18876),$0.0320,384.6s

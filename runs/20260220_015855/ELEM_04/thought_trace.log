@@ -1,0 +1,499 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_02-12-08_繪製一個_60_度的角並疊加一個半圓形量角器來示範如何測量它.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.62 秒
+📊 [Token 統計]: 輸入 216 | 輸出 65 | 總計 281
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement, ensuring the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with degree markings visible to show the 60-degree measurement.
+------------------------------
+   📝 初稿: Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement, ensuring the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with degree markings visible to show the 60-degree measurement.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.39 秒
+📊 [Token 統計]: 輸入 294 | 輸出 65 | 總計 359
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with visible degree markings to show the 60-degree measurement.
+------------------------------
+✨ [翻譯完成]: Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with visible degree markings to show the 60-degree measurement.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 53.74 秒
+📊 [Token 統計]: 輸入 4039 | 輸出 2775 | 總計 6814
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+<metaphor>Real-world protractor tool: Show a physical protractor being placed on a drawn angle. Emphasize the alignment process (center on vertex, baseline along one ray). Animate the measurement reading by highlighting the 60° mark on the protractor's scale.</metaphor>
+<scores pedagogy="9" feasibility="8" engagement="7" />
+</branch>
+<branch id="B" type="Abstract">
+<metaphor>Geometric construction: First construct a perfect 60° angle using an equilateral triangle (side splitting to show 60°). Then, generate the protractor as a geometric object (semicircle) with degree markings derived from circle geometry. Show the congruence between the constructed angle and the protractor scale.</metaphor>
+<scores pedagogy="10" feasibility="7" engagement="8" />
+</branch>
+<branch id="C" type="Interactive/Progressive">
+<metaphor>Step-by-step build: 1) Draw first ray. 2) Animate the opening of the angle to 60°. 3) Generate the protractor from the vertex, showing how its scale is "born" from the circle. 4) Highlight the specific arc between the rays, then map it to the degree markings.</metaphor>
+<scores pedagogy="8" feasibility="9" engagement="9" />
+</branch>
+<selection>
+<winner>C</winner>
+<reason>Strategy C offers the best balance: high pedagogical clarity (showing the angle opening dynamically), excellent Manim feasibility (sequential animations are straightforward), and high visual engagement (the protractor "growing" from the vertex is visually striking). It cleanly separates the construction and measurement phases.</reason>
+</selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 60-degree angle, two rays (line segments), vertex, protractor (semicircle), center alignment, degree markings, measurement demonstration.
+
+**Visual Metaphor**: Progressive construction with a "tool overlay".
+
+**Spatial Plan**:
+- **Global Center (ORIGIN)**: Vertex of the angle.
+- **HEADER Zone (y=3.0)**: Title.
+- **CONTENT Zone (y=0)**: Angle and protractor (Scale=1.0). The angle's first ray will lie along the positive x-axis (0° baseline). The second ray will be at 60° counterclockwise from the first.
+- **FOOTER Zone (y=-3.0)**: Explanatory text.
+
+**Mathematical Specifications**:
+- **Ray 1 (Baseline)**: From vertex V(0,0,0) to point A(3,0,0).
+- **Ray 2 (60° ray)**: From vertex V(0,0,0) to point B. Using polar coordinates: B = (3*cos(60°), 3*sin(60°), 0) = (1.5, 3*√3/2 ≈ 2.598, 0). We'll use (1.5, 2.6, 0) for clarity.
+- **Protractor**: Semicircle of radius 2.5 (slightly smaller than ray length for visibility), centered at V(0,0,0), from -90° to +90° (so the flat edge is horizontal along y=0, x>=0). Degree markings will be placed along this arc.
+
+**Constraints**:
+- All objects have z=0.
+- Protractor radius (2.5) < Ray length (3.0) to avoid overlap confusion.
+- Degree markings: Major ticks every 10°, minor ticks every 5°. Labels for 0°, 30°, 60°, 90°.
+- The 60° tick and label must be prominently highlighted.
+
+**Signal Strategy**:
+1. Create the angle dynamically (animate Ray2 rotating from 0° to 60°).
+2. Overlay the protractor, emphasizing center alignment.
+3. Indicate the arc between the rays.
+4. Map the arc to the 60° marking on the scale.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 7338 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.95s | We begin by dra...
+  - 語音片段 1: 5.57s | Now, we constru...
+  - 語音片段 2: 10.22s | To measure this...
+  - 語音片段 3: 6.22s | The angle's ope...
+  - 語音片段 4: 7.10s | Following this ...
+✅ 語音處理完成！合併音檔: media/audio/繪製一個_60_度的角_並疊加一個半圓形_388462d1c9/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with visible degree markings to show the 60-degree measurement.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 63.40 秒
+📊 [Token 統計]: 輸入 12627 | 輸出 3440 | 總計 16067
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.74 秒
+📊 [Token 統計]: 輸入 7146 | 輸出 988 | 總計 8134
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14709 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:47 in construct     │
+│                                                                              │
+│    44 │   │   obj_ray1 = LayoutObject(ray1, "ray1")                          │
+│    45 │   │   layout.add(obj_ray1)                                           │
+│    46 │   │   layout.add_to_zone(obj_ray1, "CONTENT")                        │
+│ ❱  47 │   │   layout.add_constraint(obj_ray1.center == (0, 0, 0))            │
+│    48 │   │   self.objects["ray1"] = ray1                                    │
+│    49 │   │                                                                  │
+│    50 │   │   # Ray2 Static (Final position at 60°)                          │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/utils/layout_engine.py:133 in      │
+│ add_constraint                                                               │
+│                                                                              │
+│   130 │   │   self.solver.addConstraint((obj.top <= zone.max_y) | strength.s │
+│   131 │                                                                      │
+│   132 │   def add_constraint(self, constraint, str_val=strength.medium):     │
+│ ❱ 133 │   │   self.solver.addConstraint(constraint | str_val)                │
+│   134 │                                                                      │
+│   135 │   def align_to(self, objA, objB, direction, buff=0):                 │
+│   136 │   │   """Align objA to match objB on the given direction edge, with  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TypeError: unsupported operand type(s) for |: 'bool' and 'float'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 27.27 秒
+📊 [Token 統計]: 輸入 864 | 輸出 1484 | 總計 2348
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                          ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 57.93 秒
+📊 [Token 統計]: 輸入 7966 | 輸出 3226 | 總計 11192
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.54 秒
+📊 [Token 統計]: 輸入 6912 | 輸出 986 | 總計 7898
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14095 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.75 秒
+📊 [Token 統計]: 輸入 17286 | 輸出 213
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The protractor displays a color contrast issue and the angle label overlaps with the protractor's outline.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text color of the degree label does not meet the minimum contrast ratio of 4.5:1 against the background.",
+      "suggested_fix": "Change the text color of the '60°' label to a darker shade for better visibility."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The '60°' label overlaps with the protractor's boundary, compromising clarity.",
+      "suggested_fix": "Adjust the position of the '60°' label further away from the protractor's edge."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERLAP] The '60°' label overlaps with the protractor's boundary, compromising clarity....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The protractor displays a color contrast issue and the angle label overlaps with the protractor's outline.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The '60°' label overlaps with the protractor's boundary, compromising clarity. ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 59.03 秒
+📊 [Token 統計]: 輸入 7136 | 輸出 3290 | 總計 10426
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.63 秒
+📊 [Token 統計]: 輸入 6912 | 輸出 1016 | 總計 7928
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14095 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 9.50 秒
+📊 [Token 統計]: 輸入 17286 | 輸出 325
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame exhibits several critical defects regarding alignment, contrast, and overflow.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The protractor's semicircle exceeds the mandatory boundary, with part extending beyond the Action Safe area, impacting visibility.",
+      "suggested_fix": "Adjust the positioning of the protractor to stay within the boundaries $x \\in [-7.0, 7.0]$ and $y \\in [-3.5, 3.5]$."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text color (light yellow) against a dark background does not meet the minimum contrast ratio of 4.5:1, risking legibility.",
+      "suggested_fix": "Change the label color for '60°' to a darker shade to ensure adequate contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label '60°' is slightly misaligned with the midpoint of the protractor scale, lacking visual coherence.",
+      "suggested_fix": "Reposition the '60°' label to align precisely with the corresponding mark on the protractor."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The protractor's semicircle exceeds the mandatory boundary, with part extending ...
+  🟠 [MISALIGNED] The label '60°' is slightly misaligned with the midpoint of the protractor scale...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame exhibits several critical defects regarding alignment, contrast, and overflow.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The protractor's semicircle exceeds the mandatory boundary, with part extendin...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 59.88 秒
+📊 [Token 統計]: 輸入 7269 | 輸出 3361 | 總計 10630
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.23 秒
+📊 [Token 統計]: 輸入 6912 | 輸出 1126 | 總計 8038
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14095 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.66 秒
+📊 [Token 統計]: 輸入 17286 | 輸出 409
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The visual representation encounters several critical issues including color contrast and symbolic clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "The contrast between the yellow angle arc and the black background does not meet the WCAG AA standard (contrast ratio < 4.5:1).",
+      "suggested_fix": "Change the angle arc color to a darker shade or adjust background color to ensure sufficient contrast."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The protractor and its markings exceed the 'Action Safe' area, with parts of the semicircle extending outside the mandatory boundaries.",
+      "suggested_fix": "Adjust the protractor's position to ensure its entirety lies within the boundaries of $x \in [-7.0, 7.0]$ and $y \in [-3.5, 3.5]$."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TINY_TEXT",
+      "severity": "Major",
+      "description": "The '60°' label is too small to read clearly (font size < 24pt).",
+      "suggested_fix": "Increase the font size of the '60°' label to at least 30pt for better visibility."
+    },
+    {
+      "id": "ERR_004",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The center of the protractor does not perfectly align with the vertex of the angle, leading to potential confusion.",
+      "suggested_fix": "Ensure the protractor's center is aligned with the vertex at the origin."
+    }
+  ]
+}
+```
+========================================
+
+⚠️ JSON parsing failed: Invalid \escape: line 17 column 114 (char 905)
+⚠️ Falling back to legacy parsing (VLM didn't return valid JSON)
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Legacy parsing mode - no structured defects
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 277.06 秒
+📂  歸檔目錄: stable_outputs
+    🎥 繪製一個_60_度的角，並疊加一個半圓形量角器來示範如何測量它。_20260220_021848.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 11
+Total Tokens: 110,922
+  - Prompt: 92,269
+  - Completion: 18,653
+----------------------------------------
+Estimated Cost: $0.019258 USD
+約合台幣: NT$ 0.5970
+========================================
+
+
+
+=== STDERR ===

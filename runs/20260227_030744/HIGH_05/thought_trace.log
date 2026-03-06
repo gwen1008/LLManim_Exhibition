@@ -1,0 +1,496 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-27_04-34-21_畫出向量_A3_1_與_B1_2使用三角形法首尾相接來呈現合成向量_C4_3_的過程.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 1.68 秒
+📊 [Token 統計]: 輸入 212 | 輸出 390 | 總計 602
+
+📢 [AI 審查/反饋意見]:
+To translate the provided Chinese requirement into a precise English animation specification, we need to break down the process step by step.
+
+## Step 1: Define the Vectors
+First, we define the vectors A and B in a 2D plane. Vector A has components (3, 1), and vector B has components (1, 2).
+
+## Step 2: Visualize Vector A
+We start by drawing vector A from the origin (0, 0) to the point (3, 1).
+
+## Step 3: Visualize Vector B
+Next, we draw vector B from the end of vector A, which is (3, 1), to the point (3 + 1, 1 + 2) = (4, 3).
+
+## Step 4: Identify Vector C
+Vector C is the resultant vector from the origin (0, 0) to the point (4, 3), which is the sum of vectors A and B.
+
+## Step 5: Reflection
+<reflection>
+To ensure the accuracy of the translation, let's review the process:
+- We correctly identified vectors A and B and their components.
+- The method of adding vectors A and B using the triangle law (or head-to-tail method) is correctly applied by placing the tail of vector B at the head of vector A.
+- The resultant vector C, which is the sum of vectors A and B, is correctly identified as (4, 3).
+Given the steps and the method, the translation seems to accurately represent the process of adding vectors A and B to get vector C using the triangle law.
+</reflection>
+
+## Step 6: Final Translation
+<final_translation>
+Draw vectors A=(3, 1) and B=(1, 2) using the head-to-tail method to represent the composition of the resultant vector C=(4, 3).
+</final_translation>
+------------------------------
+✨ [翻譯完成]: Draw vectors A=(3, 1) and B=(1, 2) using the head-to-tail method to represent the composition of the resultant vector C=(4, 3).
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 69.96 秒
+📊 [Token 統計]: 輸入 4151 | 輸出 3287 | 總計 7438
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Physical displacement metaphor. Show a dot (particle) moving 3 units right and 1 unit up (vector A), then from its new position, moving 1 unit right and 2 units up (vector B). The total displacement from start to finish is vector C. Use a coordinate grid as a map.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction on a Cartesian plane. Draw vectors A and B as arrows from the origin, then demonstrate the parallelogram rule. Show the resultant C as the diagonal. Focus on the algebraic sum of components.</metaphor>
+    <scores pedagogy="8" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step head-to-tail assembly. Start with vector A at origin. Animate vector B's tail attaching to A's head. Then, reveal the resultant C by drawing an arrow from the origin (tail of A) to the head of B. Simultaneously build the component table showing (3,1)+(1,2)=(4,3).</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C (Interactive/Progressive) scores highest in Pedagogy (10) by perfectly visualizing the head-to-tail method step-by-step. It is highly feasible (9) using basic Manim arrows and transforms. Its engagement (9) is strong due to the clear, dynamic assembly process. It directly answers the user's request to "use the head-to-tail method to represent the composition."</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Vectors A=(3,1), B=(1,2), Resultant C=(4,3). Head-to-tail addition. Vector composition. Component-wise addition.
+**Visual Metaphor**: Progressive assembly on a coordinate grid.
+**Spatial Plan**:
+- Global center (CONTENT zone) = ORIGIN. This is for the main grid and vectors.
+- HEADER zone (y=3.0): Title and step label.
+- FOOTER zone (y=-2.8): Component table and explanation.
+**Layout Details**:
+1. **Coordinate Grid**: Centered at ORIGIN, spanning x from -1 to 5, y from -1 to 4.
+2. **Vector A**: Arrow from (0,0) to (3,1). Color BLUE.
+3. **Vector B**: Arrow from (3,1) to (4,3). Color GREEN.
+4. **Resultant C**: Arrow from (0,0) to (4,3). Color RED. Dashed until revealed.
+5. **Component Table**: A 3x3 grid in the FOOTER showing components and their sum.
+**Signal Strategy**:
+- Step 1: Draw grid and vector A. Indicate its components.
+- Step 2: Animate vector B attaching its tail to A's head. Indicate its components.
+- Step 3: Draw resultant C from origin to B's head. Emphasize the path is the sum.
+- Step 4: Populate component table, highlighting 3+1=4 and 1+2=3.
+- Step 5: Summarize with vector equation A + B = C.
+**Constraint Calculations**:
+- Grid bounds: `x_range=[-1, 5, 1], y_range=[-1, 4, 1]`
+- Vector A vertices: `start=(0,0,0), end=(3,1,0)`
+- Vector B vertices: `start=(3,1,0), end=(4,3,0)`
+- Vector C vertices: `start=(0,0,0), end=(4,3,0)`
+- Table position: `ORIGIN + DOWN*3.0`
+- Step label position: `ORIGIN + UP*3.5`
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9009 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+  - 語音片段 2: 9.67s | Now, we introdu...
+🔍 RAG Search: Found 2 examples for 'Draw vectors A=(3, 1) and B=(1, 2) using the head-to-tail method to represent the composition of the resultant vector C=(4, 3).'
+  - 語音片段 0: 9.02s | Let's begin by ...
+  - 語音片段 1: 9.55s | We represent ve...
+  - 語音片段 3: 8.69s | With B attached...
+  - 語音片段 5: 7.03s | Therefore, the ...
+  - 語音片段 4: 13.85s | We can see this...
+✅ 語音處理完成！合併音檔: media/audio/Draw_vectors_A__3__1_fdc103dec8/final_narrative.mp3
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+🛠️  [正在處理的錯誤/要求]:
+═══════════════════════════════════════════════════════════════════
+INPUT DATA (Director's Visual Rationale)
+═══════════════════════════════════════════════════════════════════
+{
+  "rationale": "The design uses a clear, step-by-step progressive build to demonstrate the head-to-tail method. Starting ...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 38665)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 62.77 秒
+📊 [Token 統計]: 輸入 14560 | 輸出 3066 | 總計 17626
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10528 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 8.36 秒
+📊 [Token 統計]: 輸入 42646 | 輸出 394
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains multiple alignment issues and overlaps that compromise clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The label for vector C overlaps with the grid lines, making it difficult to read.",
+      "suggested_fix": "Shift label_c to position (4, 3) + (0, 0.5) to avoid overlap with grid lines."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Vector B's final position has a 0.2-unit gap from the head of vector A, which should touch.",
+      "suggested_fix": "Change vector_b_final.move_to(grid_center) to move_to(3, 1, 0) to ensure it connects directly to the head of vector A."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The component table is not visible within the footer zone as it appears to be misaligned.",
+      "suggested_fix": "Move component_table to position (0, -3, 0) to ensure it fits within the designated footer zone."
+    },
+    {
+      "id": "ERR_004",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The color of the text in the component table may not meet the contrast ratio requirement against the background.",
+      "suggested_fix": "Ensure the text color in the component_table is adjusted to maintain a contrast ratio of at least 4.5:1 against the background."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 3 defect(s):
+  🔴 [OVERLAP] The label for vector C overlaps with the grid lines, making it difficult to read...
+  🟠 [MISALIGNED] Vector B's final position has a 0.2-unit gap from the head of vector A, which sh...
+  🟠 [MISALIGNED] The component table is not visible within the footer zone as it appears to be mi...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains multiple alignment issues and overlaps that compromise clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The label for vector C overlaps with the grid lines, making it difficult to re...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 61.45 秒
+📊 [Token 統計]: 輸入 6430 | 輸出 3101 | 總計 9531
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9517 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=low (iteration 1)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 11.49 秒
+📊 [Token 統計]: 輸入 8646 | 輸出 367
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains multiple alignment and overflow issues that compromise clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The label for vector C overlaps with the edge of the screen, extending beyond the mandatory boundary.",
+      "suggested_fix": "Shift label_c to x≈3.5 to stay within the CONTENT zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Vector B has a 0.2-unit gap from the head of vector A, which disrupts the tail-to-head connection.",
+      "suggested_fix": "Change vector_b_final.move_to([3, 1, 0]) to vector_b_final.move_to(vector_a.get_end())"
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Label for vector B is misaligned, with a 0.1-unit gap from the end of vector B.",
+      "suggested_fix": "Change label_b.next_to(vector_b_final.get_end(), UP, buff=0.1) to buff=0."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The component table is visually crowded with insufficient spacing between rows.",
+      "suggested_fix": "Increase vertical spacing between rows in the component_table to at least 0.5 units."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 3 defect(s):
+  🔴 [OVERFLOW] The label for vector C overlaps with the edge of the screen, extending beyond th...
+  🟠 [MISALIGNED] Vector B has a 0.2-unit gap from the head of vector A, which disrupts the tail-t...
+  🟠 [MISALIGNED] Label for vector B is misaligned, with a 0.1-unit gap from the end of vector B....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains multiple alignment and overflow issues that compromise clarity.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  Label for vector B is misaligned, with a 0.1-unit gap from the end of vector B.
+
+SUGGESTED FIX:
+  Change label_b.next_to(vector_b_final.get_end(), UP, buff=0....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 673)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 2.52 秒
+📊 [Token 統計]: 輸入 818 | 輸出 64 | 總計 882
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+⚡ [Render Cache] Code unchanged (hash=c0ad1594), reusing last render.
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+⚠️ [Task 13] 8-frame grid extraction failed, falling back to last frame.
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 12.74 秒
+📊 [Token 統計]: 輸入 14347 | 輸出 388
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - Video Clip Mode]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation has several alignment issues and overlaps that compromise clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Label for vector B overlaps with the arrow, causing confusion.",
+      "suggested_fix": "Change label_b.next_to(vector_b_final.get_end(), UP, buff=0.2) to next_to(vector_b_final.get_end(), UP, buff=0.5) to avoid overlap."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label for vector C overlaps with the resultant vector, making it hard to read.",
+      "suggested_fix": "Change label_c.next_to(vector_c.get_end(), LEFT+UP, buff=0.3) to next_to(vector_c.get_end(), UP, buff=0.5) to prevent overlap."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The title text is positioned too high, exceeding the HEADER zone.",
+      "suggested_fix": "Adjust title_text.move_to(title_anchor) to move down to y=3.0 to stay within the HEADER zone."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The visual elements are too close together, creating a crowded appearance.",
+      "suggested_fix": "Increase spacing between vector_a and label_a by adjusting label_a.next_to(vector_a.get_end(), RIGHT, buff=0.4)."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 3 defect(s):
+  🟠 [MISALIGNED] Label for vector B overlaps with the arrow, causing confusion....
+  🟠 [OVERLAP] The label for vector C overlaps with the resultant vector, making it hard to rea...
+  🔴 [OVERFLOW] The title text is positioned too high, exceeding the HEADER zone....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation has several alignment issues and overlaps that compromise clarity.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  Label for vector B overlaps with the arrow, causing confusion.
+
+SUGGESTED FIX:
+  Change label_b.next_to(vector_b_final.get_end(), UP, buff=0.2) to next_to(vec...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 673)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 2.53 秒
+📊 [Token 統計]: 輸入 823 | 輸出 64 | 總計 887
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+⚡ [Render Cache] Code unchanged (hash=c0ad1594), reusing last render.
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+⚠️ [Task 13] 8-frame grid extraction failed, falling back to last frame.
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 7.80 秒
+📊 [Token 統計]: 輸入 14347 | 輸出 387
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - Video Clip Mode]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains several alignment issues and overlaps that affect clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Label for vector B overlaps with the arrow, causing confusion about its position.",
+      "suggested_fix": "Change label_b.next_to(vector_b_final.get_end(), UP, buff=0.2) to next_to(vector_b_final.get_end(), UP, buff=0.5) to avoid overlap."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The resultant vector C overlaps with the label, making it difficult to read.",
+      "suggested_fix": "Change label_c.next_to(vector_c.get_end(), LEFT+UP, buff=0.3) to next_to(vector_c.get_end(), UP, buff=0.5) to prevent overlap."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The title text is positioned too high, exceeding the HEADER zone.",
+      "suggested_fix": "Shift title_text down to move_to(title_anchor - 0.5 * UP) to keep it within the HEADER zone."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The visual elements are too close together, creating a crowded appearance.",
+      "suggested_fix": "Increase the buff parameter in next_to calls for step_label and label_a to at least 0.5 for better spacing."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 3 defect(s):
+  🟠 [MISALIGNED] Label for vector B overlaps with the arrow, causing confusion about its position...
+  🟠 [OVERLAP] The resultant vector C overlaps with the label, making it difficult to read....
+  🔴 [OVERFLOW] The title text is positioned too high, exceeding the HEADER zone....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains several alignment issues and overlaps that affect clarity.
+
+⚠️  視覺修復次數已達上限 (3)。代碼未變更，停止迴圈以避免重複渲染浪費。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 10
+Total Tokens: 118,488
+  - Prompt: 106,980
+  - Completion: 11,508
+----------------------------------------
+Estimated Cost: $0.019785 USD
+約合台幣: NT$ 0.6133
+========================================
+
+
+
+=== STDERR ===
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1772138133.789294 6065301 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers

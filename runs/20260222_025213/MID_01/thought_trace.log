@@ -1,0 +1,408 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-22_03-20-20_在_-5_到_5_的數線上示範從_-2_到_+3_的跳躍並畫出移動_5_個單位的箭頭動畫.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.71 秒
+📊 [Token 統計]: 輸入 226 | 輸出 74 | 總計 300
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow Transform() to a length of 5 units, indicating the distance of the jump.
+------------------------------
+   📝 初稿: Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow Transform() to a length of 5 units, indicating the distance of the jump.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.41 秒
+📊 [Token 統計]: 輸入 312 | 輸出 83 | 總計 395
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3, covering a distance of 5 units. Create an arrow originating from the point at -2, then animate the arrow to scale up to a length of 5 units, indicating the magnitude of the displacement.
+------------------------------
+✨ [翻譯完成]: Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3, covering a distance of 5 units. Create an arrow originating from the point at -2, then animate the arrow to scale up to a length of 5 units, indicating the magnitude of the displacement.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 66.35 秒
+📊 [Token 統計]: 輸入 4059 | 輸出 3610 | 總計 7669
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A physical ruler with sliding markers. The number line is a ruler, points are pins, and the arrow is a stretchable rubber band being pulled from -2 to 3, showing the distance measured with a tape measure overlay.</metaphor>
+    <scores pedagogy="8" feasibility="7" engagement="7" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A minimalist, mathematical construction. The number line is a clean axis. Points are dots. The translation is a point moving along the line. The arrow is a vector that grows from the start point to the end point, with its length labeled as the absolute displacement.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step build with interactive highlights. First, the number line builds tick by tick. Points appear with labels. A "displacement" concept is introduced. A ghost copy of the point at -2 moves to 3, leaving a trace. Finally, the arrow is drawn and then stretched to connect the points, with its length dynamically calculated and displayed.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C offers the highest pedagogical value by breaking down the concept into clear, interactive steps. It directly visualizes the "ghost" movement and the arrow scaling, which perfectly illustrates translation and magnitude. While slightly more complex than B, its steps are well-defined and highly feasible in Manim using standard animations (Create, Transform, MoveAlongPath). It is also the most engaging narrative.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line, integer points from -5 to 5, plotting points at -2 and 3, translation as movement, displacement vector as an arrow, magnitude of 5 units.
+
+**Visual Metaphor (Selected: Interactive/Progressive)**: A clean, dark-background scene where the number line constructs itself. Points are plotted with labels. A "ghost" dot animates the translation path. Finally, a vector arrow is drawn from start to finish and then its length is emphasized and labeled.
+
+**Spatial Plan & Calculations**:
+- **Global Layout**: Use High-Low Split to prevent overflow.
+  - `HEADER` (y ~ 3.0): Title "Translation on a Number Line".
+  - `CONTENT` (y = 0): The number line, points, and arrow. This is the main stage.
+  - `FOOTER` (y ~ -2.8): Explanatory text for each step.
+
+- **Number Line Geometry**:
+  - Span: -5 to 5. Total length = 10 units.
+  - In Manim's coordinate space, we can map number line unit 1 to Manim unit 1 for simplicity.
+  - **Center the line at ORIGIN**. Endpoints: `LEFT*5` and `RIGHT*5`.
+  - Tick marks every 1 unit. Labels at integers.
+
+- **Point Positions**:
+  - `point_a` at x = -2 (Manim coordinate: `LEFT*2`).
+  - `point_b` at x = 3 (Manim coordinate: `RIGHT*3`).
+
+- **Arrow Geometry**:
+  - Start: `point_a` position (`LEFT*2`).
+  - End: `point_b` position (`RIGHT*3`).
+  - Initial arrow (for scaling animation) will be a zero-length arrow at the start point, then scale to length 5.
+  - The arrow's direction vector is `(5, 0, 0)`.
+
+- **Signal Strategy**:
+  1. Build number line with ticks and labels.
+  2. Plot and label points A (-2) and B (3).
+  3. Animate translation: Create a ghost copy of point A and move it to B's position.
+  4. Draw the displacement arrow from A to B.
+  5. Emphasize magnitude: Scale the arrow from zero to full length while displaying the calculation `|3 - (-2)| = 5`.
+
+**Constraints & Cleanup**:
+- All main objects (line, points, arrow) remain in the CONTENT zone.
+- Explanatory text in FOOTER will be updated/replaced each step to avoid clutter.
+- The arrow scaling will use `Transform` on a copy to avoid visual glitches.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10395 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.86s | Let's start by ...
+  - 語音片段 1: 3.31s | We add tick mar...
+  - 語音片段 2: 7.34s | Now, let's plot...
+  - 語音片段 4: 8.09s | A translation m...
+  - 語音片段 5: 4.63s | The ghost point...
+  - 語音片段 6: 6.82s | This movement i...
+  - 語音片段 7: 7.92s | The magnitude o...
+  - 語音片段 8: 7.44s | We calculate th...
+✅ 語音處理完成！合併音檔: media/audio/在__5_到_5_的數線上_示範從__2_e541ae2fca/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3, covering a distance of 5 units. Create an arrow originating from the point at -2, then animate the arrow to scale up to a length of 5 units, indicating the magnitude of the displacement.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.28 秒
+📊 [Token 統計]: 輸入 13180 | 輸出 3036 | 總計 16216
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11271 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.60 秒
+📊 [Token 統計]: 輸入 40959 | 輸出 376
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several defects related to alignment, overflow, and visual clarity were identified.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Magnitude label showing '|3 - (-2)| = 5' is misaligned and overlaps with the arrow's tip.",
+      "suggested_fix": "Use magnitude_label.move_to(displacement_arrow_final.get_center() + UP*0.5) to ensure it is positioned above the arrow."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The number line extends beyond the mandatory boundaries, as tick marks are outside the range x in [-7, 7].",
+      "suggested_fix": "Adjust the number_line geometry_def to start=LEFT*5 and end=RIGHT*5 leaving sufficient space for ticks."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "Labels A(-2) and B(3) do not stand out against the background due to insufficient contrast.",
+      "suggested_fix": "Consider increasing the font size or changing the label color to enhance visibility."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "Crowded visual elements with overlapping texts and labels create potential confusion.",
+      "suggested_fix": "Increase the spacing between the label texts and other elements by adjusting buff parameters in next_to."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] Magnitude label showing '|3 - (-2)| = 5' is misaligned and overlaps with the arr...
+  🔴 [OVERFLOW] The number line extends beyond the mandatory boundaries, as tick marks are outsi...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several defects related to alignment, overflow, and visual clarity were identified.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Several defects related to alignment, overflow, and visual clarity were identified.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues ba...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.39 秒
+📊 [Token 統計]: 輸入 7440 | 輸出 3173 | 總計 10613
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- Magnitude label showing '|3 - (-2)| = 5' is misaligned and overlaps with the...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.13 秒
+📊 [Token 統計]: 輸入 6590 | 輸出 2846 | 總計 9436
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11271 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.04 秒
+📊 [Token 統計]: 輸入 40959 | 輸出 282
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "There are issues with alignment and overlapping elements that detract from the clarity of the animation.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label 'A(-2)' is misaligned and has a visible gap from point A of approximately 0.2 units.",
+      "suggested_fix": "Change label_a.next_to(point_a, UP, buff=0.3) to buff=0.1."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The description text for Step 1 overlaps with the number line.",
+      "suggested_fix": "Shift step_explanation down by using shift(DOWN*0.5) to ensure it does not overlap."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERLAP",
+      "severity": "Minor",
+      "description": "The ghost point overlaps slightly with the arrow transition visual, making it somewhat unclear.",
+      "suggested_fix": "Consider repositioning ghost_point to avoid conflicting visual cues."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 3 defect(s):
+  🟠 [MISALIGNED] The label 'A(-2)' is misaligned and has a visible gap from point A of approximat...
+  🟠 [OVERLAP] The description text for Step 1 overlaps with the number line....
+  🟡 [OVERLAP] The ghost point overlaps slightly with the arrow transition visual, making it so...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: There are issues with alignment and overlapping elements that detract from the clarity of the animation.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The label 'A(-2)' is misaligned and has a visible gap from point A of approximately 0.2 units.
+
+SUGGESTED FIX:
+  Change label_a.next_to(point_a, UP, buff=0.3)...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.66 秒
+📊 [Token 統計]: 輸入 436 | 輸出 162 | 總計 598
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11271 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.41 秒
+📊 [Token 統計]: 輸入 40959 | 輸出 236
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains overlapping text and misaligned elements that detract from clarity and precision.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The text 'Step 1: Construct the number line from -5 to 5.' overlaps with the arrow and its label, which can confuse viewers.",
+      "suggested_fix": "Adjust the position of the 'Step 1' text by moving it to an upper area, such as moving to move_to(UP*1.5)."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The arrow is not properly aligned with its starting and ending points, as there is an observable gap at the origin.",
+      "suggested_fix": "Change displacement_arrow_final's initial_pos to move_to(point_a.get_center()) to ensure proper alignment."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] The text 'Step 1: Construct the number line from -5 to 5.' overlaps with the arr...
+  🟠 [MISALIGNED] The arrow is not properly aligned with its starting and ending points, as there ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains overlapping text and misaligned elements that detract from clarity and precision.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 161.27 秒
+📂  歸檔目錄: stable_outputs
+    🎥 在__minus_5_到_5_的數線上，示範從__minus_2_到__plus_3_的跳躍，並畫出_20260222_032511.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 10
+Total Tokens: 168,998
+  - Prompt: 155,120
+  - Completion: 13,878
+----------------------------------------
+Estimated Cost: $0.027440 USD
+約合台幣: NT$ 0.8506
+========================================
+
+
+
+=== STDERR ===

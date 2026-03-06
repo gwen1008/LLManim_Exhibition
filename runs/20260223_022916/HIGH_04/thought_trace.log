@@ -1,0 +1,494 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_03-53-59_畫出_y__0.5__x2_的曲線顯示一條沿著曲線移動的切線並即時顯示更新的斜率數值.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.77 秒
+📊 [Token 統計]: 輸入 228 | 輸出 102 | 總計 330
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the function y = 0.5 * x^2. Display a tangent line moving along the curve, with the slope value updating in real-time. Use the Transform() function to animate the tangent line, and the Create() function to generate the slope value text. Apply the Chain Rule to calculate the derivative of the function, which is y' = x. Update the slope value text using the Transform() function, ensuring the text remains adjacent to the tangent line throughout the animation.
+------------------------------
+   📝 初稿: Create a graph of the function y = 0.5 * x^2. Display a tangent line moving along the curve, with the slope value updating in real-time. Use the Transform() function to animate the tangent line, and the Create() function to generate the slope value text. Apply the Chain Rule to calculate the derivative of the function, which is y' = x. Update the slope value text using the Transform() function, ensuring the text remains adjacent to the tangent line throughout the animation.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.43 秒
+📊 [Token 統計]: 輸入 343 | 輸出 118 | 總計 461
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the function y = 0.5x^2. Display a tangent line moving along the curve, with the slope value updating in real-time. Use the Transform() function to animate the tangent line, and the Create() and Update() functions, in conjunction with the Transform() function, to generate and update the slope value text dynamically. Apply the power rule for differentiation to calculate the derivative of the function, which is y' = x. Update the slope value text using the Transform() function, ensuring the text remains adjacent to the tangent line throughout the animation.
+------------------------------
+✨ [翻譯完成]: Create a graph of the function y = 0.5x^2. Display a tangent line moving along the curve, with the slope value updating in real-time. Use the Transform() function to animate the tangent line, and the Create() and Update() functions, in conjunction with the Transform() function, to generate and update the slope value text dynamically. Apply the power rule for differentiation to calculate the derivative of the function, which is y' = x. Update the slope value text using the Transform() function, ensuring the text remains adjacent to the tangent line throughout the animation.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 74.24 秒
+📊 [Token 統計]: 輸入 4230 | 輸出 3767 | 總計 7997
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A physical car moving along a curved road (the parabola). The tangent line is visualized as the car's instantaneous direction of travel. A digital speedometer (slope value) is attached to the car and updates as it moves.</metaphor>
+    <scores pedagogy="8" feasibility="6" engagement="9" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A clean, minimalist 3Blue1Brown-style graph. A point moves along the curve y=0.5x^2. A tangent line segment extends from the point, and its slope value (calculated via the derivative y'=x) is displayed in a dynamic label that follows the point. The power rule derivation is shown as a brief, separate algebraic step.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step construction: 1) Show the static parabola. 2) Introduce a movable point. 3) Derive the derivative using the power rule in a side panel. 4) Animate the point moving, with the tangent line and slope text being constructed and updated in sync with the motion.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="7" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) offers the best balance. It has the highest feasibility (10) as it uses standard Manim graph, line, and text objects with straightforward Update functions. Its pedagogy score (9) is excellent because it focuses purely on the mathematical relationship between the function, its derivative, and the geometric tangent. The visual engagement (8) is high due to the smooth, continuous motion and clean aesthetic, perfectly matching the 3Blue1Brown style requested. It avoids the potential coding complexity of a concrete metaphor (A) while being more dynamic and integrated than the segmented approach of C.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Function y = 0.5x^2, its graph (parabola), derivative y' = x via power rule, geometric tangent line at a point, slope as a numerical value, real-time update of both line and text.
+
+**Visual Metaphor (Selected B)**: A dynamic point traveling along the curve, pulling its tangent line and slope label behind it like a thought bubble. The power rule derivation is a quick, focused algebraic transformation.
+
+**Spatial Plan & Overflow Prevention**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0)**: Central stage for the graph, axes, moving point, tangent line, and the dynamic slope label attached to the point.
+- **FOOTER Zone (y ~ -3.0)**: Brief explanatory text for the current step (e.g., "Applying the power rule...").
+- **Derivation Anchor (x ~ -4.0, y ~ 1.0)**: A temporary, scaled-down area for showing the power rule calculation. This will be cleaned up (faded out) after use to prevent clutter.
+
+**Critical Layout Logic**:
+1.  **Graph & Axes**: Centered at ORIGIN. Axes range: x from -4 to 4, y from 0 to 8.
+2.  **Moving Point**: Defined by a parameter `t` (time or x-coordinate). Position: `(t, 0.5*t**2, 0)`.
+3.  **Tangent Line Segment**: A finite line centered on the moving point. Slope = `t` (from y'=x). We'll show a segment of length 4 units total. Endpoints: `point ± (1, slope, 0) * 2`. This ensures it's always centered on the point and visually represents the local slope.
+4.  **Slope Label**: A `MathTex` object with content `f"m = {slope:.2f}"`. Its position will be constrained `next_to(moving_point, UP+RIGHT, buff=0.2)`.
+5.  **Derivation Sequence**: A single `MathTex` object at the derivation anchor will be morphed using `TransformMatchingTex` to show: `y = 0.5x^2` -> `y' = 0.5 * 2x^{1}` -> `y' = x`. This will then fade out.
+
+**Object Registry & Constraints**:
+- `axes`: Centered at ORIGIN.
+- `graph`: Plotted on `axes`.
+- `moving_dot`: A dot, position updated via `ValueTracker` for `t`.
+- `tangent_line`: A `Line` object, its start and end points are functions of `t`.
+- `slope_label`: A `MathTex`, its content and position are functions of `t`.
+- `derivation_eq`: A temporary `MathTex` for the power rule.
+
+**Signal Strategy**:
+- Use `Indicate` (red) on the moving point to draw attention.
+- Use `Circumscribe` (yellow) on the derivative formula `y'=x` when it's established.
+- The continuous motion of the tangent line and the real-time numerical update of the slope label are the primary visual signals.
+
+**Chunking**:
+1.  Introduce the function and its graph.
+2.  Derive the derivative using the power rule (clean, focused step).
+3.  Introduce the moving point and the concept of the tangent line.
+4.  Animate the point moving along the curve, with the tangent line and slope updating in real-time.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9771 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.04s | Let's begin wit...
+  - 語音片段 1: 3.48s | Here is its gra...
+  - 語音片段 2: 2.21s | And here is the...
+  - 語音片段 3: 11.35s | To find the slo...
+  - 語音片段 4: 6.24s | The derivative ...
+  - 語音片段 5: 9.24s | So, the derivat...
+  - 語音片段 6: 9.86s | Let's visualize...
+  - 語音片段 7: 10.01s | The slope of th...
+  - 語音片段 8: 3.12s | We display this...
+  - 語音片段 9: 22.25s | Now, watch as t...
+✅ 語音處理完成！合併音檔: media/audio/畫出_y___0_5___x_2_的曲線_72ed3ec72d/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a graph of the function y = 0.5x^2. Display a tangent line moving along the curve, with the slope value updating in real-time. Use the Transform() function to animate the tangent line, and the Create() and Update() functions, in conjunction with the Transform() function, to generate and update the slope value text dynamically. Apply the power rule for differentiation to calculate the derivative of the function, which is y' = x. Update the slope value text using the Transform() function, ensuring the text remains adjacent to the tangent line throughout the animation.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 58.50 秒
+📊 [Token 統計]: 輸入 14240 | 輸出 3186 | 總計 17426
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10395 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 16.79 秒
+📊 [Token 統計]: 輸入 40907 | 輸出 368
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame exhibits multiple critical defects related to alignment and overflow.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The lower-left red tangent line has an offset of approximately 0.5 units from the corresponding point on the curve.",
+      "suggested_fix": "Change tangent_line.next_to(moving_dot, DOWN, buff=0) to ensure proper alignment with the curve."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The slope label 'm = -3.' exceeds the mandatory boundaries on the left side, breaching safe zones.",
+      "suggested_fix": "Adjust slope_label.next_to(moving_dot, UP+RIGHT, buff=0.15) to remain within the action-safe area."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Major",
+      "description": "The overlapping graphs in the lower quadrants create visual confusion, detracting from readability.",
+      "suggested_fix": "Increase spacing between the two graphs to improve clarity and readability."
+    },
+    {
+      "id": "ERR_004",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast between the yellow label and the background does not meet standards, making it hard to read.",
+      "suggested_fix": "Change slope_label.color to a darker shade or outline it to enhance visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 3 defect(s):
+  🔴 [MISALIGNED] The lower-left red tangent line has an offset of approximately 0.5 units from th...
+  🔴 [OVERFLOW] The slope label 'm = -3.' exceeds the mandatory boundaries on the left side, bre...
+  🟠 [CLUTTER] The overlapping graphs in the lower quadrants create visual confusion, detractin...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame exhibits multiple critical defects related to alignment and overflow.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The lower-left red tangent line has an offset of approximately 0.5 units from the corresponding point on the curve.
+
+SUGGESTED FIX:
+  Change tangent_line.next...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.05 秒
+📊 [Token 統計]: 輸入 477 | 輸出 107 | 總計 584
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10475 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 19.82 秒
+📊 [Token 統計]: 輸入 40907 | 輸出 393
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several critical issues with symbolic consistency and layout boundaries detected.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The slope labels 'm = -3.5' and 'm = 3.50' have insufficient contrast against the background, reducing visibility.",
+      "suggested_fix": "Change the color of slope labels to a brighter shade or adjust the background to improve the contrast ratio."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The two tangent lines extend beyond the mandatory boundaries set for the content layer, breaching the defined action safe area.",
+      "suggested_fix": "Ensure the endpoints of the tangent_line objects are constrained within the box defined by x in [-7, 7] and y in [-3.5, 3.5]."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The upper graph title overlaps with the top edge of the content area, leading to misalignment.",
+      "suggested_fix": "Adjust the position of the title to add more spacing from the top edge of the screen, ensuring it is fully within the HEADER zone."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The four graphs may cause visual crowding due to elements being close together.",
+      "suggested_fix": "Increase spacing between the graphs or reduce the size of the tangent lines to improve clarity."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔇 [Dynamic Scene] Filtered 1 MISALIGNED noise defect(s) (ValueTracker scene - static frame jitter expected)
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The two tangent lines extend beyond the mandatory boundaries set for the content...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several critical issues with symbolic consistency and layout boundaries detected.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Several critical issues with symbolic consistency and layout boundaries detected.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues base...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.97 秒
+📊 [Token 統計]: 輸入 7485 | 輸出 2922 | 總計 10407
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The two tangent lines extend beyond the mandatory boundaries set for the conte...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 51.42 秒
+📊 [Token 統計]: 輸入 9493 | 輸出 2922 | 總計 12415
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OV...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 52.82 秒
+📊 [Token 統計]: 輸入 12839 | 輸出 2868 | 總計 15707
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9036 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 11.09 秒
+📊 [Token 統計]: 輸入 40907 | 輸出 330
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains visual and symbolic inconsistencies.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The slope label text 'm = -3.50' on the lower right is difficult to read due to insufficient contrast with the background.",
+      "suggested_fix": "Change the color of the slope label to lighter green for improved contrast against the black background."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The top-left section is cluttered with the text 'Derivative as Slope: y = 0.5x²', which overlaps slightly with axis numbers causing visual confusion.",
+      "suggested_fix": "Adjust the position of the text 'Derivative as Slope: y = 0.5x²' downward to increase space from the axis."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "The moving tangent line is slightly misaligned with the moving point at x = -3.5, creating a 0.2-unit gap at the point of contact.",
+      "suggested_fix": "Use tangent_line.move_to(moving_dot.get_center()) directly in the always_redraw method to ensure alignment."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] The top-left section is cluttered with the text 'Derivative as Slope: y = 0.5x²'...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains visual and symbolic inconsistencies.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9036 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.84 秒
+📊 [Token 統計]: 輸入 40907 | 輸出 217
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects identified related to symbolic representation and text positioning.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The slope label text 'm = -3.5' is in green on a black background, which may not meet accessibility standards for color contrast.",
+      "suggested_fix": "Change the slope label color to WHITE for improved contrast against the black background."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "The label 'Derivative as Slope: y = 0.5x²' does not line up with the axes and appears slightly off-center.",
+      "suggested_fix": "Adjust the label's position using title.move_to(UP*3) for better alignment."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+✅ All defects were filtered noise → upgrading to PASS
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 273.73 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出_y_=_0_5_x_x^2_的曲線。顯示一條沿著曲線移動的切線，並即時顯示更新的斜率數值。_20260223_040055.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 12
+Total Tokens: 230,263
+  - Prompt: 212,963
+  - Completion: 17,300
+----------------------------------------
+Estimated Cost: $0.037083 USD
+約合台幣: NT$ 1.1496
+========================================
+
+
+
+=== STDERR ===

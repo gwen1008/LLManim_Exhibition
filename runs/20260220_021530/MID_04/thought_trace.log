@@ -1,0 +1,405 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_02-54-36_畫出平行線與一條截線用綠色標示出內錯角並呈現它們是相等的.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.73 秒
+📊 [Token 統計]: 輸入 218 | 輸出 74 | 總計 292
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles by rotating or sliding one angle onto the other, showcasing their congruence.
+------------------------------
+   📝 初稿: Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles by rotating or sliding one angle onto the other, showcasing their congruence.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.37 秒
+📊 [Token 統計]: 輸入 305 | 輸出 77 | 總計 382
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the equality of the angles by rotating or sliding one angle onto the other, showcasing their congruence.
+------------------------------
+✨ [翻譯完成]: Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the equality of the angles by rotating or sliding one angle onto the other, showcasing their congruence.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 68.10 秒
+📊 [Token 統計]: 輸入 4046 | 輸出 3602 | 總計 7648
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A train track (parallel lines) with a crossing road (transversal). Use train cars moving along the tracks to "carry" angle markings from one intersection to the other, visually transporting the angle to show congruence.</metaphor>
+    <scores pedagogy="7" feasibility="6" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Clean geometric construction. Two parallel lines and a transversal are drawn precisely. Angles are marked with arcs and labels. The core demonstration uses a direct, smooth transformation (rotation and translation) of one angle arc onto its corresponding partner, visually proving congruence.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step build-up. First, draw the lines and label all angles with numbers. Then, highlight one pair of corresponding angles in green. Next, physically "cut out" the angle arc from one intersection, slide it along the parallel line, and rotate it to fit perfectly over the other angle arc.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) scores highest on feasibility (10) and maintains excellent pedagogy (9) and engagement (8). It aligns perfectly with the user's request for a clean, professional demonstration using Transform(). The geometric precision allows for a clear, unambiguous visual proof without the potential distraction or implementation complexity of a real-world metaphor (A) or multi-step cutting action (C).</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parallel lines `l` and `m`, transversal `t`. Corresponding interior angles on the same side of the transversal (e.g., angles 1 and 5 in standard numbering). Property: Corresponding angles are congruent when lines are parallel. Visual proof via transformation.
+
+**Visual Metaphor**: Abstract geometric proof via superposition.
+
+**Spatial Plan**:
+- **Global Center (CONTENT zone)**: ORIGIN (0,0,0). This is the stage for the main diagram.
+- **Title Anchor (HEADER zone)**: UP * 3.0.
+- **Explanation Anchor (FOOTER zone)**: DOWN * 3.0.
+
+**Diagram Construction**:
+1.  **Parallel Lines**: `l` and `m`, horizontal for simplicity. `l` at y=1.5, `m` at y=-1.5. Length 6 units centered.
+2.  **Transversal**: `t`, slanted (e.g., 30° from horizontal), passing through the center, intersecting both lines.
+3.  **Angle Arcs**: Two arcs for the target corresponding interior angles. We'll choose the pair on the top-left and bottom-left intersections (same side of transversal). These will be marked in green.
+    - Angle at intersection of `t` and `l` (top-left): Vertex at intersection point. Rays along `t` (pointing left-up) and `l` (pointing left).
+    - Corresponding angle at intersection of `t` and `m` (bottom-left): Vertex at intersection point. Rays along `t` (pointing left-up) and `m` (pointing left).
+4.  **Transformation Path**: The arc from the top intersection will be translated down by 3 units (the distance between parallels) and then rotated slightly (if the transversal is not perpendicular) to align perfectly with the bottom arc. The transformation path can be a simple diagonal slide.
+
+**Constraints**:
+- Line stroke width: 4.
+- Angle arc radius: 0.4.
+- Label font scale: 0.7.
+- Ensure all intersection points are calculated for precise arc placement.
+
+**Signal Strategy**:
+- Step 1: Create the lines. Indicate they are parallel.
+- Step 2: Draw the two green angle arcs. Circumscribe them to identify them as the target pair.
+- Step 3: State the property. Use an arrow or highlight to connect the two arcs.
+- Step 4: Animate the transformation. Use `Transform` on the top arc, moving it along a path that suggests sliding down the transversal to the bottom intersection.
+- Step 5: The arcs coincide, proving congruence. Add a congruence symbol (`≅`) or checkmark.
+
+**Overflow Prevention**: The diagram is compact, centered at ORIGIN. The title is at the top, and a brief explanation text can be placed at the bottom. No vertical stacking of equations.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9896 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 6.50s | Let's start wit...
+  - 語音片段 2: 2.71s | Now, we add the...
+  - 語音片段 3: 2.69s | We label our li...
+  - 語音片段 6: 7.61s | Focus on a pair...
+  - 語音片段 7: 2.38s | Let's highlight...
+  - 語音片段 9: 7.03s | The Correspondi...
+  - 語音片段 10: 6.72s | We can visualiz...
+  - 語音片段 11: 6.41s | The angle slide...
+  - 語音片段 12: 7.39s | They are identi...
+✅ 語音處理完成！合併音檔: media/audio/畫出平行線與一條截線_用綠色標示出內錯角_3027b6b499/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal using green color. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the equality of the angles by rotating or sliding one angle onto the other, showcasing their congruence.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 61.78 秒
+📊 [Token 統計]: 輸入 12671 | 輸出 3424 | 總計 16095
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.16 秒
+📊 [Token 統計]: 輸入 8216 | 輸出 765 | 總計 8981
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13889 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 10.40 秒
+📊 [Token 統計]: 輸入 18136 | 輸出 312
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains several critical errors related to object alignment and label visibility.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The transversal line 't' and parallel line 'm' do not intersect correctly; there is a visible gap at the intersection point.",
+      "suggested_fix": "Ensure the transversal line 't' is positioned accurately to intersect parallel line 'm' at the center point."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast between the labels 'm' and 't' and the background is insufficient; it does not meet the WCAG AA standard of 4.5:1.",
+      "suggested_fix": "Change the label colors to a brighter shade or use a contrasting background to enhance visibility."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Major",
+      "description": "The text 'Step 5: The angles coincide, proving they are congruent.' extends beyond the Action Safe area.",
+      "suggested_fix": "Adjust the position of the text to fit within the mandatory boundaries, ensuring it remains fully visible."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The transversal line 't' and parallel line 'm' do not intersect correctly; there...
+  🟠 [OVERFLOW] The text 'Step 5: The angles coincide, proving they are congruent.' extends beyo...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains several critical errors related to object alignment and label visibility.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The transversal line 't' and parallel line 'm' do not intersect correctly; t...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.84 秒
+📊 [Token 統計]: 輸入 6815 | 輸出 3203 | 總計 10018
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.29 秒
+📊 [Token 統計]: 輸入 8216 | 輸出 765 | 總計 8981
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13889 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.55 秒
+📊 [Token 統計]: 輸入 18136 | 輸出 289
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several defects related to geometric accuracy and contrast issues hinder the pedagogical clarity of the frame.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "Text color for 'Step 5: The angles coincide, proving they are congruent.' does not meet contrast ratio requirement against the background.",
+      "suggested_fix": "Change text color to a lighter shade for better contrast with the black background."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "Label 'm' is misaligned and appears closer to the line than it should be, affecting clarity.",
+      "suggested_fix": "Adjust position of label 'm' to ensure consistent spacing from the line."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERLAP",
+      "severity": "Minor",
+      "description": "The yellow transversal line overlaps the horizontal line 'm' but should be clearly visually separate for clarity.",
+      "suggested_fix": "Reduce the thickness of the transversal line slightly or adjust its Z-index to ensure clear separation."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] Label 'm' is misaligned and appears closer to the line than it should be, affect...
+  🟡 [OVERLAP] The yellow transversal line overlaps the horizontal line 'm' but should be clear...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several defects related to geometric accuracy and contrast issues hinder the pedagogical clarity of the frame.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- Label 'm' is misaligned and appears closer to the line than it should be, af...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 54.13 秒
+📊 [Token 統計]: 輸入 6829 | 輸出 3077 | 總計 9906
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.16 秒
+📊 [Token 統計]: 輸入 8216 | 輸出 794 | 總計 9010
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13889 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.90 秒
+📊 [Token 統計]: 輸入 18136 | 輸出 303
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame exhibits several issues related to alignment, color contrast, and overcrowding.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label 'm' is inconsistent in alignment with the corresponding parallel line, creating a gap of approximately 0.25 units.",
+      "suggested_fix": "Adjust the position of label 'm' to align better with the line it represents."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast of the text 'Step 5: The angles coincide, proving they are congruent.' against the black background does not meet the minimum ratio required (4.5:1).",
+      "suggested_fix": "Change the text color to a brighter hue or increase the background brightness for better contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERLAP",
+      "severity": "Minor",
+      "description": "The label 't' overlaps slightly with the transversal line, making it less readable.",
+      "suggested_fix": "Adjust the position of label 't' to increase the distance from the line."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The label 'm' is inconsistent in alignment with the corresponding parallel line,...
+  🟡 [OVERLAP] The label 't' overlaps slightly with the transversal line, making it less readab...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame exhibits several issues related to alignment, color contrast, and overcrowding.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 162.22 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。_20260220_025935.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 9
+Total Tokens: 99,653
+  - Prompt: 85,292
+  - Completion: 14,361
+----------------------------------------
+Estimated Cost: $0.017108 USD
+約合台幣: NT$ 0.5303
+========================================
+
+
+
+=== STDERR ===

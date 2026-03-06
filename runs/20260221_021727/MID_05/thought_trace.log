@@ -1,0 +1,498 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-21_03-05-07_呈現一個直徑為_D_的圓將圓周展開成一條直線證明其長度略大於_3_倍的直徑_Pi.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.52 秒
+📊 [Token 統計]: 輸入 233 | 輸出 43 | 總計 276
+
+📢 [AI 審查/反饋意見]:
+Create a circle with diameter D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately three times the diameter, illustrating the mathematical constant Pi.
+------------------------------
+   📝 初稿: Create a circle with diameter D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately three times the diameter, illustrating the mathematical constant Pi.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.31 秒
+📊 [Token 統計]: 輸入 289 | 輸出 47 | 總計 336
+
+📢 [AI 審查/反饋意見]:
+Create a circle with a diameter of D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately equal to Pi times the diameter, illustrating the mathematical constant Pi.
+------------------------------
+✨ [翻譯完成]: Create a circle with a diameter of D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately equal to Pi times the diameter, illustrating the mathematical constant Pi.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 67.07 秒
+📊 [Token 統計]: 輸入 4023 | 輸出 3612 | 總計 7635
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A rolling wheel. The circle is a wheel with a marked point. As it rolls one full revolution without slipping, the marked point traces a straight line on the ground. The length of this line is the circumference. This directly connects the circular motion to linear distance.</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Cut and unroll. The circle is shown as a physical loop (like a string or tape). A cut is made at a point, and the loop is straightened into a line segment. The length of this segment is then compared to the diameter via a measuring process, revealing the π ratio.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Polygonal approximation. Start with a square inscribed in the circle, then morph to an octagon, 16-gon, etc., showing the perimeter approaching the circumference. Then "unroll" the limiting polygon's perimeter into a straight line. This shows the concept of a limit.</metaphor>
+    <scores pedagogy="8" feasibility="6" engagement="7" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B ("Cut and unroll") scores highest in Pedagogy (10) for its intuitive, direct physical analogy. It is highly feasible (9) as it involves standard Manim shape transformations (circle to line) and measurements. It is also visually engaging (8) with a clear "aha!" moment when the line is compared to the diameter. It most directly matches the user's request to "unroll the circumference."</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Circle, diameter D, circumference C, the relationship C = πD. The core action is "unrolling" a circle into a straight line of length C.
+**Selected Visual Metaphor**: Physical loop (string/tape) being cut and straightened.
+**Spatial Plan**:
+- **HEADER Zone (y ~ 3.0)**: Title and constant definition.
+- **CONTENT Zone (y ~ 0.0)**: Primary animation stage. We need space for:
+    1. A large circle (radius R = D/2) on the left.
+    2. A straight line (length C) on the right.
+    3. A diameter line inside the circle.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text and the final formula.
+**Layout Strategy**: Horizontal Split. Circle on left, unrolled line on right. This prevents visual clutter and allows a clear before/after comparison.
+**Coordinate Calculations**:
+- Let R = 2.0 (so D = 4.0, C = 2πR ≈ 12.57).
+- `circle_center` = LEFT * 3.5 (to give space for unrolling animation to the right).
+- `line_start` = RIGHT * 1.0 (so the line is to the right of center).
+- `line_end` = line_start + RIGHT * (2 * PI * R) ≈ RIGHT * 1.0 + RIGHT * 12.57.
+- We will create the line initially as an invisible copy of the circle's circumference, then transform it.
+**Signal Strategy**:
+1. Establish the circle and its diameter. Indicate them.
+2. Show the "cut" at a point on the circle.
+3. Animate the unrolling: morph the circle's perimeter into a straight line segment.
+4. Measure the line segment (C) and the diameter (D).
+5. Demonstrate the ratio C/D = π by aligning multiple diameters along the circumference line.
+**Constraint**: The unrolling transformation is the key. We will create the line as a `Line` with length equal to the circle's circumference, but initially positioned and shaped as the circle's perimeter using `become`. The animation will interpolate between the curved path and the straight path.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10678 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 6.43s | We start with a...
+  - 語音片段 1: 2.45s | Let's highlight...
+  - 語音片段 2: 4.99s | Imagine cutting...
+  - 語音片段 3: 5.18s | This line is th...
+  - 語音片段 4: 9.77s | Let's measure t...
+  - 語音片段 5: 10.44s | The leftover is...
+  - 語音片段 6: 5.86s | Therefore, the ...
+✅ 語音處理完成！合併音檔: media/audio/呈現一個直徑為_D_的圓_將圓周_展開__6790d4e52a/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a circle with a diameter of D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately equal to Pi times the diameter, illustrating the mathematical constant Pi.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 54.07 秒
+📊 [Token 統計]: 輸入 12860 | 輸出 2923 | 總計 15783
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10443 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+
+Animation 0: Write(Text('Unrolling a Circle: Discovering π')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                                     
+
+Animation 1: Create(Circle):   0%|          | 0/30 [00:00<?, ?it/s]
+                                                                   
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:123 in construct    │
+│                                                                              │
+│   120 │   │   if step.get("audio_path") and os.path.exists(step["audio_path" │
+│   121 │   │   │   self.add_sound(step["audio_path"])                         │
+│   122 │   │   if step.get("signal_action") is not None:                      │
+│ ❱ 123 │   │   │   self.play(Indicate(self.objects["signal_action"]["target"] │
+│   124 │   │   self.play(Create(self.objects["diameter_line"]), Write(self.ob │
+│   125 │   │   animation_time = 1 + 1.5                                       │
+│   126 │   │   remaining = max(0.1, step["duration"] - animation_time + 0.5)  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+KeyError: 'signal_action'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+
+Animation 0: Write(Text('Unrolling a Circle: Discovering π')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                                     
+
+Anim...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.71 秒
+📊 [Token 統計]: 輸入 811 | 輸出 156 | 總計 967
+------------------------------
+🔬 [Smart Patch] 已識別為局部可修復錯誤 → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+
+Animation 0: Write(Text('Unrolling a Circle: Discovering π')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                           ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 11.56 秒
+📊 [Token 統計]: 輸入 4162 | 輸出 549 | 總計 4711
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10449 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.92 秒
+📊 [Token 統計]: 輸入 40985 | 輸出 317
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains multiple defects related to alignment and overflow issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The left-most circle is positioned too close to the edge, causing the left portion to extend beyond the 'Action Safe' area. It overlaps the boundary.",
+      "suggested_fix": "Adjust the position of the circle to ensure all content is within x in [-7, 7] and y in [-3.5, 3.5]."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The 'C = πD' label has not been aligned properly with the footer anchor. It overlaps the footer area, affecting clarity.",
+      "suggested_fix": "Reposition the label to be centered in the footer area without overlapping any other elements."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The circle's outline is blue, which may not contrast sufficiently against the black background due to the muted tones.",
+      "suggested_fix": "Change the circle's stroke color to a brighter hue, such as cyan or white, to improve visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The left-most circle is positioned too close to the edge, causing the left porti...
+  🟠 [MISALIGNED] The 'C = πD' label has not been aligned properly with the footer anchor. It over...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains multiple defects related to alignment and overflow issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The animation contains multiple defects related to alignment and overflow issues.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues base...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.90 秒
+📊 [Token 統計]: 輸入 7342 | 輸出 3099 | 總計 10441
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The left-most circle is positioned too close to the edge, causing the left por...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.70 秒
+📊 [Token 統計]: 輸入 9713 | 輸出 2809 | 總計 12522
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10449 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.35 秒
+📊 [Token 統計]: 輸入 40985 | 輸出 289
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Layout fails due to overlapping elements and Z-index issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The label 'D' overlaps with the circle and the line below it, causing confusion.",
+      "suggested_fix": "Adjust the position of the label 'D' to ensure it does not overlap with the circle or the new content appearing below."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The diameter line (D) is not centered properly within the circle on the right side, causing a gap.",
+      "suggested_fix": "Ensure the line's start and end positions are equidistant from the circle's vertical center."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The yellow color of the diameter line and its label against the black background is visually low in contrast.",
+      "suggested_fix": "Increase the stroke width of the diameter line to at least 2.0pt for better visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERLAP] The label 'D' overlaps with the circle and the line below it, causing confusion....
+  🟠 [MISALIGNED] The diameter line (D) is not centered properly within the circle on the right si...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Layout fails due to overlapping elements and Z-index issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Layout fails due to overlapping elements and Z-index issues.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard def...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.85 秒
+📊 [Token 統計]: 輸入 7322 | 輸出 2797 | 總計 10119
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The label 'D' overlaps with the circle and the line below it, causing confusion...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 51.64 秒
+📊 [Token 統計]: 輸入 12494 | 輸出 2800 | 總計 15294
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10449 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.98 秒
+📊 [Token 統計]: 輸入 40985 | 輸出 216
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects related to overlapping elements and text visibility were found.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The text 'C = πD' overlaps with the bottom of the unrolled line on the right, making it hard to read.",
+      "suggested_fix": "Adjust the position of 'C = πD' to ensure it does not overlap with the unrolled line."
+    },
+    {
+      "id": "ERR_002",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The bottom left text explaining the circumference appears too close to the unrolled line, creating a visual crowding effect.",
+      "suggested_fix": "Increase the vertical spacing between the 'C = πD' label and the explanation text below it."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] The text 'C = πD' overlaps with the bottom of the unrolled line on the right, ma...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects related to overlapping elements and text visibility were found.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 257.2 秒
+📂  歸檔目錄: stable_outputs
+    🎥 呈現一個直徑為_D_的圓。將圓周「展開」成一條直線，證明其長度略大於_3_倍的直徑__Pi_。_20260221_031131.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 13
+Total Tokens: 201,861
+  - Prompt: 182,204
+  - Completion: 19,657
+----------------------------------------
+Estimated Cost: $0.032786 USD
+約合台幣: NT$ 1.0164
+========================================
+
+
+
+=== STDERR ===

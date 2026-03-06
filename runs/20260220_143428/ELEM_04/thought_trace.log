@@ -1,0 +1,295 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_14-50-46_繪製一個_60_度的角並疊加一個半圓形量角器來示範如何測量它.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.77 秒
+📊 [Token 統計]: 輸入 216 | 輸出 65 | 總計 281
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement, ensuring the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with degree markings visible to show the 60-degree measurement.
+------------------------------
+   📝 初稿: Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement, ensuring the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with degree markings visible to show the 60-degree measurement.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.49 秒
+📊 [Token 統計]: 輸入 294 | 輸出 65 | 總計 359
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center coincides with the angle's vertex and its edge passes through the angle's endpoints, with visible degree markings to verify the 60-degree measurement.
+------------------------------
+✨ [翻譯完成]: Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center coincides with the angle's vertex and its edge passes through the angle's endpoints, with visible degree markings to verify the 60-degree measurement.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 60.62 秒
+📊 [Token 統計]: 輸入 4039 | 輸出 3204 | 總計 7243
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+<metaphor>Clock/Compass Analogy: Frame the angle as a slice of a clock face or a compass direction. The protractor is introduced as a measuring tool, similar to a ruler for angles. The animation would show the construction of the angle (like moving a clock hand from 12 to 2 o'clock) and then "placing" the protractor tool over it to read the measurement.</metaphor>
+<scores pedagogy="7" feasibility="8" engagement="6" />
+</branch>
+<branch id="B" type="Abstract">
+<metaphor>Geometric Construction & Verification: Focus on the pure geometric process. First, construct the angle precisely using a known method (e.g., from an equilateral triangle). Then, construct the protractor as a semicircle with radial lines, explicitly showing the congruence between the angle's arc and the protractor's 60° marking. The narrative is about verification and proof.</metaphor>
+<scores pedagogy="9" feasibility="9" engagement="8" />
+</branch>
+<branch id="C" type="Interactive/Progressive">
+<metaphor>Step-by-Step Build-Up: Start with a point (vertex). Animate the first ray growing out. Then, animate the second ray sweeping open until it "clicks" into the correct position, with a temporary arc showing the opening measure. Finally, the protractor fades in underneath, already aligned, and its markings highlight to confirm the 60°.</metaphor>
+<scores pedagogy="8" feasibility="10" engagement="9" />
+</branch>
+<selection>
+<winner>C</winner>
+<reason>Strategy C scores highest in feasibility and engagement. Its progressive, "building" nature is perfectly suited for step-by-step animation in Manim. It clearly separates the construction phase from the measurement verification phase, which aligns with the user's request for 3-5 structured steps. The visual of the ray sweeping open is intuitive and dynamic.</reason>
+</selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Vertex (Point V), Ray1 (baseline), Ray2 (terminal side), 60° angle, Semicircular Protractor (radius R), Center alignment, Degree markings (0° to 180°), Verification highlight.
+**Visual Metaphor**: Progressive construction followed by measurement overlay.
+**Spatial Plan**:
+- Global center (ORIGIN) = Vertex V.
+- CONTENT Zone (y=0 to y=2): Home for the angle and protractor.
+- HEADER Zone (y=3.0): Title.
+- FOOTER Zone (y=-2.5): Step explanations.
+**Geometric Calculations**:
+- Ray1 (Baseline): Horizontal to the right from V. Endpoint A at (3, 0, 0).
+- Ray2 (60°): From V, at 60° from positive x-axis. Endpoint B at (3*cos(60°), 3*sin(60°), 0) = (1.5, ~2.598, 0).
+- Protractor: Semicircle of radius 3.5, centered at V, from angle 0° (along +x) to 180° (along -x). This ensures it's large enough to encompass the rays and show clear markings.
+- Markings: Every 10° (thicker lines at 0°, 30°, 60°, 90°, 120°, 150°, 180°). Labels for key degrees (0, 30, 60, 90, 120, 150, 180).
+**Layout Strategy (High-Low Split)**:
+- Title at top (HEADER).
+- Angle & Protractor anchored at ORIGIN (CONTENT). They will occupy the same space, with the protractor potentially in the background.
+- Step text at bottom (FOOTER). Each step will update this single text object to prevent overflow.
+**Signal Strategy**:
+1. Create vertex and baseline ray (Indicate).
+2. Animate second ray sweeping open (use `Rotate` transformation).
+3. Fade in protractor underneath (send_to_back).
+4. Highlight the 60° radial line and arc between rays to verify measurement.
+**Cleanup Rule**: We will maintain only the core objects (title, current step text, angle, protractor). The angle construction will be permanent, and the protractor will be added, not replaced.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 8454 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 3.62s | We begin with a...
+  - 語音片段 1: 4.94s | From the vertex...
+  - 語音片段 2: 6.14s | Now, we constru...
+  - 語音片段 3: 4.32s | ... until it fo...
+  - 語音片段 4: 8.33s | To measure this...
+  - 語音片段 5: 6.79s | Now we verify: ...
+  - 語音片段 6: 4.85s | This confirms o...
+✅ 語音處理完成！合併音檔: media/audio/繪製一個_60_度的角_並疊加一個半圓形_388462d1c9/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center coincides with the angle's vertex and its edge passes through the angle's endpoints, with visible degree markings to verify the 60-degree measurement.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 68.38 秒
+📊 [Token 統計]: 輸入 13648 | 輸出 3780 | 總計 17428
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.55 秒
+📊 [Token 統計]: 輸入 7694 | 輸出 896 | 總計 8590
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13985 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.22 秒
+📊 [Token 統計]: 輸入 17816 | 輸出 292
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame exhibits multiple defects related to visibility, alignment, and symbol clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "The text color (YELLOW) on the background lacks sufficient contrast, resulting in a ratio less than the 4.5:1 standard.",
+      "suggested_fix": "Change text color to a darker shade to improve contrast against the black background."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label '60°' is not centered along the angle bisector, indicating a possible miscalculation in its position.",
+      "suggested_fix": "Adjust the position of `label_60` to ensure it aligns precisely with the bisecting angle."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The font size of the step narration text is relatively small (font size 24), potentially affecting readability.",
+      "suggested_fix": "Increase the font size of step narration text to improve visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The label '60°' is not centered along the angle bisector, indicating a possible ...
+  🟡 [TINY_TEXT] The font size of the step narration text is relatively small (font size 24), pot...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame exhibits multiple defects related to visibility, alignment, and symbol clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The label '60°' is not centered along the angle bisector, indicating a possi...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 64.92 秒
+📊 [Token 統計]: 輸入 6572 | 輸出 3622 | 總計 10194
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.23 秒
+📊 [Token 統計]: 輸入 7694 | 輸出 762 | 總計 8456
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13985 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.68 秒
+📊 [Token 統計]: 輸入 17816 | 輸出 202
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame exhibits low contrast and minor textual clutter that compromises visibility.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The white text on a black background does not comply with WCAG AA standard (contrast ratio is insufficient).",
+      "suggested_fix": "Change title text color to a brighter or more saturated color for better contrast against the black background."
+    },
+    {
+      "id": "ERR_002",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The angle measurement label overlaps with the protractor arc, leading to potential confusion.",
+      "suggested_fix": "Adjust the position of the label_60 to ensure it is clearly above the arc without overlap."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+✅ All defects were filtered noise → upgrading to PASS
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 101.63 秒
+📂  歸檔目錄: stable_outputs
+    🎥 繪製一個_60_度的角，並疊加一個半圓形量角器來示範如何測量它。_20260220_145443.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 7
+Total Tokens: 71,631
+  - Prompt: 60,401
+  - Completion: 11,230
+----------------------------------------
+Estimated Cost: $0.012411 USD
+約合台幣: NT$ 0.3847
+========================================
+
+
+
+=== STDERR ===

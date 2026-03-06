@@ -1,0 +1,483 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-03-06_02-05-49_在_-5_到_5_的數線上示範從_-2_到_+3_的跳躍並畫出移動_5_個單位的箭頭動畫.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 1.58 秒
+📊 [Token 統計]: 輸入 201 | 輸出 218 | 總計 419
+
+📢 [AI 審查/反饋意見]:
+To create an accurate translation, let's break down the request:
+
+- The scene is set on a number line ranging from -5 to 5.
+- The action involves a jump from -2 to +3.
+- An arrow is to be animated, moving 5 units.
+
+Given these elements, the translation should capture the essence of movement on a number line and the animation of an arrow representing this movement.
+
+<reflection>
+Before finalizing the translation, it's crucial to ensure that the mathematical concept of "jumping" from one point to another on a number line is accurately conveyed. This involves understanding that the "jump" is a form of displacement. Additionally, the animation of an arrow moving 5 units should be clearly linked to the displacement from -2 to +3, which indeed covers a distance of 5 units on the number line.
+</reflection>
+
+<final_translation>
+On a number line spanning from -5 to 5, demonstrate a jump from -2 to +3, and animate an arrow moving 5 units to represent this displacement.
+</final_translation>
+------------------------------
+✨ [翻譯完成]: On a number line spanning from -5 to 5, demonstrate a jump from -2 to +3, and animate an arrow moving 5 units to represent this displacement.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 104.80 秒
+📊 [Token 統計]: 輸入 4148 | 輸出 3049 | 總計 7197
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A person standing on a number line at -2, taking 5 steps forward to land on +3. Each step is a unit, and the final jump is visualized as a single arrow spanning the distance.</metaphor>
+    <scores pedagogy="8" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A pure geometric visualization: a static number line with labeled ticks. The start and end points are highlighted, then a dynamic arrow grows from -2 to +3, with its length labeled as the displacement of +5.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step build-up: first draw the line, then mark -2 and +3, then show a sequence of 5 small unit arrows jumping one by one from -2 to +3, which then combine into one large arrow.</metaphor>
+    <scores pedagogy="10" feasibility="7" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) offers the best balance. It is the most pedagogically clear for directly showing displacement as a single vector quantity, is extremely feasible to code in Manim (basic shapes and animations), and is visually clean and engaging. Strategy C, while pedagogically strong, is more complex to animate and risks visual clutter.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line from -5 to 5. Points: -2 (start) and +3 (end). Displacement: +5 units. The core idea is that displacement is the vector from start to end, not the path taken.
+**Visual Metaphor (Selected: Abstract)**: A clean, labeled number line as the stage. Use color and dynamic growth to isolate the displacement vector.
+**Spatial Plan**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0)**: The number line, points, and arrow. This is the main stage.
+- **FOOTER Zone (y ~ -3.0)**: Explanation text for each step.
+**Layout & Coordinates**:
+- Number line length: 11 units (from -5 to 5). We'll place it horizontally at y=0.
+- Line start: LEFT*5.5 (x=-5.5, y=0, z=0).
+- Line end: RIGHT*5.5 (x=5.5, y=0, z=0).
+- Tick marks every 1 unit. Major ticks at integers.
+- Point A (start): at x = -2.0 (since scale is 1 unit = 1 Manim unit).
+- Point B (end): at x = 3.0.
+- Arrow will be drawn from Point A to Point B.
+- Displacement label will be placed above the midpoint of the arrow.
+**Signal Strategy**:
+1. Introduce the number line and its bounds.
+2. Mark and label the start (-2) and end (+3) points.
+3. Animate the arrow growing from the start to the end.
+4. Label the arrow's length as the displacement, +5.
+5. Summarize the operation: End = Start + Displacement.
+**Overflow Prevention**: The number line (11 units wide) fits within the safe CONTENT zone width (~12-13 units). All text (title, point labels, explanation) will be kept concise. The FOOTER explanation will be a single line updated per step.
+============================================================
+
+⚠️ 警告：Planner 產出的 JSON 格式有誤，正以括號匹配擷取 JSON 物件…
+⚠️ 擷取後仍無法解析，將使用原始輸出。
+⚠️  最終解析失敗，嘗試使用原始輸出做為上下文。
+⚠️  [Fallback] Planner 解析失敗，已注入最小 fallback JSON
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'On a number line spanning from -5 to 5, demonstrate a jump from -2 to +3, and animate an arrow moving 5 units to represent this displacement.'
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼 (Best-of-3 並行)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+=== 📚 REFERENCE EXAMPLES (RAG - Core Logic Only) ===
+Use these verified patterns. Full imports/class structure are in your system prompt.
+
+--- Example 1 ---
+Visual: None
+Core Logic:
+```python
+title = Text("Vertical Addition: 28 + 35", font_size=40).to_edge(UP)
+self.play(Write(title))
+
+# Create Dig...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 29499)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 49.14 秒
+📊 [Token 統計]: 輸入 10647 | 輸出 1445 | 總計 12092
+------------------------------
+✅ [Coder] T=0.3 通過編譯檢查
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+✅ RAG System: Connected to Weaviate.
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 70 [MATHRM_IN_MATHTEX]: MathTex contains \mathrm{} which crashes in Manim v0.19/v0.20 with 'Missing } inserted' LaTeX error. Manim's internal string splitter mishandles \mathrm{} braces. FIX: remove \mathrm{} and use plain math notation instead. e.g. MathTex(r'm = \frac{\Delta y}{\Delta x}') — no \mathrm needed. For mixed text+math use Tex(r'slope $= \frac{rise}{run}$') instead.
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 70 [MATHRM_IN_MATHTEX]: MathTex contains \mathrm{} which crashes in Manim v0.19/v0.20 with 'Missing } inserted' LaTeX error. Manim's internal string splitter mishandles \mathrm{} braces. FIX: remove \mathrm{} and use plain math notation instead. e.g. MathTex(r'm = \frac{\Delta y}{\Delta x}') — no \mathrm needed. For mixed text+math use Tex(r'slope $= \frac{rise}{run}$') instead.
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=1 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 70 [MATHRM_IN_MATHTEX]: MathTex contains \mathrm{} which crashes in Manim v0.19/v0.20 with 'Missing } inserted' LaTeX error. Manim's internal string s...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 14.84 秒
+📊 [Token 統計]: 輸入 2894 | 輸出 422 | 總計 3316
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+🔁 [Linter Budget] 使用 linter 額外重試額度 (1/3)，不消耗渲染預算
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 1/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 5082 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+Manim Community v0.20.0
+
+[03/06/26 02:08:43] ERROR    LaTeX compilation error:    tex_file_writing.py:313
+                             LaTeX Error: Unicode                               
+                             character 位 (U+4F4D)                              
+                                                                                
+                    ERROR    Context of error:           tex_file_writing.py:347
+                             \usepackage{amssymb}                               
+                             \begin{document}                                   
+                             -> \begin{center}                                  
+                             \special{dvisvgm:raw <g                            
+                             id='unique000'>}位移 $= 5$                         
+                             單位\special{dvisvgm:raw                           
+                             </g>}                                              
+                             \end{center}                                       
+                             \end{document}                                     
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:70 in construct     │
+│                                                                              │
+│    67 │   │   self.objects["arrow"] = arrow                                  │
+│    68 │   │                                                                  │
+│    69 │   │   # Displacement Label                                           │
+│ ❱  70 │   │   displacement_label = Tex(r"位移 $= 5$ 單位", color=YELLOW, fon │
+│    71 │   │   displacement_label.next_to(arrow, UP, buff=0.5)                │
+│    72 │   │   self.objects["displacement_label"] = displacement_label        │
+│    73                                                                        │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:532 in __init__                         │
+│                                                                              │
+│   529 │   │   tex_environment: str | None = "center",                        │
+│   530 │   │   **kwargs: Any,                                                 │
+│   531 │   ):                                                                 │
+│ ❱ 532 │   │   super().__init__(                                              │
+│   533 │   │   │   *tex_strings,                                              │
+│   534 │   │   │   arg_separator=arg_separator,                               │
+│   535 │   │   │   tex_environment=tex_environment,                           │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:309 in __init__                         │
+│                                                                              │
+│   306 │   │   │   │   │   │   """,                                           │
+│   307 │   │   │   │   │   ),                                                 │
+│   308 │   │   │   │   )                                                      │
+│ ❱ 309 │   │   │   raise compilation_error                                    │
+│   310 │   │   self.set_color_by_tex_to_color_map(self.tex_to_color_map)      │
+│   311 │   │                                                                  │
+│   312 │   │   if self.organize_left_to_right:                                │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:286 in __init__                         │
+│                                                                              │
+│   283 │   │   │   joined_string = self._join_tex_strings_with_unique_delimin │
+│   284 │   │   │   │   self.tex_strings, self.substrings_to_isolate           │
+│   285 │   │   │   )                                                          │
+│ ❱ 286 │   │   │   super().__init__(                                          │
+│   287 │   │   │   │   joined_string,                                         │
+│   288 │   │   │   │   tex_environment=self.tex_environment,                  │
+│   289 │   │   │   │   tex_template=self.tex_template,                        │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:81 in __init__                          │
+│                                                                              │
+│    78 │   │   self.tex_template: TexTemplate = tex_template                  │
+│    79 │   │                                                                  │
+│    80 │   │   self.tex_string = tex_string                                   │
+│ ❱  81 │   │   file_name = tex_to_svg_file(                                   │
+│    82 │   │   │   self._get_modified_expression(tex_string),                 │
+│    83 │   │   │   environment=self.tex_environment,                          │
+│    84 │   │   │   tex_template=self.tex_template,                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/utils/tex_file_writing.py:65 in tex_to_svg_file                     │
+│                                                                              │
+│    62 │   if svg_file.exists():                                              │
+│    63 │   │   return svg_file                                                │
+│    64 │                                                                      │
+│ ❱  65 │   dvi_file = compile_tex(                                            │
+│    66 │   │   tex_file,                                                      │
+│    67 │   │   tex_template.tex_compiler,                                     │
+│    68 │   │   tex_template.output_format,                                    │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/utils/tex_file_writing.py:211 in compile_tex                        │
+│                                                                              │
+│   208 │   │   if cp.returncode != 0:                                         │
+│   209 │   │   │   log_file = tex_file.with_suffix(".log")                    │
+│   210 │   │   │   print_all_tex_errors(log_file, tex_compiler, tex_file)     │
+│ ❱ 211 │   │   │   raise ValueError(                                          │
+│   212 │   │   │   │   f"{tex_compiler} error converting to"                  │
+│   213 │   │   │   │   f" {output_format[1:]}. See log output above or"       │
+│   214 │   │   │   │   f" the log file: {log_file}",                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ValueError: latex error converting to dvi. See log output above or the log file:
+media/Tex/d133a4389c6c4a19.log
+
+
+[LaTeX Compiler Output]:
+! LaTeX Error: Unicode character 位 (U+4F4D)
+l.7 \special{dvisvgm:raw <g id='unique000'>}位
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔬 [Smart Patch] 已識別為局部可修復錯誤 (LATEX) → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+🔍 RAG Search: Found 1 examples for 'Manim Community v0.20.0
+
+[03/06/26 02:08:43] ERROR    LaTeX compilation error:    tex_file_writing.py:313
+                             LaTeX Error: Unicode                               
+                             character 位 (U+4F4D)                              
+                                 
+... (3398 chars truncated) ...
+                       │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:532 in __init__                         │
+│                                                                              │
+│   529 │   │   tex_environment: str | None = "center",                        │
+│   530 │   │   **kwargs: Any,                                                 │
+│   531 │   ):                                                                 │
+│ ❱ 532 │   │   super().__init__(                                              │
+│   533 │   │   │   *tex_strings,                                              │
+│   534 │   │   │   arg_separator=arg_separator,                               │
+│   535 │   │   │   tex_environment=tex_environment,                           │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:309 in __init__                         │
+│                                                                              │
+│   306 │   │   │   │   │   │   """,                                           │
+│   307 │   │   │   │   │   ),                                                 │
+│   308 │   │   │   │   )                                                      │
+│ ❱ 309 │   │   │   raise compilation_error                                    │
+│   310 │   │   self.set_color_by_tex_to_color_map(self.tex_to_color_map)      │
+│   311 │   │                                                                  │
+│   312 │   │   if self.organize_left_to_right:                                │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:286 in __init__                         │
+│                                                                              │
+│   283 │   │   │   joined_string = self._join_tex_strings_with_unique_delimin │
+│   284 │   │   │   │   self.tex_strings, self.substrings_to_isolate           │
+│   285 │   │   │   )                                                          │
+│ ❱ 286 │   │   │   super().__init__(                                          │
+│   287 │   │   │   │   joined_string,                                         │
+│   288 │   │   │   │   tex_environment=self.tex_environment,                  │
+│   289 │   │   │   │   tex_template=self.tex_template,                        │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/text/tex_mobject.py:81 in __init__                          │
+│                                                                              │
+│    78 │   │   self.tex_template: TexTemplate = tex_template                  │
+│    79 │   │                                                                  │
+│    80 │   │   self.tex_string = tex_string                                   │
+│ ❱  81 │   │   file_name = tex_to_svg_file(                                   │
+│    82 │   │   │   self._get_modified_expression(tex_string),                 │
+│    83 │   │   │   environment=self.tex_environment,                          │
+│    84 │   │   │   tex_template=self.tex_template,                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/utils/tex_file_writing.py:65 in tex_to_svg_file                     │
+│                                                                              │
+│    62 │   if svg_file.exists():                                              │
+│    63 │   │   return svg_file                                                │
+│    64 │                                                                      │
+│ ❱  65 │   dvi_file = compile_tex(                                            │
+│    66 │   │   tex_file,                                                      │
+│    67 │   │   tex_template.tex_compiler,                                     │
+│    68 │   │   tex_template.output_format,                                    │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/utils/tex_file_writing.py:211 in compile_tex                        │
+│                                                                              │
+│   208 │   │   if cp.returncode != 0:                                         │
+│   209 │   │   │   log_file = tex_file.with_suffix(".log")                    │
+│   210 │   │   │   print_all_tex_errors(log_file, tex_compiler, tex_file)     │
+│ ❱ 211 │   │   │   raise ValueError(                                          │
+│   212 │   │   │   │   f"{tex_compiler} error converting to"                  │
+│   213 │   │   │   │   f" {output_format[1:]}. See log output above or"       │
+│   214 │   │   │   │   f" the log file: {log_file}",                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ValueError: latex error converting to dvi. See log output above or the log file:
+media/Tex/d133a4389c6c4a19.log
+
+
+[LaTeX Compiler Output]:
+! LaTeX Error: Unicode character 位 (U+4F4D)
+l.7 \special{dvisvgm:raw <g id='unique000'>}位'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=1 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+Manim Community v0.20.0
+
+[03/06/26 02:08:43] ERROR    LaTeX compilation error:    tex_file_writing.py:313
+                             LaTeX Error: Unicode                               
+      ...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1113)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 14.96 秒
+📊 [Token 統計]: 輸入 4700 | 輸出 403 | 總計 5103
+------------------------------
+⚡ [Reflection Dedup] 相同簽名已存在，注入 REPEATED redirect 強制換方向
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 1/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 5080 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=low (iteration 1)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 3.60 秒
+📊 [Token 統計]: 輸入 5500 | 輸出 167
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "visual_rationale": "The final frame shows a completed number line with a clearly marked displacement arrow moving from -2 to +3, labeled as '位移 = 5 單位'. The arithmetic relationship '3 - (-2) = 5' is also displayed, reinforcing the concept of displacement. All elements are positioned correctly within the frame.",
+  "temporal_analysis": "From 10% to 95%, the arrow grows from a point at -2 to its final position at +3, while the displacement label and arithmetic explanation appear sequentially, culminating in a clear visual representation of the displacement.",
+  "confidence_score": 5,
+  "verdict": "PASS",
+  "overall_critique": "All checks passed, with no defects identified.",
+  "defects": []
+}
+========================================
+
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 40.85 秒
+📂  歸檔目錄: stable_outputs
+    🎥 在__minus_5_到_5_的數線上，示範從__minus_2_到__plus_3_的跳躍，並畫出_20260306_020907.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 6
+Total Tokens: 33,794
+  - Prompt: 28,090
+  - Completion: 5,704
+----------------------------------------
+Estimated Cost: $0.005840 USD
+約合台幣: NT$ 0.1810
+========================================
+
+
+
+=== STDERR ===
+/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/weaviate/warnings.py:302: ResourceWarning: Con004: The connection to Weaviate was not closed properly. This can lead to memory leaks.
+            Please make sure to close the connection using `client.close()`.
+  warnings.warn(
+<sys>:0: ResourceWarning: unclosed <socket.socket fd=9, family=30, type=1, proto=6, laddr=('::1', 56777, 0, 0), raddr=('::1', 8080, 0, 0)>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback

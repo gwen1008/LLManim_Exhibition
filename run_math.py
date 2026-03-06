@@ -27,7 +27,7 @@ from templates import addition, subtraction, multiplication, division
 
 # Try to import AudioEngine
 try:
-    from agents.audio_engine import AudioEngine
+    from agents.utils.audio_engine import AudioEngine
     AUDIO_ENGINE_AVAILABLE = True
 except ImportError:
     AUDIO_ENGINE_AVAILABLE = False

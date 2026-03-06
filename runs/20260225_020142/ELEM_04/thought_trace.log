@@ -1,0 +1,417 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-25_02-16-05_繪製一個_60_度的角並疊加一個半圓形量角器來示範如何測量它.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 1.07 秒
+📊 [Token 統計]: 輸入 216 | 輸出 136 | 總計 352
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two lines, with one line fixed along the x-axis and the other line intersecting at a 60-degree angle. Overlay a semicircular protractor on top of the angle, ensuring the vertex of the angle aligns with the center of the protractor and the fixed line along the x-axis coincides with the 0-degree mark on the protractor. Animate the protractor's rotation to demonstrate the measurement of the 60-degree angle, highlighting the intersection of the rotating line with the 60-degree mark on the protractor. Use Transform() to rotate the protractor and Create() to draw the angle and protractor.
+------------------------------
+   📝 初稿: Create a 60-degree angle using two lines, with one line fixed along the x-axis and the other line intersecting at a 60-degree angle. Overlay a semicircular protractor on top of the angle, ensuring the vertex of the angle aligns with the center of the protractor and the fixed line along the x-axis coincides with the 0-degree mark on the protractor. Animate the protractor's rotation to demonstrate the measurement of the 60-degree angle, highlighting the intersection of the rotating line with the 60-degree mark on the protractor. Use Transform() to rotate the protractor and Create() to draw the angle and protractor.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.71 秒
+📊 [Token 統計]: 輸入 365 | 輸出 151 | 總計 516
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two lines, with one line fixed along the x-axis and the other line intersecting at a 60-degree angle. Overlay a semicircular protractor on top of the angle, ensuring the vertex of the angle aligns with the center of the protractor and the fixed line along the x-axis coincides with the 0-degree mark on the protractor. Animate the rotation of the protractor to demonstrate the measurement of the 60-degree angle, highlighting the intersection of the rotating line with the 60-degree mark on the protractor. Utilize the Transform() function to rotate the protractor and the Create() function to draw the angle and protractor, ensuring precise mathematical representation and accurate visual depiction.
+------------------------------
+✨ [翻譯完成]: Create a 60-degree angle using two lines, with one line fixed along the x-axis and the other line intersecting at a 60-degree angle. Overlay a semicircular protractor on top of the angle, ensuring the vertex of the angle aligns with the center of the protractor and the fixed line along the x-axis coincides with the 0-degree mark on the protractor. Animate the rotation of the protractor to demonstrate the measurement of the 60-degree angle, highlighting the intersection of the rotating line with the 60-degree mark on the protractor. Utilize the Transform() function to rotate the protractor and the Create() function to draw the angle and protractor, ensuring precise mathematical representation and accurate visual depiction.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 63.97 秒
+📊 [Token 統計]: 輸入 4259 | 輸出 3284 | 總計 7543
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world protractor tool: Show a physical protractor being placed over a drawn angle, with a hand (or pointer) rotating it into position and tracing the measurement.</metaphor>
+    <scores pedagogy="8" feasibility="6" engagement="7" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction: Build the angle from first principles (unit circle, trigonometric ratios), then overlay a protractor as a measurement overlay. Focus on the mathematical relationship between the line's slope and the angle measure.</metaphor>
+    <scores pedagogy="9" feasibility="9" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step assembly: First draw the fixed line, then animate the second line sweeping out from 0 to 60 degrees. Then, the protractor fades in and its scale highlights the 60-degree mark. Finally, the protractor itself rotates to align its baseline.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C (Interactive/Progressive) scores highest on pedagogy (10) by perfectly chunking the learning process: build the angle, then introduce the measuring tool, then demonstrate alignment. It is highly feasible in Manim using Rotate and Create animations. Its engagement is also high due to the clear, step-by-step reveal. It directly satisfies the user's request to "animate the rotation of the protractor to demonstrate the measurement."</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 60-degree angle, fixed line on x-axis, rotating line, semicircular protractor, vertex alignment, baseline alignment (0-degree mark), protractor rotation for measurement.
+
+**Visual Metaphor**: A construction site where we first build the structure (the angle), then bring in the measuring tool (protractor), and finally use the tool to verify the measurement.
+
+**Spatial Plan (High-Low Split to Prevent Overflow)**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0)**: All geometric action (lines, angle, protractor). This is the main stage.
+- **FOOTER Zone (y ~ -2.8)**: Explanatory text.
+
+**Key Coordinates & Constraints**:
+- Global origin (0,0,0) is the **vertex** of the angle and the **center** of the protractor.
+- Fixed Line: From vertex (0,0) to (4,0). This defines the x-axis baseline.
+- Rotating Line: From vertex (0,0) to (4 * cos(60°), 4 * sin(60°)) = (2, 3.464). Length = 4 for visual balance.
+- Protractor: A semicircle (Arc) from 0 to 180 degrees, radius = 4.5 (slightly larger than the lines). Its initial position must have its flat side (diameter) along the x-axis from (-4.5,0) to (4.5,0).
+- **Critical Animation**: The protractor needs to be *rotated* so its 0-degree mark aligns with the fixed line. Since the fixed line is already on the x-axis, and a standard Manim Arc (start_angle=0, angle=PI) has its diameter along the x-axis, the protractor is *already aligned* in its initial state. Therefore, the "rotation" animation is actually a *counter-rotation* to misalign and then rotate back into alignment, demonstrating the principle. We will start with the protractor rotated by -30 degrees (misaligned), then rotate it by +30 degrees to reach its correct, aligned position.
+
+**Signal Strategy**:
+1. **Build the Angle**: Create fixed line (red), then animate rotating line (blue) sweeping to 60°.
+2. **Introduce Protractor**: Fade in the protractor (initially misaligned) and its scale marks.
+3. **Align the Tool**: Rotate the protractor into correct alignment (0-degree mark on fixed line).
+4. **Verify Measurement**: Highlight the intersection of the rotating line with the 60-degree mark on the protractor's scale.
+
+**Object Registry Planning**:
+- `line_fixed`: Red line along x-axis.
+- `line_rotating`: Blue line forming the 60° angle.
+- `angle_arc`: Small arc decorating the angle between lines.
+- `protractor_arc`: The main semicircle.
+- `protractor_scale_marks`: Group of small lines for key angles (0, 60, 90, etc.).
+- `title_text`: Top banner.
+- `explanation_text`: Bottom banner, updated each step.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 8614 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a 60-degree angle using two lines, with one line fixed along the x-axis and the other line intersecting at a 60-degree angle. Overlay a semicircular protractor on top of the angle, ensuring the vertex of the angle aligns with the center of the protractor and the fixed line along the x-axis coincides with the 0-degree mark on the protractor. Animate the rotation of the protractor to demonstrate the measurement of the 60-degree angle, highlighting the intersection of the rotating line with the 60-degree mark on the protractor. Utilize the Transform() function to rotate the protractor and the Create() function to draw the angle and protractor, ensuring precise mathematical representation and accurate visual depiction.'
+  - 語音片段 0: 4.46s | We begin with a...
+  - 語音片段 1: 6.14s | Now, we constru...
+  - 語音片段 2: 4.73s | Let's add a sma...
+  - 語音片段 3: 8.21s | To measure this...
+  - 語音片段 4: 9.60s | We must align t...
+  - 語音片段 5: 11.74s | With the tool c...
+✅ 語音處理完成！合併音檔: media/audio/繪製一個_60_度的角_並疊加一個半圓形_388462d1c9/final_narrative.mp3
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 62.31 秒
+📊 [Token 統計]: 輸入 14301 | 輸出 3246 | 總計 17547
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11182 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 6.43 秒
+📊 [Token 統計]: 輸入 41395 | 輸出 326
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The scene contains alignment issues and low visual clarity due to overlapping text and misalignment of the protractor scale.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "Title text is partially illegible due to text overlap and low visual clarity.",
+      "suggested_fix": "Adjust the title text position to be fully within the safe zone: Use title_text.move_to([0, 3.5]) instead of title_text.move_to(title_anchor)."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The protractor scale is misaligned with the angle it represents, creating confusion.",
+      "suggested_fix": "Adjust protractor_vgroup's rotation: Use protractor_vgroup.rotate(30*DEGREES, about_point=geometry_center) instead of rotating it incorrectly."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "Explanatory text overlaps with the lower part of the protractor, obscuring clarity.",
+      "suggested_fix": "Move explanation_text up to prevent overlap with protractor: Use explanation_text.move_to(explanation_anchor + UP*0.5) instead of its current position."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The protractor scale is misaligned with the angle it represents, creating confus...
+  🟠 [OVERLAP] Explanatory text overlaps with the lower part of the protractor, obscuring clari...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The scene contains alignment issues and low visual clarity due to overlapping text and misalignment of the protractor scale.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The protractor scale is misaligned with the angle it represents, creating c...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 58.77 秒
+📊 [Token 統計]: 輸入 6294 | 輸出 3172 | 總計 9466
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **M...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 59.42 秒
+📊 [Token 統計]: 輸入 12187 | 輸出 3138 | 總計 15325
+------------------------------
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10280 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 6.68 秒
+📊 [Token 統計]: 輸入 41359 | 輸出 305
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several defects related to overlaps, low contrast, and misalignment were identified.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label '60°' from the protractor overlaps with the yellow angle arc, causing visual confusion.",
+      "suggested_fix": "Adjust the label_60_protractor to move_to([4.9 * np.cos(60*DEGREES), 4.9 * np.sin(60*DEGREES), 0]) to clear the arc."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "Light gray text of the explanation is poorly distinguishable from the background.",
+      "suggested_fix": "Change the color of explanation_text to WHITE for improved visibility."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "The protractor_vgroup has a slight misalignment with the fixed line, the baseline should match exactly.",
+      "suggested_fix": "Use protractor_vgroup.move_to(geometry_center + LEFT * 0.05) to correct alignment."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] The label '60°' from the protractor overlaps with the yellow angle arc, causing ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several defects related to overlaps, low contrast, and misalignment were identified.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The label '60°' from the protractor overlaps with the yellow angle arc, causin...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 60.31 秒
+📊 [Token 統計]: 輸入 3637 | 輸出 3178 | 總計 6815
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **O...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 59.08 秒
+📊 [Token 統計]: 輸入 6730 | 輸出 3187 | 總計 9917
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10280 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+❌ Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+❌ Video Vision Audit Error: Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+Traceback (most recent call last):
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/core/llm_client.py", line 204, in ask_vision
+    completion = self.openai_client.chat.completions.create(
+        model=model,
+    ...<4 lines>...
+        max_tokens=1500  # 影片需要更多 output tokens
+    )
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1192, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_base_client.py", line 1294, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_base_client.py", line 1067, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/utils/vision_agent.py", line 334, in audit_video
+    content = self.llm.ask_vision(self.system_prompt, user_text, base64_video=base64_video)
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/core/llm_client.py", line 235, in ask_vision
+    raise LLMError(error_msg) from e
+agents.core.llm_client.LLMError: Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+⚠️  [Vision API Error] 視覺審查無法執行，跳過本次視覺檢查：Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 281.08 秒
+📂  歸檔目錄: stable_outputs
+    🎥 繪製一個_60_度的角，並疊加一個半圓形量角器來示範如何測量它。_20260225_022300.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 10
+Total Tokens: 150,866
+  - Prompt: 130,743
+  - Completion: 20,123
+----------------------------------------
+Estimated Cost: $0.025376 USD
+約合台幣: NT$ 0.7866
+========================================
+
+
+
+=== STDERR ===

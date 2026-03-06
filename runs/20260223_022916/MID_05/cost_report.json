@@ -1,0 +1,103 @@
+{
+  "total_prompt_tokens": 271703,
+  "total_completion_tokens": 24280,
+  "total_cost_usd": 0.04758855000000001,
+  "calls": [
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 233,
+      "completion": 43,
+      "cost": 0.00017144
+    },
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 289,
+      "completion": 42,
+      "cost": 0.00020368999999999997
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 4154,
+      "completion": 3472,
+      "cost": 0.0015537200000000002
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 14302,
+      "completion": 2957,
+      "cost": 0.0028302400000000004
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40868,
+      "completion": 292,
+      "cost": 0.0063054
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 521,
+      "completion": 56,
+      "cost": 8.862e-05
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 7306,
+      "completion": 3029,
+      "cost": 0.00187096
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 6430,
+      "completion": 2656,
+      "cost": 0.0016438800000000001
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 12387,
+      "completion": 2658,
+      "cost": 0.0024784200000000003
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40868,
+      "completion": 304,
+      "cost": 0.0063126
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 6886,
+      "completion": 2693,
+      "cost": 0.0017180800000000003
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 6063,
+      "completion": 2708,
+      "cost": 0.00160706
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 8792,
+      "completion": 2622,
+      "cost": 0.00196504
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40868,
+      "completion": 387,
+      "cost": 0.0063624
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40868,
+      "completion": 325,
+      "cost": 0.0063252
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40868,
+      "completion": 36,
+      "cost": 0.0061518
+    }
+  ]
+}

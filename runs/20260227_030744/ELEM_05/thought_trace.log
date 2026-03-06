@@ -1,0 +1,557 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-27_03-30-09_在_3_到_4_之間的數線上標示出_3.7並標出距離來解釋為什麼它四捨五入後是_4.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 2.69 秒
+📊 [Token 統計]: 輸入 203 | 輸出 578 | 總計 781
+
+📢 [AI 審查/反饋意見]:
+To create an animation that illustrates the concept of rounding 3.7 to 4 on a number line, we need to break down the process into steps that can be visually represented using Manim.
+
+1. **Create a Number Line**: First, we create a number line that includes the numbers 3 and 4. This number line should be long enough to clearly show the position of 3.7 between 3 and 4.
+
+2. **Mark 3 and 4**: Clearly mark the points 3 and 4 on the number line. These will serve as our reference points.
+
+3. **Plot 3.7**: Plot the point 3.7 on the number line. This should be done in a way that it's clear 3.7 is closer to 4 than to 3.
+
+4. **Visualize Rounding**: To visualize why 3.7 rounds up to 4, we can use a simple distance comparison. Draw a line from 3.7 to 3 and another line from 3.7 to 4. It should be visually apparent that 3.7 is closer to 4 than to 3, thus when rounded to the nearest whole number, it rounds up to 4.
+
+5. **Animation Sequence**: The animation can start with the number line and the points 3 and 4 being marked. Then, the point 3.7 can be plotted, followed by the lines to 3 and 4 to illustrate the distances. Finally, the rounding to 4 can be shown, perhaps with an arrow moving from 3.7 to 4, or with the number 4 being highlighted.
+
+<reflection>
+Before finalizing the translation, let's ensure that the sequence of events is logical and easy to follow. The animation should clearly show the number line, mark the relevant numbers, plot 3.7, and then demonstrate the rounding process. The use of lines to compare distances ensures that the reasoning behind rounding 3.7 up to 4 is visually intuitive. The animation should be simple, yet effective in conveying the concept of rounding numbers based on their position on the number line.
+</reflection>
+
+<final_translation>
+Create a Manim animation that demonstrates rounding 3.7 to 4 on a number line. The animation should start by displaying a number line with the numbers 3 and 4 clearly marked. Then, plot the point 3.7 on the number line, showing its position relative to 3 and 4. Use lines to compare the distances from 3.7 to 3 and from 3.7 to 4, visually illustrating that 3.7 is closer to 4. Finally, animate the rounding process, highlighting that 3.7 rounds up to 4 due to its proximity.
+</final_translation>
+------------------------------
+✨ [翻譯完成]: Create a Manim animation that demonstrates rounding 3.7 to 4 on a number line. The animation should start by displaying a number line with the numbers 3 and 4 clearly marked. Then, plot the point 3.7 on the number line, showing its position relative to 3 and 4. Use lines to compare the distances from 3.7 to 3 and from 3.7 to 4, visually illustrating that 3.7 is closer to 4. Finally, animate the rounding process, highlighting that 3.7 rounds up to 4 due to its proximity.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 99.35 秒
+📊 [Token 統計]: 輸入 4238 | 輸出 4498 | 總計 8736
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A "balance scale" metaphor. Place 3.7 on a scale between 3 and 4. Show weights representing distances to 3 and 4. The side with the shorter distance (to 4) tips the scale, causing the number to "roll" to 4.</metaphor>
+    <scores pedagogy="7" feasibility="6" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A pure number line with geometric precision. Focus on constructing the line, plotting the point, and using perpendicular comparison lines (or arcs) to visually measure and compare the distances from 3.7 to 3 and 4. The rounding is shown as the point "snapping" to the nearest integer.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step investigative process. First, show the number line and point. Then, "zoom in" on the interval between 3 and 4, subdividing it into tenths. Highlight that 3.7 is 7/10 of the way. Use a dynamic bar that grows from 3 to 3.7 and from 3.7 to 4, with their lengths compared numerically. The decision rule (≥ 0.5 rounds up) is then revealed.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C offers the highest pedagogical value by breaking down the concept into clear, investigative steps (zooming, measuring, comparing). It visually explains *why* 3.7 is closer to 4 by making the fractional distance explicit and connects it to the general rounding rule. It is highly feasible in Manim using basic shapes, transformations, and labels. The dynamic bar growth is visually engaging and clearly illustrates the comparison.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Rounding, number line, decimal 3.7, integers 3 and 4, distance comparison, midpoint (3.5), visual proof of proximity.
+**Selected Visual Metaphor**: Interactive/Progressive investigation with a zoomed-in segment and dynamic distance bars.
+**Spatial Plan (High-Low Split to Prevent Overflow)**:
+- **HEADER ZONE (y ~ 3.0)**: Title.
+- **CONTENT ZONE (y = 0 to y = 1.5)**: Primary visual area.
+  - **Main Stage (y=0)**: Full number line from 2.5 to 4.5, with points at 3, 4, and 3.7.
+  - **Zoom Stage (y=1.0)**: A magnified, highlighted segment of the number line from 3 to 4, subdivided into tenths.
+- **FOOTER ZONE (y ~ -2.5)**: Explanatory text and dynamic comparison bars.
+**Detailed Layout & Calculations**:
+1. **Number Line (Main)**: Centered at ORIGIN. Length = 6 units. Tick marks at integers. Points: 3 at (-1.5, 0, 0), 4 at (1.5, 0, 0). Point 3.7 at (-1.5 + 0.7*3, 0, 0) = (-1.5 + 2.1, 0, 0) = (0.6, 0, 0).
+2. **Zoomed Segment**: Positioned at UP*1.0. A duplicate of the interval from 3 to 4, scaled up (e.g., length=4 units). It will have 11 tick marks (for 3.0, 3.1, ..., 4.0).
+3. **Comparison Bars (Footer)**: Two horizontal bars (e.g., length proportional to distance) placed side-by-side in the footer zone. Left bar for distance to 3 (length = 0.7 * scale), right bar for distance to 4 (length = 0.3 * scale). A label above each bar states the distance.
+**Signal Strategy**:
+- Use `Indicate` (red) to highlight the point 3.7.
+- Use `Circumscribe` (yellow) to highlight the zoomed segment.
+- Use `Transform` to grow the comparison bars.
+- Use `ReplacementTransform` for the final rounding step (point moving to 4).
+**Cleanup Rule Adherence**:
+- The zoomed segment and comparison bars are introduced sequentially and can be faded out after serving their purpose to avoid clutter.
+- The final frame will only show the main number line, the point at 4, and a concluding title/text.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 12564 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+  - 語音片段 1: 5.38s | Here is our num...  - 語音片段 0: 9.17s | Let's explore r...
+
+  - 語音片段 2: 6.96s | Now, we plot th...
+🔍 RAG Search: Found 2 examples for 'Create a Manim animation that demonstrates rounding 3.7 to 4 on a number line. The animation should start by displaying a number line with the numbers 3 and 4 clearly marked. Then, plot the point 3.7 on the number line, showing its position relative to 3 and 4. Use lines to compare the distances from 3.7 to 3 and from 3.7 to 4, visually illustrating that 3.7 is closer to 4. Finally, animate the rounding process, highlighting that 3.7 rounds up to 4 due to its proximity.'
+  - 語音片段 3: 7.58s | To see more det...
+  - 語音片段 4: 7.32s | The key questio...
+  - 語音片段 5: 5.35s | The distance fr...
+  - 語音片段 6: 5.69s | The distance fr...
+  - 語音片段 8: 6.89s | Because it is c...
+  - 語音片段 9: 6.50s | Let's see the r...
+  - 語音片段 7: 8.52s | Comparing them,...
+  - 語音片段 10: 3.89s | And there we ha...
+✅ 語音處理完成！合併音檔: media/audio/Create_a_Manim_anima_1ec73a4fa3/final_narrative.mp3
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+🛠️  [正在處理的錯誤/要求]:
+═══════════════════════════════════════════════════════════════════
+INPUT DATA (Director's Visual Rationale)
+═══════════════════════════════════════════════════════════════════
+{
+  "rationale": "The design uses a progressive, investigative approach to demystify rounding. Starting with the full numbe...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 37741)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 84.35 秒
+📊 [Token 統計]: 輸入 15488 | 輸出 3964 | 總計 19452
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13257 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 11.13 秒
+📊 [Token 統計]: 輸入 44336 | 輸出 499
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains multiple alignment and overflow issues that compromise clarity and adherence to the expected layout.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The title text 'Rounding 3.7 to the Nearest Whole Number' overflows the HEADER zone, extending beyond the top boundary.",
+      "suggested_fix": "Shift the title down to y=3.0 to stay within the HEADER zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The comparison bars and their labels extend beyond the FOOTER zone, violating the mandatory boundaries.",
+      "suggested_fix": "Move the comparison bars and labels up to y=-2.0 to ensure they fit within the FOOTER zone."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 0.7 is misaligned with its label, creating a gap that disrupts visual coherence.",
+      "suggested_fix": "Align dist_label_3 directly above dist_bar_3 by adjusting its position to next_to(dist_bar_3, UP, buff=0) instead of buff=0.1."
+    },
+    {
+      "id": "ERR_004",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 0.3 is misaligned with its label, creating a gap that disrupts visual coherence.",
+      "suggested_fix": "Align dist_label_4 directly above dist_bar_4 by adjusting its position to next_to(dist_bar_4, UP, buff=0) instead of buff=0.1."
+    },
+    {
+      "id": "ERR_005",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The visual elements in the footer are too close together, creating a cluttered appearance.",
+      "suggested_fix": "Increase the vertical spacing between the comparison bars and the conclusion text by shifting the conclusion_text down to y=-3.0."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 4 defect(s):
+  🔴 [OVERFLOW] The title text 'Rounding 3.7 to the Nearest Whole Number' overflows the HEADER z...
+  🔴 [OVERFLOW] The comparison bars and their labels extend beyond the FOOTER zone, violating th...
+  🟠 [MISALIGNED] The distance bar for 0.7 is misaligned with its label, creating a gap that disru...
+  🟠 [MISALIGNED] The distance bar for 0.3 is misaligned with its label, creating a gap that disru...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains multiple alignment and overflow issues that compromise clarity and adherence to the expected layout.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The distance bar for 0.7 is misaligned with its label, creating a gap that disrupts visual coherence.
+
+SUGGESTED FIX:
+  Align dist_label_3 directly above dist...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 6.98 秒
+📊 [Token 統計]: 輸入 617 | 輸出 298 | 總計 915
+------------------------------
+⚠️ Patch failed: Search block not found (even with fuzzy match).
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (2 occurrences):
+- The title text 'Rounding 3.7 to the Nearest Whole Number' overflows the HEADE...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 166.30 秒
+📊 [Token 統計]: 輸入 8682 | 輸出 4038 | 總計 12720
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12194 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=low (iteration 1)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 20.10 秒
+📊 [Token 統計]: 輸入 10277 | 輸出 521
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains multiple alignment issues and overflow beyond the designated safe zones.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The title text 'Rounding 3.7 to the Nearest Whole Number' extends beyond the HEADER zone, causing a critical overflow.",
+      "suggested_fix": "Shift title to y≈2.8 to stay within the HEADER zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The conclusion text '3.7 is closer to 4, so it rounds up to 4.' extends beyond the FOOTER zone, causing a critical overflow.",
+      "suggested_fix": "Shift conclusion_text to y≈-2.5 to stay within the FOOTER zone."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 3 (dist_bar_3) is misaligned with its label (dist_label_3), creating a gap greater than 0.15 units.",
+      "suggested_fix": "Align dist_label_3 to dist_bar_3 by using dist_label_3.next_to(dist_bar_3, UP, buff=0.1) instead of the current position."
+    },
+    {
+      "id": "ERR_004",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 4 (dist_bar_4) is misaligned with its label (dist_label_4), creating a gap greater than 0.15 units.",
+      "suggested_fix": "Align dist_label_4 to dist_bar_4 by using dist_label_4.next_to(dist_bar_4, UP, buff=0.1) instead of the current position."
+    },
+    {
+      "id": "ERR_005",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The color contrast between the footer text and the background does not meet the minimum contrast ratio of 4.5:1.",
+      "suggested_fix": "Consider using a darker shade for the footer text to improve contrast."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 4 defect(s):
+  🔴 [OVERFLOW] The title text 'Rounding 3.7 to the Nearest Whole Number' extends beyond the HEA...
+  🔴 [OVERFLOW] The conclusion text '3.7 is closer to 4, so it rounds up to 4.' extends beyond t...
+  🟠 [MISALIGNED] The distance bar for 3 (dist_bar_3) is misaligned with its label (dist_label_3),...
+  🟠 [MISALIGNED] The distance bar for 4 (dist_bar_4) is misaligned with its label (dist_label_4),...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains multiple alignment issues and overflow beyond the designated safe zones.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The distance bar for 3 (dist_bar_3) is misaligned with its label (dist_label_3), creating a gap greater than 0.15 units.
+
+SUGGESTED FIX:
+  Align dist_label_3 ...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 1.65 秒
+📊 [Token 統計]: 輸入 628 | 輸出 30 | 總計 658
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+⚡ [Render Cache] Code unchanged (hash=c14329ed), reusing last render.
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+⚠️ [Task 13] 8-frame grid extraction failed, falling back to last frame.
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 21.13 秒
+📊 [Token 統計]: 輸入 15978 | 輸出 432
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - Video Clip Mode]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several alignment issues and overflow of elements beyond designated safe zones were identified.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The label '3.7' is positioned too high, overlapping with the footer zone, violating the safe zone boundaries.",
+      "suggested_fix": "Shift label_3_7 down to y ≈ -1.8 to stay within the FOOTER zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 3 (dist_bar_3) is not aligned properly with its label (dist_label_3), creating a gap of approximately 0.2 units.",
+      "suggested_fix": "Align dist_label_3 to dist_bar_3 using dist_label_3.next_to(dist_bar_3, UP, buff=0.1) instead of the current position."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 4 (dist_bar_4) is not aligned properly with its label (dist_label_4), creating a gap of approximately 0.2 units.",
+      "suggested_fix": "Align dist_label_4 to dist_bar_4 using dist_label_4.next_to(dist_bar_4, UP, buff=0.1) instead of the current position."
+    },
+    {
+      "id": "ERR_004",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The comparison symbol ('<') overlaps with the distance bars, making it difficult to read.",
+      "suggested_fix": "Shift comparison_symbol down to y ≈ -1.5 to avoid overlap with the distance bars."
+    }
+  ]
+}
+========================================
+
+🔍 Detected 4 defect(s):
+  🔴 [OVERFLOW] The label '3.7' is positioned too high, overlapping with the footer zone, violat...
+  🟠 [MISALIGNED] The distance bar for 3 (dist_bar_3) is not aligned properly with its label (dist...
+  🟠 [MISALIGNED] The distance bar for 4 (dist_bar_4) is not aligned properly with its label (dist...
+  🟠 [OVERLAP] The comparison symbol ('<') overlaps with the distance bars, making it difficult...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several alignment issues and overflow of elements beyond designated safe zones were identified.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The distance bar for 3 (dist_bar_3) is not aligned properly with its label (dist_label_3), creating a gap of approximately 0.2 units.
+
+SUGGESTED FIX:
+  Align ...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 7.15 秒
+📊 [Token 統計]: 輸入 627 | 輸出 288 | 總計 915
+------------------------------
+⚠️ Patch failed: Search block not found (even with fuzzy match).
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 3/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The label '3.7' is positioned too high, overlapping with the footer zone, vio...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 85.44 秒
+📊 [Token 統計]: 輸入 4531 | 輸出 4112 | 總計 8643
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12227 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+⚠️ [Task 13] 8-frame grid extraction failed, falling back to last frame.
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 14.16 秒
+📊 [Token 統計]: 輸入 15980 | 輸出 559
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - Video Clip Mode]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains several alignment and overflow issues that compromise clarity and adherence to the layout plan.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The main number line extends beyond the defined safe zone boundaries, specifically the left end is at x≈-3.0 instead of the required x≈-2.5.",
+      "suggested_fix": "Adjust the position of num_line_main to move_to(main_stage_center + LEFT*0.5) to ensure it stays within the CONTENT zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label for 3.7 is positioned too high, creating a gap between the label and the point that exceeds the acceptable threshold.",
+      "suggested_fix": "Change label_3_7.next_to(point_3_7, UP, buff=0.1) to buff=0.2 to reduce the gap."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 3 is not aligned correctly with its label, causing a visual disconnect.",
+      "suggested_fix": "Adjust dist_bar_3's position to move_to(footer_anchor + DOWN*1.0 + LEFT*2.0) and ensure dist_label_3 is next_to(dist_bar_3, UP, buff=0.1)."
+    },
+    {
+      "id": "ERR_004",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The distance bar for 4 is misaligned with its label, leading to confusion.",
+      "suggested_fix": "Adjust dist_bar_4's position to move_to(footer_anchor + DOWN*1.0 + RIGHT*2.0) and ensure dist_label_4 is next_to(dist_bar_4, UP, buff=0.1)."
+    },
+    {
+      "id": "ERR_005",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The color contrast of the text 'Is 3.7 closer to 3 or to 4?' against the background does not meet the minimum contrast ratio.",
+      "suggested_fix": "Change the color of explanation_text_1 to a lighter shade or adjust the background to improve contrast."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 4 defect(s):
+  🔴 [OVERFLOW] The main number line extends beyond the defined safe zone boundaries, specifical...
+  🟠 [MISALIGNED] The label for 3.7 is positioned too high, creating a gap between the label and t...
+  🟠 [MISALIGNED] The distance bar for 3 is not aligned correctly with its label, causing a visual...
+  🟠 [MISALIGNED] The distance bar for 4 is misaligned with its label, leading to confusion....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains several alignment and overflow issues that compromise clarity and adherence to the layout plan.
+
+⚠️  視覺修復次數已達上限 (3)。代碼未變更，停止迴圈以避免重複渲染浪費。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 12
+Total Tokens: 141,402
+  - Prompt: 121,585
+  - Completion: 19,817
+----------------------------------------
+Estimated Cost: $0.024466 USD
+約合台幣: NT$ 0.7584
+========================================
+
+
+
+=== STDERR ===
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1772134312.444426 6003054 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772134312.487108 6003055 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772134312.619269 6003056 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers

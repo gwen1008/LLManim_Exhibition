@@ -388,7 +388,7 @@ def generate_vertical_addition_code(num1: int, num2: int, scene_name: str = "Ver
                          c_x = f"mob2[0].get_center()[0] - ({digit_idx+1} - {len(str2)-1}) * (mob2[0].width + 0.2)"
                     
                     code_parts.append(f"        carry_{digit_idx} = MathTex('{new_c}', font_size=36, color=RED)")
-                    code_parts.append(f"        carry_{digit_idx}.move_to([{c_x}, mob2.get_top()[1] + 0.3, 0])")
+                    code_parts.append(f"        carry_{digit_idx}.move_to([{c_x}, mob1.get_top()[1] + 0.3, 0])")
                     code_parts.append(f"        carry_mobs.append(carry_{digit_idx})")
                     anim_parts.append(f"Write(carry_{digit_idx})")
                 

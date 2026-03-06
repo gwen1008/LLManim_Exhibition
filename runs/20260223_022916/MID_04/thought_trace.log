@@ -1,0 +1,320 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_03-25-23_畫出平行線與一條截線用綠色標示出內錯角並呈現它們是相等的.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.64 秒
+📊 [Token 統計]: 輸入 218 | 輸出 77 | 總計 295
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles by rotating or translating one angle to overlap with the other, illustrating their congruence.
+------------------------------
+   📝 初稿: Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles by rotating or translating one angle to overlap with the other, illustrating their congruence.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.63 秒
+📊 [Token 統計]: 輸入 308 | 輸出 77 | 總計 385
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight their equality by rotating or translating one angle to overlap with the other, illustrating their congruence.
+------------------------------
+✨ [翻譯完成]: Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight their equality by rotating or translating one angle to overlap with the other, illustrating their congruence.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 91.40 秒
+📊 [Token 統計]: 輸入 4182 | 輸出 5015 | 總計 9197
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world analogy: Train tracks (parallel lines) with a crossing road (transversal). Use colored flags or markers to highlight the specific angles on the "same side" of the crossing.</metaphor>
+    <scores pedagogy="7" feasibility="8" engagement="6" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction. Focus on clarity: draw clean parallel lines and a transversal, label all 8 angles, then systematically isolate and color the target pair. Use a precise geometric transformation (rotation and translation) to prove congruence.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step build-up: first show parallel lines, then add transversal, then highlight all corresponding angle pairs one by one, finally zoom in on the specific "interior on same side" pair for the transformation proof.</metaphor>
+    <scores pedagogy="8" feasibility="9" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) offers the best balance. It provides the highest pedagogical clarity by focusing purely on the geometric definitions and the logical proof via transformation. It is also the most feasible in Manim, requiring only standard shapes, labels, and Transform animations. The clean, minimal style aligns perfectly with the 3Blue1Brown aesthetic requested.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parallel lines, transversal, corresponding interior angles on the same side, angle congruence, geometric transformation (rotation/translation) as proof.
+**Visual Metaphor**: Clean, labeled diagram. Use color (green) to signal the target angles. Use a ghost copy of one angle to transform and overlay on the other.
+**Spatial Plan**:
+- Global center (CONTENT zone) = ORIGIN for the main diagram.
+- Title in HEADER zone (y=3.2).
+- Explanation/Property statement in FOOTER zone (y=-3.0).
+- The two parallel lines will be horizontal for simplicity.
+- The transversal will be slanted (e.g., 30 degrees from horizontal).
+**Layout & Object Definitions**:
+1.  Parallel Lines (l1, l2): Two horizontal lines, spaced vertically.
+    - l1: from x=-4 to x=4, y=1.5.
+    - l2: from x=-4 to x=4, y=-1.5.
+2.  Transversal (t): A line cutting through both parallels.
+    - Start: left of l1, e.g., point A at (-4, 2.5).
+    - End: right of l2, e.g., point H at (4, -2.5). This gives a positive slope.
+3.  Intersection Points & Angles:
+    - Intersection of t and l1: Point B. Intersection of t and l2: Point C.
+    - We need to define 8 angles. For the "corresponding interior angles on the same side", we target a specific pair, e.g., ∠ABF (interior, above l2, right of t) and ∠BCG (interior, below l1, right of t). Let's use standard naming: Label intersections and angles systematically.
+**Simplified Naming Scheme**:
+- Let the two parallel lines be line p (top) and line q (bottom).
+- Let the transversal be line t.
+- Intersections: t ∩ p = point P. t ∩ q = point Q.
+- On line p, to the right of P, pick point R. On line p, to the left of P, pick point L.
+- On line q, to the right of Q, pick point S. On line q, to the left of Q, pick point T.
+- This creates angles at P and Q.
+- Target Angles: ∠RPS (interior, on the right side) and ∠PQS (its corresponding interior angle on the same side). We'll color these green.
+**Transformation Logic**:
+- To show ∠RPS ≅ ∠PQS, we can create a copy of ∠RPS, then animate a sequence: Translate its vertex from P to Q, then Rotate it to align with ∠PQS. The final state should perfectly overlap.
+**Signal Strategy**:
+- Step 1: Draw the setup, label lines as parallel.
+- Step 2: Identify and color the target angle pair green.
+- Step 3: State the Corresponding Angles Postulate (if lines are parallel, corresponding angles are congruent).
+- Step 4: Perform the transformation animation to visually prove congruence.
+- Step 5: Summarize.
+**Coordinate Calculations**:
+- Parallel line p: y = 1.5, from x = -4 to 4.
+- Parallel line q: y = -1.5, from x = -4 to 4.
+- Transversal t: Passes through points (-4, 2.5) and (4, -2.5). Slope = (-2.5-2.5)/(4-(-4)) = -5/8 = -0.625.
+- Intersection P (t ∩ p): Solve y=1.5 for line t. Equation of t: y = (-5/8)(x + 4) + 2.5. Set y=1.5 => 1.5 = (-5/8)(x+4)+2.5 => (-5/8)(x+4) = -1 => x+4 = 8/5 = 1.6 => x = -2.4. So P = (-2.4, 1.5).
+- Intersection Q (t ∩ q): Solve y=-1.5. -1.5 = (-5/8)(x+4)+2.5 => (-5/8)(x+4) = -4 => x+4 = (4*8)/5 = 32/5 = 6.4 => x = 2.4. So Q = (2.4, -1.5).
+- Points for angles:
+    - For ∠RPS at P: We need a point on p to the right of P (R) and a point on t below P (S). Let R = (P.x + 1.0, 1.5) = (-1.4, 1.5). Let S be a point on t just below P. Since t goes down and right, take a small step: S = (P.x + 0.8, P.y - 0.5) = (-1.6, 1.0). (Check: S lies on t? For x=-1.6, t gives y = (-5/8)(-1.6+4)+2.5 = (-5/8)(2.4)+2.5 = -1.5+2.5=1.0. Yes.)
+    - For ∠PQS at Q: We need a point on q to the right of Q (S') and a point on t above Q (P'). S' = (Q.x + 1.0, -1.5) = (3.4, -1.5). P' = (Q.x - 0.8, Q.y + 0.5) = (1.6, -1.0). (Check P' on t: for x=1.6, t gives y = (-5/8)(1.6+4)+2.5 = (-5/8)(5.6)+2.5 = -3.5+2.5 = -1.0. Yes.)
+- These points define the angles. ∠RPS uses rays PR and PS. ∠PQS uses rays QP' and QS'.
+**Visual Hierarchy**:
+- Primary: Lines, angle arcs, transformation.
+- Secondary: Labels for points, lines, angle measures.
+- Tertiary: Title, explanation text.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 12678 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 6.84s | Let's start wit...
+  - 語音片段 3: 5.26s | We mark the lin...
+  - 語音片段 4: 12.96s | Now, we identif...
+  - 語音片段 6: 4.85s | Let's color bot...
+  - 語音片段 8: 6.96s | A key property ...
+  - 語音片段 9: 8.52s | To visually dem...
+  - 語音片段 10: 5.62s | First, we trans...
+  - 語音片段 11: 6.10s | Now, we rotate ...
+  - 語音片段 12: 14.04s | The perfect ove...
+✅ 語音處理完成！合併音檔: media/audio/畫出平行線與一條截線_用綠色標示出內錯角_3027b6b499/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight their equality by rotating or translating one angle to overlap with the other, illustrating their congruence.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 65.64 秒
+📊 [Token 統計]: 輸入 14783 | 輸出 3671 | 總計 18454
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11698 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:81 in construct     │
+│                                                                              │
+│    78 │   │   # Angle at P between line_p and line_t                         │
+│    79 │   │   angle_arc_1 = Angle(line1=line_p, line2=line_t, radius=0.4, ot │
+│    80 │   │   # Move vertex to intersection point P                          │
+│ ❱  81 │   │   angle_arc_1.move_angle_to_point(point_P.get_center())          │
+│    82 │   │   self.objects["angle_arc_1"] = angle_arc_1                      │
+│    83 │   │                                                                  │
+│    84 │   │   # Angle at Q between line_t and line_q                         │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/mobject.py:760 in __getattr__                               │
+│                                                                              │
+│    757 │   │   │   return types.MethodType(setter, self)                     │
+│    758 │   │                                                                 │
+│    759 │   │   # Unhandled attribute, therefore error                        │
+│ ❱  760 │   │   raise AttributeError(f"{type(self).__name__} object has no at │
+│    761 │                                                                     │
+│    762 │   @property                                                         │
+│    763 │   def width(self) -> float:                                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+AttributeError: Angle object has no attribute 'move_angle_to_point'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.00 秒
+📊 [Token 統計]: 輸入 4354 | 輸出 104 | 總計 4458
+------------------------------
+🔬 [Smart Patch] 已識別為局部可修復錯誤 → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.p...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 10.94 秒
+📊 [Token 統計]: 輸入 4740 | 輸出 585 | 總計 5325
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11662 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.72 秒
+📊 [Token 統計]: 輸入 41705 | 輸出 131
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Some textual elements do not have sufficient color contrast.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text 'If lines are parallel, corresponding angles are congruent.' has a low contrast against the black background that may affect readability.",
+      "suggested_fix": "Change the text color to a brighter shade or use a bolder font to ensure better visibility against the background."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+✅ All defects were LOW_CONTRAST false positives → upgrading to PASS
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 28.48 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。_20260223_032838.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 7
+Total Tokens: 79,950
+  - Prompt: 70,290
+  - Completion: 9,660
+----------------------------------------
+Estimated Cost: $0.013320 USD
+約合台幣: NT$ 0.4129
+========================================
+
+
+
+=== STDERR ===

@@ -1,0 +1,468 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-19_21-14-23_畫出_y__2x_-_1_的函數圖形用階梯動畫Rise_Run呈現這條線的斜率是_2.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.65 秒
+📊 [Token 統計]: 輸入 229 | 輸出 64 | 總計 293
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the function y = 2x - 1. Use a Rise/Run animation to illustrate that the slope of this line is 2, by showing a vertical rise of 2 units for every horizontal run of 1 unit, utilizing the Transform() function to animate the line's construction.
+------------------------------
+   📝 初稿: Create a graph of the function y = 2x - 1. Use a Rise/Run animation to illustrate that the slope of this line is 2, by showing a vertical rise of 2 units for every horizontal run of 1 unit, utilizing the Transform() function to animate the line's construction.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.49 秒
+📊 [Token 統計]: 輸入 306 | 輸出 64 | 總計 370
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the function y = 2x - 1. Use a rise-over-run animation to illustrate that the slope of this line is 2, by showing a vertical rise of 2 units for every horizontal run of 1 unit, utilizing the Transform() function to animate the line's construction.
+------------------------------
+✨ [翻譯完成]: Create a graph of the function y = 2x - 1. Use a rise-over-run animation to illustrate that the slope of this line is 2, by showing a vertical rise of 2 units for every horizontal run of 1 unit, utilizing the Transform() function to animate the line's construction.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 71.69 秒
+📊 [Token 統計]: 輸入 4040 | 輸出 3756 | 總計 7796
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A "hiking trail" metaphor. The line is a path on a coordinate grid landscape. A hiker (a dot) starts at a point, takes 1 step right (run), then climbs 2 steps up (rise), marking the slope. The line is drawn as the hiker's trail.</metaphor>
+    <scores pedagogy="8" feasibility="7" engagement="9" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction on a Cartesian plane. A clean, minimal grid. The line is drawn from left to right. A right triangle is constructed using a horizontal segment (run=1) and a vertical segment (rise=2), which is then highlighted and labeled to demonstrate the slope ratio.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step build-up: First show the y-intercept (-1). Then animate a point moving according to the rule "for every 1 unit right, go 2 units up". Trace its path to create the line. Finally, overlay a dynamic triangle that grows with the point's movement.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="8" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C offers the highest pedagogical clarity by deconstructing the line's creation into the core concepts of intercept and slope. It directly visualizes the "rise-over-run" instruction, is highly feasible in Manim (using `Transform` to grow lines and triangles), and maintains engagement through progressive revelation. It best balances the user's explicit request for a step-by-step, transform-based animation of the line's construction.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Linear function y = 2x - 1. Key elements: slope (m=2), y-intercept (b=-1). The "rise-over-run" ratio is 2/1.
+**Visual Metaphor**: Progressive construction from foundational elements.
+**Spatial Plan (High-Low Split)**:
+- **HEADER Zone (y ~ 3.0)**: Title and function display.
+- **CONTENT Zone (y ~ 0)**: Cartesian plane (grid), line, and slope triangle. This is the main stage.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text for each step.
+**Anchors & Coordinates**:
+- `plane_center` = ORIGIN (0,0,0). The grid will be centered here.
+- `title_anchor` = (0, 3.2, 0). For the function title.
+- `explanation_anchor` = (0, -3.0, 0). For step-by-step text.
+**Object Definitions & Constraints**:
+1.  **Number Plane**: Axes from x=-4 to 4, y=-4 to 4. Scale=1.0.
+2.  **Line**: The graph of y=2x-1. We'll plot from x=-2 to x=2 for visibility. Key points: (-2, -5), (0, -1), (2, 3).
+3.  **Slope Triangle**: Constructed between x=0 and x=1.
+    - Start Point (P0): (0, -1) [y-intercept].
+    - Run End Point (P1): (1, -1).
+    - Rise End Point (P2): (1, 1). Because starting from (0,-1), a rise of 2 leads to y = -1 + 2 = 1.
+    - **Vertices for Polygon**: [(0, -1, 0), (1, -1, 0), (1, 1, 0)].
+4.  **Labels**: "m = rise/run = 2/1 = 2" will be placed near the triangle.
+**Signal Strategy**:
+- Step 1: Introduce the function and y-intercept. `Indicate` the point (0, -1).
+- Step 2: Animate the `run` (horizontal segment from P0 to P1) using `Create` or `Transform` (growing line).
+- Step 3: Animate the `rise` (vertical segment from P1 to P2) similarly.
+- Step 4: `Indicate` the completed triangle and label the sides.
+- Step 5: `Transform` the growing path of the moving point into the full line graph.
+**Chunking**: 5 clear steps matching the narrative.
+**Overflow Prevention**: The main equation and graph are in the CONTENT zone. Explanatory text is in the FOOTER zone, kept to one line per step. The slope triangle and labels are compact and attached to the line.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10104 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 10.58s | We begin with t...
+  - 語音片段 1: 8.52s | When x is zero,...
+  - 語音片段 2: 8.62s | The slope tells...
+  - 語音片段 3: 4.13s | From the end of...
+  - 語音片段 4: 8.06s | This forms a ri...
+  - 語音片段 5: 10.44s | Finally, if we ...
+✅ 語音處理完成！合併音檔: media/audio/畫出_y___2x___1_的函數圖形__6e74e04968/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a graph of the function y = 2x - 1. Use a rise-over-run animation to illustrate that the slope of this line is 2, by showing a vertical rise of 2 units for every horizontal run of 1 unit, utilizing the Transform() function to animate the line's construction.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 69.00 秒
+📊 [Token 統計]: 輸入 12434 | 輸出 3673 | 總計 16107
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.64 秒
+📊 [Token 統計]: 輸入 4715 | 輸出 923 | 總計 5638
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 0 bytes)
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+錯誤：渲染目標檔案為空 (0 bytes)
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+錯誤：渲染目標檔案為空 (0 bytes)
+
+**YOUR TASK**:
+1. Analyze the ROOT CAUSE and provide a concise lesson.
+
+Lesson: [Your concise lesson here]
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 4.67 秒
+📊 [Token 統計]: 輸入 110 | 輸出 173 | 總計 283
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+錯誤：渲染目標檔案為空 (0 bytes)
+
+【診斷建議】：
+未知錯誤，請檢查語法規範。
+
+【原始代碼】：
+
+
+【原始設計規範 (JSON)】：
+{
+  "rationale": "The design uses a progressive, step-by-step construction (Strategy C) to build intuitive understanding. It starts with the concrete y-intercept, then visually constructs the slope...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 25.32 秒
+📊 [Token 統計]: 輸入 3258 | 輸出 1351 | 總計 4609
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.43 秒
+📊 [Token 統計]: 輸入 5969 | 輸出 896 | 總計 6865
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 4979 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.84 秒
+📊 [Token 統計]: 輸入 18038 | 輸出 321
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several critical defects found that compromise visibility and accessibility.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "The contrast between the orange slope formula text and the background does not meet the WCAG AA standard (contrast ratio < 4.5:1).",
+      "suggested_fix": "Change the color of the slope formula text to a darker shade to improve contrast."
+    },
+    {
+      "id": "ERR_002",
+      "code": "CLUTTER",
+      "severity": "Major",
+      "description": "The placement of the slope triangle, labels, and line creates visual clutter, making it difficult to discern each element clearly.",
+      "suggested_fix": "Increase spacing between the slope triangle and the labels to at least 0.5 units and reposition elements for better clarity."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "Text in the footer overlaps with the graph and is partially out of the designated safe zone, particularly the text 'Step 5: Slope = rise/run = 2/1 = 2.'",
+      "suggested_fix": "Reposition the footer text to ensure it remains within the safe boundaries and does not overlap with other graphical elements."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [CLUTTER] The placement of the slope triangle, labels, and line creates visual clutter, ma...
+  🔴 [OVERFLOW] Text in the footer overlaps with the graph and is partially out of the designate...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several critical defects found that compromise visibility and accessibility.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **CLUTTER** (1 occurrences):
+- The placement of the slope triangle, labels, and line creates visual clutter, m...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 29.05 秒
+📊 [Token 統計]: 輸入 4837 | 輸出 1498 | 總計 6335
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.34 秒
+📊 [Token 統計]: 輸入 5969 | 輸出 896 | 總計 6865
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 4979 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.06 秒
+📊 [Token 統計]: 輸入 18038 | 輸出 253
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects related to overlap and contrast have been identified in the final frame.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The slope label overlaps with the line graph, making it difficult to read.",
+      "suggested_fix": "Adjust the position of the slope label to avoid overlap with the line."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The orange slope label has insufficient contrast against the dark background, failing visibility standards.",
+      "suggested_fix": "Change the color of the slope label to a brighter hue to increase contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The presence of multiple labels in close proximity creates visual clutter that may confuse viewers.",
+      "suggested_fix": "Increase spacing between labels to improve clarity."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERLAP] The slope label overlaps with the line graph, making it difficult to read....
+  🟡 [CLUTTER] The presence of multiple labels in close proximity creates visual clutter that m...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects related to overlap and contrast have been identified in the final frame.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The slope label overlaps with the line graph, making it difficult to read. (Sug...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 26.05 秒
+📊 [Token 統計]: 輸入 4808 | 輸出 1350 | 總計 6158
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.54 秒
+📊 [Token 統計]: 輸入 5969 | 輸出 896 | 總計 6865
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 4979 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 15.99 秒
+📊 [Token 統計]: 輸入 18038 | 輸出 321
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame has several technical defects affecting clarity and adherence to standards.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The text of 'Step 5: Slope = rise/run = 2/1 = 2.' extends beyond the mandatory boundary limits, compromising visibility and accessibility.",
+      "suggested_fix": "Adjust the position of the step explanation text to fit within the safe zone by using 'move_to(explanation_anchor)' with appropriate adjustments."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The yellow label for the point (0, -1) has a low contrast against the dark background, failing to meet the required contrast ratio of 4.5:1.",
+      "suggested_fix": "Change the label color to a more contrasting shade such as white or light gray."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The placement of multiple labels in close proximity creates visual clutter, making it harder for the viewer to focus on individual elements.",
+      "suggested_fix": "Increase the distance (buff) between the labels and line to ensure clearer sightlines."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The text of 'Step 5: Slope = rise/run = 2/1 = 2.' extends beyond the mandatory b...
+  🟡 [CLUTTER] The placement of multiple labels in close proximity creates visual clutter, maki...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame has several technical defects affecting clarity and adherence to standards.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 138.11 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出_y_=_2x__minus__1_的函數圖形。用「階梯動畫（Rise_Run）」呈現這條線的斜_20260219_211910.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 11
+Total Tokens: 96,960
+  - Prompt: 84,136
+  - Completion: 12,824
+----------------------------------------
+Estimated Cost: $0.016503 USD
+約合台幣: NT$ 0.5116
+========================================
+
+
+
+=== STDERR ===

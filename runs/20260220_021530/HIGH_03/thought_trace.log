@@ -1,0 +1,539 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_03-14-41_演示單位圓運動同步正弦波左邊有一個點在單位圓上移動右邊同步描繪出_y__sinx_的圖形.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 1.39 秒
+📊 [Token 統計]: 輸入 229 | 輸出 183 | 總計 412
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two main components: a unit circle on the left and a graph on the right. The unit circle has a point moving along its circumference. Simultaneously, on the right graph, plot the function y = sin(x) as the point on the unit circle moves. Use the Transform() function to update the graph in real-time, ensuring the point's position on the unit circle corresponds to the x-value of the sine function, and the y-value of the sine function matches the point's vertical position on the unit circle. Animate the point moving along the unit circle using a parametric equation, where the parameter is time, and the x and y coordinates of the point are given by cos(t) and sin(t) respectively. Use the Create() function to initialize the scene and the point on the unit circle, and the Transform() function to update the graph as the point moves.
+------------------------------
+   📝 初稿: Create a scene with two main components: a unit circle on the left and a graph on the right. The unit circle has a point moving along its circumference. Simultaneously, on the right graph, plot the function y = sin(x) as the point on the unit circle moves. Use the Transform() function to update the graph in real-time, ensuring the point's position on the unit circle corresponds to the x-value of the sine function, and the y-value of the sine function matches the point's vertical position on the unit circle. Animate the point moving along the unit circle using a parametric equation, where the parameter is time, and the x and y coordinates of the point are given by cos(t) and sin(t) respectively. Use the Create() function to initialize the scene and the point on the unit circle, and the Transform() function to update the graph as the point moves.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.80 秒
+📊 [Token 統計]: 輸入 424 | 輸出 188 | 總計 612
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two primary components: a unit circle on the left and a graph of the sine function on the right. The unit circle features a point moving along its circumference, defined by the parametric equations x = cos(t) and y = sin(t), where t represents time. Simultaneously, on the right graph, plot the function y = sin(x) and update it in real-time using the Transform() function. Ensure that the point's position on the unit circle corresponds to the x-value of the sine function, and the y-value of the sine function matches the point's vertical position on the unit circle. Utilize the Create() function to initialize the scene, including the unit circle and the point, and then animate the point moving along the unit circle. As the point moves, update the graph accordingly, maintaining the correlation between the point's position on the unit circle and the corresponding point on the sine graph.
+------------------------------
+✨ [翻譯完成]: Create a scene with two primary components: a unit circle on the left and a graph of the sine function on the right. The unit circle features a point moving along its circumference, defined by the parametric equations x = cos(t) and y = sin(t), where t represents time. Simultaneously, on the right graph, plot the function y = sin(x) and update it in real-time using the Transform() function. Ensure that the point's position on the unit circle corresponds to the x-value of the sine function, and the y-value of the sine function matches the point's vertical position on the unit circle. Utilize the Create() function to initialize the scene, including the unit circle and the point, and then animate the point moving along the unit circle. As the point moves, update the graph accordingly, maintaining the correlation between the point's position on the unit circle and the corresponding point on the sine graph.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 70.46 秒
+📊 [Token 統計]: 輸入 4161 | 輸出 3838 | 總計 7999
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A "clock hand" on the unit circle casting a "shadow" onto the sine wave graph. The moving point is like a bead on a circular track, and its vertical position is projected onto the graph as a moving dot that traces the sine curve over time.</metaphor>
+    <scores pedagogy="9" feasibility="8" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A pure, clean geometric correspondence. The unit circle is a parametric representation, and the sine graph is its Cartesian projection. The animation focuses on the mathematical mapping: the angle t (in radians) becomes the x-coordinate on the graph, and sin(t) becomes the y-coordinate. Emphasize the coordinate axes and the projection lines.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Start with just the unit circle and a moving angle. Then, "unroll" the circle's circumference to create the x-axis of the sine graph, showing the direct transformation of the arc length into the horizontal coordinate. Build the sine wave point-by-point as the angle increases.</metaphor>
+    <scores pedagogy="9" feasibility="6" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) scores highest on pedagogy (10) by directly and clearly illustrating the fundamental parametric-to-Cartesian mapping. Its feasibility is high (9) as it uses standard Manim constructs (circles, lines, graphs, updaters) without complex custom animations. While engagement (7) is slightly lower than others, the clarity and mathematical rigor make it the most effective for an educational animation. The "projection lines" metaphor is powerful and visually unambiguous.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: The core is the parametric definition of the unit circle (cos t, sin t) and its relationship to the Cartesian graph y = sin(x). The angle `t` (time/parameter) is the independent variable linking both visuals.
+
+**Visual Metaphor**: A "dual-view" system. Left: Unit circle with a moving point P(cos t, sin t). Right: Sine graph with a moving point Q(t, sin t). The vertical coordinate (y) is shared. The horizontal mapping is: angle t (radians) on circle -> x-coordinate on graph.
+
+**Spatial Plan (High-Low Split to Prevent Overflow)**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0)**: Split into two columns.
+  - **Left Column (x = -3.5)**: Unit circle, axes, angle label, point P.
+  - **Right Column (x = 3.5)**: Sine graph, axes, point Q.
+- **FOOTER Zone (y ~ -2.8)**: Explanation text linking the two views.
+- **Critical Constraint**: Keep all objects within x ∈ [-7, 7], y ∈ [-3.5, 3.5]. The unit circle radius is 1.5 (for visibility). The sine graph spans x from 0 to 2π (≈6.28), scaled to fit width.
+
+**Coordinate Calculations**:
+- Unit Circle Center (left): `C_left = (-3.5, 0, 0)`. Radius = 1.5.
+- Point P on circle: `P = C_left + 1.5*(cos(t), sin(t), 0)`.
+- Sine Graph Anchor (right): `origin_right = (3.5 - π, 0, 0)`. This centers the graph [0, 2π] around x=3.5.
+- Graph scaling: x-axis scale: `x_scale = 1.0` (1 unit = 1 radian). y-axis scale matches circle radius (1.5).
+- Point Q on graph: `Q = origin_right + (t, 1.5*sin(t), 0)`.
+- Projection Lines:
+  - Horizontal line from P to vertical line at x = origin_right.x + t.
+  - Vertical line from Q to horizontal line at y = 0.
+
+**Signal Strategy**:
+1. Introduce the unit circle and its parametric definition.
+2. Introduce the sine graph and its equation.
+3. Animate the point P moving. Simultaneously, show point Q moving.
+4. Use dashed lines to project P's y-coordinate to Q's y-coordinate, and P's angle to Q's x-coordinate.
+5. Emphasize the correspondence: `x_coordinate_of_Q = t` (angle), `y_coordinate_of_Q = sin(t) = y_coordinate_of_P`.
+
+**Chunking**:
+- Step 1: Create static elements (circle, graph, axes, labels).
+- Step 2: Introduce the moving point P and its parametric equations.
+- Step 3: Introduce the corresponding point Q on the sine graph.
+- Step 4: Animate the motion and show projection lines.
+- Step 5: Summarize the relationship.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10420 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 7.10s | Let's start wit...
+  - 語音片段 1: 6.26s | Here is the cir...
+  - 語音片段 2: 5.35s | On the right, w...
+  - 語音片段 3: 5.95s | And here is its...
+  - 語音片段 4: 7.20s | Now, consider a...
+  - 語音片段 5: 9.58s | Simultaneously,...
+  - 語音片段 6: 10.92s | As the point mo...
+  - 語音片段 7: 6.82s | To see the conn...
+  - 語音片段 8: 9.29s | This demonstrat...
+✅ 語音處理完成！合併音檔: media/audio/演示單位圓運動同步正弦波_左邊有一個點在_e90b3e33c7/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two primary components: a unit circle on the left and a graph of the sine function on the right. The unit circle features a point moving along its circumference, defined by the parametric equations x = cos(t) and y = sin(t), where t represents time. Simultaneously, on the right graph, plot the function y = sin(x) and update it in real-time using the Transform() function. Ensure that the point's position on the unit circle corresponds to the x-value of the sine function, and the y-value of the sine function matches the point's vertical position on the unit circle. Utilize the Create() function to initialize the scene, including the unit circle and the point, and then animate the point moving along the unit circle. As the point moves, update the graph accordingly, maintaining the correlation between the point's position on the unit circle and the corresponding point on the sine graph.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 80.26 秒
+📊 [Token 統計]: 輸入 13332 | 輸出 4451 | 總計 17783
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.58 秒
+📊 [Token 統計]: 輸入 9257 | 輸出 766 | 總計 10023
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 18187 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:26 in construct     │
+│                                                                              │
+│    23 │   │   layout = LayoutEngine()                                        │
+│    24 │   │                                                                  │
+│    25 │   │   # Create anchors as dummy mobjects for positioning             │
+│ ❱  26 │   │   title_anchor = Dot(ORIGIN, color=WHITE, opacity=0)             │
+│    27 │   │   circle_anchor = Dot(ORIGIN, color=WHITE, opacity=0)            │
+│    28 │   │   graph_anchor = Dot(ORIGIN, color=WHITE, opacity=0)             │
+│    29 │   │   explanation_anchor = Dot(ORIGIN, color=WHITE, opacity=0)       │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/arc.py:812 in __init__                             │
+│                                                                              │
+│    809 │   │   color: ParsableManimColor = WHITE,                            │
+│    810 │   │   **kwargs: Any,                                                │
+│    811 │   ) -> None:                                                        │
+│ ❱  812 │   │   super().__init__(                                             │
+│    813 │   │   │   arc_center=point,                                         │
+│    814 │   │   │   radius=radius,                                            │
+│    815 │   │   │   stroke_width=stroke_width,                                │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/arc.py:648 in __init__                             │
+│                                                                              │
+│    645 │   │   color: ParsableManimColor = RED,                              │
+│    646 │   │   **kwargs: Any,                                                │
+│    647 │   ) -> None:                                                        │
+│ ❱  648 │   │   super().__init__(                                             │
+│    649 │   │   │   radius=radius,                                            │
+│    650 │   │   │   start_angle=0,                                            │
+│    651 │   │   │   angle=TAU,                                                │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/arc.py:335 in __init__                             │
+│                                                                              │
+│    332 │   │   self.start_angle = start_angle                                │
+│    333 │   │   self.angle = angle                                            │
+│    334 │   │   self._failed_to_get_center: bool = False                      │
+│ ❱  335 │   │   super().__init__(**kwargs)                                    │
+│    336 │                                                                     │
+│    337 │   def generate_points(self) -> None:                                │
+│    338 │   │   self._set_pre_positioned_points()                             │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/arc.py:110 in __init__                             │
+│                                                                              │
+│    107 │   │   self.tip_length: float = tip_length                           │
+│    108 │   │   self.normal_vector = normal_vector                            │
+│    109 │   │   self.tip_style: dict = tip_style                              │
+│ ❱  110 │   │   super().__init__(**kwargs)                                    │
+│    111 │                                                                     │
+│    112 │   # Adding, Creating, Modifying tips                                │
+│    113                                                                       │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/types/vectorized_mobject.py:160 in __init__                 │
+│                                                                              │
+│    157 │   │   │   0, 1, n_points_per_cubic_curve                            │
+│    158 │   │   )                                                             │
+│    159 │   │   self.cap_style: CapStyleType = cap_style                      │
+│ ❱  160 │   │   super().__init__(**kwargs)                                    │
+│    161 │   │   self.submobjects: list[VMobject]                              │
+│    162 │   │                                                                 │
+│    163 │   │   # TODO: Find where color overwrites are happening and remove  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TypeError: Mobject.__init__() got an unexpected keyword argument 'opacity'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 12.51 秒
+📊 [Token 統計]: 輸入 1577 | 輸出 655 | 總計 2232
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                          ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 62.09 秒
+📊 [Token 統計]: 輸入 9876 | 輸出 3517 | 總計 13393
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.37 秒
+📊 [Token 統計]: 輸入 8435 | 輸出 765 | 總計 9200
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14608 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.50 秒
+📊 [Token 統計]: 輸入 18280 | 輸出 337
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame displays several critical defects related to alignment and contrast that impede clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The label P(cos t, sin t) is misaligned as it overlaps the point P with no sufficient space, resulting in visual confusion.",
+      "suggested_fix": "Increase the vertical buffer in the 'next_to' function for label_P to 'buff=0.2' or more."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color of the explanation text appears to lack sufficient contrast (against black background), making it difficult to read.",
+      "suggested_fix": "Change the text color of explanation_text to a brighter color like 'WHITE' or increase the brightness of the current color."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The circular diagram overflows the established 'Action Safe' area with its outer edge at approximately 1.5 units.",
+      "suggested_fix": "Ensure the circle's position keeps it within the required boundaries of $x \\in [-7.0, 7.0]$ and $y \\in [-3.5, 3.5]$."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The label P(cos t, sin t) is misaligned as it overlaps the point P with no suffi...
+  🔴 [OVERFLOW] The circular diagram overflows the established 'Action Safe' area with its outer...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame displays several critical defects related to alignment and contrast that impede clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The label P(cos t, sin t) is misaligned as it overlaps the point P with no s...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 64.20 秒
+📊 [Token 統計]: 輸入 7734 | 輸出 3622 | 總計 11356
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.33 秒
+📊 [Token 統計]: 輸入 8435 | 輸出 766 | 總計 9201
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14608 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.55 秒
+📊 [Token 統計]: 輸入 18280 | 輸出 224
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The bottom text overlaps with graphical elements, creating a readability issue.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The explanatory text 'Graph of y = sin(x) is the vertical projection of circular motion.' overlaps with the sine function graph, making it difficult to read.",
+      "suggested_fix": "Adjust the vertical position of the explanation text to avoid overlap with the sine graph."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast between the explanation text and the background is insufficient. The text in light gray against a black background does not meet the minimum contrast ratio of 4.5:1.",
+      "suggested_fix": "Change the explanation text color to a brighter hue for better contrast."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERLAP] The explanatory text 'Graph of y = sin(x) is the vertical projection of circular...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The bottom text overlaps with graphical elements, creating a readability issue.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The explanatory text 'Graph of y = sin(x) is the vertical projection of circula...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 62.26 秒
+📊 [Token 統計]: 輸入 7640 | 輸出 3533 | 總計 11173
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.13 秒
+📊 [Token 統計]: 輸入 8435 | 輸出 769 | 總計 9204
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14608 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.84 秒
+📊 [Token 統計]: 輸入 18280 | 輸出 234
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects identified affect visual clarity and pedagogical accuracy.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text color for 'Graph of y = sin(x) is the vertical projection of circular motion.' does not meet the WCAG AA contrast ratio requirement against the black background.",
+      "suggested_fix": "Change the text color to a brighter shade or increase brightness to ensure a contrast ratio of at least 4.5:1."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "Label for the point Q is not properly aligned with the point on the graph, having a distance greater than acceptable thresholds.",
+      "suggested_fix": "Adjust the position of label_Q to ensure it is closer to the point Q with a proper 'next_to()' configuration."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+✅ All defects were filtered noise → upgrading to PASS
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 250.18 秒
+📂  歸檔目錄: stable_outputs
+    🎥 演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出_y_=_sin_x__的圖形。_20260220_032132.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 11
+Total Tokens: 120,595
+  - Prompt: 99,813
+  - Completion: 20,782
+----------------------------------------
+Estimated Cost: $0.021079 USD
+約合台幣: NT$ 0.6534
+========================================
+
+
+
+=== STDERR ===

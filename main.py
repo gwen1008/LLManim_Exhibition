@@ -1,18 +1,21 @@
-import subprocess
+# main.py
 import os
 import sys
-import time
-import shutil
 import json
-from agents.planner import Planner
-from agents.prompter import ManimDiagnoser, CoderPrompter
-from agents.llm_client import LLMClient
-from agents.reviewer import CodeReviewer
-from agents.audio_engine import AudioEngine
-from agents.rag_retriever import RAGRetriever
-from agents.rag_retriever import RAGRetriever
-from agents.logger import SessionLogger
-from agents.vision_agent import VisionAgent
+import re
+import concurrent.futures
+
+# New Orchestrator Modules
+from agents.orchestrator.translator import AcademicTranslator
+from agents.orchestrator.router import TaskRouter
+from agents.orchestrator.refining_loop import RefiningLoop
+
+# Agent Modules
+from agents.planner.planner import Planner
+from agents.coder.prompter import CoderPrompter
+from agents.core.llm_client import LLMClient
+from agents.core.rag_retriever import RAGRetriever
+from agents.core.logger import SessionLogger
 
 
 def _extract_first_json_object(text: str):
@@ -31,278 +34,100 @@ def _extract_first_json_object(text: str):
     return None
 
 
-def run_manim_task(file_path, scene_name):
+def _inject_audio_sync(code: str, updated_sequence: list, final_audio_path: str) -> str:
     """
-    執行 Manim 指令並捕獲輸出。
-    加上 -p 參數可以在渲染成功後自動播放影片。
-    """
-    if os.path.exists(file_path):
-        size = os.path.getsize(file_path)
-        print(f"📄 [Debug] 準備渲染檔案: {file_path} (大小: {size} bytes)")
-        if size == 0:
-            return False, "錯誤：渲染目標檔案為空 (0 bytes)"
-    else:
-        return False, f"錯誤：找不到檔案 {file_path}"
+    [Optimization V4 / V5] Post-inject audio sync code into Coder-generated Manim code.
 
-    print(f"🚀 正在啟動 Manim 引擎進行渲染...")
-    # -ql: 低畫質, -v ERROR: 只顯示錯誤 (移除 -p 避免與檔案移動衝突)
-    cmd = ["manim", "-v", "ERROR", "-ql", file_path, scene_name]
-    
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode == 0:
-            return True, result.stdout
+    因為 Coder 與 Audio 並行執行，Coder 產出的程式碼不含正確音訊路徑。
+    此函數在兩者都完成後：
+      1. 清除 LLM 自己寫的假音訊 block（os.path.exists 模板）— 防止 double-play
+      2. 將每個 step 對應到 updated_sequence 中的 audio_path 和 duration
+      3. 在 # Step N 標記前插入正確的 self.add_sound() + self.wait() padding
+      4. Fallback: 若對不上 step 標記，在 construct() 開頭插入 final_narrative.mp3
+    """
+    import re as _re
+
+    # === Step 0: 清除 LLM 生成的假音訊 block ===
+    # 模式: audio_stepN = "..." / if os.path.exists(audio_stepN): / self.add_sound(...) / elif ...
+    # 這些是 LLM 用猜測路徑寫的，會與 auto-injected 的正確路徑衝突造成 double-play 或 overlap
+    fake_audio_pattern = _re.compile(
+        r'[ \t]*audio_step\w+\s*=\s*["\'][^"\']+["\'][^\n]*\n'   # audio_stepN = "..."
+        r'(?:[ \t]*if\s+os\.path\.exists\([^\)]+\):[^\n]*\n'      # if os.path.exists(...):
+        r'[ \t]*self\.add_sound\([^\)]+\)[^\n]*\n'                 # self.add_sound(...)
+        r'(?:[ \t]*elif[^\n]*\n[ \t]*self\.add_sound\([^\)]+\)[^\n]*\n)?)?',  # elif ... (optional)
+        _re.MULTILINE
+    )
+    cleaned, n_removed = fake_audio_pattern.subn('', code)
+    if n_removed > 0:
+        code = cleaned
+        print(f"🧹 [Audio Inject] 清除 {n_removed} 個 LLM 假音訊 block，防止 double-play")
+
+    # 收集有 audio_path 的 steps
+    audio_steps = [
+        (i, s) for i, s in enumerate(updated_sequence)
+        if s.get("audio_path")
+    ]
+
+    if not audio_steps:
+        return code  # 沒有音訊，原樣返回
+
+    # === Step 1: 逐步注入（匹配 # Step N 標記）===
+    step_pattern = _re.compile(r'^( +)(# Step \d+)', _re.MULTILINE)
+    step_markers = list(step_pattern.finditer(code))
+
+    injected = False
+    if step_markers and len(audio_steps) > 0:
+        # 從後往前插入，避免 offset 位移
+        n_inject = min(len(step_markers), len(audio_steps))
+        for marker_idx in range(n_inject - 1, -1, -1):
+            match = step_markers[marker_idx]
+            indent = match.group(1)
+            step_i, step_data = audio_steps[marker_idx]
+            audio_path = step_data["audio_path"]
+            duration = step_data.get("duration", 2.0)
+            dur_var = f"_audio_dur_{marker_idx}"
+
+            # 注入 add_sound（含實際 duration 供後面 wait 參考）
+            inject_lines = (
+                f'{indent}self.add_sound("{audio_path}")  # [auto-injected] duration={duration:.2f}s\n'
+                f'{indent}{dur_var} = {duration:.2f}  # [audio-sync] actual TTS duration\n'
+            )
+            code = code[:match.start()] + inject_lines + code[match.start():]
+
+        # === Step 2: 替換 remaining_N / self.wait() 使用實際 duration ===
+        # 把 LLM 自己寫的 remaining_N = max(0.1, X - Y + Z) 替換成用 _audio_dur_N
+        # Pattern: remaining_N = max(...) → remaining_N = _audio_dur_N
+        # 同時去掉 LLM 猜測的 wait 計算，讓 wait 等待完整 TTS 時長
+        for marker_idx in range(n_inject):
+            step_i, step_data = audio_steps[marker_idx]
+            duration = step_data.get("duration", 2.0)
+            dur_var = f"_audio_dur_{marker_idx}"
+            step_num = marker_idx + 1
+            # 替換 remaining_{step_num} = max(...) → remaining_{step_num} = _audio_dur_N
+            code = _re.sub(
+                rf'([ \t]*)remaining_{step_num}\s*=\s*max\([^\n]+\)',
+                rf'\1remaining_{step_num} = {dur_var}  # [audio-sync] use actual TTS duration',
+                code
+            )
+
+        injected = True
+        print(f"🎵 [Audio Post-Inject] 成功注入 {n_inject} 個 self.add_sound()，wait 同步至實際 TTS 時長")
+
+    # Fallback: 若 step 標記對不上，退而注入 final_narrative 在 construct() 開頭
+    if not injected:
+        construct_match = _re.search(r'(def construct\(self\):\s*\n)', code)
+        if construct_match and final_audio_path:
+            insert_pos = construct_match.end()
+            next_line = code[insert_pos:insert_pos + 80]
+            indent_match = _re.match(r'^(\s+)', next_line)
+            indent = indent_match.group(1) if indent_match else "        "
+            inject_line = f'{indent}self.add_sound("{final_audio_path}")  # [auto-injected: full narration]\n'
+            code = code[:insert_pos] + inject_line + code[insert_pos:]
+            print(f"🎵 [Audio Post-Inject] Fallback: 注入 final_narrative 在 construct() 開頭")
         else:
-            return False, result.stderr
-    except FileNotFoundError:
-        return False, "錯誤：找不到 'manim' 指令。請確保已安裝 Manim 且路徑正確。"
+            print("⚠️ [Audio Post-Inject] 無法注入音訊同步碼（找不到 construct 或 step 標記）")
 
-def _format_reflection_memory(reflection_memory):
-    """
-    格式化反思記憶以注入到 LLM prompt 中。
-    
-    Args:
-        reflection_memory: 包含過去教訓的列表
-        
-    Returns:
-        格式化後的字符串
-    """
-    if not reflection_memory:
-        return ""
-    
-    memory_section = "\n" + "="*60 + "\n"
-    memory_section += "📚 **PAST LESSONS LEARNED** (Reflexion Memory)\n"
-    memory_section += "="*60 + "\n"
-    memory_section += "The following are lessons from PREVIOUS FAILED attempts.\n"
-    memory_section += "STRICTLY AVOID making the same mistakes:\n\n"
-    
-    for idx, lesson in enumerate(reflection_memory, 1):
-        memory_section += f"{idx}. {lesson}\n"
-    
-    memory_section += "="*60 + "\n"
-    
-    return memory_section
-
-
-def auto_fix_loop(file_path, scene_name, user_topic, script_json, llm_client=None, max_attempts=10):
-    """
-    自動修復循環：包含語義審查與語法修復 (Reflexion Mechanism Fully Implemented)。
-    
-    Core Logic:
-    1. 讀取代碼 → 2. 語義審查 → 3. 渲染檢查 → 4. [失敗時] 自我反思 → 5. 修復 (注入記憶)
-    """
-    diagnoser = ManimDiagnoser()
-    llm = llm_client if llm_client else LLMClient()
-    reviewer = CodeReviewer()
-    
-    # [Reflexion] 1. 初始化長期記憶 Buffer (儲存過去的教訓)
-    reflection_memory = []
-    
-    start_time = time.time()
-    
-    for i in range(max_attempts):
-        print(f"\n" + "═"*50)
-        print(f"🔄  迭代進行中: 第 {i+1} / {max_attempts} 次嘗試")
-        print("═"*50)
-        
-        # 讀取當前代碼
-        with open(file_path, "r", encoding="utf-8") as f:
-            current_code = f.read()
-
-        # ========== Phase 1: 語義審查 (QA Compliance Check) ==========
-        print("🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...")
-        review_feedback = reviewer.review_code(user_topic, current_code, script_json)
-        
-        # 🛡️ [安全性檢查] 強制檢查音訊調用 (Hard Check)
-        # 必須在 PASS/FAIL 分支判斷之前執行，確保能正確觸發修復循環
-        if "PASS" in review_feedback:
-            user_safe_topic = user_topic.replace(" ", "_").replace(".", "_").replace("/", "_").replace("*", "x")
-            audio_dir = os.path.join("media", "audio", user_safe_topic)
-            
-            # 如果音訊目錄存在且有檔案，但代碼中沒有 add_sound
-            if os.path.exists(audio_dir) and len(os.listdir(audio_dir)) > 0:
-                if "add_sound" not in current_code:
-                    print("⚠️ [系統攔截] 檢測到 Reviewer 漏判音訊缺失！強制轉為 FAIL。")
-                    review_feedback = """FAIL
-
-[Audio Sync]: Critical Violation - Audio files generated but NOT used.
-You MUST add `self.add_sound("media/audio/{}/step_XX.mp3")` for every step.
-Do not verify this yourself, the system has confirmed audio files exist.
-Fix this immediately.
-""".format(user_safe_topic)
-                else:
-                    # ✅ NEW: Force disable caching to prevent add_sound skip bug (Issue #4005)
-                    print("🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)")
-                    import sys
-                    if "--disable_caching" not in sys.argv:
-                        sys.argv.append("--disable_caching")
-        
-        # 現在根據最終的 review_feedback 進行分支
-        if "PASS" in review_feedback:
-            print("✅ 語義與佈局審查通過！執行渲染...")
-            
-            # ========== Phase 2: Manim 渲染檢查 (語法驗證) ==========
-            print("🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...")
-            success, message = run_manim_task(file_path, scene_name)
-            
-            if success:
-                # ========== Rendering Success: Skip Vision Check During Iterations ==========
-                # We'll run Vision Check ONCE at the end, not every iteration
-                # This saves ~60% of Vision costs by avoiding redundant GPT-4o calls
-                
-                duration = round(time.time() - start_time, 2)
-                
-                # 自動備份成果
-                output_folder = "stable_outputs"
-                if not os.path.exists(output_folder):
-                    os.makedirs(output_folder)
-
-                safe_name = user_topic.replace(" ", "_").replace(".", "_")
-                for char in '<>:"/\\|?*':
-                    safe_name = safe_name.replace(char, "_")
-                
-                # 1. 備份影片檔案
-                module_name = os.path.splitext(os.path.basename(file_path))[0]
-                video_source = os.path.join("media", "videos", module_name, "480p15", f"{scene_name}.mp4")
-                
-                v_status = "⚠️ 未找到影片"
-                if os.path.exists(video_source):
-                    backup_video_path = os.path.join(output_folder, f"{safe_name}.mp4")
-                    shutil.move(video_source, backup_video_path)
-                    v_status = f"🎥 {os.path.basename(backup_video_path)}"
-                
-                # 2. 備份 Python 程式碼
-                p_status = "⚠️ 檔案為空"
-                if os.path.getsize(file_path) > 0:
-                    backup_py_path = os.path.join(output_folder, f"{safe_name}.py")
-                    shutil.copy(file_path, backup_py_path)
-                    p_status = f"🐍 {os.path.basename(backup_py_path)}"
-
-                # 排版輸出成果 (暫時不顯示 Vision Audit 狀態)
-                print("\n" + "═"*40)
-                print(f"✨ 【渲染成功 / Rendering Success】 ✨")
-                print("═"*40)
-                print(f"⏱️  總執行耗時: {duration} 秒")
-                print(f"📂  歸檔目錄: {output_folder}")
-                print(f"    {v_status}")
-                print(f"    {p_status}")
-                print("═"*40 + "\n")
-                
-                # Return the video path for final Vision Check
-                return backup_video_path if os.path.exists(video_source) else True
-            
-            # ========== Rendering Failed Path ==========
-            else:
-                print(f"\n❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：")
-                print("-" * 30)
-                print(message)
-                print("-" * 30)
-                
-                # [Reflexion] Step 2a: Self-Reflection on Rendering Failure
-                print("\n🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...")
-                reflection_prompt = f"""You are an expert Python/Manim Developer.
-
-**FAILURE CONTEXT**:
-You attempted to render a Manim animation but failed.
-
-**ERROR MESSAGE**:
-{message}
-
-**YOUR TASK**:
-1. Analyze the ROOT CAUSE of this error (e.g., syntax error, missing import, wrong API usage, etc.).
-2. Provide a concise "Lesson Learned" (1-2 sentences) summarizing what went wrong and how to avoid it in future attempts.
-3. **Do NOT generate code**. Only provide the lesson.
-
-**OUTPUT FORMAT**:
-Lesson: [Your concise lesson here]
-"""
-                lesson = llm.ask_for_fix(reflection_prompt)
-                reflection_memory.append(f"[Rendering Error] {lesson}")
-                print(f"💡 新增教訓: {lesson[:150]}...")
-
-                # [Reflexion] Step 3: Prepare Fix Prompt with Injected Memory
-                history_context = _format_reflection_memory(reflection_memory)
-                feedback_for_llm = f"""
-{diagnoser.generate_fix_prompt(message, current_code, script_json)}
-
-{history_context}
-
-**CRITICAL**: Review the "Past Lessons Learned" above and **strictly avoid** making the same mistakes again.
-"""
-        
-        # ========== Semantic Review Failed Path ==========
-        else:
-            print(f"\n⚠️  語義/佈局審查未通過：")
-            print("-" * 30)
-            print(review_feedback)
-            print("-" * 30)
-            
-            # [Reflexion] Step 2b: Self-Reflection on Semantic Review Failure
-            print("\n🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...")
-            reflection_prompt = f"""You are an expert Manim Developer.
-
-**FAILURE CONTEXT**:
-Your generated code failed the semantic review (QA Compliance Check).
-
-**REVIEW FEEDBACK**:
-{review_feedback}
-
-**YOUR TASK**:
-1. Analyze WHY the code failed the review (e.g., missing signal actions, incorrect audio sync, layout violations, etc.).
-2. Provide a concise "Lesson Learned" (1-2 sentences) to avoid this in future iterations.
-3. **Do NOT generate code**. Only provide the lesson.
-
-**OUTPUT FORMAT**:
-Lesson: [Your concise lesson here]
-"""
-            lesson = llm.ask_for_fix(reflection_prompt)
-            reflection_memory.append(f"[Review Failure] {lesson}")
-            print(f"💡 新增教訓: {lesson[:150]}...")
-            
-            # [Reflexion] Step 3: Prepare Fix Prompt with Injected Memory
-            history_context = _format_reflection_memory(reflection_memory)
-            feedback_for_llm = f"""
-代碼審查失敗。請根據以下詳細建議修正代碼：
-
-{review_feedback}
-
-【參考腳本】:
-{script_json}
-
-【當前代碼】:
-{current_code}
-
-{history_context}
-
-**CRITICAL**: Review the "Past Lessons Learned" above and **strictly avoid** making the same mistakes again.
-"""
-
-        # ========== Step 4: Request AI to Fix Code (with Memory Injection) ==========
-        # ========== Step 4: Request AI to Fix Code (with Memory Injection) ==========
-        print("\n🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...")
-        
-        # [Fix] Retry loop for empty fix code generation
-        new_code = ""
-        for attempt in range(3):
-            new_code = llm.ask_for_fix(feedback_for_llm)
-            if new_code and len(new_code.strip()) > 0:
-                break
-            print(f"⚠️ [AICodeFix] 生成的修復代碼為空，正在重試 ({attempt+1}/3)...")
-
-        if not new_code or len(new_code.strip()) == 0:
-            print("❌ [Critical] 無法生成有效的修復代碼，跳過此輪修復 (保留舊代碼)。")
-            continue 
-
-        # 【強制修正】：使用 Regex 強制替換類名，確保修復後的代碼也能被 Manim 識別
-        import re
-        print(f"🔧 [Debug] 強制檢查並修正類名為 {target_scene} (In Fix Loop)...")
-        new_code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', new_code, count=1)
-        
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write(new_code)
-            
-    print(f"\n❌ 遺憾：已達到最大嘗試次數 ({max_attempts})，自動修復停止。")
-    return False
+    return code
 
 if __name__ == "__main__":
     print("\n" + "╔" + "═"*48 + "╗")
@@ -319,318 +144,211 @@ if __name__ == "__main__":
         logger.start_session(user_input)
         
         target_scene = "GeneratedScene"
-        
-        # 檢查是否為直接執行現有檔案
-        if user_input.endswith(".py") and os.path.exists(user_input):
-            print(f"\n📂 檢測到現有檔案，正在啟動播放模式...")
-            success, message = run_manim_task(user_input, target_scene)
-            if not success:
-                print(f"❌ 執行失敗，錯誤訊息：\n{message}")
-        else:
-            user_topic = user_input
-            target_file = "test_script.py"
+        target_file = "test_script.py"
         
         # 共享 LLMClient 以統計總 Token 與成本
         llm = LLMClient()
-        
-        # ========== 🎯 SMART ROUTING: Arithmetic Template Detection ==========
-        import re
-        from templates.addition import generate_vertical_addition_code, generate_addition_narrative
-        from agents.audio_engine import AudioEngine
-        
-        def detect_arithmetic_task(topic):
-            """
-            Detect if the topic is a basic arithmetic operation.
-            Returns: (is_arithmetic, num1, operator, num2)
-            """
-            # Match patterns like "123 + 456", "1234+5678", "整數加法：123+456"
-            pattern = r'(\d+)\s*([+\-])\s*(\d+)'
-            match = re.search(pattern, topic)
-            if match:
-                num1_str, operator, num2_str = match.groups()
-                return True, int(num1_str), operator, int(num2_str)
-            return False, None, None, None
-        
-        is_arithmetic, num1, op, num2 = detect_arithmetic_task(user_topic)
-        
-        if is_arithmetic and op == '+':
-            print("\n" + "="*60)
-            print(f"🎯 偵測到基礎算術任務：{num1} + {num2}")
-            print("📦 使用確定性模板系統 (Deterministic Template)")
-            print("   ✅ 100% 正確性保證")
-            print("   ✅ 跳過 AI Pipeline (Planner + Coder)")
-            print("   ✅ 包含語音旁白同步")
-            print("="*60)
-            
-            # Step 1: Generate narrative
-            print("📝 生成算術旁白文字...")
-            narrative_steps = generate_addition_narrative(num1, num2)
-            
-            # Step 2: Generate audio files
-            print("🎙️ 生成語音檔案...")
-            audio_engine = AudioEngine(topic=user_topic)
-            audio_steps, final_audio = audio_engine.generate_narration(narrative_steps)
-            
-            # Step 3: Generate code using template with audio sync
-            print("📦 生成同步動畫代碼...")
-            template_code = generate_vertical_addition_code(
-                num1=num1,
-                num2=num2,
-                scene_name=target_scene,
-                audio_steps=audio_steps
-            )
-            
-            # Write to file
-            with open(target_file, "w", encoding="utf-8") as f:
-                f.write(template_code)
-            
-            print(f"✅ 模板代碼已生成：{target_file}")
-            print("🚀 執行渲染檢查...")
-            
-            # Skip Planner, Coder, and Review - go straight to rendering
-            result = run_manim_task(target_file, target_scene)
-            
-            if result[0]:  # Success
-                print("\n" + "="*40)
-                print("✨ 【渲染成功 / Rendering Success】 ✨")
-                print("="*40)
-                
-                # Archive to stable_outputs
-                safe_name = user_topic.replace(" ", "_").replace(".", "_").replace("/", "_").replace("*", "x").replace("+", "_plus_")
-                stable_dir = "stable_outputs"
-                os.makedirs(stable_dir, exist_ok=True)
-                
-                # Copy files
-                import shutil
-                
-                # Construct correct video path based on Manim's output structure
-                # Manim outputs to: media/videos/{script_basename}/{quality}/{scene_name}.mp4
-                script_basename = os.path.splitext(os.path.basename(target_file))[0]  # "test_script"
-                video_src = f"media/videos/{script_basename}/480p15/{target_scene}.mp4"
-                
-                if os.path.exists(video_src):
-                    video_dst = os.path.join(stable_dir, f"{safe_name}.mp4")
-                    shutil.copy(video_src, video_dst)
-                    print(f"    🎥 {safe_name}.mp4")
-                else:
-                    print(f"    ⚠️  影片未找到於: {video_src}")
-                
-                code_dst = os.path.join(stable_dir, f"{safe_name}.py")
-                shutil.copy(target_file, code_dst)
-                print(f"    🐍 {safe_name}.py")
-                print("="*40)
-            else:
-                print(f"❌ 渲染失敗：{result[1]}")
-            
-            # Print stats and exit
-            logger.log_session_stats(llm)
+
+        # 1. 檢查是否為直接執行現有檔案
+        if user_input.endswith(".py") and os.path.exists(user_input):
+            print(f"\n📂 檢測到現有檔案，正在啟動播放模式...")
+            success, message = RefiningLoop.run_manim_task(user_input, target_scene)
+            if not success:
+                print(f"❌ 執行失敗，錯誤訊息：\n{message}")
             sys.exit(0)
-        
-        # ========== Original AI Pipeline (for non-arithmetic tasks) ==========
+
+        # 2. 智能路由 (Smart Task Router)
+        router = TaskRouter()
+        is_arithmetic, num1, op, num2 = router.detect_arithmetic_task(user_input)
+        if is_arithmetic:
+            video_path = router.route_to_template(user_input, num1, op, num2, target_scene, target_file, logger, llm)
+            if video_path:
+                sys.exit(0)
+
+        # 3. 自動翻譯 (Academic Translator Agent)
+        translator = AcademicTranslator(llm_client=llm)
+        user_topic = translator.translate_to_english(user_input)
+
+        # ========== 🎬 Original AI Pipeline (Planner + Coder) ==========
 
         # 階段一：Director 規劃 (Planner)
         print("\n🎬 [階段 1: Director] 正在規劃動畫腳本...")
         planner = Planner(llm_client=llm)
-        script_json = planner.plan_script(user_topic)
+        script_json, thought_tree_raw = planner.plan_script(user_topic)
+        
+        # [Optimization] Strip XML thought/reasoning blocks before parsing
+        script_json_clean = re.sub(r'<thought_tree>.*?</thought_tree>', '', script_json, flags=re.DOTALL)
+        script_json_clean = re.sub(r'<reasoning>.*?</reasoning>', '', script_json_clean, flags=re.DOTALL).strip()
         
         try:
-            parsed_script = json.loads(script_json)
-            print("🎬 規劃腳本內容摘要：")
-            # 兼容舊版與新版 JSON (新版使用 sequence, 舊版使用 scenes)
-            if "sequence" in parsed_script:
-                steps = parsed_script["sequence"]
-            else:
-                steps = parsed_script.get("scenes", [])
-                
-            for i, step in enumerate(steps):
-                desc = step.get('description', '')
-                if not desc and 'visual_action' in step:
-                     # 新版 JSON 可能將描述放在 visual_action.details 或 narrative
-                     desc = step['visual_action'].get('details', '') or step.get('narrative', '')[:20]
-                print(f"  - 步驟 {i+1}: {desc}")
-        except Exception as e:
-            print(f"⚠️ JSON 解析失敗: {e}")
-            extracted = _extract_first_json_object(script_json)
-            if extracted:
-                try:
-                    parsed_script = json.loads(extracted)
-                    print("✅ 成功從文本中提取 JSON")
-                except Exception as ex:
-                    print(f"❌ JSON 提取後解析失敗: {ex}")
-                    print(f"📄 提取的內容: {extracted[:200]}...")
-                    parsed_script = None
-            else:
-                print(f"❌ 無法在輸出中找到有效的 JSON 結構")
-                print(f"🎬 規劃腳本內容（前 500 字元）：\n{script_json[:500]}")
+            parsed_script = json.loads(script_json_clean)
+        except Exception:
+            extracted = _extract_first_json_object(script_json_clean)
+            try:
+                parsed_script = json.loads(extracted) if extracted else None
+            except Exception:
                 parsed_script = None
+                print("⚠️  最終解析失敗，嘗試使用原始輸出做為上下文。")
 
-        # 成功取得 parsed_script 時，將 script_json 統一為乾淨的 JSON 字串，供 Coder / Reviewer 使用
-        if parsed_script is not None and isinstance(parsed_script, dict):
+        if parsed_script:
             script_json = json.dumps(parsed_script, ensure_ascii=False, indent=2)
+            print(f"📉 [Compression] Planner Context Reduced: {len(script_json)} chars")
 
-        # 階段 1.5: Audio Generation
-        # 從 Director 的 Visual Rationale 中提取 sequence
-        if 'parsed_script' in locals() and isinstance(parsed_script, dict):
-            # 優先使用新版 sequence 結構
-            if "sequence" in parsed_script:
-                sequence_data = parsed_script["sequence"]
-                print(f"\n🎙️ [階段 1.5: Audio Generation] 正在生成語音 (來源: Director's sequence)...")
-            elif "scenes" in parsed_script:
-                # 向後兼容舊版 scenes 結構
-                sequence_data = parsed_script["scenes"]
-                print(f"\n🎙️ [階段 1.5: Audio Generation] 正在生成語音 (來源: legacy scenes)...")
-            else:
-                sequence_data = None
-                print(f"\n⚠️ 警告：JSON 中未找到 sequence 或 scenes 結構，跳過語音生成。")
-            
-            if sequence_data:
+            # Task 11: Audio (Step 1.5) 與 RAG (Step 1.8) 並行執行，節省 15-28s
+            from agents.utils.audio_engine import AudioEngine
+            sequence_data = parsed_script.get("sequence") or parsed_script.get("scenes")
+
+            def _audio_task():
+                if not sequence_data:
+                    return None, None
+                print(f"\n🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...")
                 try:
-                    # 傳遞 user_topic 讓 AudioEngine 為此主題創建專屬音檔目錄
-                    print(f"🔧 [Debug] 初始化 AudioEngine，topic={user_topic}")
                     audio_engine = AudioEngine(topic=user_topic)
-                    print(f"🔧 [Debug] AudioEngine 已初始化，azure_enabled={audio_engine.azure_enabled}")
-                    
-                    # 呼叫 generate_narration 並取得更新後的列表 (含 duration) 與合併音檔路徑
-                    updated_sequence, final_audio_path = audio_engine.generate_narration(sequence_data)
-                    
-                    # 寫回對應的鍵值
-                    if "sequence" in parsed_script:
-                        parsed_script["sequence"] = updated_sequence
-                    else:
-                        parsed_script["scenes"] = updated_sequence
-                    
-                    # 更新 script_json 供後續使用
-                    script_json = json.dumps(parsed_script, ensure_ascii=False, indent=2)
-                    
-                    print(f"✅ 語音處理完成！合併音檔: {final_audio_path}")
-                    print(f"📊 已根據語音時長更新 duration，準備傳遞給 Engineer (Coder)。")
+                    return audio_engine.generate_narration(sequence_data)
                 except Exception as e:
-                    import traceback
-                    print(f"❌ 語音生成過程發生錯誤: {e}")
-                    print(f"🔍 [Debug] 錯誤詳情：")
-                    print(traceback.format_exc())
-                    print(f"⚠️ 將使用預設時長繼續（影片無音檔）")
+                    print(f"❌ 語音生成發生錯誤: {e}")
+                    return None, None
 
+            def _rag_task():
+                print("\n📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...")
+                from agents.core.rag_retriever import RAGRetriever as _RAG
+                _rag = _RAG()
+                _results = _rag.retrieve_examples(user_topic, limit=2)
+                _ctx = _rag.format_for_prompt(_results)
+                _rag.close()
+                return _ctx
 
-        # 階段 1.8: RAG Search (Golden Examples)
-        print("\n📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例 (Golden Examples)...")
-        
-        # 🔍 [Smart RAG Query] 偵測算術任務並使用明確關鍵字
-        def get_smart_rag_query(topic):
-            """
-            智能 RAG 查詢：偵測任務類型並返回最佳搜尋關鍵字
-            確保算術任務能找到直式黃金範例
-            """
-            topic_lower = topic.lower()
-            
-            # 偵測加減法
-            is_addition = any(kw in topic_lower for kw in ['+', '加法', '加', 'addition', 'add'])
-            is_subtraction = any(kw in topic_lower for kw in ['-', '減法', '減', 'subtraction', 'subtract'])
-            
-            if is_addition or is_subtraction:
-                # 偵測小數 vs 整數
-                is_decimal = any(kw in topic_lower for kw in ['小數', 'decimal', '.'])
-                
-                if is_decimal:
-                    query = "vertical decimal addition subtraction carry borrowing golden example"
-                else:
-                    query = "vertical integer addition subtraction carry column alignment golden example"
-                
-                print(f"   🎯 偵測到算術任務！使用增強查詢：'{query}'")
-                return query
-            
-            # 其他任務：使用原始主題
-            return topic
-        
-        enhanced_query = get_smart_rag_query(user_topic)
-        
-        rag_retriever = RAGRetriever()
-        rag_results = rag_retriever.retrieve_examples(enhanced_query, limit=3)
-        rag_context = rag_retriever.format_for_prompt(rag_results)
-        
-        # Debug: 顯示檢索到的範例數量
-        if rag_results:
-            print(f"   ✅ 檢索到 {len(rag_results)} 個相關範例")
+            # [Optimization V4] Audio ‖ RAG ‖ Coder 三路並行。
+            # Coder 內部先 block 等 RAG（~5-10s），拿到 rag_context 後立即呼叫 LLM。
+            # Audio 並行跑，結果在 Coder 完成後才取用（Audio ~15-25s << Coder ~60-90s）。
+            _pipeline_executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
+
+            # spatial_hints 需在 Coder 啟動前算好（純 CPU，幾乎零耗時）
+            if thought_tree_raw:
+                _tt_truncated = thought_tree_raw[:500].strip()
+                _tt_suffix = "\n... (truncated)" if len(thought_tree_raw) > 500 else ""
+                spatial_hints = f"PLANNER SPATIAL HINTS:\n{_tt_truncated}{_tt_suffix}"
+            else:
+                spatial_hints = ""
+
+            _audio_future = _pipeline_executor.submit(_audio_task)
+            _rag_future = _pipeline_executor.submit(_rag_task)
+
+            def _coder_task():
+                """等 RAG 完成後立即啟動 Coder（T=0.3），不等 Audio。"""
+                _rag_ctx = _rag_future.result()
+                print("\n👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...")
+                coder_prompter = CoderPrompter()
+                _cs, _cu = coder_prompter.generate_initial_prompt(
+                    script_json, target_scene, rag_context=_rag_ctx, spatial_hints=spatial_hints
+                )
+                raw = llm.ask_for_fix(_cs, _cu, temperature=0.3)
+                code = LLMClient.extract_code(raw)
+                code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', code, count=1)
+                code = re.sub(r'self\.wait\(([^)]+)\)', lambda m: f'self.wait(max(0.1, {m.group(1)}))', code)
+                try:
+                    compile(code, "<coder>", "exec")
+                    print("✅ [Coder] T=0.3 通過編譯檢查")
+                except SyntaxError as _se:
+                    print(f"⚠️ [Coder] T=0.3 編譯失敗: {_se}，進入修復循環")
+                return code
+
+            _coder_future = _pipeline_executor.submit(_coder_task)
+
+            try:
+                first_code = _coder_future.result()
+                updated_sequence, final_audio_path = _audio_future.result()
+                rag_context = _rag_future.result()  # already resolved
+            finally:
+                _pipeline_executor.shutdown(wait=False)
+
+            # [Optimization V4] Post-inject audio sync code into Coder's output.
+            # Coder ran in parallel with Audio (no audio info in prompt), so we
+            # retroactively inject self.add_sound() calls at each # Step marker.
+            if updated_sequence is not None:
+                key = "sequence" if "sequence" in parsed_script else "scenes"
+                parsed_script[key] = updated_sequence
+                script_json = json.dumps(parsed_script, ensure_ascii=False, indent=2)
+                print(f"✅ 語音處理完成！合併音檔: {final_audio_path}")
+
+                first_code = _inject_audio_sync(first_code, updated_sequence, final_audio_path)
         else:
-            print(f"   ⚠️  未檢索到相關範例")
-        
-        rag_retriever.close()
+            # [#7] Planner JSON parse failed — inject minimal fallback so Coder always
+            # receives valid JSON instead of garbled raw Planner output.
+            _raw_hint = script_json[:500] if isinstance(script_json, str) else ""
+            _fallback = {
+                "title": user_topic,
+                "target_scene": target_scene,
+                "notes": "Planner JSON parse failed. Generate animation from topic title only.",
+                "raw_planner_hint": _raw_hint,
+            }
+            script_json = json.dumps(_fallback, ensure_ascii=False, indent=2)
+            print("⚠️  [Fallback] Planner 解析失敗，已注入最小 fallback JSON")
 
+            # parsed_script 為 None 時仍需有 rag_context（單執行緒，無音訊）
+            print("\n📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...")
+            _rag = RAGRetriever()
+            _results = _rag.retrieve_examples(user_topic, limit=2)
+            rag_context = _rag.format_for_prompt(_results)
+            _rag.close()
 
-        # 階段二：Coder 初始代碼生成
-        # 【重點修改】：這裡的 Prompt 必須跟 Reviewer 的標準一致，不然一開始就會 FAIL
-        print("\n✍️ [階段 2: Coder] 正在撰寫初始 Manim 程式碼...")
-        # 使用共享的 llm
-        coder_prompter = CoderPrompter()
-        # 注入 RAG Context
-        initial_prompt = coder_prompter.generate_initial_prompt(script_json, target_scene, rag_context=rag_context)
-        
-        # [Fix] Retry loop for empty code generation
-        max_retries = 3
-        first_code = ""
-        for attempt in range(max_retries):
-            first_code = llm.ask_for_fix(initial_prompt)
-            if first_code and len(first_code.strip()) > 0:
-                break
-            print(f"⚠️ 生成的代碼為空，正在重試 ({attempt+1}/{max_retries})...")
-        
-        # 【強制修正】：使用 Regex 強制替換類名，確保 Manim 能找到 GeneratedScene
-        import re
-        print(f"🔧 [Debug] 強制檢查並修正類名為 {target_scene}...")
-        first_code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', first_code, count=1)
-        
+            # Fallback path: no Audio, Coder runs after RAG
+            print("\n👨‍💻 [階段 2: Coder] 正在生成動畫程式碼 (Best-of-3 並行)...")
+            if thought_tree_raw:
+                _tt_truncated = thought_tree_raw[:500].strip()
+                _tt_suffix = "\n... (truncated)" if len(thought_tree_raw) > 500 else ""
+                spatial_hints = f"PLANNER SPATIAL HINTS:\n{_tt_truncated}{_tt_suffix}"
+            else:
+                spatial_hints = ""
+            coder_prompter = CoderPrompter()
+            coder_system, coder_user = coder_prompter.generate_initial_prompt(
+                script_json, target_scene, rag_context=rag_context, spatial_hints=spatial_hints
+            )
+
+            def _generate_candidate(temperature):
+                raw = llm.ask_for_fix(coder_system, coder_user, temperature=temperature)
+                code = LLMClient.extract_code(raw)
+                code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', code, count=1)
+                code = re.sub(
+                    r'self\.wait\(([^)]+)\)',
+                    lambda m: f'self.wait(max(0.1, {m.group(1)}))',
+                    code
+                )
+                return code
+
+            first_code = _generate_candidate(0.3)
+            try:
+                compile(first_code, "<coder>", "exec")
+                print("✅ [Coder] T=0.3 通過編譯檢查")
+            except SyntaxError as _se:
+                print(f"⚠️ [Coder] T=0.3 編譯失敗: {_se}，進入修復循環")
+
         with open(target_file, "w", encoding="utf-8") as f:
             f.write(first_code)
 
-            # 階段三：自動修復與審查循環
-            print("\n🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...")
-            result = auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm)
+        # 階段三：自動修復與審查循環
+        print("\n🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...")
+        from agents.core.llm_client import LLMError
+        try:
+            result = RefiningLoop.auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+        except LLMError as e:
+            print(f"❌ [Fatal] LLM API 完全失敗：{e}")
+            sys.exit(1)
             
-            # ========== Phase 3.5: Final Vision Audit (Delayed Strategy) ==========
-            # Only run Vision Check ONCE after all iterations complete
-            # This saves ~60% of Vision costs by avoiding redundant GPT-4o calls
-            if result and isinstance(result, str) and result.endswith('.mp4'):
-                print("\n👁️ [階段 3.5: Final Vision Audit] 正在進行最終視覺審查...")
-                try:
-                    import subprocess
-                    frame_path = "temp_last_frame.jpg"
-                    # Extract the last second's representative frame
-                    subprocess.run(["ffmpeg", "-sseof", "-1", "-i", result, "-vframes", "1", "-update", "1", frame_path, "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-                    
-                    vision_agent = VisionAgent(llm_client=llm)
-                    audit = vision_agent.audit_frame(frame_path, script_json)
-                    
-                    if audit["verdict"] == "FAIL":
-                        print(f"\n❌ 視覺審查失敗")
-                        print(f"📝 總體評價: {audit.get('overall_critique', 'No critique')}")
-                        
-                        # Display structured defects
-                        defects = audit.get('defects', [])
-                        if defects:
-                            print(f"\n🔍 發現 {len(defects)} 個缺陷：")
-                            for i, defect in enumerate(defects, 1):
-                                severity_emoji = {"Critical": "🔴", "Major": "🟠", "Minor": "🟡"}.get(defect.get("severity", "Minor"), "⚪")
-                                print(f"\n  {i}. {severity_emoji} [{defect.get('category', 'Unknown')}] - {defect.get('severity', 'Unknown')} 嚴重性")
-                                print(f"     問題: {defect.get('description', 'No description')}")
-                                if defect.get('suggested_fix'):
-                                    print(f"     建議修復: {defect['suggested_fix']}")
-                        
-                        print("\n⚠️ 建議：請檢查生成的影片，根據上述建議手動調整或重新生成。")
-                        print(f"📹 影片位置: {result}")
-                    else:
-                        print(f"\n✅ 視覺審查通過！影片品質符合標準。")
-                        print(f"📝 評價: {audit.get('overall_critique', 'All checks passed.')}")
-                        
-                except Exception as e:
-                    print(f"⚠️ Vision Check Error: {e}")
-                    print("ℹ️ 影片已生成，但視覺審查未能執行。")
-            
-            # --- 最終統計報告 ---
-            print(llm.get_session_report())
-    
+        # 最終統計報告
+        print(llm.get_session_report())
+        
     finally:
-        # Always end logging session, even if there's an error
         logger.end_session()
-        # 釋放 LLMClient 資源 (避免 ResourceWarning)
         if 'llm' in locals():
+            # [Improvement] Always save cost_report.json, even on failure.
+            # Previously written only inside try block, so LLMError / timeout / crash would skip it,
+            # making failed tasks show '—' in the cost dashboard instead of their true token cost.
+            try:
+                stable_out_dir = "stable_outputs"
+                os.makedirs(stable_out_dir, exist_ok=True)
+                with open(os.path.join(stable_out_dir, "cost_report.json"), "w", encoding="utf-8") as f:
+                    json.dump(llm.session_stats, f, indent=2)
+            except Exception:
+                pass  # Best-effort — don't let a logging failure crash the cleanup
             llm.close()

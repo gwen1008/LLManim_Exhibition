@@ -1,0 +1,614 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-19_20-11-07_用兩個一樣的披薩圖形示範為什麼_1_2_等於_2_4並塗色對比區域.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.74 秒
+📊 [Token 統計]: 輸入 223 | 輸出 97 | 總計 320
+
+📢 [AI 審查/反饋意見]:
+Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, shade one sector to represent 1/2. Divide the second pizza into 4 equal sectors, shade 2 sectors to represent 2/4. Use contrasting colors to highlight the equivalence between the shaded regions of the two pizzas, demonstrating that 1/2 equals 2/4. Apply Transform() to align and compare the two pizzas, ensuring a clear visual representation of the mathematical concept.
+------------------------------
+   📝 初稿: Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, shade one sector to represent 1/2. Divide the second pizza into 4 equal sectors, shade 2 sectors to represent 2/4. Use contrasting colors to highlight the equivalence between the shaded regions of the two pizzas, demonstrating that 1/2 equals 2/4. Apply Transform() to align and compare the two pizzas, ensuring a clear visual representation of the mathematical concept.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.49 秒
+📊 [Token 統計]: 輸入 332 | 輸出 109 | 總計 441
+
+📢 [AI 審查/反饋意見]:
+Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, shade one sector to represent 1/2. Divide the second pizza into 4 equal sectors, shade 2 sectors to represent 2/4. Use contrasting colors to highlight the equivalence between the shaded regions of the two pizzas, demonstrating that 1/2 is equal to 2/4. Apply a transformation to align and compare the two pizzas, ensuring a clear visual representation of the mathematical concept that 1/2 equals 2/4.
+------------------------------
+✨ [翻譯完成]: Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, shade one sector to represent 1/2. Divide the second pizza into 4 equal sectors, shade 2 sectors to represent 2/4. Use contrasting colors to highlight the equivalence between the shaded regions of the two pizzas, demonstrating that 1/2 is equal to 2/4. Apply a transformation to align and compare the two pizzas, ensuring a clear visual representation of the mathematical concept that 1/2 equals 2/4.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 72.62 秒
+📊 [Token 統計]: 輸入 4087 | 輸出 3860 | 總計 7947
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+<metaphor>Kitchen Analogy: Show two pizzas on a counter. First pizza gets cut in half with a knife animation, one half gets pepperoni (shading). Second pizza gets cut into quarters with an X-cut, two quarters get pepperoni. Then slide pizzas together to compare shaded areas directly.</metaphor>
+<scores pedagogy="9" feasibility="8" engagement="8" />
+</branch>
+<branch id="B" type="Abstract">
+<metaphor>Geometric Proof: Two perfect circles side-by-side. First circle divides with a diameter line, second with two perpendicular diameters. Shade sectors using contrasting colors. Then morph the shaded half-pizza into two quarter-pieces that assemble into the equivalent area.</metaphor>
+<scores pedagogy="8" feasibility="9" engagement="7" />
+</branch>
+<branch id="C" type="Interactive/Progressive">
+<metaphor>Build-up from Unity: Start with one whole pizza. Divide it into 2, shade 1/2. Then subdivide each half into two quarters, showing the original shaded half now contains 2 quarters. Then duplicate this to create the second pizza for comparison.</metaphor>
+<scores pedagogy="10" feasibility="7" engagement="9" />
+</branch>
+<selection>
+<winner>C</winner>
+<reason>Strategy C offers the strongest pedagogical "aha!" moment by showing the equivalence through subdivision of the SAME pizza, making the concept of equivalent fractions visually intuitive. It reduces cognitive load by building on a single object before comparison. While slightly more complex to animate (subdividing existing sectors), it's highly feasible with Manim's Transform and VGroup operations.</reason>
+</selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Fraction equivalence 1/2 = 2/4. Visual representation using circular sectors (pizzas). Key operations: division, shading, comparison, transformation.
+
+**Selected Strategy (C) Spatial Logic**:
+1. **Single Pizza Focus**: Start with one whole pizza at center (ORIGIN). Scale: radius=2.
+2. **Division Steps**: 
+   - Step 1: Draw diameter (vertical line) to create 2 equal halves.
+   - Step 2: Shade right half (color1, e.g., BLUE).
+   - Step 3: Subdivide each half with horizontal diameter, creating 4 quarters.
+   - Step 4: Highlight that the original blue half contains 2 blue quarters.
+3. **Duplication & Alignment**:
+   - Create copy of pizza (radius=1.5, scaled down) that splits into two components:
+     * Left component: Shows 1/2 shading (blue half)
+     * Right component: Shows 2/4 shading (two blue quarters)
+   - Position these side-by-side for direct comparison.
+4. **Transformation**: Animate the blue half separating into two quarters that move to the right component.
+
+**Zone Assignment**:
+- HEADER: Title "Equivalent Fractions: 1/2 = 2/4"
+- CONTENT: Main pizza (center), then comparison pizzas (centered vertically)
+- FOOTER: Explanatory text for each step
+
+**Coordinate Calculations**:
+- Main pizza center: ORIGIN (0,0,0), radius=2
+- Division lines: 
+  - Vertical diameter: from (0,2,0) to (0,-2,0)
+  - Horizontal diameter: from (-2,0,0) to (2,0,0)
+- Comparison pizzas (after duplication):
+  - Left pizza center: (-3, 0, 0), radius=1.5
+  - Right pizza center: (3, 0, 0), radius=1.5
+- Sector vertices (for shading):
+  - Half-sector (right): [(0,0,0), (0,2,0), (0,-2,0)] with arc between (0,2,0) and (0,-2,0)
+  - Quarter-sectors: 
+    * Top-right: arc from (0,2,0) to (2,0,0)
+    * Bottom-right: arc from (2,0,0) to (0,-2,0)
+
+**Visual Hierarchy**:
+- Primary: Pizza circles and shaded sectors
+- Secondary: Division lines, fraction labels
+- Tertiary: Arrows for comparison, explanatory text
+============================================================
+
+📉 [Compression] Planner Context Reduced: 11146 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.42s | Let's start wit...
+  - 語音片段 1: 4.46s | Now cut it vert...
+  - 語音片段 2: 6.36s | Shade the right...
+  - 語音片段 3: 5.54s | Now let's cut e...
+  - 語音片段 4: 7.06s | Notice the blue...
+  - 語音片段 5: 4.85s | To compare clea...
+  - 語音片段 6: 6.46s | The left pizza ...
+  - 語音片段 7: 5.86s | The shaded area...
+✅ 語音處理完成！合併音檔: media/audio/用兩個一樣的披薩圖形_示範為什麼_1_2_3f651bb561/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, shade one sector to represent 1/2. Divide the second pizza into 4 equal sectors, shade 2 sectors to represent 2/4. Use contrasting colors to highlight the equivalence between the shaded regions of the two pizzas, demonstrating that 1/2 is equal to 2/4. Apply a transformation to align and compare the two pizzas, ensuring a clear visual representation of the mathematical concept that 1/2 equals 2/4.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 77.12 秒
+📊 [Token 統計]: 輸入 12943 | 輸出 4139 | 總計 17082
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.71 秒
+📊 [Token 統計]: 輸入 9098 | 輸出 765 | 總計 9863
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 17631 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:50 in construct     │
+│                                                                              │
+│    47 │   │   obj_pizza_main = LayoutObject(pizza_main, "pizza_main")        │
+│    48 │   │   layout.add(obj_pizza_main)                                     │
+│    49 │   │   layout.add_to_zone(obj_pizza_main, "CONTENT")                  │
+│ ❱  50 │   │   layout.add_constraint(obj_pizza_main.center == main_stage)     │
+│    51 │   │                                                                  │
+│    52 │   │   # Division Lines (initially not added to scene)                │
+│    53 │   │   div_line_vertical = Line(start=UP*2, end=DOWN*2, color=BLACK,  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'LayoutObject' object has no attribute 'center'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 8.00 秒
+📊 [Token 統計]: 輸入 685 | 輸出 375 | 總計 1060
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                          ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 62.87 秒
+📊 [Token 統計]: 輸入 8634 | 輸出 3473 | 總計 12107
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.69 秒
+📊 [Token 統計]: 輸入 8448 | 輸出 770 | 總計 9218
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14990 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:38 in construct     │
+│                                                                              │
+│    35 │   │                                                                  │
+│    36 │   │   # Sectors (initially not added to scene)                       │
+│    37 │   │   # Right half sector (starts at -PI/2, angle PI)                │
+│ ❱  38 │   │   sector_half = Sector(outer_radius=2, angle=PI, start_angle=-PI │
+│    39 │   │   sector_half.move_to(main_stage + RIGHT*0.001)  # Slight offset │
+│    40 │   │   self.objects["sector_half"] = sector_half                      │
+│    41                                                                        │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/arc.py:1037 in __init__                            │
+│                                                                              │
+│   1034 │   """                                                               │
+│   1035 │                                                                     │
+│   1036 │   def __init__(self, radius: float = 1, **kwargs: Any) -> None:     │
+│ ❱ 1037 │   │   super().__init__(inner_radius=0, outer_radius=radius, **kwarg │
+│   1038                                                                       │
+│   1039                                                                       │
+│   1040 class Annulus(Circle):                                                │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TypeError: manim.mobject.geometry.arc.AnnularSector.__init__() got multiple 
+values for keyword argument 'outer_radius'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 19.56 秒
+📊 [Token 統計]: 輸入 865 | 輸出 998 | 總計 1863
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                          ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 64.13 秒
+📊 [Token 統計]: 輸入 9145 | 輸出 3527 | 總計 12672
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.39 秒
+📊 [Token 統計]: 輸入 8484 | 輸出 764 | 總計 9248
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 15128 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.75 秒
+📊 [Token 統計]: 輸入 18394 | 輸出 286
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Scene contains overlapping elements and deviates from the layout plan, causing visual confusion.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The blue shaded areas of the left pizza and the equals sign overlap, leading to visual clutter and confusion.",
+      "suggested_fix": "Adjust the position of the equals sign or the shaded area to ensure no overlap occurs."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The fraction labels '1/2' and '2/4' are not aligned properly with their respective pizzas, resulting in miscommunication.",
+      "suggested_fix": "Use .next_to() with appropriate positioning to align the labels accurately."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The visibility of the fraction labels may suffer due to the background color and the color used for labels, lacking adequate contrast.",
+      "suggested_fix": "Increase font color brightness or decrease background brightness to enhance readability."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERLAP] The blue shaded areas of the left pizza and the equals sign overlap, leading to ...
+  🟠 [MISALIGNED] The fraction labels '1/2' and '2/4' are not aligned properly with their respecti...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Scene contains overlapping elements and deviates from the layout plan, causing visual confusion.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The blue shaded areas of the left pizza and the equals sign overlap, leading to...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 67.14 秒
+📊 [Token 統計]: 輸入 8674 | 輸出 3642 | 總計 12316
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.30 秒
+📊 [Token 統計]: 輸入 8484 | 輸出 765 | 總計 9249
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 15128 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.84 秒
+📊 [Token 統計]: 輸入 18394 | 輸出 341
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains several misalignments and overlaps that compromise clarity and pedagogical effectiveness.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The half-sector on the left overlaps with the circle outline, leading to visual confusion.",
+      "suggested_fix": "Adjust the position of sector_left to eliminate overlap with pizza_left."
+    },
+    {
+      "id": "ERR_002",
+      "code": "ALIGNMENT",
+      "severity": "Major",
+      "description": "The equals sign is not centered between the comparison pizzas; it is misaligned vertically.",
+      "suggested_fix": "Move equals_sign to center it accurately between the two comparison pizza sectors."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The color contrast between the fraction labels and the background does not meet the WCAG minimum ratio.",
+      "suggested_fix": "Adjust the color of the fraction labels to ensure a contrast ratio of at least 4.5:1."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The elements around the 'equals' sign are crowded, reducing visual clarity.",
+      "suggested_fix": "Increase spacing between the equals sign and surrounding elements to enhance clarity."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 3 defect(s):
+  🟠 [OVERLAP] The half-sector on the left overlaps with the circle outline, leading to visual ...
+  🟠 [ALIGNMENT] The equals sign is not centered between the comparison pizzas; it is misaligned ...
+  🟡 [CLUTTER] The elements around the 'equals' sign are crowded, reducing visual clarity....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains several misalignments and overlaps that compromise clarity and pedagogical effectiveness.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The half-sector on the left overlaps with the circle outline, leading to visual...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 65.50 秒
+📊 [Token 統計]: 輸入 8710 | 輸出 3581 | 總計 12291
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.22 秒
+📊 [Token 統計]: 輸入 8484 | 輸出 769 | 總計 9253
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 15128 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.22 秒
+📊 [Token 統計]: 輸入 18394 | 輸出 202
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Frame fails due to overlap and color contrast issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "Shaded sectors from both pizzas overlap the division line creating visual confusion.",
+      "suggested_fix": "Adjust the z_index of the sectors to ensure they are rendered in the correct order, ensuring the division lines remain distinct."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "Yellow labels for fractions are not clearly visible against the background.",
+      "suggested_fix": "Change the color of the fraction labels to a darker shade or adjust the background to enhance contrast, achieving a 4.5:1 ratio."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERLAP] Shaded sectors from both pizzas overlap the division line creating visual confus...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Frame fails due to overlap and color contrast issues.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 336.01 秒
+📂  歸檔目錄: stable_outputs
+    🎥 用兩個一樣的披薩圖形，示範為什麼_1_2_等於_2_4，並塗色對比區域。_20260219_201922.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 13
+Total Tokens: 134,110
+  - Prompt: 109,480
+  - Completion: 24,630
+----------------------------------------
+Estimated Cost: $0.023396 USD
+約合台幣: NT$ 0.7253
+========================================
+
+
+
+=== STDERR ===

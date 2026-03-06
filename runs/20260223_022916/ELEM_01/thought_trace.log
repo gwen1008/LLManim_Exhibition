@@ -1,0 +1,592 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_02-29-18_用兩個一樣的披薩圖形示範為什麼_1_2_等於_2_4並塗色對比區域.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.71 秒
+📊 [Token 統計]: 輸入 223 | 輸出 94 | 總計 317
+
+📢 [AI 審查/反饋意見]:
+Create two identical pizza graphics. Divide the first pizza into 2 equal parts, with one part colored, representing 1/2. Divide the second pizza into 4 equal parts, with 2 parts colored, representing 2/4. Use contrasting colors to highlight the equivalence between the colored regions of the two pizzas, demonstrating that 1/2 equals 2/4. Apply Transform() to align and compare the two pizzas, emphasizing the equal areas.
+------------------------------
+   📝 初稿: Create two identical pizza graphics. Divide the first pizza into 2 equal parts, with one part colored, representing 1/2. Divide the second pizza into 4 equal parts, with 2 parts colored, representing 2/4. Use contrasting colors to highlight the equivalence between the colored regions of the two pizzas, demonstrating that 1/2 equals 2/4. Apply Transform() to align and compare the two pizzas, emphasizing the equal areas.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.50 秒
+📊 [Token 統計]: 輸入 329 | 輸出 105 | 總計 434
+
+📢 [AI 審查/反饋意見]:
+Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, with one sector colored, representing the fraction 1/2. Divide the second pizza into 4 equal sectors, with 2 sectors colored, representing the fraction 2/4. Use contrasting colors to highlight the equivalence between the colored regions of the two pizzas, demonstrating that 1/2 is equal to 2/4. Apply a transformation to align and compare the two pizzas, emphasizing that the colored areas are equal in size.
+------------------------------
+✨ [翻譯完成]: Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, with one sector colored, representing the fraction 1/2. Divide the second pizza into 4 equal sectors, with 2 sectors colored, representing the fraction 2/4. Use contrasting colors to highlight the equivalence between the colored regions of the two pizzas, demonstrating that 1/2 is equal to 2/4. Apply a transformation to align and compare the two pizzas, emphasizing that the colored areas are equal in size.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 64.46 秒
+📊 [Token 統計]: 輸入 4219 | 輸出 3444 | 總計 7663
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world pizza analogy. Show two pizzas side-by-side, then cut and color them. Use a "pizza cutter" animation to slice them. Finally, rearrange the slices to show equivalence.</metaphor>
+    <scores pedagogy="10" feasibility="7" engagement="9" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric circles with sector divisions. Focus on the mathematical equivalence through area comparison. Use area-filling animations and a direct side-by-side comparison with a connecting arrow and equality sign.</metaphor>
+    <scores pedagogy="8" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Start with one whole pizza. First, transform it into the 1/2 representation. Then, clone it and transform the clone into the 2/4 representation. Finally, morph the colored regions to directly overlap, proving they are the same area.</metaphor>
+    <scores pedagogy="9" feasibility="8" engagement="8" />
+  </branch>
+  <selection>
+    <winner>A</winner>
+    <reason>Strategy A (Concrete) scores highest on Pedagogy and Engagement. The pizza metaphor is immediately intuitive for the target audience (likely learning basic fractions). The "pizza cutter" and slice rearrangement are highly visual and memorable. While feasibility is slightly lower due to the custom slicing animation, it is still very achievable in Manim using `Sector` objects and `Rotate` transformations. This strategy best fulfills the user's request for a professional educational animation.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Fraction equivalence (1/2 = 2/4). Visual representation using circles (pizzas). Key actions: Create two identical circles, divide into sectors (2 and 4), color specific sectors (1 of 2, 2 of 4), compare colored areas, demonstrate equivalence.
+
+**Visual Metaphor**: Two pizzas on a "counter". We slice and serve them to show they provide the same amount.
+
+**Spatial Plan (High-Low Split to Prevent Overflow)**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0.0)**: Two pizzas side-by-side during demonstration. Centered for final comparison.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text.
+
+**Detailed Layout & Coordinates**:
+1. **Initial State**: Two whole circles (pizzas) side-by-side.
+   - `pizza_left_center`: ORIGIN + LEFT * 3.5
+   - `pizza_right_center`: ORIGIN + RIGHT * 3.5
+   - Radius = 2.0 units. This leaves enough space for labels and animations.
+2. **Slicing**: Animate radial lines to appear, creating sectors.
+3. **Coloring**: Fill the appropriate sectors (e.g., left pizza: one half; right pizza: two quarters).
+4. **Comparison/Transformation**: Move the pizzas to the center, aligning them. Possibly animate the colored sectors detaching and overlapping.
+5. **Equality Symbol**: Display "1/2 = 2/4" between the pizzas during the final comparison.
+
+**Constraints**:
+- All circle centers have z=0.
+- Sector angles: For 2 sectors: 180 degrees (PI radians). For 4 sectors: 90 degrees (PI/2 radians).
+- Coloring: Use high-contrast colors (e.g., YELLOW for colored slices, GREY for uncolored, RED outline).
+- Labels: Fraction labels placed below each pizza.
+
+**Signal Strategy**:
+- Step 1 (Create): Indicate each whole pizza.
+- Step 2 (Divide): Animate the "cutting" lines.
+- Step 3 (Color): Fill the sectors, then highlight them with `Circumscribe`.
+- Step 4 (Compare): Use `Indicate` on the colored areas of both pizzas, then animate their movement to the center.
+- Step 5 (Equate): Write the equality sign and final fraction equation.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10249 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 3.12s | We begin with t...
+  - 語音片段 1: 5.18s | Now, let's slic...
+  - 語音片段 2: 3.62s | The second pizz...
+  - 語音片段 3: 9.77s | We color one ha...
+  - 語音片段 4: 11.21s | To see if these...
+  - 語音片段 5: 9.00s | The colored reg...
+✅ 語音處理完成！合併音檔: media/audio/用兩個一樣的披薩圖形_示範為什麼_1_2_3f651bb561/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create two identical pizza graphics. Divide the first pizza into 2 equal sectors, with one sector colored, representing the fraction 1/2. Divide the second pizza into 4 equal sectors, with 2 sectors colored, representing the fraction 2/4. Use contrasting colors to highlight the equivalence between the colored regions of the two pizzas, demonstrating that 1/2 is equal to 2/4. Apply a transformation to align and compare the two pizzas, emphasizing that the colored areas are equal in size.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 60.02 秒
+📊 [Token 統計]: 輸入 14350 | 輸出 3254 | 總計 17604
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12128 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.22 秒
+📊 [Token 統計]: 輸入 40827 | 輸出 315
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains overlapping text and low-resolution symbols, which impede clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "Text elements at the bottom overlap with mathematical labels 1/2 and 2/4, hindering readability.",
+      "suggested_fix": "Adjust the initial position of labels to increase vertical distance from lower text. For example, change label_left.move_to(next_to(pizza_left_base, DOWN, buff=1.0)) and similarly for label_right."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text 'Fraction Equivalen' does not have sufficient contrast against the background, impacting accessibility.",
+      "suggested_fix": "Change text color to a lighter shade that contrasts better with black, for instance, use 'LIGHT_GREY' instead of WHITE."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The font size of the labels is too small, especially when compared to the large equality sign.",
+      "suggested_fix": "Increase font size for labels_left and label_right to 48 to ensure visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] Text elements at the bottom overlap with mathematical labels 1/2 and 2/4, hinder...
+  🟡 [TINY_TEXT] The font size of the labels is too small, especially when compared to the large ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains overlapping text and low-resolution symbols, which impede clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The frame contains overlapping text and low-resolution symbols, which impede clarity.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 59.55 秒
+📊 [Token 統計]: 輸入 7496 | 輸出 3288 | 總計 10784
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- Text elements at the bottom overlap with mathematical labels 1/2 and 2/4, hinde...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 53.79 秒
+📊 [Token 統計]: 輸入 9863 | 輸出 2970 | 總計 12833
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OV...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 54.45 秒
+📊 [Token 統計]: 輸入 16099 | 輸出 2974 | 總計 19073
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11129 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.91 秒
+📊 [Token 統計]: 輸入 40827 | 輸出 365
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation frame exhibits multiple defects in alignment, visual clarity, and text overflow.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The left pizza crust is misaligned with its corresponding colored half, causing a visual gap.",
+      "suggested_fix": "Use 'slice_left_colored.move_to(pizza_left_base.get_center())' to ensure the slice aligns with the pizza base."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "Text 'We start with two identical' is difficult to read against the dark background due to insufficient contrast.",
+      "suggested_fix": "Increase the text color to a brighter shade or use a contrasting background color for the text area."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The equality sign overlaps with the left pizza, reducing visual clarity.",
+      "suggested_fix": "Change the position of the equality sign to 'move_to(content_center + UP*1)' to avoid overlap."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The elements in the middle section are visually crowded, particularly the two pizzas and the equality sign.",
+      "suggested_fix": "Increase spacing between the elements by adjusting their respective positions to create more breathing room."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The left pizza crust is misaligned with its corresponding colored half, causing ...
+  🟠 [OVERLAP] The equality sign overlaps with the left pizza, reducing visual clarity....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation frame exhibits multiple defects in alignment, visual clarity, and text overflow.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The animation frame exhibits multiple defects in alignment, visual clarity, and text overflow.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix thes...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 52.83 秒
+📊 [Token 統計]: 輸入 7124 | 輸出 2980 | 總計 10104
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The left pizza crust is misaligned with its corresponding colored half, caus...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 54.22 秒
+📊 [Token 統計]: 輸入 12514 | 輸出 2980 | 總計 15494
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MI...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 54.48 秒
+📊 [Token 統計]: 輸入 15559 | 輸出 2987 | 總計 18546
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11175 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.20 秒
+📊 [Token 統計]: 輸入 40827 | 輸出 340
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame exhibits overlapping text and incorrect positioning of the colored sectors, failing to meet the layout standards.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The text '1/2' overlaps with the pizza diagram below it, affecting readability.",
+      "suggested_fix": "Adjust label_left's position by changing 'next_to(pizza_left_base, DOWN, buff=0.5)' to 'next_to(pizza_left_base, DOWN, buff=1.0)'."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The colored sectors of the right pizza do not align correctly with the left pizza's corresponding colored section.",
+      "suggested_fix": "Move slice_right_colored_1 to align with the left pizza's slice by using 'slice_right_colored_1.move_to(pizza_right_base.get_center() + LEFT*0.5)' and similarly for slice_right_colored_2."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TOO_FAST",
+      "severity": "Minor",
+      "description": "The animation's transitions for moving the pizzas together is too abrupt, reducing visual clarity.",
+      "suggested_fix": "Extend the animation duration for the movement of pizzas to at least 15 seconds for better pacing."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 3 defect(s):
+  🔴 [OVERLAP] The text '1/2' overlaps with the pizza diagram below it, affecting readability....
+  🟠 [MISALIGNED] The colored sectors of the right pizza do not align correctly with the left pizz...
+  🟡 [TOO_FAST] The animation's transitions for moving the pizzas together is too abrupt, reduci...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame exhibits overlapping text and incorrect positioning of the colored sectors, failing to meet the layout standards.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11175 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 9.37 秒
+📊 [Token 統計]: 輸入 40827 | 輸出 419
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame suffers from significant visual clutter and misalignment issues, affecting pedagogical clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The labeled fractions for both pizzas overlap with the colored areas, making it difficult to read.",
+      "suggested_fix": "Adjust the position of the label_left and label_right to have a vertical buffer of at least 0.5 units above the colored areas."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The two pizzas do not align correctly in the center; the left pizza appears shifted downwards and to the left.",
+      "suggested_fix": "Change pizza_left_base.animate.move_to(content_center + LEFT*1.5) to .move_to(content_center + DOWN*0.2 + LEFT*1.5) to correct the alignment."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Major",
+      "description": "The visual elements such as the explanation text and the large equality sign overlap, creating confusion.",
+      "suggested_fix": "Reposition the equality_sign to be further away from any other elements, ensuring it is clearly visible and does not clash with other text."
+    },
+    {
+      "id": "ERR_004",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The colored areas of the pizzas lack adequate contrast against the background, making them less discernible.",
+      "suggested_fix": "Consider increasing the fill_opacity of the colored sectors (slice_left_colored, slice_right_colored_1, slice_right_colored_2) to improve visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 3 defect(s):
+  🔴 [OVERLAP] The labeled fractions for both pizzas overlap with the colored areas, making it ...
+  🟠 [MISALIGNED] The two pizzas do not align correctly in the center; the left pizza appears shif...
+  🟠 [CLUTTER] The visual elements such as the explanation text and the large equality sign ove...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame suffers from significant visual clutter and misalignment issues, affecting pedagogical clarity.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11175 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.51 秒
+📊 [Token 統計]: 輸入 40827 | 輸出 277
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Inspection revealed critical alignment and clarity issues impacting educational effectiveness.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "Left pizza has 0.5-unit gap from the center when the pizzas should align perfectly.",
+      "suggested_fix": "Change pizza_left_base.move_to(content_center + LEFT*1.5) to content_center + LEFT*0.5 instead."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label '1/2' overlaps with the pizza graphic, reducing readability.",
+      "suggested_fix": "Move label_left next_to(pizza_left_base, DOWN, buff=1) for better spacing."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "Text 'We start with two identical whole pizzas.' is too light against the black background.",
+      "suggested_fix": "Change color of explanation_text to DARK_GREY to improve visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] Left pizza has 0.5-unit gap from the center when the pizzas should align perfect...
+  🟠 [OVERLAP] The label '1/2' overlaps with the pizza graphic, reducing readability....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Inspection revealed critical alignment and clarity issues impacting educational effectiveness.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 15
+Total Tokens: 318,703
+  - Prompt: 291,911
+  - Completion: 26,792
+----------------------------------------
+Estimated Cost: $0.051310 USD
+約合台幣: NT$ 1.5906
+========================================
+
+
+
+=== STDERR ===

@@ -1,0 +1,97 @@
+{
+  "total_prompt_tokens": 260918,
+  "total_completion_tokens": 20856,
+  "total_cost_usd": 0.04525527,
+  "calls": [
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 228,
+      "completion": 133,
+      "cost": 0.00023959000000000003
+    },
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 373,
+      "completion": 136,
+      "cost": 0.00032751
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 4248,
+      "completion": 3393,
+      "cost": 0.0015447600000000003
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 13642,
+      "completion": 2465,
+      "cost": 0.0026000800000000003
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40411,
+      "completion": 282,
+      "cost": 0.0062308500000000005
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 6244,
+      "completion": 2494,
+      "cost": 0.0015724800000000002
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 5384,
+      "completion": 2238,
+      "cost": 0.0013804
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 10391,
+      "completion": 2122,
+      "cost": 0.0020489
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40411,
+      "completion": 266,
+      "cost": 0.00622125
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 5920,
+      "completion": 2134,
+      "cost": 0.00142632
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 5120,
+      "completion": 2173,
+      "cost": 0.00132524
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 7313,
+      "completion": 2134,
+      "cost": 0.0016213400000000002
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40411,
+      "completion": 337,
+      "cost": 0.00626385
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40411,
+      "completion": 237,
+      "cost": 0.00620385
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 40411,
+      "completion": 312,
+      "cost": 0.00624885
+    }
+  ]
+}
