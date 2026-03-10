@@ -5,3 +5,4 @@ manim
 certifi
 requests
 streamlit
+mutagen
