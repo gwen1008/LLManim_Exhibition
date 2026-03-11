@@ -336,6 +336,7 @@ if __name__ == "__main__":
         # ========== 🎯 SMART ROUTING: Arithmetic Template Detection ==========
         import re
         from templates.addition import generate_vertical_addition_code, generate_addition_narrative
+        from templates.multiplication import generate_vertical_multiplication_code, generate_multiplication_narrative
         from agents.audio_engine import AudioEngine
         
         def detect_arithmetic_task(topic):
@@ -343,19 +344,22 @@ if __name__ == "__main__":
             Detect if the topic is a basic arithmetic operation.
             Returns: (is_arithmetic, num1, operator, num2)
             """
-            # Match patterns like "123 + 456", "1234+5678", "整數加法：123+456"
-            pattern = r'(\d+)\s*([+\-])\s*(\d+)'
-            match = re.search(pattern, topic)
+            # Match patterns like "123 + 456", "1234+5678", "整數加法：123+456", "123 * 456"
+            pattern = re.compile(r'(\d+)\s*([+\-\*xX×])\s*(\d+)')
+            match = pattern.search(topic)
             if match:
                 num1_str, operator, num2_str = match.groups()
+                if operator in ['x', 'X', '×']:
+                    operator = '*'
                 return True, int(num1_str), operator, int(num2_str)
             return False, None, None, None
         
         is_arithmetic, num1, op, num2 = detect_arithmetic_task(user_topic)
         
-        if is_arithmetic and op == '+':
+        if is_arithmetic and op in ['+', '*']:
+            op_name = "加法" if op == '+' else "乘法"
             print("\n" + "="*60)
-            print(f"🎯 偵測到基礎算術任務：{num1} + {num2}")
+            print(f"🎯 偵測到基礎算術任務：{num1} {op} {num2}")
             print("📦 使用確定性模板系統 (Deterministic Template)")
             print("   ✅ 100% 正確性保證")
             print("   ✅ 跳過 AI Pipeline (Planner + Coder)")
@@ -363,8 +367,11 @@ if __name__ == "__main__":
             print("="*60)
             
             # Step 1: Generate narrative
-            print("📝 生成算術旁白文字...")
-            narrative_steps = generate_addition_narrative(num1, num2)
+            print(f"📝 生成{op_name}旁白文字...")
+            if op == '+':
+                narrative_steps = generate_addition_narrative(num1, num2)
+            else:
+                narrative_steps = generate_multiplication_narrative(num1, num2)
             
             # Step 2: Generate audio files
             print("🎙️ 生成語音檔案...")
@@ -373,12 +380,20 @@ if __name__ == "__main__":
             
             # Step 3: Generate code using template with audio sync
             print("📦 生成同步動畫代碼...")
-            template_code = generate_vertical_addition_code(
-                num1=num1,
-                num2=num2,
-                scene_name=target_scene,
-                audio_steps=audio_steps
-            )
+            if op == '+':
+                template_code = generate_vertical_addition_code(
+                    num1=num1,
+                    num2=num2,
+                    scene_name=target_scene,
+                    audio_steps=audio_steps
+                )
+            else:
+                template_code = generate_vertical_multiplication_code(
+                    num1=num1,
+                    num2=num2,
+                    scene_name=target_scene,
+                    audio_steps=audio_steps
+                )
             
             # Write to file
             with open(target_file, "w", encoding="utf-8") as f:
