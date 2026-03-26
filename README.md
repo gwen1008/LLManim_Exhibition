@@ -3,94 +3,131 @@
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
 [![Manim](https://img.shields.io/badge/Manim-Community-green)](https://www.manim.community/)
 [![TTS](https://img.shields.io/badge/Azure-Speech-0078D4)](https://azure.microsoft.com/en-us/services/cognitive-services/speech-services/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-**LLManim Agent** 是一個先進的自動化教學影片生成系統。它結合了大型語言模型 (LLM)、確定性算法模板與語音合成技術，能夠自動產出高品質、影音同步且具備互動性的數學教學影片。
+**LLManim Agent** 是一套 AI 驅動的教學數學動畫自動生成系統。輸入任意 K-12 數學主題（如「勾股定理」、「84 + 985 的直式加法」），系統即可全自動產出一支包含精準影音同步旁白的 Manim 教學動畫。
+
+> 本研究成果已提交至 **AIED 2026 LBR (Late Breaking Results)**。
 
 ---
 
-## ✨ 核心功能 (Key Features)
+## 目錄
 
-## 🏗️ 系統架構 (System Architecture)
+- [系統架構](#️-系統架構)
+- [效能表現](#-效能表現與測試基準)
+- [安裝](#️-安裝)
+- [環境變數](#-環境變數)
+- [使用指南](#-使用指南)
+- [評估系統](#-評估系統)
+- [RAG 知識庫](#-rag-知識庫設定)
+- [專案結構](#-專案結構)
+- [常見問題](#️-常見問題)
+- [貢獻指南](#-貢獻指南)
+
+---
+
+## 🏗️ 系統架構
+
+### 路由策略：兩條平行軌道
+
+系統在接收輸入後，會先進行路由判斷：
+
+```text
+輸入主題
+  │
+  ├── 算術任務 (e.g., "84 + 985", "123 × 45")
+  │     └── 確定性模板系統 ──────────────────────────────► 產出影片
+  │           ├── 100% 正確性保證，不經過 LLM
+  │           ├── Azure TTS 語音同步
+  │           └── 支援 加/減/乘/除
+  │
+  └── 通用主題 (e.g., "勾股定理", "圓的面積")
+        └── 四階段 Multi-Agent Pipeline ─────────────────► 產出影片
+              ├── Phase 1: Planner (JSON 分鏡)
+              ├── Phase 2: Coder (Manim 代碼)
+              ├── Phase 3: Refining Loop (自動修復，最多 5 次)
+              └── Phase 4: Vision QA (GPT-4o 審查)
+```
+
+### 四階段 Multi-Agent Pipeline
 
 ```mermaid
 graph TD
-    User([👤 User]) -->|Input Topic| Streamlit[🖥️ Streamlit UI]
-    Streamlit -->|subprocess| Main[⚙️ Main Loop]
-    
-    subgraph "Phase 1: Planning & Coding"
-        Main -->|Topic| Planner[🧠 Planner Agent]
-        Planner -->|Script JSON| Coder[💻 Coder Agent]
-        Coder -->|Python Code| ManimFile[🐍 Generated Scene]
+    User([👤 User]) -->|Input Topic| Router{Task Router}
+
+    Router -->|Arithmetic| Template[⚡ Deterministic Template]
+    Router -->|General| Planner
+
+    Template -->|Synced Code| Render
+
+    subgraph "AI Pipeline"
+        Planner[🧠 Planner\nGroq llama-3.3-70b] -->|JSON Script| Coder[💻 Coder\nDeepSeek-V3]
+        Coder -->|Python Code| Linter[🔍 Linter\nStatic Analysis]
+        Linter -->|Patched Code| Render[🎬 Manim Render]
     end
-    
-    subgraph "Phase 2: Rendering & QA"
-        ManimFile -->|Render| ManimEngine[🎬 Manim Engine]
-        ManimEngine -->|Success?| CheckRender{Render OK?}
-        CheckRender -->|No| FixRender[🔧 Syntax Fixer]
-        FixRender --> Coder
-        CheckRender -->|Yes| VisionQA[👁️ Vision Agent]
+
+    subgraph "Refining Loop (max 5x)"
+        Render -->|Render Error| Diagnoser[🩺 Diagnoser]
+        Diagnoser -->|Fix Prompt| Coder
+        Render -->|Success| VisionQA[👁️ Vision Agent\nGPT-4o]
+        VisionQA -->|Fail| Coder
     end
-    
-    subgraph "Phase 3: Visual Audit Loop"
-        VisionQA -->|Audit Frame| AuditResult{Audit Pass?}
-        AuditResult -->|Fail| CheckLimit{Attempts < 5?}
-        CheckLimit -->|Yes| VisualFixER[🛠️ Visual Fix Prompter]
-        VisualFixER -->|Fix Instructions| Coder
-        CheckLimit -->|No| Inbox
-    end
-    
-    subgraph "Phase 4: Output"
-        AuditResult -->|Pass| Inbox[📥 Inbox]
-        Inbox -->|Auto-Sort| Categories[📂 Subject Folders]
-    end
+
+    VisionQA -->|PASS| Output[📁 stable_outputs/]
 ```
 
-### 1. 🧠 四階段 Multi-Agent 工作流 (4-Stage Pipeline)
+### 並行處理設計
 
-系統採用職責分離的 Agent 架構，並內建嚴密的防呆與自我修正機制：
+Planner 輸出分鏡後，三個任務**並行執行**（非序列）：
 
-- **Phase 1：Planner (導演)**：接收輸入後，透過 Translator 轉換語境，將數學概念拆解成邏輯序列，並輸出包含視覺佈局提示 (Spatial Hints) 的結構化 JSON 分鏡表。
-- **Phase 2：Coder (工程師)**：以低溫度 (T=0.3) 確保邏輯穩定性，負責將 Planner 給出的 JSON 翻譯成高精確度的 Manim Python 程式碼，並自動調適畫面的元件位置。
-- **Phase 3：Render & Audio Sync (精準影音渲染)**：整合 Azure Text-to-Speech 生成高擬真旁白。為了達成「完美影音同步」，系統會在產出代碼後，透過代碼注入自動分析 AST 將具體的音訊時長替換回代碼，保證動畫與旁白的時間誤差 < 0.1 秒，並支援自動產生逐字字幕。
-- **Phase 4：Review & Vision QA (自動審查與修復)**：若 Manim 渲染出 Syntax Error 或發生畫面元件交疊，Vision Agent 會立刻介入。系統允許最多 5 次 (5 Iterations) 的自動修復嘗試，讓模型自我糾正。
+| 並行任務 | 說明 |
+| --- | --- |
+| **RAG 檢索** | 從 Weaviate 向量庫撈出高相關的 Manim 黃金範例 |
+| **Audio 生成** | Azure TTS 同步合成每個分鏡的旁白語音 |
+| **Coder** | 等到 RAG 結果就立刻開始寫 Manim 代碼 |
 
-### 2. ⚡ 核心工程最佳化 (Engineering Optimizations)
+這套非同步設計每次生成可省下 **15~28 秒**。
 
-- **三路平行處理 (Parallel Execution)**：RAG 檢索、Audio 生成與 Coder 是**並行運作的**。Planner 一給出腳本，Audio Engine 就開始合成語音；而 Coder 只要等到 RAG 結果就立刻動工。這套非同步設計為單次生成省下了 15~28 秒。
-- **RAG 動態知識庫 (Weaviate Vector DB)**：為解決 LLM 憑空捏造的問題，寫 Code 前會先從向量資料庫抓出高相關性的「Manim 黃金範例代碼」塞進 Context 中，大幅降低幻覺 (Hallucinations)。
-- **互動式教育模式 (Interactive Mode)**：在特定的算術或推理關卡，系統能自動觸發「提問機制」，在畫面上打出閃爍的問號 (?) 並延長留白時間，藉此控制學生的認知負載並引導主動思考。
+### LLM 路由分配
 
----
-
-## 📊 效能表現與測試基準 (Performance & Benchmarks)
-
-在近期針對 240 題 K-12（國小至高中）的數學標竿測試中，本系統繳出了極具統治力的表現：
-
-- **生成成功率**：高達 **90.0% (216/240)** 的主題能完美通過所有驗證並產出影片，其中有 **75.9%** 是「0 錯誤、一次通關 (1-Iteration)」。
-- **極致成本控管**：平均每支影片的 API 推理成本僅約 **$0.0115 USD**。
-- **高效率**：包含撰碼、渲染、語音與修復，產生一支平均 88 秒的教學動畫，系統耗時僅需 **~233 秒**（不到 4 分鐘）。
-
-### 🚀 未來展望與突破 (Roadmap)
-
-- 目前已具備發表水準，正著手準備投稿 **AIED 2026 LBR (Late Breaking Results)** 論文。
-- **模型私有化與專武打造**：未來計畫不再完全依賴閉源巨型 LLM。準備透過 **SFT, DPO, GRPO** 等三階段訓練法，把代碼生成能力蒸餾到 7B-14B 的輕量級開源模型中，實現地端自主運行的最強 Manim Coder。
+| 角色 | 模型 | 說明 |
+| --- | --- | --- |
+| Planner | Groq `llama-3.3-70b` | 快速分鏡規劃 |
+| Coder | DeepSeek `deepseek-chat` (V3) | 高精度代碼生成 |
+| Reviewer | Groq `llama-3.1-8b-instant` | 代碼審查 |
+| Vision QA | OpenAI `gpt-4o-mini` | 影像審查 |
+| Tier-3 Escalation | DeepSeek `deepseek-reasoner` (R1) | 複雜問題升級 |
 
 ---
 
-## 🛠️ 安裝與設定 (Installation)
+## 📊 效能表現與測試基準
 
-### 1. 系統需求
+在 **240 題 K-12（國小至高中）** 數學標竿測試中：
 
-- **OS**: macOS (推薦) / Linux
+| 指標 | 數值 |
+| --- | --- |
+| 整體生成成功率 | **90.0%** (216/240) |
+| 一次通關率 (1-Iteration, 0 錯誤) | **75.9%** |
+| 平均 API 成本 / 支影片 | **$0.0115 USD** |
+| 平均生成時間（含渲染與語音） | **~233 秒** |
+| 生成影片平均長度 | **~88 秒** |
+
+---
+
+## 🛠️ 安裝
+
+### 系統需求
+
+- **OS**: macOS（推薦）/ Linux
 - **Python**: 3.10+
 - **依賴工具**:
 
-  ```bash
-  brew install ffmpeg librsvg
-  brew install --cask mactex-no-gui  # LaTeX 環境
-  ```
+```bash
+brew install ffmpeg librsvg
+brew install --cask mactex-no-gui  # LaTeX 環境（Manim 需要）
+```
 
-### 2. 下載與安裝
+### Clone 與安裝
 
 ```bash
 git clone https://github.com/childe0905/LLManim_Agent.git
@@ -102,143 +139,247 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. 環境變數配置 (.env)
+---
 
-請在專案根目錄建立 `.env` 檔案，填入以下金鑰：
+## 🔑 環境變數
+
+在專案根目錄建立 `.env` 檔案：
 
 ```ini
 # --- Core LLM ---
-GROQ_API_KEY=gsk_xxxxxxxxxxxx  # Agent 核心推理
+GROQ_API_KEY=gsk_xxxxxxxxxxxx          # Planner & Reviewer
+DEEPSEEK_API_KEY=sk-xxxxxxxxxxxx       # Coder（必填）
 
-# --- Azure Speech (Required for Audio) ---
+# --- Azure Speech（語音合成）---
 AZURE_SPEECH_KEY=xxxxxxxxxxxx
-AZURE_SPEECH_REGION=eastus
+AZURE_SPEECH_REGION=eastus             # 或 southeastasia 等
 
-# --- Optional (RAG Video Ingestion ONLY) ---
-OPENAI_API_KEY=sk-xxxxxxxx    # 僅在使用 RAG 寫入影片描述時需要
+# --- OpenAI（Vision QA）---
+OPENAI_API_KEY=sk-xxxxxxxxxxxx         # GPT-4o 視覺審查
+
+# --- 可選（RAG 影片描述入庫）---
+# 僅在執行 rag/ingest_video.py 時需要，平時可省略
 ```
 
-> **注意**：若未配置 Azure Key，系統會自動降級為「模擬模式」，僅根據字數估算時長，不會生成真實語音。
+> **注意**：若未配置 Azure Key，Audio Engine 會自動降級為「估算模式」（根據字數估算時長，不生成真實語音）。
 
 ---
 
-## 🚀 使用指南 (Usage)
+## 🚀 使用指南
 
-### 1. 通用教學影片生成器 (General Generator)
+### 1. 通用教學影片生成（主程式）
 
-本專案支援任意 K-12 數學或科學主題生成。啟動主程式後，系統將依序執行 Planner (規劃) -> Coder (寫碼) -> Audio Engine (語音對齊) -> Vision Agent (修復) 工作流：
+輸入任意 K-12 數學主題，自動走完完整 AI Pipeline：
 
 ```bash
 python main.py
 ```
-> **💡 提示**：啟動後輸入任何主題（例如：「圖解勾股定理的證明」、「說明圓柱體的體積怎麼算」、「國小分數加法」），系統即可自動完成全部創作。
 
-### 2. 特定算術模板 (Arithmetic Template)
+啟動後輸入主題，例如：
 
-如果只需要簡單演示專門的直式計算，可直接調用算術腳本：
+- `勾股定理的幾何證明`
+- `圓柱體體積公式推導`
+- `國小分數加法`
 
-```bash
-# 生成 84 + 985 的直式計算影片與語音
-python run_arithmetic_with_audio.py 84 985
+輸出影片儲存在 `stable_outputs/`。
 
-# 互動模式：加入提問與暫停 (閃爍問號)引導思考
-python run_arithmetic_with_audio.py 84 985 --interactive
-```
+### 2. 算術直式計算（確定性模板）
 
-**手動渲染代碼**:
-生成的代碼皆存放於 `stable_outputs/` 或 `stable_outputs_interactive/`。
+四則運算直式動畫，100% 正確，不走 LLM：
 
 ```bash
-# 預覽低畫質 (-pql)
-manim -pql stable_outputs_interactive/addition_84_985.py VerticalAddition
+# 加法
+python run_math.py add 84 985
+
+# 減法
+python run_math.py sub 1000 273
+
+# 乘法
+python run_math.py mul 123 45
+
+# 除法
+python run_math.py div 144 12
+
+# 加上 --render 直接渲染影片
+python run_math.py add 84 985 --render
+
+# 加上 --interactive 啟用提問暫停模式
+python run_math.py add 84 985 --interactive --render
 ```
 
-### 3. Web 介面 (Streamlit)
-
-提供友善的網頁介面，適合展示與測試。
+### 3. Web 介面（Streamlit）
 
 ```bash
 streamlit run app.py
 ```
 
-在瀏覽器打開顯示的 URL，輸入主題即可生成並即時預覽。
+在瀏覽器開啟顯示的 URL，輸入主題即可生成並即時預覽。
+
+### 4. 手動渲染已生成的代碼
+
+```bash
+# 低畫質預覽（快）
+manim -pql test_script.py GeneratedScene
+
+# 高畫質輸出
+manim -pqh test_script.py GeneratedScene
+```
 
 ---
 
-## 📚 RAG 知識庫設定 (RAG Setup)
+## 🧪 評估系統
 
-若您的團隊需要使用 RAG 功能，請按照以下步驟設置**本地向量資料庫**。
+### 執行 Benchmark 評估
 
-### 1. 啟動資料庫
+對測試集中的所有題目跑完整 Pipeline 並記錄成功率、成本、時間：
 
-本專案使用 Weaviate。請確保已安裝 Docker。
+```bash
+python run_evaluation.py
+```
+
+測試集位於 `evaluation/test_cases_random_240.json`（240 題 K-12 數學）。
+評估報告輸出至 `evaluation/reports/`。
+
+### Zero-Shot Baseline 對比
+
+跑無 RAG、無 Reflexion 的純 zero-shot 基準，用於對照實驗：
+
+```bash
+python run_zero_shot_baseline.py
+```
+
+### 生成測試集
+
+```bash
+python generate_240_cases.py
+```
+
+---
+
+## 📚 RAG 知識庫設定
+
+### 1. 啟動向量資料庫
+
+本專案使用 Weaviate（需安裝 Docker）：
 
 ```bash
 docker-compose up -d
 ```
 
-### 2. 資料入庫 (Ingestion)
-
-初次使用需將範例代碼寫入資料庫：
+### 2. 資料入庫
 
 ```bash
-pip install weaviate-client opencv-python openai
-
-python rag/ingest_code.py   # 寫入代碼範例
-python rag/ingest_video.py  # 寫入影片描述 (可選，需 OpenAI Key)
+python rag/ingest_code.py   # 寫入 Manim 代碼範例（必做）
+python rag/ingest_video.py  # 寫入影片描述（可選，需 OpenAI Key）
 ```
 
-詳細進階說明請見 [rag/README.md](rag/README.md)。
+詳細說明見 [rag/README.md](rag/README.md)。
 
 ---
 
-## 🧪 測試與驗證 (Testing)
+## 📂 專案結構
 
-確保模板在各種情況下都能正確運作。
-
-```bash
-python tests/test_addition_cases.py
-```
-
----
-
-## 🛠️ 常見問題 (Troubleshooting)
-
-- **ffmpeg not found**: 請確認已運行 `brew install ffmpeg` 並且它在 PATH 中。
-- **Manim Latex Error**: 確保已安裝 TeX 發行版 (如 MacTeX)。
-- **ValueError: Called Scene.play with no animations**: 這是 Manim 的已知行為，若動畫列表為空會報錯。我們的模板已修復此問題 (使用 `wait` 替代)，若您手寫代碼遇到此問題，請檢查傳入 `play` 的物件是否為空。
-- **AudioEngine Error**: 若看到 Azure 相關錯誤，請檢查 `.env` 中的 `AZURE_SPEECH_KEY` 和 `REGION` 是否正確。
-
----
-
-## 📂 專案結構圖
-
-```
+```text
 LLManim_Agent/
-├── agents/                 # 智能體核心邏輯
-├── templates/              # 確定性算術模板
-│   └── IMPLEMENTER_GUIDE.md # [重要] 團隊成員開發指南
-├── run_arithmetic_with_audio.py  # 算術生成主程式
-├── main.py                 # 通用生成入口
-├── app.py                  # Web App
-├── rag/                    # RAG 模組
-├── stable_outputs/         # 產出 (一般模式)
-├── stable_outputs_interactive/ # 產出 (互動模式)
-└── tests/                  # 測試腳本
+├── main.py                        # 通用生成入口（主程式）
+├── run_math.py                    # 算術直式動畫 CLI
+├── run_evaluation.py              # Benchmark 評估跑器
+├── run_zero_shot_baseline.py      # Zero-shot 對比基準
+├── generate_240_cases.py          # 測試集生成工具
+├── app.py                         # Streamlit Web UI
+│
+├── agents/
+│   ├── core/
+│   │   ├── llm_client.py          # 多 Provider LLM 統一介面
+│   │   ├── rag_retriever.py       # Weaviate 向量檢索
+│   │   ├── session_logger.py      # 成本與 token 追蹤
+│   │   └── manim_api_rules.py     # Manim API 限制規則庫
+│   ├── planner/
+│   │   └── planner.py             # CoT 分鏡規劃 → JSON
+│   ├── coder/
+│   │   ├── prompter.py            # Coder prompt 建構
+│   │   ├── dspy_coder.py          # DSPy Coder 模組
+│   │   ├── code_reviewer.py       # 代碼審查
+│   │   ├── manim_diagnoser.py     # 錯誤診斷
+│   │   └── lint_manim.py          # 靜態 Lint 分析
+│   ├── orchestrator/
+│   │   ├── refining_loop.py       # 自動修復主迴圈（最多 5 次）
+│   │   ├── task_router.py         # 路由邏輯（算術 vs 通用）
+│   │   └── academic_translator.py # 語境轉換
+│   └── utils/
+│       ├── audio_engine.py        # Azure TTS 語音合成 + 時間同步
+│       ├── vision_agent.py        # GPT-4o 視覺 QA
+│       └── scene_instrumentor.py  # Scene 狀態監測工具
+│
+├── templates/                     # 確定性算術模板
+│   ├── addition.py
+│   ├── subtraction.py
+│   ├── multiplication.py
+│   ├── division.py
+│   ├── common.py
+│   └── IMPLEMENTER_GUIDE.md       # 模板開發指南
+│
+├── evaluation/
+│   ├── test_cases.json            # 預設測試集
+│   ├── test_cases_random_240.json # 240 題隨機測試集
+│   └── reports/                   # 評估報告輸出
+│
+├── knowledge_base/                # RAG 文件庫
+│   ├── CONTRIBUTOR_GUIDE.md
+│   └── WORK_ASSIGNMENT.md
+│
+├── rag/                           # Weaviate 入庫腳本
+├── benchmarks/                    # 預渲染基準影片
+├── stable_outputs/                # 最終產出影片
+├── tests/                         # 單元測試
+├── docker-compose.yml             # Weaviate 容器設定
+└── requirements.txt
 ```
 
 ---
 
-## 🤝 貢獻指南 (Contributing)
+## 🛠️ 常見問題
 
-我們歡迎所有形式的貢獻！為了保持 `main` 分支的穩定性，請遵循 **GitHub Flow**：
+### Q: `ffmpeg not found`
 
-1. **Fork** 本倉庫。
-2. **Clone** 到本地。
-3. **開分支 (Branch)**：`git checkout -b feature/amazing-feature`
-4. **提交 (Commit)**：`git commit -m 'Add amazing feature'`
-5. **推送 (Push)**：`git push origin feature/amazing-feature`
-6. **開 PR (Pull Request)**：在 GitHub 上發起合併請求。
+```bash
+brew install ffmpeg
+```
+
+### Q: Manim LaTeX Error
+
+確保已安裝 TeX：
+
+```bash
+brew install --cask mactex-no-gui
+```
+
+### Q: `ValueError: Called Scene.play with no animations`
+
+Manim 的已知行為，傳入 `play()` 的動畫列表為空時報錯。本專案模板已處理，若自行寫代碼遇到，用 `self.wait()` 替代空的 `play()`。
+
+### Q: Azure TTS 沒有聲音 / 報錯
+
+檢查 `.env` 的 `AZURE_SPEECH_KEY` 和 `AZURE_SPEECH_REGION`。若未設定，系統會自動降級為估算模式（只有動畫、無語音）。
+
+### Q: RAG 檢索無結果
+
+確認 Docker 有在跑（`docker-compose up -d`）且已執行 `python rag/ingest_code.py`。
 
 ---
+
+## 🤝 貢獻指南
+
+請遵循 **GitHub Flow**：
+
+1. 從 `main` 開新分支：`git checkout -b feat/your-feature`
+2. 修改並 commit
+3. Push 到你的分支：`git push origin feat/your-feature`
+4. 開 Pull Request → `main`
+
+新增算術模板請先閱讀 [templates/IMPLEMENTER_GUIDE.md](templates/IMPLEMENTER_GUIDE.md)。
+知識庫貢獻請先閱讀 [knowledge_base/CONTRIBUTOR_GUIDE.md](knowledge_base/CONTRIBUTOR_GUIDE.md)。
+
+---
+
 **Lead Developer**: Liao Zhenting
