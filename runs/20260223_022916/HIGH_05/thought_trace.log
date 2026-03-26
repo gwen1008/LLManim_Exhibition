@@ -1,0 +1,566 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_04-00-56_畫出向量_A3_1_與_B1_2使用三角形法首尾相接來呈現合成向量_C4_3_的過程.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.80 秒
+📊 [Token 統計]: 輸入 237 | 輸出 108 | 總計 345
+
+📢 [AI 審查/反饋意見]:
+Create a 2D coordinate system using Axes(). Draw vector A=(3, 1) and vector B=(1, 2) using Arrow(). Apply the Triangle Method by connecting the tail of vector B to the head of vector A, forming a triangle. Then, draw vector C=(4, 3) using Arrow() to represent the resultant vector. Animate the transformation of vectors A and B into vector C using Transform(). Highlight the triangle formed by vectors A, B, and C to illustrate the vector addition process.
+------------------------------
+   📝 初稿: Create a 2D coordinate system using Axes(). Draw vector A=(3, 1) and vector B=(1, 2) using Arrow(). Apply the Triangle Method by connecting the tail of vector B to the head of vector A, forming a triangle. Then, draw vector C=(4, 3) using Arrow() to represent the resultant vector. Animate the transformation of vectors A and B into vector C using Transform(). Highlight the triangle formed by vectors A, B, and C to illustrate the vector addition process.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.70 秒
+📊 [Token 統計]: 輸入 358 | 輸出 159 | 總計 517
+
+📢 [AI 審查/反饋意見]:
+Create a 2D coordinate system using Axes(). Draw vectors A=(3, 1) and B=(1, 2) using Arrow(). Apply the Triangle Method by connecting the tail of vector B to the head of vector A, forming a triangle with vectors A and B as two sides, and the resultant vector C as the third side. To find vector C, add the corresponding components of vectors A and B, resulting in vector C=(3+1, 1+2) = (4, 3). Draw vector C=(4, 3) using Arrow() to represent the resultant vector. Animate the transformation of vectors A and B into vector C using Transform(). Highlight the triangle formed by vectors A, B, and C to illustrate the vector addition process.
+------------------------------
+✨ [翻譯完成]: Create a 2D coordinate system using Axes(). Draw vectors A=(3, 1) and B=(1, 2) using Arrow(). Apply the Triangle Method by connecting the tail of vector B to the head of vector A, forming a triangle with vectors A and B as two sides, and the resultant vector C as the third side. To find vector C, add the corresponding components of vectors A and B, resulting in vector C=(3+1, 1+2) = (4, 3). Draw vector C=(4, 3) using Arrow() to represent the resultant vector. Animate the transformation of vectors A and B into vector C using Transform(). Highlight the triangle formed by vectors A, B, and C to illustrate the vector addition process.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 66.76 秒
+📊 [Token 統計]: 輸入 4272 | 輸出 3630 | 總計 7902
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Physical displacement journey: A person walks 3 units east, 1 unit north (vector A), then from that point walks 1 unit east, 2 units north (vector B). The resultant is the direct path from start to finish.</metaphor>
+    <scores pedagogy="9" feasibility="8" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction on a coordinate plane. Focus on the triangle method as a geometric proof of component-wise addition. Emphasize the parallelogram completion as an alternative view.</metaphor>
+    <scores pedagogy="10" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step build-up: First show axes, then plot points for A and B as dots. Animate arrows growing from origin. Then "pick up" vector B and translate it to the head of A, showing the triangle forming. Finally, compute components and reveal resultant C.</metaphor>
+    <scores pedagogy="9" feasibility="9" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C offers the clearest pedagogical progression. It breaks the process into atomic, visually intuitive steps that directly map to the user's request (tail of B to head of A). It has high feasibility (standard Manim transforms) and high engagement (dynamic movement of vectors). It naturally incorporates the component calculation as a reveal.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 2D coordinate system, vectors A=(3,1) and B=(1,2), triangle method of vector addition, resultant C=(4,3), component-wise addition.
+**Visual Metaphor**: Progressive construction on a grid.
+**Spatial Plan**:
+- Global center = ORIGIN for the coordinate axes.
+- Title at HEADER zone (y=3.0).
+- Axes centered at CONTENT zone (y=0), scaled appropriately to fit vectors up to (4,3).
+- Explanation/calculation at FOOTER zone (y=-3.0).
+**Layout Strategy (High-Low Split)**:
+  1. **HEADER**: Title "Vector Addition: The Triangle Method".
+  2. **CONTENT**: Axes, vectors A, B, and C, and the triangle. This is the main visual stage.
+  3. **FOOTER**: Step-by-step component calculation text. This area updates with each step.
+**Coordinate Calculations**:
+- Axes: x_range [-1, 5], y_range [-1, 5] to comfortably fit vector C=(4,3).
+- Vector A: Arrow from (0,0) to (3,1).
+- Vector B: Arrow from (0,0) to (1,2).
+- Vector B translated for triangle: Arrow from (3,1) to (3+1, 1+2) = (4,3).
+- Vector C (resultant): Arrow from (0,0) to (4,3).
+- Triangle vertices: (0,0), (3,1), (4,3).
+**Signal Strategy**:
+- Step 1: Create axes and vectors A & B from origin. Use Indicate for each.
+- Step 2: Animate translation of vector B to head of A. Use Indicate on the connecting point.
+- Step 3: Draw the triangle polygon. Circumscribe it.
+- Step 4: Reveal resultant vector C from origin to triangle's third vertex. Use Transform to morph the translated vector B? No, better: Create C fresh and highlight the path closure.
+- Step 5: Show component calculation in footer, mapping geometric triangle to algebraic sum.
+**Preventing Overflow**: The main visual (axes + vectors) stays centered. The footer text is kept to one or two lines, scaled to 0.8. All transformations (like moving vector B) are in-place animations, not stacking new objects indefinitely. We will use FadeOut for the translated B copy after C is drawn to avoid clutter.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10370 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 6.53s | We begin with a...
+  - 語音片段 1: 7.51s | Vector A goes 3...
+  - 語音片段 2: 6.91s | Now, apply the ...
+  - 語音片段 3: 6.43s | This translatio...
+  - 語音片段 4: 10.63s | The third side ...
+  - 語音片段 5: 8.90s | Algebraically, ...
+  - 語音片段 6: 6.91s | This gives us t...
+✅ 語音處理完成！合併音檔: media/audio/畫出向量_A__3__1__與_B__1_b0d97556b3/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a 2D coordinate system using Axes(). Draw vectors A=(3, 1) and B=(1, 2) using Arrow(). Apply the Triangle Method by connecting the tail of vector B to the head of vector A, forming a triangle with vectors A and B as two sides, and the resultant vector C as the third side. To find vector C, add the corresponding components of vectors A and B, resulting in vector C=(3+1, 1+2) = (4, 3). Draw vector C=(4, 3) using Arrow() to represent the resultant vector. Animate the transformation of vectors A and B into vector C using Transform(). Highlight the triangle formed by vectors A, B, and C to illustrate the vector addition process.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.72 秒
+📊 [Token 統計]: 輸入 14634 | 輸出 3143 | 總計 17777
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10968 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:200 in construct    │
+│                                                                              │
+│   197 │   │                                                                  │
+│   198 │   │   # Step 1                                                       │
+│   199 │   │   audio_step1 = "media/audio/畫出向量_A__3__1__與_B__1_b0d97556b │
+│ ❱ 200 │   │   if os.path.exists(audio_step1):                                │
+│   201 │   │   │   self.add_sound(audio_step1)                                │
+│   202 │   │   elif os.path.exists(audio_step1.replace(".mp3", ".wav")):      │
+│   203 │   │   │   self.add_sound(audio_step1.replace(".mp3", ".wav"))        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+NameError: name 'os' is not defined
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.79 秒
+📊 [Token 統計]: 輸入 3928 | 輸出 139 | 總計 4067
+------------------------------
+🔬 [Smart Patch] 已識別為局部可修復錯誤 → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.p...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.17 秒
+📊 [Token 統計]: 輸入 4319 | 輸出 111 | 總計 4430
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10978 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 10.50 秒
+📊 [Token 統計]: 輸入 41048 | 輸出 201
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains misaligned symbols and low contrast issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Label for vector A has a slight vertical misalignment with the arrow, resulting in a 0.15-unit gap.",
+      "suggested_fix": "Adjust label_a.next_to(vec_a.get_end(), RIGHT, buff=0) to eliminate the gap."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color of label_a is similar in hue to the background, reducing readability.",
+      "suggested_fix": "Change label_a properties.color from BLUE to a darker shade for better contrast."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🟠 [MISALIGNED] Label for vector A has a slight vertical misalignment with the arrow, resulting ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains misaligned symbols and low contrast issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The final frame contains misaligned symbols and low contrast issues.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the stan...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.38 秒
+📊 [Token 統計]: 輸入 7488 | 輸出 2849 | 總計 10337
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- Label for vector A has a slight vertical misalignment with the arrow, result...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.85 秒
+📊 [Token 統計]: 輸入 9589 | 輸出 2855 | 總計 12444
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.p...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.54 秒
+📊 [Token 統計]: 輸入 6994 | 輸出 2856 | 總計 9850
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9794 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.23 秒
+📊 [Token 統計]: 輸入 41048 | 輸出 232
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects found in symbol rendering and overlap issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The labels for vectors A and B have a color contrast that is below the recommended ratio of 4.5:1, making them difficult to read against the black background.",
+      "suggested_fix": "Change the label colors to a brighter hue or increase the brightness of the current colors for improved contrast."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "Label B overlaps with the end of vector B, causing potential confusion regarding the vector’s endpoint.",
+      "suggested_fix": "Adjust label_b's position by using label_b.next_to(vec_b.get_end(), UP, buff=0.4) to increase the separation between the label and the vector."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] Label B overlaps with the end of vector B, causing potential confusion regarding...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects found in symbol rendering and overlap issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Defects found in symbol rendering and overlap issues.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect cod...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.05 秒
+📊 [Token 統計]: 輸入 7175 | 輸出 2856 | 總計 10031
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- Label B overlaps with the end of vector B, causing potential confusion regardin...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 51.41 秒
+📊 [Token 統計]: 輸入 12131 | 輸出 2856 | 總計 14987
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.p...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.06 秒
+📊 [Token 統計]: 輸入 9518 | 輸出 2856 | 總計 12374
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9794 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.01 秒
+📊 [Token 統計]: 輸入 41048 | 輸出 233
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Issues detected with alignment and overflow that affect visual clarity and pedagogical effectiveness.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Vector B and its label have a noticeable gap (> 0.15 units) from the origin, affecting their alignment with the coordinate system.",
+      "suggested_fix": "Use vec_b.move_to(axes.get_origin()) instead of vec_b.shift(UP*2) to ensure it starts from the origin."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "Label for vector A overlaps with the Y-axis markings, breaching the mandatory action safe zone resulting in potential cognitive overload.",
+      "suggested_fix": "Adjust label_a.next_to(vec_a.get_end(), RIGHT, buff=0.5) to increase the distance from the Y-axis."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] Vector B and its label have a noticeable gap (> 0.15 units) from the origin, aff...
+  🔴 [OVERFLOW] Label for vector A overlaps with the Y-axis markings, breaching the mandatory ac...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Issues detected with alignment and overflow that affect visual clarity and pedagogical effectiveness.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9794 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.68 秒
+📊 [Token 統計]: 輸入 41048 | 輸出 298
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects found in overlaps, alignment, and clarity of mathematical notation.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "Math labels for vectors A and B are overlapping with the arrows, reducing readability.",
+      "suggested_fix": "Adjust label_a's position by moving it to the right: Change label_a.next_to(vec_a.get_end(), RIGHT, buff=0.3) to buff=0.5."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Triangle's vertices are not properly aligned with the corresponding vectors.",
+      "suggested_fix": "Change triangle's vertex coordinates to [(0, 0), (3, 1), (4, 3)] and ensure proper positioning."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The labels for vectors A and B render in color that does not clearly contrast with the background.",
+      "suggested_fix": "Increase color brightness for label_a and label_b to ensure better visibility against black background."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] Math labels for vectors A and B are overlapping with the arrows, reducing readab...
+  🟠 [MISALIGNED] Triangle's vertices are not properly aligned with the corresponding vectors....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects found in overlaps, alignment, and clarity of mathematical notation.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 16
+Total Tokens: 270,217
+  - Prompt: 244,835
+  - Completion: 25,382
+----------------------------------------
+Estimated Cost: $0.043738 USD
+約合台幣: NT$ 1.3559
+========================================
+
+
+
+=== STDERR ===

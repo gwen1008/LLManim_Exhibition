@@ -1,0 +1,194 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-21_02-43-16_在_-5_到_5_的數線上示範從_-2_到_+3_的跳躍並畫出移動_5_個單位的箭頭動畫.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.73 秒
+📊 [Token 統計]: 輸入 226 | 輸出 83 | 總計 309
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow moving 5 units to the right, ending at the point 3. Use Transform() to smoothly animate the arrow's movement.
+------------------------------
+   📝 初稿: Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow moving 5 units to the right, ending at the point 3. Use Transform() to smoothly animate the arrow's movement.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.60 秒
+📊 [Token 統計]: 輸入 321 | 輸出 91 | 總計 412
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3, covering a distance of 5 units. Create an arrow starting from the point at -2, then animate the arrow moving 5 units to the right, ending at the point 3, using Transform() to smoothly animate the arrow's movement.
+------------------------------
+✨ [翻譯完成]: Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3, covering a distance of 5 units. Create an arrow starting from the point at -2, then animate the arrow moving 5 units to the right, ending at the point 3, using Transform() to smoothly animate the arrow's movement.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 65.39 秒
+📊 [Token 統計]: 輸入 4067 | 輸出 3447 | 總計 7514
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A physical "jumping frog" metaphor. The number line is a log, points are lily pads at -2 and 3. A frog (a dot) hops from the first pad to the second, and a measuring arrow (like a ruler) extends to show the distance of 5 units.</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A clean, minimalist mathematical visualization. A standard number line with ticks and labels. A point is created at -2 and 3. A vector arrow is drawn from -2 to 3, then animated to "grow" to the right, visually tracing the path and distance. The distance "5" is labeled and emphasized.</metaphor>
+    <scores pedagogy="8" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step construction. First, the empty line appears. Then ticks and numbers from -5 to 5 fade in sequentially. Points appear at -2 and 3 with a "pop" effect. A dashed line connects them, which then solidifies into an arrow. The arrow then extends, leaving a highlighted trail, and the distance calculation (3 - (-2) = 5) appears alongside.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C offers the highest pedagogical value by deconstructing the process into clear, sequential steps. It directly visualizes the connection between the physical jump on the line and the abstract distance calculation (3 - (-2) = 5). Its engagement score is high due to the progressive build-up, and its feasibility is good as it uses standard Manim objects (NumberLine, Dot, Arrow, DashedLine, MathTex) with well-defined animations (Create, Transform, Write). It best fulfills the user's request for a structured, step-by-step animation.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line, interval [-5,5], points at -2 and 3, distance of 5 units, vector movement, subtraction as difference.
+**Visual Metaphor**: Progressive construction with mathematical annotation.
+**Spatial Plan (High-Low Split)**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0.0)**: Number line, points, and arrow. This is the primary visual stage.
+- **FOOTER Zone (y ~ -2.5)**: Explanatory text and the distance calculation formula.
+**Layout Logic**:
+1. **Number Line**: Centered at ORIGIN, length 12 units (scale 1.2 per unit to fit -5 to 5 clearly). This gives a total width of 12, well within the safe x-boundaries of [-6.5, 6.5].
+2. **Points**: Dots placed on the number line at coordinates (-2*1.2, 0, 0) and (3*1.2, 0, 0).
+3. **Arrow**: Will be created from `point_a` to `point_a` (zero length) initially, then transformed to span from `point_a` to `point_b`.
+4. **Labels**: Point labels (A, B) placed above the dots. Distance label placed near the arrow.
+5. **Explanation Area**: A fixed area at the bottom for the step-by-step narrative and the final formula `3 - (-2) = 5`.
+**Constraint Calculations**:
+- `number_line_unit_size = 1.2`
+- `point_a_pos = (-2 * number_line_unit_size, 0, 0)`
+- `point_b_pos = (3 * number_line_unit_size, 0, 0)`
+- `arrow_start_pos = point_a_pos`
+- `arrow_end_pos = point_b_pos`
+**Signal Strategy**:
+- Use `Indicate` (yellow) to highlight points as they are introduced.
+- Use `Circumscribe` (green) to highlight the number line segment between -2 and 3.
+- The arrow's `Transform` is the core visual action showing the jump.
+- The final formula appears in the footer, with the numbers `3`, `-(-2)`, and `5` signaled.
+**Cleanup Strategy**: The title and number line are persistent. The initial dashed line is replaced by the solid arrow. The final explanation text in the footer will replace the step-by-step captions to avoid overflow.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9710 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 4.34s | Let's start by ...
+  - 語音片段 1: 6.26s | We mark two poi...
+  - 語音片段 2: 5.47s | Here is point A...
+  - 語音片段 3: 7.94s | We can represen...
+  - 語音片段 4: 11.38s | The arrow moves...
+✅ 語音處理完成！合併音檔: media/audio/在__5_到_5_的數線上_示範從__2_e541ae2fca/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3, covering a distance of 5 units. Create an arrow starting from the point at -2, then animate the arrow moving 5 units to the right, ending at the point 3, using Transform() to smoothly animate the arrow's movement.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.56 秒
+📊 [Token 統計]: 輸入 12691 | 輸出 2666 | 總計 15357
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10288 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.10 秒
+📊 [Token 統計]: 輸入 40571 | 輸出 128
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains a major defect due to a typographical error in the title.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The title on the left reads 'Distance on a Nul' instead of 'Distance on a Number Line', which introduces miscommunication.",
+      "suggested_fix": "Correct the title text to 'Distance on a Number Line'."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+✅ All defects were LOW_CONTRAST false positives → upgrading to PASS
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 14.33 秒
+📂  歸檔目錄: stable_outputs
+    🎥 在__minus_5_到_5_的數線上，示範從__minus_2_到__plus_3_的跳躍，並畫出_20260221_024531.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 5
+Total Tokens: 64,291
+  - Prompt: 57,876
+  - Completion: 6,415
+----------------------------------------
+Estimated Cost: $0.010680 USD
+約合台幣: NT$ 0.3311
+========================================
+
+
+
+=== STDERR ===

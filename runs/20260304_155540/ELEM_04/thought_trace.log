@@ -1,0 +1,217 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-03-04_16-13-24_繪製一個_60_度的角並疊加一個半圓形量角器來示範如何測量它.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 1.58 秒
+📊 [Token 統計]: 輸入 191 | 輸出 235 | 總計 426
+
+📢 [AI 審查/反饋意見]:
+To create an accurate English animation specification, let's break down the given Chinese requirement.
+
+The requirement mentions drawing a 60-degree angle and overlaying a semicircular protractor to demonstrate how to measure it. 
+
+Here's a step-by-step analysis:
+- First, we need to draw an angle of 60 degrees on the screen.
+- Next, we should introduce a semicircular protractor, which is a tool used for measuring angles.
+- The protractor should be overlaid on top of the angle, allowing the audience to visualize how the angle measurement is taken.
+
+<reflection>
+Before finalizing the translation, let's consider the key elements:
+- The angle to be drawn is specifically 60 degrees.
+- A semicircular protractor is to be used for demonstration purposes.
+- The protractor's role is to show the measurement of the angle.
+Given these points, the translation should clearly convey the action of drawing the angle and the subsequent overlay of the protractor for measurement demonstration.
+</reflection>
+
+<final_translation>
+Draw a 60-degree angle and overlay a semicircular protractor to demonstrate the measurement of the angle.
+</final_translation>
+------------------------------
+✨ [翻譯完成]: Draw a 60-degree angle and overlay a semicircular protractor to demonstrate the measurement of the angle.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 112.76 秒
+📊 [Token 統計]: 輸入 4134 | 輸出 3022 | 總計 7156
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world protractor tool: Show a physical protractor being placed on a drawn angle, with a close-up of the scale and a moving indicator line to read the measurement.</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction: Build the angle from two rays, then construct a unit semicircle (protractor) at the vertex. Animate the central angle subtending an arc, and measure the arc length/degree marks.</metaphor>
+    <scores pedagogy="8" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step detective story: First draw the mysterious angle. Then reveal the protractor as a measuring tool. Animate the process of aligning the protractor's baseline, then "sweeping" the angle to highlight the arc between 0 and 60 degrees.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C best combines the clarity of a real-world tool (high pedagogy) with a clear, step-by-step narrative that is highly engaging. Its feasibility is high because it uses standard Manim shapes (Arc, Line, NumberLine) and transformations. It tells a complete story of measurement.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 60-degree angle, semicircular protractor (180-degree scale), angle measurement, alignment (vertex at center, baseline along one ray).
+**Visual Metaphor**: Detective uncovering the measurement of a "mysterious" angle.
+**Spatial Plan (High-Low Split)**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0)**: Main angle and protractor. This is the primary visual stage.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text for each step.
+**Primary Objects & Coordinates**:
+1.  **Angle**: Vertex V at ORIGIN (0,0,0). Ray1 (baseline) along positive x-axis (e.g., to (3,0,0)). Ray2 at 60 degrees from Ray1 (to (3*cos60°, 3*sin60°, 0) = (1.5, ~2.598, 0)).
+2.  **Protractor Semicircle**: Center at V, radius = 2.5 (slightly larger than rays). From 0 to 180 degrees (positive y-axis). We'll use an `Arc` from angle=0 to angle=PI.
+3.  **Protractor Scale**: A `NumberLine` curved along the arc, with ticks and labels (0, 30, 60, 90, 120, 150, 180).
+4.  **Measurement Arc & Label**: A colored arc from 0 to 60 degrees, radius=2.2, with a label "60°".
+**Constraints**:
+- Protractor must be aligned: Its center at V, its 0-degree mark on Ray1 (positive x-axis).
+- All action stays within x ∈ [-4, 4], y ∈ [-1, 3.5] to avoid overflow.
+- Explanatory text is scaled 0.8 and placed in the FOOTER.
+**Signal Strategy**:
+- Step 1: Create the angle. Indicate vertex and rays.
+- Step 2: Introduce protractor. Circumscribe its center and baseline alignment.
+- Step 3: Animate the "sweep" of the measurement arc from 0 to 60 degrees.
+- Step 4: Highlight the corresponding tick mark on the protractor scale.
+- Step 5: Display the final measurement label.
+**Cleanup**: The final frame will show the angle, the protractor, and the "60°" label. The step-by-step explanatory text in the footer will update, not accumulate.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 8163 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...🎙️ 開始生成語音 (Azure: True)...
+
+✅ RAG System: Connected to Weaviate.
+  - 語音片段 1: 2.71s | First, we draw ...
+  - 語音片段 2: 5.66s | Then, we draw t...
+  - 語音片段 0: 5.83s | We begin with a...
+🔍 RAG Search: Found 2 examples for 'Draw a 60-degree angle and overlay a semicircular protractor to demonstrate the measurement of the angle.'
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+=== 📚 REFERENCE EXAMPLES (RAG - Core Logic Only) ===
+Use these verified patterns. Full imports/class structure are in your system prompt.
+
+--- Example 1 ---
+Visual: None
+Core Logic:
+```python
+self.camera.background_color = "#1e1e1e"
+
+# 1. 佈局設定
+# 左側放單位圓,右側放坐標軸
+unit_circle_center = LEFT * 3
+radius =...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 29499)
+  - 語音片段 4: 7.34s | Crucially, the ...
+  - 語音片段 3: 8.09s | To measure this...
+  - 語音片段 5: 8.90s | Now we measure....
+  - 語音片段 7: 3.77s | Therefore, the ...
+  - 語音片段 6: 4.44s | We see this arc...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 121.77 秒
+📊 [Token 統計]: 輸入 13406 | 輸出 3233 | 總計 16639
+------------------------------
+✅ [Coder] T=0.3 通過編譯檢查
+✅ 語音處理完成！合併音檔: media/audio/Draw_a_60_degree_ang_9e7aa1e1ee/final_narrative.mp3
+🎵 [Audio Post-Inject] 成功注入 8 個 self.add_sound()，wait 同步至實際 TTS 時長
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+✅ RAG System: Connected to Weaviate.
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12840 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 3.97 秒
+📊 [Token 統計]: 輸入 42201 | 輸出 158
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "visual_rationale": "The final frame displays a complete view of the angle measurement process, featuring the vertex, baseline ray, 60-degree ray, protractor, measurement arc, and the title. The title is clearly visible at the bottom, while the protractor and rays are centered in the upper quadrants, maintaining a clean layout.",
+  "temporal_analysis": "From 70% to 95%, the measurement arc is animated to sweep from the 0-degree mark to the 60-degree mark, and the title fades in, ensuring all expected elements are present in the final frame.",
+  "confidence_score": 5,
+  "verdict": "PASS",
+  "overall_critique": "All checks passed.",
+  "defects": []
+}
+========================================
+
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 10.23 秒
+📂  歸檔目錄: stable_outputs
+    🎥 繪製一個_60_度的角，並疊加一個半圓形量角器來示範如何測量它。_20260304_161731.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 4
+Total Tokens: 66,580
+  - Prompt: 59,932
+  - Completion: 6,648
+----------------------------------------
+Estimated Cost: $0.010930 USD
+約合台幣: NT$ 0.3388
+========================================
+
+
+
+=== STDERR ===
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1772612119.093246 8479356 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772612119.173893 8479357 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772612119.293870 8479355 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/weaviate/warnings.py:302: ResourceWarning: Con004: The connection to Weaviate was not closed properly. This can lead to memory leaks.
+            Please make sure to close the connection using `client.close()`.
+  warnings.warn(
+/Users/liaozhenting/Desktop/LLManim_Agent/main.py:333: ResourceWarning: unclosed <socket.socket fd=9, family=30, type=1, proto=6, laddr=('::1', 60675, 0, 0), raddr=('::1', 8080, 0, 0)>
+  result = RefiningLoop.auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback

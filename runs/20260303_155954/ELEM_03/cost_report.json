@@ -1,0 +1,31 @@
+{
+  "total_prompt_tokens": 62396,
+  "total_completion_tokens": 7129,
+  "total_cost_usd": 0.01143176,
+  "calls": [
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 200,
+      "completion": 260,
+      "cost": 0.00032339999999999995
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 4149,
+      "completion": 3260,
+      "cost": 0.00149366
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 15247,
+      "completion": 3454,
+      "cost": 0.0031017
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 42800,
+      "completion": 155,
+      "cost": 0.006513
+    }
+  ]
+}

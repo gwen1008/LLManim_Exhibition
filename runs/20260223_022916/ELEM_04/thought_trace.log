@@ -1,0 +1,728 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_02-53-17_繪製一個_60_度的角並疊加一個半圓形量角器來示範如何測量它.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.71 秒
+📊 [Token 統計]: 輸入 216 | 輸出 71 | 總計 287
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement, ensuring the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with the 60-degree mark on the protractor coinciding with the angle's measurement.
+------------------------------
+   📝 初稿: Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement, ensuring the protractor's center aligns with the angle's vertex and its edge passes through the angle's endpoints, with the 60-degree mark on the protractor coinciding with the angle's measurement.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.34 秒
+📊 [Token 統計]: 輸入 300 | 輸出 72 | 總計 372
+
+📢 [AI 審查/反饋意見]:
+Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center coincides with the angle's vertex and its edge passes through the angle's endpoints, such that the 60-degree mark on the protractor aligns with the angle's measurement.
+------------------------------
+✨ [翻譯完成]: Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center coincides with the angle's vertex and its edge passes through the angle's endpoints, such that the 60-degree mark on the protractor aligns with the angle's measurement.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 67.62 秒
+📊 [Token 統計]: 輸入 4181 | 輸出 3648 | 總計 7829
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world protractor tool: Animate a physical protractor being placed over a drawn angle, with a sweeping arm moving to the 60° mark.</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Geometric construction: Build the angle from first principles (equilateral triangle bisection) and then overlay a clean, semi-transparent protractor as a measurement overlay.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step interactive build: Show a blank slate, draw the rays, then construct the protractor piece-by-piece (center, baseline, arc, marks), finally highlighting the 60° measurement.</metaphor>
+    <scores pedagogy="8" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) provides the strongest pedagogical foundation by connecting the 60° angle to a known geometric construction (equilateral triangle), which reinforces the "why" behind the measurement. It is highly feasible in Manim using standard shapes and transforms, and maintains a clean, professional aesthetic. It best fulfills the core educational goal of demonstrating angle measurement.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 60-degree angle, line segments (rays), vertex, protractor (semicircle), alignment (center at vertex, baseline along one ray), measurement mark.
+
+**Visual Metaphor (Selected: Abstract)**: Construct a 60° angle via an equilateral triangle, then overlay a measuring tool. This teaches that 60° is 1/6 of a circle and connects to triangle geometry.
+
+**Spatial Plan**:
+- **Global Center (ORIGIN)**: Vertex of the angle.
+- **HEADER Zone (y=3.0)**: Title.
+- **CONTENT Zone (y=0)**: Main construction (angle, triangle, protractor).
+- **FOOTER Zone (y=-3.0)**: Step-by-step explanation.
+
+**Geometric Calculations**:
+1. **Angle Rays**: Ray1 (Initial Side): From vertex (0,0) to (4,0). Ray2 (Terminal Side for 60°): From vertex to (4*cos(60°), 4*sin(60°)) = (2, 3.464).
+2. **Equilateral Triangle (for construction)**: Side length = 4. Points: A(0,0), B(4,0), C(2, 3.464). This creates a 60° angle at A.
+3. **Protractor**:
+   - Center: (0,0).
+   - Radius: 3.5 (slightly smaller than ray length for clarity).
+   - Arc: From 0° (point (3.5,0)) to 180° (point (-3.5,0)).
+   - Baseline: Line from (-3.5,0) to (3.5,0).
+   - Marks: Key marks at 0°, 30°, 60°, 90°, 120°, 150°, 180°.
+
+**Constraints & Hierarchy**:
+- Primary: Angle rays (BLUE), Protractor arc (WHITE).
+- Secondary: Construction triangle (faded GRAY), Protractor marks/text (WHITE).
+- Tertiary: Explanatory text (FOOTER).
+
+**Signal Strategy**:
+1. Build the angle via triangle construction.
+2. Fade in protractor, aligning its center and baseline.
+3. Highlight the 60° mark and the arc between rays.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 11015 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 11.11s | We begin by con...
+  - 語音片段 1: 6.55s | First, draw the...
+  - 語音片段 2: 9.43s | Now, construct ...
+  - 語音片段 3: 7.78s | We now have our...
+  - 語音片段 4: 10.08s | To measure the ...
+  - 語音片段 5: 10.32s | Finally, we see...
+✅ 語音處理完成！合併音檔: media/audio/繪製一個_60_度的角_並疊加一個半圓形_388462d1c9/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a 60-degree angle using two line segments, then overlay a semicircular protractor on top of the angle to demonstrate its measurement. Ensure the protractor's center coincides with the angle's vertex and its edge passes through the angle's endpoints, such that the 60-degree mark on the protractor aligns with the angle's measurement.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 62.49 秒
+📊 [Token 統計]: 輸入 14895 | 輸出 3410 | 總計 18305
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11710 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/23 [00:00<?, ?it/s]
+                                                                                                          
+
+Animation 2: Create(Line):   0%|          | 0/23 [00:00<?, ?it/s]
+                                                                 
+
+Animation 3: ReplacementTransform(Text('Step 1: We begin by constructing two rays from a common vertex.')):   0%|          | 0/15 [00:00<?, ?it/s]
+Animation 3: ReplacementTransform(Text('Step 1: We begin by constructing two rays from a common vertex.')):  87%|████████▋ | 13/15 [00:00<00:00, 121.60it/s]
+                                                                                                                                                            
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:179 in construct    │
+│                                                                              │
+│   176 │   │   │   self.add_sound(audio_step3)                                │
+│   177 │   │   elif os.path.exists(audio_step3.replace(".mp3", ".wav")):      │
+│   178 │   │   │   self.add_sound(audio_step3.replace(".mp3", ".wav"))        │
+│ ❱ 179 │   │   self.play(Indicate(vertex, color=GREEN, run_time=1))           │
+│   180 │   │   self.play(Create(self.objects["triangle_AC"]), Create(self.obj │
+│   181 │   │   self.play(ReplacementTransform(self.objects["step2_text"], sel │
+│   182 │   │   remaining_3 = max(0.1, 9.432 - (1 + 2.0 + 1.0) + 0.5)          │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/animation/indication.py:162 in __init__                             │
+│                                                                              │
+│   159 │   ):                                                                 │
+│   160 │   │   self.color = color                                             │
+│   161 │   │   self.scale_factor = scale_factor                               │
+│ ❱ 162 │   │   super().__init__(mobject, rate_func=rate_func, **kwargs)       │
+│   163 │                                                                      │
+│   164 │   def create_target(self) -> Mobject | OpenGLMobject:                │
+│   165 │   │   target = self.mobject.copy()                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/animation/transform.py:165 in __init__                              │
+│                                                                              │
+│   162 │   │   self.target_mobject: Mobject = (                               │
+│   163 │   │   │   target_mobject if target_mobject is not None else Mobject( │
+│   164 │   │   )                                                              │
+│ ❱ 165 │   │   super().__init__(mobject, **kwargs)                            │
+│   166 │                                                                      │
+│   167 │   @property                                                          │
+│   168 │   def path_arc(self) -> float:                                       │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/animation/animation.py:143 in __init__                              │
+│                                                                              │
+│   140 │   │   _on_finish: Callable[[], None] = lambda _: None,               │
+│   141 │   │   use_override: bool = True,  # included here to avoid TypeError │
+│   142 │   ) -> None:                                                         │
+│ ❱ 143 │   │   self._typecheck_input(mobject)                                 │
+│   144 │   │   self.run_time: float = run_time                                │
+│   145 │   │   self.rate_func: Callable[[float], float] = rate_func           │
+│   146 │   │   self.reverse_rate_function: bool = reverse_rate_function       │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/animation/animation.py:187 in _typecheck_input                      │
+│                                                                              │
+│   184 │   │   if mobject is None:                                            │
+│   185 │   │   │   logger.debug("Animation with empty mobject")               │
+│   186 │   │   elif not isinstance(mobject, (Mobject, OpenGLMobject)):        │
+│ ❱ 187 │   │   │   raise TypeError("Animation only works on Mobjects")        │
+│   188 │                                                                      │
+│   189 │   def __str__(self) -> str:                                          │
+│   190 │   │   if self.name:                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TypeError: Animation only works on Mobjects
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/23 [00:00<?, ?it/s]
+                                                                                                      ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.72 秒
+📊 [Token 統計]: 輸入 5135 | 輸出 108 | 總計 5243
+------------------------------
+🔬 [Smart Patch] 已識別為局部可修復錯誤 → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/23 [00:00<?, ?it/s]
+                                                                                      ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.43 秒
+📊 [Token 統計]: 輸入 5526 | 輸出 111 | 總計 5637
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11728 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                                          
+
+Animation 2: Create(Line):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                 
+
+Animation 3: ReplacementTransform(Text('Step 1: We begin by constructing two rays from a common vertex.')):   0%|          | 0/10 [00:00<?, ?it/s]
+                                                                                                                                                  
+
+Animation 5: Indicate(Dot):   0%|          | 0/10 [00:00<?, ?it/s]
+                                                                  
+
+Animation 6: Create(Line), etc.:   0%|          | 0/20 [00:00<?, ?it/s]
+                                                                       
+
+Animation 7: ReplacementTransform(Text('Step 2: Draw the base of an equilateral triangle from the vertex.')):   0%|          | 0/10 [00:00<?, ?it/s]
+                                                                                                                                                    
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:191 in construct    │
+│                                                                              │
+│   188 │   │   │   self.add_sound(audio_step4)                                │
+│   189 │   │   elif os.path.exists(audio_step4.replace(".mp3", ".wav")):      │
+│   190 │   │   │   self.add_sound(audio_step4.replace(".mp3", ".wav"))        │
+│ ❱ 191 │   │   self.play(Circumscribe(vertex, color=YELLOW, run_time=1))      │
+│   192 │   │   self.play(FadeOut(self.objects["triangle_BC"]), run_time=0.5)  │
+│   193 │   │   self.play(Transform(self.objects["triangle_AB"], self.objects[ │
+│   194 │   │   self.play(Transform(self.objects["triangle_AC"], self.objects[ │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/animation/indication.py:627 in __init__                             │
+│                                                                              │
+│   624 │   │   **kwargs: Any,                                                 │
+│   625 │   ):                                                                 │
+│   626 │   │   if shape is Rectangle:                                         │
+│ ❱ 627 │   │   │   frame: SurroundingRectangle | Circle = SurroundingRectangl │
+│   628 │   │   │   │   mobject,                                               │
+│   629 │   │   │   │   color=color,                                           │
+│   630 │   │   │   │   buff=buff,                                             │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/mobject/geometry/shape_matchers.py:61 in __init__                   │
+│                                                                              │
+│    58 │   │   from manim.mobject.mobject import Group                        │
+│    59 │   │                                                                  │
+│    60 │   │   if not all(isinstance(mob, (Mobject, OpenGLMobject)) for mob i │
+│ ❱  61 │   │   │   raise TypeError(                                           │
+│    62 │   │   │   │   "Expected all inputs for parameter mobjects to be a Mo │
+│    63 │   │   │   )                                                          │
+│    64                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TypeError: Expected all inputs for parameter mobjects to be a Mobjects
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The render failed with a RENDERING ERROR.
+
+**ERROR**:
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                                      ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 3.41 秒
+📊 [Token 統計]: 輸入 4814 | 輸出 110 | 總計 4924
+------------------------------
+🔬 [Smart Patch] 已識別為局部可修復錯誤 → 切換為 SEARCH/REPLACE 模式（保護完好代碼）
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                      ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 5.87 秒
+📊 [Token 統計]: 輸入 5324 | 輸出 260 | 總計 5584
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11733 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.05 秒
+📊 [Token 統計]: 輸入 41071 | 輸出 282
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects found in geometric precision and symbolic consistency.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The angle arc should start at the terminal ray but has a visible gap from the ray at the vertex, approximately 0.2 units.",
+      "suggested_fix": "Use angle_arc.move_to(vertex.get_center()) to align the arc correctly."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label for 60° overlaps with the arc, negatively impacting readability.",
+      "suggested_fix": "Move angle_label.next_to(angle_arc.get_center(), UP + RIGHT, buff=0.4) to provide better spacing."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The contrast ratio of the yellow angle label to the background does not meet accessibility standards.",
+      "suggested_fix": "Change angle_label color to a darker shade (e.g., Gold) for better visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The angle arc should start at the terminal ray but has a visible gap from the ra...
+  🟠 [OVERLAP] The label for 60° overlaps with the arc, negatively impacting readability....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects found in geometric precision and symbolic consistency.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Defects found in geometric precision and symbolic consistency.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard d...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 61.45 秒
+📊 [Token 統計]: 輸入 7833 | 輸出 3454 | 總計 11287
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The angle arc should start at the terminal ray but has a visible gap from th...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.91 秒
+📊 [Token 統計]: 輸入 7280 | 輸出 3172 | 總計 10452
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                      ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.46 秒
+📊 [Token 統計]: 輸入 5198 | 輸出 3163 | 總計 8361
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10747 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.53 秒
+📊 [Token 統計]: 輸入 41071 | 輸出 357
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains several critical issues affecting symbolic clarity and layout adherence.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The title overflows the action safe area at the top, with some text likely being cut off.",
+      "suggested_fix": "Move title to position (0, 2.5, 0) to fit within the safe zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The contrast ratio of yellow text ('60°') against the background is insufficient.",
+      "suggested_fix": "Change the color of the angle label to a lighter shade or white to improve contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The angle arc is misaligned with the rays, not properly touching the rays forming the angle.",
+      "suggested_fix": "Adjust angle_arc.set_start_angle(0) and set its endpoint to align at the intersection of the rays."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The labels for angles (30, 60) intersect visually with the semicircular arc, causing confusion.",
+      "suggested_fix": "Reposition angle labels further away from the arc to ensure clarity."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The title overflows the action safe area at the top, with some text likely being...
+  🟠 [MISALIGNED] The angle arc is misaligned with the rays, not properly touching the rays formin...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains several critical issues affecting symbolic clarity and layout adherence.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+The frame contains several critical issues affecting symbolic clarity and layout adherence.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these i...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 57.06 秒
+📊 [Token 統計]: 輸入 7539 | 輸出 3197 | 總計 10736
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The title overflows the action safe area at the top, with some text likely bei...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 58.25 秒
+📊 [Token 統計]: 輸入 6915 | 輸出 3197 | 總計 10112
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+
+Animation 0: Write(Text('Constructing and Measuring a 60° Angle')):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                                      ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 58.46 秒
+📊 [Token 統計]: 輸入 4843 | 輸出 3163 | 總計 8006
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10747 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 9.13 秒
+📊 [Token 統計]: 輸入 41071 | 輸出 385
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The audit revealed several critical and major defects affecting accuracy and clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The title text 'Constructing and Measuring a 60° Angle' has low contrast against the black background, affecting readability.",
+      "suggested_fix": "Change title color to a brighter shade, ensuring contrast ratio meets standards."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The title exceeds the upper boundary as it is positioned at (0, 3.0, 0) which breaches the mandatory boundary limit of y = 3.5.",
+      "suggested_fix": "Move title to position (0, 2.8, 0) to ensure it fits within the action safe area."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The yellow arc labeled '60°' does not correctly align with the terminal ray, causing pedagogical confusion.",
+      "suggested_fix": "Align the angle_arc to the center point of the angle, adjusting its position using angle_arc.move_to(vertex)."
+    },
+    {
+      "id": "ERR_004",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The step explanation text at the bottom reads very small and hard to read.",
+      "suggested_fix": "Increase the font size of the explanation text from 24 to 28 in the properties."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 3 defect(s):
+  🔴 [OVERFLOW] The title exceeds the upper boundary as it is positioned at (0, 3.0, 0) which br...
+  🟠 [MISALIGNED] The yellow arc labeled '60°' does not correctly align with the terminal ray, cau...
+  🟡 [TINY_TEXT] The step explanation text at the bottom reads very small and hard to read....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The audit revealed several critical and major defects affecting accuracy and clarity.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 17
+Total Tokens: 231,372
+  - Prompt: 203,212
+  - Completion: 28,160
+----------------------------------------
+Estimated Cost: $0.038199 USD
+約合台幣: NT$ 1.1842
+========================================
+
+
+
+=== STDERR ===

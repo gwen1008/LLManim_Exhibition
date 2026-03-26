@@ -1,0 +1,2 @@
+﻿Case ID,Topic,Status,Iterations,Defects,Total Tokens,Cost USD,Duration Sec
+HIGH_01,畫出 y = 2x - 1 的函數圖形。用「階梯動畫（Rise/Run）」呈現這條線的斜率是 2。,Failed,-,-,-,-,-

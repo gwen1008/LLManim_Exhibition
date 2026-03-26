@@ -1,0 +1,536 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_03-09-51_在_-5_到_5_的數線上示範從_-2_到_+3_的跳躍並畫出移動_5_個單位的箭頭動畫.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.74 秒
+📊 [Token 統計]: 輸入 226 | 輸出 81 | 總計 307
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow moving 5 units to the right, ending at the point 3, to demonstrate the movement of 5 units.
+------------------------------
+   📝 初稿: Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow moving 5 units to the right, ending at the point 3, to demonstrate the movement of 5 units.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.38 秒
+📊 [Token 統計]: 輸入 319 | 輸出 82 | 總計 401
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow traversing 5 units to the right, terminating at the point 3, to illustrate the displacement of 5 units.
+------------------------------
+✨ [翻譯完成]: Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow traversing 5 units to the right, terminating at the point 3, to illustrate the displacement of 5 units.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 52.66 秒
+📊 [Token 統計]: 輸入 4194 | 輸出 2807 | 總計 7001
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+<metaphor>A physical ruler or measuring tape. The points are pins on the ruler. The translation is a bead sliding along the tape from one pin to the other. The arrow is a measuring stick placed between the pins.</metaphor>
+<scores pedagogy="7" feasibility="8" engagement="6" />
+</branch>
+<branch id="B" type="Abstract">
+<metaphor>A pure, clean mathematical number line. The points are labeled dots. The translation is a smooth glide of the point. The arrow is a dynamic vector that grows from the start point to the end point, with its magnitude labeled.</metaphor>
+<scores pedagogy="9" feasibility="10" engagement="8" />
+</branch>
+<branch id="C" type="Interactive/Progressive">
+<metaphor>Step-by-step construction: First draw the line and tick marks, then plot the points, then highlight the segment between them, then "extract" the segment to form the arrow above the line, and finally animate the arrow's traversal.</metaphor>
+<scores pedagogy="8" feasibility="9" engagement="9" />
+</branch>
+<selection>
+<winner>B</winner>
+<reason>Strategy B (Abstract) scores highest in Pedagogy and Feasibility. It provides the clearest, most direct mathematical representation, which is ideal for an educational animation. The clean aesthetic aligns perfectly with the 3Blue1Brown/Manimator style. The vector arrow growing from the point is a standard and highly effective visual metaphor for displacement, and it's trivial to implement in Manim with robust `Create` and `GrowArrow` animations.</reason>
+</selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line, integer coordinates from -5 to 5, points at -2 and 3, translation as a movement, displacement vector of magnitude 5.
+
+**Visual Metaphor**: Central, horizontal number line. Points as solid dots. Displacement as a labeled, animated arrow vector originating from the start point.
+
+**Spatial Plan & Calculations**:
+- **Global Layout**: Use the standard HEADER/CONTENT/FOOTER zone model.
+- **Number Line Geometry**: Place the line horizontally through the CONTENT center (ORIGIN). Length should span most of the safe width. With 11 units (-5 to 5) and a scale of 0.8 units per integer, the line will be 8.8 units long. We'll define it from `LEFT*4.4` to `RIGHT*4.4`.
+- **Tick Marks & Labels**: Generate at each integer from -5 to 5. Position labels above the line.
+- **Point Coordinates**: `point_a = (-2*0.8, 0, 0)` and `point_b = (3*0.8, 0, 0)`.
+- **Arrow/Vector**: A `Vector` object from `point_a` to `point_b`. We will animate its creation and then its "traversal" (which can be visualized by animating a point along the arrow's path).
+- **Displacement Label**: A MathTex `"+5"` positioned near the arrow.
+
+**Signal Strategy**:
+1. Build the number line infrastructure.
+2. Introduce and plot the two points.
+3. Animate the translation of the point from -2 to 3.
+4. Create the displacement arrow from -2, emphasizing its direction and length.
+5. Animate a tracer point moving along the arrow to illustrate the "traversal" of 5 units.
+6. Label the displacement.
+
+**Overflow Prevention**: The scene is inherently horizontal. The number line, points, and arrow will all fit within the CONTENT zone (y ~ 0). The title (HEADER) and explanation (FOOTER) are in their dedicated zones, preventing vertical clutter.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 7855 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.78s | Let's begin wit...
+  - 語音片段 1: 5.40s | We plot our fir...
+  - 語音片段 2: 8.47s | A translation m...
+  - 語音片段 3: 7.70s | This movement c...
+  - 語音片段 4: 6.58s | The arrow trave...
+  - 語音片段 5: 3.94s | Therefore, the ...
+✅ 語音處理完成！合併音檔: media/audio/在__5_到_5_的數線上_示範從__2_e541ae2fca/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow traversing 5 units to the right, terminating at the point 3, to illustrate the displacement of 5 units.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 45.10 秒
+📊 [Token 統計]: 輸入 13319 | 輸出 2447 | 總計 15766
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 8574 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 9.41 秒
+📊 [Token 統計]: 輸入 40257 | 輸出 353
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several critical defects hinder pedagogical clarity and technical accuracy.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The label '+5' has a visible gap of 0.2 units from the tip of the displacement arrow.",
+      "suggested_fix": "Change displacement_label.next_to(displacement_arrow, UP, buff=0.15) to buff=0."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The contrast ratio of the green label at '3' against the background is below the required threshold.",
+      "suggested_fix": "Change the color of label_b from GREEN to WHITE or a similarly contrasting color."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The number line is outside the mandatory boundaries on the x-axis.",
+      "suggested_fix": "Adjust the number_line length or reposition it to ensure it fits within the mandatory boundaries x in [-7, 7]."
+    },
+    {
+      "id": "ERR_004",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The font size of the dynamic explanation text is below the minimum recommended size for visibility.",
+      "suggested_fix": "Increase explanation_text.font_size from 28 to 32."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 3 defect(s):
+  🔴 [MISALIGNED] The label '+5' has a visible gap of 0.2 units from the tip of the displacement a...
+  🔴 [OVERFLOW] The number line is outside the mandatory boundaries on the x-axis....
+  🟡 [TINY_TEXT] The font size of the dynamic explanation text is below the minimum recommended s...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several critical defects hinder pedagogical clarity and technical accuracy.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The label '+5' has a visible gap of 0.2 units from the tip of the displacement arrow.
+
+SUGGESTED FIX:
+  Change displacement_label.next_to(displacement_arrow, ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 2.25 秒
+📊 [Token 統計]: 輸入 445 | 輸出 44 | 總計 489
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 8571 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.69 秒
+📊 [Token 統計]: 輸入 40257 | 輸出 283
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several defects related to alignment and visual clarity were identified.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The green dot (point_b) is misaligned with the number line tick at x=3, causing a visible gap exceeding 0.15 units.",
+      "suggested_fix": "Change point_b.move_to(number_line.number_to_point(3)) to point_b.move_to(number_line.number_to_point(2.95))"
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The green label '3' has inadequate contrast against the background, making it difficult to read.",
+      "suggested_fix": "Change label_b's color to WHITE for improved contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The label for the displacement '+5' is low resolution and appears fuzzy.",
+      "suggested_fix": "Increase the font size of displacement_label to at least 40."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The green dot (point_b) is misaligned with the number line tick at x=3, causing ...
+  🟡 [TINY_TEXT] The label for the displacement '+5' is low resolution and appears fuzzy....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several defects related to alignment and visual clarity were identified.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Several defects related to alignment and visual clarity were identified.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 45.16 秒
+📊 [Token 統計]: 輸入 6078 | 輸出 2501 | 總計 8579
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The green dot (point_b) is misaligned with the number line tick at x=3, caus...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 35.11 秒
+📊 [Token 統計]: 輸入 5228 | 輸出 1969 | 總計 7197
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MI...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 37.46 秒
+📊 [Token 統計]: 輸入 7784 | 輸出 2075 | 總計 9859
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7097 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.42 秒
+📊 [Token 統計]: 輸入 40257 | 輸出 294
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains multiple defects related to alignment and visual clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The displacement arrow has a noticeable gap from the tip to the green dot (3), making the visualization unclear.",
+      "suggested_fix": "Change displacement_arrow.move_to(point_a.get_center()) to use point_b.get_center() for the correct end point."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The '+' sign in the displacement label overlaps with the arrow, reducing clarity.",
+      "suggested_fix": "Adjust displacement_label.next_to(displacement_arrow, UP, buff=0.3) to provide more spacing."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The area surrounding point a and the arrow feels visually crowded, affecting readability.",
+      "suggested_fix": "Increase the buff parameter in the arrow position to improve clarity, e.g., 'buff=0.2' to 'buff=0.3'."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The displacement arrow has a noticeable gap from the tip to the green dot (3), m...
+  🟠 [OVERLAP] The '+' sign in the displacement label overlaps with the arrow, reducing clarity...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains multiple defects related to alignment and visual clarity.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7097 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.77 秒
+📊 [Token 統計]: 輸入 40257 | 輸出 304
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects in geometric precision and content overflow have been identified.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The label '+5' is partially extending beyond the action safe area bounds on the right side.",
+      "suggested_fix": "Move displacement_label.next_to(displacement_arrow, UP, buff=0.15) to position it within safe bounds, perhaps shifting it leftward."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The tracer_dot shows a small gap (0.2 units) from the end of the displacement_arrow.",
+      "suggested_fix": "Change tracer_dot.move_to(displacement_arrow.get_end()) to ensure it aligns perfectly with the arrow's tip."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The contrast ratio for the content needs to be verified. The gray tones in the labels may not contrast sufficiently with the black background.",
+      "suggested_fix": "Consider darkening the label_a and label_b or lightening the color of number_line for improved visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The label '+5' is partially extending beyond the action safe area bounds on the ...
+  🟠 [MISALIGNED] The tracer_dot shows a small gap (0.2 units) from the end of the displacement_ar...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects in geometric precision and content overflow have been identified.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7097 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.27 秒
+📊 [Token 統計]: 輸入 40257 | 輸出 336
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The scene contains multiple alignment issues between elements and the number line.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The green dot at x = 3 has a visible gap from the number line, approximately 0.2 units.",
+      "suggested_fix": "Change point_b.move_to(number_line.number_to_point(3)) to point_b.move_to(number_line.number_to_point(3) + DOWN * 0.1)"
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label for the point at -2 is misaligned and overlaps with the number line due to insufficient vertical buffer.",
+      "suggested_fix": "Change label_a.next_to(point_a, DOWN, buff=0.2) to label_a.next_to(point_a, UP, buff=0.2)"
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The '+5' label for the displacement does not align properly with the arrow tip, creating an off-center visual.",
+      "suggested_fix": "Change displacement_label.next_to(displacement_arrow, UP, buff=0.15) to displacement_label.next_to(displacement_arrow, DOWN, buff=0.15)"
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 3 defect(s):
+  🟠 [MISALIGNED] The green dot at x = 3 has a visible gap from the number line, approximately 0.2...
+  🟠 [MISALIGNED] The label for the point at -2 is misaligned and overlaps with the number line du...
+  🟠 [MISALIGNED] The '+5' label for the displacement does not align properly with the arrow tip, ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The scene contains multiple alignment issues between elements and the number line.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 13
+Total Tokens: 252,454
+  - Prompt: 238,878
+  - Completion: 13,576
+----------------------------------------
+Estimated Cost: $0.040088 USD
+約合台幣: NT$ 1.2427
+========================================
+
+
+
+=== STDERR ===

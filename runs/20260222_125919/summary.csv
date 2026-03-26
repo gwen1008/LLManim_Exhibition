@@ -1,0 +1,2 @@
+﻿Case ID,Topic,Status,Iterations,Defects,Total Tokens,Cost USD,Duration Sec
+HIGH_03,演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出 y = sin(x) 的圖形。,Success,3,0,78438 (67697/10741),$0.0135,455.46s

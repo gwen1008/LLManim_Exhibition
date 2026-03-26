@@ -1,0 +1,477 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_15-37-07_畫出_y__x-22_-_3_的拋物線標註頂點_2_-3_並畫出垂直的對稱軸.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.56 秒
+📊 [Token 統計]: 輸入 229 | 輸出 81 | 總計 310
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at point (2, -3) and draw the vertical axis of symmetry. Use the Create() function to generate the parabola and the Transform() function to add the vertex label and axis of symmetry. Ensure the axis of symmetry is a vertical line at x = 2.
+------------------------------
+   📝 初稿: Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at point (2, -3) and draw the vertical axis of symmetry. Use the Create() function to generate the parabola and the Transform() function to add the vertex label and axis of symmetry. Ensure the axis of symmetry is a vertical line at x = 2.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.43 秒
+📊 [Token 統計]: 輸入 323 | 輸出 95 | 總計 418
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at the point (2, -3) and draw the vertical axis of symmetry at x = 2. Use the Create() function to generate the parabola and the Transform() or Label() function to add the vertex label, and the Line() function to draw the axis of symmetry, ensuring it is a vertical line at x = 2.
+------------------------------
+✨ [翻譯完成]: Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at the point (2, -3) and draw the vertical axis of symmetry at x = 2. Use the Create() function to generate the parabola and the Transform() or Label() function to add the vertex label, and the Line() function to draw the axis of symmetry, ensuring it is a vertical line at x = 2.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.33 秒
+📊 [Token 統計]: 輸入 4067 | 輸出 2951 | 總計 7018
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world projectile analogy: Show a ball's trajectory path being plotted, with the vertex as the highest/lowest point and the axis of symmetry as a mirror line. The parabola is "drawn" as the path of motion.</metaphor>
+    <scores pedagogy="7" feasibility="6" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure Cartesian construction: Start with coordinate axes, plot key points (vertex, symmetric points), then smoothly connect them to form the parabola. Focus on the geometric definition and transformation from the parent function y=x².</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Stepwise transformation: Begin with y=x² at the origin. Animate the horizontal shift to the right by 2 units, then the vertical shift down by 3 units. The vertex label and axis appear as natural consequences of these transformations.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C (Interactive/Progressive) offers the strongest pedagogical value by explaining the "why" behind the vertex location and axis of symmetry through function transformations. It is highly feasible in Manim using standard Transform and shifting animations, and it is visually engaging as it shows a dynamic morphing process. It directly addresses the user's request to label the vertex at (2,-3) and the axis at x=2 by deriving them, not just stating them.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: The parabola y = (x-2)² - 3 is a transformation of the parent function y = x². Vertex form: y = a(x-h)² + k, where (h,k) is the vertex. Here, h=2, k=-3. The axis of symmetry is the vertical line x = h = 2.
+
+**Visual Metaphor**: Morphing the parent parabola. This builds intuition for how the equation's parameters control the graph's position.
+
+**Spatial Plan (High-Low Split to Prevent Overflow)**:
+- **HEADER Zone (y ~ 3.5)**: Title showing the equation.
+- **CONTENT Zone (y ~ 0)**: Central stage for the graph, axes, and transformations.
+- **FOOTER Zone (y ~ -3.0)**: Brief explanatory text for each step.
+
+**Anchors**:
+- `title_anchor`: HEADER zone, centered.
+- `graph_anchor`: CONTENT zone at ORIGIN. This is the fixed point for the graph and axes.
+- `explanation_anchor`: FOOTER zone, centered.
+
+**Coordinate Calculations**:
+- Axes: Standard Axes from x_range [-3,7] and y_range [-5,5] to comfortably show vertex (2,-3) and shape.
+- Parent Parabola (y=x²): Plotted over x ∈ [-2, 2] for initial view, centered at origin.
+- Target Parabola (y=(x-2)²-3): Same shape, shifted right by 2, down by 3. Will be plotted over x ∈ [0, 4] to keep vertex centered.
+- Vertex Point: Explicitly at (2, -3) in coordinate space.
+- Axis of Symmetry: Vertical line from (2, y_top) to (2, y_bottom) where y_top=5, y_bottom=-5 (within our y_range).
+
+**Constraints**:
+- Keep all graph elements (axes, curves, lines, points) in the CONTENT zone.
+- Labels (vertex label, axis label) are secondary elements attached to their primaries.
+- Explanations are tertiary, in the FOOTER zone, and will be replaced (not stacked) each step.
+
+**Signal Strategy**:
+1. Introduce parent function. Circumscribe the equation.
+2. Animate horizontal shift. Indicate the `(x-2)` part.
+3. Animate vertical shift. Indicate the `-3`.
+4. Mark the resulting vertex. Use Indicate on the point.
+5. Draw the axis of symmetry. Use Indicate on the line x=2.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 7762 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 9.07s | Let's graph the...
+  - 語音片段 1: 7.58s | Here is the bas...
+  - 語音片段 2: 8.42s | The expression ...
+  - 語音片段 3: 7.39s | The minus three...
+  - 語音片段 4: 9.96s | The vertex is n...
+✅ 語音處理完成！合併音檔: media/audio/畫出_y____x_2__2___3_的_95119814cf/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at the point (2, -3) and draw the vertical axis of symmetry at x = 2. Use the Create() function to generate the parabola and the Transform() or Label() function to add the vertex label, and the Line() function to draw the axis of symmetry, ensuring it is a vertical line at x = 2.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 65.47 秒
+📊 [Token 統計]: 輸入 12859 | 輸出 3488 | 總計 16347
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+❌ 靜態审查失敗 (Static Analysis Failed) - 攔截 LLM 請求
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 146 [JSON_SYNTAX_ERROR]: 'null' is not valid Python. Use 'None' instead. (Common LLM mistake when translating JSON to Python)
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Manim Developer.
+
+**FAILURE CONTEXT**:
+Your generated code failed the semantic review.
+
+**REVIEW FEEDBACK**:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 146 [JSON_SYNTAX_ERROR]: 'null' is not valid Python. Use 'None' instead. (Common LLM mistake when translating JSON to Python)
+
+
+**...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 32.70 秒
+📊 [Token 統計]: 輸入 140 | 輸出 1747 | 總計 1887
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 146 [JSON_SYNTAX_ERROR]: 'null' is not valid Python. Use 'None' instead. (Common LLM mistake when translating JSON to Python)
+
+
+【診斷建議】：
+未知錯誤，請檢查語法規範。
+
+【原始代碼】：
+'''
+# [VISUAL REASONING]
+# 1. Pedagogical Goal: Graph the parabola y...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 6.64 秒
+📊 [Token 統計]: 輸入 5597 | 輸出 284 | 總計 5881
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.14 秒
+📊 [Token 統計]: 輸入 7473 | 輸出 756 | 總計 8229
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13773 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.35 秒
+📊 [Token 統計]: 輸入 17444 | 輸出 371
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains several critical defects related to visual clarity and symbolic consistency.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The contrast ratio of the vertex label '(2, -3)' against the background is insufficient, failing the 4.5:1 WCAG AA standard.",
+      "suggested_fix": "Change the vertex label color to a lighter shade for better visibility, ensuring adequate contrast."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color of the axes and labels does not adequately contrast with the background, which may hinder readability.",
+      "suggested_fix": "Increase the brightness of the axes and labels to ensure a clear contrast with the background."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The vertex label '(2, -3)' is misaligned, as it overlaps with the parabola, making it hard to distinguish.",
+      "suggested_fix": "Adjust the initial position of the vertex label further away from the vertex dot to avoid overlap."
+    },
+    {
+      "id": "ERR_004",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The explanation text at the bottom extends beyond the action safe area, risking cutting off during playback.",
+      "suggested_fix": "Reposition the explanation text higher within the safe area boundaries."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 2 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The vertex label '(2, -3)' is misaligned, as it overlaps with the parabola, maki...
+  🔴 [OVERFLOW] The explanation text at the bottom extends beyond the action safe area, risking ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains several critical defects related to visual clarity and symbolic consistency.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The vertex label '(2, -3)' is misaligned, as it overlaps with the parabola, ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 61.30 秒
+📊 [Token 統計]: 輸入 7870 | 輸出 3348 | 總計 11218
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.02 秒
+📊 [Token 統計]: 輸入 7473 | 輸出 768 | 總計 8241
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13773 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.18 秒
+📊 [Token 統計]: 輸入 17444 | 輸出 332
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains several defects impacting clarity and adherence to layout standards.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The contrast ratio between the text 'Vertex at (2, -3), axis of symmetry x = 2' and the background is insufficient, failing accessibility standards.",
+      "suggested_fix": "Increase the font color brightness or change the background color to improve text visibility."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The text 'Vertex at (2, -3), axis of symmetry x = 2' extends beyond the mandatory boundaries for content, violating layout requirements.",
+      "suggested_fix": "Reposition the explanation text to ensure it remains within the action safe area defined by x in [-7, 7] and y in [-3.5, 3.5]."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The label for the vertex '(2, -3)' is misaligned, creating a visual gap that disrupts clarity.",
+      "suggested_fix": "Adjust the position of the vertex label to be directly next to the vertex dot, ensuring it closely follows the dot's position."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The text 'Vertex at (2, -3), axis of symmetry x = 2' extends beyond the mandator...
+  🟠 [MISALIGNED] The label for the vertex '(2, -3)' is misaligned, creating a visual gap that dis...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains several defects impacting clarity and adherence to layout standards.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The text 'Vertex at (2, -3), axis of symmetry x = 2' extends beyond the mandat...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 53.66 秒
+📊 [Token 統計]: 輸入 7932 | 輸出 2913 | 總計 10845
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.41 秒
+📊 [Token 統計]: 輸入 7473 | 輸出 762 | 總計 8235
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13773 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.36 秒
+📊 [Token 統計]: 輸入 17444 | 輸出 295
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame has multiple issues regarding symbolic consistency and visual crowding.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast between the vertex label '(2, -3)' in red and the black background does not meet the required ratio of 4.5:1.",
+      "suggested_fix": "Change the vertex label color to white or a brighter color for better readability."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The label for the vertex overlaps with the graph, which violates the mandatory boundaries and affects readability.",
+      "suggested_fix": "Adjust the position of the vertex label to ensure it is outside the critical area surrounding the vertex dot."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "The axis label 'x = 2' is not positioned at a visually clear and understandable location relative to the axis line.",
+      "suggested_fix": "Reposition the axis label to be closer to the axis line to improve visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The label for the vertex overlaps with the graph, which violates the mandatory b...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame has multiple issues regarding symbolic consistency and visual crowding.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 194.09 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出_y_=__x_minus_2_^2__minus__3_的拋物線。標註頂點__2,__minu_20260220_154227.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 11
+Total Tokens: 107,254
+  - Prompt: 91,349
+  - Completion: 15,905
+----------------------------------------
+Estimated Cost: $0.018423 USD
+約合台幣: NT$ 0.5711
+========================================
+
+
+
+=== STDERR ===

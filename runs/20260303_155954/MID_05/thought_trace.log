@@ -1,0 +1,445 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-03-03_16-40-24_呈現一個直徑為_D_的圓將圓周展開成一條直線證明其長度略大於_3_倍的直徑_Pi.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 2.63 秒
+📊 [Token 統計]: 輸入 208 | 輸出 460 | 總計 668
+
+📢 [AI 審查/反饋意見]:
+To create an animation that demonstrates the concept described, we need to follow a series of steps that involve both mathematical understanding and animation development using Manim. Here's how we can translate the given Chinese requirement into a precise English animation specification:
+
+1. **Introduction of the Circle**: The animation starts by presenting a circle with a diameter of D. This circle should be clearly labeled with its diameter.
+
+2. **Unfolding the Circle's Circumference**: The next step involves "unfolding" or straightening the circumference of the circle into a line. This can be visualized by animating the circle's circumference as it transforms into a straight line.
+
+3. **Comparison with Three Times the Diameter**: After unfolding the circle's circumference into a straight line, the animation should compare this line's length with three times the diameter of the original circle (3D). This comparison aims to visually demonstrate that the length of the unfolded circumference is approximately equal to π (Pi) times the diameter, which is slightly more than three times the diameter, given that π is approximately 3.14159.
+
+4. **Visual Representation of Pi**: To reinforce the concept, the animation could include a visual representation of Pi (π) and how it relates to the circumference and the diameter of the circle.
+
+<reflection>
+Before finalizing the translation, it's crucial to ensure that the sequence of events in the animation is logical and easy to follow. The animation should start with a clear introduction of the circle and its properties, followed by a smooth transition into the unfolding of the circumference. The comparison with three times the diameter should be visually striking, using appropriate scaling and labeling to make the point about Pi clear. The animation should also account for the approximate nature of the relationship, given that Pi is an irrational number.
+</reflection>
+
+<final_translation>
+The animation begins with a circle of diameter D. The circle's circumference is then animated to unfold into a straight line. This line's length is compared to three times the diameter (3D) of the original circle, illustrating that the circumference's length is approximately π times the diameter, thus slightly greater than 3D. This visual representation aims to intuitively demonstrate the relationship between a circle's circumference, its diameter, and Pi.
+</final_translation>
+------------------------------
+✨ [翻譯完成]: The animation begins with a circle of diameter D. The circle's circumference is then animated to unfold into a straight line. This line's length is compared to three times the diameter (3D) of the original circle, illustrating that the circumference's length is approximately π times the diameter, thus slightly greater than 3D. This visual representation aims to intuitively demonstrate the relationship between a circle's circumference, its diameter, and Pi.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 146.66 秒
+📊 [Token 統計]: 輸入 4199 | 輸出 3668 | 總計 7867
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A measuring tape unrolling from the circle's edge. The tape is then laid flat and measured against a ruler marked with 0, D, 2D, 3D, and πD.</metaphor>
+    <scores pedagogy="8" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>The circle's circumference is discretized into many small arcs. These arcs are sequentially straightened and aligned end-to-end to form a straight line segment. This segment is then compared to a separate line representing 3D.</metaphor>
+    <scores pedagogy="9" feasibility="9" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A dynamic slider controls the number of polygon sides (from triangle to many-gon) inscribed in the circle. The polygon's perimeter is unfolded and compared to 3D, converging to πD as sides increase.</metaphor>
+    <scores pedagogy="10" feasibility="6" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B offers the best balance. It is highly pedagogical (clearly shows the "unfolding" transformation), very feasible in Manim (using arcs and lines), and visually engaging. It avoids the complexity of Strategy C's slider while being more mathematically direct than Strategy A's measuring tape.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Circle (diameter D, circumference C=πD). Unfolding transformation. Comparison C vs. 3D. The key insight: C > 3D, illustrating π ≈ 3.14.
+
+**Visual Metaphor (Selected: Abstract)**: The circumference is a continuous curve. We will represent it as a dashed line for clarity. The "unfolding" will be animated as the circle rotating while a copy of its perimeter is traced and laid straight. A separate, static "ruler" of length 3D will be placed below for comparison.
+
+**Spatial Plan**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0.0)**: Primary animation stage. We need space for:
+    1. The original circle (left of center).
+    2. The unfolding action (center).
+    3. The final straight line (right of center).
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text and the final formula.
+
+**Anchors & Coordinates**:
+- `global_center`: ORIGIN (0, 0, 0). This will be the reference for the main circle.
+- `title_anchor`: UP * 3.0.
+- `explanation_anchor`: DOWN * 3.0.
+- `circle_anchor`: ORIGIN + LEFT * 3.5. Place circle left to make room for unfolding to the right.
+- `unfolded_line_anchor`: ORIGIN + RIGHT * 3.5. Final position of the straightened circumference.
+- `comparison_line_anchor`: ORIGIN + RIGHT * 3.5 + DOWN * 1.5. Position for the 3D line.
+
+**Object Definitions & Geometry**:
+- Circle: `radius = 2`. Therefore `D = 4`. This gives a clear visual scale.
+- Circumference Line: A `DashedVMobject` copy of the circle, initially overlapped.
+- Unfolded Line: A straight line of length `2*PI*radius ≈ 12.57`.
+- 3D Line: A straight line of length `3*D = 12`.
+- Diameter Line: A line across the circle from left to right.
+
+**Signal Strategy**:
+1. Introduce the circle and its diameter. `Indicate` the diameter.
+2. Animate the "unfolding": The dashed circumference line peels off and straightens.
+3. Place the unfolded line. `Circumscribe` its length.
+4. Introduce the 3D line below it for comparison. `Indicate` the gap.
+5. Reveal the formula C = πD > 3D in the footer.
+
+**Chunking**:
+Step 1: Show circle and define D.
+Step 2: Animate the unfolding process.
+Step 3: Compare lengths (C vs 3D).
+Step 4: State the relationship (π).
+Step 5: Summarize with formula.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 10423 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+  - 語音片段 1: 2.04s | Let's highlight...
+  - 語音片段 2: 2.04s | We label this l...
+  - 語音片段 0: 6.24s | We start with a...
+  - 語音片段 4: 4.80s | We animate this...
+  - 語音片段 3: 7.51s | Now, consider t...
+🔍 RAG Search: Found 2 examples for 'The animation begins with a circle of diameter D. The circle's circumference is then animated to unfold into a straight line. This line's length is compared to three times the diameter (3D) of the original circle, illustrating that the circumference's length is approximately π times the diameter, thus slightly greater than 3D. This visual representation aims to intuitively demonstrate the relationship between a circle's circumference, its diameter, and Pi.'
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+🛠️  [正在處理的錯誤/要求]:
+═══════════════════════════════════════════════════════════════════
+INPUT DATA (Director's Visual Rationale)
+═══════════════════════════════════════════════════════════════════
+{
+  "rationale": "The design uses a clear left-to-right spatial flow: original object (circle) on the left, transformation ...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 42771)
+  - 語音片段 5: 4.06s | This straight l...
+  - 語音片段 6: 2.42s | Let's write the...
+  - 語音片段 8: 2.02s | We label this 3...
+  - 語音片段 7: 6.77s | How does C comp...
+  - 語音片段 9: 8.42s | Notice the gree...
+  - 語音片段 10: 10.99s | This extra leng...
+  - 語音片段 11: 5.78s | Therefore, the ...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 114.72 秒
+📊 [Token 統計]: 輸入 15808 | 輸出 3039 | 總計 18847
+------------------------------
+✅ [Coder] T=0.3 通過編譯檢查
+✅ 語音處理完成！合併音檔: media/audio/The_animation_begins_96a2e6efe2/final_narrative.mp3
+🎵 [Audio Post-Inject] 成功注入 12 個 self.add_sound() 呼叫
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+✅ RAG System: Connected to Weaviate.
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11680 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 8.29 秒
+📊 [Token 統計]: 輸入 43063 | 輸出 302
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "visual_rationale": "The final frame displays a circle with its diameter labeled 'D' above a straight line labeled 'C', which represents the circumference. Below this, a red line labeled '3D' is present, indicating a comparison. The layout follows the planned three-stage horizontal flow, but the green line 'C' is partially obscured by a green rectangle, which disrupts the intended clarity of the visual comparison.",
+  "temporal_analysis": "From 70% to 95%, the scene transitions from showing the circumference 'C' and the comparison line '3D' to highlighting the relationship between them. However, the green line 'C' is not fully visible due to the green rectangle, which was not part of the expected layout.",
+  "confidence_score": 4,
+  "verdict": "FAIL",
+  "overall_critique": "The green line 'C' is obscured by a green rectangle, violating the clarity of the visual representation.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "frame": "BR_95pct",
+      "description": "The green line 'C' is obscured by a green rectangle, preventing clear visibility.",
+      "suggested_fix": "Remove or reposition the green rectangle to ensure 'C' is fully visible and does not overlap with any other elements."
+    }
+  ]
+}
+========================================
+
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The green line 'C' is obscured by a green rectangle, preventing clear visibility...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The green line 'C' is obscured by a green rectangle, violating the clarity of the visual representation.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The green line 'C' is obscured by a green rectangle, preventing clear visibil...
+🛠️  [正在處理的錯誤/要求]:
+
+
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The green line 'C' is obscured by a green rectangle, preventing clear visibil...
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The green line 'C' is obscured by a green rectangle, preventing clear visibil...
+
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 141.18 秒
+📊 [Token 統計]: 輸入 7267 | 輸出 3750 | 總計 11017
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 145.00 秒
+📊 [Token 統計]: 輸入 7267 | 輸出 3776 | 總計 11043
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 146.76 秒
+📊 [Token 統計]: 輸入 7267 | 輸出 3814 | 總計 11081
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 2/3) 鎖定錯誤代碼: comparison_line_3D = Line(comp...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10818 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=low (iteration 1)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 8.25 秒
+📊 [Token 統計]: 輸入 9050 | 輸出 286
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "visual_rationale": "The final frame displays a circle with a diameter labeled 'D' above a straight line labeled 'C', which is longer than a red line labeled '3D'. The layout follows the planned spatial flow, with the circle on the left and the comparison line on the right, but the green line is partially obscured by a green rectangle, disrupting the visual clarity.",
+  "temporal_analysis": "In the transition from 70% to 95%, the green line 'C' is expected to be fully visible, but it is partially hidden by the green rectangle. The labels 'D' and '3D' are correctly positioned, but the visibility of 'C' is compromised.",
+  "confidence_score": 4,
+  "verdict": "FAIL",
+  "overall_critique": "The green line 'C' is obscured by a green rectangle, violating visibility requirements.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "frame": "BR_95pct",
+      "description": "The green line labeled 'C' is partially obscured by a green rectangle, affecting visibility.",
+      "suggested_fix": "Adjust the green rectangle's position to ensure it does not overlap with the green line 'C'."
+    }
+  ]
+}
+========================================
+
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The green line labeled 'C' is partially obscured by a green rectangle, affecting...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The green line 'C' is obscured by a green rectangle, violating visibility requirements.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The green line labeled 'C' is partially obscured by a green rectangle, affect...
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The green line labeled 'C' is partially obscured by a green rectangle, affect...
+
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The green line labeled 'C' is partially obscured by a green rectangle, affect...
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1719)
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1719)
+
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1719)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 140.31 秒
+📊 [Token 統計]: 輸入 7444 | 輸出 3746 | 總計 11190
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 140.89 秒
+📊 [Token 統計]: 輸入 7444 | 輸出 3758 | 總計 11202
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 144.83 秒
+📊 [Token 統計]: 輸入 7444 | 輸出 3769 | 總計 11213
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: comparison_line_3D = Line(comp...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10820 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+⚠️ [Task 13] 8-frame grid extraction failed, falling back to last frame.
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 4.60 秒
+📊 [Token 統計]: 輸入 14598 | 輸出 162
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - Video Clip Mode]
+----------------------------------------
+{
+  "visual_rationale": "The scene features a circle on the left, a dashed circumference transitioning to a straight line in the center, and a comparison line on the right. The layout follows a logical progression, with clear labels for diameter (D) and circumference (C), and the 3D line is positioned below the C line for comparison.",
+  "temporal_analysis": "From the initial frame to the final frame, elements are added sequentially, with the dashed circumference transforming into the solid line C, and the 3D line appearing below it. The transitions are smooth, with no abrupt changes in visibility.",
+  "confidence_score": 5,
+  "verdict": "PASS",
+  "overall_critique": "All checks passed.",
+  "defects": []
+}
+========================================
+
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 324.35 秒
+📂  歸檔目錄: stable_outputs
+    🎥 呈現一個直徑為_D_的圓。將圓周「展開」成一條直線，證明其長度略大於_3_倍的直徑__Pi_。_20260303_165014.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 12
+Total Tokens: 161,589
+  - Prompt: 131,059
+  - Completion: 30,530
+----------------------------------------
+Estimated Cost: $0.028132 USD
+約合台幣: NT$ 0.8721
+========================================
+
+
+
+=== STDERR ===
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1772527374.183887 7696567 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772527374.340243 7696568 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772527374.430901 7696566 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772527374.759041 7696568 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772527374.795496 7696567 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0000 00:00:1772527374.900468 7696566 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/weaviate/warnings.py:302: ResourceWarning: Con004: The connection to Weaviate was not closed properly. This can lead to memory leaks.
+            Please make sure to close the connection using `client.close()`.
+  warnings.warn(
+/Users/liaozhenting/Desktop/LLManim_Agent/main.py:299: ResourceWarning: unclosed <socket.socket fd=9, family=30, type=1, proto=6, laddr=('::1', 63325, 0, 0), raddr=('::1', 8080, 0, 0)>
+  result = RefiningLoop.auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback

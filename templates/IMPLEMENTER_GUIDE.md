@@ -4,13 +4,19 @@
 
 ## 🚀 流程說明
 
-1. **切換分支**：為您的任務建立新分支。
+1. **更新環境**：確保您的專案是最新的。
 
     ```bash
-    git checkout -b feat/subtraction  # 以減法為例
+    git checkout main
+    git pull origin main
     ```
 
-2. **找到您的戰場**：開啟 `templates/` 下對應的檔案（例如 `subtraction.py`）。
+2. **切換分支 (必做)**：請務必為您的任務建立新分支，**切勿直接在 main 分支上開發**。
+
+    ```bash
+    git checkout -b feat/subtraction  # 請替換成您的任務名稱
+    ```
+
 3. **實作邏輯**：完成「旁白生成」與「Manim 代碼生成」兩部分。
 4. **測試**：使用 `run_math.py` 驗證結果。
 
@@ -50,6 +56,7 @@ def generate_subtraction_narrative(num1, num2, interactive_mode=False):
 * **動畫對應**：跑一個迴圈處理 `audio_steps`，根據 `phase` 插入對應的 Manim 動畫代碼。
 
 **重要規則：**
+
 * 字幕更新必須使用 `self.update_subtitle(text, duration)` 或自定義的瞬間切換邏輯，確保與語音同步。
 * 若是互動模式，記得在地圖上放問號 `?` 並加上 `self.wait(2.0)`。
 
@@ -64,9 +71,13 @@ def generate_subtraction_narrative(num1, num2, interactive_mode=False):
 python run_math.py sub 10 5 --interactive --render
 ```
 
-## 💡 小撇步
+1. **提交與推送**：
 
-* **參考範本**：強烈建議參考 `templates/addition.py`。它是目前最完善、包含互動邏輯與音訊同步的範例。
-* **不要重造輪子**：動畫中的數字顏色、字體、字幕位置都已經定義在 `common.py` 中，請保持風格統一。
+    ```bash
+    # 建議只推送您修改的檔案，避免不小心把其他雜檔也推上去
+    git add templates/subtraction.py
+    git commit -m "feat: 實作減法旁白與基本動畫"
+    git push origin feat/subtraction
+    ```
 
 加油，期待看到你們的成果！

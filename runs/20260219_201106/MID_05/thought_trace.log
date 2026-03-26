@@ -1,0 +1,640 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-19_21-06-52_呈現一個直徑為_D_的圓將圓周展開成一條直線證明其長度略大於_3_倍的直徑_Pi.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.54 秒
+📊 [Token 統計]: 輸入 233 | 輸出 43 | 總計 276
+
+📢 [AI 審查/反饋意見]:
+Create a circle with diameter D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately three times the diameter, illustrating the mathematical constant Pi.
+------------------------------
+   📝 初稿: Create a circle with diameter D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately three times the diameter, illustrating the mathematical constant Pi.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.37 秒
+📊 [Token 統計]: 輸入 289 | 輸出 49 | 總計 338
+
+📢 [AI 審查/反饋意見]:
+Create a circle with a diameter of D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately 3.14 times the diameter, thus illustrating the mathematical constant Pi.
+------------------------------
+✨ [翻譯完成]: Create a circle with a diameter of D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately 3.14 times the diameter, thus illustrating the mathematical constant Pi.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 71.28 秒
+📊 [Token 統計]: 輸入 4025 | 輸出 3675 | 總計 7700
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A rolling wheel. The circle is a wheel with a marked point. As it rolls one full revolution without slipping, the marked point traces a straight line on the ground. The length of this line is the circumference. The animation shows the wheel rolling, and the traced line is then compared to three diameters laid end-to-end plus a small extra segment, visually revealing Pi.</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A geometric unrolling. The circle is static. Its circumference is "cut" at a point and "unwrapped" or "flattened" into a straight line segment. This line segment is then measured by aligning multiple copies of the diameter (D) along it. We see that 3 diameters fit, with a leftover piece. Measuring the leftover shows it's about 0.14D, establishing π ≈ 3.14.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A dynamic morph. The circle deforms continuously: first, it's cut and straightened into a wavy line, which then smooths into a straight segment. This segment is then placed above a number line marked in units of D. The segment's endpoint clearly lands between the 3 and 4 marks. A measurement bar appears, showing the exact ratio C/D = π.</metaphor>
+    <scores pedagogy="8" feasibility="6" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract Geometric Unrolling) scores highest on pedagogy (perfectly matches the user's explicit request to "unroll" and "transform") and feasibility (straightforward Manim path animations and alignments). It provides a clear, direct, and visually unambiguous proof of concept, making it the most reliable and instructionally sound choice.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Circle, Diameter (D), Circumference (C), Unrolling, Pi (π = C/D ≈ 3.14).
+**Core Visual Metaphor**: Cut -> Unwrap -> Measure.
+**Spatial Plan (High-Low Split)**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0 to 1.5)**: Primary action area. Circle starts centered. Unrolled line moves downward.
+- **FOOTER/Explanation Zone (y ~ -2.5)**: Textual explanation and the final π equation.
+**Mathematical Specifications**:
+- Circle Diameter `D = 4` (Manim units). Radius `R = 2`. This gives a good visual size.
+- Circumference `C = 2πR ≈ 2*3.14*2 = 12.56`.
+- Vertices for the circle are not needed; we use `Circle(radius=2)`.
+- The unrolled line is a `Line` of length `C` (12.56).
+- Diameter segments are `Line` of length `D` (4).
+**Layout Logic**:
+1. **Scene Start**: Circle at `ORIGIN`.
+2. **Unrolling**: The line appears below the circle. We'll animate the circle "opening up" and its perimeter transforming into the line. A practical method is to have the line pre-created but invisible, then use a `Transform` from the circle's perimeter (a `Circle` mobject) to the `Line`. This gives the "unrolling" illusion.
+3. **Measurement**: Move the line to a clear measurement area (e.g., center-left). Create three diameter segments and align them end-to-end along the line starting from its left. A fourth diameter segment is created but only a small part (0.14*4) is shown to complete the length.
+4. **Final Reveal**: Show the equation `C = π * D` and `π ≈ 3.14` in the footer.
+**Signal Strategy**:
+- Step 1: Show circle and diameter. `Indicate` the diameter.
+- Step 2: `Indicate` the circumference path, then `Transform` it into the line.
+- Step 3: `Circumscribe` each diameter segment as it's placed. `Indicate` the leftover gap.
+- Step 4: `Write` the π equation in the footer.
+**Constraint to Prevent Overflow**:
+- The unrolled line (length ~12.56) is long. We will position it horizontally centered but shifted down (y = -0.5) to leave room above for the circle initially and for the diameter segments to be placed above it. The three diameters (total length 12) will be placed *above* the line for clear comparison. All key action stays within x ∈ [-6.5, 6.5], y ∈ [-3, 3].
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9892 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 6.77s | We start with a...
+  - 語音片段 1: 5.74s | Now, let's unro...
+  - 語音片段 2: 8.28s | How does the le...
+  - 語音片段 3: 5.74s | One diameter fi...
+  - 語音片段 4: 6.89s | Three diameters...
+  - 語音片段 5: 9.31s | The remaining g...
+  - 語音片段 6: 7.68s | Therefore, the ...
+✅ 語音處理完成！合併音檔: media/audio/呈現一個直徑為_D_的圓_將圓周_展開__6790d4e52a/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a circle with a diameter of D. Unroll the circumference of the circle into a straight line. Transform the circle into a line, demonstrating its length is approximately 3.14 times the diameter, thus illustrating the mathematical constant Pi.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 67.07 秒
+📊 [Token 統計]: 輸入 11628 | 輸出 3571 | 總計 15199
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.60 秒
+📊 [Token 統計]: 輸入 8102 | 輸出 764 | 總計 8866
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14146 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:30 in construct     │
+│                                                                              │
+│    27 │   │   title = Text("Unrolling a Circle to Discover Pi (π)", color=WH │
+│    28 │   │   self.objects["title"] = title                                  │
+│    29 │   │   layout.add(LayoutObject(title, "title"))                       │
+│ ❱  30 │   │   layout.add_to_zone(layout.get_object("title"), "HEADER")       │
+│    31 │   │   layout.add_constraint(layout.get_object("title").center_x == 0 │
+│    32 │   │                                                                  │
+│    33 │   │   # Circle                                                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'LayoutEngine' object has no attribute 'get_object'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 9.92 秒
+📊 [Token 統計]: 輸入 668 | 輸出 496 | 總計 1164
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                          ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 54.47 秒
+📊 [Token 統計]: 輸入 7759 | 輸出 2946 | 總計 10705
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.87 秒
+📊 [Token 統計]: 輸入 7540 | 輸出 766 | 總計 8306
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 11753 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):   0%|          | 0/30 [00:00<?, ?it/s]
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):  83%|████████▎ | 25/30 [00:00<00:00, 242.96it/s]
+                                                                                                                   
+
+Animation 2: Indicate(Line):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                   
+
+Animation 3: Create(Circle), etc.:   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                         
+
+Animation 5: Indicate(Circle):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                     
+
+Animation 6: Transform(Circle), etc.:   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                            
+
+Animation 8: Circumscribe(Group):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                        
+
+Animation 9: FadeIn(Line):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                 
+
+Animation 11: Indicate(Line):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                    
+
+Animation 12: FadeIn(Line):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                  
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:151 in construct    │
+│                                                                              │
+│   148 │   │   │   # Signal Action                                            │
+│   149 │   │   │   signal = step.get("signal_action")                         │
+│   150 │   │   │   if signal is not None:                                     │
+│ ❱ 151 │   │   │   │   target_obj = self.objects[signal["target"]]            │
+│   152 │   │   │   │   color = eval(signal["color"]) if signal.get("color") e │
+│   153 │   │   │   │   if signal["type"] == "Circumscribe":                   │
+│   154 │   │   │   │   │   self.play(Circumscribe(target_obj, color=color, ru │
+╰──────────────────────────────────────────────────────────────────────────────╯
+KeyError: 'target'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):   0%|          | 0/30 [00:00<?, ?it/s]
+Animation 0: Write(Text('Unrolling a Circle to Discover...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 16.69 秒
+📊 [Token 統計]: 輸入 1031 | 輸出 836 | 總計 1867
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):   0%|          | 0/30 [00:00<?, ?it/s]
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):  83%|████████▎ | 25/30 [00:00<00:00, 242.96it/s]
+                                               ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.40 秒
+📊 [Token 統計]: 輸入 8312 | 輸出 3012 | 總計 11324
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.12 秒
+📊 [Token 統計]: 輸入 7605 | 輸出 765 | 總計 8370
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12323 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                                                        
+
+Animation 2: Indicate(Line):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                  
+
+Animation 3: Create(Circle), etc.:   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                        
+
+Animation 5: Indicate(Circle):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                    
+
+Animation 6: Transform(Circle), etc.:   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                           
+
+Animation 8: Circumscribe(Group):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                       
+
+Animation 9: FadeIn(Line):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                
+
+Animation 11: Indicate(Line):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                   
+
+Animation 12: FadeIn(Line):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                 
+
+Animation 14: FadeIn(Line):   0%|          | 0/15 [00:00<?, ?it/s]
+                                                                  
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:170 in construct    │
+│                                                                              │
+│   167 │   │   │                                                              │
+│   168 │   │   │   # Visual Action                                            │
+│   169 │   │   │   visual = step["visual_action"]                             │
+│ ❱ 170 │   │   │   target_id = visual["target_id"]                            │
+│   171 │   │   │                                                              │
+│   172 │   │   │   # Handle special case for step 5 visual action             │
+│   173 │   │   │   if target_id == "unrolled_line_end":                       │
+╰──────────────────────────────────────────────────────────────────────────────╯
+KeyError: 'target_id'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                        ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 13.80 秒
+📊 [Token 統計]: 輸入 975 | 輸出 659 | 總計 1634
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+
+Animation 0: Write(Text('Unrolling a Circle to Discover Pi (π)')):   0%|          | 0/1 [00:00<?, ?it/s]
+                                                                                                        
+
+Animation 2: Indicate(Line):   0%|          | 0/1 [00:00<?...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.75 秒
+📊 [Token 統計]: 輸入 8928 | 輸出 2990 | 總計 11918
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.14 秒
+📊 [Token 統計]: 輸入 7583 | 輸出 766 | 總計 8349
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12205 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.95 秒
+📊 [Token 統計]: 輸入 18021 | 輸出 280
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame has multiple defects affecting visual clarity and pedagogical effectiveness.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "CLUTTER",
+      "severity": "Major",
+      "description": "The label for the circumference 'C' is too close to the unrolled line, causing visual overcrowding.",
+      "suggested_fix": "Increase the vertical spacing between the label 'C' and the unrolled line."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color of the text 'C' has insufficient contrast against the background, making it difficult to read.",
+      "suggested_fix": "Change the color of the label 'C' to a brighter shade or use a white outline to enhance visibility."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The unrolled line extends beyond the mandated action safe area, violating boundary limits.",
+      "suggested_fix": "Reposition the unrolled line to ensure it fits entirely within the safe zone boundaries."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [CLUTTER] The label for the circumference 'C' is too close to the unrolled line, causing v...
+  🔴 [OVERFLOW] The unrolled line extends beyond the mandated action safe area, violating bounda...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame has multiple defects affecting visual clarity and pedagogical effectiveness.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **CLUTTER** (1 occurrences):
+- The label for the circumference 'C' is too close to the unrolled line, causing ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 56.87 秒
+📊 [Token 統計]: 輸入 8185 | 輸出 3051 | 總計 11236
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.11 秒
+📊 [Token 統計]: 輸入 7583 | 輸出 820 | 總計 8403
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12205 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.58 秒
+📊 [Token 統計]: 輸入 18021 | 輸出 201
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains critical visibility issues, particularly concerning color contrast and text opacity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "The text 'C' is not visible against the black background due to insufficient opacity.",
+      "suggested_fix": "Set the opacity of the label 'C' to 1.0 for full visibility."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "The green line representing the unrolled circumference is too low in opacity to be clearly seen.",
+      "suggested_fix": "Increase the opacity of the unrolled_line to 1.0 to ensure it is visible."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 2 LOW_CONTRAST false positive(s)
+✅ All defects were LOW_CONTRAST false positives → upgrading to PASS
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 303.57 秒
+📂  歸檔目錄: stable_outputs
+    🎥 呈現一個直徑為_D_的圓。將圓周「展開」成一條直線，證明其長度略大於_3_倍的直徑__Pi_。_20260219_211422.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 13
+Total Tokens: 109,884
+  - Prompt: 88,075
+  - Completion: 21,809
+----------------------------------------
+Estimated Cost: $0.019233 USD
+約合台幣: NT$ 0.5962
+========================================
+
+
+
+=== STDERR ===

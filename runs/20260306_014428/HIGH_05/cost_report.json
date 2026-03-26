@@ -1,0 +1,55 @@
+{
+  "total_prompt_tokens": 43130,
+  "total_completion_tokens": 11044,
+  "total_cost_usd": 0.00971687,
+  "calls": [
+    {
+      "model": "llama-3.3-70b-versatile",
+      "prompt": 212,
+      "completion": 692,
+      "cost": 0.00067176
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 4269,
+      "completion": 2776,
+      "cost": 0.00137494
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 12951,
+      "completion": 1417,
+      "cost": 0.0022099000000000003
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 5587,
+      "completion": 541,
+      "cost": 0.0009336600000000001
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 3852,
+      "completion": 1825,
+      "cost": 0.0010502800000000002
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 3852,
+      "completion": 1807,
+      "cost": 0.0010452400000000002
+    },
+    {
+      "model": "deepseek-chat",
+      "prompt": 3852,
+      "completion": 1822,
+      "cost": 0.00104944
+    },
+    {
+      "model": "gpt-4o-mini",
+      "prompt": 8555,
+      "completion": 164,
+      "cost": 0.00138165
+    }
+  ]
+}

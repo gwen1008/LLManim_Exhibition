@@ -12,13 +12,10 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
     """
     Generate step-by-step narrative for vertical subtraction.
     Handles borrowing (借位) across multiple digits.
-    If num1 < num2, the result is negative; we compute |num1 - num2| by swapping.
+    Assumes num1 >= num2.
     """
-    is_negative = num1 < num2
-    # 內部計算永遠用大減小，確保借位邏輯正確
-    calc_num1, calc_num2 = (num2, num1) if is_negative else (num1, num2)
-    str1 = str(calc_num1)
-    str2 = str(calc_num2)
+    str1 = str(num1)
+    str2 = str(num2)
     steps = []
 
     # ========== Intro Phase ==========
@@ -30,11 +27,6 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
         "narrative": f"題目是 {num1} 減 {num2}。",
         "phase": "intro"
     })
-    if is_negative:
-        steps.append({
-            "narrative": f"因為 {num1} 比 {num2} 小，結果會是負數。我們先算 {calc_num1} 減 {calc_num2}，最後加上負號。",
-            "phase": "intro"
-        })
     steps.append({
         "narrative": "在開始計算之前，記住要把兩個數字靠右對齊，個位對個位、十位對十位。",
         "phase": "intro"
@@ -47,8 +39,6 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
     # ========== Digit-by-Digit Calculation with Borrow ==========
     places = ["個位", "十位", "百位", "千位", "萬位", "十萬位", "百萬位"]
     max_len = max(len(str1), len(str2))
-    answer = num1 - num2
-    answer_len = len(str(abs(answer)))  # 用絕對值算位數，跳過前導零
 
     # Pre-compute borrow state for each position
     borrows = [0] * (max_len + 1)
@@ -62,7 +52,6 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
             borrows[i + 1] = 0
 
     for i in range(max_len):
-
         place_name = places[i] if i < len(places) else "下一位"
         val1 = int(str1[len(str1) - 1 - i]) if i < len(str1) else 0
         val2 = int(str2[len(str2) - 1 - i]) if i < len(str2) else 0
@@ -84,20 +73,8 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
 
         # Sub-step 2: State the digits
         if borrow_in > 0:
-            if val1 == 0:
-                steps.append({
-                    "narrative": f"{place_name}原本是 0，因為不夠借給右邊，所以它也向左邊借了 1 變成 10，然後借出 1，現在變成 9。下面是 {val2}。",
-                    "phase": f"digit_{i}_state"
-                })
-            else:
-                steps.append({
-                    "narrative": f"{place_name}上面原本是 {val1}，但因為我們借出去了 1，所以變成 {effective_val1}，下面是 {val2}。",
-                    "phase": f"digit_{i}_state"
-                })
-        elif i >= len(str2):
-            # 減數在此位置沒有數字，視為 0
             steps.append({
-                "narrative": f"{place_name}下面的減數沒有這一位，我們把它當作 0，上面是 {val1}。",
+                "narrative": f"{place_name}上面原本是 {val1}，但因為我們借出去了 1，所以變成 {effective_val1}，下面是 {val2}。",
                 "phase": f"digit_{i}_state"
             })
         else:
@@ -105,7 +82,6 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
                 "narrative": f"{place_name}上面是 {val1}，下面是 {val2}。",
                 "phase": f"digit_{i}_state"
             })
-
 
         # [INTERACTIVE] Ask for result
         if interactive_mode:
@@ -123,16 +99,10 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
         # Sub-step 3: Handle borrow
         if needs_borrow:
             next_place = places[i + 1] if i + 1 < len(places) else "下一位"
-            if effective_val1 < 0:
-                steps.append({
-                    "narrative": f"剛才說過它向{next_place}借了 1，所以{place_name}現在可以當作 {compute_val1} 來計算。",
-                    "phase": f"digit_{i}_borrow"
-                })
-            else:
-                steps.append({
-                    "narrative": f"{effective_val1} 比 {val2} 小，所以我們要向{next_place}借 1，{place_name}就變成 {compute_val1}。",
-                    "phase": f"digit_{i}_borrow"
-                })
+            steps.append({
+                "narrative": f"{effective_val1} 比 {val2} 小，所以我們要向{next_place}借 1，{place_name}就變成 {compute_val1}。",
+                "phase": f"digit_{i}_borrow"
+            })
 
         # Sub-step 4: Calculate
         steps.append({
@@ -141,33 +111,21 @@ def generate_subtraction_narrative(num1: int, num2: int, interactive_mode: bool 
         })
 
         # Sub-step 5: Write result
-        if i >= answer_len:
-            # 這是前導零，已經計算過了，告訴學生不需寫下
-            steps.append({
-                "narrative": f"結果是 0，但因為在最左邊，所以我們不需要寫下來。",
-                "phase": f"digit_{i}_write"
-            })
-        else:
-            steps.append({
-                "narrative": f"所以{place_name}寫下 {result_digit}。",
-                "phase": f"digit_{i}_write"
-            })
+        steps.append({
+            "narrative": f"所以{place_name}寫下 {result_digit}。",
+            "phase": f"digit_{i}_write"
+        })
 
     # ========== Conclusion ==========
+    answer = num1 - num2
     steps.append({
         "narrative": "太棒了！我們已經完成了所有位數的計算。",
         "phase": "conclusion"
     })
-    if is_negative:
-        steps.append({
-            "narrative": f"因為原本是 {num1} 減 {num2}，結果是負數，所以答案是 {answer}。",
-            "phase": "conclusion"
-        })
-    else:
-        steps.append({
-            "narrative": f"讓我們確認一下答案：{num1} 減 {num2} 等於 {answer}。",
-            "phase": "conclusion"
-        })
+    steps.append({
+        "narrative": f"讓我們確認一下答案：{num1} 減 {num2} 等於 {answer}。",
+        "phase": "conclusion"
+    })
     steps.append({
         "narrative": "記住，做直式減法時，要對齊位數、從右往左算，上面不夠減時記得向左借位，這樣就不會算錯了！",
         "phase": "conclusion"
@@ -180,16 +138,9 @@ def generate_vertical_subtraction_code(num1: int, num2: int, scene_name: str = "
     """
     Generate complete Manim code for vertical subtraction.
     """
-    is_negative = num1 < num2
-    # 內部計算永遠用大減小，確保借位邏輯正確；顯示仍維持原始順序
-    calc_num1, calc_num2 = (num2, num1) if is_negative else (num1, num2)
-    str1 = str(calc_num1)  # 被減數（較大）
-    str2 = str(calc_num2)  # 減數（較小）
-    # 版面顯示：原始輸入順序
-    disp_str1 = str(num1)
-    disp_str2 = str(num2)
+    str1 = str(num1)
+    str2 = str(num2)
     answer = num1 - num2
-
 
     code_parts = []
 
@@ -259,7 +210,6 @@ def generate_vertical_subtraction_code(num1: int, num2: int, scene_name: str = "
 
     # Number Construction
     code_parts.append("        # ==================== Number Construction ====================")
-    # mob1 = 較大的被減數（用於計算），mob2 = 較小的減數
     code_parts.append(f'        str1 = "{str1}"')
     code_parts.append(f'        str2 = "{str2}"')
     code_parts.append("        ")
@@ -271,9 +221,7 @@ def generate_vertical_subtraction_code(num1: int, num2: int, scene_name: str = "
     code_parts.append("        mob2.next_to(mob1, DOWN, buff=0.5).align_to(mob1, RIGHT)")
     code_parts.append("        ")
     code_parts.append("        minus_sign = MathTex('-', font_size=60, color=BLUE)")
-    code_parts.append("        # 取 mob1/mob2 中最左邊的隣線，確保減號不覆蓋任何數字")
-    code_parts.append("        _leftmost_x = min(mob1.get_left()[0], mob2.get_left()[0])")
-    code_parts.append("        minus_sign.move_to([_leftmost_x - 0.3 - minus_sign.get_width() / 2, mob2.get_center()[1], 0])")
+    code_parts.append("        minus_sign.next_to(mob2, LEFT, buff=0.3)")
     code_parts.append("        ")
     code_parts.append("        # 直線：預先計算 y 座標避免 next_to 將線水平偏移")
     code_parts.append("        line_y = mob2.get_bottom()[1] - 0.2")
@@ -289,7 +237,6 @@ def generate_vertical_subtraction_code(num1: int, num2: int, scene_name: str = "
 
     # Pre-compute borrow states for code generation
     max_len = max(len(str1), len(str2))
-    answer_len = len(str(abs(answer)))  # 用絕對值計算位數，過濾前導零
     borrows = [0] * (max_len + 1)
     for i in range(max_len):
         v1 = int(str1[len(str1) - 1 - i]) if i < len(str1) else 0
@@ -300,14 +247,10 @@ def generate_vertical_subtraction_code(num1: int, num2: int, scene_name: str = "
     # Animation Loop
     code_parts.append("        # ==================== Phase-Based Step Processing ====================")
 
-    digit_phase_keywords = ('identify', 'state', 'borrow', 'calculate', 'write')
-
     if audio_steps:
         for idx, step in enumerate(audio_steps):
             phase = step.get('phase', '')
             narrative = step.get('narrative', '').replace('"', '\\"')
-
-            # 移除了強制跳過前導零的邏輯，讓全部計算步驟走完，只在 write 階段不寫數字
             duration = step.get('duration', 2.0)
             audio_path = step.get('audio_path', '')
 
@@ -430,26 +373,23 @@ def generate_vertical_subtraction_code(num1: int, num2: int, scene_name: str = "
                 compute_v1 = eff_v1 + 10 if eff_v1 < v2 else eff_v1
                 result_digit = compute_v1 - v2
 
-                if digit_idx >= answer_len:
-                    # 前導零不寫下數字，只更新字幕
-                    code_parts.append(f'        self.update_subtitle("{narrative}", {duration})')
+                col_i2 = len(str2) - 1 - digit_idx
+                if col_i2 >= 0:
+                    x_pos = f"mob2[{col_i2}].get_center()[0]"
                 else:
-                    # 答案數字的 x 座標：永遠用 mob1 對應列
-                    # mob1 是最寬的數，所有位置都有對應的 digit，對位最精確
-                    col_i1 = len(str1) - 1 - digit_idx  # 永遠 >= 0
-                    x_pos = f"mob1[{col_i1}].get_center()[0]"
+                    x_pos = f"mob2[0].get_center()[0] - ({digit_idx} - {len(str2)-1}) * (mob2[0].width + 0.2)"
 
-                    code_parts.append(f'        new_sub = self.create_wrapped_subtitle("{narrative}")')
-                    code_parts.append("        self.remove(self.subtitle_area)")
-                    code_parts.append("        self.subtitle_area = new_sub")
-                    code_parts.append("        self.add(self.subtitle_area)")
-                    code_parts.append(f"        digit_{digit_idx} = MathTex('{result_digit}', font_size=60, color=GREEN)")
-                    code_parts.append(f"        digit_{digit_idx}.move_to([{x_pos}, line.get_center()[1] - 0.6, 0])")
-                    code_parts.append("        self.play(")
-                    code_parts.append(f"            FadeIn(digit_{digit_idx}, shift=UP * 0.2),")
-                    code_parts.append(f"            run_time={duration}")
-                    code_parts.append("        )")
-                    code_parts.append(f"        ans_mobs.append(digit_{digit_idx})")
+                code_parts.append(f'        new_sub = self.create_wrapped_subtitle("{narrative}")')
+                code_parts.append("        self.remove(self.subtitle_area)")
+                code_parts.append("        self.subtitle_area = new_sub")
+                code_parts.append("        self.add(self.subtitle_area)")
+                code_parts.append(f"        digit_{digit_idx} = MathTex('{result_digit}', font_size=60, color=GREEN)")
+                code_parts.append(f"        digit_{digit_idx}.move_to([{x_pos}, line.get_center()[1] - 0.6, 0])")
+                code_parts.append("        self.play(")
+                code_parts.append(f"            FadeIn(digit_{digit_idx}, shift=UP * 0.2),")
+                code_parts.append(f"            run_time={duration}")
+                code_parts.append("        )")
+                code_parts.append(f"        ans_mobs.append(digit_{digit_idx})")
 
             elif 'conclusion' in phase:
                 if '已經完成' in narrative:

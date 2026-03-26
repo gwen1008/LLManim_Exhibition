@@ -1,0 +1,418 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-25_02-45-16_畫出平行線與一條截線用綠色標示出內錯角並呈現它們是相等的.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.80 秒
+📊 [Token 統計]: 輸入 218 | 輸出 82 | 總計 300
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles, and display a text label stating that the interior angles on the same side of the transversal are equal.
+------------------------------
+   📝 初稿: Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are equal. Use the Transform() function to highlight the equality of the angles, and display a text label stating that the interior angles on the same side of the transversal are equal.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.50 秒
+📊 [Token 統計]: 輸入 313 | 輸出 88 | 總計 401
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the congruence of the angles, and display a text label stating that the corresponding interior angles on the same side of the transversal are equal.
+------------------------------
+✨ [翻譯完成]: Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the congruence of the angles, and display a text label stating that the corresponding interior angles on the same side of the transversal are equal.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 70.69 秒
+📊 [Token 統計]: 輸入 4191 | 輸出 3596 | 總計 7787
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world analogy: A road (transversal) crossing two train tracks (parallel lines). Use train wheels or crossing gates to visualize angle relationships.</metaphor>
+    <scores pedagogy="7" feasibility="6" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction: Two parallel lines and a transversal with labeled points and angles. Focus on clean, symbolic manipulation and angle marking/coloring.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step build-up: Start with two random lines, then rotate one to become parallel, then draw the transversal, then progressively identify and color angle pairs.</metaphor>
+    <scores pedagogy="8" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) scores highest on Pedagogy (9) and Feasibility (10). It directly addresses the core mathematical concept with clarity and minimal cognitive load. The clean geometric approach is perfectly suited for Manim's strengths, allowing precise control over angle marking, coloring, and transformations. It provides the most reliable and educationally sound blueprint for the Engineer.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parallel lines, transversal, corresponding interior angles on the same side, angle congruence, visual proof via transformation.
+
+**Visual Metaphor**: Abstract geometric diagram. Two horizontal parallel lines intersected by an oblique transversal. Label intersection points (A, B, C, D). Identify one pair of corresponding interior angles (e.g., ∠1 and ∠2). Color them green. Animate a rotation and translation of one angle to superimpose it onto the other, demonstrating congruence.
+
+**Spatial Plan**:
+- **HEADER Zone (y ~ 3.0)**: Title.
+- **CONTENT Zone (y ~ 0)**: Main geometric construction. Two parallel lines (horizontal, spaced 2 units apart). One transversal (slanted, passing through both lines). Angle arcs and labels.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text label.
+
+**Coordinate Calculations**:
+- Parallel Line 1: y = 1.0, from x = -4 to 4.
+- Parallel Line 2: y = -1.0, from x = -4 to 4.
+- Transversal: Line passing through points (-3, -1) and (3, 1). Slope = (1 - (-1)) / (3 - (-3)) = 2/6 = 1/3.
+- Intersection Points:
+  - Line1 & Transversal: Solve y=1, line equation: x = ? Using point-slope from (-3,-1): y+1 = (1/3)(x+3). For y=1: 1+1 = (1/3)(x+3) => 2 = (1/3)(x+3) => x+3 = 6 => x = 3. So Point A = (3, 1, 0).
+  - Line2 & Transversal: Solve y=-1, line equation: y+1 = (1/3)(x+3). For y=-1: -1+1 = (1/3)(x+3) => 0 = (1/3)(x+3) => x = -3. So Point B = (-3, -1, 0).
+- For labeling, we'll also need points on the lines to the left/right of intersections. Let's define:
+  - Point C (left on Line1) = (-4, 1, 0)
+  - Point D (right on Line2) = (4, -1, 0)
+- Corresponding Interior Angles: Focus on one pair. For the angle on the upper-right interior (between transversal and Line1, on the right side of transversal), and its corresponding angle on the lower-right interior (between transversal and Line2, on the same right side). These are ∠CAB and ∠ABD? Wait, need proper vertex naming.
+  Let's label intersections:
+  - Transversal intersects Line1 at P = (3,1)
+  - Transversal intersects Line2 at Q = (-3,-1)
+  - On Line1, take a point to the left of P: L1 = (-4,1)
+  - On Line2, take a point to the right of Q: L2 = (4,-1)
+  Then the two corresponding interior angles on the same side (right side) are:
+  1. ∠(L1, P, Q) with vertex at P, arms along Line1 (to L1) and Transversal (to Q).
+  2. ∠(P, Q, L2) with vertex at Q, arms along Transversal (to P) and Line2 (to L2).
+  These are alternate interior angles? Actually, corresponding interior angles on same side: They are on the same side of the transversal and both inside the parallel lines. Yes, these are the pair.
+
+**Signal Strategy**:
+1. Create parallel lines and transversal.
+2. Label intersection points.
+3. Identify and color the two target angles (green arcs).
+4. Use Transform to morph one angle arc (and its label) onto the other, demonstrating congruence.
+5. Display the conclusion text.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9755 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+  - 語音片段 0: 5.02s | Let's start wit...
+🔍 RAG Search: Found 2 examples for 'Create a scene with two parallel lines and a transversal, then identify the corresponding interior angles on the same side of the transversal and color them green. Apply the property of corresponding angles to demonstrate that these interior angles are congruent. Use the Transform() function to highlight the congruence of the angles, and display a text label stating that the corresponding interior angles on the same side of the transversal are equal.'
+  - 語音片段 1: 3.67s | Now draw the se...
+  - 語音片段 2: 7.37s | Add a transvers...
+  - 語音片段 3: 12.05s | Now, identify a...
+  - 語音片段 4: 11.98s | Observe what ha...
+  - 語音片段 5: 8.50s | This visual dem...
+✅ 語音處理完成！合併音檔: media/audio/畫出平行線與一條截線_用綠色標示出內錯角_3027b6b499/final_narrative.mp3
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 59.03 秒
+📊 [Token 統計]: 輸入 13791 | 輸出 2956 | 總計 16747
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10582 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 9.39 秒
+📊 [Token 統計]: 輸入 41606 | 輸出 219
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The diagram exhibits several alignment issues that compromise clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The arc for angle 1 overlaps and obscures the label for angle 2, causing a readability issue.",
+      "suggested_fix": "Adjust angle2_group's position using angle2_group.shift(LEFT*0.2) to ensure clarity between the arcs and labels."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The conclusion text is partially out of the action safe area, specifically the bottom boundary exceeding y = -3.5.",
+      "suggested_fix": "Move the conclusion text using conclusion_text.move_to(ORIGIN + DOWN*3) to keep it within the safe boundaries."
+    }
+  ]
+}
+```
+========================================
+
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The arc for angle 1 overlaps and obscures the label for angle 2, causing a reada...
+  🔴 [OVERFLOW] The conclusion text is partially out of the action safe area, specifically the b...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The diagram exhibits several alignment issues that compromise clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The arc for angle 1 overlaps and obscures the label for angle 2, causing a ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 47.86 秒
+📊 [Token 統計]: 輸入 6201 | 輸出 2467 | 總計 8668
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **M...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 43.00 秒
+📊 [Token 統計]: 輸入 12007 | 輸出 2254 | 總計 14261
+------------------------------
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 6968 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 7.94 秒
+📊 [Token 統計]: 輸入 41610 | 輸出 296
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "There are significant issues with alignment and overlap of geometric elements.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "Angle 1 arc is visibly offset from its corresponding angle 2 arc, showing a gap greater than 0.15 units.",
+      "suggested_fix": "Adjust angle1_group to align with angle2_group using angle1_group.move_to(angle2_group.get_center())"
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label for angle P overlaps with the arc indicating angle 1, compromising clarity.",
+      "suggested_fix": "Reposition angle1_label to angle1_label.next_to(angle1_arc.point_from_proportion(0.5), UR, buff=0.15) without overlap."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The text color for the conclusion text is slightly less visible against the background due to brightness.",
+      "suggested_fix": "Change conclusion_text color to a darker shade for increased contrast."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] Angle 1 arc is visibly offset from its corresponding angle 2 arc, showing a gap ...
+  🟠 [OVERLAP] The label for angle P overlaps with the arc indicating angle 1, compromising cla...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: There are significant issues with alignment and overlap of geometric elements.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- Angle 1 arc is visibly offset from its corresponding angle 2 arc, showing a...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 44.03 秒
+📊 [Token 統計]: 輸入 2821 | 輸出 2284 | 總計 5105
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **M...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 41.87 秒
+📊 [Token 統計]: 輸入 5010 | 輸出 2248 | 總計 7258
+------------------------------
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 6970 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+❌ Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+❌ Video Vision Audit Error: Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+Traceback (most recent call last):
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/core/llm_client.py", line 204, in ask_vision
+    completion = self.openai_client.chat.completions.create(
+        model=model,
+    ...<4 lines>...
+        max_tokens=1500  # 影片需要更多 output tokens
+    )
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1192, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_base_client.py", line 1294, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_base_client.py", line 1067, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/utils/vision_agent.py", line 334, in audit_video
+    content = self.llm.ask_vision(self.system_prompt, user_text, base64_video=base64_video)
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/core/llm_client.py", line 235, in ask_vision
+    raise LLMError(error_msg) from e
+agents.core.llm_client.LLMError: Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+⚠️  [Vision API Error] 視覺審查無法執行，跳過本次視覺檢查：Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 208.79 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。_20260225_025101.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 10
+Total Tokens: 144,258
+  - Prompt: 127,768
+  - Completion: 16,490
+----------------------------------------
+Estimated Cost: $0.023827 USD
+約合台幣: NT$ 0.7386
+========================================
+
+
+
+=== STDERR ===
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1771958789.300261 5415586 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers

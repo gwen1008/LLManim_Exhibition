@@ -1,0 +1,284 @@
+
+    <html><head><title>RECOVERED: A/B Comparison & Analytics</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; color: #eee; padding: 20px; }
+        .row { display: flex; align-items: stretch; margin-bottom: 60px; border-bottom: 2px solid #222; padding-bottom: 40px; background: #111; border-radius: 12px; padding: 20px; }
+        .info { width: 320px; padding-right: 30px; border-right: 1px solid #333; }
+        .video-box { flex: 1; text-align: center; padding: 0 15px; }
+        video { width: 100%; border: 3px solid #333; border-radius: 12px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h3 { color: #fff; margin-top: 15px; font-size: 1.1em; line-height: 1.4; }
+        .label { font-weight: bold; color: #888; margin-bottom: 12px; display: block; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8em; }
+        .badge { display: inline-block; background: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: bold; margin-bottom: 10px; }
+        .metrics-table { font-size: 0.8em; color: #aaa; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
+        .metrics-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .metrics-val { color: #4CAF50; font-weight: bold; }
+        .trace-link { display: block; margin-top: 25px; padding: 10px; background: #1976D2; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85em; text-align: center; }
+    </style></head>
+    <body>
+        <h1 style="text-align:center;">🩹 RECOVERED Report: Session 20260219_201106</h1>
+        <div class="content">
+    
+        <div class="row">
+            <div class="info">
+                <div class="badge">ELEM_01</div>
+                <h3>用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">5</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">6</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">134110 (109480/24630)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0234</span></div>
+                </div>
+                <a href="ELEM_01/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/ELEM_01_用兩個一樣的披薩圖形_示範為什/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="ELEM_01/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">ELEM_02</div>
+                <h3>解釋 3 * 4 的意義：呈現 3 組各有 4 顆星星，並將它們聚集起來總計為 12 顆。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">3</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">3</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">97230 (84079/13151)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0166</span></div>
+                </div>
+                <a href="ELEM_02/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/ELEM_02_解釋_3___4_的意義_呈現/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="ELEM_02/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">ELEM_03</div>
+                <h3>畫一個 4x3 的長方形。用填充小方格來呈現面積，並用一條沿著邊界移動的線來呈現周長。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">3</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">8</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">90007 (78373/11634)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0154</span></div>
+                </div>
+                <a href="ELEM_03/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/ELEM_03_畫一個_4x3_的長方形_用填/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="ELEM_03/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">ELEM_04</div>
+                <h3>繪製一個 60 度的角，並疊加一個半圓形量角器來示範如何測量它。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">5</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">8</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">130496 (107754/22742)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0226</span></div>
+                </div>
+                <a href="ELEM_04/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/ELEM_04_繪製一個_60_度的角_並疊加/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="ELEM_04/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">ELEM_05</div>
+                <h3>在 3 到 4 之間的數線上標示出 3.7，並標出距離來解釋為什麼它四捨五入後是 4。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">4</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">3</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">114571 (95946/18625)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0198</span></div>
+                </div>
+                <a href="ELEM_05/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/ELEM_05_在_3_到_4_之間的數線上標/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="ELEM_05/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">MID_01</div>
+                <h3>在 -5 到 5 的數線上，示範從 -2 到 +3 的跳躍，並畫出移動 5 個單位的箭頭動畫。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">3</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">5</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">88586 (77754/10832)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0150</span></div>
+                </div>
+                <a href="MID_01/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/MID_01_在__5_到_5_的數線上_示/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="MID_01/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">MID_02</div>
+                <h3>一種混合物含有 2 份牛奶與 5 份水。使用帶有標籤的條型圖（Tape Diagram）來視覺化 2:5 的比例。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">3</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">6</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">97018 (83674/13344)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0166</span></div>
+                </div>
+                <a href="MID_02/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/MID_02_一種混合物含有_2_份牛奶與/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="MID_02/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">MID_03</div>
+                <h3>用天平模型視覺化 2x = 6。一邊放兩個箱子，另一邊放 6 個圓圈。最後演示除法得出 x 的過程。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">4</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">6</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">136796 (111762/25034)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0241</span></div>
+                </div>
+                <a href="MID_03/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/MID_03_用天平模型視覺化_2x___6/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="MID_03/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">MID_04</div>
+                <h3>畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">4</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">2</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">113978 (94573/19405)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0198</span></div>
+                </div>
+                <a href="MID_04/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/MID_04_畫出平行線與一條截線_用綠色標/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="MID_04/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">MID_05</div>
+                <h3>呈現一個直徑為 D 的圓。將圓周「展開」成一條直線，證明其長度略大於 3 倍的直徑 (Pi)。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">5</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">2</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">109884 (88075/21809)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0192</span></div>
+                </div>
+                <a href="MID_05/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/MID_05_呈現一個直徑為_D_的圓_將圓/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="MID_05/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">HIGH_01</div>
+                <h3>畫出 y = 2x - 1 的函數圖形。用「階梯動畫（Rise/Run）」呈現這條線的斜率是 2。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">4</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">6</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">96960 (84136/12824)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0165</span></div>
+                </div>
+                <a href="HIGH_01/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/HIGH_01_畫出_y___2x___1_的/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="HIGH_01/video.mp4"></video>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="info">
+                <div class="badge">HIGH_02</div>
+                <h3>畫出 y = (x-2)^2 - 3 的拋物線。標註頂點 (2, -3) 並畫出垂直的對稱軸。</h3>
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iterations:</span> <span class="metrics-val">4</span></div>
+                    <div class="metrics-row"><span>Defects:</span> <span class="metrics-val">5</span></div>
+                    <div class="metrics-row"><span>Tokens:</span> <span class="metrics-val">106198 (90158/16040)</span></div>
+                    <div class="metrics-row"><span>Cost:</span> <span class="metrics-val">$0.0183</span></div>
+                </div>
+                <a href="HIGH_02/thought_trace.log" class="trace-link" target="_blank">🔍 View Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/HIGH_02_畫出_y____x_2__2/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="HIGH_02/video.mp4"></video>
+            </div>
+        </div>
+        </div></body></html>

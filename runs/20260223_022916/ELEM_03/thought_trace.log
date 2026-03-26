@@ -1,0 +1,547 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-23_02-48-05_畫一個_4x3_的長方形用填充小方格來呈現面積並用一條沿著邊界移動的線來呈現周長.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.69 秒
+📊 [Token 統計]: 輸入 225 | 輸出 67 | 總計 292
+
+📢 [AI 審查/反饋意見]:
+Create a 4x3 rectangle. Fill the rectangle with small squares to represent the area. Draw a line along the boundary of the rectangle to represent the perimeter. Animate the line moving along the boundary to emphasize the perimeter. Use the Transform() function to create the animation of the line moving along the edges of the rectangle.
+------------------------------
+   📝 初稿: Create a 4x3 rectangle. Fill the rectangle with small squares to represent the area. Draw a line along the boundary of the rectangle to represent the perimeter. Animate the line moving along the boundary to emphasize the perimeter. Use the Transform() function to create the animation of the line moving along the edges of the rectangle.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.48 秒
+📊 [Token 統計]: 輸入 305 | 輸出 79 | 總計 384
+
+📢 [AI 審查/反饋意見]:
+Create a 4x3 rectangle and fill it with small squares to represent the area. Draw a line along the perimeter of the rectangle to represent its boundary. Animate the line tracing the perimeter by moving along the edges of the rectangle. Use the Transform() function or other applicable Manim methods to create the animation of the line moving along the edges of the rectangle, emphasizing the perimeter.
+------------------------------
+✨ [翻譯完成]: Create a 4x3 rectangle and fill it with small squares to represent the area. Draw a line along the perimeter of the rectangle to represent its boundary. Animate the line tracing the perimeter by moving along the edges of the rectangle. Use the Transform() function or other applicable Manim methods to create the animation of the line moving along the edges of the rectangle, emphasizing the perimeter.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 52.92 秒
+📊 [Token 統計]: 輸入 4191 | 輸出 2790 | 總計 6981
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A "painter's tape" metaphor. The rectangle is a wall to be painted. The line is a roll of tape being unrolled along the edges to mark the boundary before the area (small squares) is filled in.</metaphor>
+    <scores pedagogy="7" feasibility="8" engagement="7" />
+  </branch>
+  <branch id="B" type="Abstract/Geometric">
+    <metaphor>A pure geometric construction. The rectangle is built from its vertices. The perimeter line is a path object that is traced by a moving dot, with the traced line growing behind it. The area is represented by a grid of unit squares that fade in systematically.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step builder. First, the four vertices appear. Then edges are drawn one by one to form the rectangle. Then the grid of squares fills in row by row. Finally, a new line retraces the perimeter in a continuous animation.</metaphor>
+    <scores pedagogy="8" feasibility="9" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract/Geometric) offers the highest pedagogical clarity by cleanly separating the concepts of perimeter (1D boundary) and area (2D region). It is highly feasible in Manim using `TracedPath` or `Create` with a moving `Dot`. The visual engagement is strong with a clear, dynamic trace. It best matches the user's request for a line "tracing the perimeter by moving along the edges."</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 4x3 rectangle, area as small squares (unit grid), perimeter as a boundary line, animation of tracing that perimeter.
+
+**Visual Metaphor**: The rectangle is a region. The perimeter is its 1D outline. The area is the count of unit squares inside.
+
+**Spatial Plan (High-Low Split to Prevent Overflow)**:
+- **HEADER Zone (y ~ 3.0)**: Title "Area vs. Perimeter: A 4x3 Rectangle".
+- **CONTENT Zone (y ~ 0)**: The main rectangle, its grid, and the tracing animation. This is the visual focus.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text that updates with each step.
+
+**Mathematical Specifications**:
+- Rectangle width = 4 units, height = 3 units.
+- Vertices (bottom-left at origin for simplicity): A(0,0,0), B(4,0,0), C(4,3,0), D(0,3,0).
+- Perimeter path: A → B → C → D → A.
+- Unit squares: A grid of 4 columns x 3 rows, each square of side length 1. The grid fills the rectangle.
+
+**Layout & Object Constraints**:
+1. **Global Anchor**: `main_anchor` at ORIGIN for the rectangle center.
+2. **Rectangle**: Defined by vertices, centered at ORIGIN. Its bottom-left will be at (-2, -1.5, 0) to center it.
+3. **Grid of Squares**: A `VGroup` of 12 `Square` objects, positioned relative to the rectangle.
+4. **Tracing Dot & Line**: A red dot that moves along the perimeter path. The traced line will be a `VMobject` that updates.
+5. **Perimeter Label**: A `MathTex` for "Perimeter = 14" placed near the rectangle.
+6. **Area Label**: A `MathTex` for "Area = 12" placed near the rectangle.
+
+**Signal Strategy**:
+- Step 1: Create rectangle and grid. Use `Circumscribe` on the grid to emphasize area.
+- Step 2: Introduce perimeter concept. Use `Indicate` on the rectangle's edges.
+- Step 3: Animate the tracing. The moving dot is the primary signal.
+- Step 4: Show formulas. Use `Write` for labels.
+
+**Cleanup Rule Adherence**:
+- The title, main visual (rectangle+grid), and one line of explanation are visible at once.
+- The tracing animation replaces the static perimeter line.
+- All content fits within safe zones: Rectangle (width 4, height 3) is well within CONTENT zone bounds.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 7158 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.57s | First, let's cr...
+  - 語音片段 1: 9.82s | The area inside...
+  - 語音片段 2: 7.97s | Now, let's focu...
+  - 語音片段 3: 8.21s | Watch as we tra...
+  - 語音片段 4: 11.04s | We can now calc...
+✅ 語音處理完成！合併音檔: media/audio/畫一個_4x3_的長方形_用填充小方格來_dc1af9b532/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a 4x3 rectangle and fill it with small squares to represent the area. Draw a line along the perimeter of the rectangle to represent its boundary. Animate the line tracing the perimeter by moving along the edges of the rectangle. Use the Transform() function or other applicable Manim methods to create the animation of the line moving along the edges of the rectangle, emphasizing the perimeter.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 48.60 秒
+📊 [Token 統計]: 輸入 13488 | 輸出 2631 | 總計 16119
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9703 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.75 秒
+📊 [Token 統計]: 輸入 40035 | 輸出 303
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects in alignment and visual clarity are present.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The red dot used to trace the perimeter is visually misaligned, exhibiting gaps from the perimeter outline between the segments.",
+      "suggested_fix": "Adjust the animation to ensure the red dot's path aligns with the perimeter segments by using the `align_to` method to snap to the corner points."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The area label overlaps visually with the green grid, leading to confusion about what is being referenced.",
+      "suggested_fix": "Reposition the area label further away from the grid, potentially changing its `next_to` parameters to ensure clear visibility."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text 'Let's visualize a 4 by 3 rectangle.' is rendered in light gray, which has insufficient contrast against the black background.",
+      "suggested_fix": "Change the text color to a darker shade to meet the contrast ratio requirement."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The red dot used to trace the perimeter is visually misaligned, exhibiting gaps ...
+  🟠 [OVERLAP] The area label overlaps visually with the green grid, leading to confusion about...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects in alignment and visual clarity are present.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The red dot used to trace the perimeter is visually misaligned, exhibiting gaps from the perimeter outline between the segments.
+
+SUGGESTED FIX:
+  Adjust the ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 4.43 秒
+📊 [Token 統計]: 輸入 493 | 輸出 196 | 總計 689
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 9796 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.60 秒
+📊 [Token 統計]: 輸入 40035 | 輸出 343
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects related to visual clarity and overlap detected, affecting the educational experience.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The yellow perimeter outline overlaps with the original rectangle without adequate differentiation, which hinders clarity.",
+      "suggested_fix": "Adjust the animation such that the perimeter tracing does not overlap with the rectangle's edges by using 'Transform' to morph the static perimeter outline into the animated line without retaining the original outline."
+    },
+    {
+      "id": "ERR_002",
+      "code": "CLUTTER",
+      "severity": "Major",
+      "description": "Texts overlap at the bottom left corner, including 'Let's visualize a 4 by 3 rectangle.' and the grid representation.",
+      "suggested_fix": "Shift the explanation text up by 0.5 units to create more visual separation and ensure it does not overlap with any grid elements."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Minor",
+      "description": "The perimeter label displaying 'P = 2(4 + 3) = 14' is misaligned by approximately 0.2 units from the rectangle's right edge.",
+      "suggested_fix": "Change perimeter_label.next_to(rect, RIGHT, buff=1.2) to buff=1.0 to bring the label closer and ensure it aligns properly."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERLAP] The yellow perimeter outline overlaps with the original rectangle without adequa...
+  🟠 [CLUTTER] Texts overlap at the bottom left corner, including 'Let's visualize a 4 by 3 rec...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects related to visual clarity and overlap detected, affecting the educational experience.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🛠️  [正在處理的錯誤/要求]:
+You are a Manim Developer QA Agent.
+The animation has a VISUAL DEFECT.
+
+**DEFECT AUDIT**:
+Defects related to visual clarity and overlap detected, affecting the educational experience.
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.10 秒
+📊 [Token 統計]: 輸入 6080 | 輸出 2729 | 總計 8809
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The yellow perimeter outline overlaps with the original rectangle without adequ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 40.84 秒
+📊 [Token 統計]: 輸入 5225 | 輸出 2240 | 總計 7465
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OV...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 39.43 秒
+📊 [Token 統計]: 輸入 7988 | 輸出 2191 | 總計 10179
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7814 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.37 秒
+📊 [Token 統計]: 輸入 40035 | 輸出 380
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several alignment and clarity issues were identified affecting the educational effectiveness.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The static perimeter outline is not aligned with the rectangle; there is a noticeable gap of approximately 0.2 units on the right edge from the rectangle's edge.",
+      "suggested_fix": "Change perimeter_line_static.move_to(main_anchor) to align properly with rect."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The perimeter formula overlaps with the right border of the screen, exceeding the mandatory boundaries.",
+      "suggested_fix": "Adjust the initial position of perimeter_label using next_to(rect, RIGHT, buff=0.5) to move it further to the right within safe margins."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "Crowding between the labels for area and perimeter is noticeable, with spacing less than 0.2 units.",
+      "suggested_fix": "Increase the buff parameter for both perimeter_label and area_label positioning to ensure clearer separation."
+    },
+    {
+      "id": "ERR_004",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The text size for the perimeter label is visually less legible against the backdrop compared to the other labels.",
+      "suggested_fix": "Consider increasing 'font_size' for perimeter_label from 36 to 42 to enhance visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 3 defect(s):
+  🔴 [MISALIGNED] The static perimeter outline is not aligned with the rectangle; there is a notic...
+  🔴 [OVERFLOW] The perimeter formula overlaps with the right border of the screen, exceeding th...
+  🟡 [TINY_TEXT] The text size for the perimeter label is visually less legible against the backd...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several alignment and clarity issues were identified affecting the educational effectiveness.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7814 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.36 秒
+📊 [Token 統計]: 輸入 40035 | 輸出 286
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains several issues related to alignment, overlapping elements, and text clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "Both perimeter label and area label display misalignments with the expected positions of the rectangle.",
+      "suggested_fix": "Change perimeter_label.next_to(rect, RIGHT, buff=1.0) to buff=0.5 to move the label closer to the rectangle."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Critical",
+      "description": "The yellow perimeter line overlaps with the grid of squares causing visual confusion.",
+      "suggested_fix": "Adjust the z-value of the tracing_dot to ensure it appears above the grid elements."
+    },
+    {
+      "id": "ERR_003",
+      "code": "TINY_TEXT",
+      "severity": "Minor",
+      "description": "The explanatory text at the bottom is difficult to read compared to other elements, especially with regard to visual clarity.",
+      "suggested_fix": "Increase font_size of explanation_text from 28 to 32 for better visibility."
+    }
+  ]
+}
+```
+========================================
+
+🔇 [Dynamic Scene] Filtered 1 MISALIGNED noise defect(s) (ValueTracker scene - static frame jitter expected)
+🔍 Detected 2 defect(s):
+  🔴 [OVERLAP] The yellow perimeter line overlaps with the grid of squares causing visual confu...
+  🟡 [TINY_TEXT] The explanatory text at the bottom is difficult to read compared to other elemen...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains several issues related to alignment, overlapping elements, and text clarity.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7814 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 7.78 秒
+📊 [Token 統計]: 輸入 40035 | 輸出 296
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation contains multiple misalignment and overflow issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The perimeter label overlaps the perimeter static line; they are not aligned correctly, causing confusion.",
+      "suggested_fix": "Use perimeter_label.move_to(rect.get_right() + RIGHT * 1) instead of next_to(rect, RIGHT, buff=1.0)"
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The content within the explanation text overlaps with the bottom boundary of the screen, violating the mandatory action safe area.",
+      "suggested_fix": "Shift the explanation text upward by adjusting its position to move_to(explanation_anchor + UP * 0.5)."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The contrast ratio between the yellow perimeter label and the black background is below the standard. It requires enhancement for readability.",
+      "suggested_fix": "Change perimeter_label's color to a darker or bolder variant to improve contrast ratio."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 [Dynamic Scene] Filtered 1 MISALIGNED noise defect(s) (ValueTracker scene - static frame jitter expected)
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The content within the explanation text overlaps with the bottom boundary of the...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation contains multiple misalignment and overflow issues.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 13
+Total Tokens: 252,701
+  - Prompt: 238,170
+  - Completion: 14,531
+----------------------------------------
+Estimated Cost: $0.040242 USD
+約合台幣: NT$ 1.2475
+========================================
+
+
+
+=== STDERR ===

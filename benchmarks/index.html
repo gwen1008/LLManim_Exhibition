@@ -1,0 +1,195 @@
+
+    <html><head><title>LLManim Benchmark Gallery</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0f0f0f; color: #e0e0e0; padding: 40px; line-height: 1.6; }
+        h1 { font-size: 2.5em; margin-bottom: 10px; color: #fff; text-align: center; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 30px; }
+        .card { 
+            background: #1a1a1a; 
+            padding: 20px; 
+            border-radius: 16px; 
+            border: 1px solid #333; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { border-color: #4CAF50; transform: translateY(-8px); box-shadow: 0 12px 24px rgba(0,0,0,0.5); }
+        video { width: 100%; border-radius: 10px; margin-top: 15px; background: #000; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: 700; letter-spacing: 0.5px; }
+        .ELEM { background: rgba(33, 150, 243, 0.2); color: #2196F3; border: 1px solid #2196F3; }
+        .MID { background: rgba(255, 152, 0, 0.2); color: #FF9800; border: 1px solid #FF9800; }
+        .HIGH { background: rgba(233, 30, 99, 0.2); color: #E91E63; border: 1px solid #E91E63; }
+        h3 { margin: 0; font-size: 1.3em; color: #fff; }
+        p { font-size: 0.95em; color: #aaa; margin: 10px 0; flex-grow: 1; }
+        .missing-box { 
+            height: 210px; 
+            background: #111; 
+            border: 2px dashed #333; 
+            border-radius: 10px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #555;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        .file-link { margin-top: 15px; font-size: 0.85em; color: #4CAF50; text-decoration: none; display: inline-block; }
+        .file-link:hover { text-decoration: underline; }
+    </style></head>
+    <body>
+        <h1>🎨 LLManim Benchmark Gallery</h1>
+        <p class="subtitle">Stable Hall of Fame - Visualizing Mathematics</p>
+        <div class="grid">
+    
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge ELEM">ELEM_01</span>
+                    <a href="ELEM_01_用兩個一樣的披薩圖形_示範為什/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。</h3>
+                <p title="用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。">用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。</p>
+                <video controls src="ELEM_01_用兩個一樣的披薩圖形_示範為什/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge ELEM">ELEM_02</span>
+                    <a href="ELEM_02_解釋_3___4_的意義_呈現/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>解釋 3 * 4 的意義：呈現 3 組各有 4 顆星星，並將它們聚集起來總計為 ...</h3>
+                <p title="解釋 3 * 4 的意義：呈現 3 組各有 4 顆星星，並將它們聚集起來總計為 12 顆。">解釋 3 * 4 的意義：呈現 3 組各有 4 顆星星，並將它們聚集起來總計為 12 顆。</p>
+                <video controls src="ELEM_02_解釋_3___4_的意義_呈現/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge ELEM">ELEM_03</span>
+                    <a href="ELEM_03_畫一個_4x3_的長方形_用填/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>畫一個 4x3 的長方形。用填充小方格來呈現面積，並用一條沿著邊界移動的線來呈現...</h3>
+                <p title="畫一個 4x3 的長方形。用填充小方格來呈現面積，並用一條沿著邊界移動的線來呈現周長。">畫一個 4x3 的長方形。用填充小方格來呈現面積，並用一條沿著邊界移動的線來呈現周長。</p>
+                <video controls src="ELEM_03_畫一個_4x3_的長方形_用填/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge ELEM">ELEM_04</span>
+                    <a href="ELEM_04_繪製一個_60_度的角_並疊加/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>繪製一個 60 度的角，並疊加一個半圓形量角器來示範如何測量它。</h3>
+                <p title="繪製一個 60 度的角，並疊加一個半圓形量角器來示範如何測量它。">繪製一個 60 度的角，並疊加一個半圓形量角器來示範如何測量它。</p>
+                <video controls src="ELEM_04_繪製一個_60_度的角_並疊加/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge ELEM">ELEM_05</span>
+                    <a href="ELEM_05_在_3_到_4_之間的數線上標/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>在 3 到 4 之間的數線上標示出 3.7，並標出距離來解釋為什麼它四捨五入後是...</h3>
+                <p title="在 3 到 4 之間的數線上標示出 3.7，並標出距離來解釋為什麼它四捨五入後是 4。">在 3 到 4 之間的數線上標示出 3.7，並標出距離來解釋為什麼它四捨五入後是 4。</p>
+                <video controls src="ELEM_05_在_3_到_4_之間的數線上標/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge MID">MID_01</span>
+                    <a href="MID_01_在__5_到_5_的數線上_示/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>在 -5 到 5 的數線上，示範從 -2 到 +3 的跳躍，並畫出移動 5 個單...</h3>
+                <p title="在 -5 到 5 的數線上，示範從 -2 到 +3 的跳躍，並畫出移動 5 個單位的箭頭動畫。">在 -5 到 5 的數線上，示範從 -2 到 +3 的跳躍，並畫出移動 5 個單位的箭頭動畫。</p>
+                <div class="missing-box">PENDING / FAILED</div>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge MID">MID_02</span>
+                    <a href="MID_02_一種混合物含有_2_份牛奶與/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>一種混合物含有 2 份牛奶與 5 份水。使用帶有標籤的條型圖（Tape Diag...</h3>
+                <p title="一種混合物含有 2 份牛奶與 5 份水。使用帶有標籤的條型圖（Tape Diagram）來視覺化 2:5 的比例。">一種混合物含有 2 份牛奶與 5 份水。使用帶有標籤的條型圖（Tape Diagram）來視覺化 2:5 的比例。</p>
+                <video controls src="MID_02_一種混合物含有_2_份牛奶與/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge MID">MID_03</span>
+                    <a href="MID_03_用天平模型視覺化_2x___6/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>用天平模型視覺化 2x = 6。一邊放兩個箱子，另一邊放 6 個圓圈。最後演示除...</h3>
+                <p title="用天平模型視覺化 2x = 6。一邊放兩個箱子，另一邊放 6 個圓圈。最後演示除法得出 x 的過程。">用天平模型視覺化 2x = 6。一邊放兩個箱子，另一邊放 6 個圓圈。最後演示除法得出 x 的過程。</p>
+                <video controls src="MID_03_用天平模型視覺化_2x___6/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge MID">MID_04</span>
+                    <a href="MID_04_畫出平行線與一條截線_用綠色標/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。</h3>
+                <p title="畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。">畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。</p>
+                <div class="missing-box">PENDING / FAILED</div>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge MID">MID_05</span>
+                    <a href="MID_05_呈現一個直徑為_D_的圓_將圓/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>呈現一個直徑為 D 的圓。將圓周「展開」成一條直線，證明其長度略大於 3 倍的直...</h3>
+                <p title="呈現一個直徑為 D 的圓。將圓周「展開」成一條直線，證明其長度略大於 3 倍的直徑 (Pi)。">呈現一個直徑為 D 的圓。將圓周「展開」成一條直線，證明其長度略大於 3 倍的直徑 (Pi)。</p>
+                <video controls src="MID_05_呈現一個直徑為_D_的圓_將圓/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge HIGH">HIGH_01</span>
+                    <a href="HIGH_01_畫出_y___2x___1_的/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>畫出 y = 2x - 1 的函數圖形。用「階梯動畫（Rise/Run）」呈現這...</h3>
+                <p title="畫出 y = 2x - 1 的函數圖形。用「階梯動畫（Rise/Run）」呈現這條線的斜率是 2。">畫出 y = 2x - 1 的函數圖形。用「階梯動畫（Rise/Run）」呈現這條線的斜率是 2。</p>
+                <video controls src="HIGH_01_畫出_y___2x___1_的/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge HIGH">HIGH_02</span>
+                    <a href="HIGH_02_畫出_y____x_2__2/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>畫出 y = (x-2)^2 - 3 的拋物線。標註頂點 (2, -3) 並畫出...</h3>
+                <p title="畫出 y = (x-2)^2 - 3 的拋物線。標註頂點 (2, -3) 並畫出垂直的對稱軸。">畫出 y = (x-2)^2 - 3 的拋物線。標註頂點 (2, -3) 並畫出垂直的對稱軸。</p>
+                <video controls src="HIGH_02_畫出_y____x_2__2/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge HIGH">HIGH_03</span>
+                    <a href="HIGH_03_演示單位圓運動同步正弦波_左邊/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出 y = s...</h3>
+                <p title="演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出 y = sin(x) 的圖形。">演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出 y = sin(x) 的圖形。</p>
+                <video controls src="HIGH_03_演示單位圓運動同步正弦波_左邊/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge HIGH">HIGH_04</span>
+                    <a href="HIGH_04_畫出_y___0_5___x/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>畫出 y = 0.5 * x^2 的曲線。顯示一條沿著曲線移動的切線，並即時顯示...</h3>
+                <p title="畫出 y = 0.5 * x^2 的曲線。顯示一條沿著曲線移動的切線，並即時顯示更新的斜率數值。">畫出 y = 0.5 * x^2 的曲線。顯示一條沿著曲線移動的切線，並即時顯示更新的斜率數值。</p>
+                <video controls src="HIGH_04_畫出_y___0_5___x/result.mp4"></video>
+            </div>
+        
+            <div class="card">
+                <div class="header-row">
+                    <span class="badge HIGH">HIGH_05</span>
+                    <a href="HIGH_05_畫出向量_A__3__1__與/solution.py" class="file-link">View Code</a>
+                </div>
+                <h3>畫出向量 A=(3, 1) 與 B=(1, 2)。使用三角形法（首尾相接）來呈現...</h3>
+                <p title="畫出向量 A=(3, 1) 與 B=(1, 2)。使用三角形法（首尾相接）來呈現合成向量 C=(4, 3) 的過程。">畫出向量 A=(3, 1) 與 B=(1, 2)。使用三角形法（首尾相接）來呈現合成向量 C=(4, 3) 的過程。</p>
+                <video controls src="HIGH_05_畫出向量_A__3__1__與/result.mp4"></video>
+            </div>
+        </div></body></html>

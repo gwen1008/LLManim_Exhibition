@@ -1,0 +1,214 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-03-05_13-48-01_繪製一個_60_度的角並疊加一個半圓形量角器來示範如何測量它.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 1.34 秒
+📊 [Token 統計]: 輸入 191 | 輸出 212 | 總計 403
+
+📢 [AI 審查/反饋意見]:
+To create an accurate English animation specification, let's break down the given Chinese requirement.
+
+The requirement mentions drawing a 60-degree angle and overlaying a semicircular protractor to demonstrate how to measure it. 
+
+Here's a step-by-step analysis:
+- First, we need to draw an angle of 60 degrees on the screen.
+- Next, a semicircular protractor should be overlaid on top of the angle to show the measurement process.
+
+<reflection>
+Before providing the final translation, let's ensure that we've covered all aspects of the requirement. We need to confirm that the angle is indeed 60 degrees and that a semicircular protractor is the correct tool for demonstrating its measurement. Additionally, we should consider the animation sequence, ensuring that the angle is drawn first, followed by the overlay of the protractor. This sequence is crucial for maintaining logical clarity in the animation.
+</reflection>
+
+<final_translation>
+Draw a 60-degree angle and overlay a semicircular protractor to demonstrate its measurement.
+</final_translation>
+------------------------------
+✨ [翻譯完成]: Draw a 60-degree angle and overlay a semicircular protractor to demonstrate its measurement.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 137.80 秒
+📊 [Token 統計]: 輸入 4131 | 輸出 3428 | 總計 7559
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world protractor on paper. Show a hand-drawn angle on a sheet of graph paper, then physically place a transparent protractor over it, aligning the baseline, and reading the measurement.</metaphor>
+    <scores pedagogy="9" feasibility="6" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction. Construct a 60-degree angle using an equilateral triangle (showing the 60-degree interior angle). Then, construct a unit circle (protractor) centered at the vertex, showing the arc subtended and the central angle measure.</metaphor>
+    <scores pedagogy="10" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step build from a ray. Start with a ray, use a compass animation to sweep out a 60-degree arc, then have the protractor grid fade in incrementally, with the degree markings appearing one by one until the 60 mark is highlighted.</metaphor>
+    <scores pedagogy="8" feasibility="8" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) offers the highest pedagogical score by connecting the angle to a fundamental geometric construction (equilateral triangle), which explains *why* 60 degrees is a special angle. It is highly feasible in Manim using basic circles, lines, and arcs. While slightly less "flashy" than C, its clarity and mathematical rigor make it the best choice for an educational animation.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: 60-degree angle, semicircular protractor (180-degree arc), angle measurement, vertex, rays, degree markings.
+**Visual Metaphor**: Use the equilateral triangle to *define* the 60-degree angle, then use a unit circle as the protractor to *measure* it.
+**Spatial Plan**:
+- **HEADER ZONE (y=3.0)**: Title.
+- **CONTENT ZONE (y=0)**: Central stage for the angle and protractor.
+- **FOOTER ZONE (y=-3.0)**: Explanatory text.
+**Anchor Strategy**:
+- `angle_vertex` at ORIGIN (CONTENT center).
+- `protractor_center` aligned to `angle_vertex`.
+- Title anchored to HEADER zone center.
+- Explanation anchored to FOOTER zone center.
+**Geometric Calculations**:
+- For a clear 60-degree angle, place one ray along the positive x-axis (0 degrees).
+- The second ray should be at 60 degrees counterclockwise. Using unit length: endpoint at (cos60°, sin60°) = (0.5, √3/2 ≈ 0.866, 0).
+- Equilateral triangle vertices: V(0,0,0), A(2,0,0), B(1, √3≈1.732, 0). Angle at V is 60 degrees.
+- Protractor: Semicircle (180 degrees) with radius = 2.5 (large enough to enclose the angle rays).
+- Degree markings: Place ticks on the semicircle's arc every 15 degrees for clarity, with labels for 0, 30, 60, 90, 120, 150, 180.
+**Signal Strategy**:
+1. Construct the angle rays.
+2. Build the equilateral triangle to justify the 60-degree measure.
+3. Overlay the protractor, aligning its center and baseline.
+4. Highlight the arc between the rays on the protractor.
+5. Animate the measurement text.
+**Chunking**:
+- Step 1: Draw the angle.
+- Step 2: Show the geometric proof (triangle).
+- Step 3: Introduce the protractor.
+- Step 4: Demonstrate measurement.
+- Step 5: Summarize.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9687 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Draw a 60-degree angle and overlay a semicircular protractor to demonstrate its measurement.'
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+=== 📚 REFERENCE EXAMPLES (RAG - Core Logic Only) ===
+Use these verified patterns. Full imports/class structure are in your system prompt.
+
+--- Example 1 ---
+Visual: None
+Core Logic:
+```python
+self.camera.background_color = "#1e1e1e"
+
+# 1. 佈局設定
+# 左側放單位圓,右側放坐標軸
+unit_circle_center = LEFT * 3
+radius =...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 29499)
+  - 語音片段 0: 6.14s | We begin with a...
+  - 語音片段 1: 12.79s | The second ray ...
+  - 語音片段 2: 11.74s | Let's verify th...
+  - 語音片段 3: 12.00s | Now, to measure...
+  - 語音片段 4: 10.63s | The protractor ...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 119.06 秒
+📊 [Token 統計]: 輸入 13882 | 輸出 3092 | 總計 16974
+------------------------------
+✅ [Coder] T=0.3 通過編譯檢查
+✅ 語音處理完成！合併音檔: media/audio/Draw_a_60_degree_ang_d725da8b47/final_narrative.mp3
+🎵 [Audio Post-Inject] 成功注入 5 個 self.add_sound()，wait 同步至實際 TTS 時長
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+✅ RAG System: Connected to Weaviate.
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12133 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 15.41 秒
+📊 [Token 統計]: 輸入 43475 | 輸出 164
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "visual_rationale": "The final frame displays a semicircular protractor with degree markings, a thick red arc indicating the 60-degree measurement, and the angle formed by two rays. The title remains consistent across frames, while the explanation text at the bottom provides context for the visual elements.",
+  "temporal_analysis": "From 70% to 95%, the thick red measurement arc appears along the protractor, and the measurement label '60°' is added, confirming the angle's measurement. The protractor and rays remain consistent throughout.",
+  "confidence_score": 4,
+  "verdict": "PASS",
+  "overall_critique": "All elements are correctly positioned and consistent with the planned layout, with no overlapping or misalignment issues.",
+  "defects": []
+}
+========================================
+
+✅ 視覺審查通過！影片品質符合標準。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 28.87 秒
+📂  歸檔目錄: stable_outputs
+    🎥 繪製一個_60_度的角，並疊加一個半圓形量角器來示範如何測量它。_20260305_135249.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 4
+Total Tokens: 68,575
+  - Prompt: 61,679
+  - Completion: 6,896
+----------------------------------------
+Estimated Cost: $0.011247 USD
+約合台幣: NT$ 0.3487
+========================================
+
+
+
+=== STDERR ===
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1772689821.332290 8853400 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/weaviate/warnings.py:302: ResourceWarning: Con004: The connection to Weaviate was not closed properly. This can lead to memory leaks.
+            Please make sure to close the connection using `client.close()`.
+  warnings.warn(
+/Users/liaozhenting/Desktop/LLManim_Agent/main.py:333: ResourceWarning: unclosed <socket.socket fd=9, family=30, type=1, proto=6, laddr=('::1', 51092, 0, 0), raddr=('::1', 8080, 0, 0)>
+  result = RefiningLoop.auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback

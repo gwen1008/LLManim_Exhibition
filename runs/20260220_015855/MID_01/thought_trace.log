@@ -1,0 +1,396 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_02-23-04_在_-5_到_5_的數線上示範從_-2_到_+3_的跳躍並畫出移動_5_個單位的箭頭動畫.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.74 秒
+📊 [Token 統計]: 輸入 226 | 輸出 74 | 總計 300
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow Transform() to a length of 5 units, indicating the distance of the jump.
+------------------------------
+   📝 初稿: Create a number line from -5 to 5. Draw a point at -2 and another point at 3. Animate a jump from the point at -2 to the point at 3. Create an arrow starting from the point at -2, then animate the arrow Transform() to a length of 5 units, indicating the distance of the jump.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.34 秒
+📊 [Token 統計]: 輸入 312 | 輸出 74 | 總計 386
+
+📢 [AI 審查/反饋意見]:
+Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow to stretch to a length of 5 units, indicating the distance of the translation.
+------------------------------
+✨ [翻譯完成]: Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow to stretch to a length of 5 units, indicating the distance of the translation.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.64 秒
+📊 [Token 統計]: 輸入 4050 | 輸出 2696 | 總計 6746
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A "train track" number line with stations at -2 and 3. A train (point) departs from station -2 and travels to station 3. A measuring tape (arrow) unrolls alongside the track to show the distance traveled.</metaphor>
+    <scores pedagogy="9" feasibility="8" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A clean, minimalist number line as a geometric axis. Points are highlighted circles. The translation is shown as a point moving along the line. The distance arrow is constructed as a separate, labeled vector that grows from the start point.</metaphor>
+    <scores pedagogy="10" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step construction: first the number line appears, then ticks and labels, then the points are plotted. The translation is shown as a "copy" of the point leaving a ghost trail. Finally, the arrow is built incrementally (shaft then tip) and labeled with its length.</metaphor>
+    <scores pedagogy="9" feasibility="9" engagement="9" />
+  </branch>
+  <selection>
+    <winner>C</winner>
+    <reason>Strategy C combines the clarity and pedagogical step-by-step approach of A with the clean, code-friendly aesthetics of B. Its progressive build is ideal for educational pacing, allowing each concept (number line, points, translation, distance) to be introduced and solidified before the next. It scores highly across all criteria and is highly feasible in Manim.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Number line, integer points from -5 to 5, plotting points at -2 and 3, translation as movement from -2 to 3, distance as a 5-unit vector arrow.
+
+**Visual Metaphor (Selected: Progressive)**: A clean, dark-themed construction. The number line is the central, persistent element. Points are distinct colored dots. The translation is a smooth point movement. The distance arrow is a separate, bold visual element that emerges from the translation path.
+
+**Spatial Plan & Calculations**:
+- **Global Layout**: Use High-Low Split to prevent overflow.
+  - `HEADER` (y ~ 3.0): Title.
+  - `CONTENT` (y ~ 0.0): Number line, points, arrow. This is the main stage.
+  - `FOOTER` (y ~ -2.8): Explanatory text.
+- **Number Line Geometry**:
+  - Span: -5 to 5. Total length = 10 units.
+  - Manim coordinate: Place line horizontally, centered at ORIGIN. Endpoints at LEFT*5 and RIGHT*5.
+  - Tick spacing: 1 unit. Label each integer from -5 to 5.
+- **Point Positions**:
+  - Point A (-2): `LEFT*2`
+  - Point B (3): `RIGHT*3`
+- **Arrow Geometry**:
+  - Start: Point A (`LEFT*2`)
+  - End: Point B (`RIGHT*3`)
+  - Length: 5 units (confirmed: 3 - (-2) = 5).
+  - The arrow will be created initially with zero length (start=end=Point A) and then stretched to Point B.
+
+**Signal Strategy**:
+1. Introduce number line and points (Circumscribe).
+2. Animate point translation (Indicate moving point).
+3. After translation, highlight the path (Indicate line segment).
+4. Construct arrow from that path, emphasizing its length (Write label "5 units").
+
+**Constraint Enforcement**:
+- All primary objects (line, points, arrow) have `z_index=0`.
+- Labels are secondary (scale=0.8).
+- Explanatory text is tertiary (scale=0.7, bottom zone).
+- The sequence will use `ReplacementTransform` for text updates and `Create`/`GrowArrow` for geometric builds.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 7056 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 3.84s | Let's create a ...
+  - 語音片段 1: 4.68s | Now, plot a poi...
+  - 語音片段 2: 2.47s | And the point a...
+  - 語音片段 3: 6.12s | A translation m...
+  - 語音片段 4: 6.02s | The distance of...
+  - 語音片段 5: 2.81s | And we label it...
+✅ 語音處理完成！合併音檔: media/audio/在__5_到_5_的數線上_示範從__2_e541ae2fca/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a number line from -5 to 5. Plot a point at -2 and another point at 3. Animate a translation from the point at -2 to the point at 3. Create an arrow originating from the point at -2, then animate the arrow to stretch to a length of 5 units, indicating the distance of the translation.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 55.82 秒
+📊 [Token 統計]: 輸入 11555 | 輸出 3052 | 總計 14607
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.49 秒
+📊 [Token 統計]: 輸入 6834 | 輸出 989 | 總計 7823
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13184 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.77 秒
+📊 [Token 統計]: 輸入 17238 | 輸出 295
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains critical alignment issues and low contrast in symbolic rendering.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The label for the distance '5 units' and the yellow arrow overlap with the number line, causing confusion about their connection.",
+      "suggested_fix": "Adjust the vertical position of the arrow label to maintain clear separation from the number line."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The contrast between the label '5 units' (yellow) and the black background is insufficient, falling below the acceptable contrast ratio.",
+      "suggested_fix": "Consider changing the label color to a brighter shade or adding a text outline to enhance visibility."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The arrow extends beyond the defined 'Action Safe' area, particularly near the tip, which is critical for a clean presentation.",
+      "suggested_fix": "Recalibrate the arrow length to ensure it fits within the mandatory boundaries of the scene."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The label for the distance '5 units' and the yellow arrow overlap with the numbe...
+  🔴 [OVERFLOW] The arrow extends beyond the defined 'Action Safe' area, particularly near the t...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains critical alignment issues and low contrast in symbolic rendering.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The label for the distance '5 units' and the yellow arrow overlap with the n...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.31 秒
+📊 [Token 統計]: 輸入 5574 | 輸出 2746 | 總計 8320
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.57 秒
+📊 [Token 統計]: 輸入 6834 | 輸出 984 | 總計 7818
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13184 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 4.47 秒
+📊 [Token 統計]: 輸入 17238 | 輸出 234
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Multiple defects related to color contrast and overflow beyond the safe zone.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "The text 'And we label it: five units.' has a color contrast ratio below the required 4.5:1 against the black background, making it difficult to read.",
+      "suggested_fix": "Change text color to a lighter shade (e.g., LIGHT_GRAY) to meet contrast requirements."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The yellow arrow extends beyond the mandatory boundary on the right, as it overlaps with the right edge of the screen.",
+      "suggested_fix": "Adjust the position of the yellow arrow to ensure it stays within the boundaries of $x \\in [-7.0, 7.0]$."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The yellow arrow extends beyond the mandatory boundary on the right, as it overl...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Multiple defects related to color contrast and overflow beyond the safe zone.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The yellow arrow extends beyond the mandatory boundary on the right, as it ove...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.98 秒
+📊 [Token 統計]: 輸入 5513 | 輸出 2812 | 總計 8325
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.70 秒
+📊 [Token 統計]: 輸入 6834 | 輸出 989 | 總計 7823
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13184 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.54 秒
+📊 [Token 統計]: 輸入 17238 | 輸出 346
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The scene contains multiple alignment and visibility issues impacting pedagogical clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The arrow, starting at the point (-2) and ending at point (3), does not visibly connect to both points, indicating a gap of 0.3 units between the start of the arrow and the point at -2.",
+      "suggested_fix": "Ensure the start position of the arrow aligns exactly with number_line.n2p(-2)."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The visibility of the label '5 units' is hindered by the color contrast against the background (contrast ratio < 4.5:1).",
+      "suggested_fix": "Change the label color to a darker shade for improved contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The arrow at the tip extends beyond the 'Action Safe' area on the right side, reaching out of the boundary.",
+      "suggested_fix": "Adjust the end point of the arrow to ensure it remains within the mandatory $x \\in [-7.0, 7.0]$ and $y \\in [-3.5, 3.5]$ bounds."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The arrow, starting at the point (-2) and ending at point (3), does not visibly ...
+  🔴 [OVERFLOW] The arrow at the tip extends beyond the 'Action Safe' area on the right side, re...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The scene contains multiple alignment and visibility issues impacting pedagogical clarity.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 142.06 秒
+📂  歸檔目錄: stable_outputs
+    🎥 在__minus_5_到_5_的數線上，示範從__minus_2_到__plus_3_的跳躍，並畫出_20260220_022717.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 9
+Total Tokens: 91,273
+  - Prompt: 78,944
+  - Completion: 12,329
+----------------------------------------
+Estimated Cost: $0.015619 USD
+約合台幣: NT$ 0.4842
+========================================
+
+
+
+=== STDERR ===

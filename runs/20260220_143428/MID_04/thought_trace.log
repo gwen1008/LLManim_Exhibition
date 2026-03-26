@@ -1,0 +1,385 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-20_15-24-09_畫出平行線與一條截線用綠色標示出內錯角並呈現它們是相等的.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.73 秒
+📊 [Token 統計]: 輸入 218 | 輸出 100 | 總計 318
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal and color them green. Apply the property that corresponding angles are equal, and then apply the property that interior angles on the same side of the transversal are supplementary to demonstrate that the green angles are equal. Use the Transform() function to highlight the equality of the green angles by rotating or reflecting one angle to overlap the other, visually illustrating their congruence.
+------------------------------
+   📝 初稿: Create a scene with two parallel lines and a transversal. Identify the interior angles on the same side of the transversal and color them green. Apply the property that corresponding angles are equal, and then apply the property that interior angles on the same side of the transversal are supplementary to demonstrate that the green angles are equal. Use the Transform() function to highlight the equality of the green angles by rotating or reflecting one angle to overlap the other, visually illustrating their congruence.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.54 秒
+📊 [Token 統計]: 輸入 331 | 輸出 125 | 總計 456
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two parallel lines and a transversal, then identify the interior angles on the same side of the transversal and color them green. Apply the property that corresponding angles are equal to establish a relationship between the angles formed by the transversal. Next, apply the property that interior angles on the same side of the transversal are supplementary to demonstrate the equality of the green angles. Use the Transform() function to visually illustrate their congruence by rotating or reflecting one angle to overlap the other, highlighting that the green angles are equal due to the properties of parallel lines and transversals.
+------------------------------
+✨ [翻譯完成]: Create a scene with two parallel lines and a transversal, then identify the interior angles on the same side of the transversal and color them green. Apply the property that corresponding angles are equal to establish a relationship between the angles formed by the transversal. Next, apply the property that interior angles on the same side of the transversal are supplementary to demonstrate the equality of the green angles. Use the Transform() function to visually illustrate their congruence by rotating or reflecting one angle to overlap the other, highlighting that the green angles are equal due to the properties of parallel lines and transversals.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 92.31 秒
+📊 [Token 統計]: 輸入 4090 | 輸出 4943 | 總計 9033
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+<metaphor>A real-world analogy: a road (transversal) crossing two parallel train tracks. The green angles are like the identical slopes where the road meets each track. The proof is shown by measuring with a protractor tool that appears on screen.</metaphor>
+<scores pedagogy="7" feasibility="8" engagement="6" />
+</branch>
+<branch id="B" type="Abstract">
+<metaphor>A clean, geometric construction. Two perfectly parallel lines and a transversal are drawn. Angles are marked with arcs and labels. The proof proceeds through a logical sequence of angle chasing, using color coding and TransformMatchingTex for equations, culminating in a geometric transformation (rotation) to show congruence.</metaphor>
+<scores pedagogy="9" feasibility="9" engagement="8" />
+</branch>
+<branch id="C" type="Interactive/Progressive">
+<metaphor>A step-by-step build-up. First, draw the lines. Then, highlight pairs of corresponding angles (colored blue) and state they are equal. Next, highlight the interior angles on the same side (colored orange) and state they are supplementary. Finally, use these two facts in an algebraic derivation (shown with morphing equations) to prove the two specific green angles are equal, followed by a visual rotation of one arc onto the other.</metaphor>
+<scores pedagogy="8" feasibility="8" engagement="9" />
+</branch>
+<selection>
+<winner>B</winner>
+<reason>Strategy B (Abstract Geometric) scores highest on pedagogy (9) by providing a clear, direct visual proof without distracting real-world elements. Its feasibility is high (9) as it uses standard Manim geometric objects and transformations. Engagement (8) is strong due to the clean, focused animation and the powerful visual of one angle rotating to match the other. It best fulfills the user's request for a professional, property-based demonstration.</reason>
+</selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parallel lines (l1, l2), a transversal (t). Key angles: two interior angles on the same side (e.g., ∠3 and ∠5 in standard numbering). Properties: Corresponding angles are equal (∠1=∠5, ∠2=∠6, ∠3=∠7, ∠4=∠8). Consecutive Interior Angles are supplementary (∠3 + ∠5 = 180°, ∠4 + ∠6 = 180°). Goal: Prove ∠3 = ∠7 (or similar pair) using these properties.
+
+**Visual Metaphor**: A minimalist geometric diagram. Lines are infinite (drawn as long segments). Angles are marked with colored arcs. The proof is a two-step logical deduction: 1) From Corresponding Angles: ∠7 = ∠3 (if we choose the correct pair). 2) From Consecutive Interior Angles: ∠3 + ∠5 = 180°. 3) Combining: Since ∠7 = ∠3, then ∠7 + ∠5 = 180°, which is the property for the *other* pair of interior angles. However, the user specifically wants to prove the two green angles (e.g., ∠3 and ∠7) are equal. A more direct proof: ∠3 and ∠7 are both corresponding to some other angle? Actually, ∠3 and ∠7 are alternate interior angles. The property "interior angles on the same side are supplementary" can be used indirectly: ∠3 + ∠5 = 180° and ∠7 + ∠5 = 180° (because ∠7 and ∠5 are consecutive interior on the other side). Therefore ∠3 = ∠7. We'll prove ∠3 = ∠7.
+
+**Spatial Plan**:
+- **HEADER**: Title at y=3.2.
+- **CONTENT**: Main diagram centered at ORIGIN. Two parallel lines (horizontal for simplicity) and an oblique transversal. Angle labels (1-8) placed near vertices. Key equations will appear to the right of the diagram, aligned vertically.
+- **FOOTER**: Explanatory text at y=-3.0, scale=0.8.
+
+**Layout Coordinates**:
+- Parallel lines: l1 from (-4, 1.5, 0) to (4, 1.5, 0). l2 from (-4, -1.5, 0) to (4, -1.5, 0).
+- Transversal: t from (-3, 2.5, 0) to (3, -2.5, 0). This creates clear intersections.
+- Intersection points: A (l1 ∩ t) and B (l2 ∩ t). Calculate via line equations.
+  - l1: y = 1.5. t: param. Let's find A: y=1.5 on t. Equation of t: slope m = (-2.5 - 2.5)/(3 - (-3)) = -5/6 ≈ -0.833. Point-slope using (0,0)? Actually, t passes through (0,0)? Check: from (-3,2.5) to (3,-2.5), midpoint is (0,0). Yes, t passes through origin. So equation: y = (-5/6)x. Set y=1.5: 1.5 = (-5/6)x => x = -1.8. So A = (-1.8, 1.5, 0).
+  - B: y = -1.5 on t: -1.5 = (-5/6)x => x = 1.8. So B = (1.8, -1.5, 0).
+- Standard angle numbering (from top left): ∠1 (above l1, left of t), ∠2 (above l1, right of t), ∠3 (below l1, left of t), ∠4 (below l1, right of t), ∠5 (above l2, left of t), ∠6 (above l2, right of t), ∠7 (below l2, left of t), ∠8 (below l2, right of t).
+- The two interior angles on the same side (to be colored green) are ∠3 and ∠7 (both on the left side, interior between lines).
+- For the proof, we need: Corresponding angles: ∠3 and ∠7 are actually corresponding? No, ∠3 is above l2? Wait, check: ∠3 is at intersection A, below l1. ∠7 is at intersection B, below l2. They are in similar positions relative to the lines and transversal, so they *are* corresponding angles. Yes! ∠3 and ∠7 are corresponding angles (both below their respective line and on the left of the transversal). Therefore, by the Corresponding Angles Postulate, they are equal. But the user wants to use the "interior angles on the same side are supplementary" property. So we'll prove ∠3 = ∠7 using that property and the fact that corresponding angles (e.g., ∠1 and ∠5) are equal.
+  Proof: ∠1 = ∠5 (corresponding). ∠1 + ∠3 = 180° (linear pair). ∠5 + ∠7 = 180° (linear pair). Since ∠1 = ∠5, then 180° - ∠3 = 180° - ∠7, so ∠3 = ∠7.
+  This uses linear pairs, not interior-on-same-side. Alternatively, use interior-on-same-side: ∠3 + ∠5 = 180° (interior on same side). ∠5 + ∠7 = 180° (linear pair at B). Therefore ∠3 = ∠7.
+  We'll use the latter.
+
+**Signal Strategy**:
+1. Draw lines, label angles 1-8.
+2. Highlight ∠3 and ∠7 in green (arcs and labels).
+3. State property 1: Corresponding angles equal (show ∠1 = ∠5).
+4. State property 2: Interior angles on same side supplementary (show ∠3 + ∠5 = 180°).
+5. Derive ∠3 = ∠7 algebraically (TransformMatchingTex).
+6. Visually demonstrate congruence: animate a copy of the green arc from ∠3 rotating and translating to overlap ∠7.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 12107 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 6.96s | Consider two pa...
+  - 語音片段 1: 7.92s | Focus on the tw...
+  - 語音片段 2: 8.45s | From the proper...
+  - 語音片段 3: 9.34s | Also, interior ...
+  - 語音片段 4: 7.94s | Now, observe th...
+  - 語音片段 5: 7.30s | Since both angl...
+  - 語音片段 6: 5.33s | We can visually...
+✅ 語音處理完成！合併音檔: media/audio/畫出平行線與一條截線_用綠色標示出內錯角_3027b6b499/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two parallel lines and a transversal, then identify the interior angles on the same side of the transversal and color them green. Apply the property that corresponding angles are equal to establish a relationship between the angles formed by the transversal. Next, apply the property that interior angles on the same side of the transversal are supplementary to demonstrate the equality of the green angles. Use the Transform() function to visually illustrate their congruence by rotating or reflecting one angle to overlap the other, highlighting that the green angles are equal due to the properties of parallel lines and transversals.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 89.31 秒
+📊 [Token 統計]: 輸入 14402 | 輸出 4948 | 總計 19350
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.32 秒
+📊 [Token 統計]: 輸入 10280 | 輸出 982 | 總計 11262
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 16743 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.99 秒
+📊 [Token 統計]: 輸入 18792 | 輸出 211
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame fails due to low contrast and overlap issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The contrast ratio between the text and the background is insufficient, particularly for labels 3 and 7, which are not easily readable against the dark background.",
+      "suggested_fix": "Use a brighter color for angle labels (e.g., white or a lighter shade) to enhance readability."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "Angle label '3' overlaps with the arc defining angle 3, reducing clarity.",
+      "suggested_fix": "Adjust the position of label 3 to ensure it does not overlap with the angle arc."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] Angle label '3' overlaps with the arc defining angle 3, reducing clarity....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame fails due to low contrast and overlap issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- Angle label '3' overlaps with the arc defining angle 3, reducing clarity. (Sugg...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 85.59 秒
+📊 [Token 統計]: 輸入 8927 | 輸出 4786 | 總計 13713
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.43 秒
+📊 [Token 統計]: 輸入 10280 | 輸出 794 | 總計 11074
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 16743 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 6.81 秒
+📊 [Token 統計]: 輸入 18792 | 輸出 320
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects related to alignment, color contrast, and layout exceed acceptable limits.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "Angle labels '3' and '5' have visual spacing that is insufficient (less than 0.2 units) from the angle arcs, reducing clarity.",
+      "suggested_fix": "Increase vertical spacing in label positions to ensure at least 0.2 units from the angles."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "Color contrast for labels '3' and '7' is below the recommended 4.5:1 ratio, as they are rendered in a light green against the black background.",
+      "suggested_fix": "Change the color of labels '3' and '7' to a darker shade for improved contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "Angle labels '5' and '7' exceed the mandatory boundaries, with '7' extending beyond the x in [-6.5, 6.5].",
+      "suggested_fix": "Reposition label '7' within the safe zone."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] Angle labels '3' and '5' have visual spacing that is insufficient (less than 0.2...
+  🔴 [OVERFLOW] Angle labels '5' and '7' exceed the mandatory boundaries, with '7' extending bey...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects related to alignment, color contrast, and layout exceed acceptable limits.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- Angle labels '3' and '5' have visual spacing that is insufficient (less than...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 90.15 秒
+📊 [Token 統計]: 輸入 9048 | 輸出 4990 | 總計 14038
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.07 秒
+📊 [Token 統計]: 輸入 10280 | 輸出 989 | 總計 11269
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 16743 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.58 秒
+📊 [Token 統計]: 輸入 18792 | 輸出 209
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "Defects identified include overlapping equations and insufficient color contrast.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The label for angle 3 overlaps with the equation angle_3 = angle_7, causing confusion.",
+      "suggested_fix": "Adjust the position of angle 3 label to avoid overlap. Consider moving it vertically upwards."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "Color contrast of green label '3' and '7' against the black background is insufficient (contrast ratio < 4.5:1).",
+      "suggested_fix": "Change the label color to a brighter shade or adjust the background for better contrast."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🟠 [OVERLAP] The label for angle 3 overlaps with the equation angle_3 = angle_7, causing conf...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Defects identified include overlapping equations and insufficient color contrast.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 226.57 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出平行線與一條截線。用綠色標示出內錯角，並呈現它們是相等的。_20260220_153103.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 9
+Total Tokens: 114,024
+  - Prompt: 93,392
+  - Completion: 20,632
+----------------------------------------
+Estimated Cost: $0.020014 USD
+約合台幣: NT$ 0.6204
+========================================
+
+
+
+=== STDERR ===

@@ -1,0 +1,499 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-19_21-19-11_畫出_y__x-22_-_3_的拋物線標註頂點_2_-3_並畫出垂直的對稱軸.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.66 秒
+📊 [Token 統計]: 輸入 229 | 輸出 80 | 總計 309
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at (2, -3) and draw the vertical axis of symmetry. Use the Create() function to generate the parabola and the Transform() function to add the vertex label and axis of symmetry. The axis of symmetry should be a vertical line at x = 2.
+------------------------------
+   📝 初稿: Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at (2, -3) and draw the vertical axis of symmetry. Use the Create() function to generate the parabola and the Transform() function to add the vertex label and axis of symmetry. The axis of symmetry should be a vertical line at x = 2.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.39 秒
+📊 [Token 統計]: 輸入 322 | 輸出 81 | 總計 403
+
+📢 [AI 審查/反饋意見]:
+Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at (2, -3) and draw the vertical axis of symmetry at x = 2. Use the Create() function to generate the parabola and the Transform() or Label() function to add the vertex label, and the Line() function to draw the axis of symmetry.
+------------------------------
+✨ [翻譯完成]: Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at (2, -3) and draw the vertical axis of symmetry at x = 2. Use the Create() function to generate the parabola and the Transform() or Label() function to add the vertex label, and the Line() function to draw the axis of symmetry.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 59.88 秒
+📊 [Token 統計]: 輸入 4053 | 輸出 3139 | 總計 7192
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Real-world projectile analogy: Show a ball's trajectory path being plotted. The vertex represents the highest/lowest point, and the axis of symmetry is the vertical line through that point, like a mirror line showing the path's symmetry.</metaphor>
+    <scores pedagogy="8" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure geometric construction: Start with a coordinate grid. Plot the parent function y=x², then apply transformations (shift right 2, down 3) to arrive at y=(x-2)²-3. The vertex and axis emerge naturally from the transformation process.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Step-by-step plotting: First draw the axis of symmetry line. Then plot the vertex. Then calculate and plot several key points symmetrically about the axis, finally connecting them to form the smooth parabola curve.</metaphor>
+    <scores pedagogy="7" feasibility="9" engagement="8" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract/Transformational) scores highest on pedagogy (9) by clearly explaining the "why" behind the vertex location through function transformations. It also has perfect feasibility (10) as it uses standard Manim operations (graph plotting, Transform). While engagement is slightly lower than A, the clean transformational approach aligns perfectly with the 3Blue1Brown aesthetic and directly addresses the mathematical structure.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parabola y = (x-2)² - 3. Vertex form: y = a(x-h)² + k with vertex (h,k) = (2,-3). Axis of symmetry: vertical line x = h = 2. Transformations from parent function y = x²: horizontal shift right 2, vertical shift down 3.
+
+**Visual Metaphor**: Transformational approach. Show parent parabola, then shift it.
+
+**Spatial Plan**:
+- Global center = ORIGIN (0,0,0)
+- Title at HEADER zone (y=3.0)
+- Equation display at CONTENT zone, just above center (y=1.0)
+- Graph area centered at CONTENT zone (y=0)
+- Axis of symmetry line vertical through x=2
+- Vertex label at (2,-3)
+- Explanation/step label at FOOTER zone (y=-2.5)
+
+**Coordinate Calculations**:
+- Parent parabola: y = x². We'll plot from x=-3 to x=5 for sufficient context.
+- Transformed parabola: y = (x-2)² - 3. Same domain.
+- Vertex: (2, -3)
+- Axis of symmetry: Vertical line from (2, -5) to (2, 5) to ensure it spans the graph.
+- Key symmetric points: For x=0→(0,1), x=4→(4,1); x=1→(1,-2), x=3→(3,-2).
+
+**Layout Constraints**:
+- Graph will occupy x-range [-3, 5], y-range [-5, 5] centered at origin.
+- All mathematical objects (graphs, lines, points) at CONTENT zone.
+- Text explanations at FOOTER zone (scale=0.8).
+- Use TransformMatchingTex for equation evolution.
+
+**Signal Strategy**:
+1. Introduce parent function y=x² (yellow highlight).
+2. Show horizontal shift: x → (x-2) (indicate transformation).
+3. Show vertical shift: -3 (indicate downward movement).
+4. Label resulting vertex (circumscribe point).
+5. Draw axis of symmetry through vertex (indicate line).
+============================================================
+
+📉 [Compression] Planner Context Reduced: 8651 chars
+
+🎙️ [階段 1.5: Audio Generation] 正在生成語音...
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 9.00s | Let's graph the...
+  - 語音片段 1: 5.18s | First, create t...
+  - 語音片段 2: 7.49s | Now we apply tr...
+  - 語音片段 3: 9.00s | Then subtractin...
+  - 語音片段 4: 10.20s | The vertex of t...
+  - 語音片段 5: 4.32s | Let's label the...
+  - 語音片段 6: 5.59s | Finally, we add...
+  - 語音片段 7: 9.17s | The parabola y ...
+✅ 語音處理完成！合併音檔: media/audio/畫出_y____x_2__2___3_的_95119814cf/final_narrative.mp3
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a graph of the parabola y = (x-2)^2 - 3. Label the vertex at (2, -3) and draw the vertical axis of symmetry at x = 2. Use the Create() function to generate the parabola and the Transform() or Label() function to add the vertex label, and the Line() function to draw the axis of symmetry.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 60.95 秒
+📊 [Token 統計]: 輸入 12081 | 輸出 3220 | 總計 15301
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.51 秒
+📊 [Token 統計]: 輸入 7485 | 輸出 764 | 總計 8249
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12691 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+
+❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                                                                              │
+│   122 │   │   │   try:                                                       │
+│   123 │   │   │   │   with tempconfig({}):                                   │
+│   124 │   │   │   │   │   scene = SceneClass()                               │
+│ ❱ 125 │   │   │   │   │   scene.render()                                     │
+│   126 │   │   │   except Exception:                                          │
+│   127 │   │   │   │   error_console.print_exception()                        │
+│   128 │   │   │   │   sys.exit(1)                                            │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/scene/scene.py:259 in render                                        │
+│                                                                              │
+│    256 │   │   """                                                           │
+│    257 │   │   self.setup()                                                  │
+│    258 │   │   try:                                                          │
+│ ❱  259 │   │   │   self.construct()                                          │
+│    260 │   │   except EndSceneEarlyException:                                │
+│    261 │   │   │   pass                                                      │
+│    262 │   │   except RerunSceneException:                                   │
+│                                                                              │
+│ /Users/liaozhenting/Desktop/LLManim_Agent/test_script.py:34 in construct     │
+│                                                                              │
+│    31 │   │   title = Text("Graphing a Parabola: Transformational Approach", │
+│    32 │   │   self.objects["title"] = title                                  │
+│    33 │   │   layout.add(LayoutObject(title, "title"))                       │
+│ ❱  34 │   │   layout.add_to_zone(layout.get("title"), "HEADER")              │
+│    35 │   │   layout.add_constraint(title.center_x == 0)                     │
+│    36 │   │                                                                  │
+│    37 │   │   # Axes                                                         │
+╰──────────────────────────────────────────────────────────────────────────────╯
+AttributeError: 'LayoutEngine' object has no attribute 'get'
+
+
+🤔 [Reflexion] 正在進行自我反思 (Self-Reflection)...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an expert Python/Manim Developer.
+
+**FAILURE CONTEXT**:
+You attempted to render a Manim animation but failed.
+
+**ERROR MESSAGE**:
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 12.02 秒
+📊 [Token 統計]: 輸入 661 | 輸出 591 | 總計 1252
+------------------------------
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+你在前一次嘗試中生成的代碼發生了錯誤。
+
+【錯誤訊息】：
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packag │
+│ es/manim/cli/render/commands.py:125 in render                                │
+│                          ...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 50.52 秒
+📊 [Token 統計]: 輸入 7187 | 輸出 2661 | 總計 9848
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.06 秒
+📊 [Token 統計]: 輸入 6956 | 輸出 1040 | 總計 7996
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10627 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 3.82 秒
+📊 [Token 統計]: 輸入 17705 | 輸出 211
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains visual overflow and low contrast issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The label 'Step 8: Label the axis of symmetry' extends beyond the mandatory boundaries, violating the safe zone requirement.",
+      "suggested_fix": "Adjust the position of the step label to ensure all content is within the safe area."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast between the white text and the black background fails to meet the minimum contrast ratio of 4.5:1.",
+      "suggested_fix": "Use a more contrasting color for the text, such as a bright yellow or green, to ensure readability."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 1 defect(s):
+  🔴 [OVERFLOW] The label 'Step 8: Label the axis of symmetry' extends beyond the mandatory boun...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains visual overflow and low contrast issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The label 'Step 8: Label the axis of symmetry' extends beyond the mandatory bo...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 49.78 秒
+📊 [Token 統計]: 輸入 6204 | 輸出 2685 | 總計 8889
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 2.32 秒
+📊 [Token 統計]: 輸入 6956 | 輸出 810 | 總計 7766
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10627 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 5.67 秒
+📊 [Token 統計]: 輸入 17705 | 輸出 298
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The frame contains multiple defects including text overlaps and low color contrast issues.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The text 'Step 8: Label the axis of symmetry' overlaps with the graph, potentially confusing viewers.",
+      "suggested_fix": "Move the step explanation text further away from the bottom of the frame or reduce its size to prevent overlap."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Critical",
+      "description": "The color contrast between the white text and the black background does not meet the recommended minimum ratio of 4.5:1.",
+      "suggested_fix": "Change text color to a brighter color (e.g., light gray) or adjust the background to improve contrast."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The graph exhibits visual clutter due to close proximity between the vertex label '(2,-3)' and the vertex dot.",
+      "suggested_fix": "Increase the buffer distance between the vertex label and the vertex dot to enhance readability."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🟠 [OVERLAP] The text 'Step 8: Label the axis of symmetry' overlaps with the graph, potential...
+  🟡 [CLUTTER] The graph exhibits visual clutter due to close proximity between the vertex labe...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The frame contains multiple defects including text overlaps and low color contrast issues.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/2]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERLAP** (1 occurrences):
+- The text 'Step 8: Label the axis of symmetry' overlaps with the graph, potentia...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3)
+⏱️  [API 耗時]: 48.82 秒
+📊 [Token 統計]: 輸入 6306 | 輸出 2661 | 總計 8967
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行代碼內容審查 (邏輯、公式、腳本一致性)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🕵️  正在進行深度代碼審查 (QA Compliance Check)...
+
+------------------------------
+🤖 [模型]: llama-3.1-8b-instant (role: reviewer)
+⏱️  [API 耗時]: 3.28 秒
+📊 [Token 統計]: 輸入 6956 | 輸出 1040 | 總計 7996
+------------------------------
+✅ 語義與佈局審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10627 bytes)
+🚀 正在啟動 Manim 引擎進行渲染...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit)
+⏱️  [API 耗時]: 8.19 秒
+📊 [Token 統計]: 輸入 17705 | 輸出 413
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains several critical issues impacting visual clarity and educational effectiveness.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The vertex label '(2,-3)' overlaps with the graph, causing visual clutter and ambiguity.",
+      "suggested_fix": "Move the vertex label farther away from the dot to ensure clear visibility, e.g., use next_to(vertex_dot, UP + RIGHT, buff=0.3)."
+    },
+    {
+      "id": "ERR_002",
+      "code": "CLUTTER",
+      "severity": "Major",
+      "description": "The text 'Step 8: Label the axis of symmetry' is placed too close to the graph, contributing to visual crowding.",
+      "suggested_fix": "Adjust the position of the step explanation text downward to increase spacing with the graph, ensuring at least 0.5 units of space."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The yellow color used for the title does not meet the required contrast ratio against the black background (using a ratio less than 4.5:1).",
+      "suggested_fix": "Change the title color to a brighter shade, such as 'LIGHT_YELLOW,' to improve contrast."
+    },
+    {
+      "id": "ERR_004",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The text 'Step 8: Label the axis of symmetry' also has low contrast against the background, making it difficult to read.",
+      "suggested_fix": "Change the color of this text to a brighter color, ensuring contrast ratio requirements are met."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 2 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [OVERFLOW] The vertex label '(2,-3)' overlaps with the graph, causing visual clutter and am...
+  🟠 [CLUTTER] The text 'Step 8: Label the axis of symmetry' is placed too close to the graph, ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains several critical issues impacting visual clarity and educational effectiveness.
+
+⚠️  視覺修復次數已達上限 (2)。為避免無限循環，將接受當前結果。
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 227.09 秒
+📂  歸檔目錄: stable_outputs
+    🎥 畫出_y_=__x_minus_2_^2__minus__3_的拋物線。標註頂點__2,__minu_20260219_212507.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 11
+Total Tokens: 106,198
+  - Prompt: 90,158
+  - Completion: 16,040
+----------------------------------------
+Estimated Cost: $0.018270 USD
+約合台幣: NT$ 0.5664
+========================================
+
+
+
+=== STDERR ===

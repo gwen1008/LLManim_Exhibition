@@ -1,0 +1,484 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-27_04-14-35_畫出_y__x-22_-_3_的拋物線標註頂點_2_-3_並畫出垂直的對稱軸.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 1.54 秒
+📊 [Token 統計]: 輸入 204 | 輸出 336 | 總計 540
+
+📢 [AI 審查/反饋意見]:
+To create an accurate English animation specification, let's break down the given Chinese requirement:
+
+1. **Drawing the Parabola**: The equation given is y = (x-2)^2 - 3. This is a quadratic equation in the form of y = a(x-h)^2 + k, where (h, k) represents the vertex of the parabola. In this case, the vertex is (2, -3).
+
+2. **Labeling the Vertex**: The vertex of the parabola, which is the point (2, -3), needs to be clearly marked on the graph.
+
+3. **Drawing the Vertical Axis of Symmetry**: For a parabola given by y = a(x-h)^2 + k, the vertical axis of symmetry is the line x = h. Here, h = 2, so the axis of symmetry is the line x = 2.
+
+Given these requirements, let's ensure the translation is accurate and logical:
+
+<reflection>
+To ensure the translation is correct, we must understand the key components of the task: 
+- The equation of the parabola and its standard form.
+- The significance of the vertex in the equation.
+- The concept of the axis of symmetry for a parabola.
+The translation should clearly convey these elements to ensure the animation accurately represents the mathematical concepts described.
+</reflection>
+
+<final_translation>
+Draw the parabola represented by the equation y = (x-2)^2 - 3. Label the vertex at the point (2, -3) and include the vertical axis of symmetry, which is the line x = 2.
+</final_translation>
+------------------------------
+✨ [翻譯完成]: Draw the parabola represented by the equation y = (x-2)^2 - 3. Label the vertex at the point (2, -3) and include the vertical axis of symmetry, which is the line x = 2.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 67.07 秒
+📊 [Token 統計]: 輸入 4161 | 輸出 3110 | 總計 7271
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Plotting points on a coordinate grid. Start with a blank grid, plot the vertex, then calculate and plot several key points (e.g., (1,-2), (3,-2), (0,1), (4,1)) to reveal the parabola's shape, then connect them smoothly.</metaphor>
+    <scores pedagogy="8" feasibility="9" engagement="7" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Transformational approach. Start with the parent function y = x^2 at the origin. Animate a horizontal shift right by 2 units, then a vertical shift down by 3 units to reveal the final parabola and its vertex. The axis of symmetry moves with the parabola.</metaphor>
+    <scores pedagogy="9" feasibility="8" engagement="8" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Deconstruct the equation. Show the graph building from its components: first draw the axis of symmetry (x=2), then mark the vertex (2,-3), then show how the (x-2)^2 term creates symmetric arms, and finally apply the -3 vertical translation.</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Transformational) provides the strongest pedagogical "why" by connecting the algebraic form to a visual transformation of a known parent function. It is highly feasible in Manim using simple translations and graph plotting. It is visually engaging as it shows dynamic motion, making the concept of vertex form intuitive.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parabola, vertex form equation y = (x-h)^2 + k, vertex (2, -3), axis of symmetry x=2, transformations from y=x^2.
+**Visual Metaphor**: The parabola is a transformed version of the basic "U" shape.
+**Spatial Plan**:
+- Global center (ORIGIN) reserved for the main coordinate axes and graphs.
+- Title zone (HEADER): y=3.2.
+- Explanation zone (FOOTER): y=-3.2, for step-by-step text.
+- Math/Equation zone (CONTENT): Centered at ORIGIN, but we will use a dynamic layout.
+**Detailed Layout**:
+1.  **Coordinate Plane**: Create an Axes object centered at ORIGIN, with x_range [-3, 7], y_range [-5, 5]. This ensures vertex (2,-3) is well-centered.
+2.  **Parent Function**: Graph of y=x^2 will be plotted on these axes, initially centered at (0,0).
+3.  **Final Function**: Graph of y=(x-2)^2-3 will be the transformed version.
+4.  **Vertex Dot**: A dot at (2, -3).
+5.  **Axis Line**: A dashed vertical line at x=2.
+6.  **Labels**: MathTex for equations and point labels.
+**Constraint Strategy**:
+- All graphs and lines are children of the main Axes object for easy transformation.
+- Labels are positioned relative to their targets (e.g., vertex label next to the dot).
+- Step explanations are anchored to the FOOTER zone and updated in place.
+**Signal Strategy**:
+- Step 1: Introduce parent function. Circumscribe the equation y=x^2.
+- Step 2: Show horizontal shift. Indicate the "-2" inside the squared term, animate graph shift.
+- Step 3: Show vertical shift. Indicate the "-3", animate graph shift down.
+- Step 4: Label the resulting vertex and axis of symmetry. Use Indicate on the dot and line.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 8737 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Draw the parabola represented by the equation y = (x-2)^2 - 3. Label the vertex at the point (2, -3) and include the vertical axis of symmetry, which is the line x = 2.'
+  - 語音片段 2: 8.06s | Now, let's grap...
+  - 語音片段 0: 5.66s | We begin with t...
+  - 語音片段 1: 4.70s | Its graph is a ...
+  - 語音片段 4: 10.37s | The minus three...
+  - 語音片段 3: 8.40s | The expression ...
+  - 語音片段 5: 9.38s | Let's label thi...
+  - 語音片段 6: 7.32s | This is the axi...
+✅ 語音處理完成！合併音檔: media/audio/Draw_the_parabola_re_a55f895d06/final_narrative.mp3
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+🛠️  [正在處理的錯誤/要求]:
+═══════════════════════════════════════════════════════════════════
+INPUT DATA (Director's Visual Rationale)
+═══════════════════════════════════════════════════════════════════
+{
+  "rationale": "The transformational approach (from y=x^2) is chosen because it visually explains the 'why' behind the ve...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 38537)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 52.30 秒
+📊 [Token 統計]: 輸入 14357 | 輸出 2433 | 總計 16790
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 8419 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 17.57 秒
+📊 [Token 統計]: 輸入 42492 | 輸出 398
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains multiple alignment and overflow issues that compromise clarity and adherence to the layout plan.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The vertex label '(2, -3)' is positioned outside the designated content area, overlapping with the right edge of the screen.",
+      "suggested_fix": "Shift vertex_label to x≈3.5 to stay within the CONTENT zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The dashed vertical line for the axis of symmetry (x=2) does not extend fully to the top and bottom of the graph, creating a visual gap.",
+      "suggested_fix": "Use axis_line.move_to(axes.c2p(2, 5)) to ensure it reaches the top of the graph."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The final graph is not properly aligned with the axes, showing a noticeable gap at the vertex point.",
+      "suggested_fix": "Adjust final_graph to ensure it aligns with the vertex at (2, -3) by using final_graph.move_to(axes.c2p(2, -3))."
+    },
+    {
+      "id": "ERR_004",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The color of the final graph (green) is not sufficiently distinct from the background, affecting visibility.",
+      "suggested_fix": "Consider using a brighter shade of green for final_graph to enhance contrast."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 3 defect(s):
+  🔴 [OVERFLOW] The vertex label '(2, -3)' is positioned outside the designated content area, ov...
+  🟠 [MISALIGNED] The dashed vertical line for the axis of symmetry (x=2) does not extend fully to...
+  🟠 [MISALIGNED] The final graph is not properly aligned with the axes, showing a noticeable gap ...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains multiple alignment and overflow issues that compromise clarity and adherence to the layout plan.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 1/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **OVERFLOW** (1 occurrences):
+- The vertex label '(2, -3)' is positioned outside the designated content area,...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 47.09 秒
+📊 [Token 統計]: 輸入 5708 | 輸出 2257 | 總計 7965
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7257 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🖼️  [Vision] 使用 detail=low (iteration 1)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 9.10 秒
+📊 [Token 統計]: 輸入 8472 | 輸出 344
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame contains several alignment and overflow issues that compromise clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The final equation label 'y = (x-2)^2 - 3' overlaps with the right edge of the screen, extending beyond the designated action safe area.",
+      "suggested_fix": "Shift final_eq_label to x≈5 to stay within the RIGHT_CONTENT zone."
+    },
+    {
+      "id": "ERR_002",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The vertex label '(2, -3)' has a gap of 0.2 units from the vertex_dot, which should be touching.",
+      "suggested_fix": "Change vertex_label.next_to(vertex_dot, UP+RIGHT, buff=0.1).shift(LEFT * 1.5) to vertex_label.next_to(vertex_dot, UP+RIGHT, buff=0)."
+    },
+    {
+      "id": "ERR_003",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The axis label 'x = 2' is positioned too close to the top edge of the screen, risking overlap with the header.",
+      "suggested_fix": "Shift axis_label.to_edge(UP, buff=1) instead of to_edge(UP, buff=0.5) to ensure it stays within the HEADER zone."
+    }
+  ]
+}
+========================================
+
+🔍 Detected 3 defect(s):
+  🔴 [OVERFLOW] The final equation label 'y = (x-2)^2 - 3' overlaps with the right edge of the s...
+  🟠 [MISALIGNED] The vertex label '(2, -3)' has a gap of 0.2 units from the vertex_dot, which sho...
+  🟠 [MISALIGNED] The axis label 'x = 2' is positioned too close to the top edge of the screen, ri...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame contains several alignment and overflow issues that compromise clarity.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The vertex label '(2, -3)' has a gap of 0.2 units from the vertex_dot, which should be touching.
+
+SUGGESTED FIX:
+  Change vertex_label.next_to(vertex_dot, UP+...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 711)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 3.61 秒
+📊 [Token 統計]: 輸入 804 | 輸出 121 | 總計 925
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7237 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+⚠️ [Task 13] 8-frame grid extraction failed, falling back to last frame.
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 8.81 秒
+📊 [Token 統計]: 輸入 14168 | 輸出 364
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - Video Clip Mode]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation has several alignment issues and overlaps that compromise clarity.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The final graph has a 0.2-unit gap from the axes at the vertex point (2, -3).",
+      "suggested_fix": "Change final_graph.move_to(axes.c2p(2, -3)) to ensure it aligns correctly with the axes."
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERLAP",
+      "severity": "Major",
+      "description": "The vertex label overlaps with the vertex dot, making it difficult to read.",
+      "suggested_fix": "Change vertex_label.next_to(vertex_dot, UP+RIGHT, buff=0.2) to increase the buffer."
+    },
+    {
+      "id": "ERR_003",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The axis label 'x = 2' extends beyond the action safe area.",
+      "suggested_fix": "Shift axis_label.to_edge(UP, buff=1) to ensure it stays within the safe zone."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The step explanation text is too close to the axes, causing visual crowding.",
+      "suggested_fix": "Shift step_explanation.move_to(explanation_anchor + 0.5 * DOWN) to provide more space."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 3 defect(s):
+  🟠 [MISALIGNED] The final graph has a 0.2-unit gap from the axes at the vertex point (2, -3)....
+  🟠 [OVERLAP] The vertex label overlaps with the vertex dot, making it difficult to read....
+  🔴 [OVERFLOW] The axis label 'x = 2' extends beyond the action safe area....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation has several alignment issues and overlaps that compromise clarity.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 3/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The final graph has a 0.2-unit gap from the axes at the vertex point (2, -3...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 711)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 55.71 秒
+📊 [Token 統計]: 輸入 3052 | 輸出 2549 | 總計 5601
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 7302 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+⚠️ [Task 13] 8-frame grid extraction failed, falling back to last frame.
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 7.35 秒
+📊 [Token 統計]: 輸入 14181 | 輸出 351
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - Video Clip Mode]
+----------------------------------------
+{
+  "verdict": "FAIL",
+  "overall_critique": "Several defects related to alignment, overflow, and clarity were identified.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Major",
+      "description": "The final graph has a 0.2-unit gap from the axes at the vertex point (2, -3).",
+      "suggested_fix": "Use final_graph.move_to(axes.c2p(2, -3)) instead of final_graph.move_to(axes.c2p(2, -3))"
+    },
+    {
+      "id": "ERR_002",
+      "code": "OVERFLOW",
+      "severity": "Critical",
+      "description": "The title text overflows the HEADER zone due to its size.",
+      "suggested_fix": "Reduce title.font_size to 36 to fit within the HEADER zone."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Minor",
+      "description": "The color contrast of the step explanation text is slightly below the recommended ratio.",
+      "suggested_fix": "Change step_explanation.color to a darker shade for better visibility."
+    },
+    {
+      "id": "ERR_004",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The vertex label overlaps with the vertex dot, making it hard to read.",
+      "suggested_fix": "Shift vertex_label to vertex_dot.get_center() + UP*0.2 to avoid overlap."
+    }
+  ]
+}
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 2 defect(s):
+  🟠 [MISALIGNED] The final graph has a 0.2-unit gap from the axes at the vertex point (2, -3)....
+  🔴 [OVERFLOW] The title text overflows the HEADER zone due to its size....
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: Several defects related to alignment, overflow, and clarity were identified.
+
+⚠️  視覺修復次數已達上限 (3)。代碼未變更，停止迴圈以避免重複渲染浪費。
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+📦 [Fallback] Archiving 'Best Effort' video to stable_outputs for evaluation.
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 10
+Total Tokens: 119,862
+  - Prompt: 107,599
+  - Completion: 12,263
+----------------------------------------
+Estimated Cost: $0.020020 USD
+約合台幣: NT$ 0.6206
+========================================
+
+
+
+=== STDERR ===

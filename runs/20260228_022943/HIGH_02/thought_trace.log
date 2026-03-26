@@ -1,0 +1,878 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-28_03-33-36_畫出_y__x-22_-_3_的拋物線標註頂點_2_-3_並畫出垂直的對稱軸.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (Groq)
+⏱️  [API 耗時]: 1.65 秒
+📊 [Token 統計]: 輸入 204 | 輸出 461 | 總計 665
+
+📢 [AI 審查/反饋意見]:
+To create an animation of the given parabola, we need to break down the process into steps that can be translated into Manim animations.
+
+## Step 1: Define the Parabola
+The equation given is y = (x-2)^2 - 3. This is a quadratic equation in the form of y = a(x-h)^2 + k, where (h, k) represents the vertex of the parabola. In this case, the vertex is (2, -3).
+
+## Step 2: Identify Key Components
+- The parabola opens upwards since the coefficient of x^2 (which is implied in the expansion of (x-2)^2) is positive.
+- The vertex of the parabola is at (2, -3).
+- The axis of symmetry is a vertical line that passes through the vertex, so its equation is x = 2.
+
+## Step 3: Animation Specification
+To animate this in Manim, we would first create the graph of the parabola using the given equation. Then, we would highlight the vertex and draw the axis of symmetry.
+
+<reflection>
+Before finalizing the translation, let's ensure that we have covered all necessary components:
+1. The equation of the parabola is correctly identified as y = (x-2)^2 - 3.
+2. The vertex (2, -3) is correctly identified and will be highlighted in the animation.
+3. The axis of symmetry, x = 2, will be included in the animation to provide a clear visual representation of the parabola's symmetry.
+Given these considerations, the translation should accurately convey the requirements for the Manim animation.
+</reflection>
+
+<final_translation>
+Create a Manim animation that graphs the parabola y = (x-2)^2 - 3. The animation should include the following elements:
+1. The graph of the parabola.
+2. The vertex of the parabola, (2, -3), should be clearly marked.
+3. A vertical line representing the axis of symmetry, given by the equation x = 2, should be drawn.
+Ensure that the animation sequence logically flows to effectively communicate the properties of the given parabola.
+</final_translation>
+------------------------------
+✨ [翻譯完成]: Create a Manim animation that graphs the parabola y = (x-2)^2 - 3. The animation should include the following elements:
+1. The graph of the parabola.
+2. The vertex of the parabola, (2, -3), should be clearly marked.
+3. A vertical line representing the axis of symmetry, given by the equation x = 2, should be drawn.
+Ensure that the animation sequence logically flows to effectively communicate the properties of the given parabola.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 101.20 秒
+📊 [Token 統計]: 輸入 4210 | 輸出 3294 | 總計 7504
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>Architectural blueprint: The parabola as a physical arch. The vertex is the keystone, and the axis of symmetry is the central plumb line. We "build" the arch by plotting points that follow the quadratic rule.</metaphor>
+    <scores pedagogy="7" feasibility="8" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>Pure function plotting: Start with the coordinate axes, then plot the parent function y=x². Apply transformations (shift right 2, down 3) to arrive at y=(x-2)²-3. Highlight the vertex and axis as geometric consequences of the transformations.</metaphor>
+    <scores pedagogy="9" feasibility="10" engagement="7" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>Dynamic point tracing: A "cursor" point moves along the x-axis. For each x, a vertical line rises/falls to the calculated y-value, leaving a trail that forms the parabola. The vertex is discovered as the lowest point.</metaphor>
+    <scores pedagogy="8" feasibility="6" engagement="9" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract/Transformational) scores highest on pedagogy and feasibility. It directly teaches the core algebraic concept of how the vertex form `y = (x-h)² + k` dictates the graph's shape and position. The step-by-step transformation from the parent function is a standard, highly effective pedagogical technique that is also straightforward to implement in Manim using `Transform` and `ApplyFunction` animations.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: Parabola `y = (x-2)² - 3`. Vertex form `y = a(x-h)² + k` with `a=1, h=2, k=-3`. Vertex at `(h, k) = (2, -3)`. Axis of symmetry `x = h = 2`. Parent function `y = x²`.
+
+**Visual Metaphor**: Transformational journey from parent to target.
+
+**Spatial Plan**:
+- **HEADER Zone (y ~ 3.0)**: Title and current function display.
+- **CONTENT Zone (y ~ 0)**: Main coordinate plane, graphs, and key points/lines. This is the primary visual stage.
+- **FOOTER Zone (y ~ -3.0)**: Explanatory text for each step.
+
+**Layout & Overflow Prevention**:
+- The coordinate `axes` will be centered at ORIGIN.
+- The `parent_graph` and `final_graph` will be plotted on these same axes. We will use `ReplacementTransform` to morph the parent graph into the final graph, preventing vertical stacking.
+- The `vertex_dot` and `axis_line` will be created in-place.
+- The `function_label` in the header will be updated via `TransformMatchingTex` for each algebraic step, keeping it in a fixed location.
+- The `explanation_text` in the footer will be replaced for each major step, also preventing stacking.
+
+**Signal Strategy**:
+1. Introduce parent function and its graph.
+2. Signal the horizontal shift `(x-2)` and animate the graph moving right.
+3. Signal the vertical shift `-3` and animate the graph moving down.
+4. Indicate the resulting vertex point `(2, -3)`.
+5. Draw the axis of symmetry `x=2` through the vertex.
+
+**Coordinate Calculations**:
+- Axes: `x_range=[-3, 7, 1], y_range=[-5, 6, 1]` to comfortably show vertex (2,-3) and shape.
+- Parent Graph (`y=x²`): Sample points from x=-2 to x=4 for smooth curve.
+- Final Graph (`y=(x-2)²-3`): Same shape, shifted.
+- Vertex Dot: At `(2, -3)`.
+- Axis Line: Vertical line from top to bottom of axes at `x=2`.
+============================================================
+
+📉 [Compression] Planner Context Reduced: 9092 chars
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+
+🎙️ 開始生成語音 (Azure: True)...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a Manim animation that graphs the parabola y = (x-2)^2 - 3. The animation should include the following elements:
+1. The graph of the parabola.
+2. The vertex of the parabola, (2, -3), should be clearly marked.
+3. A vertical line representing the axis of symmetry, given by the equation x = 2, should be drawn.
+Ensure that the animation sequence logically flows to effectively communicate the properties of the given parabola.'
+  - 語音片段 0: 6.82s | Let's begin wit...  - 語音片段 1: 6.70s | Its graph is a ...
+
+  - 語音片段 2: 9.12s | Now, look at ou...
+  - 語音片段 3: 7.13s | The final part ...
+  - 語音片段 5: 11.47s | Parabolas are s...
+  - 語音片段 4: 14.88s | The lowest poin...
+✅ 語音處理完成！合併音檔: media/audio/Create_a_Manim_anima_7b03133684/final_narrative.mp3
+
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+🛠️  [正在處理的錯誤/要求]:
+═══════════════════════════════════════════════════════════════════
+INPUT DATA (Director's Visual Rationale)
+═══════════════════════════════════════════════════════════════════
+{
+  "rationale": "The animation uses a transformational approach, starting from the familiar parent function y=x². This met...
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 40788)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 75.48 秒
+📊 [Token 統計]: 輸入 15046 | 輸出 2499 | 總計 17545
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+✅ RAG System: Connected to Weaviate.
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 0)
+
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 23.62 秒
+📊 [Token 統計]: 輸入 4302 | 輸出 758 | 總計 5060
+------------------------------
+
+------------------------------
+------------------------------
+
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 24.61 秒
+⏱️  [API 耗時]: 24.61 秒
+📊 [Token 統計]: 輸入 4302 | 輸出 823 | 總計 5125
+
+📊 [Token 統計]: 輸入 4302 | 輸出 797 | 總計 5099------------------------------
+
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+🔁 [Linter Budget] 使用 linter 額外重試額度 (1/3)，不消耗渲染預算
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 1/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.46 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 719 | 總計 5581
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 22.52 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 726 | 總計 5588
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 25.55 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 825 | 總計 5687
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+🔁 [Linter Budget] 使用 linter 額外重試額度 (2/3)，不消耗渲染預算
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 2/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 20.65 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 719 | 總計 5581
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 20.87 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 705 | 總計 5567
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.09 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 726 | 總計 5588
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+🔁 [Linter Budget] 使用 linter 額外重試額度 (3/3)，不消耗渲染預算
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 3/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.77 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 714 | 總計 5576
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 24.28 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 825 | 總計 5687
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 24.76 秒
+📊 [Token 統計]: 輸入 4862 | 輸出 832 | 總計 5694
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 3/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.80 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 726 | 總計 5636
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 22.60 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 720 | 總計 5630
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 22.90 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 738 | 總計 5648
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 3 / 5 次嘗試 (linter retries: 3/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+🛠️  [正在處理的錯誤/要求]:
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.09 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 712 | 總計 5622
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.29 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 717 | 總計 5627
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.36 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 726 | 總計 5636
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 4 / 5 次嘗試 (linter retries: 3/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.62 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 724 | 總計 5634
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 21.92 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 729 | 總計 5639
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 25.11 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 849 | 總計 5759
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 5 / 5 次嘗試 (linter retries: 3/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染
+
+⚠️  語義/佈局審查未通過：
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+
+
+🤔 [Reflexion] 準備進行自我反思 (Self-Reflection) 與修復...
+🔍 RAG Search: Found 1 examples for 'FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 63 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+- Line 149 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'. Example: axes.get_graph(lambda x: np.sin(x)) → axes.plot(lambda x: np.sin(x))
+'
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+⚡ [Self-Consistency] 啟動 N=3 平行採樣以確保反思品質...
+
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+FAIL
+
+[Static Analysis Gatekeeper]:
+- Line 54 [DEPRECATED_API]: 'get_graph()' is a deprecated Manim API removed in v0.18+. Replace with 'axes.plot(func, x_range=[start, end, step], color=...)'....
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+
+
+🧠 生成代碼中 (deepseek-chat)... (System Msg Length: 1146)
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 26.81 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 717 | 總計 5627
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 27.41 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 733 | 總計 5643
+------------------------------
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 29.50 秒
+📊 [Token 統計]: 輸入 4910 | 輸出 818 | 總計 5728
+------------------------------
+🎯 [Self-Consistency] 達成共識 (票數 3/3) 鎖定錯誤代碼: parent_graph = axes.get_graph(...
+⚡ [Reflection Dedup] 相同 error_type+bad_code 簽名已存在，跳過重複 append
+🛡️ [Safety] 新代碼語法無效 (invalid syntax (test_script.py, line 1))，回滾至上一版本並清除 cache...
+
+❌ 遺憾：已達到最大嘗試次數 (5)，自動修復停止。
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 27
+Total Tokens: 159,376
+  - Prompt: 135,044
+  - Completion: 24,332
+----------------------------------------
+Estimated Cost: $0.026046 USD
+約合台幣: NT$ 0.8074
+========================================
+
+
+
+=== STDERR ===
+/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/weaviate/warnings.py:302: ResourceWarning: Con004: The connection to Weaviate was not closed properly. This can lead to memory leaks.
+            Please make sure to close the connection using `client.close()`.
+  warnings.warn(
+/Users/liaozhenting/Desktop/LLManim_Agent/main.py:191: ResourceWarning: unclosed <socket.socket fd=9, family=30, type=1, proto=6, laddr=('::1', 65414, 0, 0), raddr=('::1', 8080, 0, 0)>
+  result = RefiningLoop.auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback

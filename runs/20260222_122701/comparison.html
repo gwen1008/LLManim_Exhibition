@@ -1,0 +1,57 @@
+
+    <html><head><title>A/B Comparison & Analytics</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0a0a; color: #eee; padding: 20px; }
+        .row { display: flex; align-items: stretch; margin-bottom: 60px; border-bottom: 2px solid #222; padding-bottom: 40px; background: #111; border-radius: 12px; padding: 20px; }
+        .info { width: 320px; padding-right: 30px; border-right: 1px solid #333; }
+        .video-box { flex: 1; text-align: center; padding: 0 15px; }
+        video { width: 100%; border: 3px solid #333; border-radius: 12px; background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h3 { color: #fff; margin-top: 15px; font-size: 1.1em; line-height: 1.4; }
+        .label { font-weight: bold; color: #888; margin-bottom: 12px; display: block; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8em; }
+        .badge { display: inline-block; background: #2e7d32; padding: 4px 12px; border-radius: 20px; font-size: 0.75em; font-weight: bold; margin-bottom: 10px; }
+        .metrics-table { font-size: 0.8em; color: #aaa; margin-top: 20px; border-top: 1px solid #333; padding-top: 15px; }
+        .metrics-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .metrics-val { color: #4CAF50; font-weight: bold; }
+        .trace-link { 
+            display: block; 
+            margin-top: 25px; 
+            padding: 10px; 
+            background: #1976D2; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: center;
+            transition: 0.2s;
+        }
+        .trace-link:hover { background: #1E88E5; transform: scale(1.02); }
+    </style></head>
+    <body>
+        <h1 style="text-align:center; font-size:2.5em; margin-bottom:10px;">📊 LLManim Analytics Dashboard</h1>
+        <p style="text-align:center; color:#888; margin-bottom:50px;">Session ID: 20260222_122701</p>
+    
+        <div class="row">
+            <div class="info">
+                <div class="badge">ELEM_01</div>
+                <h3>用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。</h3>
+                
+                <div class="metrics-table">
+                    <div class="metrics-row"><span>Iteration Count:</span> <span class="metrics-val">3</span></div>
+                    <div class="metrics-row"><span>Visual Defects:</span> <span class="metrics-val">6</span></div>
+                    <div class="metrics-row"><span>Total Tokens:</span> <span class="metrics-val">216354 (189532/26822)</span></div>
+                    <div class="metrics-row"><span>Est. Cost (USD):</span> <span class="metrics-val">$0.0359</span></div>
+                    <div class="metrics-row"><span>Total Time:</span> <span class="metrics-val">520.99s</span></div>
+                </div>
+
+                <a href="ELEM_01/thought_trace.log" class="trace-link" target="_blank">🔍 Full Reasoning Trace</a>
+            </div>
+            <div class="video-box">
+                <span class="label">◀️ OLD Bench</span>
+                <video controls src="../../benchmarks/ELEM_01_用兩個一樣的披薩圖形_示範為什/result.mp4"></video>
+            </div>
+            <div class="video-box">
+                <span class="label">NEW Run ▶️</span>
+                <video controls src="ELEM_01/video.mp4"></video>
+            </div>
+        </div>
+        </body></html>

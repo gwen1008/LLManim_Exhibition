@@ -1,0 +1,432 @@
+=== STDOUT ===
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-02-25_03-07-48_演示單位圓運動同步正弦波左邊有一個點在單位圓上移動右邊同步描繪出_y__sinx_的圖形.log
+
+🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...
+   1️⃣  [Drafting] 正在進行高精度學術翻譯...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 1.58 秒
+📊 [Token 統計]: 輸入 229 | 輸出 222 | 總計 451
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two main components: a unit circle on the left and a graph on the right. The unit circle has a point moving along its circumference. On the right, a graph of y = sin(x) is drawn synchronously with the point's movement. 
+
+First, create the unit circle using Circle(radius=1) and add it to the scene. Then, create a point using Dot() and place it on the unit circle. 
+
+Next, create the graph of y = sin(x) using FunctionGraph(lambda x: np.sin(x)) and add it to the scene. 
+
+Animate the point moving along the unit circle using MoveAlongPath() while simultaneously updating the graph to reflect the point's position, effectively drawing the sine wave. 
+
+Use the Transform() function to ensure the point's movement is synchronized with the graph's drawing. The animation should start from the point at the bottom of the unit circle, moving counterclockwise, and the graph should be drawn from left to right. 
+
+The animation should be smooth and continuous, with the point and graph updating in tandem.
+------------------------------
+   📝 初稿: Create a scene with two main components: a unit circle on the left and a graph on the right. The unit circle has a point moving along its circumference. On the right, a graph of y = sin(x) is drawn synchronously with the point's movement. 
+
+First, create the unit circle using Circle(radius=1) and add it to the scene. Then, create a point using Dot() and place it on the unit circle. 
+
+Next, create the graph of y = sin(x) using FunctionGraph(lambda x: np.sin(x)) and add it to the scene. 
+
+Animate the point moving along the unit circle using MoveAlongPath() while simultaneously updating the graph to reflect the point's position, effectively drawing the sine wave. 
+
+Use the Transform() function to ensure the point's movement is synchronized with the graph's drawing. The animation should start from the point at the bottom of the unit circle, moving counterclockwise, and the graph should be drawn from left to right. 
+
+The animation should be smooth and continuous, with the point and graph updating in tandem.
+   2️⃣  [Refining] 正在進行邏輯檢查與術語校正 (Red Teaming)...
+
+------------------------------
+🤖 [模型]: llama-3.3-70b-versatile (role: default)
+⏱️  [API 耗時]: 0.97 秒
+📊 [Token 統計]: 輸入 463 | 輸出 242 | 總計 705
+
+📢 [AI 審查/反饋意見]:
+Create a scene with two primary components: a unit circle on the left and a graph on the right. The unit circle features a point moving along its circumference. On the right, a graph of y = sin(x) is drawn synchronously with the point's movement.
+
+First, create the unit circle using Circle(radius=1) and add it to the scene. Then, create a point using Dot() and position it at the bottom of the unit circle.
+
+Next, create the graph of y = sin(x) using FunctionGraph(lambda x: np.sin(x)) and add it to the scene. The graph's x-range should be defined to ensure it is drawn from left to right.
+
+Animate the point moving along the unit circle counterclockwise using MoveAlongPath() while simultaneously updating the graph to reflect the point's position, effectively drawing the sine wave. The point's movement and graph drawing should be synchronized using the Transform() function or a parameterized animation.
+
+The animation should be smooth and continuous, with the point and graph updating in tandem. The point's initial position should be at the bottom of the unit circle, and the graph should be drawn from left to right as the point moves.
+------------------------------
+✨ [翻譯完成]: Create a scene with two primary components: a unit circle on the left and a graph on the right. The unit circle features a point moving along its circumference. On the right, a graph of y = sin(x) is drawn synchronously with the point's movement.
+
+First, create the unit circle using Circle(radius=1) and add it to the scene. Then, create a point using Dot() and position it at the bottom of the unit circle.
+
+Next, create the graph of y = sin(x) using FunctionGraph(lambda x: np.sin(x)) and add it to the scene. The graph's x-range should be defined to ensure it is drawn from left to right.
+
+Animate the point moving along the unit circle counterclockwise using MoveAlongPath() while simultaneously updating the graph to reflect the point's position, effectively drawing the sine wave. The point's movement and graph drawing should be synchronized using the Transform() function or a parameterized animation.
+
+The animation should be smooth and continuous, with the point and graph updating in tandem. The point's initial position should be at the bottom of the unit circle, and the graph should be drawn from left to right as the point moves.
+
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 71.23 秒
+📊 [Token 統計]: 輸入 4354 | 輸出 3588 | 總計 7942
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete">
+    <metaphor>A "spinning wheel and ink plotter" analogy. The unit circle is a wheel with a pen attached. As the wheel turns, the pen's vertical position is plotted on a moving scroll (the sine graph).</metaphor>
+    <scores pedagogy="9" feasibility="7" engagement="8" />
+  </branch>
+  <branch id="B" type="Abstract">
+    <metaphor>A pure geometric and functional mapping. The left side is the input domain (angle θ), and the right side is the output (sin(θ)). A vertical line connects the point on the circle to its corresponding point on the graph, visually mapping the projection.</metaphor>
+    <scores pedagogy="10" feasibility="8" engagement="9" />
+  </branch>
+  <branch id="C" type="Interactive/Progressive">
+    <metaphor>A step-by-step build-up: first show the circle and point, then trace the sine wave point-by-point, accumulating the graph as a trail left behind by a "projection beam" moving from the circle to the graph.</metaphor>
+    <scores pedagogy="8" feasibility="6" engagement="7" />
+  </branch>
+  <selection>
+    <winner>B</winner>
+    <reason>Strategy B (Abstract) offers the highest pedagogical clarity by explicitly showing the mapping from angle to sine value via a visual projection line. It is highly feasible in Manim using standard mobjects and updaters, and it is visually elegant and dynamic, aligning perfectly with the 3Blue1Brown style. The projection line makes the "why" of the sine wave's shape immediately apparent.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+**Concept Extraction**: The core concept is the parametric definition of the sine function: for an angle θ, the y-coordinate of a point on the unit circle is sin(θ). The animation must synchronize a moving point P(cosθ, sinθ) on the circle with the point (θ, sinθ) on the graph of y = sin(x).
+
+**Visual Metaphor (Selected: Abstract Mapping)**: The scene is a split-screen. Left: Unit circle (input domain in angular form). Right: Cartesian graph of sine (output). A dynamic vertical dashed line (or a moving dot) projects the y-coordinate from the circle point directly onto the graph, creating a real-time trace.
+
+**Spatial Plan & Overflow Prevention**:
+- **Global Layout**: Use a clean left-right split for the two primary components. This is acceptable here because the components are self-contained visuals, not wide equations.
+- **Safe Zones**:
+  - `HEADER`: Title at top.
+  - `CONTENT`: Split into `LEFT_ZONE` (circle) and `RIGHT_ZONE` (graph). Centers offset horizontally by ±3.5 units from origin.
+  - `FOOTER`: Explanation/parameter display at bottom.
+- **Boundary Check**: Circle radius=1, Graph x-range [0, 2π] ≈ 6.28 units. With axes, total width for right side ~8 units. Placing its center at x=3.5 keeps it within x ∈ [-0.5, 7.5], which is acceptable for the right half of the screen (total width ~14). We will scale the graph slightly to fit.
+
+**Coordinate Calculations**:
+- `circle_center`: (-3.5, 0, 0)
+- `graph_center`: (3.5, 0, 0)
+- `graph_x_range`: [0, 2π] shifted to be centered at `graph_center`. We'll plot from x=0 to x=2π, then shift the axes so the origin (0,0) of the graph is at `graph_center + LEFT*3.14`. This makes the graph's natural origin align with the circle's starting point projection.
+- `point_theta`: A ValueTracker(0) for the angle.
+- `circle_point`: `circle_center + (np.cos(theta), np.sin(theta), 0)`
+- `graph_point`: `graph_center + (theta - PI, np.sin(theta), 0)`  // This maps θ=0 to x=-π, θ=2π to x=π. Simpler: Let graph axes run from 0 to 2π with origin at `graph_center + LEFT*PI`.
+- **Projection Line**: A dashed line from `circle_point` to `(graph_center.x - PI + theta, circle_point.y, 0)`.
+
+**Signal Strategy**:
+1. Introduce the unit circle and the moving point.
+2. Introduce the sine graph axes.
+3. Animate the point moving and simultaneously show the corresponding point appearing on the graph.
+4. Emphasize the connection with a dynamic projection line.
+5. Let the trace build up over one full period (2π).
+
+**Chunking**:
+- Step 1: Setup – Circle, Axes, Labels.
+- Step 2: Introduce the moving point and its parameter (angle θ).
+- Step 3: Start motion and show the instantaneous projection (the vertical line and the dot on the graph).
+- Step 4: Trace the sine wave as a path being created.
+- Step 5: Complete the cycle and summarize.
+============================================================
+
+⚠️ 警告：Planner 產出的 JSON 格式有誤，正以括號匹配擷取 JSON 物件…
+⚠️ 擷取後仍無法解析，將使用原始輸出。
+⚠️  最終解析失敗，嘗試使用原始輸出做為上下文。
+
+📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...
+✅ RAG System: Connected to Weaviate.
+🔍 RAG Search: Found 2 examples for 'Create a scene with two primary components: a unit circle on the left and a graph on the right. The unit circle features a point moving along its circumference. On the right, a graph of y = sin(x) is drawn synchronously with the point's movement.
+
+First, create the unit circle using Circle(radius=1) and add it to the scene. Then, create a point using Dot() and position it at the bottom of the unit circle.
+
+Next, create the graph of y = sin(x) using FunctionGraph(lambda x: np.sin(x)) and add it to the scene. The graph's x-range should be defined to ensure it is drawn from left to right.
+
+Animate the point moving along the unit circle counterclockwise using MoveAlongPath() while simultaneously updating the graph to reflect the point's position, effectively drawing the sine wave. The point's movement and graph drawing should be synchronized using the Transform() function or a parameterized animation.
+
+The animation should be smooth and continuous, with the point and graph updating in tandem. The point's initial position should be at the bottom of the unit circle, and the graph should be drawn from left to right as the point moves.'
+
+⚖️  [A/B Test] Choose your Coder Agent:
+   1. Classic Coder (Manim Prompter)
+   2. DSPy Coder (Stanford NLP Optimized)
+Select (1/2) [default: 1]: 👨‍💻 Using Classic Coder...
+
+🛠️  [正在處理的錯誤/要求]:
+You are an Expert Manim Developer serving as the "Code Translation Engine" (The Engineer) in a multi-agent system.
+Your upstream colleague is the "Director" who designs Visual Rationale (JSON blueprints based on Mayer's Pedagogical Principles).
+
+You have access to the Director's blueprint, which inc...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 242.04 秒
+📊 [Token 統計]: 輸入 14058 | 輸出 3355 | 總計 17413
+------------------------------
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12666 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 6.66 秒
+📊 [Token 統計]: 輸入 41209 | 輸出 317
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The animation exhibits multiple alignment issues and text visibility problems.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The projection line does not connect the y-coordinate of the circle point to the graph point correctly, causing it to appear disjointed and unclear.",
+      "suggested_fix": "Adjust the projection_line's endpoints: (1) Change projection_line.start to circle_point.get_center() and (2) set projection_line.end to graph_point.get_center() for accurate connection."
+    },
+    {
+      "id": "ERR_002",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The angle label 'theta = 0' has low contrast against the background, reducing readability.",
+      "suggested_fix": "Change the angle_label's color to a brighter shade or modify the background to enhance the contrast ratio."
+    },
+    {
+      "id": "ERR_003",
+      "code": "CLUTTER",
+      "severity": "Minor",
+      "description": "The area around graph_point and projection_line is visually crowded, especially in the upper section with multiple elements overlapping.",
+      "suggested_fix": "Increase spacing between graph_point and related elements by shifting graph_point 0.2 units away from the graph for clarity."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔇 Filtered 1 minor MISALIGNED/CLUTTER noise defect(s)
+🔍 Detected 1 defect(s):
+  🔴 [MISALIGNED] The projection line does not connect the y-coordinate of the circle point to the...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The animation exhibits multiple alignment issues and text visibility problems.
+⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...
+
+🛠️  [正在處理的錯誤/要求]:
+A Manim animation has a VISUAL MISALIGNMENT defect found by a vision QA audit.
+Fix only the relevant positioning code.
+
+DEFECT DESCRIPTION:
+  The projection line does not connect the y-coordinate of the circle point to the graph point correctly, causing it to appear disjointed and unclear.
+
+SUGGESTE...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 5.59 秒
+📊 [Token 統計]: 輸入 423 | 輸出 266 | 總計 689
+------------------------------
+⚡ [TDR-T2] 補丁套用成功，重渲染...
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 12828 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+
+------------------------------
+👁️  [模型]: gpt-4o-mini (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 8.27 秒
+📊 [Token 統計]: 輸入 41209 | 輸出 333
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+```json
+{
+  "verdict": "FAIL",
+  "overall_critique": "The final frame exhibits several critical alignment and clarity issues that impede educational effectiveness.",
+  "defects": [
+    {
+      "id": "ERR_001",
+      "code": "MISALIGNED",
+      "severity": "Critical",
+      "description": "The projection line does not connect from the circle point (unit circle) to the sine graph correctly. There is a gap of approximately 0.18 units between the circle's y-coordinate and the graph point on the sine wave.",
+      "suggested_fix": "Adjust the projection_line's end point from graph_axes.c2p(0, -1) to match the current y-coordinate of the circle_point."
+    },
+    {
+      "id": "ERR_002",
+      "code": "CLUTTER",
+      "severity": "Major",
+      "description": "The angle displays at the bottom are visually crowded, particularly at the edges, making it hard to discern values.",
+      "suggested_fix": "Increase spacing between angle displays or reduce the font size to create more visual separation."
+    },
+    {
+      "id": "ERR_003",
+      "code": "LOW_CONTRAST",
+      "severity": "Major",
+      "description": "The color contrast for the text displaying angles is below the acceptable ratio (4.5:1), particularly the yellow text against the black background.",
+      "suggested_fix": "Change the angle display text color from yellow to a lighter shade, such as white or a lighter yellow."
+    }
+  ]
+}
+```
+========================================
+
+🔇 Filtered 1 LOW_CONTRAST false positive(s)
+🔍 Detected 2 defect(s):
+  🔴 [MISALIGNED] The projection line does not connect from the circle point (unit circle) to the ...
+  🟠 [CLUTTER] The angle displays at the bottom are visually crowded, particularly at the edges...
+
+❌ 視覺審查失敗 (Visual Check Failed)：
+📝 總體評價: The final frame exhibits several critical alignment and clarity issues that impede educational effectiveness.
+🤖 正在生成視覺修復代碼 (Visual Auto-Fix) [Attempt 2/3]...
+
+🤖 正在將錯誤回傳給 AI 進行自我修正 (注入過去教訓)...
+
+🛠️  [正在處理的錯誤/要求]:
+
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **MISALIGNED** (1 occurrences):
+- The projection line does not connect from the circle point (unit circle) to...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 62.34 秒
+📊 [Token 統計]: 輸入 6365 | 輸出 3429 | 總計 9794
+------------------------------
+🩹 [Patching] Applying unified diff patch...
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+The code you generated in your previous attempt encountered an error during execution.
+
+[ERROR MESSAGE]:
+I have audited your previous animation frame and found specific visual defects.
+Please modify your code to fix these issues based on the standard defect codes below.
+
+【VIOLATION REPORT】:
+
+🚨 **M...
+
+🧠 Groq 正在根據上述問題生成代碼 (deepseek-chat)...
+
+------------------------------
+🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)
+⏱️  [API 耗時]: 57.34 秒
+📊 [Token 統計]: 輸入 12336 | 輸出 3090 | 總計 15426
+------------------------------
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 2 / 5 次嘗試 (linter retries: 0/3)
+══════════════════════════════════════════════════
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+✅ 靜態審查通過 (Static Analysis Passed)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 10824 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (10fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)
+🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)
+❌ Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+❌ Video Vision Audit Error: Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+Traceback (most recent call last):
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/core/llm_client.py", line 204, in ask_vision
+    completion = self.openai_client.chat.completions.create(
+        model=model,
+    ...<4 lines>...
+        max_tokens=1500  # 影片需要更多 output tokens
+    )
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/resources/chat/completions/completions.py", line 1192, in create
+    return self._post(
+           ~~~~~~~~~~^
+        "/chat/completions",
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<47 lines>...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_base_client.py", line 1294, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/rag_env/lib/python3.14/site-packages/openai/_base_client.py", line 1067, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.BadRequestError: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/utils/vision_agent.py", line 334, in audit_video
+    content = self.llm.ask_vision(self.system_prompt, user_text, base64_video=base64_video)
+  File "/Users/liaozhenting/Desktop/LLManim_Agent/agents/core/llm_client.py", line 235, in ask_vision
+    raise LLMError(error_msg) from e
+agents.core.llm_client.LLMError: Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+⚠️  [Vision API Error] 視覺審查無法執行，跳過本次視覺檢查：Error connecting to OpenAI Vision: Error code: 400 - {'error': {'message': "Invalid value: 'video_url'. Supported values are: 'text', 'image_url', 'input_audio', 'refusal', 'audio', and 'file'.", 'type': 'invalid_request_error', 'param': 'messages[1].content[1].type', 'code': 'invalid_value'}}
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 188.12 秒
+📂  歸檔目錄: stable_outputs
+    🎥 演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出_y_=_sin_x__的圖形。_20260225_031612.mp4
+════════════════════════════════════════
+
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 9
+Total Tokens: 135,488
+  - Prompt: 120,646
+  - Completion: 14,842
+----------------------------------------
+Estimated Cost: $0.022626 USD
+約合台幣: NT$ 0.7014
+========================================
+
+
+
+=== STDERR ===

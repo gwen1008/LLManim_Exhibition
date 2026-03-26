@@ -76,7 +76,8 @@ class ManimCodeChunker:
                         'imports': '\n'.join(imports),
                         'complexity_score': complexity,
                         'manim_modules': ', '.join(used_modules),
-                        'source_file': str(filepath.relative_to(self.source_dir))
+                        'source_file': str(filepath.relative_to(self.source_dir)),
+                        'topic': filepath.relative_to(self.source_dir).parts[0]  # Extract topic from folder name
                     })
         
         return chunks
@@ -115,6 +116,7 @@ class WeaviateIndexer:
                 Property(name="complexity_score", data_type=DataType.INT),
                 Property(name="manim_modules", data_type=DataType.TEXT),
                 Property(name="source_file", data_type=DataType.TEXT),
+                Property(name="topic", data_type=DataType.TEXT),  # Added topic field
                 Property(name="video_description", data_type=DataType.TEXT),  # Will be filled by ingest_video.py
             ]
         )
