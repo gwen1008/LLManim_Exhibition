@@ -1,4 +1,6 @@
 import os
+import signal
+import argparse
 import json
 import subprocess
 import shutil
@@ -16,28 +18,117 @@ BENCHMARK_ROOT = PROJECT_ROOT / "benchmarks"
 RUNS_ROOT = PROJECT_ROOT / "runs"
 
 def main():
-    # 建立這次跑的 Session 資料夾
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    session_dir = RUNS_ROOT / timestamp
-    session_dir.mkdir(parents=True, exist_ok=True)
-    
-    print(f"🚀 Starting Evaluation Session: {timestamp}")
+    parser = argparse.ArgumentParser(description="Run LLManim Agent Evaluation")
+    parser.add_argument("--test-cases", type=str, default=str(TEST_CASES_FILE), help="Path to the test cases JSON file")
+    parser.add_argument("--resume", type=str, help="Path to an existing session directory to resume from (e.g., runs/20260321_020857)")
+    parser.add_argument("--case", type=str, help="Optional: Run only a specific Case ID")
+    args = parser.parse_args()
+
+    target_id = args.case
+    test_cases_path = Path(args.test_cases)
+
+    if args.resume:
+        session_dir = Path(args.resume)
+        if not session_dir.exists():
+            print(f"❌ Error: Resume directory {session_dir} does not exist.")
+            return
+        print(f"🔄 Resuming Evaluation Session from: {session_dir}")
+    else:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        session_dir = RUNS_ROOT / timestamp
+        session_dir.mkdir(parents=True, exist_ok=True)
+        print(f"🚀 Starting New Evaluation Session: {timestamp}")
+
     print(f"📂 Results will be stored in: {session_dir}")
 
     # 讀取測試案例
-    with open(TEST_CASES_FILE, "r", encoding="utf-8") as f:
+    with open(test_cases_path, "r", encoding="utf-8") as f:
         data = json.load(f)
         cases = data["cases"] if isinstance(data, dict) and "cases" in data else data
 
-    # 為了比較，我們需要紀錄結果
     results = []
+    completed_cases = set()
 
-    # 支持命令行過濾 Case ID
-    target_id = sys.argv[1] if len(sys.argv) > 1 else None
+    # 嘗試讀取舊的 summary.csv 來續傳
+    summary_csv = session_dir / "summary.csv"
+    if args.resume and summary_csv.exists():
+        with open(summary_csv, "r", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                case_id = row["Case ID"]
+                status = row["Status"]
+                
+                # 所有已跑過的題目都跳過（不管成功或失敗），保留真實成功率
+                completed_cases.add(case_id)
+                
+                if status != "Success":
+                    # Failed/TIMEOUT 直接保留舊紀錄，不重跑
+                    results.append({
+                        "id": case_id,
+                        "topic": row["Topic"],
+                        "category": row.get("Category", "-"),
+                        "status": status,
+                        "error": "Previous run failed/timeout (preserved)"
+                    })
+                    continue
+                
+                m = {
+                    "iterations": row.get("Iterations", "-"),
+                    "defects": row.get("Defects", "-"),
+                    "tokens": row.get("Total Tokens", "-"),
+                    "cost": row.get("Cost USD", "-"),
+                    "duration": row.get("Duration Sec", "-"),
+                    "code_lines": row.get("Code Lines", "-"),
+                    "video_duration_sec": row.get("Video Duration Sec", "-"),
+                    "exit_code": row.get("Exit Code", "-"),
+                    "planner_sec": row.get("Planner Sec", "-"),
+                    "coder_sec": row.get("Coder Sec", "-"),
+                    "render_sec": row.get("Render Sec", "-"),
+                    "vision_sec": row.get("Vision Sec", "-"),
+                    "raw": {}
+                }
+                
+                case_dir = session_dir / case_id
+                cost_json = case_dir / "cost_report.json"
+                if cost_json.exists():
+                    with open(cost_json, "r", encoding="utf-8") as cf:
+                        cdata = json.load(cf)
+                        m["raw"]["prompt_tokens"] = cdata.get("total_prompt_tokens", 0)
+                        m["raw"]["comp_tokens"] = cdata.get("total_completion_tokens", 0)
+                        m["raw"]["cost"] = cdata.get("total_cost_usd", 0.0)
+                        m["raw"]["num_calls"] = len(cdata.get("calls", []))
+                
+                # Try to load previous run's instrumentor log
+                m["max_simultaneous_objects"] = row.get("Max Objects", "-")
+                m["max_overlap_pairs"] = row.get("Max Overlap Pairs", "-")
+                m["steps_with_overlap"] = row.get("Steps with Overlap", "-")
+                
+                old_v = "N/A"
+                if BENCHMARK_ROOT.exists():
+                    for b_dir in BENCHMARK_ROOT.iterdir():
+                        if b_dir.is_dir() and b_dir.name.startswith(case_id):
+                            old_v = f"../../benchmarks/{b_dir.name}/result.mp4"
+                            break
+
+                results.append({
+                    "id": case_id,
+                    "topic": row["Topic"],
+                    "category": row.get("Category", "-"),
+                    "status": status,
+                    "new_video": f"{case_id}/video.mp4",
+                    "old_video": old_v,
+                    "trace_link": f"{case_id}/thought_trace.log",
+                    "metrics": m
+                })
+        print(f"✅ Found {len(completed_cases)} successfully completed cases from previous run. Skipping them.")
 
     for case in cases:
         case_id = case["id"]
         if target_id and case_id != target_id:
+            continue
+            
+        if case_id in completed_cases:
+            print(f"⏭️ Skipping Task [{case_id}]: Already completed.")
             continue
             
         topic = case["topic"]
@@ -61,7 +152,8 @@ def main():
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                cwd=str(PROJECT_ROOT)
+                cwd=str(PROJECT_ROOT),
+                preexec_fn=os.setsid  # [Fix] Create process group for clean kill
             )
             
             # [HOTFIX] Add 15-minute timeout (900 seconds)
@@ -69,14 +161,41 @@ def main():
                 # 輸入 topic 並選擇 Coder (假設 Coder 選擇是 1)
                 stdout, stderr = proc.communicate(input=f"{topic}\n1\n", timeout=900)
             except subprocess.TimeoutExpired:
-                proc.kill()
+                # [Fix] Kill entire process group (including manim subprocesses)
+                try:
+                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                except ProcessLookupError:
+                    proc.kill()
                 stdout, stderr = proc.communicate() # Capture what we can
                 print(f"⏰ [TIMEOUT] Task {case_id} exceeded 15-minute limit. Force killing...")
+                
+                # [Fix] Save partial cost data for TIMEOUT tasks
+                timeout_duration = round(time.time() - start_time, 2)
+                timeout_cost = {}
+                cost_json_timeout = stable_out_dir / "cost_report.json"
+                if cost_json_timeout.exists():
+                    with open(cost_json_timeout, "r", encoding="utf-8") as f:
+                        timeout_cost = json.load(f)
+                    case_dir_t = session_dir / case_id
+                    case_dir_t.mkdir(exist_ok=True)
+                    shutil.copy2(cost_json_timeout, case_dir_t / "cost_report.json")
+                
                 results.append({
                     "id": case_id,
                     "topic": topic,
+                    "category": case.get("category", "-"),
                     "status": "TIMEOUT",
-                    "error": "Task exceeded 15-minute hard limit (900s)."
+                    "error": "Task exceeded 15-minute hard limit (900s).",
+                    "metrics": {
+                        "duration": f"{timeout_duration}s",
+                        "cost": f"${timeout_cost.get('total_cost_usd', 0.0):.4f}",
+                        "raw": {
+                            "prompt_tokens": timeout_cost.get("total_prompt_tokens", 0),
+                            "comp_tokens": timeout_cost.get("total_completion_tokens", 0),
+                            "cost": timeout_cost.get("total_cost_usd", 0.0),
+                            "num_calls": len(timeout_cost.get("calls", []))
+                        }
+                    }
                 })
                 continue
             
@@ -114,6 +233,25 @@ def main():
             shutil.copy2(latest_py, case_dir / "code.py")
             shutil.copy2(latest_mp4, case_dir / "video.mp4")
             
+            # [New] Collect code lines count
+            with open(latest_py, "r", encoding="utf-8") as pyf:
+                code_lines = len(pyf.readlines())
+            
+            # [New] Collect video duration via ffprobe
+            video_duration_sec = 0.0
+            try:
+                ffprobe_result = subprocess.run(
+                    ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                     "-of", "default=noprint_wrappers=1:nokey=1", str(latest_mp4)],
+                    capture_output=True, text=True, timeout=10
+                )
+                video_duration_sec = round(float(ffprobe_result.stdout.strip()), 2)
+            except Exception:
+                video_duration_sec = 0.0
+            
+            # [New] Capture exit code
+            exit_code = proc.returncode
+            
             # === [New] Parse Analytics from cost_report.json ===
             cost_json_path = stable_out_dir / "cost_report.json"
             cost_stats = {}
@@ -121,6 +259,14 @@ def main():
                 shutil.copy2(cost_json_path, case_dir / "cost_report.json")
                 with open(cost_json_path, "r", encoding="utf-8") as f:
                     cost_stats = json.load(f)
+
+            # [New] Parse SceneInstrumentor log
+            scene_log_path = BENCHMARK_ROOT.parent / "scene_state_log.json"
+            instrumentor_stats = {}
+            if scene_log_path.exists():
+                shutil.copy2(scene_log_path, case_dir / "scene_state_log.json")
+                with open(scene_log_path, "r", encoding="utf-8") as f:
+                    instrumentor_stats = json.load(f)
 
             iterations = 1
             iter_matches = re.findall(r"第 (\d+) / \d+ 次嘗試", stdout)
@@ -131,6 +277,11 @@ def main():
             cost = cost_stats.get("total_cost_usd", 0.0)
             num_calls = len(cost_stats.get("calls", []))
 
+            time_planner_sec = cost_stats.get("time_planner_sec", 0.0)
+            time_coder_sec = cost_stats.get("time_coder_sec", 0.0)
+            time_render_sec = cost_stats.get("time_render_sec", 0.0)
+            time_vision_sec = cost_stats.get("time_vision_sec", 0.0)
+
             defects_count = 0
             defect_matches = re.findall(r"Detected (\d+) defect\(s\)", stdout)
             if defect_matches: defects_count = sum(int(m) for m in defect_matches)
@@ -140,14 +291,16 @@ def main():
             # 找 Benchmark 裡的舊版做對比
             old_video_rel = "N/A"
 
-            for b_dir in BENCHMARK_ROOT.iterdir():
-                if b_dir.is_dir() and b_dir.name.startswith(case_id):
-                    old_video_rel = f"../../benchmarks/{b_dir.name}/result.mp4"
-                    break
+            if BENCHMARK_ROOT.exists():
+                for b_dir in BENCHMARK_ROOT.iterdir():
+                    if b_dir.is_dir() and b_dir.name.startswith(case_id):
+                        old_video_rel = f"../../benchmarks/{b_dir.name}/result.mp4"
+                        break
             
             results.append({
                 "id": case_id,
                 "topic": topic,
+                "category": case.get("category", "-"),
                 "new_video": f"{case_id}/video.mp4",
                 "old_video": old_video_rel,
                 "trace_link": f"{case_id}/thought_trace.log",
@@ -157,12 +310,22 @@ def main():
                     "tokens": f"{prompt_tokens + comp_tokens} ({prompt_tokens}/{comp_tokens})",
                     "cost": f"${cost:.4f}",
                     "duration": f"{duration}s",
+                    "code_lines": code_lines,
+                    "video_duration_sec": video_duration_sec,
+                    "exit_code": exit_code,
                     "raw": {
                         "prompt_tokens": prompt_tokens,
                         "comp_tokens": comp_tokens,
                         "cost": cost,
                         "num_calls": num_calls
-                    }
+                    },
+                    "planner_sec": f"{time_planner_sec:.2f}",
+                    "coder_sec": f"{time_coder_sec:.2f}",
+                    "render_sec": f"{time_render_sec:.2f}",
+                    "vision_sec": f"{time_vision_sec:.2f}",
+                    "max_simultaneous_objects": instrumentor_stats.get("max_simultaneous_objects", "-"),
+                    "max_overlap_pairs": instrumentor_stats.get("max_overlap_pairs", "-"),
+                    "steps_with_overlap": instrumentor_stats.get("steps_with_overlap", "-")
                 },
                 "status": "Success"
             })
@@ -170,7 +333,15 @@ def main():
             
         except Exception as e:
             print(f"❌ [{case_id}] Failed: {e}")
-            results.append({"id": case_id, "topic": topic, "status": "Failed", "error": str(e)})
+            results.append({"id": case_id, "topic": topic, "category": case.get("category", "-"), "status": "Failed", "error": str(e)})
+
+        # [New] Incremental saving just in case the script crashes completely
+        try:
+            generate_summary_csv(session_dir, results)
+            generate_comparison_html(session_dir, results)
+            generate_cost_dashboard(session_dir, results)
+        except Exception as report_e:
+            print(f"⚠️ Error generating reports for {case_id}: {report_e}")
 
     # 生成報告
     generate_summary_csv(session_dir, results)
@@ -239,18 +410,29 @@ def generate_summary_csv(session_dir, results):
     csv_path = session_dir / "summary.csv"
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
-        writer.writerow(["Case ID", "Topic", "Status", "Iterations", "Defects", "Total Tokens", "Cost USD", "Duration Sec"])
+        writer.writerow(["Case ID", "Topic", "Category", "Status", "Iterations", "Defects", "Max Objects", "Max Overlap Pairs", "Steps with Overlap", "Total Tokens", "Cost USD", "Duration Sec", "Code Lines", "Video Duration Sec", "Exit Code", "Planner Sec", "Coder Sec", "Render Sec", "Vision Sec"])
         for r in results:
             m = r.get("metrics", {})
             writer.writerow([
                 r["id"], 
                 r["topic"], 
+                r.get("category", "-"),
                 r["status"], 
                 m.get("iterations", "-"),
                 m.get("defects", "-"),
+                m.get("max_simultaneous_objects", "-"),
+                m.get("max_overlap_pairs", "-"),
+                m.get("steps_with_overlap", "-"),
                 m.get("tokens", "-"),
                 m.get("cost", "-"),
-                m.get("duration", "-")
+                m.get("duration", "-"),
+                m.get("code_lines", "-"),
+                m.get("video_duration_sec", "-"),
+                m.get("exit_code", "-"),
+                m.get("planner_sec", "-"),
+                m.get("coder_sec", "-"),
+                m.get("render_sec", "-"),
+                m.get("vision_sec", "-")
             ])
 
 def generate_comparison_html(session_dir, results):
@@ -299,11 +481,13 @@ def generate_comparison_html(session_dir, results):
                 <h3>{r['topic']}</h3>
                 
                 <div class="metrics-table">
-                    <div class="metrics-row"><span>Iteration Count:</span> <span class="metrics-val">{m['iterations']}</span></div>
-                    <div class="metrics-row"><span>Visual Defects:</span> <span class="metrics-val">{m['defects']}</span></div>
-                    <div class="metrics-row"><span>Total Tokens:</span> <span class="metrics-val">{m['tokens']}</span></div>
-                    <div class="metrics-row"><span>Est. Cost (USD):</span> <span class="metrics-val">{m['cost']}</span></div>
-                    <div class="metrics-row"><span>Total Time:</span> <span class="metrics-val">{m['duration']}</span></div>
+                    <div class="metrics-row"><span>Iteration Count:</span> <span class="metrics-val">{m.get('iterations', '-')}</span></div>
+                    <div class="metrics-row"><span>Visual Defects (LLM):</span> <span class="metrics-val">{m.get('defects', '-')}</span></div>
+                    <div class="metrics-row"><span>Max Simul. Objects:</span> <span class="metrics-val">{m.get('max_simultaneous_objects', '-')}</span></div>
+                    <div class="metrics-row"><span>Steps w/ Overlap:</span> <span class="metrics-val">{m.get('steps_with_overlap', '-')}</span></div>
+                    <div class="metrics-row"><span>Total Tokens:</span> <span class="metrics-val">{m.get('tokens', '-')}</span></div>
+                    <div class="metrics-row"><span>Est. Cost (USD):</span> <span class="metrics-val">{m.get('cost', '-')}</span></div>
+                    <div class="metrics-row"><span>Total Time:</span> <span class="metrics-val">{m.get('duration', '-')}</span></div>
                 </div>
 
                 <a href="{r['trace_link']}" class="trace-link" target="_blank">🔍 Full Reasoning Trace</a>

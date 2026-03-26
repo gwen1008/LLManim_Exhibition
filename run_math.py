@@ -138,7 +138,7 @@ def main():
     if args.render:
         print("\n🎥 Rendering Video...")
         import subprocess
-        subprocess.run(["manim", "-pql", str(code_path), scene_name], cwd=str(code_path.parent))
+        subprocess.run(["manim", "-pql", code_path.name, scene_name], cwd=str(code_path.parent))
 
 if __name__ == "__main__":
     main()

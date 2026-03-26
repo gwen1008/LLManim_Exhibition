@@ -32,6 +32,138 @@ Output a STRICT JSON object (no other text). Schema:
   "rationale":  "Rubber-Duck Debugging: explain EXACTLY why the traceback or visual feedback occurred in plain English step-by-step."
 }}"""
 
+_SUBTITLE_MANAGER_SNIPPET = '''\
+class SubtitleManager:
+    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    MAX_WIDTH = 12.5
+
+    def __init__(self, scene, font_size=28):
+        self.scene = scene
+        self.font_size = font_size
+        self._current = None
+        self._y = 3.2 * DOWN
+
+    def show(self, text_str, run_time=1.0):
+        import re
+        # Break text into chunks by punctuation (keeping the punctuation)
+        parts = re.split(r'([，。！？,\.!\?]+)', str(text_str))
+        sentences = []
+        for i in range(0, len(parts)-1, 2):
+            sentences.append((parts[i] + parts[i+1]).strip())
+        if len(parts) % 2 == 1 and parts[-1].strip():
+            sentences.append(parts[-1].strip())
+            
+        if not sentences:
+            return
+            
+        total_len = sum(len(s) for s in sentences)
+        
+        for s in sentences:
+            if not s: continue
+            
+            # YouTube Style: Bold white text with black background
+            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+            new_mob = VGroup(bg, text_mob).move_to(self._y)
+            
+            if new_mob.width > self.MAX_WIDTH:
+                new_mob.scale_to_fit_width(self.MAX_WIDTH)
+                
+            chunk_time = run_time * (len(s) / max(1, total_len))
+            anim_time = min(0.15, chunk_time / 2)
+            wait_time = max(0.0, chunk_time - anim_time)
+            
+            if self._current is None:
+                self.scene.play(FadeIn(new_mob), run_time=anim_time)
+            else:
+                self.scene.play(
+                    FadeOut(self._current, run_time=anim_time/2), 
+                    FadeIn(new_mob, run_time=anim_time/2)
+                )
+                
+            if wait_time > 0:
+                self.scene.wait(wait_time)
+                
+            self._current = new_mob
+
+    def clear(self, run_time=0.5):
+        if self._current is not None:
+            anim_time = min(0.2, run_time)
+            self.scene.play(FadeOut(self._current), run_time=anim_time)
+            if run_time > anim_time:
+                self.scene.wait(run_time - anim_time)
+            self._current = None
+'''
+
+_INSTRUMENTOR_SNIPPET = '''\
+class SceneInstrumentor:
+    """Auto-injected by RefiningLoop.pre_render_patch to quantitatively track object overlap."""
+    def __init__(self, scene, log_path="scene_state_log.json"):
+        import json
+        self._scene = scene
+        self._log_path = log_path
+        self._log = []
+        self._step = 0
+        self._original_play = scene.play
+        scene.play = self._instrumented_play
+
+    def _instrumented_play(self, *anims, **kwargs):
+        result = self._original_play(*anims, **kwargs)
+        self._step += 1
+        snapshot = {"step": self._step, "mobjects": []}
+        
+        for mob in getattr(self._scene, "mobjects", []):
+            opacity = 1.0 # Default to visible if we can't tell
+            
+            has_fill = hasattr(mob, "get_fill_opacity")
+            has_stroke = hasattr(mob, "get_stroke_opacity")
+            
+            if has_fill and has_stroke:
+                 opacity = mob.get_fill_opacity() + mob.get_stroke_opacity()
+            elif hasattr(mob, "fill_opacity") or hasattr(mob, "stroke_opacity"):
+                 opacity = getattr(mob, "fill_opacity", 0) + getattr(mob, "stroke_opacity", 0)
+                 
+            if opacity <= 0.01 or type(mob).__name__ == "BackgroundRectangle":
+                continue
+            try:
+                w, h = mob.width, mob.height
+                if w * h < 0.05: continue
+                c = mob.get_center().tolist()
+                snapshot["mobjects"].append({
+                    "type": type(mob).__name__, "width": round(w, 3), "height": round(h, 3),
+                    "center": [round(c[0], 3), round(c[1], 3), round(c[2], 3)], "area": round(w * h, 3)
+                })
+            except Exception: pass
+            
+        snapshot["n_mobjects_visible"] = len(snapshot["mobjects"])
+        oc = 0
+        mobs = snapshot["mobjects"]
+        for i in range(len(mobs)):
+            for j in range(i + 1, len(mobs)):
+                m1, m2 = mobs[i], mobs[j]
+                ho = (abs(m1["center"][0] - m2["center"][0]) * 2 < (m1["width"] + m2["width"]))
+                vo = (abs(m1["center"][1] - m2["center"][1]) * 2 < (m1["height"] + m2["height"]))
+                if ho and vo: oc += 1
+                
+        snapshot["overlap_pairs"] = oc
+        snapshot["total_screen_coverage"] = sum(m["area"] for m in mobs)
+        self._log.append(snapshot)
+        
+        try:
+            import json
+            with open(self._log_path, "w", encoding="utf-8") as f:
+                json.dump({
+                    "max_simultaneous_objects": max((s["n_mobjects_visible"] for s in self._log), default=0),
+                    "max_overlap_pairs": max((s["overlap_pairs"] for s in self._log), default=0),
+                    "steps_with_overlap": sum(1 for s in self._log if s["overlap_pairs"] > 0),
+                    "peak_screen_coverage": max((s["total_screen_coverage"] for s in self._log), default=0),
+                    "timeline": self._log
+                }, f, indent=2)
+        except Exception: pass
+        return result
+'''
+
+
 class RefiningLoop:
     @staticmethod
     def _extract_reflection_from_response(response: str) -> tuple[str, dict|None]:
@@ -85,9 +217,12 @@ class RefiningLoop:
         try:
             # [HOTFIX] Added a 120-second timeout to prevent infinite loops (like `always_redraw` bugs or while loops)
             # from hanging the entire evaluation process.
+            _r_start = time.time()
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+            _r_dur = time.time() - _r_start
+            
             if result.returncode == 0:
-                return True, result.stdout
+                return True, result.stdout, _r_dur
             else:
                 # Manim routes LaTeX error details (! Undefined control sequence, etc.)
                 # to stdout via print_all_tex_errors(), not stderr. Combine both so LLM
@@ -235,7 +370,7 @@ class RefiningLoop:
         return header + body + footer
 
     @staticmethod
-    def pre_render_patch(code: str) -> str:
+    def pre_render_patch(code: str, log_path: str = None) -> str:
         """
         [Shift-Left Auto-Repair] Applies deterministic, zero-cost fixes before rendering.
         Eliminates wasting 10-15s engine spin-up for trivial deprecated API or structural issues.
@@ -266,8 +401,17 @@ class RefiningLoop:
             # Strip param type annotations: (x: int | None, y: str = "a")  →  (x, y = "a")
             patched = re.sub(r'(\w+)\s*:\s*(?:[\w\[\], |]+)(\s*[=,)])', r'\1\2', patched)
         
-        # 4. Fix LaTeX \text{} -> \mathrm{}
-        patched = re.sub(r'\\text\{([^}]*)\}', r'\\mathrm{\1}', patched)
+        # 4. Strip \mathrm{} — keep content, remove command.
+        # \mathrm{} crashes Manim v0.19/v0.20 with "Missing } inserted" due to brace splitter bug.
+        # Previously this block converted \text{} -> \mathrm{}, which was self-defeating
+        # (linter bans \mathrm{}, so patch was creating the exact error linter blocks).
+        # Fix: strip \mathrm{X} -> X so it never reaches the LaTeX compiler.
+        patched = re.sub(r'\\mathrm\{([^}]*)\}', r'\1', patched)
+
+        # 4b. Fix Sector(outer_radius=X) -> Sector(radius=X)
+        # Manim v0.20 Sector.__init__ uses 'radius', not 'outer_radius'.
+        # Passing outer_radius= causes "got multiple values for keyword argument 'outer_radius'".
+        patched = re.sub(r'Sector\(outer_radius=', 'Sector(radius=', patched)
         
         # 5. [Enforce Final Wait] Ensure the construct method ends with a wait operation
         try:
@@ -294,7 +438,48 @@ class RefiningLoop:
                     patched = "\n".join(lines)
         except Exception as e:
             print(f"⚠️ [Shift-Left] AST parsing failed during pre-render patch: {e}")
+
+        # 6. [SubtitleManager] Inject to prevent subtitle overlap
+        if 'SubtitleManager' not in patched:
+            class_match = re.search(r'^class\s+\w+\s*\(Scene\)\s*:', patched, re.MULTILINE)
+            if class_match:
+                pos = class_match.start()
+                patched = patched[:pos] + _SUBTITLE_MANAGER_SNIPPET + '\n\n' + patched[pos:]
+            else:
+                patched = _SUBTITLE_MANAGER_SNIPPET + '\n\n' + patched
+            # Inject self._sm + self.set_subtitle at the top of construct()
+            patched = re.sub(
+                r'(def construct\(self\):[ \t]*\n)(\s+)',
+                lambda m: (
+                    m.group(1)
+                    + m.group(2) + 'self._sm = SubtitleManager(self)\n'
+                    + m.group(2) + 'self.set_subtitle = self._sm.show\n'
+                    + m.group(2)
+                ),
+                patched, count=1
+            )
+
+        # 7. [SceneInstrumentor] Auto-inject collision/overlap tracking mechanism
+        if 'SceneInstrumentor' not in patched:
+            class_match = re.search(r'^class\s+\w+\s*\(Scene\)\s*:', patched, re.MULTILINE)
+            if class_match:
+                pos = class_match.start()
+                patched = patched[:pos] + _INSTRUMENTOR_SNIPPET + '\n\n' + patched[pos:]
+            else:
+                patched = _INSTRUMENTOR_SNIPPET + '\n\n' + patched
             
+            # Inject self._instrumentor at the top of construct()
+            instrumentor_init = f"self._instrumentor = SceneInstrumentor(self, log_path='{log_path}')\n" if log_path else "self._instrumentor = SceneInstrumentor(self)\n"
+            patched = re.sub(
+                r'(def construct\(self\):[ \t]*\n)(\s+)',
+                lambda m: (
+                    m.group(1)
+                    + m.group(2) + instrumentor_init
+                    + m.group(2)
+                ),
+                patched, count=1
+            )
+
         return patched
 
     @staticmethod
@@ -307,6 +492,7 @@ class RefiningLoop:
         rag_retriever = RAGRetriever()
         
         reflection_memory = []
+        _failed_code_snapshots = []  # [(attempt_num, failure_type, code)] for OSF/debug archiving
         _prompt_cache = {}  # Task 9 Layer 2: hash(prompt) → raw_response，避免同一 session 內重複呼叫
         _failed_hashes = set()   # [Bug 3 Fix] Hashes whose cached responses already failed, skip cache
         visual_attempts = 0
@@ -337,7 +523,8 @@ class RefiningLoop:
                 current_code = f.read()
 
             # [Shift-Left Auto-Repair] Apply zero-cost deterministic patches BEFORE linter/render
-            patched_code = RefiningLoop.pre_render_patch(current_code)
+            log_path = os.path.join(os.path.dirname(os.path.abspath(file_path)), "scene_state_log.json")
+            patched_code = RefiningLoop.pre_render_patch(current_code, log_path=log_path)
             if patched_code != current_code:
                 current_code = patched_code
                 with open(file_path, "w", encoding="utf-8") as f:
@@ -375,6 +562,7 @@ class RefiningLoop:
                 
                 if not lint_ok:
                     print("❌ 靜態審查失敗 (Static Analysis Failed) - 攔截渲染")
+                    _failed_code_snapshots.append((i + 1, "LINTER", current_code))
                     review_feedback = "FAIL\n\n[Static Analysis Gatekeeper]:\n"
                     for err in lint_errors:
                         review_feedback += f"- Line {err['line']} [{err['code']}]: {err['message']}\n"
@@ -447,18 +635,25 @@ Fix this immediately.
                 print("✅ 靜態審查通過！執行渲染...")
 
                 # ========== Phase 2: Manim 渲染檢查 (語法驗證) ==========
-                # [Fast I/O] 迭代 1 用 10fps 快速預覽渲染（Vision QA 對幀率不敏感）
-                # 迭代 0（首次）維持 15fps 以確保 audio sync 計算正確
-                render_fps = 10 if i > 0 else 15
+                # [Fast I/O] 使用 8fps 快速預覽渲染（Vision QA 對幀率不敏感）
+                render_fps = 8
 
                 # [Render Cache] Skip re-render if code is bit-for-bit identical to last render
                 _code_hash = hashlib.md5(current_code.encode("utf-8")).hexdigest()
                 if _code_hash == last_render_hash and last_successful_video_path and os.path.exists(last_successful_video_path):
                     print(f"⚡ [Render Cache] Code unchanged (hash={_code_hash[:8]}), reusing last render.")
-                    success, message = True, "cached"
+                    success, message, r_dur = True, "cached", 0.0
                 else:
                     print("🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...")
-                    success, message = RefiningLoop.run_manim_task(file_path, scene_name, fps=render_fps)
+                    ret = RefiningLoop.run_manim_task(file_path, scene_name, fps=render_fps)
+                    # Handled both return signatures to be safe, ret is tuple (success, msg, [dur])
+                    if len(ret) == 3:
+                        success, message, r_dur = ret
+                    else:
+                        success, message = ret
+                        r_dur = 0.0
+                    
+                    llm.session_stats["time_render_sec"] += r_dur
                     if success:
                         last_render_hash = _code_hash
                 
@@ -484,78 +679,103 @@ Fix this immediately.
                     try:
                         # Get video duration
                         duration_result = subprocess.run(
-                            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                            ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=duration",
                              "-of", "default=noprint_wrappers=1:nokey=1", video_source],
                             capture_output=True, text=True, timeout=10
                         )
-                        video_duration = float(duration_result.stdout.strip())
+                        _dur_str = duration_result.stdout.strip()
+                        if not _dur_str or _dur_str == "N/A":
+                            # fallback: container duration（可能含音軌，但至少不崩潰）
+                            duration_result = subprocess.run(
+                                ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                 "-of", "default=noprint_wrappers=1:nokey=1", video_source],
+                                capture_output=True, text=True, timeout=10
+                            )
+                            _dur_str = duration_result.stdout.strip()
+                        video_duration = float(_dur_str)
                         
-                        # Calculate 4 timestamps
-                        timestamps = [
-                            video_duration * 0.10,  # 10% — setup/intro
-                            video_duration * 0.40,  # 40% — early animation
-                            video_duration * 0.70,  # 70% — mid animation
-                            video_duration * 0.95,  # 95% — near end
-                        ]
-                        
-                        # Extract 4 frames, scale each to 640x360, stitch into 2x2 grid (1280x720)
-                        # Scaling BEFORE hstack/vstack is critical: without it the output is 3840x2160
-                        # which GPT-4o-mini detail=low downsamples aggressively, losing all detail.
+                        # [Smart Frame Selection] Sample using a single ffmpeg command to save overhead
+                        CANDIDATE_COUNT = 20
                         TILE_W, TILE_H = 640, 360
-                        filter_cmd = (
-                            f"movie={video_source},select='eq(t\\,{timestamps[0]:.2f})':n=1,scale={TILE_W}:{TILE_H}[f0];"
-                            f"movie={video_source},select='eq(t\\,{timestamps[1]:.2f})':n=1,scale={TILE_W}:{TILE_H}[f1];"
-                            f"movie={video_source},select='eq(t\\,{timestamps[2]:.2f})':n=1,scale={TILE_W}:{TILE_H}[f2];"
-                            f"movie={video_source},select='eq(t\\,{timestamps[3]:.2f})':n=1,scale={TILE_W}:{TILE_H}[f3];"
-                            f"[f0][f1]hstack[top];[f2][f3]hstack[bottom];[top][bottom]vstack"
-                        )
-                        
-                        grid_result = subprocess.run(
-                            ["ffmpeg", "-y", "-filter_complex", filter_cmd, "-frames:v", "1", grid_frame_path],
-                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15
-                        )
-                        
-                        if grid_result.returncode != 0 or not os.path.exists(grid_frame_path):
-                            # Fallback: extract 4 individual frames and use ImageMagick montage
-                            frame_paths = []
+                        timestamps = None
+                        try:
+                            import numpy as np
+                            from PIL import Image as _PILImage
+                            
+                            temp_dir = tempfile.mkdtemp(prefix="llmanim_frames_")
+                            # Extract ~20 frames evenly spaced using fps filter
+                            fps_val = max(0.5, CANDIDATE_COUNT / max(0.1, video_duration))
+                            subprocess.run(
+                                ["ffmpeg", "-y", "-i", video_source, 
+                                 "-vf", f"fps={fps_val},scale=160:90", 
+                                 os.path.join(temp_dir, "frame_%03d.jpg")],
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15
+                            )
+                            
+                            _candidates = []
+                            for f_name in sorted(os.listdir(temp_dir)):
+                                if not f_name.endswith(".jpg"): continue
+                                _cfp = os.path.join(temp_dir, f_name)
+                                # Estimate timestamp from file index
+                                idx = int(f_name.split("_")[1].split(".")[0]) - 1
+                                _ts = (idx + 0.5) / fps_val
+                                
+                                _img = np.array(_PILImage.open(_cfp).convert("RGB"))
+                                _candidates.append((_ts, float(np.std(_img)), _img))
+                                
+                            shutil.rmtree(temp_dir, ignore_errors=True)
+
+                            # 去重：從複雜度高的幀開始挑，MAD < 8 視為同一畫面跳過
+                            _candidates.sort(key=lambda x: x[1], reverse=True)
+                            _unique = []
+                            for cand in _candidates:
+                                if not any(
+                                    np.mean(np.abs(cand[2].astype(float) - u[2].astype(float))) < 8.0
+                                    for u in _unique
+                                ):
+                                    _unique.append(cand)
+                                if len(_unique) >= 4:
+                                    break
+
+                            if len(_unique) >= 4:
+                                timestamps = sorted([c[0] for c in _unique[:4]])
+                                print(f"🧮 [Smart Frame] 4 unique timestamps: {[f'{t:.1f}s' for t in timestamps]}")
+                        except Exception as _ve:
+                            print(f"⚠️ [Smart Frame] Variance selection failed ({_ve}), falling back to fixed %")
+
+                        if not timestamps:
+                            timestamps = [
+                                video_duration * 0.10,  # 10% — setup/intro
+                                video_duration * 0.40,  # 40% — early animation
+                                video_duration * 0.70,  # 70% — mid animation
+                                video_duration * 0.95,  # 95% — near end
+                            ]
+
+                        # [Optimization] Single ffmpeg command: 4x fast-seek inputs → scale + xstack → grid
+                        # Replaces 4 individual extractions + 1 composite = 5 subprocess calls with 1
+                        try:
+                            TILE_W, TILE_H = 640, 360
+                            n = len(timestamps)
+                            inputs = []
+                            scale_filters = []
                             for idx, ts in enumerate(timestamps):
-                                fp = f"temp_frame_{idx}.jpg"
-                                subprocess.run(
-                                    ["ffmpeg", "-y", "-ss", f"{ts:.2f}", "-i", video_source,
-                                     "-vframes", "1", "-update", "1", fp],
-                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=10
-                                )
-                                if os.path.exists(fp):
-                                    frame_paths.append(fp)
-                            
-                            if len(frame_paths) >= 2:
-                                # [Fix] Scale each frame to 640x360 BEFORE tiling.
-                                # The old code used hardcoded 480x360 pixel offsets for xstack
-                                # which caused frames to overlap since actual frames are larger.
-                                TILE_W, TILE_H = 640, 360
-                                inputs = []
-                                scale_filters = []
-                                for idx, fp in enumerate(frame_paths):
-                                    inputs.extend(["-i", fp])
-                                    scale_filters.append(f"[{idx}:v]scale={TILE_W}:{TILE_H}[s{idx}]")
-                                n = len(frame_paths)
-                                # Build xstack layout using scaled tile dimensions
-                                layout = "|".join(f"{(i % 2) * TILE_W}_{(i // 2) * TILE_H}" for i in range(n))
-                                scale_chain = ";".join(scale_filters)
-                                scaled_labels = "".join(f"[s{i}]" for i in range(n))
-                                filter_complex = f"{scale_chain};{scaled_labels}xstack=inputs={n}:layout={layout}"
-                                subprocess.run(
-                                    ["ffmpeg", "-y"] + inputs + [
-                                        "-filter_complex", filter_complex,
-                                        grid_frame_path
-                                    ],
-                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=10
-                                )
-                            
-                            # Cleanup individual frames
-                            for fp in frame_paths:
-                                if os.path.exists(fp):
-                                    os.remove(fp)
+                                inputs.extend(["-ss", f"{ts:.2f}", "-i", video_source])
+                                scale_filters.append(f"[{idx}:v]scale={TILE_W}:{TILE_H},setpts=PTS-STARTPTS[s{idx}]")
+                            layout = "|".join(f"{(k % 2) * TILE_W}_{(k // 2) * TILE_H}" for k in range(n))
+                            scale_chain = ";".join(scale_filters)
+                            scaled_labels = "".join(f"[s{k}]" for k in range(n))
+                            filter_complex = f"{scale_chain};{scaled_labels}xstack=inputs={n}:layout={layout}"
+                            subprocess.run(
+                                ["ffmpeg", "-y"] + inputs + [
+                                    "-filter_complex", filter_complex,
+                                    "-frames:v", "1",
+                                    grid_frame_path
+                                ],
+                                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15
+                            )
+                        except Exception as e:
+                            print(f"⚠️ [Multi-Frame] Grid extraction failed ({e}), falling back to single frame.")
+
                     except Exception as e:
                         print(f"⚠️ [Multi-Frame] Grid extraction failed ({e}), falling back to last frame.")
                     
@@ -616,15 +836,21 @@ Fix this immediately.
                         _vision_context = f"TOPIC: {user_topic}\n\n{script_json}"
                         if clip_result.returncode == 0 and os.path.exists(clip_path):
                             print("🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)")
+                            _vstart = time.time()
                             audit = vision_agent.audit_video(clip_path, _vision_context, code_context=current_code, spatial_metadata=_spatial_metadata)
+                            llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
                             os.remove(clip_path)
                         else:
                             print("⚠️ [Task 13] 影片擷取失敗，fallback 至 4-frame grid")
+                            _vstart = time.time()
                             audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail="high", spatial_metadata=_spatial_metadata)
+                            llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
                     else:
                         print(f"🖼️  [Vision] 使用 detail={_frame_detail} (iteration {i})")
                         _vision_context = f"TOPIC: {user_topic}\n\n{script_json}"
+                        _vstart = time.time()
                         audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail=_frame_detail, spatial_metadata=_spatial_metadata)
+                        llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
                     
                     if audit["verdict"] == "ERROR":
                         print(f"⚠️  [Vision API Error] 視覺審查無法執行，跳過本次視覺檢查：{audit.get('overall_critique', '')}")
@@ -657,7 +883,11 @@ Fix this immediately.
                                     if _micro_prompt and visual_attempts < VISUAL_ATTEMPTS_LIMIT:
                                         print(f"⚡ [TDR-T2] Micro-Prompt 修復對齊 (~2K tokens)...")
                                         _t2_history = RefiningLoop._format_reflection_memory(reflection_memory)
+                                        
+                                        _cstart = time.time()
                                         _micro_fix_raw = llm.ask_for_fix(_t2_history, _micro_prompt)
+                                        llm.session_stats["time_coder_sec"] += (time.time() - _cstart)
+                                        
                                         _micro_fix = LLMClient.extract_code(_micro_fix_raw)
                                         _t2_patched = apply_patch_block(current_code, _micro_fix)
                                         if _t2_patched:
@@ -716,6 +946,24 @@ Then provide the corrected code.
                         print("✅ 視覺審查通過！影片品質符合標準。")
 
                     if success:
+                        if render_fps != 15:
+                            print(f"🌟 [High-Quality Render] 預覽驗證無誤，啟動最終高品質 15fps 算繪...")
+                            ret_15 = RefiningLoop.run_manim_task(file_path, scene_name, fps=15)
+                            success_15 = ret_15[0]
+                            if success_15:
+                                # Compute the actual 15fps video path (run_manim_task returns stdout, not path)
+                                video_source_15 = os.path.join(
+                                    "media", "videos",
+                                    os.path.splitext(os.path.basename(file_path))[0],
+                                    "480p15", f"{scene_name}.mp4"
+                                )
+                                if os.path.exists(video_source_15):
+                                    video_source = video_source_15
+                                else:
+                                    print(f"⚠️ 15fps 影片路徑不存在，退回使用 {render_fps}fps 版本。")
+                            else:
+                                print(f"⚠️ 最終高品質算繪失敗，退回使用 {render_fps}fps 版本。:\n{ret_15[1]}")
+
                         duration = round(time.time() - start_time, 2)
                         output_folder = "stable_outputs"
                         if not os.path.exists(output_folder):
@@ -734,7 +982,15 @@ Then provide the corrected code.
                         if os.path.getsize(file_path) > 0:
                             backup_py_path = os.path.join(output_folder, f"{safe_name}_{timestamp}.py")
                             shutil.copy(file_path, backup_py_path)
-                        
+
+                        # Save failed code snapshots for debugging / OSF supplementary material
+                        for snap_num, snap_type, snap_code in _failed_code_snapshots[:5]:
+                            snap_path = os.path.join(output_folder, f"{safe_name}_{timestamp}_attempt_{snap_num}_{snap_type}.py")
+                            with open(snap_path, "w", encoding="utf-8") as _sf:
+                                _sf.write(snap_code)
+                        if _failed_code_snapshots:
+                            print(f"📸 [Snapshot] 已儲存 {len(_failed_code_snapshots)} 個失敗版本至 {output_folder}/")
+
                         print("\n" + "═"*40)
                         print(f"✨ 【渲染成功 / Rendering Success】 ✨")
                         print("═"*40)
@@ -745,7 +1001,8 @@ Then provide the corrected code.
                         return backup_video_path
                 
                 if not success:
-                    if "VIOLATION REPORT" not in message: 
+                    if "VIOLATION REPORT" not in message:
+                        _failed_code_snapshots.append((i + 1, "RENDER", current_code))
                         print(f"\n❌ 渲染失敗！捕捉到 Python/Manim 語法錯誤：\n{message}")
                         
                         # [NEW] Static Linter Interceptor
@@ -829,15 +1086,75 @@ Then provide the corrected code.
                         if _rag_results:
                             base_fix += "\n\n" + rag_retriever.format_for_prompt(_rag_results)
 
-                        # [TEMPLATE OVERRIDE] After 1 consecutive timeout, bypass free-form LLM rewrite
-                        # and force it to fill in a safe ValueTracker skeleton instead.
-                        # Changed from >= 2 to >= 1: saves 120s wasted on a second doomed render attempt.
-                        if consecutive_timeouts >= 1:
-                            print(f"\n🚨 [Template Override] 連續 {consecutive_timeouts} 次渲染超時！啟動極簡 ValueTracker 骨架模式...")
+                        # [TIERED TEMPLATE OVERRIDE]
+                        # Timeout Tier 1 (1st timeout): Safe dynamic skeleton - allows always_redraw + ValueTracker
+                        #   but BANS add_updater+become which is the actual cause of infinite loops.
+                        # Timeout Tier 2 (2nd+ timeout): Nuclear linear-only skeleton - bans everything dynamic.
+                        # This graduated approach fixes the deadlock where dynamic animations (e.g. Unit Circle Sync)
+                        # NEED always_redraw/ValueTracker to work but the old single override banned them completely.
+                        if consecutive_timeouts == 1:
+                            print(f"\n🚨 [Template Override Tier 1] 第 1 次渲染超時！啟動安全動態骨架（允許 always_redraw + ValueTracker）...")
+                            print(f"\n🚨 [Template Override Tier 1] 第 1 次渲染超時！注入完整的安全動態代碼模板（強制取代 add_updater 架構）...")
+                            # Strategy: Instead of giving an empty skeleton (which LLM ignores),
+                            # inject a full WORKING code example using the correct always_redraw + ValueTracker pattern.
+                            # LLM is ONLY allowed to ADAPT this code (change labels, layout, audio),
+                            # NOT to replace the core animation architecture.
+                            _sine_wave_golden = open(
+                                "knowledge_base/geometry/SineWaveConstruction.py", "r", encoding="utf-8"
+                            ).read() if __import__("os").path.exists("knowledge_base/geometry/SineWaveConstruction.py") else ""
+
+                            _golden_injection = ""
+                            if _sine_wave_golden:
+                                _golden_injection = f"""
+--- MANDATORY STARTING POINT (Full Working Code) ---
+The following code uses the CORRECT always_redraw + ValueTracker architecture and renders in < 10 seconds.
+You MUST use this exact architecture as your starting point.
+You are ONLY allowed to: rename labels, adjust layout coordinates, add audio calls.
+You are NOT allowed to: replace `always_redraw` with `add_updater`, add `become()`, or rebuild core animation logic.
+
+```python
+{_sine_wave_golden}
+```
+--- END OF MANDATORY STARTING POINT ---
+"""
+
+                            template_override = f"""
+[TEMPLATE OVERRIDE — TIER 1: INJECT WORKING CODE]
+Your previous attempt caused a timeout because it used `add_updater(lambda m: m.become(...))` which rebuilds expensive objects every frame.
+
+This pattern is PERMANENTLY BANNED. The ONLY correct approach for dynamic animations is:
+  ✅ `always_redraw(lambda: LightObject(...))` — for Dot, Line, Arc, DashedLine ONLY
+  ✅ One `ValueTracker` drives ALL movement via `self.play(tracker.animate.set_value(TARGET))`
+  ✅ `TracedPath(obj.get_center)` for curves
+  ❌ `add_updater(lambda m: m.become(...))` — FATAL timeout
+  ❌ `ParametricFunction` / `MathTex` inside any lambda — too expensive
+{_golden_injection}"""
+
+                            feedback_for_llm = f"""
+{template_override}
+
+═══════════════════════════════════════════════════════════
+ORIGINAL TASK — YOU MUST IMPLEMENT THIS, NOT SOMETHING ELSE
+═══════════════════════════════════════════════════════════
+{script_json}
+═══════════════════════════════════════════════════════════
+
+{history_context}
+
+**BEFORE writing code**, first analyze this failure in a <reflection> block:
+<reflection>
+{_REFLEXION_JSON_SCHEMA}
+</reflection>
+
+Then provide the corrected code.
+"""
+                        elif consecutive_timeouts >= 2:
+                            print(f"\n🚨 [Template Override Tier 2] 連續 {consecutive_timeouts} 次渲染超時！啟動極簡線性骨架模式（禁止所有動態機制）...")
                             template_override = """
-[TEMPLATE OVERRIDE ACTIVATED]
-Your previous attempts all caused infinite render loops. You have lost the freedom to design the animation architecture.
-You MUST use the following safe, linear skeleton. Do NOT use any `always_redraw`, `add_updater`, or complex `ValueTracker` logic.
+[TEMPLATE OVERRIDE — TIER 2: LINEAR-ONLY SKELETON]
+Your previous attempts ALL caused infinite render loops even with dynamic patterns.
+You have lost ALL freedom to design the animation architecture.
+You MUST use the following safe, linear skeleton. Do NOT use ANY `always_redraw`, `add_updater`, or `ValueTracker` logic.
 Build the scene sequentially using simple `Create`, `Write`, `FadeIn`, and `play` commands:
 
 ```python
@@ -964,9 +1281,16 @@ Then provide the corrected code.
                                 _use_r1 = True
                                 print(f"🧠 [Tier-3] 第 {i+1} 輪啟動 DeepSeek-R1 深度推理模式...")
 
-                        # [Self-Consistency N=3 or N=1]
-                        _n_samples = 1 if (_triage_result and getattr(_triage_result, 'is_surgical', False)) else 3
+                        # [Self-Consistency] Adaptive N: surgical=1, first iteration=2, subsequent=1
+                        # Reflection memory already guides later iterations, N>1 adds latency without proportional gain
+                        if _triage_result and getattr(_triage_result, 'is_surgical', False):
+                            _n_samples = 1
+                        elif i == 0:
+                            _n_samples = 2
+                        else:
+                            _n_samples = 1
 
+                        _cstart = time.time()
                         if _use_r1:
                             # R1 單次呼叫（不做 self-consistency，R1 自帶 chain-of-thought 多樣性）
                             _r1_response = llm.ask_for_fix(history_context, feedback_for_llm, use_r1=True)
@@ -974,6 +1298,7 @@ Then provide the corrected code.
                         else:
                             print(f"⚡ [Self-Consistency] 啟動 N={_n_samples} 平行採樣以確保反思品質...")
                             raw_responses = llm.ask_for_fix_n(history_context, feedback_for_llm, n=_n_samples, temperature=0.5)
+                        llm.session_stats["time_coder_sec"] += (time.time() - _cstart)
                         
                         candidates = []
                         for resp in raw_responses:

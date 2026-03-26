@@ -14,7 +14,6 @@ from agents.orchestrator.refining_loop import RefiningLoop
 from agents.planner.planner import Planner
 from agents.coder.prompter import CoderPrompter
 from agents.core.llm_client import LLMClient
-from agents.core.rag_retriever import RAGRetriever
 from agents.core.logger import SessionLogger
 
 
@@ -158,12 +157,13 @@ if __name__ == "__main__":
             sys.exit(0)
 
         # 2. 智能路由 (Smart Task Router)
-        router = TaskRouter()
-        is_arithmetic, num1, op, num2 = router.detect_arithmetic_task(user_input)
-        if is_arithmetic:
-            video_path = router.route_to_template(user_input, num1, op, num2, target_scene, target_file, logger, llm)
-            if video_path:
-                sys.exit(0)
+        # 暫時註解掉，確保 run_evaluation.py 所有的題目都會跑完整的 LLM 流程
+        # router = TaskRouter()
+        # is_arithmetic, num1, op, num2 = router.detect_arithmetic_task(user_input)
+        # if is_arithmetic:
+        #     video_path = router.route_to_template(user_input, num1, op, num2, target_scene, target_file, logger, llm)
+        #     if video_path:
+        #         sys.exit(0)
 
         # 3. 自動翻譯 (Academic Translator Agent)
         translator = AcademicTranslator(llm_client=llm)
@@ -171,10 +171,26 @@ if __name__ == "__main__":
 
         # ========== 🎬 Original AI Pipeline (Planner + Coder) ==========
 
+        # [Optimization V5] Start RAG task in parallel with Planner
+        def _rag_task():
+            print("\n📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...")
+            from agents.core.rag_retriever import RAGRetriever as _RAG
+            _rag = _RAG()
+            _results = _rag.retrieve_examples(user_topic, limit=2)
+            _ctx = _rag.format_for_prompt(_results)
+            _rag.close()
+            return _ctx
+            
+        _pipeline_executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
+        _rag_future = _pipeline_executor.submit(_rag_task)
+
         # 階段一：Director 規劃 (Planner)
         print("\n🎬 [階段 1: Director] 正在規劃動畫腳本...")
+        import time
+        _start_planner = time.time()
         planner = Planner(llm_client=llm)
         script_json, thought_tree_raw = planner.plan_script(user_topic)
+        llm.session_stats["time_planner_sec"] += (time.time() - _start_planner)
         
         # [Optimization] Strip XML thought/reasoning blocks before parsing
         script_json_clean = re.sub(r'<thought_tree>.*?</thought_tree>', '', script_json, flags=re.DOTALL)
@@ -209,20 +225,9 @@ if __name__ == "__main__":
                     print(f"❌ 語音生成發生錯誤: {e}")
                     return None, None
 
-            def _rag_task():
-                print("\n📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...")
-                from agents.core.rag_retriever import RAGRetriever as _RAG
-                _rag = _RAG()
-                _results = _rag.retrieve_examples(user_topic, limit=2)
-                _ctx = _rag.format_for_prompt(_results)
-                _rag.close()
-                return _ctx
-
             # [Optimization V4] Audio ‖ RAG ‖ Coder 三路並行。
             # Coder 內部先 block 等 RAG（~5-10s），拿到 rag_context 後立即呼叫 LLM。
             # Audio 並行跑，結果在 Coder 完成後才取用（Audio ~15-25s << Coder ~60-90s）。
-            _pipeline_executor = concurrent.futures.ThreadPoolExecutor(max_workers=5)
-
             # spatial_hints 需在 Coder 啟動前算好（純 CPU，幾乎零耗時）
             if thought_tree_raw:
                 _tt_truncated = thought_tree_raw[:500].strip()
@@ -232,7 +237,6 @@ if __name__ == "__main__":
                 spatial_hints = ""
 
             _audio_future = _pipeline_executor.submit(_audio_task)
-            _rag_future = _pipeline_executor.submit(_rag_task)
 
             def _coder_task():
                 """等 RAG 完成後立即啟動 Coder（T=0.3），不等 Audio。"""
@@ -242,8 +246,14 @@ if __name__ == "__main__":
                 _cs, _cu = coder_prompter.generate_initial_prompt(
                     script_json, target_scene, rag_context=_rag_ctx, spatial_hints=spatial_hints
                 )
+                
+                import time
+                _start_coder = time.time()
                 raw = llm.ask_for_fix(_cs, _cu, temperature=0.3)
+                llm.session_stats["time_coder_sec"] += (time.time() - _start_coder)
+                
                 code = LLMClient.extract_code(raw)
+
                 code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', code, count=1)
                 code = re.sub(r'self\.wait\(([^)]+)\)', lambda m: f'self.wait(max(0.1, {m.group(1)}))', code)
                 try:
@@ -285,12 +295,9 @@ if __name__ == "__main__":
             script_json = json.dumps(_fallback, ensure_ascii=False, indent=2)
             print("⚠️  [Fallback] Planner 解析失敗，已注入最小 fallback JSON")
 
-            # parsed_script 為 None 時仍需有 rag_context（單執行緒，無音訊）
-            print("\n📚 [階段 1.8: RAG Retrieval] 正在搜尋黃金範例...")
-            _rag = RAGRetriever()
-            _results = _rag.retrieve_examples(user_topic, limit=2)
-            rag_context = _rag.format_for_prompt(_results)
-            _rag.close()
+            # [Optimization V5] RAG already submitted in parallel with Planner — reuse it
+            print("\n📚 [階段 1.8: RAG Retrieval] 等待已提交的 RAG 結果...")
+            rag_context = _rag_future.result()
 
             # Fallback path: no Audio, Coder runs after RAG
             print("\n👨‍💻 [階段 2: Coder] 正在生成動畫程式碼 (Best-of-3 並行)...")
@@ -306,7 +313,11 @@ if __name__ == "__main__":
             )
 
             def _generate_candidate(temperature):
+                import time
+                _start = time.time()
                 raw = llm.ask_for_fix(coder_system, coder_user, temperature=temperature)
+                llm.session_stats["time_coder_sec"] += (time.time() - _start)
+                
                 code = LLMClient.extract_code(raw)
                 code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', code, count=1)
                 code = re.sub(
@@ -322,6 +333,8 @@ if __name__ == "__main__":
                 print("✅ [Coder] T=0.3 通過編譯檢查")
             except SyntaxError as _se:
                 print(f"⚠️ [Coder] T=0.3 編譯失敗: {_se}，進入修復循環")
+
+            _pipeline_executor.shutdown(wait=False)
 
         with open(target_file, "w", encoding="utf-8") as f:
             f.write(first_code)

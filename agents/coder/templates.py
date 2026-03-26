@@ -43,6 +43,51 @@ To ensure precision, you MUST follow these MANDATORY constraints:
    - ✅ CORRECT: Manually writing out `self.play(...)` for EACH step.
    - You MUST unroll the loop. This is critical for fine-tuning timing and signals.
 
+5. 🎙️ **SUBTITLE MANAGEMENT — USE `set_subtitle()` ONLY**:
+   - A `SubtitleManager` is pre-loaded into every scene. Use it for ALL step-by-step narration text.
+   - ✅ CORRECT: `self.set_subtitle("Step 1: Draw the base circle")`
+   - ✅ CORRECT: `self.set_subtitle("Step 2: Add the radius", run_time=0.8)`
+   - ❌ WRONG: `self.play(Write(Text("Step 1: ...").to_edge(DOWN)))` — causes OVERLAP when the next subtitle appears
+   - ❌ WRONG: `self.play(FadeOut(old_text)); self.play(Write(new_text))` — fragile, frequently forgotten
+   - The system automatically handles `FadeOut` / `ReplacementTransform`. You only call `set_subtitle()`.
+   - To clear the subtitle at the end: `self._sm.clear()`
+
+6. 🏗️ **BLUEPRINT TRANSLATION — READ THE JSON FIELDS LITERALLY**:
+   The Director's JSON now contains machine-readable fields. Translate them DIRECTLY, no guessing:
+
+   **`manim_class`** → use as the Python class name verbatim:
+   ```python
+   # JSON: "manim_class": "Polygon"
+   obj = Polygon(...)
+   ```
+
+   **`constructor_args`** → unpack as constructor arguments.
+   - For `MathTex`/`Tex`: `"tex_string"` key → first positional arg: `MathTex(json["tex_string"], **rest)`
+   - For `Text`: `"text"` key → first positional arg: `Text(json["text"], **rest)`
+   - For all others: spread as keyword args: `Circle(**constructor_args)`
+   - Color strings (`"BLUE"`, `"RED"`, etc.) → use the Manim constant directly (no quotes in Python)
+
+   **`position`** → translate the structured dict to a Manim positioning call:
+   - `{{"method": "move_to", "ref": "ORIGIN"}}` → `obj.move_to(ORIGIN)`
+   - `{{"method": "move_to", "ref": "other_id"}}` → `obj.move_to(self.objects["other_id"])`
+   - `{{"method": "move_to", "ref": "other_id", "offset": [x,y,z]}}` → `obj.move_to(self.objects["other_id"]).shift(np.array([x,y,z]))`
+   - `{{"method": "next_to", "ref": "other_id", "direction": "DOWN", "buff": 0.3}}` → `obj.next_to(self.objects["other_id"], DOWN, buff=0.3)`
+   - `{{"method": "to_edge", "direction": "UP", "buff": 0.5}}` → `obj.to_edge(UP, buff=0.5)`
+   - Named anchors (e.g. `"ref": "grid_center"`) → resolve via `LayoutObject` or use the zone position
+
+   **`cleanup`** in each sequence step → FadeOut listed IDs BEFORE executing this step's `visual_action`:
+   ```python
+   # JSON: "cleanup": ["old_arrow", "highlight_box"]
+   if ["old_arrow", "highlight_box"]:
+       self.play(*[FadeOut(self.objects[k]) for k in ["old_arrow", "highlight_box"] if k in self.objects])
+   ```
+
+   **`animation_kwargs`** in `visual_action` → pass to `self.play()`:
+   ```python
+   # JSON: "animation_kwargs": {{"run_time": 2.0}}
+   self.play(Create(self.objects["circle"]), run_time=2.0)
+   ```
+
 ═══════════════════════════════════════════════════════════════════
 
 {MANIM_API_STRICT_RULES}

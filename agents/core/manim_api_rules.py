@@ -195,12 +195,33 @@ Using any of the following will cause an immediate NameError or TypeError at ren
 - `become()` inside an updater reconstructs the entire Manim object every frame → TIMEOUT.
 - The linter will BLOCK this with error UPDATER_BECOME_RISK.
 
-✅ CORRECT PATTERN — use always_redraw + ValueTracker:
+⚠️  CRITICAL: `always_redraw` is ONLY safe with LIGHTWEIGHT objects inside the lambda.
+    Rebuilding HEAVY objects (ParametricFunction, FunctionGraph, MathTex, Text) every frame ALSO causes timeout.
+
+✅ CORRECT PATTERN — always_redraw with LIGHT objects + TracedPath for curves:
    theta = ValueTracker(0)
-   curve = always_redraw(lambda: ParametricFunction(..., t_range=[0, theta.get_value()]))
-   dot   = always_redraw(lambda: Dot(circle_center + 2*np.array([np.cos(theta.get_value()), np.sin(theta.get_value()), 0])))
-   self.add(curve, dot)
+
+   # ✅ LIGHT objects ONLY inside always_redraw: Dot, Line, Arc, DashedLine
+   dot = always_redraw(lambda: Dot(
+       circle_center + 2*np.array([np.cos(theta.get_value()), np.sin(theta.get_value()), 0]),
+       color=RED
+   ))
+   proj = always_redraw(lambda: DashedLine(
+       circle_center + 2*np.array([np.cos(theta.get_value()), np.sin(theta.get_value()), 0]),
+       axes.c2p(theta.get_value(), np.sin(theta.get_value()))
+   ))
+
+   # ✅ Use TracedPath for dynamic curve drawing — NOT ParametricFunction inside lambda!
+   trace = TracedPath(dot.get_center, stroke_color=YELLOW, stroke_width=3)
+
+   self.add(dot, proj, trace)
    self.play(theta.animate.set_value(2 * PI), run_time=8, rate_func=linear)
+
+❌ BANNED inside always_redraw lambda (too expensive, causes timeout):
+   - ParametricFunction  → use TracedPath instead
+   - FunctionGraph       → use TracedPath instead
+   - MathTex / Tex       → pre-build once outside always_redraw, never rebuild dynamically
+   - Text                → pre-build once outside always_redraw
 
 ## BANNED: MathTex Array Indexing — Causes IndexError
 - NEVER use `eq[n]` hardcoded index on MathTex/Tex. Linter will BLOCK with HARDCODED_MOBJECT_INDEX.
@@ -315,5 +336,66 @@ When animating a circle unrolling into a line, or any arc-to-line morph:
    target = Arc(radius=r, angle=0.001)         # Same internal structure as source Arc
    target.stretch_to_fit_width(TAU * r)        # Morphs cleanly, matching point counts
    self.play(Transform(arc, target))
+
+## Rule 9: NEVER SHIFT AN AXES OBJECT — Breaks All Coordinate Mapping
+Putting `Axes` inside a `VGroup` and calling `.shift()` or `ApplyMethod(group.shift, ...)` is a
+FATAL antipattern. After the shift, ALL previously computed `axes.plot()` curves and `axes.c2p()`
+coordinates become stale and misaligned.
+
+❌ WRONG — axes coordinate system detaches from its plots:
+   group = VGroup(axes, curve, label)
+   self.play(ApplyMethod(group.shift, RIGHT * 2))   # curve is now misaligned!
+   # Any future axes.c2p() call uses the NEW position but existing plots use the OLD
+
+✅ CORRECT — Fix axes in place; morph the FUNCTIONS, not the axes:
+   # To show a function transformation (e.g. y=x² → y=(x-2)²-3):
+   parent = axes.plot(lambda x: x**2, color=BLUE)
+   final  = axes.plot(lambda x: (x-2)**2 - 3, color=GREEN)
+   self.play(Create(parent))
+   self.play(Transform(parent, final))   # Morphs the curve; axes stays fixed
+
+✅ CORRECT — If side-by-side is needed, use two separate Axes objects:
+   axes_left  = Axes(...).shift(LEFT * 3.5)
+   axes_right = Axes(...).shift(RIGHT * 3.5)
+   # Plot on each independently; never move them after creation
+
+## Rule 10: TANGENT LINE MUST USE DERIVATIVE — Never Use Horizontal Offset
+When drawing a tangent line to a curve at a point driven by a ValueTracker, the Line endpoints
+MUST be computed from the derivative slope and `axes.c2p()`. A Line offset by `+ 2*LEFT / + 2*RIGHT`
+is always horizontal (slope=0) regardless of the actual tangent.
+
+❌ WRONG — always horizontal, ignores the actual slope:
+   a = tracker.get_value()
+   tangent = always_redraw(lambda: Line(
+       start=point.get_center() + 2 * LEFT,   # ← horizontal! not the tangent
+       end=point.get_center() + 2 * RIGHT,
+   ))
+
+✅ CORRECT — compute start/end from derivative slope via axes.c2p():
+   # For curve y = f(x) with derivative f'(x):
+   # Tangent at x=a: y = f'(a) * (x - a) + f(a)
+   # So at x = a ± Δ: y = f(a) ± f'(a) * Δ
+   delta = 2.0
+   tangent = always_redraw(lambda: Line(
+       start=axes.c2p(
+           tracker.get_value() - delta,
+           f(tracker.get_value()) - f_prime(tracker.get_value()) * delta
+       ),
+       end=axes.c2p(
+           tracker.get_value() + delta,
+           f(tracker.get_value()) + f_prime(tracker.get_value()) * delta
+       ),
+       color=YELLOW
+   ))
+
+   # Example for y = 0.5x² → f'(x) = x:
+   tangent = always_redraw(lambda: Line(
+       start=axes.c2p(a.get_value() - 2,  0.5*a.get_value()**2 - a.get_value()*2),
+       end=axes.c2p(  a.get_value() + 2,  0.5*a.get_value()**2 + a.get_value()*2),
+       color=YELLOW
+   ))
+
+KEY RULE: ALL curve-point and tangent computations MUST go through `axes.c2p()`.
+Never mix raw Manim coordinates with axes-relative coordinates in the same scene.
 
 """

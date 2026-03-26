@@ -63,7 +63,11 @@ class LLMClient:
             "total_prompt_tokens": 0,
             "total_completion_tokens": 0,
             "total_cost_usd": 0.0,
-            "calls": []
+            "calls": [],
+            "time_planner_sec": 0.0,
+            "time_coder_sec": 0.0,
+            "time_render_sec": 0.0,
+            "time_vision_sec": 0.0
         }
         
         # Pricing per 1M tokens (USD) - Industry standard Feb 2026
@@ -467,6 +471,19 @@ class LLMClient:
         report += "="*40 + "\n"
         
         return report
+        
+    def reset_session_stats(self):
+        """Reset the internal session statistics counters."""
+        self.session_stats = {
+            "total_prompt_tokens": 0,
+            "total_completion_tokens": 0,
+            "total_cost_usd": 0.0,
+            "calls": [],
+            "time_planner_sec": 0.0,
+            "time_coder_sec": 0.0,
+            "time_render_sec": 0.0,
+            "time_vision_sec": 0.0
+        }
 
     def close(self):
         """Close the underlying API clients to release resources."""

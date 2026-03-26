@@ -32,3 +32,12 @@ test_logger_fix.py
 .vscode/
 .idea/
 .DS_Store
+
+# Runtime outputs
+runs/
+scene_state_log.json
+temp_vision_grid.jpg
+test_script.py
+
+# Personal Claude config
+.claude/

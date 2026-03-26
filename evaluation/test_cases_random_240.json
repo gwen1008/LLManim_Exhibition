@@ -1,0 +1,1682 @@
+[
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫顯示載螞蟻搬１到１０的柿子並逐步數起來",
+    "topic_en": "Animate an ant carrying persimmons numbered from 1 to 10 and count them one by one",
+    "description": "Visualize an ant moving across the screen, picking up persimmons numbered 1 through 10 while a counter increases with each addition",
+    "id": "RND_001"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "添上餡就完成的雖然比例不對但很可口的披薩",
+    "topic_en": "Though proportionally incorrect, a yummy pizza gets completed by adding toppings",
+    "description": "Illustrate a pizza base divided into parts where toppings are added to wrong sections showcasing different fractional parts sonically addressing unit fractions' mistakes",
+    "id": "RND_002"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用沿時計數的兩線数字牆來探索雙位數編碼",
+    "topic_en": "Explore two-digit encoding with number walls arranged in clockwise counting lines",
+    "description": "Create sequential draws in a spiraling 'clock' pattern with animated number changes on each rotation showing orderly. significances to syncing thinking organized number construction",
+    "id": "RND_003"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "以翩然化夢景的棉花度粒數來顯示質量的甄別",
+    "topic_en": "Show mass criterion through counting clouds that aptly transforms sky imaginaries",
+    "description": "Fantasy cloud scene associating size distinction differences as portrayed digit of multiple rounds ejections semantically launching how quantities scale grading irrespective metrics sprouting clues ",
+    "id": "RND_004"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "雨最襲合之SR330大數川勢權利法目創設給lSSH上的池光排序",
+    "topic_en": "Pool light orders trying by experimenting fitting obligations create challenge offer generals in SR330 John closer trust order inertia conduct experimental blueberry",
+    "description": "An absolutely creative highly imaginative sketch exercising censorship among unexpected repercussions try lightly order experiments arranging reportedly instructions tied closely edged SR transferring own making house hand continuous exploring aesthetics of base minimalist shining around.",
+    "id": "RND_005"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "使用數字方塊分解 36 為 6x6 圖像",
+    "topic_en": "Decompose 36 into a 6x6 visual using number blocks",
+    "description": "Visualize a grid of blocks breaking apart and fitting together again to demonstrate multiplication and division",
+    "id": "RND_006"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "通過動畫展示整數除法：餅乾的平均分配",
+    "topic_en": "Animating integer division: Sharing cookies evenly",
+    "description": "Cookies are distributed evenly to illustrate the concept of division resulting in whole numbers",
+    "id": "RND_007"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "通過動畫展示十分位增加一的效果（計數從29到30）",
+    "topic_en": "Show effect of adding one to the tens place (counting from 29 to 30)",
+    "description": "Illustrate how adding one moves the units from 9 to 0 and the tens from 2 to 3",
+    "id": "RND_008"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "分數表示：用圖示分解 1/4 地圖的部分",
+    "topic_en": "Fraction representation: Visualizing parts of a 1/4 map",
+    "description": "Use various shaded regions of a circle map to represent the quarter fraction complements",
+    "id": "RND_009"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "形狀分類：通過相似顏色進行三角形和正方形的分組",
+    "topic_en": "Shape sorting: Grouping triangles and squares by similar colors",
+    "description": "Illustrate how different shapes can be organized and categorized into groups based on color",
+    "id": "RND_010"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "畫出 4x3 的長方形並用動畫計算面積為 12",
+    "topic_en": "Draw a 4x3 rectangle and animate the calculation of its area as 12",
+    "description": "Visualizing the formation of a 4x3 rectangle and then filling in the squares to demonstrate the formula for the area, concluding by counting to 12.",
+    "id": "RND_011"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "展示數線上的負數與整數",
+    "topic_en": "Show negative numbers and whole numbers on a number line",
+    "description": "Animating a number line that gradually reveals positive and negative numbers, highlighting the position of zero in the center, and comparing negative and positive values.",
+    "id": "RND_012"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "畫出三角形內的高並計算面積",
+    "topic_en": "Draw a height inside a triangle and calculate its area",
+    "description": "Animating the process of drawing a triangle followed by a perpendicular height, showing how to calculate the area using base-height formula.",
+    "id": "RND_013"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "通過動畫理解分數相加",
+    "topic_en": "Understand fraction addition through animation",
+    "description": "Visually representing the addition of two fractions with common denominators, using pie charts or pizza models, leading to the resulting fraction.",
+    "id": "RND_014"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "數一百以內的奇數並用動畫確認哪些數字可整除 2",
+    "topic_en": "Count odd numbers below 100 and animate checks for divisibility by 2",
+    "description": "Showing a sequence of numbers below 100, highlighting odd numbers, and animating a division process to demonstrate why they can't be divided evenly by 2.",
+    "id": "RND_015"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "使用動畫展示棒棒糖的分數平分，顯示三分之一的概念",
+    "topic_en": "Animate splitting lollipops to visually demonstrate the concept of one-third as a fraction",
+    "description": "This animation will show three identical lollipops being divided equally, revealing what one-third looks like with vibrant colors and animated slicing",
+    "id": "RND_016"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "將點幻化成不同大小的三角形理解三角形的分類",
+    "topic_en": "Transform dots into triangles of various sizes to explore triangle classification",
+    "description": "The animation turns a grid of points into triangles, visually differentiating between scalene, isosceles, and equilateral triangles, highlighting key properties",
+    "id": "RND_017"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "利用旋轉和移動展示時鐘上的時間等間隔",
+    "topic_en": "Use rotation and movement to demonstrate equal intervals of time on a clock",
+    "description": "The clock hands move step-by-step to emphasize equal time intervals, helping students visualize how clocks partition time into hours, minutes, and seconds",
+    "id": "RND_018"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "創建動態脫骰畫面來指導次數的對立概念",
+    "topic_en": "Create a dynamic dice rolling scene to introduce the concept of counting outcomes",
+    "description": "The animation will simulate dice rolls and count potential outcomes, aiding in understanding basic probability and outcome enumeration",
+    "id": "RND_019"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫化萵面學習位值，顯示數字翻倍",
+    "topic_en": "Animate origami figures to learn place value by showing how numbers double",
+    "description": "Origami figures, starting as simple shapes, grow progressively bigger as digit values increase, offering a playful way to understand number place values and operations",
+    "id": "RND_020"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫顯示三個不同2位數加法的例子，計算後每題展示正確的答案",
+    "topic_en": "Animated visual of adding three 2-digit numbers with correct results displayed",
+    "description": "The animation will show visually appealing examples of summing three 2-digit numbers, each step accompanied by clear visual descriptions before revealing the final answer.",
+    "id": "RND_021"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "使用形狀來演示動物園裡有3隻花豹和4隻長頸鹿的總合",
+    "topic_en": "Illustrate with shapes the total of 3 leopards and 4 giraffes in a zoo",
+    "description": "An engaging animation that translates into shapes, adding 3 leopard figures and 4 giraffe figures, visualizing how many animals are in the zoo altogether.",
+    "id": "RND_022"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫分割出一米卷尺的每公里和公尺刻度標識",
+    "topic_en": "Animation illustrating each millimeter and centimeter mark on a meter ruler",
+    "description": "A visualization that carefully segments a standard meter ruler into visible columns, highlighting each millimeter and centimeter to show students how measurements are read.",
+    "id": "RND_023"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用幻燈片形式顯示右等腰三角形互相加至180°的算式",
+    "topic_en": "Slide show of angles in a right isosceles triangle adding to 180°",
+    "description": "Slides depict a right isosceles triangle with angles progressively marked and summed visually to prove they equal 180 degrees.",
+    "id": "RND_024"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "在數列中顯示從1數到100，並逐個強調每5的倍數",
+    "topic_en": "Count from 1 to 100, emphasizing multiples of 5",
+    "description": "A counting animation where numbers from 1 to 100 are highlighted normally, with special emphasis on numbers that are multiples of five turning a brighter color.",
+    "id": "RND_025"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫中畫出一個包含三角形、正方形和圓形的小鎮，並依次數出每種形狀的數量",
+    "topic_en": "Animate a small town containing triangles, squares, and circles, counting each shape in sequence",
+    "description": "Visualizing a small, animated town where polygons emerge, and students count how many of each appear",
+    "id": "RND_026"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "展示一百基座上的珠算，逐步演示加法過程",
+    "topic_en": "Show an abacus on the base of ten and demonstrate addition step by step",
+    "description": "Illustration of an abacus being used to perform simple addition, with beads moving linearly",
+    "id": "RND_027"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "演示三角形內部角度和為 180 度的動畫",
+    "topic_en": "Demonstrate that the angles inside a triangle sum up to 180 degrees",
+    "description": "Visual triangles subdividing into simpler angles and summing visually to demonstrate solution",
+    "id": "RND_028"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫順序展現從 1 至 12 的乘法表唱遊",
+    "topic_en": "Sequential animation showing the multiplication table from 1 to 12 as a sing-along",
+    "description": "Multiplication table revealed in portions aligned with a melody curransion to encourage memorization",
+    "id": "RND_029"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "四種基本立體形狀變形成其他形況...",
+    "topic_en": "Demonstrate four basic solid shapes that morph into other shapes",
+    "description": "Cuboid scanning slowly and the cut 3D object to reveal further shapes like cyliedoen and more ",
+    "id": "RND_030"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "顯示一張畫有 7 種顏色的大橫形蟲並揭示了那個方案如何避免重色隔鄰",
+    "topic_en": "Animating a caterpillar with 7 colors showing how to avoid repeated colors adjacent to each other",
+    "description": "Animate a caterpillar having 7 sections each colored differently; show how choosing the colors can prevent two neighboring sections from being the same color.",
+    "id": "RND_031"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "在數線上探險，攜帶步偵跟隨箭頭經過單位段爬 12 個廊跎至正在探看的地方",
+    "topic_en": "Exploring a number line using a footsteps trail to mark 12 spaces traveled",
+    "description": "Create a main animation to showcase with footsteps or markers moving across a number line to reach the position indicated by 12 units forward.",
+    "id": "RND_032"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "重建等腰三角的內外而且其具有動畫線把等分漢堡留下秋冬的顏色",
+    "topic_en": "Revealing the symmetry of an isosceles triangle with covering halves in autumn colors",
+    "description": "Introduce an isosceles triangle, highlight its line of symmetry, and use seasonally animated halves to illustrate the symmetry and equality characteristics.",
+    "id": "RND_033"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "由三元珠串看數之積式運算例如顯示 2、3 和 4 互相結繩為整體",
+    "topic_en": "Using bead strings to visualize a multiplication fact, depicting 2, 3, 4 tied together",
+    "description": "Carve out operations by stringing beads (pairs, triplets etc.) together, indicating multiplication facts such as 2 times 3 times 4, for matching it visually as single continuous binding.",
+    "id": "RND_034"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "經費時計數學篇─應笑小丑用圈蔬避免夕陽炊治驄橇民算花絢十平均化技",
+    "topic_en": "The Circus Budget Simulation: Finding average ticket prices with entertainment cost displayed in synched rings",
+    "description": "Frame an amusing circus troop calculating their average ticket price using color-kept cost ring sections within cartoons exhibiting review topics on classic average math.",
+    "id": "RND_035"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "使用圖片展示數的分解，例如 10 可以分解為 5 和 5，7 和 3",
+    "topic_en": "Decompose numbers visually, such as decomposing 10 into 5 and 5, 7 and 3",
+    "description": "An engaging animation where numbers break apart into smaller numbers with accompanying visual aids like blocks or dots.",
+    "id": "RND_036"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "運用水果的例子展示分數，比如將一個蘋果切成四分之一",
+    "topic_en": "Illustrate fractions using fruits, like slicing an apple into quarters",
+    "description": "A visual depiction of fractions through real-life objects, such as cutting an apple into several equal parts to visually understand fractions.",
+    "id": "RND_037"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用動畫表現出分別不同形狀的體積（如圓柱和立方)",
+    "topic_en": "Animate understanding the volume of different shapes, like cylinders and cubes",
+    "description": "The animation will allow students to compare and calculate the volume of various 3D shapes, emphasizing visual changes and interactions.",
+    "id": "RND_038"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "展示如何從一個整數數列中找出最大的數",
+    "topic_en": "Show how to determine the largest number from a sequence of integers",
+    "description": "A visual slideshow of numbers with dynamic highlighting and comparison to make the identification of the largest number visually intuitive.",
+    "id": "RND_039"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "反演通過旋找找對稱性，例如什麼是鏡子從一個形狀中看到的影像",
+    "topic_en": "Explore symmetry through rotation, like what the mirrored image of a shape appears as",
+    "description": "An aesthetically engaging animation showing how different forms look when rotated or mirrored, helping to understand symmetry visually.",
+    "id": "RND_040"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "以動畫形式示範三角形中角度的和為180度",
+    "topic_en": "Demonstrate with animation that the sum of the angles in a triangle is 180 degrees",
+    "description": "Visualize a triangle, cut and open the angles to form a straight line to show the sum of 180 degrees.",
+    "id": "RND_041"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用動畫顯示數字線上如何加法與減法",
+    "topic_en": "Show with animation how to perform addition and subtraction on a number line",
+    "description": "Animate a character moving along a number line to illustrate the concept of addition moving right and subtraction moving left.",
+    "id": "RND_042"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫演示四邊形的四個角度加起來是360度",
+    "topic_en": "Illustrate with animation that the sum of angles in a quadrilateral is 360 degrees",
+    "description": "Display a quadrilateral and manipulate its structure to demonstrate how the interior angles sum up to 360 degrees.",
+    "id": "RND_043"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "利用動畫展示等分圓的基本概念",
+    "topic_en": "Use animation to introduce the basic concept of partitioning a circle",
+    "description": "Divide a circle into equal parts using radial lines and show visually how each part reflects on the concept of fractions.",
+    "id": "RND_044"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "運用動畫解釋雙重數運算與四則運算的優先順序",
+    "topic_en": "Explain using animation the concept of Operations Order in Arithmetic (order of operations)",
+    "description": "Demonstrate PEMDAS/BODMAS visually by showing an operation sequence and highlighting each step with corresponding order.",
+    "id": "RND_045"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "展示不同種類的平行四邊形及其特性",
+    "topic_en": "Show Different Types of Parallelograms and Their Properties",
+    "description": "This animation will illustrate various types of parallelograms including rectangles, rhombuses, and squares, highlighting their distinct properties such as equal side lengths, angles, and opposite sides being parallel.",
+    "id": "RND_046"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "介紹三角形總內角和為180度的概念",
+    "topic_en": "Introduce the Concept that the Sum of Angles in a Triangle is 180 Degrees",
+    "description": "The animation will show a triangle with its angles labeled, then rearrange those angles to form a straight line demonstrating that their sum is always 180 degrees across different triangles.",
+    "id": "RND_047"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用漫畫講解 一半 概念通過 甜甜圈 和 飲料 分割",
+    "topic_en": "Explain Half Concept through Splitting Donuts and Drinks with Comics",
+    "description": "Visual representation of dividing items like a donut and a drink into equal parts, highlighting the concept of 'half' using engaging comic animations.",
+    "id": "RND_048"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "識別並創造重複圖案",
+    "topic_en": "Recognize and Create Repeating Patterns",
+    "description": "Animate the creation of various repeating patterns using simple shapes and colors, demonstrating sequence and symmetry in repetitive designs.",
+    "id": "RND_049"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "透過數線介紹分數的早步理解",
+    "topic_en": "Early Fraction Understanding through Number Lines",
+    "description": "Explain fractions by showing number lines divided into equal segments, aiding understanding of fractions such as halves, quarters, and thirds visually.",
+    "id": "RND_050"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "拚拼圖方塊的動畫來學習等於 10 的組合",
+    "topic_en": "Animate the tile puzzle to learn combinations equaling 10",
+    "description": "Illustrate how different sets of tiles representing numbers combine spatially to sum to 10.",
+    "id": "RND_051"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "按照克里斯偷懂原理 (九宮格) 胡桃伯 的給予任意以下完成的結冰扛",
+    "topic_en": "Play Chris Thorn principle: Completion of any prompt response from almonds pastries",
+    "description": "Animates deriving math principles by responding to unpredicted Mart visuals within preconceived puzzles.",
+    "id": "RND_052"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "使用方陣動畫展示從 1 到 5 的平方數",
+    "topic_en": "Use a square grid animation to show square numbers from 1 to 5",
+    "description": "Visualize creating 1x1, 2x2, 3x3, 4x4, and 5x5 squares to demonstrate the concept of squaring numbers and the resulting total number of smaller square units.",
+    "id": "RND_053"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "旋轉不同的平面圖形以展示線對稱",
+    "topic_en": "Rotate different plane figures to demonstrate line symmetry",
+    "description": "Showcase various 2D shapes like triangles, squares, and rectangles. Animate rotations and reflections to highlight lines of symmetry for each shape.",
+    "id": "RND_054"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "運用動畫介紹四則運算的優先順序",
+    "topic_en": "Introduce the order of operations using animation",
+    "description": "Use animations to explain the importance of order of operations (PEMDAS/BODMAS) by sequentially solving an equation and visually highlighting each operation's precedence.",
+    "id": "RND_055"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "展示等邊三角形不等邊三角形認知與比較",
+    "topic_en": "Showcase understanding and comparison of equilateral and scalene triangles",
+    "description": "Animate the creation of both equilateral and scalene triangles. Use measurements and visual markers to contrast the equality of sides and angles in each type of triangle.",
+    "id": "RND_056"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用數字線可視化數的大小比較",
+    "topic_en": "Visualize comparing sizes of numbers on a number line",
+    "description": "Display a number line and animate arrows or markers to show how different numbers are located in relation to each other, emphasizing greater than, less than, and equal to comparisons.",
+    "id": "RND_057"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "建立數字範圍 1 到 100 的有趣數字方陣動畫顯示質數",
+    "topic_en": "Create an animated matrix of numbers from 1 to 100 highlighting prime numbers",
+    "description": "An animation showing a grid of numbers from 1 to 100 where each prime number is highlighted and non-prime numbers fade out, introducing students to the concept of prime numbers visually.",
+    "id": "RND_058"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "形狀變換中三角形, 正方形, 與圓形的旋轉與翻轉動畫",
+    "topic_en": "Animation of triangles, squares, and circles rotating and flipping through transformations",
+    "description": "Shapes such as triangles, squares, and circles are animated to demonstrate flipping and rotation, helping students understand geometric transformations.",
+    "id": "RND_059"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "利用時鐘動畫解釋 12 小時制中的分針與時針變換",
+    "topic_en": "Use clock animation to explain the movements of minute and hour hands in the 12-hour system",
+    "description": "An animation of a clock showing how the minute and hour hands move consistently to help students visualize time passage on an analog clock.",
+    "id": "RND_060"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "使用動畫顯示加法與減法中的借位與進位過程",
+    "topic_en": "Illustrate the process of carrying and borrowing in addition and subtraction with animations",
+    "description": "Fill up columns using colored blocks or beads to represent units, tens, hundreds, demonstrating addition and subtraction involving carrying and borrowing through step-by-step animation.",
+    "id": "RND_061"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動態展示長度測量標準的厘米與英吋之間的轉換",
+    "topic_en": "Dynamic visaulization of length measurement conversions between centimeters and inches",
+    "description": "A series of rulers or length indicators depicting how measurements in centimeters can be equivalently represented in inches, emphasizing the concept of unit conversion through a visual morphing of scales.",
+    "id": "RND_062"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "利用數線視覺化 5 加上 8 的計算過程",
+    "topic_en": "Visualizing the addition of 5 plus 8 using a number line",
+    "description": "Animate a number line where a dot starts at 5 and moves 8 units forward to show the sum of 13.",
+    "id": "RND_063"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "畫出一個 4x3 的長方形並用動畫示範如何分解面積",
+    "topic_en": "Draw a 4x3 rectangle and demonstrate how to decompose its area",
+    "description": "Start with an animation of drawing a rectangle, then use lines to divide it into smaller 2x2 squares, showing that the total area is the sum of these smaller areas.",
+    "id": "RND_064"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動態展示乘法的結合律則例如 2x(3x4) 與 (2x3)x4",
+    "topic_en": "Dynamic demonstration of the associative property of multiplication, like 2x(3x4) and (2x3)x4",
+    "description": "Create an animation showing buckets being doubled, within which the quantities follow both multiplication paths to illustrate that they yield the same total.",
+    "id": "RND_065"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫為三角形內角和等於 180 度",
+    "topic_en": "Animation showing that the sum of interior angles in a triangle is 180 degrees",
+    "description": "Include visual elements to show splitting a triangle into two right angles and demonstrating how the angle sums align to form a half circle.",
+    "id": "RND_066"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "通過圖形轉換展示對稱，例如鏡像和旋轉",
+    "topic_en": "Showcasing symmetry through transformations, like mirroring and rotation",
+    "description": "Highlight a shape reflected over a line, then rotate it around a point to visualize symmetrical properties through animation.",
+    "id": "RND_067"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫展示如何利用數線上的跳躍進行20以內的加法",
+    "topic_en": "Display how to use jumps on the number line for addition under 20",
+    "description": "The animation shows a number line, with a character hopping from point to point illustrating addition with steps",
+    "id": "RND_068"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "展示動畫將剛體旋轉90度並標記方向",
+    "topic_en": "Illustrate rotating solid shapes 90 degrees and marking direction",
+    "description": "The animation includes a 2D shape being rotated by 90 degrees with arrows showing the turn direction",
+    "id": "RND_069"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "切一個完整的披薩並掌握等分三分之一和四分之一的概念",
+    "topic_en": "Slice a whole pizza to understand fractions: third and quarter",
+    "description": "The animation slices a circular pizza, highlighting each slice to explain one-third and one-quarter portions",
+    "id": "RND_070"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "以動畫示範對稱如何運用於簡單圖形",
+    "topic_en": "Demonstrate symmetry with simple shapes",
+    "description": "The animation reflects simple shapes like squares and triangles over vertical and horizontal axes",
+    "id": "RND_071"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "駱駝隊努力穿越乘法表的動畫路徑",
+    "topic_en": "Camel caravan's journey through the multiplication table animation path",
+    "description": "An animation depicts a camel caravan walking across a multiplication table grid, visualizing multiplication steps",
+    "id": "RND_072"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "以銳角、直角和鈍角分類各種圖形",
+    "topic_en": "Classifying various shapes by acute, right, and obtuse angles",
+    "description": "The animation will show different types of angles and categorize a variety of polygons based on these angular properties.",
+    "id": "RND_073"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "兩位數加兩位數的進位加法逆序展示",
+    "topic_en": "Reverse-ordered animation of two-digit addition with carrying",
+    "description": "Demonstrate an animation that shows how two-digit addition with carrying works, and then plays it in reverse to strengthen understanding.",
+    "id": "RND_074"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "數字線上從 1 增加到 10 並顯示中間的數字",
+    "topic_en": "Animating a number line adding numbers from 1 to 10, highlighting mid-values",
+    "description": "Create a number line where numbers are progressively highlighted as they are added from 1 to 10, with emphasis on midpoint numbers.",
+    "id": "RND_075"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用圓形、半圓和四分之一圓介紹真分數",
+    "topic_en": "Introducing proper fractions using whole, half, and quarter circles",
+    "description": "Illustrate fractions for early learners using circles to visually represent one whole, a half, and a quarter.",
+    "id": "RND_076"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "指導比例尺閱讀和實際距離估算",
+    "topic_en": "Guided lesson on reading scale maps and estimating actual distances",
+    "description": "Provide a step-by-step guide to understanding and using scale maps, showcasing how to read the scale and convert to comprehend real-world distances.",
+    "id": "RND_077"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "使用圓柱體堆疊模擬計算體積",
+    "topic_en": "Simulating Volume Calculation with Stacked Cylinders",
+    "description": "Visualize cylinders being stacked on top of each other, changing their heights and radii while computing the total volume through animation.",
+    "id": "RND_078"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫演示乘法表，強調對稱性",
+    "topic_en": "Animate Multiplication Table with Emphasis on Symmetry",
+    "description": "Show an animated multiplication table highlighting symmetrical patterns along the diagonal, transitioning rows and columns to demonstrate the symmetry.",
+    "id": "RND_079"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "代表式分數加減法的數線動畫",
+    "topic_en": "Number Line Animation Representing Fraction Addition and Subtraction",
+    "description": "Illustrate fractions being added and subtracted across a number line, with segments highlighted to reflect each operation and resulting position.",
+    "id": "RND_080"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用正三角形填充的等邊三角形展示",
+    "topic_en": "Filling an Equilateral Triangle with Equilateral Triangles",
+    "description": "Create an animation breaking down a large equilateral triangle into smaller equilateral triangles and demonstrating how they perfectly fit together to fill the space.",
+    "id": "RND_081"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "透過分拆和重組解釋三角形面積公式",
+    "topic_en": "Explaining Triangle Area Formula through Decomposition and Recomposition",
+    "description": "Decompose various triangles into right triangles or parallelogram sections and recompose to derive the area formula through dynamic transformations.",
+    "id": "RND_082"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "將平行四邊形分解成兩個全等的三角形",
+    "topic_en": "Breaking a Parallelogram into Two Congruent Triangles",
+    "description": "Demonstrate how a parallelogram can be divided into two triangles and transition the pieces through animation to show congruency.",
+    "id": "RND_083"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示圓比例公式: 校園運動場跑道總長分析",
+    "topic_en": "Visualizing the Circle Proportionality Formula Using a School Track",
+    "description": "Create an animation that explains how the circle circumference related properties can be applied practically to a school track field, visualizing the circumference as the athletes run around the track.",
+    "id": "RND_084"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "利用坐標平面上的線段証明點在原始線段之上的中點性質",
+    "topic_en": "Using the Coordinate Plane to Prove the Property that the Midpoint Falls Every Line Segment",
+    "description": "Illustrate how calculating distances using coordinates can visually prove that a constructed midpoint lies equally distant from the endpoints of a segment.",
+    "id": "RND_085"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用乘法表示圖示啟發式分配律",
+    "topic_en": "Visual Heuristic Explanation of the Distributive Law through Multiplication",
+    "description": "Demonstrate the distributive law (a(b + c) = ab + ac) with animated numbers and visual examples using shapes such as colored rectangles that overlap and expand.",
+    "id": "RND_086"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "演示如何將正三角形變換為內切圓之平等分割",
+    "topic_en": "Demonstration of Dividing an Equilateral Triangle into Equal Parts Towards an Inscribed Circle",
+    "description": "Animate the inner and outer processes of constructing equal parts including segments and circular arcs aligning symmetrically within an equilateral triangle and its inscribed circle.",
+    "id": "RND_087"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "畫出一個直角三角形並展示勾股定理，動畫疊加不同顏色的正方形以解釋a^2 + b^2 = c^2",
+    "topic_en": "Visualizing Pythagorean Theorem with a Right Triangle and Color-Coded Squares",
+    "description": "Creating a right triangle and overlaying squares on its sides. Each square is animated with different colors and the theorem is explained by showing how the areas fit into the equation a^2 + b^2 = c^2.",
+    "id": "RND_088"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "旋轉一個等邊三角形，展示三角形的對稱性和平面圖形的旋轉角度計算",
+    "topic_en": "Rotating an Equilateral Triangle to Demonstrate Symmetry and Angle of Rotation",
+    "description": "Visual animation of an equilateral triangle being rotated around its center to demonstrate symmetry. The animation highlights rotational symmetry and calculates angle increments as the triangle rotates.",
+    "id": "RND_089"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "使用視覺化樹枝圖解示雙步方程式，方程式中包括未知數和簡單算術",
+    "topic_en": "Using a Visual Tree Diagram to Solve Two-Step Equations",
+    "description": "Illustrating two-step equations using a diagram that branches out to demonstrate the order of operations for isolating the variable and solving the equation.",
+    "id": "RND_090"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "從數據集合中推導出平均數並用指針移動來解釋各點到平均值的差異",
+    "topic_en": "Deriving the Mean from a Data Set with Pointer Movements",
+    "description": "Representing a set of data points on a number line and using an animated pointer to find the mean by demonstrating equalizing the distances of data points from this average.",
+    "id": "RND_091"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "瓜分一個圓並動畫顥示比例，用百分比表示特定部分",
+    "topic_en": "Partitioning a Circle and Animating Proportions Represented as Percentages",
+    "description": "Dividing a circle into sections and using animated shading to explain how each section relates to a whole in percentage terms. The animation will highlight changing segments and updating decimal and percent values.",
+    "id": "RND_092"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用動畫展示正比例函數圖像 y = x 的變化",
+    "topic_en": "Visualizing the graph of a direct proportion function y = x",
+    "description": "Create an animation showing the graph of the linear function y = x on a coordinate plane, highlighting how the slope of 1 affects the line and the proportional relationship between x and y.",
+    "id": "RND_093"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "展示如何利用因式分解計算法求二次方程的解",
+    "topic_en": "Illustrate factoring to solve quadratic equations",
+    "description": "Show step-by-step animation of factoring a quadratic equation, such as x^2 + 5x + 6 = 0, highlighting the factors and demonstrating how they lead to the solutions.",
+    "id": "RND_094"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "旋轉不同的多邊形並觀察其對稱性",
+    "topic_en": "Rotate various polygons and observe their symmetry",
+    "description": "An animation illustrating the process of rotating different types of polygons, such as equilateral triangles and squares, and observing their lines of symmetry and how they map onto themselves.",
+    "id": "RND_095"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用動畫證明三角內角和等於 180 度",
+    "topic_en": "Demonstrate the triangle interior angle sum theorem",
+    "description": "Visual proof showing that the sum of the interior angles of a triangle is 180 degrees by 'cutting' corners and re-arranging them to form a straight line.",
+    "id": "RND_096"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "使用圓的動態建構來展示圓心角與弧度互為定義值",
+    "topic_en": "Use a dynamic circle to demonstrate central angle and arc length relationships",
+    "description": "Show how the central angle in a circle relates to the arc length and illustrate this by dynamically drawing circles with varying sizes and measuring the corresponding arc lengths.",
+    "id": "RND_097"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "利用正多邊形動畫展示多邊形內角和公式",
+    "topic_en": "Visualizing the Interior Angle Sum Formula of Polygons using Animated Regular Polygons",
+    "description": "Animating different regular polygons to illustrate and calculate the sum of interior angles using the formula (n-2)*180 degrees.",
+    "id": "RND_098"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "通過點旋轉展示二維坐標系中的旋轉變換",
+    "topic_en": "Exhibiting Rotational Transformation in a 2D Coordinate System Using Point Rotation",
+    "description": "Showing how points in a 2D coordinate system rotate around the origin by a specific angle with arcs and guides.",
+    "id": "RND_099"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用動畫展示兩個等腰三角形的合同性質",
+    "topic_en": "Animating the Congruent Properties of Two Isosceles Triangles",
+    "description": "Displaying isosceles triangles to show their congruent sides and angles, emphasizing properties that make them congruent.",
+    "id": "RND_100"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫化數線上有理數的排序與比較",
+    "topic_en": "Animating the Ordering and Comparison of Rational Numbers on a Number Line",
+    "description": "Visually demonstrating how different rational numbers are placed and compared on a number line segmented with uniform intervals.",
+    "id": "RND_101"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用格子點坐標動畫演示掰彎線段公式",
+    "topic_en": "Animating the Formula for Finding the Length of a Line Segment with Coordinate Grid Points",
+    "description": "Utilizing a coordinate grid with integer points to demonstrate calculating distances using the Pythagorean theorem.",
+    "id": "RND_102"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示勾股定理，展示三角形與對應的平方面積。",
+    "topic_en": "Animated demonstration of the Pythagorean theorem by illustrating a triangle and corresponding square areas.",
+    "description": "Visualizes a right-angled triangle with squares built on each side, and reveals the relationship a² + b² = c².",
+    "id": "RND_103"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫描繪雙數的乘法如4X3，使用動態棋盤提升重複加法的理解。",
+    "topic_en": "Animated multiplication of numbers like 4x3 using a dynamic checkerboard to enhance understanding of repeated addition.",
+    "description": "Illustrates multiplication by filling a 4x3 grid to show how multiplication is equivalent to repeated addition.",
+    "id": "RND_104"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫演示各種圖形之面積公式，如圓形、正方形和三角形。",
+    "topic_en": "Animation demonstrating area formulas for various shapes like circles, squares, and triangles.",
+    "description": "Shows how to calculate areas by animating transformations and adjustments of the shapes into base-area comparables.",
+    "id": "RND_105"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "使用动态坐标系展示简单线性函数，如 y = 2x + 1。",
+    "topic_en": "Using a dynamic coordinate system to explore simple linear functions like y = 2x + 1.",
+    "description": "Plots multiple points on a 2D plane establishing the straight line's slope and intercept, using color gradation for emphasis.",
+    "id": "RND_106"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫中使用圓號展示簡單一元一次方程的解, 如x + 3 = 7。",
+    "topic_en": "Animation using balance scales to solve simple one-variable equations, such as x + 3 = 7.",
+    "description": "Balancing elements on a visual scale to demonstrate the principle of maintaining equality while simplifying equations.",
+    "id": "RND_107"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "各角名稱與大小在三角形內的變化",
+    "topic_en": "Changing Names and Sizes of Angles Within a Triangle",
+    "description": "Show a triangle with adjustable vertices to dynamically change the angles, display angle measures, and label types (acute, right, obtuse) in real-time.",
+    "id": "RND_108"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "數列求和動畫展示",
+    "topic_en": "Animated Series Summation Demonstration",
+    "description": "Visual representation of a simple arithmetic series being summed step-by-step with term values and partial sums shown dynamically.",
+    "id": "RND_109"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "平行線被橫切線截所形成角之關係",
+    "topic_en": "Relationships Between Angles Formed by a Transversal Cutting Parallel Lines",
+    "description": "Animate a transversal crossing two parallel lines, demonstrating alternate interior, corresponding, and vertical angles with angle measurements highlighted.",
+    "id": "RND_110"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "因數與倍數的數字篩子模型",
+    "topic_en": "Animated Sieve Model of Factors and Multiples",
+    "description": "Create a sieve visualization where numbers pass through different filters to highlight their factors and multiples, and distinguish prime numbers.",
+    "id": "RND_111"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "立方根的視覺折疊動畫",
+    "topic_en": "Visual Folding Animation of Cube Roots",
+    "description": "Illustrate the concept of cube roots by visualizing folding squares into cubes with different unit lengths growing, contracting, and achieving perfect cubes.",
+    "id": "RND_112"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示三角形內角和為 180 度",
+    "topic_en": "Animating the sum of interior angles in a triangle being 180 degrees",
+    "description": "Exploring how various triangles can be decomposed into angles that add up to 180 degrees using colorful rotations and arrangements.",
+    "id": "RND_113"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫化十進制和二進制之間的轉換過程",
+    "topic_en": "Animating the conversion process between decimal and binary systems",
+    "description": "Visually representing the step-by-step method to convert a number from decimal to binary and vice versa using dynamic number divisions and binary stacking.",
+    "id": "RND_114"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "利用動畫將圓分割成扇形並計算圓周長",
+    "topic_en": "Using animation to partition a circle into sectors and compute the circumference",
+    "description": "Showing how partitioning a circle into equal sectors can visually transition into a conceptual development of using parts to calculate the circumference.",
+    "id": "RND_115"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "枚舉法展示排列和組合的差異",
+    "topic_en": "Animating the differences between permutations and combinations",
+    "description": "Demonstrating through animated examples how the order affects permutations but not combinations, using lined-up colors and abstract objects.",
+    "id": "RND_116"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫模擬阿基米德的螺線形狀",
+    "topic_en": "Animating the geometric formation of an Archimedean spiral",
+    "description": "Illustrating the step-by-step creation of an Archimedean spiral by incrementally extending a ray and tracing its path.",
+    "id": "RND_117"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "使用動畫展示圓的周長如何計算，並演示π值的由來",
+    "topic_en": "Visually explore the calculation of a circle's circumference and demonstrate the origin of π value",
+    "description": "An animation showing how the circumference of circles is related to the diameter, illustrating π as the constant ratio",
+    "id": "RND_118"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示如何將五邊形分割為三角形並計算內角和",
+    "topic_en": "Animated demonstration of subdividing a pentagon into triangles to calculate its interior angle sum",
+    "description": "The visualization breaks down a pentagon into non-overlapping triangles and calculates the sum of its interior angles",
+    "id": "RND_119"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "通過摺紙動畫說明方式計算兩直線的交點坐標",
+    "topic_en": "Illustrate using an origami animation how to calculate the intersection point of two lines",
+    "description": "An animation representing the overlay of two lines with folding techniques that accurately reveals their intersection point",
+    "id": "RND_120"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "展示平行四邊形的對稱性質和中點連接形成平行線的過程",
+    "topic_en": "Showcase the symmetry properties of a parallelogram and how connecting midpoints forms parallel lines",
+    "description": "The animation demonstrates how parallelograms maintain parallel opposite sides and how linking midpoints also results in parallel segments",
+    "id": "RND_121"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "數學動畫演繹最大公約數通過長方形的方式理解歐幾里得算法",
+    "topic_en": "Mathematical animation explains the greatest common divisor using rectangles to understand the Euclidean algorithm",
+    "description": "An exploration of how rectangle overcuts metaphorically simplify into smaller rectangles, demonstrating the Euclidean algorithm",
+    "id": "RND_122"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "利用動畫展示平行四邊形的面積計算過程",
+    "topic_en": "Animate the process of calculating the area of a parallelogram",
+    "description": "Visualize drawing a parallelogram, slicing and rearranging it into a rectangle to show how its area is calculated (base x height).",
+    "id": "RND_123"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "使用動畫推導勾股定理",
+    "topic_en": "Animate deriving the Pythagorean Theorem",
+    "description": "Show squares built on each side of a right triangle and rearrange them to demonstrate a² + b² = c² visually.",
+    "id": "RND_124"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫介紹質數找尋方法",
+    "topic_en": "Animate methods of finding prime numbers",
+    "description": "Illustrate methods like the Sieve of Eratosthenes in a step-by-step fashion to identify all primes up to a given number.",
+    "id": "RND_125"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用動畫展示正多邊形的內角和計算",
+    "topic_en": "Illustrate the process for calculating the interior angle sum of regular polygons",
+    "description": "Decompose a regular polygon into triangles and add their angles to demonstrate the formula (n-2)*180° for the sum of interior angles.",
+    "id": "RND_126"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "透過動畫解說二次函數圖形的開口朝向",
+    "topic_en": "Illustrate direction of opening for quadratic functions graph",
+    "description": "Show how changing the coefficient of the squared term affects the direction (upward or downward) of the parabola on the graph.",
+    "id": "RND_127"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "利用平行四邊形如何計算梯形的面積",
+    "topic_en": "Calculating the area of a trapezoid using parallelogram and animation",
+    "description": "Visualize transforming a trapezoid to a parallelogram to demonstrate how the formula for area of a trapezoid is derived using basic geometry concepts.",
+    "id": "RND_128"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "數字線上的分數排列和比較",
+    "topic_en": "Arranging and comparing fractions on a number line",
+    "description": "Animated representation of fractions placed on a number line to show their sizes, promoting understanding of equivalent fractions and ordering them by value.",
+    "id": "RND_129"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "利用立方體和正方體展示三維空間的表面積計算",
+    "topic_en": "Illustrating surface area calculation in 3D using cubes and cuboids",
+    "description": "3D animation showing the concept of surface area by unfolding and calculating the net of cubes and cuboids.",
+    "id": "RND_130"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "如何使用補角製作直角相三角形",
+    "topic_en": "Creating right-angle triangles using complementary angles",
+    "description": "Animated construction of right-angle triangles using the concept of complementary angles to reinforce understanding of angle relationships.",
+    "id": "RND_131"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "透過不同圖形展示基本與進階的對稱",
+    "topic_en": "Demonstrating basic and advanced symmetry using various shapes",
+    "description": "Animation showcasing reflectional and rotational symmetry in different shapes, progressing from simple to more complex patterns.",
+    "id": "RND_132"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用陰影分割組合圖形來計算三角形面積",
+    "topic_en": "Calculate triangle area by shading and dividing composite shapes",
+    "description": "Visualize how a composite shape involving a triangle can be shaded and split into smaller areas to illustrate the calculation of the triangle's area using base and height.",
+    "id": "RND_133"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "百位橫條圖的簡單化分佈與平均值",
+    "topic_en": "Simplifying the distribution and mean using bar graphs of hundreds",
+    "description": "Create a bar graph animation showing various distributions of numbers in hundreds, demonstrating how to find the mean by averaging the data across the bars.",
+    "id": "RND_134"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "從前角到射影形成的零角度",
+    "topic_en": "Transformation from frontal angles to zero-degree angle of projection",
+    "description": "Show the visual transition of geometric angles shrinking down as a projection or perspective changes, culminating in what is effectively a zero-degree frontal angle.",
+    "id": "RND_135"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "由直線組成之正多邊形的內多角形和証明",
+    "topic_en": "Inner polygon sums and proof within regular polygons through line segments",
+    "description": "Animated proof showcasing the sum of interior angles within a regular polygon and showing how additional lines segment the figure, maintaining the angle sum rule.",
+    "id": "RND_136"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "探索圓的直徑和周長的π倍成因",
+    "topic_en": "Explore the relationship between diameter and circumference tied by pi",
+    "description": "Display several circles growing in size, emphasizing the connection between diameter multiplied by π and resulting circumference, illustrating the initiative calculation of circumference.",
+    "id": "RND_137"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示兩個不同大小的正方形如何構成盲點幻覺",
+    "topic_en": "Animate how two differently sized squares create an optical illusion",
+    "description": "This animation creates an optical illusion using squares. As the squares overlap, students visualize how size affects perception and can be tricked visually.",
+    "id": "RND_138"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "生成並步驟呈現三角形內角和為180度的數字郵票利用",
+    "topic_en": "Create a step-by-step visualization of a triangle's interior angles totaling 180 degrees using number stamps",
+    "description": "Show the inside of a triangle, label each angle with stamps, and gradually demonstrate how these add up to 180 degrees, emphasizing geometry principles.",
+    "id": "RND_139"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "光效應動畫解釋最大公因數 (GCD) 在圓形的均分顯現",
+    "topic_en": "The effect of light animations reflects the Greatest Common Divisor (GCD) demonstrated in circular partitions",
+    "description": "Use circular partitions lit distinctly to realize shared divisions representing the GCD, providing a vivid pie-chart comparison.",
+    "id": "RND_140"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "立體動畫展示乘法表中的數形圖",
+    "topic_en": "3D animation presenting number shapes in times tables",
+    "description": "Convert times table values into a 3D landscape, creating a powerful physical manifestation of multiplication patterns.",
+    "id": "RND_141"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用移動箭頭動畫示範二元一次方程的解法",
+    "topic_en": "Demonstrate solving linear equations with two variables using moving arrows animation",
+    "description": "Illustrate the substitution or elimination method by visually moving arrows representing the changing values and outcomes in solving the equations.",
+    "id": "RND_142"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示如何使用垂直和水平線找到坐標平面上的點",
+    "topic_en": "Animated demonstration of how to locate points on a coordinate plane using vertical and horizontal lines",
+    "description": "This animation will guide students on locating points by illustrating the movement along the x-axis and y-axis through lines emanating from the origin.",
+    "id": "RND_143"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用動畫引導學習分數的加法和透明模型展示為什麼 1/2 + 1/3 = 5/6",
+    "topic_en": "Animated guide on fraction addition with a translucent model to explain why 1/2 + 1/3 = 5/6",
+    "description": "Show the concept of fractional addition by overlaying and aligning parts of semi-transparent shapes to illustrate the position and size of fractional sums.",
+    "id": "RND_144"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用動態視圖解釋因數樹分解48以得到其質因數",
+    "topic_en": "Using dynamic views to explain the factor tree decomposition of 48 to reveal its prime factors",
+    "description": "Visualize the factor tree in stages, with branches that further break down into smaller non-prime factors until prime numbers are reached.",
+    "id": "RND_145"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示圓內圓周與直徑的關係以理解除以 2 的 Pi 值",
+    "topic_en": "Animation showing the relationship between circumference and diameter inside a circle to reveal the value of Pi when divided by 2",
+    "description": "Circle fitting visualization to present how the circumference repeatedly overlays around the diameter, eventually abstracting this relationship to Pi when considering semi-circles.",
+    "id": "RND_146"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫透過領域觀察表證明三角形的內角和總是等於180度",
+    "topic_en": "Prove that the sum of angles in a triangle is always 180 degrees through overlapping horizontal visualizations",
+    "description": "Illustration of moving one angle outward to a linear form by folding and then rolling out the comparator angles to form a straight line.",
+    "id": "RND_147"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "使用動畫演示兩個不相交的弧多邊形累加漸進形成圓",
+    "topic_en": "Demonstrate with animation how two non-intersecting arc polygons progressively form a circle",
+    "description": "Visualize two sequences of non-overlapping polygons with arcs that deform into a circle, illustrating concepts of approximation and pi.",
+    "id": "RND_148"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示如何將兩組平行線延長到相交並解析內外角總和關係",
+    "topic_en": "Use animation to show how two sets of parallel lines extend to intersect and explain the internal and external angle sum relationship",
+    "description": "Visualizing the behavior of angles formed when a transversal cuts through parallel lines and extends, emphasizing their sum properties.",
+    "id": "RND_149"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動態探索勾股數，並用動畫證明勾股定理",
+    "topic_en": "Dynamically explore Pythagorean triples and use animation to prove the Pythagorean theorem",
+    "description": "Illustrate the derivation of Pythagorean triples using a grid layout, followed by an animated proof of the Pythagorean theorem.",
+    "id": "RND_150"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "用曼哈頓座標繪製網格並展示距離公式在不同坐標点之間的應用",
+    "topic_en": "Draw a grid with Manhattan coordinates and demonstrate the application of the distance formula on different coordinate points",
+    "description": "Visual exploration of calculating distance using the Manhattan metric on a graph, distinctly tracing routes between plotted points.",
+    "id": "RND_151"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫呈現正多邊形逐邊分解為等腰三角形並求出面積",
+    "topic_en": "Present an animation breaking down a regular polygon into isosceles triangles to find the area",
+    "description": "Render a regular polygon into constituent isosceles triangles, demonstrating calculation of area via recorded isosceles sections.",
+    "id": "RND_152"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "繪製兩個等腰三角形並求共享點所在的角度",
+    "topic_en": "Draw two isosceles triangles and find the angle at the shared vertex",
+    "description": "Two overlapping isosceles triangles sharing a vertex are depicted dynamically, and Manim calculates the angle at the shared point stepping through the process visually.",
+    "id": "RND_153"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "利用動畫展示 X軸上 90度旋轉的正方形的變化",
+    "topic_en": "Show using animation the transformation of a square rotated 90 degrees on the X-axis",
+    "description": "A square is depicted as rotating around the X-axis, where the visual shows each step of the rotation by degrees, finishing at a right angle.",
+    "id": "RND_154"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "長方形圓拱與拱高面積計算的展示",
+    "topic_en": "Demonstrate the calculation of the area of a rectangular arch with known arch height",
+    "description": "A rectangle with a semicircular arch on top is animated, showing how the length, width, and height of the arch are used to calculate areas visually.",
+    "id": "RND_155"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "動畫展示互為相反數的數軸位置變化",
+    "topic_en": "Animate the changes in number line positions of opposite numbers",
+    "description": "Numbers and their negatives are dynamically positioned on a number line, showing visually how opposites relate to zero through reflection.",
+    "id": "RND_156"
+  },
+  {
+    "category": "國中數學 (Middle School Math)",
+    "topic": "乘法平方展開公式動畫演示",
+    "topic_en": "Animated demonstration of the multiplication expansion formula for squares",
+    "description": "Explores a^2 + 2ab + b^2 formula visualized by showing expansions step-by-step with geometric models like squares and rectangles.",
+    "id": "RND_157"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫演示二次函數的拋物線形狀及其對稱軸",
+    "topic_en": "Animation demonstrating the parabolic shape of a quadratic function and its axis of symmetry",
+    "description": "Visualizing a quadratic function as a parabolic curve, tracing its axis of symmetry and vertex, and showing how changes in coefficients affect the graph shape.",
+    "id": "RND_158"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "分形樹的幾何構造及其無限迭代",
+    "topic_en": "Geometric construction of a fractal tree and its infinite iteration",
+    "description": "Illustrating the recursive process of constructing a fractal tree, demonstrating the self-similar pattern and concept of recursion within geometry.",
+    "id": "RND_159"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "證明兩三角形相似的平移和旋轉動畫",
+    "topic_en": "Animation of translating and rotating to prove similarity of two triangles",
+    "description": "Through translation and rotation, show how two triangles are similar by aligning matching angles and calculating proportional side lengths visually.",
+    "id": "RND_160"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "解釋函數的單調性和其圖像特徵",
+    "topic_en": "Explaining monotonicity of functions and their graphical characteristics",
+    "description": "Animating how increasing and decreasing intervals of functions relate to their slopes, showing monotonous and non-monotonous behaviors through illustrative graphs.",
+    "id": "RND_161"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用圓周運動示範角度測量和弧度轉換",
+    "topic_en": "Demonstrating angle measurement and radian conversion using circular motion",
+    "description": "Using a rotating point on a circle to visualize angular measurements in degrees and radians, and animating the conversion process between these units.",
+    "id": "RND_162"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫解析二次函數 y=ax^2+bx+c 的圖形變化",
+    "topic_en": "Animate the transformations of a quadratic function y=ax^2+bx+c",
+    "description": "The animation visually illustrates how changing the coefficients a, b, and c affect the parabolic shape, vertex location, and symmetry of the graph of a quadratic function.",
+    "id": "RND_163"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "使用交替路徑顏色展示正弦曲線及其振幅",
+    "topic_en": "Use alternating path colors to show the sinusoidal wave and its amplitude",
+    "description": "The animation introduces the sine wave by depicting how changes in amplitude modify the overall height and path colors representing positive and negative sections of the wave.",
+    "id": "RND_164"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫演示矩陣行列式的面積意義",
+    "topic_en": "Demonstrate with an animation the area significance of a matrix determinant",
+    "description": "This animation uses parallelograms to illustrate how the determinant of a 2x2 matrix represents the area, allowing students to see transformations and area predictions through determinant calculations.",
+    "id": "RND_165"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "三角形相似條件演示",
+    "topic_en": "Demonstration of the conditions for triangle similarity",
+    "description": "The animation visually experiments with various lengths and angles, showing the Side-Angle-Side (SAS), Angle-Angle (AA), and Side-Side-Side (SSS) similarity theorems to highlight when triangles are similar.",
+    "id": "RND_166"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "顯示指數函數的增長特性",
+    "topic_en": "Depict the growth characteristics of exponential functions",
+    "description": "An animation portrays exponential growth through clear graphical representation, comparing rates by using different bases for the exponent and visually explaining why exponential functions rise more quickly than polynomial functions.",
+    "id": "RND_167"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫展示勾股定理，展示各種三角形的變化形式",
+    "topic_en": "Visualizing the Pythagorean Theorem with Different Right Triangle Variations",
+    "description": "Using animations to show how the sum of the squares of the two shorter sides equals the square of the hypotenuse in various right triangles",
+    "id": "RND_168"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "作出不同樣式的拋物線，展示其焦點與準線的關係",
+    "topic_en": "Creating Various Parabolas and Demonstrating Vertex and Directrix Relationships",
+    "description": "Animating the formation of parabolas with adjustments to their vertex and directrix to show their mathematical relationships",
+    "id": "RND_169"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "展示二次函數圖像與其導數之間的關係",
+    "topic_en": "Showing the Relationship Between a Quadratic Function and Its Derivative",
+    "description": "Animating how the slope of the tangent lines at various points on a quadratic curve corresponds to its derivative",
+    "id": "RND_170"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "利用幾何變換之平移及旋轉，展示多邊形的相似性",
+    "topic_en": "Demonstrating Polygon Similarity Using Translations and Rotations",
+    "description": "Visually demonstrating the concept of similarity in polygons through geometric transformations like translation and rotation",
+    "id": "RND_171"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "描繪圓周率 π 的圓內接多邊形做法",
+    "topic_en": "Illustrating the Method of Circumscribed Polygons around a Circle to Approximate π",
+    "description": "Using nested polygons within a circle to show the method to approximate the value of pi",
+    "id": "RND_172"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用平面旋轉曲面圖示範系統解二次方程組",
+    "topic_en": "Illustrating Systems of Quadratic Equations Using Rotating Surfaces in a Plane",
+    "description": "Visualize the intersection of two quadratic equations using animated surfaces that rotate and highlight the solution points in a 3D coordinate plane.",
+    "id": "RND_173"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "三角函數圖形轉換與相位位移",
+    "topic_en": "Graph Transformations and Phase Shifts of Trigonometric Functions",
+    "description": "An animation showing the effects of vertical shifts, horizontal shifts (phase shifts), and reflections on the sine and cosine function graphs.",
+    "id": "RND_174"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "解釋伯努利不等式的圖形推導",
+    "topic_en": "Graphical Derivation and Explanation of Bernoulli's Inequality",
+    "description": "Illustrating Bernoulli's Inequality on a number line and using animated transformations to demonstrate how the inequality holds for different values of the exponent.",
+    "id": "RND_175"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "解析遇到同時直線之極限狀況",
+    "topic_en": "Analyzing Concurrent Line Limits Using Graphical Approaches",
+    "description": "Depicting how different settings of three concurrent linear equations intersect within the coordinate system, showcasing various configurations of the lines and solutions.",
+    "id": "RND_176"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "使用動畫解釋拋物線的焦點和準線特性",
+    "topic_en": "Using Animation to Explain the Properties of the Focus and Directrix of a Parabola",
+    "description": "Demonstrating how a parabola is formed geometrically from the set of points equidistant to a fixed point (focus) and line (directrix), with focus on visualizing the movement and position shifts.",
+    "id": "RND_177"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "同步移動和轉動兩個幾何圖形以說明旋轉對稱",
+    "topic_en": "Synchronously moving and rotating two geometric figures to illustrate rotational symmetry",
+    "description": "The animation shows two identical geometric shapes superimposing through rotation to demonstrate rotational symmetry.",
+    "id": "RND_178"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "使用動畫解釋代數中因式分解的視覺過程",
+    "topic_en": "Visual process of factoring in algebra using animation",
+    "description": "The animation breaks down a quadratic equation into its factors step-by-step using visual aids like area models.",
+    "id": "RND_179"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫展示以視覺方式引導二次方程根的分布",
+    "topic_en": "Animation to visually guide the distribution of roots of a quadratic equation",
+    "description": "The animation displays a parabola's graph, changing as coefficients vary, highlighting how the roots shift along the x-axis.",
+    "id": "RND_180"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "使用建立三角形內心點的動態演示幾何定理",
+    "topic_en": "Use a dynamic demonstration to showcase the incenter of a triangle in geometry",
+    "description": "Animated construction of angle bisectors in a triangle leading to the incenter, illustrating stepwise geometric proof.",
+    "id": "RND_181"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "以視覺方式使用範數論證非線性方程不等式解集",
+    "topic_en": "Visually using number lines to demonstrate the solution set of nonlinear inequations",
+    "description": "Displays a number line and depicts regions satisfying inequality conditions for nonlinear equations through shading.",
+    "id": "RND_182"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫展示拋物線 y = ax^2, 並說明變化參數 'a' 對圖形形狀的影響",
+    "topic_en": "Animate the parabolas y = ax^2, and illustrate how different values of 'a' affect the shape",
+    "description": "Visualize the effect of parameter 'a' on the graph of quadratic functions, showing the stretching and compression of the parabolas.",
+    "id": "RND_183"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "從動畫中探索對數函數 y = log_b(x) 的成長速度與其底數 'b' 的大小與影響",
+    "topic_en": "Explore the growth rate of logarithmic functions y = log_b(x) through animations based on the base 'b'",
+    "description": "Demonstrate the logarithmic function growth and depict how changing the base 'b' affects function steepness.",
+    "id": "RND_184"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "展現在 coordinate 平面上的圓 x^2 + y^2 = r^2，並討論 r 值變化對於圓的大小影響",
+    "topic_en": "Show the circle x^2 + y^2 = r^2 on the coordinate plane and discuss the effect of changing 'r' on size",
+    "description": "Show how varying the radius 'r' affects the circle's size on the coordinate plane.",
+    "id": "RND_185"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫展示 y = sin(x) 和 y = cos(x) 曲線，並解釋這兩者的階移性質",
+    "topic_en": "Animate the sinusoidal curves y = sin(x) and y = cos(x) and explain their phase shift characteristics",
+    "description": "Illustrate the sinusoidal functions and animate the 90-degree phase shift between sine and cosine graphs.",
+    "id": "RND_186"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "利用動畫探索一元二次方程的解與圖形y = ax^2 + bx + c 的交點的關係",
+    "topic_en": "Explore the solutions of quadratic equations and their relation to the intersections on the graph of y = ax^2 + bx + c",
+    "description": "Visualize the roots of quadratic equations as intersections with the x-axis and how changing parameters alter intersect points.",
+    "id": "RND_187"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫展示針對三角函數的單位圓",
+    "topic_en": "Animation illustrating the Unit Circle for Trigonometric Functions",
+    "description": "Visualize the concept of sine, cosine, and tangent using a rotating line segment around the unit circle.",
+    "id": "RND_188"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用滑動畫展示二次函數圖像 y = ax^2 + bx + c 如何形成",
+    "topic_en": "Sliding Animation to Show Formation of Quadratic Function Graph y = ax^2 + bx + c",
+    "description": "Create a dynamic transition showing how changing values of a, b, and c transform the graph of a quadratic function.",
+    "id": "RND_189"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "透過點畫出矩陣系統行列式的概念",
+    "topic_en": "Illustrating the Concept of Determinant of a Matrix System through Dots",
+    "description": "Visualize the geometric interpretation of determinants using dots to represent area or volume.",
+    "id": "RND_190"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "通過變化的樓梯圖形演示數列求和公式",
+    "topic_en": "Visualizing Series Summation Formula using a Staircase Graphic",
+    "description": "Animate a staircase growing step by step to represent terms in a series and show the derivation of a summation formula.",
+    "id": "RND_191"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "比較不同函數類型的漸進線行為",
+    "topic_en": "Compare Asymptotic Behavior of Different Types of Functions",
+    "description": "Show the asymptotic behavior of algebraic and exponential functions by zooming in near their asymptotes or end behavior.",
+    "id": "RND_192"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "多項式因式分解：以動畫展示如何將三次多項式分解成線性因式的步驟。",
+    "topic_en": "Polynomial Factorization: Animating the steps to factor a cubic polynomial into linear factors.",
+    "description": "Visual representation of the factorization process of a cubic polynomial. The animation should illustrate each step, starting from finding potential roots to completing the factorization.",
+    "id": "RND_193"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "勾股定理證明：利用動態幾何展示和直角三角形相關的三個不同證明。",
+    "topic_en": "Pythagorean Theorem Proofs: Using dynamic geometry to show three different proofs related to right triangles.",
+    "description": "The animation explains three unique demonstrations of the Pythagorean theorem, involving squares on the sides, geometric rearrangements, and algebraic methods.",
+    "id": "RND_194"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "三角函數的單位圓：動態呈現三角函數如何在單位圓上運作。",
+    "topic_en": "Unit Circle and Trigonometric Functions: Dynamically showing how trigonometric functions operate on the unit circle.",
+    "description": "A visual journey around the unit circle, illustrating the connection between the circle and sine, cosine, and tangent, including special angles and their respective coordinates.",
+    "id": "RND_195"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "等比級數應用：使用動畫演示如何計算無限等比級數的收斂值。",
+    "topic_en": "Geometric Series Application: Using animation to demonstrate how to calculate the convergence of an infinite geometric series.",
+    "description": "The animation provides an intuitive approach to understanding the concept of convergence in a geometric series through a step-by-step breakdown, gently transitioning into the formula derivation.",
+    "id": "RND_196"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "向量加法和幾何解釋：以動畫展示向量在平面上的加法如何達成。",
+    "topic_en": "Vector Addition and Geometric Interpretation: Animating how vector addition is achieved on a plane.",
+    "description": "A visual demonstration of the vector addition process, illustrating both the parallelogram method and the tip-to-tail method, allowing students to see how vectors combine geometrically.",
+    "id": "RND_197"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "間中比例作為理解20:4和比例分解的入門途徑",
+    "topic_en": "The Mean Proportional as an Introduction to 20:4 and Proportional Decomposition",
+    "description": "Visualizing how the mean proportional is applied through unique graphics breaking up 20:4 in interactive segments",
+    "id": "RND_198"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫展示正負數多項式的展開和結合",
+    "topic_en": "Animated Exploration of Expansion and Combination of Positive and Negative Polynomials",
+    "description": "Using distinct colors to show how expanding and combining polynomials interact across positive and negative terms",
+    "id": "RND_199"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "探索二次方程的根和圖形表示",
+    "topic_en": "Exploration of Roots and Graphical Representation of Quadratic Equations",
+    "description": "An animation showing dynamic changes in a graph based on the variance of roots in quadratic equations, with an emphasis on symmetry and vertex shifts",
+    "id": "RND_200"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫詮釋正弦函數的周期性",
+    "topic_en": "Animation Interpretation of the Periodicity of the Sine Function",
+    "description": "Illustrating how shifting angles visually transform sine curves over periods, reinforcing periodicity and frequency concepts with wave animation",
+    "id": "RND_201"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "解釋等腰三角形中等分線的特殊性質",
+    "topic_en": "Explaining the Special Properties of Medians in Isosceles Triangles",
+    "description": "Demonstrating the median drawings in an isosceles triangle with a focus on bisecting angles and their congruent segments using symmetry patterns",
+    "id": "RND_202"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "在坐標平面中，動畫展示不同類型二次方程的拋物線圖像",
+    "topic_en": "Animated visualization of parabolas in the coordinate plane for various types of quadratic equations",
+    "description": "Showcase how changes in coefficients of quadratic equations affect the shape and position of parabolas on the coordinate plane.",
+    "id": "RND_203"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "通過動畫視覺化不同三角函數的周期和振幅變化",
+    "topic_en": "Visualizing the changes in period and amplitude of different trigonometric functions",
+    "description": "Animate how altering the period and amplitude parameters of sine and cosine functions affects their graphs.",
+    "id": "RND_204"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "利用動畫解釋圓內接四邊形的對角互補性質",
+    "topic_en": "Animated explanation of the cyclic quadrilateral property of opposite angles summing to 180 degrees",
+    "description": "Illustrate the property of opposite angles in a cyclic quadrilateral and how they are complementary.",
+    "id": "RND_205"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫展示如何從二次方程提取和圖像中的對稱軸和頂點坐標",
+    "topic_en": "Animation showing how to derive the axis of symmetry and vertex coordinates from a quadratic equation and graph",
+    "description": "Graphical interpretation of quadratic formula results to find the axis of symmetry and vertex coordinates.",
+    "id": "RND_206"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "以動畫形式演示等差數列的視覺表達及其累加求和",
+    "topic_en": "Animated demonstration of the visual representation and summation of an arithmetic sequence",
+    "description": "Progressively animate the addition of terms in an arithmetic sequence, visualizing its sum formula.",
+    "id": "RND_207"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫展示二次函數的頂點形式及拋物線的移動",
+    "topic_en": "Visualize the vertex form of a quadratic function and the translation of the parabola",
+    "description": "The animation will show the conversion of a standard quadratic equation to its vertex form, followed by dynamic movements translating the parabola up, down, left, and right on the coordinate plane.",
+    "id": "RND_208"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫演示勾股定理及斜邊長的計算",
+    "topic_en": "Animated demonstration of the Pythagorean theorem and calculation of the hypotenuse length",
+    "description": "The animation will depict a right triangle, show the square of the two legs built on their sides, and calculate the hypotenuse using Pythagorean theorem, transitioning from the geometrical squares on each side.",
+    "id": "RND_209"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "通過動畫理解三角函數的單位圓概念",
+    "topic_en": "Understanding the concept of trigonometric functions with the unit circle through animation",
+    "description": "Illustrate the unit circle, while rotating an angle to show how sine, cosine, and tangent values are extracted from the circle, animating the dynamic projection on a coordinate system.",
+    "id": "RND_210"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "探索解析幾何中直線方程的斜率和截距",
+    "topic_en": "Explore the slope and intercept of a line equation in analytic geometry",
+    "description": "The animation will graphically demonstrate different line equations, adjusting their slopes and intercepts interactively to showcase how the equation of a line changes on a graph grid.",
+    "id": "RND_211"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫展現排列組合中的背對背抽象計數法",
+    "topic_en": "Exhibit the abstract counting method in permutations and combinations through animation",
+    "description": "Visual animations will guide the realization of real-world scenarios turned into permutation and combination counting, showing step-by-step how combinatorial calculations are set up and solved.",
+    "id": "RND_212"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫會示範如何求 8x^2 - 12x + 4 的頂點表示法",
+    "topic_en": "Animation illustrating how to convert 8x^2 - 12x + 4 into vertex form",
+    "description": "The animation will demonstrate completing the square to convert a quadratic expression from standard form to vertex form.",
+    "id": "RND_213"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "連續動畫展示圓的切線是正交於半徑的定義證明",
+    "topic_en": "Sequential animation showing the theorem proof that tangent to a circle is perpendicular to its radius",
+    "description": "The animation will visualize a circle, a tangent line, and how drawing the radius to the tangent point meets the line at a right angle, illustrating this geometric theorem.",
+    "id": "RND_214"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫展示始終不變的對數規律 log(ab) = log(a) + log(b)",
+    "topic_en": "Animation depicting the constant logarithm rule log(ab) = log(a) + log(b)",
+    "description": "The animation visually explores the logarithm product rule by transforming logarithmic expressions using properties and illustrating how they combine.",
+    "id": "RND_215"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "使用動畫解析 y=ax^2+bx+c 程序中二次函數拋物線轉移",
+    "topic_en": "Utilizing animation to analyze the translation of a quadratic function parabola y=ax^2+bx+c",
+    "description": "The animation will present how variations in the coefficients a, b, and c translate and reshape the parabola graphically on a coordinate plane.",
+    "id": "RND_216"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "通過動畫展示添加條件卡方不等式的直接應用",
+    "topic_en": "Demonstrate the direct application of Chebyshev's inequality through animation",
+    "description": "An educational visualization into undescribed concepts with a high-level perspective introducing numerical spread using Chebyshev's inequality for probability predictions.",
+    "id": "RND_217"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用坐標圖探討一次函數 y = 2x + 3",
+    "topic_en": "Explore the linear function y = 2x + 3 using a coordinate graph",
+    "description": "Visualize how the linear function y = 2x + 3 is graphed on a coordinate plane, highlighting the slope and intercept.",
+    "id": "RND_218"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "透過動畫展示平方根的近似計算",
+    "topic_en": "Demonstrate approximations of square roots using animation",
+    "description": "Showcase the method of finding approximate square roots visually through iterative refinement on the number line.",
+    "id": "RND_219"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "以動畫形式揭示三角形內角和的定理",
+    "topic_en": "Reveal the Triangle Sum Theorem using an animation",
+    "description": "Animate cutting and rearranging angles of a triangle to demonstrate that the sum of its internal angles is 180 degrees.",
+    "id": "RND_220"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "呈現多邊形的內部角度總和與邊數的關係",
+    "topic_en": "Present the relationship between the internal angles sum and the number of sides of a polygon",
+    "description": "Visually derive the formula for the sum of internal angles in a polygon as (n-2)*180 degrees.",
+    "id": "RND_221"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "藉由平面與圓柱的介面切割展示圓錐曲線",
+    "topic_en": "Demonstrate conic sections with interactions between a plane and a cylinder",
+    "description": "Animate how different cuts through a vertical cylinder reveal various conic sections: circles, ellipses, parabolas, and hyperbolas.",
+    "id": "RND_222"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "動畫展示一條漸近線如何影響雙曲線的繪製",
+    "topic_en": "Animated demonstration of how an asymptote affects the graphing of a hyperbola",
+    "description": "Visualize a hyperbola approaching its asymptotes as x and y grow, showing how the curves approach without crossing the asymptotes.",
+    "id": "RND_223"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "使用坐標幾何法求直線與圓的交點",
+    "topic_en": "Finding intersection points of a line and a circle using coordinate geometry",
+    "description": "Graphically depict the intersection points of a given circle and line on the Cartesian plane, solving equations to find exact coordinates.",
+    "id": "RND_224"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "説明如何通過變化三角形邊長來影響餘弦定理的計算",
+    "topic_en": "Explanation of how varying triangle side lengths affects calculation of the cosine rule",
+    "description": "Animate a triangle's side length changes and show real-time updates to the cosine rule calculations, demonstrating dependence on side lengths and angles.",
+    "id": "RND_225"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "直觀演示帕斯卡三角之循環對稱性質",
+    "topic_en": "Visually demonstrating the cyclic symmetry properties of Pascal’s Triangle",
+    "description": "Create an animation emphasizing cyclic patterns observed within Pascal's Triangle, showing symmetrical patterns re-surface across different rows.",
+    "id": "RND_226"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "利用動畫展示容斥原理如何从兩個圓的交集中計算聯集",
+    "topic_en": "Using animation to demonstrate how the principle of inclusion-exclusion calculates the union from the intersection of two circles",
+    "description": "Show two overlapping circles and gradually animate the calculation of individual, intersecting, and union areas using inclusion-exclusion principles.",
+    "id": "RND_227"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "畫出雙曲線 y = 1/x 並展示其漸近線和對稱性質",
+    "topic_en": "Graph the hyperbola y = 1/x and illustrate its asymptotes and symmetry properties",
+    "description": "Visualize the hyperbola y = 1/x on a coordinate plane, showing its shape, how it approaches both horizontal and vertical asymptotes, and explore its symmetry about the line y = x and the origin.",
+    "id": "RND_228"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用向量求簡單多邊形的面積",
+    "topic_en": "Use vectors to find the area of a simple polygon",
+    "description": "Animate how vectors can be used to calculate the area of a given polygon by decomposing it into triangles and using vector cross products to determine each area.",
+    "id": "RND_229"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "演示等腰三角形的性質，包括其高、內切圓和外接圓",
+    "topic_en": "Demonstrate the properties of an isosceles triangle, including its height, incircle, and circumcircle",
+    "description": "Animate an isosceles triangle to explore and label its congruent sides, height, inscribed circle, and circumscribed circle, showing geometric constructions and central relationships.",
+    "id": "RND_230"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "解釋正弦定理和餘弦定理在任何三角形中的應用",
+    "topic_en": "Explain the application of the Law of Sines and Cosines in any triangle",
+    "description": "Visualize how the Law of Sines and the Law of Cosines can be applied to various types of triangles to find unknown sides and angles, using step-by-step geometric visualization.",
+    "id": "RND_231"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "揭 示二次函數的拋物線凹凸性的變化過程，並考慮其頂點",
+    "topic_en": "Reveal the changing concavity of a parabola in a quadratic function and consider its vertex",
+    "description": "Animate the graph of a quadratic function to show how the concavity of the parabola changes and focus on the movement and position of its vertex as coefficients in the quadratic expression are varied.",
+    "id": "RND_232"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "通過結構化動畫演示證明均值不等式",
+    "topic_en": "Visually proving the AM-GM inequality using structured animations",
+    "description": "Animate and explain why the arithmetic mean is always greater than or equal to the geometric mean for two numbers using geometric shapes and transformations.",
+    "id": "RND_233"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "通過旋轉動畫展示複數的模和幅角",
+    "topic_en": "Displaying modulus and argument of complex numbers through rotation animations",
+    "description": "Animate the transition of a complex number on the Argand plane while highlighting how the modulus and argument change as it rotates around the origin.",
+    "id": "RND_234"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫揭示三角形外接圓心的構建",
+    "topic_en": "Unveiling the construction of a triangle's circumcenter with animation",
+    "description": "Show the perpendicular bisectors of a triangle meeting at a single point, the circumcenter, using animated steps and bisector tracing.",
+    "id": "RND_235"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "用動畫解釋拋物線的頂點和焦點之間的關係",
+    "topic_en": "Explaining the relationship between the vertex and focus of a parabola using animations",
+    "description": "Visually demonstrate how the directrix, focus, and vertex of a parabola are related by illustrating distances maintained for a moving line reflecting signals.",
+    "id": "RND_236"
+  },
+  {
+    "category": "高中數學 (High School Math)",
+    "topic": "利用動畫展示雙曲線的漸近線",
+    "topic_en": "Demonstrating the asymptotes of a hyperbola through animation",
+    "description": "Portray a hyperbola graphically approaching its asymptotes through smooth transition animations to showcase their relationship and significance.",
+    "id": "RND_237"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫展示時鐘指針如何表示整點和半點",
+    "topic_en": "Animate clock hands to show how they represent whole hours and half hours",
+    "description": "Show a clock face where the hour and minute hands move to demonstrate reading time at whole hours and half hours",
+    "id": "RND_238"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "用積木動畫說明長方體的長寬高與體積計算",
+    "topic_en": "Use block animation to explain length, width, height of a rectangular prism and volume calculation",
+    "description": "Animate stacking unit cubes to fill a rectangular prism, showing how volume equals length times width times height",
+    "id": "RND_239"
+  },
+  {
+    "category": "小學數學 (Elementary Math)",
+    "topic": "動畫演示兩位數加法的進位過程",
+    "topic_en": "Animate the carrying process in two-digit addition",
+    "description": "Visually show how digits carry over from the ones column to the tens column when adding two two-digit numbers",
+    "id": "RND_240"
+  }
+]

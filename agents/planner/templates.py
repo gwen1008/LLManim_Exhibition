@@ -104,17 +104,16 @@ Generate a JSON object with this EXACT structure:
     "objects": [
       {
         "id": "triangle_main",
-        "type": "Polygon",
-        "geometry_def": "[(0,0,0), (4,0,0), (0,3,0)]",
-        "initial_pos": "move_to(global_center)",
-        "properties": {"color": "BLUE", "fill_opacity": 0.5},
+        "manim_class": "Polygon",
+        "constructor_args": {"vertices": [[0,0,0],[4,0,0],[0,3,0]], "color": "BLUE", "fill_opacity": 0.5},
+        "position": {"method": "move_to", "ref": "ORIGIN"},
         "description": "The 3-4-5 right triangle"
       },
       {
         "id": "label_hypr",
-        "type": "MathTex",
-        "content": "c=5",
-        "initial_pos": "next_to(triangle_main.get_center(), UP+RIGHT)",
+        "manim_class": "MathTex",
+        "constructor_args": {"tex_string": "c=5", "color": "YELLOW"},
+        "position": {"method": "next_to", "ref": "triangle_main", "direction": "UP", "buff": 0.3},
         "description": "Label for hypotenuse"
       }
     ]
@@ -124,17 +123,20 @@ Generate a JSON object with this EXACT structure:
     {
       "step": 1,
       "narrative": "Consider a right triangle with sides 3 and 4.",
+      "cleanup": [],
       "signal_action": null,
       "visual_action": {
         "type": "Create",
         "target_id": "triangle_main",
-        "details": "Draw the polygon defined in layout_plan"
+        "animation_kwargs": {"run_time": 2.0},
+        "details": "Draw the 3-4-5 right triangle"
       },
       "duration": 3.0
     },
     {
       "step": 2,
       "narrative": "Its hypotenuse must be 5.",
+      "cleanup": [],
       "signal_action": {
         "type": "Indicate",
         "target": "label_hypr",
@@ -143,7 +145,8 @@ Generate a JSON object with this EXACT structure:
       "visual_action": {
         "type": "Write",
         "target_id": "label_hypr",
-        "details": "Write label next to hypotenuse"
+        "animation_kwargs": {"run_time": 1.5},
+        "details": "Write hypotenuse label next to the triangle"
       },
       "duration": 2.5
     }
@@ -171,17 +174,44 @@ To ensure the "Manimator" standard of quality, you MUST apply these style rules:
    - Use LaTeX for ALL math expressions.
    - Ensure proper scaling (not too big, not too small).
 
-**KEY RULES FOR 'layout_plan':**
-1. **`geometry_def`**: For geometric shapes, you MUST provide explicit vertices or constructor parameters.
-   - Circle: `radius=2`
-   - Polygon: `[(x,y,z), ...]`
-   - Square: `side_length=3`
-2. **`initial_pos`**: Use Manim relative commands (`next_to`, `align_to`, `move_to`).
-   - Refer to other objects by `id`. E.g., `next_to(triangle_main, DOWN)`.
+**KEY RULES FOR 'layout_plan.objects':**
+
+1. **`manim_class`** (REQUIRED): The EXACT Python class name the Engineer will use.
+   - Text objects: `"Text"`, `"MathTex"`, `"Tex"`
+   - Shapes: `"Circle"`, `"Polygon"`, `"Rectangle"`, `"Square"`, `"Arc"`, `"Line"`, `"Arrow"`, `"DashedLine"`
+   - Axes: `"Axes"`, `"NumberLine"`, `"NumberPlane"`
+   - Special: `"Dot"`, `"Brace"`, `"SurroundingRectangle"`, `"ArcBetweenPoints"`
+   - ❌ NEVER invent class names. Only use classes from the list above.
+
+2. **`constructor_args`** (REQUIRED): A JSON dict of ALL parameters needed to construct the object.
+   - For `MathTex`/`Tex`: use key `"tex_string"` → `{"tex_string": "x^2 + y^2 = r^2", "color": "WHITE"}`
+   - For `Text`: use key `"text"` → `{"text": "Hello", "color": "WHITE", "font_size": 36}`
+   - For `Circle`: `{"radius": 2, "color": "BLUE", "fill_opacity": 0.5}`
+   - For `Polygon`: `{"vertices": [[0,0,0],[4,0,0],[0,3,0]], "color": "BLUE", "fill_opacity": 0.3}`
+   - For `Line`/`Arrow`: `{"start": [-2,0,0], "end": [2,0,0], "color": "WHITE"}`
+   - For `Dot`: `{"point": [0,0,0], "color": "RED", "radius": 0.08}`
+   - For `Axes`: `{"x_range": [-4,4,1], "y_range": [-3,3,1], "axis_config": {"color": "GREY"}}`
+   - ✅ ALL values must be JSON-serializable (no Python expressions like `RED` — use `"RED"`)
+
+3. **`position`** (REQUIRED): Structured positioning dict. Choose ONE method:
+   - `{"method": "move_to", "ref": "ORIGIN"}` — move to scene origin
+   - `{"method": "move_to", "ref": "grid_center"}` — move to named anchor
+   - `{"method": "move_to", "ref": "other_id", "offset": [0, -1.5, 0]}` — with offset vector
+   - `{"method": "next_to", "ref": "other_id", "direction": "DOWN", "buff": 0.3}`
+   - `{"method": "to_edge", "direction": "UP", "buff": 0.5}`
+   - `{"method": "to_corner", "corner": "UL", "buff": 0.3}`
+   - Direction values: `"UP"`, `"DOWN"`, `"LEFT"`, `"RIGHT"`, `"UL"`, `"UR"`, `"DL"`, `"DR"`
 
 **KEY RULES FOR 'sequence':**
-1. **`target_id`**: MUST match an `id` defined in `layout_plan`.
+1. **`target_id`**: MUST match an `id` defined in `layout_plan.objects`.
 2. **`signal_action`**: Use liberally to guide attention.
+3. **`cleanup`** (REQUIRED on every step): List of object IDs to FadeOut BEFORE this step executes.
+   - Use `[]` if nothing needs clearing.
+   - Use this when an object is no longer needed: e.g., after showing step A result, remove intermediate objects before step B.
+   - Example: `"cleanup": ["temp_arrow", "highlight_box"]`
+4. **`animation_kwargs`** in `visual_action` (REQUIRED): Specify timing for the Engineer.
+   - Always include at minimum: `{"run_time": 2.0}`
+   - Optionally: `{"run_time": 1.5, "rate_func": "smooth"}` or `{"run_time": 0.8, "rate_func": "linear"}`
 
 ═══════════════════════════════════════════════════════════════════
 RESPONSE FORMAT
@@ -270,52 +300,52 @@ Topic: "28 + 35"
     "objects": [
       {
         "id": "title",
-        "type": "Text",
-        "content": "Vertical Addition: 28 + 35",
-        "initial_pos": "move_to(title_pos)",
-        "properties": {"color": "WHITE"}
+        "manim_class": "Text",
+        "constructor_args": {"text": "Vertical Addition: 28 + 35", "color": "WHITE", "font_size": 36},
+        "position": {"method": "move_to", "ref": "title_pos"},
+        "description": "Title banner"
       },
       {
         "id": "num1_tens",
-        "type": "MathTex",
-        "content": "2",
-        "initial_pos": "move_to(grid_center + LEFT*0.5)",
-        "description": "Tens digit of first number"
+        "manim_class": "MathTex",
+        "constructor_args": {"tex_string": "2", "color": "WHITE"},
+        "position": {"method": "move_to", "ref": "grid_center", "offset": [-0.5, 0, 0]},
+        "description": "Tens digit of 28"
       },
       {
         "id": "num1_ones",
-        "type": "MathTex",
-        "content": "8",
-        "initial_pos": "next_to(num1_tens, RIGHT, buff=0.5)",
-        "description": "Ones digit of first number"
+        "manim_class": "MathTex",
+        "constructor_args": {"tex_string": "8", "color": "WHITE"},
+        "position": {"method": "next_to", "ref": "num1_tens", "direction": "RIGHT", "buff": 0.5},
+        "description": "Ones digit of 28"
       },
       {
         "id": "plus_sign",
-        "type": "MathTex",
-        "content": "+",
-        "initial_pos": "next_to(num1_tens, LEFT, buff=0.5) + DOWN*1",
-        "description": "Operator"
+        "manim_class": "MathTex",
+        "constructor_args": {"tex_string": "+", "color": "WHITE"},
+        "position": {"method": "next_to", "ref": "num1_tens", "direction": "DL", "buff": 0.5},
+        "description": "Addition operator"
       },
       {
         "id": "num2_tens",
-        "type": "MathTex",
-        "content": "3",
-        "initial_pos": "next_to(num1_tens, DOWN, buff=1.0)",
-        "description": "Tens digit of second number"
+        "manim_class": "MathTex",
+        "constructor_args": {"tex_string": "3", "color": "WHITE"},
+        "position": {"method": "next_to", "ref": "num1_tens", "direction": "DOWN", "buff": 1.0},
+        "description": "Tens digit of 35"
       },
       {
         "id": "num2_ones",
-        "type": "MathTex",
-        "content": "5",
-        "initial_pos": "next_to(num1_ones, DOWN, buff=1.0)",
-        "description": "Ones digit of second number"
+        "manim_class": "MathTex",
+        "constructor_args": {"tex_string": "5", "color": "WHITE"},
+        "position": {"method": "next_to", "ref": "num1_ones", "direction": "DOWN", "buff": 1.0},
+        "description": "Ones digit of 35"
       },
       {
-        "id": "line",
-        "type": "Line",
-        "geometry_def": "start=LEFT*2, end=RIGHT*2",
-        "initial_pos": "next_to(num2_tens, DOWN, buff=0.5)",
-        "description": "Separator line"
+        "id": "sep_line",
+        "manim_class": "Line",
+        "constructor_args": {"start": [-2, 0, 0], "end": [2, 0, 0], "color": "WHITE"},
+        "position": {"method": "next_to", "ref": "num2_tens", "direction": "DOWN", "buff": 0.5},
+        "description": "Separator line below the second number"
       }
     ]
   },
@@ -324,17 +354,20 @@ Topic: "28 + 35"
     {
       "step": 1,
       "narrative": "Let's align the numbers vertically. Twenty-eight on top, thirty-five below.",
+      "cleanup": [],
       "signal_action": null,
       "visual_action": {
         "type": "Write",
         "target_id": "title",
-        "details": "Fade in title and numbers"
+        "animation_kwargs": {"run_time": 1.5},
+        "details": "Write the title at the top of the screen"
       },
       "duration": 3.0
     },
     {
       "step": 2,
       "narrative": "First, add the ones column: 8 plus 5 equals 13.",
+      "cleanup": [],
       "signal_action": {
         "type": "Circumscribe",
         "target": "num1_ones",
@@ -343,7 +376,8 @@ Topic: "28 + 35"
       "visual_action": {
         "type": "Create",
         "target_id": "carry_digit",
-        "details": "Create '1' above tens column (red) and '3' below line"
+        "animation_kwargs": {"run_time": 2.0},
+        "details": "Create carry digit '1' above tens column in RED, and result '3' below the separator line"
       },
       "duration": 4.0
     }

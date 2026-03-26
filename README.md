@@ -45,34 +45,35 @@ graph TD
     end
 ```
 
-### 1. 🤖 智能代理工作流 (Agentic Workflow)
+### 1. 🧠 四階段 Multi-Agent 工作流 (4-Stage Pipeline)
 
-系統內建多個專職 Agent，透過協作完成任務：
+系統採用職責分離的 Agent 架構，並內建嚴密的防呆與自我修正機制：
 
-- **Planner**: 分析數學主題，規劃分鏡與腳本。
-- **Coder**: 編寫精確的 Manim (Python) 渲染代碼。
-- **Reviewer**: 審查代碼邏輯與視覺效果。
-- **Auditor (Vision)**: 基於視覺反饋修復渲染錯誤。
+- **Phase 1：Planner (導演)**：接收輸入後，透過 Translator 轉換語境，將數學概念拆解成邏輯序列，並輸出包含視覺佈局提示 (Spatial Hints) 的結構化 JSON 分鏡表。
+- **Phase 2：Coder (工程師)**：以低溫度 (T=0.3) 確保邏輯穩定性，負責將 Planner 給出的 JSON 翻譯成高精確度的 Manim Python 程式碼，並自動調適畫面的元件位置。
+- **Phase 3：Render & Audio Sync (精準影音渲染)**：整合 Azure Text-to-Speech 生成高擬真旁白。為了達成「完美影音同步」，系統會在產出代碼後，透過代碼注入自動分析 AST 將具體的音訊時長替換回代碼，保證動畫與旁白的時間誤差 < 0.1 秒，並支援自動產生逐字字幕。
+- **Phase 4：Review & Vision QA (自動審查與修復)**：若 Manim 渲染出 Syntax Error 或發生畫面元件交疊，Vision Agent 會立刻介入。系統允許最多 5 次 (5 Iterations) 的自動修復嘗試，讓模型自我糾正。
 
-### 2. 🗣️ 高品質語音整合 (Speech Synthesis)
+### 2. ⚡ 核心工程最佳化 (Engineering Optimizations)
 
-整合 **Azure Text-to-Speech (TTS)**，實現：
+- **三路平行處理 (Parallel Execution)**：RAG 檢索、Audio 生成與 Coder 是**並行運作的**。Planner 一給出腳本，Audio Engine 就開始合成語音；而 Coder 只要等到 RAG 結果就立刻動工。這套非同步設計為單次生成省下了 15~28 秒。
+- **RAG 動態知識庫 (Weaviate Vector DB)**：為解決 LLM 憑空捏造的問題，寫 Code 前會先從向量資料庫抓出高相關性的「Manim 黃金範例代碼」塞進 Context 中，大幅降低幻覺 (Hallucinations)。
+- **互動式教育模式 (Interactive Mode)**：在特定的算術或推理關卡，系統能自動觸發「提問機制」，在畫面上打出閃爍的問號 (?) 並延長留白時間，藉此控制學生的認知負載並引導主動思考。
 
-- **自然人聲**：使用 Neural SSML 技術生成流暢旁白。
-- **精準同步**：自動計算語音時長，將動畫與旁白精確對齊（誤差 < 0.1s）。
-- **字幕系統**：自動生成逐字對應的字幕，並優化了渲染速度，實現瞬間顯示。
+---
 
-### 3. 🎮 互動式學習模式 (Interactive Mode)
+## 📊 效能表現與測試基準 (Performance & Benchmarks)
 
-不僅僅是播放影片，系統支援生成互動式內容：
+在近期針對 240 題 K-12（國小至高中）的數學標竿測試中，本系統繳出了極具統治力的表現：
 
-- **動態提問**：在計算關鍵步驟（如進位、求和）暫停。
-- **視覺引導**：顯示閃爍的問號 (?) 與醒目的提示框。
-- **思考時間**：自動留白，引導學生主動思考而非被動接收。
+- **生成成功率**：高達 **90.0% (216/240)** 的主題能完美通過所有驗證並產出影片，其中有 **75.9%** 是「0 錯誤、一次通關 (1-Iteration)」。
+- **極致成本控管**：平均每支影片的 API 推理成本僅約 **$0.0115 USD**。
+- **高效率**：包含撰碼、渲染、語音與修復，產生一支平均 88 秒的教學動畫，系統耗時僅需 **~233 秒**（不到 4 分鐘）。
 
-### 4. 📚 RAG 知識庫 (Knowledge Base)
+### 🚀 未來展望與突破 (Roadmap)
 
-內建 Retrieval-Augmented Generation (RAG) 模組，可從向量資料庫檢索高品質 Manim 範例，輔助 LLM 生成更準確的代碼。（位於 `rag/` 與 `knowledge_base/`）
+- 目前已具備發表水準，正著手準備投稿 **AIED 2026 LBR (Late Breaking Results)** 論文。
+- **模型私有化與專武打造**：未來計畫不再完全依賴閉源巨型 LLM。準備透過 **SFT, DPO, GRPO** 等三階段訓練法，把代碼生成能力蒸餾到 7B-14B 的輕量級開源模型中，實現地端自主運行的最強 Manim Coder。
 
 ---
 
@@ -123,33 +124,36 @@ OPENAI_API_KEY=sk-xxxxxxxx    # 僅在使用 RAG 寫入影片描述時需要
 
 ## 🚀 使用指南 (Usage)
 
-### 1. 算術教學影片 (Arithmetic Template)
+### 1. 通用教學影片生成器 (General Generator)
 
-這是目前最成熟的功能，用於生成整數加法教學。
-
-**基本生成 (Basic Generation)**:
+本專案支援任意 K-12 數學或科學主題生成。啟動主程式後，系統將依序執行 Planner (規劃) -> Coder (寫碼) -> Audio Engine (語音對齊) -> Vision Agent (修復) 工作流：
 
 ```bash
-# 生成 84 + 985 的影片與語音
-python run_arithmetic_with_audio.py 84 985
+python main.py
 ```
+> **💡 提示**：啟動後輸入任何主題（例如：「圖解勾股定理的證明」、「說明圓柱體的體積怎麼算」、「國小分數加法」），系統即可自動完成全部創作。
 
-**互動模式 (Interactive Mode)**:
-加入 `--interactive` 參數，生成包含提問與暫停的影片：
+### 2. 特定算術模板 (Arithmetic Template)
+
+如果只需要簡單演示專門的直式計算，可直接調用算術腳本：
 
 ```bash
+# 生成 84 + 985 的直式計算影片與語音
+python run_arithmetic_with_audio.py 84 985
+
+# 互動模式：加入提問與暫停 (閃爍問號)引導思考
 python run_arithmetic_with_audio.py 84 985 --interactive
 ```
 
-**渲染影片**:
-生成的代碼位於 `stable_outputs/` 或 `stable_outputs_interactive/`。
+**手動渲染代碼**:
+生成的代碼皆存放於 `stable_outputs/` 或 `stable_outputs_interactive/`。
 
 ```bash
 # 預覽低畫質 (-pql)
 manim -pql stable_outputs_interactive/addition_84_985.py VerticalAddition
 ```
 
-### 2. Web 介面 (Streamlit)
+### 3. Web 介面 (Streamlit)
 
 提供友善的網頁介面，適合展示與測試。
 

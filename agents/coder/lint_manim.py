@@ -35,6 +35,58 @@ class ManimLinter(ast.NodeVisitor):
             if isinstance(child, ast.Call) and isinstance(child.func, ast.Attribute) and child.func.attr == 'become':
                 self._become_func_names.add(node.name)
                 break
+
+        # Advisory: DashedLine + LayoutObject in same construct() scope.
+        # DashedLine's internal points array may be 1-dimensional before rendering,
+        # causing IndexError: "too many indices for array: array is 1-dimensional, but 2 were indexed"
+        # when LayoutObject reads .width via points[:, dim].
+        if node.name == 'construct':
+            has_dashed_line = False
+            has_layout_object = False
+            for child in ast.walk(node):
+                if isinstance(child, ast.Call) and isinstance(child.func, ast.Name):
+                    if child.func.id == 'DashedLine':
+                        has_dashed_line = True
+                    elif child.func.id == 'LayoutObject':
+                        has_layout_object = True
+            if has_dashed_line and has_layout_object:
+                self.advisories.append({
+                    "line": node.lineno,
+                    "code": "DASHEDLINE_LAYOUT_RISK",
+                    "message": (
+                        "DashedLine and LayoutObject detected in the same construct() scope. "
+                        "DashedLine's internal points array may be 1-dimensional before rendering, "
+                        "causing IndexError in LayoutObject.__init__(). "
+                        "FIX: call self.add(dashed_line) before passing it to LayoutObject, "
+                        "or avoid LayoutObject entirely for DashedLine objects."
+                    )
+                })
+
+        # Advisory: Create/Write without any FadeOut in construct()
+        # Detects scenes that only add objects but never remove them (object stacking risk)
+        if node.name == 'construct':
+            _ENTRY_ANIMS = {'Create', 'Write', 'FadeIn', 'DrawBorderThenFill'}
+            _EXIT_ANIMS = {'FadeOut', 'Uncreate'}
+            entry_count = 0
+            exit_count = 0
+            for child in ast.walk(node):
+                if isinstance(child, ast.Call) and isinstance(child.func, ast.Name):
+                    if child.func.id in _ENTRY_ANIMS:
+                        entry_count += 1
+                    elif child.func.id in _EXIT_ANIMS:
+                        exit_count += 1
+            if entry_count >= 5 and exit_count == 0:
+                self.advisories.append({
+                    "line": node.lineno,
+                    "code": "NO_CLEANUP_ADVISORY",
+                    "message": (
+                        f"Found {entry_count} object entry animations (Create/Write/FadeIn) "
+                        f"but 0 exit animations (FadeOut/Uncreate). "
+                        "Objects may accumulate on screen causing visual clutter. "
+                        "Consider adding FadeOut calls when transitioning between concepts."
+                    )
+                })
+
         self.generic_visit(node)
 
     def visit_Assign(self, node):
@@ -62,6 +114,49 @@ class ManimLinter(ast.NodeVisitor):
                 "message": "'ShowCreation' is deprecated. Use 'Create' or 'Write' instead."
             })
             
+        # [Rule 2b] INVALID_ANIMATION_KWARG — detect styling kwargs passed to animation constructors.
+        # e.g. Create(circle, color=BLUE) — color is not an Animation kwarg; it crashes with
+        # "Animation.__init__() got an unexpected keyword argument 'color'".
+        # Styling must be set on the mobject itself before animating it.
+        #
+        # Per-class extra kwargs: base Animation kwargs are always valid for every class.
+        # Add class-specific kwargs alongside the class so future additions stay in sync.
+        _BASE_ANIM_KWARGS = {
+            'run_time', 'rate_func', 'lag_ratio', 'remover', 'introducer',
+            'suspend_mobject_updating', 'reverse', 'path_arc', 'path_func',
+        }
+        _ANIMATION_EXTRA_KWARGS = {
+            'Create':                    set(),
+            'Write':                     set(),
+            'Uncreate':                  set(),
+            'ShrinkToCenter':            set(),
+            'ShowCreationThenFadeOut':   set(),
+            'FadeIn':                    {'shift', 'scale', 'target_position'},
+            'FadeOut':                   {'shift', 'scale', 'target_position'},
+            'FadeInFrom':                {'direction'},
+            'FadeOutAndShift':           {'direction'},
+            'GrowFromCenter':            {'point_color'},
+            'GrowFromPoint':             {'point', 'point_color'},
+            'GrowArrow':                 {'point_color'},
+            'SpinInFromNothing':         {'angle'},
+            'DrawBorderThenFill':        {'stroke_width', 'stroke_color', 'fill_opacity'},
+            'ShowPassingFlash':          {'time_width'},
+        }
+        if isinstance(node.func, ast.Name) and node.func.id in _ANIMATION_EXTRA_KWARGS:
+            _valid = _BASE_ANIM_KWARGS | _ANIMATION_EXTRA_KWARGS[node.func.id]
+            for kw in node.keywords:
+                if kw.arg and kw.arg not in _valid:
+                    self.errors.append({
+                        "line": node.lineno,
+                        "code": "INVALID_ANIMATION_KWARG",
+                        "message": (
+                            f"{node.func.id}() got unexpected keyword argument '{kw.arg}'. "
+                            f"Valid kwargs for {node.func.id}: {sorted(_valid)}. "
+                            f"Set '{kw.arg}' on the mobject before animating: "
+                            f"mobject.set_{kw.arg}(...) then self.play({node.func.id}(mobject))."
+                        )
+                    })
+
         # 10. [NEW / Animate Kwargs Safety] Check for invalid kwargs passed to .animate.set()
         if (isinstance(node.func, ast.Attribute) and node.func.attr == 'set'
                 and isinstance(node.func.value, ast.Attribute) 
@@ -236,6 +331,49 @@ class ManimLinter(ast.NodeVisitor):
                             })
                             break
 
+        # [Rule 9b] \mathrm{} in Tex() — same crash as MathTex (MATHRM_IN_MATHTEX covers MathTex above).
+        # Tex() is used for mixed text+math content; \mathrm{} still triggers Manim's brace splitter bug.
+        # Also: [Rule 9c] LATEX_LINE_BREAK — \\\\ (LaTeX line break) in Tex/MathTex outside array/matrix
+        # environments crashes with "There's no line here to end" in Manim's center template.
+        if isinstance(node.func, ast.Name) and node.func.id in ('MathTex', 'Tex'):
+            for arg in node.args:
+                if not (isinstance(arg, ast.Constant) and isinstance(arg.value, str)):
+                    continue
+                s = arg.value
+
+                # 9b. \mathrm{} in Tex() (MathTex already handled above)
+                if node.func.id == 'Tex' and r'\mathrm{' in s:
+                    self.errors.append({
+                        "line": arg.lineno,
+                        "code": "MATHRM_IN_MATHTEX",
+                        "message": (
+                            r"Tex() contains \mathrm{} which crashes in Manim v0.19/v0.20 "
+                            r"with 'Missing } inserted' LaTeX error. "
+                            r"Manim's internal string splitter mishandles \mathrm{} braces. "
+                            r"FIX: remove \mathrm{} and use plain notation. "
+                            r"For text in math use Tex(r'$formula$ plain text') with $...$ delimiters."
+                        )
+                    })
+
+                # 9c. \\ line break outside array/matrix environments.
+                # In AST string value, 2 consecutive backslashes = LaTeX \\ (line break).
+                # Manim's Tex wrapper uses \begin{center}...\end{center}; \\ there causes
+                # "There's no line here to end" when used as a line separator.
+                _matrix_envs = (r'\begin{array}', r'\begin{matrix}', r'\begin{pmatrix}',
+                                 r'\begin{bmatrix}', r'\begin{cases}', r'\begin{align}')
+                if '\\\\' in s and not any(env in s for env in _matrix_envs):
+                    self.errors.append({
+                        "line": arg.lineno,
+                        "code": "LATEX_LINE_BREAK",
+                        "message": (
+                            rf"{node.func.id}() contains '\\\\' (LaTeX line break) outside a matrix/array "
+                            r"environment. Manim's center template does not support \\ as a line separator "
+                            r"— this causes 'There's no line here to end' LaTeX error. "
+                            r"FIX: split into multiple MathTex/Tex objects and arrange vertically: "
+                            r"VGroup(line1, line2).arrange(DOWN, buff=0.3)"
+                        )
+                    })
+
         # 10. [NEW] Detect add_updater(lambda: become(...)) — causes 120s render timeout
         # Rebuilding complex objects (ParametricFunction, DashedLine) every frame is too expensive.
         # Pattern: obj.add_updater(lambda m: m.become(HeavyObject(...)))
@@ -292,6 +430,50 @@ class ManimLinter(ast.NodeVisitor):
                             )
                         })
                         break
+
+        # Rule 11b. [NEW] Detect always_redraw(lambda: HeavyObject(...)) — also causes 120s timeout.
+        # ParametricFunction, FunctionGraph, MathTex, Tex, Text inside always_redraw rebuilds
+        # the object EVERY FRAME — same cost as add_updater+become.
+        # CORRECT pattern: always_redraw(lambda: Dot/Line/Arc/DashedLine(...)) + TracedPath for curves.
+        if isinstance(node.func, ast.Name) and node.func.id == 'always_redraw':
+            _HEAVY_OBJECTS = {'ParametricFunction', 'FunctionGraph', 'MathTex', 'Tex', 'Text'}
+            _lambda_args = list(node.args) + [kw.value for kw in node.keywords]
+            for _arg in _lambda_args:
+                if isinstance(_arg, ast.Lambda):
+                    for _child in ast.walk(_arg.body):
+                        if (
+                            isinstance(_child, ast.Call)
+                            and isinstance(_child.func, ast.Name)
+                            and _child.func.id in _HEAVY_OBJECTS
+                        ):
+                            self.errors.append({
+                                "line": node.lineno,
+                                "code": "HEAVY_ALWAYS_REDRAW",
+                                "message": (
+                                    f"always_redraw(lambda: {_child.func.id}(...)) rebuilds an expensive object "
+                                    "every frame → 120s render timeout. "
+                                    f"NEVER put {_child.func.id} inside an always_redraw lambda. "
+                                    "For dynamic curve tracing, use TracedPath(dot.get_center, stroke_color=COLOR) instead. "
+                                    "Only Dot, Line, Arc, DashedLine are lightweight enough for always_redraw."
+                                ),
+                            })
+                            break  # One error per always_redraw call
+
+        # 12. [NEW] Advisory: raw Write(Text/Tex/MathTex) for what looks like subtitle narration
+        # When LLM ignores self.set_subtitle() and manages subtitles manually, overlap is almost guaranteed.
+        if isinstance(node.func, ast.Name) and node.func.id == 'Write':
+            if node.args and isinstance(node.args[0], ast.Call):
+                _inner = node.args[0]
+                if isinstance(_inner.func, ast.Name) and _inner.func.id in ('Text', 'Tex', 'MathTex'):
+                    self.advisories.append({
+                        "line": node.lineno,
+                        "code": "RAW_SUBTITLE_WRITE",
+                        "message": (
+                            f"Write({_inner.func.id}(...)) detected. If this is step narration text, "
+                            "use self.set_subtitle('text') instead — it handles ReplacementTransform/FadeOut automatically. "
+                            "Raw Write(Text) without matching FadeOut causes subtitle overlap on the next step."
+                        ),
+                    })
 
         # Advisory: always_redraw without a corresponding self.play() — likely causes infinite animation
         if isinstance(node.func, ast.Name) and node.func.id == 'always_redraw':
@@ -478,13 +660,14 @@ def lint_file(filepath):
         linter.filename = filepath
         linter.visit(tree)
 
+        # Print advisories (non-blocking) if any
+        if linter.advisories:
+            for adv in linter.advisories:
+                print(f"  💡 [Advisory] Line {adv['line']} [{adv['code']}]: {adv['message']}")
+
         if linter.errors:
-            # print(f"❌ Static Analysis Failed for {filepath}:")
-            # for err in linter.errors:
-            #     print(f"  - Line {err['line']} [{err['code']}]: {err['message']}")
             return False, linter.errors
         else:
-            # print(f"✅ Static Analysis Passed for {filepath}")
             return True, []
 
     except SyntaxError as e:
