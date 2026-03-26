@@ -35,9 +35,11 @@ test_logger_fix.py
 
 # Runtime outputs
 runs/
+paper/
 scene_state_log.json
 temp_vision_grid.jpg
 test_script.py
+test_azure.py
 
 # Personal Claude config
 .claude/
