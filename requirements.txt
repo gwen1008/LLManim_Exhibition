@@ -6,3 +6,4 @@ certifi
 requests
 streamlit
 weaviate-client
+mutagen
