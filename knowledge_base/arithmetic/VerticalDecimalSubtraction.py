@@ -14,23 +14,9 @@ NUMBER_START_Y = 1.5        # 數字初始位置
 
 class VerticalDecimalSubtractionGolden(Scene):
     """
-    【RAG 黃金範例】直式小數減法（含借位顯示）
-    Golden Example for Vertical Decimal Subtraction with Borrowing Visualization
-    
-    核心教學特點 (Core Pedagogical Features)：
-    1. 借位視覺化 (Borrowing Visualization): 
-       - 被借位的數字：劃掉並顯示減 1 後的新值
-       - 當前位：標示 "+10" 表示借來的 10
-    2. 顏色語義化 (Color Coding): 
-       - BLUE: 原始數字
-       - YELLOW: 高亮當前計算位
-       - RED: 劃掉的被借位數字
-       - GREEN: 最終答案
-    3. 小數點對齊 (Decimal Alignment): 與加法相同的對齊邏輯
-    
-    適用場景 (Use Cases)：
-    - 小學數學：整數/小數減法
-    - 借位教學：明確顯示「向前一位借 10」的過程
+    Golden Example for Vertical Decimal Subtraction with Borrowing Visualization.
+    Shows borrowing step-by-step: borrowed-from digit is struck through and decremented, current column shows "+10".
+    Color coding: BLUE=original, YELLOW=active column, RED=struck-through borrowed digit, GREEN=answer.
     """
 
     def __init__(self, num1=52.34, num2=17.68, segments=None, subtitles=None, **kwargs):
@@ -62,9 +48,8 @@ class VerticalDecimalSubtractionGolden(Scene):
     def setup(self):
         """場景初始設置：固定字幕區域"""
         self.subtitle_area = Text(
-            "", 
-            font_size=32, 
-            font="PingFang TC", 
+            "",
+            font_size=32,
             color=WHITE
         ).to_edge(DOWN, buff=0.4)
         self.add(self.subtitle_area)
@@ -88,10 +73,9 @@ class VerticalDecimalSubtractionGolden(Scene):
         
         wrapped_text = "\n".join(sentences)
         new_sub = Text(
-            wrapped_text, 
-            font_size=32, 
-            font="PingFang TC", 
-            color=WHITE, 
+            wrapped_text,
+            font_size=32,
+            color=WHITE,
             line_spacing=0.8
         ).to_edge(DOWN, buff=0.4)
         

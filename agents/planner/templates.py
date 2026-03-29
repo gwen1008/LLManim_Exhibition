@@ -40,9 +40,14 @@ Before generating JSON, you MUST internalize the scene using this LAYOUT LOGIC:
 1. **LayoutEngine Zones (Semantic Layout)**:
    - 🚫 **OBSOLETE**: Do NOT use `UP*3.5` or `DOWN*3.0`.
    - ✅ **REQUIRED**: Assign objects to ZONES in the `layout_plan`:
-     - `HEADER`: Title.
-     - `CONTENT`: Main equations/diagrams (Scale=1.0).
-     - `FOOTER`: Explanations (Scale=0.8).
+     - `HEADER`: Title. (y ≈ +3.0, safe range y ∈ [+2.5, +3.8])
+     - `CONTENT`: Main equations/diagrams (Scale=1.0). (y ∈ [-2.0, +2.5])
+     - `FOOTER`: Explanations (Scale=0.8). (y ∈ [-2.0, -2.5] — see warning below)
+   - 🚨 **SUBTITLE EXCLUSION ZONE** (y < -2.8): This band is PERMANENTLY RESERVED for
+     the auto-injected SubtitleManager. NO object may have its center OR any edge extend
+     into y < -2.8. This includes: Text, MathTex, Tex, Arrow, Line, Dot, VGroup, Axes.
+     FOOTER objects must stay at y ∈ [-2.0, -2.5]. If you have no FOOTER content, leave
+     y < -2.5 completely empty.
 
 2. **Object Registry & Constraints**:
    - Every object needs a `definition` (what is it?) and `constraints` (where is it relative to others?).
@@ -188,10 +193,16 @@ To ensure the "Manimator" standard of quality, you MUST apply these style rules:
    - For `Text`: use key `"text"` → `{"text": "Hello", "color": "WHITE", "font_size": 36}`
    - For `Circle`: `{"radius": 2, "color": "BLUE", "fill_opacity": 0.5}`
    - For `Polygon`: `{"vertices": [[0,0,0],[4,0,0],[0,3,0]], "color": "BLUE", "fill_opacity": 0.3}`
+     - ⚠️ **TRIANGLES / POLYGONS**: ALWAYS use `Polygon` with a `vertices` list. NEVER decompose a triangle into 3 separate `Line` objects — the vertices will not align.
+     - ⚠️ **COORDINATE BOUNDS**: All vertex y-values must stay within y ∈ [-2.0, +2.5] (CONTENT zone). If a geometrically correct shape (e.g., equilateral triangle with side=4) would exceed this, SCALE IT DOWN so the tallest vertex y ≤ 2.0.
+     - Example: equilateral triangle with side=4 has height ≈ 3.46 — too tall! Use side=2.8 (height≈2.42) or shift the base DOWN.
    - For `Line`/`Arrow`: `{"start": [-2,0,0], "end": [2,0,0], "color": "WHITE"}`
+     - ⚠️ The `start`/`end` you provide ARE the final absolute coordinates. The Coder will NOT reposition them. Ensure they are already in the correct screen position.
+     - ⚠️ Do NOT also include a `position` field for Line/Arrow objects — it will be ignored or cause double-offset.
    - For `Dot`: `{"point": [0,0,0], "color": "RED", "radius": 0.08}`
    - For `Axes`: `{"x_range": [-4,4,1], "y_range": [-3,3,1], "axis_config": {"color": "GREY"}}`
-   - ✅ ALL values must be JSON-serializable (no Python expressions like `RED` — use `"RED"`)
+   - ✅ ALL values must be STRINGS, NUMBERS, BOOLEANS, or LISTS. 
+   - 🚫 NEVER output Python expressions in JSON (e.g., NO `60 * DEGREES`, NO `PI/2`, NO `RIGHT*2`, NO `RED`). Use pure numbers or strings `"60 * DEGREES"`.
 
 3. **`position`** (REQUIRED): Structured positioning dict. Choose ONE method:
    - `{"method": "move_to", "ref": "ORIGIN"}` — move to scene origin
@@ -240,8 +251,11 @@ Explain your spatial logic for the *selected* strategy. Calculate coordinates he
 ...
 </reasoning>
 
-**PART 3: JSON BLUEPRINT**
-The valid JSON object.
+**PART 3: JSON BLUEPRINT** ← YOU MUST OUTPUT THIS. Do NOT stop after PART 2.
+Wrap the JSON in <json_blueprint> tags:
+<json_blueprint>
+{ ... the complete JSON object ... }
+</json_blueprint>
 
 ═══════════════════════════════════════════════════════════════════
 GOLDEN PATTERN LIBRARY (Neuro-symbolic Examples)

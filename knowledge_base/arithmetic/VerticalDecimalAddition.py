@@ -25,19 +25,10 @@ NUMBER_START_Y = 1.5
 
 class VerticalDecimalAdditionGolden(Scene):
     """
-    【RAG 黃金範例】直式小數加法（含進位顯示）
-    Golden Example for Vertical Decimal Addition with Carry-over Visualization
-    
-    核心教學特點 (Core Pedagogical Features)：
-    1. 小數點對齊 (Decimal Alignment): 使用虛線標示對齊基準
-    2. 逐位計算 (Digit-by-Digit): 由右向左，符合數學計算邏輯
-    3. 進位視覺化 (Carry Visualization): 紅色小字顯示進位數字
-    4. 顏色語義化 (Color Coding): GREEN=答案, RED=進位, YELLOW=提示
-    
-    適用場景 (Use Cases)：
-    - 小學數學：整數/小數加法
-    - 任意精度：自動處理不同位數
-    - 字幕同步：支援外部時間軸控制
+    Golden Example for Vertical Decimal Addition with Carry-over Visualization.
+    Digit-by-digit column addition (right to left) with decimal alignment dashes.
+    Color coding: BLUE=original digits, YELLOW=active column, RED=carry digit, GREEN=answer.
+    Supports arbitrary precision and subtitle synchronization via segments parameter.
     """
 
     def __init__(self, num1=19.95, num2=3.17, segments=None, subtitles=None, **kwargs):
@@ -69,9 +60,8 @@ class VerticalDecimalAdditionGolden(Scene):
     def setup(self):
         """場景初始設置：固定字幕區域"""
         self.subtitle_area = Text(
-            "", 
-            font_size=32, 
-            font="PingFang TC",  # 中文字體支援
+            "",
+            font_size=32,
             color=WHITE
         ).to_edge(DOWN, buff=0.4)
         self.add(self.subtitle_area)
@@ -99,10 +89,9 @@ class VerticalDecimalAdditionGolden(Scene):
         
         wrapped_text = "\n".join(sentences)
         new_sub = Text(
-            wrapped_text, 
-            font_size=32, 
-            font="PingFang TC", 
-            color=WHITE, 
+            wrapped_text,
+            font_size=32,
+            color=WHITE,
             line_spacing=0.8
         ).to_edge(DOWN, buff=0.4)
         

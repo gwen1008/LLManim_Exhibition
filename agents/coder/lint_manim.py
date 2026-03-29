@@ -487,6 +487,43 @@ class ManimLinter(ast.NodeVisitor):
                 ),
             })
 
+        # 13. [NEW] Detect LayoutObject / LayoutEngine / LayoutSolver — do not exist in Manim.
+        # ROOT CAUSE of HIGH_01 (y=2x-1 slope) and HIGH_03 (unit circle sine) 5-iteration failures.
+        # DeepSeek-V3 hallucinates a constraint-based layout system: LayoutObject(), LayoutEngine(),
+        # layout.add_constraint(), layout.place_below(), layout.solve().
+        # These are NOT part of Manim v0.19/v0.20 and cause AttributeError at render time.
+        # FIX: use .next_to(), .to_corner(), .shift(), .move_to() for positioning instead.
+        _LAYOUT_HALLUCINATIONS = {
+            'LayoutObject':  'LayoutObject() does not exist in Manim. Use Mobject.next_to() / .shift() / .move_to() for positioning.',
+            'LayoutEngine':  'LayoutEngine() does not exist in Manim. Manim has no constraint-based layout system.',
+            'LayoutSolver':  'LayoutSolver() does not exist in Manim. Use .arrange(), .next_to(), .shift() instead.',
+            'ConstraintLayout': 'ConstraintLayout() does not exist in Manim.',
+        }
+        if isinstance(node.func, ast.Name) and node.func.id in _LAYOUT_HALLUCINATIONS:
+            self.errors.append({
+                "line": node.lineno,
+                "code": "HALLUCINATED_METHOD",
+                "message": (
+                    f"{_LAYOUT_HALLUCINATIONS[node.func.id]} "
+                    "This is a known LLM hallucination. "
+                    "FIX: replace with standard Manim positioning: "
+                    "obj.next_to(ref, direction, buff=0.2), obj.to_corner(UL), obj.shift(UP*2)."
+                )
+            })
+        # Also catch layout method calls on arbitrary objects: layout.add_constraint(), layout.place_below()
+        _LAYOUT_METHODS = {'add_constraint', 'place_below', 'place_above', 'place_left', 'place_right', 'solve', 'resolve'}
+        if isinstance(node.func, ast.Attribute) and node.func.attr in _LAYOUT_METHODS:
+            if isinstance(node.func.value, ast.Name) and 'layout' in node.func.value.id.lower():
+                self.errors.append({
+                    "line": node.lineno,
+                    "code": "HALLUCINATED_METHOD",
+                    "message": (
+                        f"'{node.func.value.id}.{node.func.attr}()' is a hallucinated layout method. "
+                        "Manim has no constraint-based layout engine. "
+                        "FIX: use .next_to(ref, direction, buff=N) or .shift(vector) for all positioning."
+                    )
+                })
+
         # Advisory: suspiciously small non-zero buff on next_to — may cause MISALIGNED
         # (0, 0.15) range: below the Vision Agent's "obvious gap" threshold but > 0
         # These are non-blocking; they surface as hints for the TDR classifier.
@@ -664,6 +701,83 @@ def lint_file(filepath):
         if linter.advisories:
             for adv in linter.advisories:
                 print(f"  💡 [Advisory] Line {adv['line']} [{adv['code']}]: {adv['message']}")
+
+        # 14. [Subtitle Exclusion Zone] Detect objects placed in y < -2.8.
+        # The SubtitleManager is auto-injected at y = -3.2 (DOWN*3.2).
+        # Any object whose center enters y < -2.8 will overlap with subtitles.
+        # Patterns caught:
+        #   shift(DOWN * N)  where N >= 2.9
+        #   move_to([x, y, z]) where y <= -2.8
+        #   to_edge(DOWN) — always lands at y ≈ -3.8, always violates
+        import re as _re
+        _subtitle_errors = []
+        _lines = source.splitlines()
+
+        # Pattern A: shift(DOWN * N) or shift(N * DOWN) where N >= 2.9
+        _shift_down = _re.compile(
+            r'\.shift\s*\(\s*(?:DOWN\s*\*\s*(\d+(?:\.\d+)?)|(\d+(?:\.\d+)?)\s*\*\s*DOWN)\s*\)'
+        )
+        # Pattern B: move_to([x, y, z]) with y <= -2.8 (3-element list)
+        _move_to_vec = _re.compile(
+            r'\.move_to\s*\(\s*\[\s*[-\d.]+\s*,\s*([-\d.]+)\s*,\s*[-\d.]+\s*\]\s*\)'
+        )
+        # Pattern C: .to_edge(DOWN) — always subtitle zone
+        _to_edge_down = _re.compile(r'\.to_edge\s*\(\s*DOWN\s*\)')
+        # Pattern D: explicit DOWN*3 or 3*DOWN numeric in shift(DOWN*3.x)
+        _shift_down_num = _re.compile(
+            r'\.shift\s*\(.*?DOWN\s*\*\s*([3-9]\d*(?:\.\d+)?|2\.[89]\d*)'
+        )
+
+        _SUBTITLE_Y_LIMIT = -2.8
+
+        for lineno, line in enumerate(_lines, start=1):
+            # Skip auto-injected lines and SubtitleManager itself
+            if 'SubtitleManager' in line or 'auto-injected' in line or 'set_subtitle' in line:
+                continue
+
+            # Pattern A+D: shift(DOWN * N >= 2.9)
+            for m in _shift_down.finditer(line):
+                val = float(m.group(1) or m.group(2))
+                if val >= 2.9:
+                    _subtitle_errors.append({
+                        "line": lineno,
+                        "code": "COORDINATE_ERROR",
+                        "message": (
+                            f"Object shifted DOWN*{val} places it at y ≈ -{val:.1f}, "
+                            f"which intrudes into the subtitle exclusion zone (y < -2.8). "
+                            f"SubtitleManager is fixed at y=-3.2. "
+                            f"FIX: keep y >= -2.5, e.g. .shift(DOWN*2.5) or use FOOTER zone."
+                        )
+                    })
+
+            # Pattern B: move_to([x, y, z]) with y <= -2.8
+            for m in _move_to_vec.finditer(line):
+                y_val = float(m.group(1))
+                if y_val <= _SUBTITLE_Y_LIMIT:
+                    _subtitle_errors.append({
+                        "line": lineno,
+                        "code": "COORDINATE_ERROR",
+                        "message": (
+                            f"Object placed at y={y_val} via move_to([...]) — this is inside the "
+                            f"subtitle exclusion zone (y < -2.8). SubtitleManager occupies y=-3.2. "
+                            f"FIX: change y to >= -2.5."
+                        )
+                    })
+
+            # Pattern C: .to_edge(DOWN) → y ≈ -3.8, always violates
+            if _to_edge_down.search(line):
+                _subtitle_errors.append({
+                    "line": lineno,
+                    "code": "COORDINATE_ERROR",
+                    "message": (
+                        "'.to_edge(DOWN)' places an object at y ≈ -3.8, deep inside the "
+                        "subtitle exclusion zone (y < -2.8). SubtitleManager is at y=-3.2. "
+                        "FIX: use .to_edge(DOWN).shift(UP*1.5) or place in FOOTER zone (y ≈ -2.0)."
+                    )
+                })
+
+        if _subtitle_errors:
+            linter.errors.extend(_subtitle_errors)
 
         if linter.errors:
             return False, linter.errors

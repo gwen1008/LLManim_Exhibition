@@ -2,14 +2,8 @@ from manim import *
 
 class CorrectVerticalAddition(Scene):
     """
-    完美示範：5304 + 3538 的直式加法
-    Perfect Demo: Vertical Addition with Carry Visualization
-    
-    這是一個「黃金標準」範例，展示：
-    1. 字符級 VGroup 拆分
-    2. 右對齊 (align_to RIGHT)
-    3. 逐位計算（從右到左）
-    4. 進位視覺化（紅色小字）
+    Perfect Demo: Vertical Integer Addition 5304 + 3538 with carry visualization.
+    Golden standard for: character-level VGroup splitting, right-alignment via align_to RIGHT, column-by-column calculation (right to left), and red superscript carry digits.
     """
     
     def construct(self):

@@ -1,6 +1,9 @@
 from manim import *
 
 class ElementaryFractionLesson(Scene):
+    """
+    Elementary fraction lesson using animated pie chart: ValueTracker drives a Sector from 0 to full circle, pausing at 1/4, 1/2, 3/4, and 1 with dynamic MathTex labels. Uses always_redraw for live pie chart updates.
+    """
     def construct(self):
         # 1. 場景初始化與標題
         # 使用深灰色背景,減少螢幕眩光,符合兒童護眼設計

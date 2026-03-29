@@ -290,6 +290,9 @@ Before finalizing code, verify:
 - [ ] Composite shapes are grouped in VGroup BEFORE final positioning
 - [ ] .get_corner()/.align_to()/.next_to() used instead of .shift() for precision
 - [ ] All Polygon() calls use unpacked args, not a single list
+- [ ] NO Line(start=A, end=B).move_to(...) — Line coordinates are already final
+- [ ] Triangles use Polygon(A, B, C), NOT 3 separate Line objects
+- [ ] No dict-driven layout systems (layout_objects list + create_object loop = FORBIDDEN)
 
 ## Rule 7: DYNAMIC SYNC SCENES — ValueTracker Pattern (MANDATORY)
 For scenes where a point moves on one object (e.g., unit circle) and must synchronize with a point on another (e.g., sine graph), you MUST use a shared ValueTracker.

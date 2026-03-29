@@ -67,7 +67,8 @@ class LLMClient:
             "time_planner_sec": 0.0,
             "time_coder_sec": 0.0,
             "time_render_sec": 0.0,
-            "time_vision_sec": 0.0
+            "time_vision_sec": 0.0,
+            "time_rag_sec": 0.0
         }
         
         # Pricing per 1M tokens (USD) - Industry standard Feb 2026
@@ -115,92 +116,106 @@ class LLMClient:
 
     def _call_groq(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
         """Internal method to call Groq API."""
-        try:
-            start_time = time.time()  # 開始計時
-            
-            kwargs = {
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
-                "temperature": temperature,
-                "timeout": 180, # 增加至 3 分鐘，避免長上下文生成時超時
-            }
+        max_retries = 3
+        last_exc = None
+        for attempt in range(max_retries):
+            try:
+                start_time = time.time()  # 開始計時
 
-            if json_mode:
-                kwargs["response_format"] = {"type": "json_object"}
-            
-            completion = self.client.chat.completions.create(**kwargs)
-            
-            end_time = time.time()  # 結束計時
-            duration = end_time - start_time
-            
-            # 提取 Token 使用資訊
-            usage = completion.usage
-            response = completion.choices[0].message.content
-            
-            # Update Session Stats
-            self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
-            
-            if self.debug:
-                print(f"\n" + "-"*30)
-                print(f"🤖 [模型]: {model} (Groq)")
-                print(f"⏱️  [API 耗時]: {duration:.2f} 秒")
-                print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
-                
-                # 如果不是 PASS 且 debug 開啟，顯示完整的回饋細節
-                if "PASS" not in response:
-                    print(f"\n📢 [AI 審查/反饋意見]:\n{response.strip()}")
-                print("-" * 30)
-                
-            return response
-        except Exception as e:
-            error_msg = f"Error connecting to Groq: {str(e)}"
-            print(f"❌ {error_msg}")
-            raise LLMError(error_msg) from e
+                kwargs = {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "temperature": temperature,
+                    "timeout": 180,  # 增加至 3 分鐘，避免長上下文生成時超時
+                }
+
+                if json_mode:
+                    kwargs["response_format"] = {"type": "json_object"}
+
+                completion = self.client.chat.completions.create(**kwargs)
+
+                end_time = time.time()  # 結束計時
+                duration = end_time - start_time
+
+                # 提取 Token 使用資訊
+                usage = completion.usage
+                response = completion.choices[0].message.content
+
+                # Update Session Stats
+                self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
+
+                if self.debug:
+                    print(f"\n" + "-"*30)
+                    print(f"🤖 [模型]: {model} (Groq)")
+                    print(f"⏱️  [API 耗時]: {duration:.2f} 秒")
+                    print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
+
+                    # 如果不是 PASS 且 debug 開啟，顯示完整的回饋細節
+                    if "PASS" not in response:
+                        print(f"\n📢 [AI 審查/反饋意見]:\n{response.strip()}")
+                    print("-" * 30)
+
+                return response
+            except Exception as e:
+                last_exc = e
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                print(f"⚠️ [Groq retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
+                time.sleep(wait)
+        error_msg = f"Error connecting to Groq: {str(last_exc)}"
+        print(f"❌ {error_msg}")
+        raise LLMError(error_msg) from last_exc
     
     def _call_deepseek(self, system_prompt, user_prompt, temperature=0.1, json_mode=False):
         if not self.deepseek_client:
             raise LLMError("DeepSeek API key not configured.")
 
-        try:
-            start_time = time.time()
-            
-            kwargs = {
-                "model": "deepseek-chat",
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
-                "temperature": temperature,
-                "max_tokens": 8192,
-            }
-            
-            if json_mode:
-                kwargs["response_format"] = {"type": "json_object"}
+        max_retries = 3
+        last_exc = None
+        for attempt in range(max_retries):
+            try:
+                start_time = time.time()
 
-            completion = self.deepseek_client.chat.completions.create(**kwargs)
+                kwargs = {
+                    "model": "deepseek-chat",
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "temperature": temperature,
+                    "max_tokens": 8192,
+                }
 
-            end_time = time.time()
-            content = completion.choices[0].message.content
-            usage = completion.usage
+                if json_mode:
+                    kwargs["response_format"] = {"type": "json_object"}
 
-            self._update_stats("deepseek-chat", usage.prompt_tokens, usage.completion_tokens)
+                completion = self.deepseek_client.chat.completions.create(**kwargs)
 
-            if self.debug:
-                print(f"\n" + "-"*30)
-                print(f"🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)")
-                print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
-                print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
-                print("-" * 30)
+                end_time = time.time()
+                content = completion.choices[0].message.content
+                usage = completion.usage
 
-            return content
+                self._update_stats("deepseek-chat", usage.prompt_tokens, usage.completion_tokens)
 
-        except Exception as e:
-            error_msg = f"Error connecting to DeepSeek: {str(e)}"
-            print(f"❌ {error_msg}")
-            raise LLMError(error_msg) from e
+                if self.debug:
+                    print(f"\n" + "-"*30)
+                    print(f"🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)")
+                    print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
+                    print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
+                    print("-" * 30)
+
+                return content
+
+            except Exception as e:
+                last_exc = e
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                print(f"⚠️ [DeepSeek retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
+                time.sleep(wait)
+        error_msg = f"Error connecting to DeepSeek: {str(last_exc)}"
+        print(f"❌ {error_msg}")
+        raise LLMError(error_msg) from last_exc
 
     def _call_deepseek_r1(self, system_prompt, user_prompt):
         """
@@ -482,7 +497,8 @@ class LLMClient:
             "time_planner_sec": 0.0,
             "time_coder_sec": 0.0,
             "time_render_sec": 0.0,
-            "time_vision_sec": 0.0
+            "time_vision_sec": 0.0,
+            "time_rag_sec": 0.0
         }
 
     def close(self):

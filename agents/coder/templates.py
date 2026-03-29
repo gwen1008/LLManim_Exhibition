@@ -40,8 +40,24 @@ To ensure precision, you MUST follow these MANDATORY constraints:
 
 4. 🚫 **NO JSON PARSING LOOPS (UNROLL EVERYTHING)**:
    - ❌ WRONG: Writing a `for step in sequence:` loop to interpret JSON.
+   - ❌ WRONG: Building a `layout_objects = [...]` list of dicts and looping through it with a `create_object()` helper.
+   - ❌ WRONG: Any meta-interpreter pattern (dict-driven object factory, generic positioning dispatcher).
    - ✅ CORRECT: Manually writing out `self.play(...)` for EACH step.
+   - ✅ CORRECT: Directly instantiate each object in Python: `side_ab = Line(A, B, color=BLUE, stroke_width=8)`
    - You MUST unroll the loop. This is critical for fine-tuning timing and signals.
+
+4b. 📐 **GEOMETRIC SHAPES: USE Polygon, NOT separate Lines**:
+   - ❌ WRONG: Creating a triangle as 3 separate `Line` objects (`side_ab`, `side_bc`, `side_ca`). Vertices won't align.
+   - ✅ CORRECT: `triangle = Polygon(A, B, C, color=WHITE)` — one object, perfect vertex alignment.
+   - For side color-coding: `triangle.set_stroke(color=WHITE)` then create highlighted edges as `Line(A, B, color=BLUE)`.
+   - When the Director gives you vertex coordinates A, B, C: USE THEM DIRECTLY in `Polygon(A, B, C)`. Do NOT wrap in another `move_to`.
+
+4c. 🚫 **Line / Arrow: NO DOUBLE-POSITIONING**:
+   - `Line` and `Arrow` are defined by their `start` and `end` absolute coordinates. These ARE the final positions.
+   - ❌ WRONG: `line = Line(start=A, end=B).move_to(anchor)` — `move_to` moves the midpoint, destroying the vertex positions.
+   - ❌ WRONG: `line = Line(start=A, end=B); line.shift(offset)` — double-offset.
+   - ✅ CORRECT: `line = Line(A, B, color=BLUE, stroke_width=6)` — that's it. No extra positioning.
+   - If you need a line at a different position, compute the final A and B yourself and pass them directly.
 
 5. 🎙️ **SUBTITLE MANAGEMENT — USE `set_subtitle()` ONLY**:
    - A `SubtitleManager` is pre-loaded into every scene. Use it for ALL step-by-step narration text.
@@ -51,6 +67,8 @@ To ensure precision, you MUST follow these MANDATORY constraints:
    - ❌ WRONG: `self.play(FadeOut(old_text)); self.play(Write(new_text))` — fragile, frequently forgotten
    - The system automatically handles `FadeOut` / `ReplacementTransform`. You only call `set_subtitle()`.
    - To clear the subtitle at the end: `self._sm.clear()`
+   - ❌ WRONG: Creating a separate `step_explanation = Text(...)` footer object for each step and manually calling `ReplacementTransform`. This creates DOUBLE TEXT (subtitle + footer).
+   - ❌ WRONG: Any `Text` or `MathTex` object positioned at `footer_anchor` or `y=-2.x` for step labels. Use ONLY `set_subtitle()`.
 
 6. 🏗️ **BLUEPRINT TRANSLATION — READ THE JSON FIELDS LITERALLY**:
    The Director's JSON now contains machine-readable fields. Translate them DIRECTLY, no guessing:
@@ -157,7 +175,7 @@ Write this planning block as a Python multiline string comment at the VERY TOP o
 # 3. Anti-Overlap Check: [How will you prevent collision?]
 #    - Strategy: Use VGroups for "28+35" to keep them together.
 # 4. Audio Check (CRITICAL) - We do NOT add `self.add_sound()`. The system will auto-inject it.
-#    - [ ] Have I assigned `remaining_N = json_duration - anim_time + 0.5`?
+#    - [ ] Have I assigned `remaining_N = max(0.1, _audio_dur_[N-1] - anim_time_N + 0.5)`?
 # 5. Animation Flow: [Brief sequence of events]
 '''
 
@@ -340,17 +358,37 @@ self.play(FadeIn(self.objects["final_answer"]))
 - You MUST write `remaining_N = max(0.1, duration - anim_time + 0.5)` for EVERY step.
 
 **REQUIRED AUDIO PATTERN (UNROLLED — one block per step)**:
+
+⚠️ The system auto-injects `_audio_dur_0`, `_audio_dur_1`, ... variables before each `# Step N` comment.
+   These contain the ACTUAL TTS audio duration (unknown at code-write time, filled at runtime).
+   YOU MUST reference `_audio_dur_[N-1]` (0-indexed) in each step's remaining calculation.
+
 ```python
-# ========== Step 1 ==========
+# Step 1
+anim_time_1 = 1.5  # sum of sequential run_times in this step
 self.play(Write(self.objects["title"]), run_time=1.5)
-remaining_1 = max(0.1, 4.0 - 1.5 + 0.5)  # JSON duration=4.0, anim=1.5
+remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.5)
 self.wait(remaining_1)
 
-# ========== Step 2 ==========
+# Step 2
+anim_time_2 = 2.0
 self.play(Create(self.objects["circle"]), run_time=2.0)
-remaining_2 = max(0.1, 5.0 - 2.0 + 0.5)
+remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.5)
 self.wait(remaining_2)
+
+# Step 3
+anim_time_3 = 1.0 + 2.5  # two sequential play() calls
+self.play(Indicate(obj), run_time=1.0)
+self.play(Transform(a, b), run_time=2.5)
+remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.5)
+self.wait(remaining_3)
 ```
+
+KEY RULES:
+- `anim_time_N` = sum of `run_time` for all SEQUENTIAL `self.play()` calls in that step. For concurrent animations (multiple args in ONE `self.play()`), use only ONE run_time.
+- `_audio_dur_[N-1]` is 0-indexed: Step 1 uses `_audio_dur_0`, Step 2 uses `_audio_dur_1`, etc.
+- DO NOT hardcode the audio duration. ALWAYS use `_audio_dur_[N-1]`.
+- Each step's comment MUST be exactly `# Step N` (just the number, no extra text) so the system can find it.
 
 ### 5.5 MATHTEX vs TEXT vs TEX (⚠️ CRITICAL — WRONG CHOICE = CRASH)
 

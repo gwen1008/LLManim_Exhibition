@@ -18,6 +18,38 @@ import weaviate
 from weaviate.classes.config import Configure, Property, DataType
 
 
+MANIM_CLASSES = {
+    # Shapes / Mobjects
+    'Circle', 'Square', 'Rectangle', 'Triangle', 'Dot', 'Line', 'Arrow', 'Vector',
+    'Polygon', 'RegularPolygon', 'Ellipse', 'Annulus', 'Arc', 'Sector', 'ArcBetweenPoints',
+    'CurvedArrow', 'DoubleArrow', 'DashedLine', 'Brace', 'BraceLabel',
+    'SurroundingRectangle', 'Cross', 'Underline',
+    # Text / Math
+    'Text', 'MathTex', 'Tex', 'MarkupText', 'DecimalNumber', 'Integer',
+    # Axes & Graphs
+    'NumberLine', 'Axes', 'NumberPlane', 'ComplexPlane',
+    'FunctionGraph', 'ParametricFunction', 'ImplicitFunction',
+    # Groups
+    'VGroup', 'Group', 'Mobject', 'VMobject',
+    # Geometry helpers
+    'Angle', 'RightAngle',
+    # Animations
+    'Create', 'Uncreate', 'Write', 'Unwrite', 'DrawBorderThenFill',
+    'FadeIn', 'FadeOut', 'FadeTransform',
+    'GrowFromCenter', 'GrowArrow', 'GrowFromPoint', 'GrowFromEdge',
+    'Transform', 'ReplacementTransform', 'TransformMatchingTex', 'TransformMatchingShapes',
+    'Rotate', 'ScaleInPlace', 'MoveToTarget',
+    'Indicate', 'Flash', 'Circumscribe', 'Wiggle', 'ApplyWave',
+    'ShowPassingFlash', 'ShowCreationThenDestruction',
+    'AnimationGroup', 'LaggedStart', 'LaggedStartMap', 'Succession',
+    # Updaters / Trackers
+    'ValueTracker', 'ComplexValueTracker',
+    'UpdateFromFunc', 'UpdateFromAlphaFunc', 'always_redraw',
+    # Scene types
+    'Scene', 'MovingCameraScene', 'ZoomedScene', 'ThreeDScene',
+}
+
+
 class ManimCodeChunker:
     """Extracts complete Scene classes from Manim Python files."""
     
@@ -62,12 +94,17 @@ class ManimCodeChunker:
                     # Calculate complexity (number of method calls)
                     complexity = sum(1 for _ in ast.walk(node) if isinstance(_, ast.Call))
                     
-                    # Extract used Manim modules
+                    # Extract docstring to use as video_description
+                    docstring = ast.get_docstring(node)
+                    topic_name = filepath.relative_to(self.source_dir).parts[0]
+                    video_desc = docstring.strip() if docstring else f"{node.name} example about {topic_name}"
+
+                    # Extract used Manim modules (uses module-level MANIM_CLASSES constant)
                     used_modules = set()
+
                     for subnode in ast.walk(node):
                         if isinstance(subnode, ast.Name):
-                            # Common Manim classes
-                            if subnode.id in ['Circle', 'Square', 'Text', 'MathTex', 'Create', 'FadeIn', 'Write']:
+                            if subnode.id in MANIM_CLASSES:
                                 used_modules.add(subnode.id)
                     
                     chunks.append({
@@ -77,7 +114,8 @@ class ManimCodeChunker:
                         'complexity_score': complexity,
                         'manim_modules': ', '.join(used_modules),
                         'source_file': str(filepath.relative_to(self.source_dir)),
-                        'topic': filepath.relative_to(self.source_dir).parts[0]  # Extract topic from folder name
+                        'topic': topic_name,
+                        'video_description': video_desc
                     })
         
         return chunks
@@ -111,13 +149,16 @@ class WeaviateIndexer:
             name="ManimGoldenPair",
             vectorizer_config=Configure.Vectorizer.text2vec_openai(),
             properties=[
-                Property(name="code_content", data_type=DataType.TEXT),
-                Property(name="imports", data_type=DataType.TEXT),
+                # skip_vectorization=True: BM25 still indexes these for keyword search,
+                # but they are NOT included in the OpenAI embedding vector.
+                # Embedding only from video_description (natural language) + manim_modules.
+                Property(name="code_content", data_type=DataType.TEXT, skip_vectorization=True),
+                Property(name="imports", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="complexity_score", data_type=DataType.INT),
-                Property(name="manim_modules", data_type=DataType.TEXT),
-                Property(name="source_file", data_type=DataType.TEXT),
-                Property(name="topic", data_type=DataType.TEXT),  # Added topic field
-                Property(name="video_description", data_type=DataType.TEXT),  # Will be filled by ingest_video.py
+                Property(name="manim_modules", data_type=DataType.TEXT),  # vectorized: module names are useful signals
+                Property(name="source_file", data_type=DataType.TEXT, skip_vectorization=True),
+                Property(name="topic", data_type=DataType.TEXT, skip_vectorization=True),
+                Property(name="video_description", data_type=DataType.TEXT),  # vectorized: primary semantic field
             ]
         )
         print("✅ Schema created: ManimGoldenPair")

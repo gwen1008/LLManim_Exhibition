@@ -1,6 +1,9 @@
 from manim import *
 
 class SineWaveConstruction(Scene):
+    """
+    Sine wave construction from unit circle: a rotating dot traces its y-coordinate to build the sine function graph in real time, with unit circle on the left and coordinate axes on the right. Uses always_redraw for live updates.
+    """
     def construct(self):
         self.camera.background_color = "#1e1e1e"
         

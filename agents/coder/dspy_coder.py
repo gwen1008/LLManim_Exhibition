@@ -55,15 +55,12 @@ class DSPyCoder:
             
         print(f"\n🧠 [DSPy] Thinking about: {concept}")
         
-        # 1. Retrieve "Golden Examples" from RAG
+        # 1. Retrieve "Golden Examples" + API Rules from RAG
         retrieved = self.rag.retrieve_examples(concept, limit=2)
-        
+        retrieved += self.rag.retrieve_rules(concept, limit=2)
+
         # Format retrieval for context
-        context_str = ""
-        if retrieved:
-            context_str = "Here are some relevant Manim code patterns:\n"
-            for ex in retrieved:
-                context_str += f"- Pattern: {ex['description']}\n  Code Snippet:\n{self.rag._prune_code(ex['code'])}\n\n"
+        context_str = self.rag.format_for_prompt(retrieved) if retrieved else ""
         
         # Task 12: 注入 reflection 記憶（若有）
         if reflection_context:

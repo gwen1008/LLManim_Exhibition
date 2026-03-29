@@ -15,6 +15,7 @@ from agents.planner.planner import Planner
 from agents.coder.prompter import CoderPrompter
 from agents.core.llm_client import LLMClient
 from agents.core.logger import SessionLogger
+from agents.core.pipeline_config import StageTimer
 
 
 def _extract_first_json_object(text: str):
@@ -93,21 +94,10 @@ def _inject_audio_sync(code: str, updated_sequence: list, final_audio_path: str)
             )
             code = code[:match.start()] + inject_lines + code[match.start():]
 
-        # === Step 2: 替換 remaining_N / self.wait() 使用實際 duration ===
-        # 把 LLM 自己寫的 remaining_N = max(0.1, X - Y + Z) 替換成用 _audio_dur_N
-        # Pattern: remaining_N = max(...) → remaining_N = _audio_dur_N
-        # 同時去掉 LLM 猜測的 wait 計算，讓 wait 等待完整 TTS 時長
-        for marker_idx in range(n_inject):
-            step_i, step_data = audio_steps[marker_idx]
-            duration = step_data.get("duration", 2.0)
-            dur_var = f"_audio_dur_{marker_idx}"
-            step_num = marker_idx + 1
-            # 替換 remaining_{step_num} = max(...) → remaining_{step_num} = _audio_dur_N
-            code = _re.sub(
-                rf'([ \t]*)remaining_{step_num}\s*=\s*max\([^\n]+\)',
-                rf'\1remaining_{step_num} = {dur_var}  # [audio-sync] use actual TTS duration',
-                code
-            )
+        # === Step 2: 不替換 remaining_N 公式 ===
+        # Coder 寫的 remaining_N = max(0.1, _audio_dur_{N-1} - anim_time_N + 0.5) 是正確的
+        # _audio_dur_N 變數已在 Step 1 注入，Coder 的公式直接引用即可
+        # 注意：不要替換成全時長，否則每步 wait = anim_time + full_audio → 影片 2x 時長
 
         injected = True
         print(f"🎵 [Audio Post-Inject] 成功注入 {n_inject} 個 self.add_sound()，wait 同步至實際 TTS 時長")
@@ -175,10 +165,12 @@ if __name__ == "__main__":
         def _rag_task():
             print("\n📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...")
             from agents.core.rag_retriever import RAGRetriever as _RAG
-            _rag = _RAG()
-            _results = _rag.retrieve_examples(user_topic, limit=2)
-            _ctx = _rag.format_for_prompt(_results)
-            _rag.close()
+            with StageTimer("RAG", llm.session_stats, "time_rag_sec"):
+                _rag = _RAG()
+                _results = _rag.retrieve_examples(user_topic, limit=3)
+                _results += _rag.retrieve_rules(user_topic, limit=2)
+                _ctx = _rag.format_for_prompt(_results)
+                _rag.close()
             return _ctx
             
         _pipeline_executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
@@ -186,11 +178,14 @@ if __name__ == "__main__":
 
         # 階段一：Director 規劃 (Planner)
         print("\n🎬 [階段 1: Director] 正在規劃動畫腳本...")
-        import time
-        _start_planner = time.time()
+        from agents.core.llm_client import LLMError
         planner = Planner(llm_client=llm)
-        script_json, thought_tree_raw = planner.plan_script(user_topic)
-        llm.session_stats["time_planner_sec"] += (time.time() - _start_planner)
+        with StageTimer("Planner", llm.session_stats, "time_planner_sec"):
+            try:
+                script_json, thought_tree_raw = planner.plan_script(user_topic)
+            except LLMError as e:
+                print(f"❌ [Fatal] Planner LLM 完全失敗：{e}")
+                sys.exit(1)
         
         # [Optimization] Strip XML thought/reasoning blocks before parsing
         script_json_clean = re.sub(r'<thought_tree>.*?</thought_tree>', '', script_json, flags=re.DOTALL)
@@ -247,10 +242,8 @@ if __name__ == "__main__":
                     script_json, target_scene, rag_context=_rag_ctx, spatial_hints=spatial_hints
                 )
                 
-                import time
-                _start_coder = time.time()
-                raw = llm.ask_for_fix(_cs, _cu, temperature=0.3)
-                llm.session_stats["time_coder_sec"] += (time.time() - _start_coder)
+                with StageTimer("Coder", llm.session_stats, "time_coder_sec", silent=True):
+                    raw = llm.ask_for_fix(_cs, _cu, temperature=0.3)
                 
                 code = LLMClient.extract_code(raw)
 
@@ -313,10 +306,8 @@ if __name__ == "__main__":
             )
 
             def _generate_candidate(temperature):
-                import time
-                _start = time.time()
-                raw = llm.ask_for_fix(coder_system, coder_user, temperature=temperature)
-                llm.session_stats["time_coder_sec"] += (time.time() - _start)
+                with StageTimer("Coder", llm.session_stats, "time_coder_sec", silent=True):
+                    raw = llm.ask_for_fix(coder_system, coder_user, temperature=temperature)
                 
                 code = LLMClient.extract_code(raw)
                 code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', code, count=1)
@@ -358,7 +349,7 @@ if __name__ == "__main__":
             # Previously written only inside try block, so LLMError / timeout / crash would skip it,
             # making failed tasks show '—' in the cost dashboard instead of their true token cost.
             try:
-                stable_out_dir = "stable_outputs"
+                stable_out_dir = os.environ.get("EVAL_OUTPUT_DIR", "stable_outputs")
                 os.makedirs(stable_out_dir, exist_ok=True)
                 with open(os.path.join(stable_out_dir, "cost_report.json"), "w", encoding="utf-8") as f:
                     json.dump(llm.session_stats, f, indent=2)

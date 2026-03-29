@@ -4,10 +4,9 @@ RAG Retriever Module
 Handles retrieval of 'Golden Manim Examples' from Weaviate to ground the Coder agent.
 """
 
-import os
 import weaviate
-from weaviate.classes.query import MetadataQuery
-from typing import List, Dict, Optional
+from weaviate.classes.query import MetadataQuery, Filter
+from typing import List, Dict
 
 class RAGRetriever:
     """Interface for retrieving semantic code examples from vector database."""
@@ -33,111 +32,116 @@ class RAGRetriever:
             self.client = None
 
     def retrieve_examples(self, query: str, limit: int = 3) -> List[Dict]:
-        """
-        Retrieve relevant code examples based on natural language query.
-        
-        Args:
-            query: The visual description (e.g., "A rotating red square")
-            limit: Number of examples to retrieve
-            
-        Returns:
-            List of dictionaries containing 'code', 'description', and 'score'.
-        """
+        """Retrieve code examples only (excludes manim_ce_rules API docs)."""
         if not self.client:
             return []
-
         try:
             collection = self.client.collections.get("ManimGoldenPair")
-            
-            # Hybrid Search: Combines keyword (BM25) and vector (Semantic) search
-            # Alpha 0.75 leans towards vector search (semantic) which is better for "visual descriptions"
             response = collection.query.hybrid(
                 query=query,
                 limit=limit,
-                alpha=0.5,  # Balanced: 0=pure BM25 keyword, 1=pure vector. 0.5 improves Manim API name matching.
+                alpha=0.5,
                 return_metadata=MetadataQuery(score=True)
             )
-            
+            SCORE_THRESHOLD = 0.4
             results = []
             for obj in response.objects:
+                src = obj.properties.get("source_file", "")
+                if src.startswith("manim_ce_rules"):
+                    continue  # belt-and-suspenders guard
+                score = obj.metadata.score
+                desc = obj.properties.get("video_description", "No description")
+                print(f"  📋 [score={score:.3f}] {desc[:60]}")
+                if score < SCORE_THRESHOLD:
+                    continue
                 results.append({
-                    "description": obj.properties.get("video_description", "No description"),
+                    "description": desc,
                     "code": obj.properties.get("code_content", ""),
                     "imports": obj.properties.get("imports", ""),
                     "modules": obj.properties.get("manim_modules", ""),
-                    "score": obj.metadata.score
+                    "score": score,
+                    "kind": "example",
                 })
-                
-            print(f"🔍 RAG Search: Found {len(results)} examples for '{query}'")
+            print(f"🔍 RAG Examples: {len(results)} relevant (threshold={SCORE_THRESHOLD}) for '{query[:40]}'")
             return results
-            
         except Exception as e:
             print(f"⚠️  RAG Retrieval Failed: {e}")
             return []
 
-    def _prune_code(self, code: str) -> str:
-        """
-        Extract only the construct() method body from a Manim Scene class.
-        Removes imports, class definitions, and other boilerplate to reduce token usage.
-        
-        Args:
-            code: Full Python code including imports and class definition
-            
-        Returns:
-            Just the construct() method body (indented code, min 4 spaces context)
-        """
-        import ast
-        import textwrap
-
+    def retrieve_rules(self, query: str, limit: int = 2) -> List[Dict]:
+        """Retrieve Manim CE API rules/best-practices (manim_ce_rules only)."""
+        if not self.client:
+            return []
         try:
-            tree = ast.parse(code)
-            
-            # Find the Scene class
-            for node in tree.body:
-                if isinstance(node, ast.ClassDef):
-                    # Find the construct method
-                    for item in node.body:
-                        if isinstance(item, ast.FunctionDef) and item.name == 'construct':
-                            # Get exact line numbers
-                            start_line = item.body[0].lineno - 1
-                            end_line = item.body[-1].end_lineno
-                            
-                            # Extract lines from original code to preserve formatting
-                            lines = code.split('\n')[start_line:end_line]
-                            
-                            # Dedent uniformly
-                            pruned = textwrap.dedent('\n'.join(lines)).strip()
-                            return pruned
-            
-            # If no construct method found, fallback to regex as safety net
-            import re
-            pattern = re.compile(r'def construct\(self\):\s*([\s\S]*?)(?=\n\s*def |\n\s*class |\Z)')
-            match = pattern.search(code)
-            if match:
-                return textwrap.dedent(match.group(1)).strip()
-                
-        except SyntaxError:
-            # Code is not parseable, fallback to original
-            pass
+            collection = self.client.collections.get("ManimGoldenPair")
+            response = collection.query.hybrid(
+                query=query,
+                limit=limit,
+                alpha=0.5,
+                filters=Filter.by_property("source_file").like("manim_ce_rules*"),
+                return_metadata=MetadataQuery(score=True)
+            )
+            SCORE_THRESHOLD = 0.35
+            results = []
+            for obj in response.objects:
+                score = obj.metadata.score
+                desc = obj.properties.get("video_description", "")
+                print(f"  📖 [score={score:.3f}] {desc[:60]}")
+                if score < SCORE_THRESHOLD:
+                    continue
+                results.append({
+                    "description": desc,
+                    "code": obj.properties.get("code_content", ""),
+                    "modules": obj.properties.get("manim_modules", ""),
+                    "score": score,
+                    "kind": "rule",
+                })
+            print(f"📖 RAG Rules: {len(results)} relevant (threshold={SCORE_THRESHOLD}) for '{query[:40]}'")
+            return results
+        except Exception as e:
+            print(f"⚠️  RAG Rules Retrieval Failed: {e}")
+            return []
 
+    def _prune_code(self, code: str) -> str:
+        """Return the full class code as stored.
+
+        Previously only extracted construct() body, losing helper methods.
+        code_content already contains the complete Scene class (no imports),
+        so we return it as-is to preserve all helper functions.
+        """
         return code
 
     def format_for_prompt(self, examples: List[Dict]) -> str:
-        """Format retrieved examples into a string for the LLM prompt."""
+        """Format retrieved examples+rules into a string for the LLM prompt.
+
+        Accepts mixed list from retrieve_examples() and/or retrieve_rules().
+        Items are separated by kind: code examples first, then API rules.
+        """
         if not examples:
             return ""
-            
-        formatted = "\n\n=== 📚 REFERENCE EXAMPLES (RAG - Core Logic Only) ===\n"
-        formatted += "Use these verified patterns. Full imports/class structure are in your system prompt.\n"
-        
-        for i, ex in enumerate(examples, 1):
-            formatted += f"\n--- Example {i} ---\n"
-            formatted += f"Visual: {ex['description']}\n"
-            
-            # Prune the code to only construct() body
-            pruned_code = self._prune_code(ex['code'])
-            formatted += f"Core Logic:\n```python\n{pruned_code}\n```\n"
-            
+
+        code_items = [e for e in examples if e.get("kind") != "rule"]
+        rule_items = [e for e in examples if e.get("kind") == "rule"]
+
+        formatted = ""
+
+        if code_items:
+            formatted += "\n\n=== 📚 REFERENCE EXAMPLES (RAG - Verified Code) ===\n"
+            formatted += "Use these verified patterns. Full imports/class structure are in your system prompt.\n"
+            for i, ex in enumerate(code_items, 1):
+                formatted += f"\n--- Example {i} ---\n"
+                formatted += f"Visual: {ex['description']}\n"
+                if ex.get("imports"):
+                    formatted += f"Imports: {ex['imports']}\n"
+                pruned_code = self._prune_code(ex['code'])
+                formatted += f"Core Logic:\n```python\n{pruned_code}\n```\n"
+
+        if rule_items:
+            formatted += "\n\n=== 📖 MANIM CE API RULES (RAG - Best Practices) ===\n"
+            formatted += "Follow these API rules strictly. Do NOT call methods not listed here.\n"
+            for ex in rule_items:
+                formatted += f"\n{ex['code']}\n"
+
         return formatted
 
     def close(self):

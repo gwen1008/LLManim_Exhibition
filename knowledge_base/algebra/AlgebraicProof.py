@@ -1,6 +1,9 @@
 from manim import *
 
 class AlgebraicProof(Scene):
+    """
+    Algebraic identity (a+b)² = a² + 2ab + b² proved geometrically: partitions a large square of side (a+b) into four colored regions — a² square, two ab rectangles, and b² square — using VGroup fills and FadeIn animations.
+    """
     def construct(self):
         # 1. 參數設定
         # 設定 a 和 b 的長度比例,例如 3:1

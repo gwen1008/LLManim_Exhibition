@@ -225,6 +225,19 @@ Report ONLY what you can CONFIRM from visual evidence. If ambiguous, state uncer
                         emoji = {"Critical": "🔴", "Major": "🟠", "Minor": "🟡"}.get(d.get("severity", ""), "⚪")
                         print(f"  {emoji} [{d.get('code', '?')}] {d.get('description', '')[:80]}...")
 
+                # [GRPO-inspired] Boost confidence by animation richness (play call count).
+                # Idea from generative-manim: render_success=1.0 + 0.1/play, capped at 0.5.
+                # Here we apply a softer version: each self.play() in code bumps confidence
+                # by +0.2 (max +1), only if the verdict is PASS and code_context is available.
+                if verdict == "PASS" and code_context:
+                    import re as _re
+                    _play_count = len(_re.findall(r'self\.play\(', code_context))
+                    _bonus = min(_play_count * 0.2, 1.0)
+                    _boosted = min(round(confidence_score + _bonus), 5)
+                    if _boosted > confidence_score:
+                        print(f"🎬 [Animation Richness] {_play_count} self.play() calls → confidence {confidence_score} → {_boosted}")
+                        confidence_score = _boosted
+
                 return {"verdict": verdict, "overall_critique": critique,
                         "defects": defects, "raw_response": content,
                         "visual_rationale": visual_rationale,
