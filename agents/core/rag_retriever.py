@@ -31,7 +31,7 @@ class RAGRetriever:
             print("⚠️  RAG System: Weaviate is not live.")
             self.client = None
 
-    def retrieve_examples(self, query: str, limit: int = 3) -> List[Dict]:
+    def retrieve_examples(self, query: str, limit: int = 2) -> List[Dict]:
         """Retrieve code examples only (excludes manim_ce_rules API docs)."""
         if not self.client:
             return []
@@ -103,12 +103,13 @@ class RAGRetriever:
             return []
 
     def _prune_code(self, code: str) -> str:
-        """Return the full class code as stored.
-
-        Previously only extracted construct() body, losing helper methods.
-        code_content already contains the complete Scene class (no imports),
-        so we return it as-is to preserve all helper functions.
+        """Return the class code as stored, hard-limited to 100 lines.
+        
+        This prevents massive files from bloating the LLM context window.
         """
+        lines = code.split("\n")
+        if len(lines) > 100:
+            return "\n".join(lines[:100]) + "\n\n        # ... (code truncated to 100 lines to save context)"
         return code
 
     def format_for_prompt(self, examples: List[Dict]) -> str:

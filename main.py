@@ -167,7 +167,7 @@ if __name__ == "__main__":
             from agents.core.rag_retriever import RAGRetriever as _RAG
             with StageTimer("RAG", llm.session_stats, "time_rag_sec"):
                 _rag = _RAG()
-                _results = _rag.retrieve_examples(user_topic, limit=3)
+                _results = _rag.retrieve_examples(user_topic, limit=2)
                 _results += _rag.retrieve_rules(user_topic, limit=2)
                 _ctx = _rag.format_for_prompt(_results)
                 _rag.close()

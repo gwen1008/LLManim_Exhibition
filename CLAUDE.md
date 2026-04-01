@@ -26,6 +26,14 @@ If I ask for adjustments to code I have provided you, do not repeat all of my co
 - `test_script.py` 是 runtime 自動生成的暫存檔，不是手寫的，不要當成代碼分析
 - `stable_outputs/` 和 `runs/` 是輸出目錄，不要在裡面建新檔
 
+## 外部參考與 RAG 規則
+
+- **`3b1b/videos` 參考規則**：
+  - 此 Repo 為 ManimGL 語法，本專案必須保持 **ManimCE** 相容性。
+  - 絕對禁止直接 Copy-paste 3b1b 的代碼。
+  - 參考 3b1b 時，重點在於其「數學動態邏輯」與「畫面佈局」，並由你（AI助理）負責轉譯為 ManimCE 語法。
+  - 對於複雜的自定義 Mobject，優先考慮在 `pre_render_patch()` 或 `utils/` 中實現簡化版，不要引入過度複雜的 3b1b 原始封裝。
+
 ## 修改規則
 - 修改任何 `agents/` 下的檔案前，必須先讀該檔案完整內容
 - 修改 `refining_loop.py` 後，檢查 `visual_attempts` / `consecutive_timeouts` / `linter_only_retries` 這三個計數器的邊界條件

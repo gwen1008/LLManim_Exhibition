@@ -428,18 +428,46 @@ class RefiningLoop:
             # Strip param type annotations: (x: int | None, y: str = "a")  →  (x, y = "a")
             patched = re.sub(r'(\w+)\s*:\s*(?:[\w\[\], |]+)(\s*[=,)])', r'\1\2', patched)
         
-        # 4. Strip \mathrm{} — keep content, remove command.
-        # \mathrm{} crashes Manim v0.19/v0.20 with "Missing } inserted" due to brace splitter bug.
-        # Previously this block converted \text{} -> \mathrm{}, which was self-defeating
-        # (linter bans \mathrm{}, so patch was creating the exact error linter blocks).
-        # Fix: strip \mathrm{X} -> X so it never reaches the LaTeX compiler.
+        # 4. Strip \mathrm{} and \text{} — keep content, remove command.
+        # Both commands crash Manim v0.19/v0.20 with "Missing } inserted" (LaTeX brace splitter bug).
+        # \text{} additionally requires amsmath which is not loaded by Manim's default template.
+        # Fix: strip both X -> X so they never reach the LaTeX compiler.
+        # This prevents LATEX_TEXT_CMD lint errors from triggering the LLM fix path,
+        # which was causing syntax-error deadlocks that exhausted the linter budget.
         patched = re.sub(r'\\mathrm\{([^}]*)\}', r'\1', patched)
+        patched = re.sub(r'\\text\{([^}]*)\}', r'\1', patched)
 
-        # 4b. Fix Sector(outer_radius=X) -> Sector(radius=X)
+        # 4b. [REMOVED] add_updater+become → always_redraw transform was removed.
+        # Reason: regex rewrite only updates the local variable (obj = always_redraw(...))
+        # but does NOT update prior self.add(obj) / VGroup(obj, ...) references, so the
+        # new always_redraw object is never added to the scene and the animation silently
+        # stops updating. UPDATER_BECOME_RISK is left for the LLM refining loop to handle
+        # with full context of surrounding self.add() calls.
+
+        # 4c. Fix Sector(outer_radius=X) -> Sector(radius=X)
         # Manim v0.20 Sector.__init__ uses 'radius', not 'outer_radius'.
         # Passing outer_radius= causes "got multiple values for keyword argument 'outer_radius'".
         patched = re.sub(r'Sector\(outer_radius=', 'Sector(radius=', patched)
-        
+
+        # 4d. Fix invalid "if VAR is not None= EXPR" syntax.
+        # LLM generates this when trying to conditionally cap a value inside custom Animation
+        # subclasses (e.g. interpolate_mobject). Pattern observed in ELEM_03/HIGH_04/MID_04/MID_05.
+        # Transforms:  if self._current is not None= min(0.2, run_time)
+        #           →  if self._current is not None:
+        #                  self._current = min(0.2, run_time)
+        _before_4d = patched
+        patched = re.sub(
+            r'^([ \t]*)if\s+(\S+)\s+is\s+not\s+None=\s*(.+)$',
+            lambda m: (
+                f"{m.group(1)}if {m.group(2)} is not None:\n"
+                f"{m.group(1)}    {m.group(2)} = {m.group(3)}"
+            ),
+            patched,
+            flags=re.MULTILINE
+        )
+        if patched != _before_4d:
+            print("🔧 [Shift-Left] Fixed 'is not None=' invalid syntax → expanded to if block")
+
         # 5. [Enforce Final Wait] Ensure the construct method ends with a wait operation
         try:
             tree = ast.parse(patched)
@@ -488,7 +516,60 @@ class RefiningLoop:
         except Exception:
             pass  # AST parse failed; skip this guard, render will catch it
 
-        # 6. [SubtitleManager] Inject to prevent subtitle overlap
+        # 6. [LayoutEngine Neutralizer] Neutralize incorrectly-used LayoutEngine/LayoutObject blocks.
+        # utils/layout_engine.py EXISTS in this project, but LLM almost always:
+        #   (a) omits `from utils.layout_engine import LayoutEngine, LayoutObject`
+        #   (b) calls non-existent methods like place_below() / place_above()
+        #   (c) passes string args to add_constraint() instead of kiwisolver expressions
+        # Only trigger when the import is missing (= LLM hallucinated incorrect usage).
+        # If properly imported, leave the code alone — it's a valid benchmark-style solution.
+        _has_layout_import = (
+            'from utils.layout_engine import' in patched
+            or 'from utils import layout_engine' in patched
+        )
+        try:
+            _layout_cls_pat = re.compile(
+                r'^([ \t]*)(\w+)\s*=\s*(?:LayoutEngine|LayoutObject|LayoutSolver)\s*\(', re.MULTILINE
+            )
+            _layout_match = _layout_cls_pat.search(patched)
+            if _layout_match and not _has_layout_import:
+                _layout_var = _layout_match.group(2)
+                _method_pat = re.compile(
+                    rf'^[ \t]*{re.escape(_layout_var)}\s*\.'
+                    r'(?:add_constraint|place_below|place_right_of|place_above|place_at|solve|apply|add)\s*\(',
+                    re.MULTILINE
+                )
+                # Collect object names from method call arguments (first identifier in each call)
+                _obj_names = []
+                for _m in _method_pat.finditer(patched):
+                    # grab the full line to extract first identifier argument
+                    _line_end = patched.find('\n', _m.start())
+                    _line = patched[_m.start():_line_end if _line_end != -1 else len(patched)]
+                    _args = re.findall(r'\b([a-zA-Z_]\w*)\b', _line)
+                    # skip the var name itself and common keywords
+                    _skip = {_layout_var, 'LEFT', 'RIGHT', 'UP', 'DOWN', 'CENTER', 'ORIGIN', 'True', 'False'}
+                    for _a in _args[1:]:  # [0] is the method name
+                        if _a not in _skip and not _a.startswith('_'):
+                            _obj_names.append(_a)
+                            break
+                _obj_names = list(dict.fromkeys(_obj_names))  # dedupe, preserve order
+
+                # Delete instantiation line + all method-call lines
+                patched = _layout_cls_pat.sub('', patched)
+                patched = _method_pat.sub('', patched)
+
+                # Insert VGroup.arrange() before first self.play() as positional fallback
+                if _obj_names:
+                    _indent = _layout_match.group(1) or '        '
+                    _arrange_line = f"{_indent}VGroup({', '.join(_obj_names)}).arrange(DOWN, buff=0.5)\n"
+                    patched = re.sub(r'([ \t]*self\.play\()', _arrange_line + r'\1', patched, count=1)
+                    print(f"🔧 [Shift-Left] LayoutEngine neutralized → VGroup({', '.join(_obj_names)}).arrange(DOWN)")
+                else:
+                    print("🔧 [Shift-Left] LayoutEngine neutralized (no objects extracted, layout lines removed)")
+        except Exception as e:
+            print(f"⚠️ [Shift-Left] LayoutEngine patch failed: {e}")
+
+        # 7. [SubtitleManager] Inject to prevent subtitle overlap
         if 'SubtitleManager' not in patched:
             class_match = re.search(r'^class\s+\w+\s*\(Scene\)\s*:', patched, re.MULTILINE)
             if class_match:
@@ -508,7 +589,7 @@ class RefiningLoop:
                 patched, count=1
             )
 
-        # 7. [SceneInstrumentor] Auto-inject collision/overlap tracking mechanism
+        # 8. [SceneInstrumentor] Auto-inject collision/overlap tracking mechanism
         if 'SceneInstrumentor' not in patched:
             class_match = re.search(r'^class\s+\w+\s*\(Scene\)\s*:', patched, re.MULTILINE)
             if class_match:

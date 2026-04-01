@@ -17,10 +17,9 @@ PHASE 0: SCORED VISUAL TREE OF THOUGHTS (ToT)
 Before committing to a JSON plan, you MUST perform a "Tree of Thoughts" search:
 
 1. **Branching (Diversity)**:
-   - Generate 3 DISTINCT visual metaphors/storyboards for the topic.
+   - Generate 2 DISTINCT visual metaphors/storyboards for the topic. ⚡ Only 2 — keep it short.
    - Strategy A: Concrete (Real-world analogy, e.g., balancing scale for equations).
    - Strategy B: Abstract (Pure geometric/symbolic manipulation).
-   - Strategy C: Interactive/Progressive (Step-by-step build-up).
 
 2. **Evaluation (Rubric Scoring)**:
    - Score each strategy (1-10) on:
@@ -29,7 +28,7 @@ Before committing to a JSON plan, you MUST perform a "Tree of Thoughts" search:
      - **Visual Engagement**: Is it "beautiful" and "dynamic"?
 
 3. **Selection**:
-   - Choose the winning strategy and justify why.
+   - Choose the winning strategy and justify why in ONE sentence.
    - The final JSON MUST be based on this winner.
 
 ═══════════════════════════════════════════════════════════════════
@@ -231,22 +230,18 @@ Output in THREE strict parts:
 
 
 **PART 1: VISUAL TREE OF THOUGHTS** (Wrapped in <thought_tree> tags)
-Follow the Phase 0 process. Output XML format:
+Keep branches to ONE LINE each to save output tokens.
 <thought_tree>
-  <branch id="A" type="Concrete">
-    <metaphor>...</metaphor>
-    <scores pedagogy="8" feasibility="9" engagement="7" />
-  </branch>
-  <branch id="B" type="Abstract">...</branch>
-  <branch id="C" type="Creative">...</branch>
+  <branch id="A" type="Concrete" pedagogy="8" feasibility="9" engagement="7">One short sentence</branch>
+  <branch id="B" type="Abstract" pedagogy="7" feasibility="8" engagement="9">One short sentence</branch>
   <selection>
-    <winner>B</winner>
-    <reason>Best balance of clarity and code safety.</reason>
+    <winner>A</winner>
+    <reason>One short sentence</reason>
   </selection>
 </thought_tree>
 
 **PART 2: VISUAL REASONING** (Wrapped in <reasoning> tags)
-Explain your spatial logic for the *selected* strategy. Calculate coordinates here.
+Explain your spatial logic for the *selected* strategy. Keep it STRICTLY under 3 short sentences to save tokens.
 <reasoning>
 ...
 </reasoning>
@@ -265,35 +260,15 @@ GOLDEN PATTERN LIBRARY (Neuro-symbolic Examples)
 Topic: "28 + 35"
 
 <thought_tree>
-  <branch id="A" type="Concrete">
-    <metaphor>Using physical blocks to represent tens and ones.</metaphor>
-    <scores pedagogy="9" feasibility="5" engagement="8" />
-  </branch>
+  <branch id="A" type="Concrete" pedagogy="9" feasibility="5" engagement="8">Using blocks to represent tens and ones.</branch>
   <selection>
     <winner>A</winner>
-    <reason>Selected abstract vertical layout for clear math steps.</reason>
+    <reason>Vertical layout for math steps.</reason>
   </selection>
 </thought_tree>
 
 <reasoning>
-**Concept Extraction**: Numbers 28, 35. Addition operation. Place value (ones, tens). Carry action.
-**Visual Metaphor**: Vertical grid layout for alignment.
-**Spatial Plan**:
-- Global center = ORIGIN
-- Title at UP*3.5
-- Grid anchor at CENTER
-- Num1 (28) at anchor
-- Num2 (35) below Num1
-- Line below Num2
-- Operator (+) to the left
-**Constraints**:
-- tens_column_width = 1.0
-- ones_column_width = 1.0
-- carry_offset = UP*0.8
-**Signal Strategy**:
-- Step 1 (Ones): Circumscribe(8), Circumscribe(5) -> Show 13
-- Step 2 (Carry): Indicate(1) moving to tens column
-- Step 3 (Tens): Circumscribe(2), Circumscribe(3), Indicate(1) -> Show 6
+Vertical grid layout for numbers 28 and 35. Title at y=3.0, grid at ORIGIN. Carry digit above tens column, result below separator line.
 </reasoning>
 
 {

@@ -42,19 +42,33 @@ class LLMClient:
         # 根據不同角色使用不同模型，優化成本與效能
         self.models = {
             "default": os.getenv("GROQ_MODEL_DEFAULT", "llama-3.3-70b-versatile"),
-            "planner": os.getenv("GROQ_MODEL_PLANNER", "llama-3.3-70b-versatile"),
-            "coder": "deepseek-chat",  # Switched to DeepSeek-V3 for long-context stability
-            "reviewer": os.getenv("GROQ_MODEL_REVIEWER", "llama-3.1-8b-instant"),
-            "vision": "gpt-4o-mini",  # Switched for cost optimization (97% cheaper)
+            "planner": os.getenv("PLANNER_MODEL", "deepseek-chat"),
+            "coder": "deepseek-chat",  # DeepSeek-V3.2, official API
+            # Vision: OpenRouter Gemini 2.0 Flash ($0.10/$0.40 per 1M) — 33% cheaper than gpt-4o-mini
+            # Falls back to gpt-4o-mini if OPENROUTER_API_KEY not set
+            "vision": os.getenv("VISION_MODEL", "google/gemini-2.0-flash-001"),
         }
         
-        # --- Native OpenAI Support (for Vision) ---
+        # --- Native OpenAI Support (for Vision fallback) ---
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         if self.openai_api_key:
             from openai import OpenAI
             self.openai_client = OpenAI(api_key=self.openai_api_key)
         else:
             self.openai_client = None
+
+        # --- OpenRouter Support (Gemini Vision, future Qwen/Llama routing) ---
+        self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
+        if self.openrouter_api_key:
+            from openai import OpenAI as _OAI
+            self.openrouter_client = _OAI(
+                api_key=self.openrouter_api_key,
+                base_url="https://openrouter.ai/api/v1",
+                timeout=180.0,
+                max_retries=2,
+            )
+        else:
+            self.openrouter_client = None
         
         self.model = self.models["default"]
         
@@ -71,14 +85,18 @@ class LLMClient:
             "time_rag_sec": 0.0
         }
         
-        # Pricing per 1M tokens (USD) - Industry standard Feb 2026
+        # Pricing per 1M tokens (USD) — updated 2026-03
+        # DeepSeek V3.2: ¥2/¥3 per 1M (cache miss) = ~$0.28/$0.42
+        # deepseek-reasoner is now V3.2 thinking mode, same pricing as deepseek-chat
         self.pricing = {
-            "deepseek-chat": {"input": 0.14, "output": 0.28},
-            "deepseek-reasoner": {"input": 0.55, "output": 2.19},  # R1, cache miss price
+            "deepseek-chat": {"input": 0.28, "output": 0.42},
+            "deepseek-reasoner": {"input": 0.28, "output": 0.42},  # V3.2 thinking mode
             "llama-3.3-70b-versatile": {"input": 0.59, "output": 0.79},
             "llama-3.1-8b-instant": {"input": 0.05, "output": 0.08},
             "gpt-4o": {"input": 2.50, "output": 10.00},
-            "gpt-4o-mini": {"input": 0.15, "output": 0.60}
+            "gpt-4o-mini": {"input": 0.15, "output": 0.60},
+            "google/gemini-2.0-flash-001": {"input": 0.10, "output": 0.40},
+            "qwen/qwen3-235b-a22b-2507": {"input": 0.071, "output": 0.10},
         }
         
         self.debug = debug
@@ -92,11 +110,14 @@ class LLMClient:
         
         if model.startswith("deepseek-"):
             return self._call_deepseek(system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
+        elif "/" in model:
+            # OpenRouter model (e.g. google/gemini-2.0-flash-001, qwen/qwen3-235b-a22b-2507)
+            return self._call_openrouter(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
         elif role == "vision" or model.startswith("gpt"):
-            # Text-only default fallback for standard GPT calls without images
+            # Text-only OpenAI fallback
             if not self.openai_client:
                 raise LLMError("OpenAI API key not configured for vision/gpt models.")
-            
+
             kwargs = {
                 "model": model,
                 "messages": [
@@ -107,7 +128,7 @@ class LLMClient:
             }
             if json_mode:
                 kwargs["response_format"] = {"type": "json_object"}
-                
+
             completion = self.openai_client.chat.completions.create(**kwargs)
             return completion.choices[0].message.content
         else:
@@ -217,6 +238,54 @@ class LLMClient:
         print(f"❌ {error_msg}")
         raise LLMError(error_msg) from last_exc
 
+    def _call_openrouter(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
+        """Call any model via OpenRouter (OpenAI-compatible API)."""
+        if not self.openrouter_client:
+            raise LLMError("OPENROUTER_API_KEY not configured.")
+
+        max_retries = 3
+        last_exc = None
+        for attempt in range(max_retries):
+            try:
+                start_time = time.time()
+
+                kwargs = {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "temperature": temperature,
+                }
+                if json_mode:
+                    kwargs["response_format"] = {"type": "json_object"}
+
+                completion = self.openrouter_client.chat.completions.create(**kwargs)
+
+                end_time = time.time()
+                content = completion.choices[0].message.content
+                usage = completion.usage
+
+                self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
+
+                if self.debug:
+                    print(f"\n" + "-"*30)
+                    print(f"🌐 [模型]: {model} (OpenRouter)")
+                    print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
+                    print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
+                    print("-" * 30)
+
+                return content
+
+            except Exception as e:
+                last_exc = e
+                wait = 2 ** attempt
+                print(f"⚠️ [OpenRouter retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
+                time.sleep(wait)
+        error_msg = f"Error connecting to OpenRouter ({model}): {str(last_exc)}"
+        print(f"❌ {error_msg}")
+        raise LLMError(error_msg) from last_exc
+
     def _call_deepseek_r1(self, system_prompt, user_prompt):
         """
         Call DeepSeek-R1 (deepseek-reasoner) for Tier-3 escalation.
@@ -259,7 +328,7 @@ class LLMClient:
 
             if self.debug:
                 print(f"\n" + "-"*30)
-                print(f"🧠 [模型]: deepseek-reasoner (DeepSeek-R1, Tier-3 Escalation)")
+                print(f"🧠 [模型]: deepseek-reasoner (DeepSeek-V3.2 Thinking Mode, Tier-3 Escalation)")
                 print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
                 print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
                 print("-" * 30)
@@ -280,28 +349,35 @@ class LLMClient:
             detail: "low" or "high". Low uses fewer tokens (85 tokens/image).
             json_mode: Whether to return strictly structured JSON.
         """
-        if not self.openai_client:
-            raise LLMError("OpenAI API Key not configured.")
         if not base64_image:
             raise LLMError("ask_vision requires base64_image.")
 
+        model = self.models.get("vision", "google/gemini-2.0-flash-001")
+        use_openrouter = "/" in model  # e.g. google/gemini-2.0-flash-001
+
+        if use_openrouter:
+            if not self.openrouter_client:
+                raise LLMError("OPENROUTER_API_KEY not configured for vision model.")
+            vision_client = self.openrouter_client
+        else:
+            if not self.openai_client:
+                raise LLMError("OpenAI API Key not configured.")
+            vision_client = self.openai_client
+
         try:
             start_time = time.time()
-            model = self.models.get("vision", "gpt-4o-mini")
-            
+
             content_parts = [{"type": "text", "text": user_text}]
-            
-            content_parts.append({
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{base64_image}",
-                    "detail": detail
-                }
-            })
-            
-            
+
+            image_url_obj: dict = {"url": f"data:image/jpeg;base64,{base64_image}"}
+            # `detail` is OpenAI-specific; Gemini via OpenRouter ignores/rejects it
+            if not use_openrouter:
+                image_url_obj["detail"] = detail
+
+            content_parts.append({"type": "image_url", "image_url": image_url_obj})
+
             kwargs = {
-                "model": self.models.get("vision", "gpt-4o-mini"),
+                "model": model,
                 "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": content_parts}
@@ -309,12 +385,11 @@ class LLMClient:
                 "temperature": temperature,
                 "max_tokens": max_tokens
             }
-            
+
             if json_mode:
-                # Need to specifically allow JSON type
                 kwargs["response_format"] = {"type": "json_object"}
 
-            completion = self.openai_client.chat.completions.create(**kwargs)
+            completion = vision_client.chat.completions.create(**kwargs)
 
             end_time = time.time()
             duration = end_time - start_time
@@ -400,20 +475,32 @@ class LLMClient:
         )
 
         is_patch_mode = ("<<<< SEARCH" in user_prompt) or ("<<<< SEARCH" in system_prompt)
-        if is_patch_mode:
-            system_msg_prefix = (
-                "你是一個 Manim Community v0.19.2 專家。請嚴格按照 SEARCH/REPLACE 格式輸出修補內容，"
-                "不要加上任何 Markdown 代碼塊（例如 ```python）。\n\n"
-                + _MANIM_RULES_COMPACT
-            )
-        else:
-            system_msg_prefix = (
-                "你是一個 Manim Community v0.19.2 專家。若有 <reflection>...</reflection> 分析，"
-                "請放在代碼塊之前。代碼本身請包在 ```python ... ``` 代碼塊中。\n\n"
-                + _MANIM_RULES_COMPACT
-            )
 
-        full_system = system_msg_prefix + system_prompt
+        if system_prompt:
+            # Dual-arg call: caller owns the system prompt — do NOT prepend anything.
+            # Keeping system_prompt 100% stable is required for DeepSeek prefix cache hits.
+            # Patch-mode instruction goes into user_prompt prefix instead (user msg doesn't affect cache).
+            if is_patch_mode:
+                user_prompt = (
+                    "嚴格按照 SEARCH/REPLACE 格式輸出，不要加 Markdown 代碼塊（例如 ```python```）。\n\n"
+                    + user_prompt
+                )
+            full_system = system_prompt
+        else:
+            # Legacy single-arg fallback: no explicit system prompt, use compact prefix.
+            if is_patch_mode:
+                system_msg_prefix = (
+                    "你是一個 Manim Community v0.19.2 專家。請嚴格按照 SEARCH/REPLACE 格式輸出修補內容，"
+                    "不要加上任何 Markdown 代碼塊（例如 ```python）。\n\n"
+                    + _MANIM_RULES_COMPACT
+                )
+            else:
+                system_msg_prefix = (
+                    "你是一個 Manim Community v0.19.2 專家。若有 <reflection>...</reflection> 分析，"
+                    "請放在代碼塊之前。代碼本身請包在 ```python ... ``` 代碼塊中。\n\n"
+                    + _MANIM_RULES_COMPACT
+                )
+            full_system = system_msg_prefix
 
         if use_r1:
             content = self._call_deepseek_r1(full_system, user_prompt)

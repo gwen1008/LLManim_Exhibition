@@ -144,6 +144,47 @@ class TestEnforceFinalWait:
 
 
 # ─── Combined: multiple patches on same code ─────────────────────────────────
+# ─── Patch 4d: "is not None=" invalid syntax fix ──────────────────────────────
+class TestIsNotNoneAssignment:
+    def test_basic_fix(self):
+        code = (
+            "from manim import *\n"
+            "class S(Scene):\n"
+            "    def interpolate_mobject(self, alpha):\n"
+            "        run_time = 1.0\n"
+            "        if self._current is not None= min(0.2, run_time)\n"
+        )
+        result = patch(code)
+        assert "is not None=" not in result
+        assert "if self._current is not None:" in result
+        assert "self._current = min(0.2, run_time)" in result
+
+    def test_valid_if_untouched(self):
+        code = (
+            "from manim import *\n"
+            "class S(Scene):\n"
+            "    def construct(self):\n"
+            "        if self.x is not None:\n"
+            "            self.x = 1\n"
+        )
+        result = patch(code)
+        assert "if self.x is not None:" in result
+
+    def test_indentation_preserved(self):
+        code = (
+            "from manim import *\n"
+            "class S(Scene):\n"
+            "    def f(self):\n"
+            "        if self._t is not None= max(0.0, alpha)\n"
+        )
+        result = patch(code)
+        lines = result.splitlines()
+        if_line = next(l for l in lines if "if self._t is not None:" in l)
+        body_line = next(l for l in lines if "self._t = max" in l)
+        assert if_line.startswith("        ")    # 8 spaces
+        assert body_line.startswith("            ")  # 12 spaces
+
+
 class TestCombinedPatches:
     def test_all_patches_applied_together(self):
         code = (

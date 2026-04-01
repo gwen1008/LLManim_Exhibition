@@ -36,7 +36,7 @@ To ensure precision, you MUST follow these MANDATORY constraints:
    - ❌ **WRONG**: `self.add(obj)` during Phase 1. (This makes objects appear instantly before the script starts).
    - ✅ **CORRECT**: Create objects and store them in `self.objects` registry WITHOUT adding them to the scene.
    - ✅ **CORRECT**: Objects should ONLY enter the screen via `self.play(Create/Write/FadeIn(obj))`.
-   - ✅ **CORRECT**: For layout, use `obj.move_to()` or `layout.solve()`. Manim will calculate positions even if objects aren't added to the scene yet.
+   - ✅ **CORRECT**: For layout, use `obj.move_to()`, `obj.next_to()`, or `VGroup(...).arrange()`. Manim will calculate positions even if objects aren't added to the scene yet.
 
 4. 🚫 **NO JSON PARSING LOOPS (UNROLL EVERYTHING)**:
    - ❌ WRONG: Writing a `for step in sequence:` loop to interpret JSON.
@@ -58,6 +58,16 @@ To ensure precision, you MUST follow these MANDATORY constraints:
    - ❌ WRONG: `line = Line(start=A, end=B); line.shift(offset)` — double-offset.
    - ✅ CORRECT: `line = Line(A, B, color=BLUE, stroke_width=6)` — that's it. No extra positioning.
    - If you need a line at a different position, compute the final A and B yourself and pass them directly.
+
+4d. 🚫 **DO NOT USE LayoutEngine / LayoutObject / LayoutSolver**:
+   - These are internal project utilities that require specific imports and kiwisolver constraint expressions. YOU CANNOT USE THEM CORRECTLY. Do NOT instantiate them. Do NOT call `.add_constraint()`, `.place_below()`, `.place_right_of()`, `.solve()`.
+   - ❌ WRONG: `layout = LayoutEngine(); layout.add_constraint(a, "left", b, "right"); layout.solve()`
+   - ✅ CORRECT — use these instead:
+     - `b.next_to(a, RIGHT, buff=0.5)`          # place b to the right of a
+     - `b.next_to(a, DOWN, buff=0.3)`           # place b below a
+     - `VGroup(a, b, c).arrange(DOWN, buff=0.4)` # stack objects vertically
+     - `VGroup(a, b, c).arrange(RIGHT, buff=0.5)` # place objects in a row
+     - `obj.move_to(ORIGIN + 2*UP)`             # absolute positioning
 
 5. 🎙️ **SUBTITLE MANAGEMENT — USE `set_subtitle()` ONLY**:
    - A `SubtitleManager` is pre-loaded into every scene. Use it for ALL step-by-step narration text.
@@ -91,7 +101,7 @@ To ensure precision, you MUST follow these MANDATORY constraints:
    - `{{"method": "move_to", "ref": "other_id", "offset": [x,y,z]}}` → `obj.move_to(self.objects["other_id"]).shift(np.array([x,y,z]))`
    - `{{"method": "next_to", "ref": "other_id", "direction": "DOWN", "buff": 0.3}}` → `obj.next_to(self.objects["other_id"], DOWN, buff=0.3)`
    - `{{"method": "to_edge", "direction": "UP", "buff": 0.5}}` → `obj.to_edge(UP, buff=0.5)`
-   - Named anchors (e.g. `"ref": "grid_center"`) → resolve via `LayoutObject` or use the zone position
+   - Named anchors (e.g. `"ref": "grid_center"`) → use the zone position directly (e.g. `ORIGIN + 2*UP`)
 
    **`cleanup`** in each sequence step → FadeOut listed IDs BEFORE executing this step's `visual_action`:
    ```python
@@ -163,23 +173,18 @@ IF the above RAG section contains code examples (Golden Examples):
 🧠 VISUAL CHAIN-OF-THOUGHT (MANDATORY PRE-COMPUTATION)
 ═══════════════════════════════════════════════════════════════════
 
-Write this planning block as a Python multiline string comment at the VERY TOP of your response:
+Write this planning block as a Python multiline string comment at the VERY TOP of your response.
+⚡ KEEP THIS BLOCK UNDER 4 LINES TOTAL — no paragraphs, bullet points only.
 
 '''
 # [VISUAL REASONING]
-# 1. Pedagogical Goal: [Briefly state what math concept is being visualizing]
-# 2. Layout Strategy: [Define the screen zones]
-#    - Header Region: [y=3.5] for Title
-#    - Main Content: [Center y=0] for equations/shapes
-#    - Footer Region: [Bottom y=-3.5] for generic text
-# 3. Anti-Overlap Check: [How will you prevent collision?]
-#    - Strategy: Use VGroups for "28+35" to keep them together.
-# 4. Audio Check (CRITICAL) - We do NOT add `self.add_sound()`. The system will auto-inject it.
-#    - [ ] Have I assigned `remaining_N = max(0.1, _audio_dur_[N-1] - anim_time_N + 0.5)`?
-# 5. Animation Flow: [Brief sequence of events]
+# Layout: Header y=3.0 | Content y∈[-2,2.5] | NO objects below y=-2.8
+# Objects: [id→y-coord, confirm no two objects share y within ±0.5 units]
+# Flow: [step1_name → step2_name → step3_name → ... one line]
+# Audio: remaining_N = max(0.1, _audio_dur_[N-1] - anim_time_N + 0.5) ← mandatory
 '''
 
-This reasoning block will help you avoid "Spatial Hallucinations".
+This reasoning block prevents "Spatial Hallucinations". Keep it to 5 lines max.
 
 ═══════════════════════════════════════════════════════════════════
 🚨 CRITICAL: CLASS NAME REQUIREMENT (HIGHEST PRIORITY)

@@ -73,18 +73,15 @@ class PipelineConfig:
 
     # ── LLM models ────────────────────────────────────────────────────
     model_planner: str = field(
-        default_factory=lambda: os.getenv("GROQ_MODEL_PLANNER", "llama-3.3-70b-versatile")
+        default_factory=lambda: os.getenv("PLANNER_MODEL", "deepseek-chat")
     )
     model_coder: str = field(
         default_factory=lambda: os.getenv("DEEPSEEK_MODEL_CODER", "deepseek-chat")
     )
-    model_reviewer: str = field(
-        default_factory=lambda: os.getenv("GROQ_MODEL_REVIEWER", "llama-3.1-8b-instant")
-    )
     model_vision: str = field(
-        default_factory=lambda: os.getenv("OPENAI_MODEL_VISION", "gpt-4o-mini")
+        default_factory=lambda: os.getenv("VISION_MODEL", "google/gemini-2.0-flash-001")
     )
-    model_tier3: str = "deepseek-reasoner"  # Escalation for hard failures
+    model_tier3: str = "deepseek-reasoner"  # DeepSeek-V3.2 thinking mode
 
 
 # Global singleton — import and use directly:
