@@ -179,7 +179,7 @@ class WeaviateIndexer:
 
 if __name__ == "__main__":
     # Configuration
-    KNOWLEDGE_BASE_DIR = "./knowledge_base"  # Where Team Member C stores examples
+    KNOWLEDGE_BASE_DIR = "./knowledge_base/examples"  # manim-examples-contribution submodule
     
     print("🚀 Starting Code Ingestion Pipeline...")
     
