@@ -22,6 +22,12 @@ class ManimLinter(ast.NodeVisitor):
     # Classes that define a logical coordinate system
     COORDINATE_PLANE_TYPES = {'NumberPlane', 'Axes', 'ThreeDAxes', 'ComplexPlane'}
 
+    KNOWN_MANIM_COLORS = {
+        'WHITE', 'BLACK', 'RED', 'GREEN', 'BLUE', 'YELLOW', 'GOLD', 'MAROON', 'PURPLE', 'PINK', 'TEAL', 'ORANGE', 'GREY', 'LIGHT_GREY', 'DARK_GREY', 'LIGHT_BROWN', 'DARK_BROWN', 'PURE_RED', 'PURE_GREEN', 'PURE_BLUE', 'GRAY', 'LIGHT_GRAY', 'DARK_GRAY',
+        'BLUE_A', 'BLUE_B', 'BLUE_C', 'BLUE_D', 'BLUE_E', 'TEAL_A', 'TEAL_B', 'TEAL_C', 'TEAL_D', 'TEAL_E', 'GREEN_A', 'GREEN_B', 'GREEN_C', 'GREEN_D', 'GREEN_E', 'YELLOW_A', 'YELLOW_B', 'YELLOW_C', 'YELLOW_D', 'YELLOW_E', 'GOLD_A', 'GOLD_B', 'GOLD_C', 'GOLD_D', 'GOLD_E', 'RED_A', 'RED_B', 'RED_C', 'RED_D', 'RED_E', 'MAROON_A', 'MAROON_B', 'MAROON_C', 'MAROON_D', 'MAROON_E', 'PURPLE_A', 'PURPLE_B', 'PURPLE_C', 'PURPLE_D', 'PURPLE_E', 'GREY_A', 'GREY_B', 'GREY_C', 'GREY_D', 'GREY_E', 'GRAY_A', 'GRAY_B', 'GRAY_C', 'GRAY_D', 'GRAY_E',
+        'UP', 'DOWN', 'LEFT', 'RIGHT', 'ORIGIN', 'UR', 'UL', 'DR', 'DL', 'PI', 'TAU', 'DEGREES', 'OUT', 'IN', 'X_AXIS', 'Y_AXIS', 'Z_AXIS'
+    }
+
     def __init__(self):
         self.errors = []
         self.advisories = []  # Non-blocking hints for TDR pre-render signal
@@ -97,7 +103,28 @@ class ManimLinter(ast.NodeVisitor):
                 self.has_coordinate_plane = True
         self.generic_visit(node)
 
+    def visit_keyword(self, node):
+        if node.arg in ('color', 'fill_color', 'stroke_color', 'sheen_direction') and isinstance(node.value, ast.Name):
+            if node.value.id.isupper() and node.value.id not in self.KNOWN_MANIM_COLORS and node.value.id not in ['TRUE', 'FALSE', 'NONE']:
+                self.errors.append({
+                    "line": getattr(node.value, 'lineno', getattr(node, 'lineno', 0)),
+                    "code": "INVALID_ARG",
+                    "message": f"'{node.value.id}' is an invalid ManimCE color constant. Please use predefined colors like TEAL, BLUE_C, etc. Do not hallucinate colors like CYAN or MAGENTA."
+                })
+        self.generic_visit(node)
+
     def visit_Call(self, node):
+        # 0. Check color arguments in setting methods
+        if isinstance(node.func, ast.Attribute) and node.func.attr in ('set_color', 'set_fill', 'set_stroke'):
+            if node.args and isinstance(node.args[0], ast.Name):
+                color_name = node.args[0].id
+                if color_name.isupper() and color_name not in self.KNOWN_MANIM_COLORS and color_name not in ['TRUE', 'FALSE', 'NONE']:
+                    self.errors.append({
+                        "line": getattr(node, 'lineno', 0),
+                        "code": "INVALID_ARG",
+                        "message": f"'{color_name}' is an invalid ManimCE color constant. Please use predefined colors like TEAL, BLUE_C, etc. Do not hallucinate colors like CYAN or MAGENTA."
+                    })
+
         # 1. Check for deprecated 'get_lines()'
         if isinstance(node.func, ast.Attribute) and node.func.attr == 'get_lines':
             self.errors.append({

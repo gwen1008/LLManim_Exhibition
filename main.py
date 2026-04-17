@@ -333,13 +333,32 @@ if __name__ == "__main__":
         # 階段三：自動修復與審查循環
         print("\n🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...")
         from agents.core.llm_client import LLMError
+        from agents.orchestrator.refining_loop_types import run_fix_loop
         try:
-            result = RefiningLoop.auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+            loop_result = run_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+            result = loop_result.video_path
         except LLMError as e:
             print(f"❌ [Fatal] LLM API 完全失敗：{e}")
             sys.exit(1)
             
-        # 最終統計報告
+        # ── 階段四：FinalJudge 兩階段品質評分 ─────────────────────────────
+        if result and os.path.exists(str(result)):
+            print("\n🏛️  [階段 4: FinalJudge] 啟動兩階段品質評分...")
+            try:
+                from agents.utils.final_judge import FinalJudge
+                with open(target_file, "r", encoding="utf-8") as _cf:
+                    _final_code = _cf.read()
+                _fj = FinalJudge(llm_client=llm)
+                _fj_result = _fj.judge(str(result), script_json, _final_code)
+                # Attach to session_stats so it's saved in cost_report.json
+                llm.session_stats["final_judge"] = {
+                    "weighted_total": _fj_result.get("weighted_total"),
+                    "scores":         _fj_result.get("scores", {}),
+                    "code_issues":    _fj_result.get("code_issues", []),
+                }
+            except Exception as _fj_err:
+                print(f"⚠️  [FinalJudge] 評分失敗，不影響影片輸出：{_fj_err}")
+        # ── 最終統計報告 ────────────────────────────────────────────────────
         print(llm.get_session_report())
         
     finally:

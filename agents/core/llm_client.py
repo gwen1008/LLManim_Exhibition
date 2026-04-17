@@ -44,9 +44,9 @@ class LLMClient:
             "default": os.getenv("GROQ_MODEL_DEFAULT", "llama-3.3-70b-versatile"),
             "planner": os.getenv("PLANNER_MODEL", "deepseek-chat"),
             "coder": "deepseek-chat",  # DeepSeek-V3.2, official API
-            # Vision: OpenRouter Gemini 2.0 Flash ($0.10/$0.40 per 1M) — 33% cheaper than gpt-4o-mini
-            # Falls back to gpt-4o-mini if OPENROUTER_API_KEY not set
-            "vision": os.getenv("VISION_MODEL", "google/gemini-2.0-flash-001"),
+            # Vision: gpt-4o-mini (OpenAI) — better instruction following for strict QA
+            # Override with VISION_MODEL env var (e.g. google/gemini-2.0-flash-001 for cheaper runs)
+            "vision": os.getenv("VISION_MODEL", "gpt-4o-mini"),
         }
         
         # --- Native OpenAI Support (for Vision fallback) ---
@@ -97,6 +97,8 @@ class LLMClient:
             "gpt-4o-mini": {"input": 0.15, "output": 0.60},
             "google/gemini-2.0-flash-001": {"input": 0.10, "output": 0.40},
             "qwen/qwen3-235b-a22b-2507": {"input": 0.071, "output": 0.10},
+            "anthropic/claude-sonnet-4.5": {"input": 3.00, "output": 15.00},
+            "anthropic/claude-sonnet-4.6": {"input": 1.09, "output": 15.00},
         }
         
         self.debug = debug

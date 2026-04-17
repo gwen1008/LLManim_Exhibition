@@ -59,6 +59,43 @@ To ensure precision, you MUST follow these MANDATORY constraints:
    - ✅ CORRECT: `line = Line(A, B, color=BLUE, stroke_width=6)` — that's it. No extra positioning.
    - If you need a line at a different position, compute the final A and B yourself and pass them directly.
 
+4e. 🚫 **NEVER USE Python keywords as assignment targets (try= / except= / with= / finally=)**:
+   - `try`, `except`, `finally`, `with` are Python keywords. They CANNOT appear on the left side of `=`.
+   - ❌ WRONG: `try= (mob.get_fill_opacity() or 0) + (mob.get_stroke_opacity() or 0)`
+   - ❌ WRONG: `except= some_value`
+   - ✅ CORRECT: Use a proper try/except block:
+     ```python
+     try:
+         opacity = (mob.get_fill_opacity() or 0) + (mob.get_stroke_opacity() or 0)
+     except Exception:
+         opacity = 1.0
+     ```
+   - ✅ CORRECT: If you don't need error handling, just assign directly: `opacity = mob.get_fill_opacity() or 0`
+   - DO NOT write inline opacity checks inside the scene's `construct()` method. The `SceneInstrumentor`
+     handles this automatically. You only need to write `self.play(...)` and `self.wait(...)` calls.
+
+4f. 🚫 **NEVER CALL POSITIONAL METHODS ON AN EMPTY VGroup / VMobject**:
+   - An empty `VGroup()` has no bezier points. Calling `.move_to()`, `.get_center()`, `.next_to()`, or `.shift()` on it triggers `ValueError: zip() argument 2 is shorter than argument 1` deep inside Manim's internals — the scene crashes at render time with no clear user-facing message.
+   - ❌ WRONG:
+     ```python
+     parabola_plot = VGroup()
+     parabola_plot.move_to(axes)   # ← CRASH: empty VGroup has no center
+     ```
+   - ✅ CORRECT: Add content FIRST, then position:
+     ```python
+     parabola_curve = axes.plot(lambda x: x**2, color=BLUE)
+     parabola_plot = VGroup(parabola_curve)
+     parabola_plot.move_to(axes)   # ← safe: VGroup is non-empty
+     ```
+   - ✅ CORRECT alternative: store objects directly and position after `add()`:
+     ```python
+     parabola_plot = VGroup()
+     # ... later, after adding content:
+     parabola_plot.add(parabola_curve)
+     # do NOT call move_to() before this line
+     ```
+   - This applies to ALL VMobject subclasses: `VGroup`, `VMobject`, `VDict`, etc.
+
 4d. 🚫 **DO NOT USE LayoutEngine / LayoutObject / LayoutSolver**:
    - These are internal project utilities that require specific imports and kiwisolver constraint expressions. YOU CANNOT USE THEM CORRECTLY. Do NOT instantiate them. Do NOT call `.add_constraint()`, `.place_below()`, `.place_right_of()`, `.solve()`.
    - ❌ WRONG: `layout = LayoutEngine(); layout.add_constraint(a, "left", b, "right"); layout.solve()`

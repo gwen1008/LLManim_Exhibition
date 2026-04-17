@@ -43,3 +43,9 @@ test_azure.py
 
 # Personal Claude config
 .claude/
+
+# Local exclusions
+*.xlsx
+.agents/
+skills-lock.json
+deep research/

@@ -20,6 +20,11 @@ TEST_CASES_FILE = PROJECT_ROOT / "evaluation" / "test_cases.json"
 BENCHMARK_ROOT = PROJECT_ROOT / "benchmarks"
 RUNS_ROOT = PROJECT_ROOT / "runs"
 
+try:
+    from agents.utils.telemetry import compute_iou_summary
+except Exception:
+    compute_iou_summary = None
+
 
 def run_pattern_checks(code: str, case: dict) -> dict:
     """對生成代碼跑 required/disallowed pattern 驗證，計算 pattern_rate 與 animation_score。"""
@@ -210,10 +215,16 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
 
             scene_log_path = project_root / "scene_state_log.json"
             instrumentor_stats = {}
+            iou_summary = {}
             if scene_log_path.exists():
                 shutil.copy2(scene_log_path, case_dir / "scene_state_log.json")
                 with open(scene_log_path) as f:
                     instrumentor_stats = json.load(f)
+                if compute_iou_summary is not None:
+                    try:
+                        iou_summary = compute_iou_summary(instrumentor_stats)
+                    except Exception:
+                        iou_summary = {}
 
             iterations = 1
             iter_matches = re.findall(r"第 (\d+) / \d+ 次嘗試", stdout)
@@ -265,6 +276,13 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
                     "max_simultaneous_objects": instrumentor_stats.get("max_simultaneous_objects", "-"),
                     "max_overlap_pairs": instrumentor_stats.get("max_overlap_pairs", "-"),
                     "steps_with_overlap": instrumentor_stats.get("steps_with_overlap", "-"),
+                    "iou_overlap_pairs_max": iou_summary.get("iou_overlap_pairs_max", "-"),
+                    "steps_with_iou_overlap": iou_summary.get("steps_with_iou_overlap", "-"),
+                    "worst_overlap_step_pct": iou_summary.get("worst_overlap_step_pct", "-"),
+                    "fj_weighted":       cost_stats.get("final_judge", {}).get("weighted_total", "-"),
+                    "fj_math":           cost_stats.get("final_judge", {}).get("scores", {}).get("math_correctness", "-"),
+                    "fj_concept":        cost_stats.get("final_judge", {}).get("scores", {}).get("concept_alignment", "-"),
+                    "fj_visual":         cost_stats.get("final_judge", {}).get("scores", {}).get("visual_clarity", "-"),
                     "quality_score": quality_score,
                     "pattern_rate": pattern_result["pattern_rate"],
                     "animation_count": pattern_result["animation_count"],
@@ -281,17 +299,178 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
                     "status": "Failed", "error": str(e)}
 
 
+def run_compare():
+    """掃描所有 runs/*/summary.csv，輸出跨 session 的 FinalJudge 趨勢表。"""
+    sessions = sorted([
+        d for d in RUNS_ROOT.iterdir()
+        if d.is_dir() and (d / "summary.csv").exists()
+    ])[-8:]  # 只保留最近 8 個 session
+    if not sessions:
+        print("❌ No completed sessions found in runs/")
+        return
+
+    rows = []
+    all_case_ids = set()
+    for s in sessions:
+        csv_path = s / "summary.csv"
+        with open(csv_path, newline="", encoding="utf-8-sig") as f:
+            reader = csv.DictReader(f)
+            cases = list(reader)
+
+        n_total = len(cases)
+        n_success = sum(1 for c in cases if c.get("Status") == "Success")
+
+        fj_weighted_vals = []
+        fj_math_vals = []
+        fj_concept_vals = []
+        fj_visual_vals = []
+        fj_cost_vals = []
+
+        per_case = {}
+        for c in cases:
+            cid = c.get("Case ID", "")
+            all_case_ids.add(cid)
+            weighted = c.get("FJ Weighted", "-")
+            math_s = c.get("FJ Math", "-")
+            concept_s = c.get("FJ Concept", "-")
+            visual_s = c.get("FJ Visual", "-")
+            per_case[cid] = {
+                "weighted": weighted,
+                "math": math_s,
+            }
+            # Extract FinalJudge-specific cost from cost_report.json
+            cost_path = s / cid / "cost_report.json"
+            if cost_path.exists():
+                try:
+                    with open(cost_path, encoding="utf-8") as _cf:
+                        _cdata = json.load(_cf)
+                    fj_models = {"anthropic/claude-sonnet-4.6", "anthropic/claude-sonnet-4.5"}
+                    _fj_c = sum(
+                        call.get("cost", 0)
+                        for call in _cdata.get("calls", [])
+                        if call.get("model", "") in fj_models
+                        or (call.get("model", "") == "gpt-4o-mini" and
+                            _cdata.get("final_judge"))
+                    )
+                    if _fj_c > 0:
+                        fj_cost_vals.append(_fj_c)
+                except Exception:
+                    pass
+            try:
+                fj_weighted_vals.append(float(weighted))
+            except (ValueError, TypeError):
+                pass
+            try:
+                fj_math_vals.append(float(math_s))
+            except (ValueError, TypeError):
+                pass
+            try:
+                fj_concept_vals.append(float(concept_s))
+            except (ValueError, TypeError):
+                pass
+            try:
+                fj_visual_vals.append(float(visual_s))
+            except (ValueError, TypeError):
+                pass
+
+        def avg(lst):
+            return f"{sum(lst)/len(lst):.2f}" if lst else "-"
+
+        def total_cost(lst):
+            return f"${sum(lst):.4f}" if lst else "-"
+
+        rows.append({
+            "session": s.name,
+            "n_total": n_total,
+            "n_success": n_success,
+            "avg_weighted": avg(fj_weighted_vals),
+            "avg_math": avg(fj_math_vals),
+            "avg_concept": avg(fj_concept_vals),
+            "avg_visual": avg(fj_visual_vals),
+            "fj_cost": total_cost(fj_cost_vals),
+            "per_case": per_case,
+        })
+
+    # ── 總覽表 ──────────────────────────────────────────────────────────────
+    print("\n" + "═" * 90)
+    print("  LLManim FinalJudge 跨 Session 趨勢")
+    print("═" * 90)
+    hdr = f"{'Session':<26} {'Cases':>6} {'Weighted':>10} {'Math':>6} {'Concept':>8} {'Visual':>7} {'FJ Cost':>9}"
+    print(hdr)
+    print("─" * 80)
+    for r in rows:
+        trend = ""
+        if len(rows) > 1:
+            idx = rows.index(r)
+            if idx > 0:
+                prev_w = rows[idx - 1]["avg_weighted"]
+                curr_w = r["avg_weighted"]
+                try:
+                    delta = float(curr_w) - float(prev_w)
+                    trend = f" {'▲' if delta > 0 else '▼' if delta < 0 else '─'}{abs(delta):.2f}"
+                except (ValueError, TypeError):
+                    pass
+        cases_str = f"{r['n_success']}/{r['n_total']}"
+        print(f"{r['session']:<26} {cases_str:>6}   {r['avg_weighted']:>6}{trend:<8} {r['avg_math']:>6} {r['avg_concept']:>8} {r['avg_visual']:>7} {r['fj_cost']:>9}")
+
+    print("─" * 70)
+
+    # ── Per-case 歷史追蹤（只顯示至少有一個 session 有 FJ 資料的 case）──────────────────────
+    tracked_cases = sorted(
+        cid for cid in all_case_ids
+        if any(
+            r["per_case"].get(cid, {}).get("weighted", "-") not in ("-", "")
+            for r in rows
+        )
+    )
+    print(f"\n{'Per-Case FinalJudge 歷史 (weighted / math / verdict)'}")
+    print("─" * 90)
+    case_col_w = 10
+    header = f"{'Case':<{case_col_w}}"
+    for r in rows:
+        header += f"  {r['session'][:18]:<20}"
+    print(header)
+    print("─" * 90)
+    for cid in tracked_cases:
+        line = f"{cid:<{case_col_w}}"
+        for r in rows:
+            pc = r["per_case"].get(cid)
+            if pc:
+                w = pc["weighted"]
+                m = pc["math"]
+                line += f"  w={w:>4} m={m:>4}        "
+            else:
+                line += f"  {'—':<20}"
+        print(line)
+    print("═" * 90 + "\n")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Run LLManim Agent Evaluation")
     parser.add_argument("--test-cases", type=str, default=str(TEST_CASES_FILE), help="Path to the test cases JSON file")
     parser.add_argument("--resume", type=str, help="Path to an existing session directory to resume from (e.g., runs/20260321_020857)")
     parser.add_argument("--case", type=str, help="Optional: Run only a specific Case ID")
+    parser.add_argument("--cases", type=str, help="Optional: Run only a comma-separated list of Case IDs")
     parser.add_argument("--workers", type=int, default=1,
                         help="Number of parallel workers (default: 1 = serial). "
                              "Each worker uses an isolated tmpdir so stable_outputs never conflict.")
+    parser.add_argument("--compare", action="store_true",
+                        help="Compare FinalJudge scores across all sessions in runs/")
     args = parser.parse_args()
 
+    if args.compare:
+        run_compare()
+        return
+
+    if args.case and args.cases:
+        parser.error("Use either --case or --cases, not both.")
+
     target_id = args.case
+    target_ids = None
+    if args.cases:
+        target_ids = {c.strip() for c in args.cases.split(",") if c.strip()}
+        if not target_ids:
+            parser.error("--cases was provided but no valid Case IDs were found.")
     test_cases_path = Path(args.test_cases)
 
     if args.resume:
@@ -391,7 +570,11 @@ def main():
 
     pending_cases = [
         c for c in cases
-        if (not target_id or c["id"] == target_id) and c["id"] not in completed_cases
+        if (
+            (not target_id or c["id"] == target_id)
+            and (target_ids is None or c["id"] in target_ids)
+            and c["id"] not in completed_cases
+        )
     ]
     for cid in completed_cases:
         print(f"⏭️ Skipping Task [{cid}]: Already completed.")
@@ -503,8 +686,10 @@ def generate_summary_csv(session_dir, results):
         writer = csv.writer(f)
         writer.writerow([
             "Case ID", "Topic", "Category", "Status",
+            "FJ Weighted", "FJ Math", "FJ Concept", "FJ Visual",
             "Quality Score", "Pattern Rate", "Animation Count", "Missing Patterns", "Disallowed Violations", "Error Types",
             "Iterations", "Defects", "Max Objects", "Max Overlap Pairs", "Steps with Overlap",
+            "Max IoU Overlap Pairs", "Steps with IoU Overlap", "Worst Overlap Step Pct",
             "Total Tokens", "Cost USD", "Duration Sec", "Code Lines", "Video Duration Sec",
             "Exit Code", "Planner Sec", "Coder Sec", "Render Sec", "Vision Sec"
         ])
@@ -515,6 +700,10 @@ def generate_summary_csv(session_dir, results):
                 r["topic"],
                 r.get("category", "-"),
                 r["status"],
+                m.get("fj_weighted", "-"),
+                m.get("fj_math", "-"),
+                m.get("fj_concept", "-"),
+                m.get("fj_visual", "-"),
                 m.get("quality_score", "-"),
                 m.get("pattern_rate", "-"),
                 m.get("animation_count", "-"),
@@ -526,6 +715,9 @@ def generate_summary_csv(session_dir, results):
                 m.get("max_simultaneous_objects", "-"),
                 m.get("max_overlap_pairs", "-"),
                 m.get("steps_with_overlap", "-"),
+                m.get("iou_overlap_pairs_max", "-"),
+                m.get("steps_with_iou_overlap", "-"),
+                m.get("worst_overlap_step_pct", "-"),
                 m.get("tokens", "-"),
                 m.get("cost", "-"),
                 m.get("duration", "-"),
@@ -592,6 +784,7 @@ def generate_comparison_html(session_dir, results):
                     <div class="metrics-row"><span>Visual Defects (LLM):</span> <span class="metrics-val">{m.get('defects', '-')}</span></div>
                     <div class="metrics-row"><span>Max Simul. Objects:</span> <span class="metrics-val">{m.get('max_simultaneous_objects', '-')}</span></div>
                     <div class="metrics-row"><span>Steps w/ Overlap:</span> <span class="metrics-val">{m.get('steps_with_overlap', '-')}</span></div>
+                    <div class="metrics-row"><span>Max IoU Pairs:</span> <span class="metrics-val">{m.get('iou_overlap_pairs_max', '-')}</span></div>
                     <div class="metrics-row"><span>Total Tokens:</span> <span class="metrics-val">{m.get('tokens', '-')}</span></div>
                     <div class="metrics-row"><span>Est. Cost (USD):</span> <span class="metrics-val">{m.get('cost', '-')}</span></div>
                     <div class="metrics-row"><span>Total Time:</span> <span class="metrics-val">{m.get('duration', '-')}</span></div>
