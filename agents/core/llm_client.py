@@ -43,7 +43,7 @@ class LLMClient:
         self.models = {
             "default": os.getenv("GROQ_MODEL_DEFAULT", "llama-3.3-70b-versatile"),
             "planner": os.getenv("PLANNER_MODEL", "deepseek-chat"),
-            "coder": "deepseek-chat",  # DeepSeek-V3.2, official API
+            "coder": os.getenv("CODER_MODEL", "deepseek-chat"),  # override via CODER_MODEL env var
             # Vision: gpt-4o-mini (OpenAI) — better instruction following for strict QA
             # Override with VISION_MODEL env var (e.g. google/gemini-2.0-flash-001 for cheaper runs)
             "vision": os.getenv("VISION_MODEL", "gpt-4o-mini"),
@@ -99,6 +99,7 @@ class LLMClient:
             "qwen/qwen3-235b-a22b-2507": {"input": 0.071, "output": 0.10},
             "anthropic/claude-sonnet-4.5": {"input": 3.00, "output": 15.00},
             "anthropic/claude-sonnet-4.6": {"input": 1.09, "output": 15.00},
+            "anthropic/claude-opus-4-7": {"input": 15.00, "output": 75.00},
         }
         
         self.debug = debug
@@ -110,8 +111,10 @@ class LLMClient:
         # Determine temperature to use
         req_temp = temperature if temperature is not None else 0.1
         
-        if model.startswith("deepseek-"):
-            return self._call_deepseek(system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
+        if model == "deepseek-reasoner":
+            return self._call_deepseek_r1(system_prompt, user_prompt)
+        elif model.startswith("deepseek-"):
+            return self._call_deepseek(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
         elif "/" in model:
             # OpenRouter model (e.g. google/gemini-2.0-flash-001, qwen/qwen3-235b-a22b-2507)
             return self._call_openrouter(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
@@ -191,7 +194,7 @@ class LLMClient:
         print(f"❌ {error_msg}")
         raise LLMError(error_msg) from last_exc
     
-    def _call_deepseek(self, system_prompt, user_prompt, temperature=0.1, json_mode=False):
+    def _call_deepseek(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
         if not self.deepseek_client:
             raise LLMError("DeepSeek API key not configured.")
 
@@ -202,7 +205,7 @@ class LLMClient:
                 start_time = time.time()
 
                 kwargs = {
-                    "model": "deepseek-chat",
+                    "model": model,
                     "messages": [
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt}
@@ -220,11 +223,11 @@ class LLMClient:
                 content = completion.choices[0].message.content
                 usage = completion.usage
 
-                self._update_stats("deepseek-chat", usage.prompt_tokens, usage.completion_tokens)
+                self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
 
                 if self.debug:
                     print(f"\n" + "-"*30)
-                    print(f"🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)")
+                    print(f"🤖 [模型]: {model} (DeepSeek, OpenAI SDK)")
                     print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
                     print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
                     print("-" * 30)
@@ -521,7 +524,13 @@ class LLMClient:
         Runs ask_for_fix 'n' times in parallel for Self-Consistency voting.
         """
         import concurrent.futures
-        
+
+        # Expensive models (reasoner / OpenRouter) don't benefit from SC — force n=1
+        _coder_model = self.models.get(role, "")
+        if _coder_model == "deepseek-reasoner" or "/" in _coder_model:
+            print(f"⚡ [SC] {_coder_model} detected — forcing n=1 (no SC for expensive models)")
+            n = 1
+
         # Using a ThreadPoolExecutor to run N parallel calls
         with concurrent.futures.ThreadPoolExecutor(max_workers=n) as executor:
             futures = [
