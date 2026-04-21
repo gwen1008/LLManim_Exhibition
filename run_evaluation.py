@@ -581,6 +581,56 @@ def main():
 
     workers = args.workers
     save_lock = threading.Lock()
+    _eval_start = time.time()
+    _total_cases = len(pending_cases) + len(completed_cases)
+
+    def _print_progress(results_so_far: list):
+        n_done = len(results_so_far)
+        n_pass = sum(1 for r in results_so_far if r.get("status") == "Success")
+        n_fail = sum(1 for r in results_so_far if r.get("status") == "Failed")
+        n_timeout = sum(1 for r in results_so_far if r.get("status") == "TIMEOUT")
+
+        fj_vals = []
+        total_cost = 0.0
+        for r in results_so_far:
+            m = r.get("metrics", {})
+            try:
+                fj_vals.append(float(m.get("fj_weighted", "")))
+            except (ValueError, TypeError):
+                pass
+            try:
+                total_cost += float(str(m.get("cost", "0")).lstrip("$"))
+            except (ValueError, TypeError):
+                pass
+
+        avg_fj = f"{sum(fj_vals)/len(fj_vals):.2f}" if fj_vals else "—"
+        elapsed = time.time() - _eval_start
+        eta_str = "—"
+        if n_done > 0 and n_done < _total_cases:
+            eta_sec = (elapsed / n_done) * (_total_cases - n_done)
+            eta_str = f"{int(eta_sec // 60)}m{int(eta_sec % 60):02d}s"
+
+        bar_filled = int(20 * n_done / _total_cases) if _total_cases else 0
+        bar = "█" * bar_filled + "░" * (20 - bar_filled)
+
+        # Per-case status line
+        status_icons = []
+        for r in results_so_far:
+            s = r.get("status", "?")
+            fj = r.get("metrics", {}).get("fj_weighted", "")
+            icon = {"Success": "✅", "Failed": "❌", "TIMEOUT": "⏰"}.get(s, "❓")
+            fj_tag = f"({fj})" if fj not in ("", "-") else ""
+            status_icons.append(f"  {icon} [{r['id']}] {r['topic'][:28]:<28} {fj_tag}")
+
+        print("\n" + "═" * 60)
+        print(f"  📊 EVAL PROGRESS  [{bar}]  {n_done}/{_total_cases}")
+        print(f"  ✅ Pass: {n_pass}  ❌ Fail: {n_fail}  ⏰ Timeout: {n_timeout}")
+        print(f"  🏛️  Avg FJ Weighted: {avg_fj}   💰 Cost: ${total_cost:.4f}")
+        print(f"  ⏱️  Elapsed: {int(elapsed//60)}m{int(elapsed%60):02d}s   ETA: {eta_str}")
+        if status_icons:
+            print("─" * 60)
+            print("\n".join(status_icons))
+        print("═" * 60 + "\n")
 
     def _save_incremental():
         try:
@@ -593,11 +643,12 @@ def main():
     def _on_done(result: dict):
         with save_lock:
             results.append(result)
+            _print_progress(results)
             _save_incremental()
 
     if workers <= 1:
-        for case in pending_cases:
-            print(f"\n🎬 Running Task [{case['id']}]: {case['topic'][:30]}...")
+        for i, case in enumerate(pending_cases):
+            print(f"\n🎬 [{i+1}/{len(pending_cases)}] Running Task [{case['id']}]: {case['topic'][:40]}...")
             result = run_single_case(case, session_dir, PROJECT_ROOT, BENCHMARK_ROOT)
             _on_done(result)
     else:
