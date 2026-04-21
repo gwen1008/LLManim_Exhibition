@@ -39,7 +39,21 @@ paper/
 scene_state_log.json
 temp_vision_grid.jpg
 test_script.py
+test_script_q*.py
 test_azure.py
+
+# A/B testing & eval scratch outputs
+ab_test_runs/
+stable_outputs_route_b/
+parsed_questions_*.json
+
+# Ad-hoc scratch scripts (keep core entry points tracked manually)
+check_coder.py
+fix_html.py
+main_bypass_planner.py
+test_ab_compare.py
+test_ab_planner_bypass.py
+test_route_2.py
 
 # Personal Claude config
 .claude/
