@@ -71,3 +71,12 @@ excel_to_blueprint.py
 parse_excel.py
 run_ab_batch_20.py
 evaluation/test_cases_q20.json
+
+# Experiment / arena scripts
+planner_arena/
+main_route_d.py
+run_planner_arena.py
+run_coder_arena.py
+run_c_model_compare.py
+video_showcase.md
+experiments/
