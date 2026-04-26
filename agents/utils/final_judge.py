@@ -167,14 +167,26 @@ Review the [Code Analysis] section. For each issue found there:
             return "...(start truncated)\n" + code[-6000:]
         return code
 
-    def _analyze_code(self, code: str, script_context: str) -> dict:
+    def _analyze_code(self, code: str, script_context: str, ground_truth: dict = None) -> dict:
         """Phase 1: Claude Sonnet reviews the Manim code."""
         print("🔬 [FinalJudge Phase 1] Code analysis (Claude Sonnet)...")
 
         _scene_code = self._extract_scene_code(code)
         _ctx = f"\nAnimation context: {str(script_context)[:600]}\n" if script_context else ""
 
-        user_prompt = f"""{_ctx}
+        _gt_block = ""
+        if ground_truth:
+            _ans = ground_truth.get("answer", "")
+            _sol = ground_truth.get("solution", "")
+            if _ans or _sol:
+                _gt_block = "\n**[GROUND TRUTH — USE THIS TO VERIFY math_score]**\n"
+                if _ans:
+                    _gt_block += f"Correct answer: {_ans}\n"
+                if _sol:
+                    _gt_block += f"Solution steps:\n{_sol[:800]}\n"
+                _gt_block += "Check whether the code's mathematical steps and final result match the ground truth above.\n"
+
+        user_prompt = f"""{_ctx}{_gt_block}
 **Manim Python Code**:
 ```python
 {_scene_code}
@@ -334,11 +346,23 @@ Review for mathematical and logical correctness. Output JSON only."""
             f"{code_analysis.get('math_justification', '')}\n"
         )
 
+        _gt_block = ""
+        if hasattr(self, "_ground_truth") and self._ground_truth:
+            _ans = self._ground_truth.get("answer", "")
+            _sol = self._ground_truth.get("solution", "")
+            if _ans or _sol:
+                _gt_block = "\n**[GROUND TRUTH]**\n"
+                if _ans:
+                    _gt_block += f"Correct answer: {_ans}\n"
+                if _sol:
+                    _gt_block += f"Solution steps: {_sol[:400]}\n"
+                _gt_block += "Use this to verify concept_alignment: does the animation show the correct mathematical process?\n"
+
         user_text = f"""**FINAL QUALITY AUDIT**
 
 **Animation Context** (from Planner):
 {str(script_context)[:1000]}
-{_code_issues_text}{_code_math}
+{_gt_block}{_code_issues_text}{_code_math}
 **Storyboard**: Each frame captures the completed state of one animation step (sampled at ~90% of each step window). Frames are arranged left-to-right, top-to-bottom in chronological order.
 
 Follow the 4-step protocol in your system prompt.
@@ -432,7 +456,8 @@ Output ONLY the JSON object."""
     # ──────────────────────────────────────────────────────────────────────
     # Public entry point
     # ──────────────────────────────────────────────────────────────────────
-    def judge(self, video_path: str, script_context: str, code: str) -> dict:
+    def judge(self, video_path: str, script_context: str, code: str,
+              ground_truth: dict = None) -> dict:
         """
         Run full two-phase evaluation.
 
@@ -440,16 +465,23 @@ Output ONLY the JSON object."""
             video_path:      Path to rendered .mp4
             script_context:  Planner JSON string (or dict) describing the animation
             code:            Generated Manim Python source code
+            ground_truth:    Optional dict with keys "answer" and/or "solution"
+                             Used to verify math_correctness against known correct answer
 
         Returns:
             dict with verdict, weighted_total, scores, score_details, code_issues
         """
         print("\n" + "="*50)
         print("🏛️  [FinalJudge] Starting two-phase quality evaluation")
+        if ground_truth:
+            print(f"🎯 [FinalJudge] Ground truth provided (answer={bool(ground_truth.get('answer'))}, solution={bool(ground_truth.get('solution'))})")
         print("="*50)
 
+        # Store ground_truth for use in _analyze_visual
+        self._ground_truth = ground_truth
+
         # Phase 1: Code review
-        code_analysis = self._analyze_code(code, script_context)
+        code_analysis = self._analyze_code(code, script_context, ground_truth=ground_truth)
 
         # Phase 2: Visual review
         visual_result = self._analyze_visual(video_path, script_context, code_analysis)

@@ -91,6 +91,8 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
     with tempfile.TemporaryDirectory(prefix=f"llmanim_eval_{case_id}_") as tmp_out:
         env = os.environ.copy()
         env["EVAL_OUTPUT_DIR"] = tmp_out
+        if case.get("solution"):
+            env["LLMANIM_SOLUTION"] = case["solution"]
 
         try:
             proc = subprocess.Popen(
@@ -215,16 +217,10 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
 
             scene_log_path = project_root / "scene_state_log.json"
             instrumentor_stats = {}
-            iou_summary = {}
             if scene_log_path.exists():
                 shutil.copy2(scene_log_path, case_dir / "scene_state_log.json")
                 with open(scene_log_path) as f:
                     instrumentor_stats = json.load(f)
-                if compute_iou_summary is not None:
-                    try:
-                        iou_summary = compute_iou_summary(instrumentor_stats)
-                    except Exception:
-                        iou_summary = {}
 
             iterations = 1
             iter_matches = re.findall(r"第 (\d+) / \d+ 次嘗試", stdout)
@@ -274,11 +270,6 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
                     "vision_sec": f"{cost_stats.get('time_vision_sec', 0.0):.2f}",
                     "rag_sec": f"{cost_stats.get('time_rag_sec', 0.0):.2f}",
                     "max_simultaneous_objects": instrumentor_stats.get("max_simultaneous_objects", "-"),
-                    "max_overlap_pairs": instrumentor_stats.get("max_overlap_pairs", "-"),
-                    "steps_with_overlap": instrumentor_stats.get("steps_with_overlap", "-"),
-                    "iou_overlap_pairs_max": iou_summary.get("iou_overlap_pairs_max", "-"),
-                    "steps_with_iou_overlap": iou_summary.get("steps_with_iou_overlap", "-"),
-                    "worst_overlap_step_pct": iou_summary.get("worst_overlap_step_pct", "-"),
                     "fj_weighted":       cost_stats.get("final_judge", {}).get("weighted_total", "-"),
                     "fj_math":           cost_stats.get("final_judge", {}).get("scores", {}).get("math_correctness", "-"),
                     "fj_concept":        cost_stats.get("final_judge", {}).get("scores", {}).get("concept_alignment", "-"),
@@ -546,8 +537,6 @@ def main():
                 
                 # Try to load previous run's instrumentor log
                 m["max_simultaneous_objects"] = row.get("Max Objects", "-")
-                m["max_overlap_pairs"] = row.get("Max Overlap Pairs", "-")
-                m["steps_with_overlap"] = row.get("Steps with Overlap", "-")
                 
                 old_v = "N/A"
                 if BENCHMARK_ROOT.exists():
@@ -739,8 +728,7 @@ def generate_summary_csv(session_dir, results):
             "Case ID", "Topic", "Category", "Status",
             "FJ Weighted", "FJ Math", "FJ Concept", "FJ Visual",
             "Quality Score", "Pattern Rate", "Animation Count", "Missing Patterns", "Disallowed Violations", "Error Types",
-            "Iterations", "Defects", "Max Objects", "Max Overlap Pairs", "Steps with Overlap",
-            "Max IoU Overlap Pairs", "Steps with IoU Overlap", "Worst Overlap Step Pct",
+            "Iterations", "Defects", "Max Objects",
             "Total Tokens", "Cost USD", "Duration Sec", "Code Lines", "Video Duration Sec",
             "Exit Code", "Planner Sec", "Coder Sec", "Render Sec", "Vision Sec"
         ])
@@ -764,11 +752,6 @@ def generate_summary_csv(session_dir, results):
                 m.get("iterations", "-"),
                 m.get("defects", "-"),
                 m.get("max_simultaneous_objects", "-"),
-                m.get("max_overlap_pairs", "-"),
-                m.get("steps_with_overlap", "-"),
-                m.get("iou_overlap_pairs_max", "-"),
-                m.get("steps_with_iou_overlap", "-"),
-                m.get("worst_overlap_step_pct", "-"),
                 m.get("tokens", "-"),
                 m.get("cost", "-"),
                 m.get("duration", "-"),
@@ -834,8 +817,6 @@ def generate_comparison_html(session_dir, results):
                     <div class="metrics-row"><span>Iteration Count:</span> <span class="metrics-val">{m.get('iterations', '-')}</span></div>
                     <div class="metrics-row"><span>Visual Defects (LLM):</span> <span class="metrics-val">{m.get('defects', '-')}</span></div>
                     <div class="metrics-row"><span>Max Simul. Objects:</span> <span class="metrics-val">{m.get('max_simultaneous_objects', '-')}</span></div>
-                    <div class="metrics-row"><span>Steps w/ Overlap:</span> <span class="metrics-val">{m.get('steps_with_overlap', '-')}</span></div>
-                    <div class="metrics-row"><span>Max IoU Pairs:</span> <span class="metrics-val">{m.get('iou_overlap_pairs_max', '-')}</span></div>
                     <div class="metrics-row"><span>Total Tokens:</span> <span class="metrics-val">{m.get('tokens', '-')}</span></div>
                     <div class="metrics-row"><span>Est. Cost (USD):</span> <span class="metrics-val">{m.get('cost', '-')}</span></div>
                     <div class="metrics-row"><span>Total Time:</span> <span class="metrics-val">{m.get('duration', '-')}</span></div>

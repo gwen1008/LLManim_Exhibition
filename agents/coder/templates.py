@@ -106,7 +106,15 @@ To ensure precision, you MUST follow these MANDATORY constraints:
      - `VGroup(a, b, c).arrange(RIGHT, buff=0.5)` # place objects in a row
      - `obj.move_to(ORIGIN + 2*UP)`             # absolute positioning
 
-5. 🎙️ **SUBTITLE MANAGEMENT — USE `set_subtitle()` ONLY**:
+5. 🔒 **TITLE ZONE PROTECTION — ONE OBJECT AT THE TOP**:
+   - The scene title is the **only** object allowed at `y ≥ 2.5` or using `.to_edge(UP)`.
+   - ALL other text (step labels, annotations, transformation descriptions, formula labels) MUST be placed at `y ≤ 2.2`.
+   - ❌ WRONG: `step_label = Text("Step 1:...").to_edge(UP)` — crashes into the title.
+   - ❌ WRONG: `annotation.move_to(UP * 2.8)` — overlaps title zone.
+   - ✅ CORRECT: `annotation.move_to(UP * 1.5)` or `annotation.next_to(diagram, DOWN, buff=0.3)`
+   - If you need a secondary heading below the title, place it at `y = 2.0` maximum.
+
+6. 🎙️ **SUBTITLE MANAGEMENT — USE `set_subtitle()` ONLY**:
    - A `SubtitleManager` is pre-loaded into every scene. Use it for ALL step-by-step narration text.
    - ✅ CORRECT: `self.set_subtitle("Step 1: Draw the base circle")`
    - ✅ CORRECT: `self.set_subtitle("Step 2: Add the radius", run_time=0.8)`
@@ -272,9 +280,10 @@ The Manim camera frame is fixed. You MUST respect these boundaries to prevent el
 - **Y-Axis**: [-3.5, 3.5] (Safe zone height)
 
 **Safety Margins**:
-- **Top Header Area**: y > 3.0 is reserved for Titles. Do not place other content here.
+- **Top Header Area**: y ≥ 2.5 is reserved for the scene title ONLY. No other object may enter this zone.
+- **Content Zone**: y ∈ [-2.8, 2.2] — all math objects, labels, annotations must stay here.
 - **Bottom Footer Area**: y < -3.0 is reserved for Captions/Subtitles. Do not place content here.
-- **Rule**: All main mathematical content MUST be within y ∈ [-3.0, 3.0] and x ∈ [-6.5, 6.5].
+- **Rule**: `.to_edge(UP)` is forbidden except for the single scene title object.
 
 **Cleanup Protocol**:
 - Use `self.play(FadeOut(obj))` to remove objects when they are no longer needed.

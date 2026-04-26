@@ -31,12 +31,23 @@ class Planner:
         """
         return self.plan_script_from_prompt(topic)
 
-    def plan_script_from_prompt(self, prompt: str, file_path: str = None) -> tuple[str, str]:
+    def plan_script_from_prompt(self, prompt: str, file_path: str = None, solution: str = None) -> tuple[str, str]:
         """
         Plans a script based on a text prompt and optional file context (PDF).
+        If solution is provided, Planner skips math derivation and focuses on visual planning.
         """
-        # Default text-only prompt
-        user_content = f"Design a professional educational animation for: '{prompt}'. Include 3-5 well-structured steps. You MUST output all THREE parts: PART 1 (thought_tree XML), PART 2 (reasoning XML), and PART 3 (JSON blueprint). Do NOT stop after PART 2."
+        tail = "You MUST output all THREE parts: PART 1 (thought_tree XML), PART 2 (reasoning XML), and PART 3 (JSON blueprint). Do NOT stop after PART 2."
+
+        if solution:
+            user_content = (
+                f"Design a professional educational animation for: '{prompt}'. Include 3-5 well-structured steps.\n\n"
+                f"[SOLUTION PROVIDED — USE DIRECTLY, DO NOT RE-COMPUTE]\n{solution}\n\n"
+                f"Since the verified solution is above, in PHASE 0 ToT SKIP all math derivation. "
+                f"Focus ToT entirely on VISUAL STRATEGY: which metaphor/layout best illustrates this solution step by step. "
+                f"{tail}"
+            )
+        else:
+            user_content = f"Design a professional educational animation for: '{prompt}'. Include 3-5 well-structured steps. {tail}"
         
         if file_path:
             try:

@@ -674,6 +674,26 @@ class RefiningLoop:
                 patched, count=1
             )
 
+        # 9. [Title Zone Protection] Only one object may use .to_edge(UP) — the title.
+        # Multiple .to_edge(UP) calls stack objects at the top, causing title overlap (HIGH_02 pattern).
+        # Strategy: keep the first occurrence (title), shift all subsequent ones down by 1.8 units.
+        # Result: 2nd+ objects land at y ≈ 1.9, safely below the title zone (y ≥ 2.5).
+        try:
+            _edge_up_re = re.compile(r'\.to_edge\s*\(\s*UP[^)]*\)')
+            _edge_up_lines = [(i, ln) for i, ln in enumerate(patched.splitlines()) if _edge_up_re.search(ln)]
+            if len(_edge_up_lines) > 1:
+                _lines = patched.splitlines()
+                _shifted = 0
+                for _idx, (_lno, _ln) in enumerate(_edge_up_lines):
+                    if _idx == 0:
+                        continue  # keep first (title)
+                    _lines[_lno] = _edge_up_re.sub(lambda m: m.group(0) + '.shift(DOWN * 1.8)', _lines[_lno])
+                    _shifted += 1
+                patched = '\n'.join(_lines)
+                print(f"🔧 [Shift-Left] Title Zone: shifted {_shifted} non-title .to_edge(UP) call(s) down 1.8 units")
+        except Exception as _e9:
+            print(f"⚠️ [Shift-Left] Title Zone patch failed: {_e9}")
+
         # 10. [Audio Dur Fallback Replace] Deterministic truncation
         try:
             _sj = script_json if isinstance(script_json, dict) else (json.loads(script_json) if script_json else None)
@@ -1142,9 +1162,37 @@ Fix this immediately.
                         print(f"📝 總體評價: {audit.get('overall_critique', 'No critique')}")
 
                         # ── Tiered Defect Router (TDR) ────────────────────────────────
-                        # When defects include MISALIGNED, attempt cheap local fixes first.
-                        # Other defect types (OVERLAP, OVERFLOW) fall through to full rewrite.
+                        # OVERLAP T1: if overlap involves the title zone, attempt zero-cost AST fix first.
+                        # MISALIGNED T1/T2: cheap local fixes for alignment issues.
+                        # Other defect types fall through to full rewrite.
                         _defects = audit.get("defects", [])
+
+                        # OVERLAP T1: title zone collision → shift offending .to_edge(UP) down (zero cost)
+                        _overlap_defects = [d for d in _defects if d.get("code") == "OVERLAP"]
+                        _title_overlap = any(
+                            "title" in (d.get("description", "") + d.get("suggested_fix", "")).lower()
+                            for d in _overlap_defects
+                        )
+                        if _title_overlap and tdr_t1_attempts < CFG.tdr_t1_cap:
+                            try:
+                                import re as _re9
+                                _eu_re = _re9.compile(r'\.to_edge\s*\(\s*UP[^)]*\)')
+                                _eu_lines = [(i, ln) for i, ln in enumerate(current_code.splitlines()) if _eu_re.search(ln)]
+                                if len(_eu_lines) > 1:
+                                    _t1_lines = current_code.splitlines()
+                                    for _idx, (_lno, _) in enumerate(_eu_lines):
+                                        if _idx == 0:
+                                            continue
+                                        _t1_lines[_lno] = _eu_re.sub(lambda m: m.group(0) + '.shift(DOWN * 1.8)', _t1_lines[_lno])
+                                    _t1_code = '\n'.join(_t1_lines)
+                                    with open(file_path, "w", encoding="utf-8") as _f:
+                                        _f.write(_t1_code)
+                                    tdr_t1_attempts += 1
+                                    print(f"⚡ [TDR-T1] Title OVERLAP: shifted non-title .to_edge(UP) down 1.8 units (成本 $0)...")
+                                    continue
+                            except Exception as _ov_err:
+                                print(f"⚠️  [TDR-T1] Title overlap patch failed: {_ov_err}")
+
                         _misaligned_defects = [d for d in _defects if d.get("code") == "MISALIGNED"]
                         if _misaligned_defects and (tdr_t1_attempts < CFG.tdr_t1_cap or tdr_t2_attempts < CFG.tdr_t2_cap):
                             try:

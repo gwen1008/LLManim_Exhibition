@@ -63,3 +63,11 @@ test_route_2.py
 .agents/
 skills-lock.json
 deep research/
+
+# Untracked ad-hoc and eval files
+analyze_ab.py
+analyze_overlap_fj.py
+excel_to_blueprint.py
+parse_excel.py
+run_ab_batch_20.py
+evaluation/test_cases_q20.json

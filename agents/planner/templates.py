@@ -14,6 +14,9 @@ Your output must provide a **MACHINE-VERIFIABLE SPATIAL BLUEPRINT** that leaves 
 ═══════════════════════════════════════════════════════════════════
 PHASE 0: SCORED VISUAL TREE OF THOUGHTS (ToT)
 ═══════════════════════════════════════════════════════════════════
+⚡ If the user message contains a [SOLUTION PROVIDED] section, the math is already solved.
+   SKIP all mathematical derivation in ToT. Evaluate visual strategies only.
+
 Before committing to a JSON plan, you MUST perform a "Tree of Thoughts" search:
 
 1. **Branching (Diversity)**:

@@ -85,12 +85,14 @@ class LLMClient:
             "time_rag_sec": 0.0
         }
         
-        # Pricing per 1M tokens (USD) — updated 2026-03
-        # DeepSeek V3.2: ¥2/¥3 per 1M (cache miss) = ~$0.28/$0.42
-        # deepseek-reasoner is now V3.2 thinking mode, same pricing as deepseek-chat
+        # Pricing per 1M tokens (USD) — updated 2026-04
+        # DeepSeek V4 pricing: https://api.deepseek.com
+        # deepseek-chat / deepseek-reasoner are deprecated aliases → deepseek-v4-flash
         self.pricing = {
-            "deepseek-chat": {"input": 0.28, "output": 0.42},
-            "deepseek-reasoner": {"input": 0.28, "output": 0.42},  # V3.2 thinking mode
+            "deepseek-v4-flash": {"input": 0.14, "output": 0.28},    # ¥1/¥2 per 1M
+            "deepseek-v4-pro": {"input": 0.42, "output": 0.84},      # ¥3/¥6 per 1M (限時 2.5 折)
+            "deepseek-chat": {"input": 0.14, "output": 0.28},        # deprecated → v4-flash
+            "deepseek-reasoner": {"input": 0.14, "output": 0.28},    # deprecated → v4-flash thinking
             "llama-3.3-70b-versatile": {"input": 0.59, "output": 0.79},
             "llama-3.1-8b-instant": {"input": 0.05, "output": 0.08},
             "gpt-4o": {"input": 2.50, "output": 10.00},
@@ -114,7 +116,7 @@ class LLMClient:
         if model == "deepseek-reasoner":
             return self._call_deepseek_r1(system_prompt, user_prompt)
         elif model.startswith("deepseek-"):
-            return self._call_deepseek(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
+            return self._call_deepseek(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode, _calling_role=role)
         elif "/" in model:
             # OpenRouter model (e.g. google/gemini-2.0-flash-001, qwen/qwen3-235b-a22b-2507)
             return self._call_openrouter(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
@@ -194,9 +196,17 @@ class LLMClient:
         print(f"❌ {error_msg}")
         raise LLMError(error_msg) from last_exc
     
-    def _call_deepseek(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
+    def _call_deepseek(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False, _calling_role=None):
         if not self.deepseek_client:
             raise LLMError("DeepSeek API key not configured.")
+
+        # [V4 Thinking Mode] 根據角色和對應的環境變數啟用
+        # CODER_THINKING=1   → coder 角色啟用思考模式
+        # PLANNER_THINKING=1 → planner 角色啟用思考模式
+        _thinking_enabled = (
+            (os.getenv("CODER_THINKING", "") == "1" and _calling_role == "coder")
+            or (os.getenv("PLANNER_THINKING", "") == "1" and _calling_role == "planner")
+        )
 
         max_retries = 3
         last_exc = None
@@ -210,9 +220,15 @@ class LLMClient:
                         {"role": "system", "content": system_prompt},
                         {"role": "user", "content": user_prompt}
                     ],
-                    "temperature": temperature,
-                    "max_tokens": 8192,
+                    "max_tokens": 16000 if _thinking_enabled else 8192,
                 }
+
+                if _thinking_enabled:
+                    # 思考模式：不支援 temperature，需要 extra_body
+                    kwargs["extra_body"] = {"thinking": {"type": "enabled"}}
+                    print(f"🧠 [V4 Thinking Mode] Enabled for {model}")
+                else:
+                    kwargs["temperature"] = temperature
 
                 if json_mode:
                     kwargs["response_format"] = {"type": "json_object"}
@@ -525,9 +541,15 @@ class LLMClient:
         """
         import concurrent.futures
 
-        # Expensive models (reasoner / OpenRouter) don't benefit from SC — force n=1
+        # Expensive models (reasoner / pro / OpenRouter) don't benefit from SC — force n=1
         _coder_model = self.models.get(role, "")
-        if _coder_model == "deepseek-reasoner" or "/" in _coder_model:
+        _is_expensive = (
+            _coder_model == "deepseek-reasoner"
+            or _coder_model == "deepseek-v4-pro"
+            or "/" in _coder_model
+            or os.getenv("CODER_THINKING", "") == "1"  # thinking mode = expensive output
+        )
+        if _is_expensive:
             print(f"⚡ [SC] {_coder_model} detected — forcing n=1 (no SC for expensive models)")
             n = 1
 

@@ -126,7 +126,7 @@ if __name__ == "__main__":
     user_input = input("\n請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): ")
     
     # Initialize session logger
-    logger = SessionLogger()
+    logger = SessionLogger(max_files=1000, max_age_days=30)
     
     try:
         # Start logging session
@@ -180,12 +180,25 @@ if __name__ == "__main__":
         print("\n🎬 [階段 1: Director] 正在規劃動畫腳本...")
         from agents.core.llm_client import LLMError
         planner = Planner(llm_client=llm)
+        _solution = os.environ.get("LLMANIM_SOLUTION", "").strip() or None
+        _answer   = os.environ.get("LLMANIM_ANSWER",   "").strip() or None
+        _ground_truth = {"answer": _answer, "solution": _solution} if (_answer or _solution) else None
+        if _solution:
+            print("📋 [Planner] Solution context provided — skipping math derivation.")
         with StageTimer("Planner", llm.session_stats, "time_planner_sec"):
             try:
-                script_json, thought_tree_raw = planner.plan_script(user_topic)
+                script_json, thought_tree_raw = planner.plan_script_from_prompt(user_topic, solution=_solution)
             except LLMError as e:
                 print(f"❌ [Fatal] Planner LLM 完全失敗：{e}")
                 sys.exit(1)
+
+        # Planner compliance check: verify solution keywords appear in thought_tree (Route C only)
+        if _solution and thought_tree_raw:
+            _sol_keywords = [w for w in _solution.split() if len(w) > 3 and w.replace("$","").replace("\\","").strip()][:20]
+            _matched = sum(1 for kw in _sol_keywords if kw in thought_tree_raw)
+            _compliance = round(_matched / len(_sol_keywords), 2) if _sol_keywords else 0.0
+            llm.session_stats["planner_solution_compliance"] = _compliance
+            print(f"📊 [Planner Compliance] {_matched}/{len(_sol_keywords)} solution keywords found in thought_tree → {_compliance:.0%}")
         
         # [Optimization] Strip XML thought/reasoning blocks before parsing
         script_json_clean = re.sub(r'<thought_tree>.*?</thought_tree>', '', script_json, flags=re.DOTALL)
@@ -204,6 +217,16 @@ if __name__ == "__main__":
         if parsed_script:
             script_json = json.dumps(parsed_script, ensure_ascii=False, indent=2)
             print(f"📉 [Compression] Planner Context Reduced: {len(script_json)} chars")
+            
+            # [Feature] Save the blueprint JSON for human review
+            try:
+                _out_dir = os.environ.get("EVAL_OUTPUT_DIR", "stable_outputs")
+                os.makedirs(_out_dir, exist_ok=True)
+                with open(os.path.join(_out_dir, "blueprint.json"), "w", encoding="utf-8") as f:
+                    f.write(script_json)
+                print(f"📄 [Blueprint] 已儲存完整劇本至: {os.path.join(_out_dir, 'blueprint.json')}")
+            except Exception as e:
+                print(f"⚠️ [Blueprint] Unable to save blueprint.json: {e}")
 
             # Task 11: Audio (Step 1.5) 與 RAG (Step 1.8) 並行執行，節省 15-28s
             from agents.utils.audio_engine import AudioEngine
@@ -349,7 +372,7 @@ if __name__ == "__main__":
                 with open(target_file, "r", encoding="utf-8") as _cf:
                     _final_code = _cf.read()
                 _fj = FinalJudge(llm_client=llm)
-                _fj_result = _fj.judge(str(result), script_json, _final_code)
+                _fj_result = _fj.judge(str(result), script_json, _final_code, ground_truth=_ground_truth)
                 # Attach to session_stats so it's saved in cost_report.json
                 llm.session_stats["final_judge"] = {
                     "weighted_total": _fj_result.get("weighted_total"),
