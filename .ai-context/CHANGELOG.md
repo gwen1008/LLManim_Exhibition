@@ -247,3 +247,7 @@
   - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
 - `2026-04-27 02:13` | branch=`feat/core-and-agents` | dirty=9 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
   - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
+- `2026-04-27 02:14` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+  - touched: knowledge_base/examples manimator 
+- `2026-04-27 02:15` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+  - touched: knowledge_base/examples manimator 
