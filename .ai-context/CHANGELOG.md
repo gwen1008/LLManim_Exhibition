@@ -251,3 +251,32 @@
   - touched: knowledge_base/examples manimator 
 - `2026-04-27 02:15` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
   - touched: knowledge_base/examples manimator 
+
+## 2026-04-30
+
+- `2026-04-30 21:17` | branch=`feat/core-and-agents` | dirty=20 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/core/rag_retriever.py knowledge_base/examples manimator rag/ingest_3b1b.py rag/ingest_code.py 
+- `2026-04-30 21:25` | branch=`feat/core-and-agents` | dirty=21 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py knowledge_base/examples manimator rag/ingest_3b1b.py 
+
+## 2026-05-01
+
+- `2026-05-01 20:40` | branch=`feat/core-and-agents` | dirty=25 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/rag_retriever.py knowledge_base/examples 
+- `2026-05-01 20:48` | branch=`feat/core-and-agents` | dirty=26 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-01 21:56` | branch=`feat/core-and-agents` | dirty=31 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-01 23:18` | branch=`feat/core-and-agents` | dirty=32 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+
+## 2026-05-02
+
+- `2026-05-02 01:42` | branch=`feat/core-and-agents` | dirty=34 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-02 01:58` | branch=`feat/core-and-agents` | dirty=35 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-02 13:05` | branch=`feat/core-and-agents` | dirty=36 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-02 18:02` | branch=`feat/core-and-agents` | dirty=37 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 

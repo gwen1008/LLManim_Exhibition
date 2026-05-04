@@ -43,7 +43,7 @@ class LLMClient:
         self.models = {
             "default": os.getenv("GROQ_MODEL_DEFAULT", "llama-3.3-70b-versatile"),
             "planner": os.getenv("PLANNER_MODEL", "deepseek-chat"),
-            "coder": os.getenv("CODER_MODEL", "deepseek-chat"),  # override via CODER_MODEL env var
+            "coder": os.getenv("CODER_MODEL", "claude-code"),  # override via CODER_MODEL env var
             # Vision: gpt-4o-mini (OpenAI) — better instruction following for strict QA
             # Override with VISION_MODEL env var (e.g. google/gemini-2.0-flash-001 for cheaper runs)
             "vision": os.getenv("VISION_MODEL", "gpt-4o-mini"),
@@ -99,9 +99,11 @@ class LLMClient:
             "gpt-4o-mini": {"input": 0.15, "output": 0.60},
             "google/gemini-2.0-flash-001": {"input": 0.10, "output": 0.40},
             "qwen/qwen3-235b-a22b-2507": {"input": 0.071, "output": 0.10},
+            "anthropic/claude-haiku-4.5": {"input": 1.00, "output": 5.00},
             "anthropic/claude-sonnet-4.5": {"input": 3.00, "output": 15.00},
             "anthropic/claude-sonnet-4.6": {"input": 1.09, "output": 15.00},
-            "anthropic/claude-opus-4-7": {"input": 15.00, "output": 75.00},
+            "anthropic/claude-opus-4-7": {"input": 5.00, "output": 25.00},
+            "google/gemini-2.5-flash": {"input": 0.10, "output": 0.40},
         }
         
         self.debug = debug
@@ -113,7 +115,9 @@ class LLMClient:
         # Determine temperature to use
         req_temp = temperature if temperature is not None else 0.1
         
-        if model == "deepseek-reasoner":
+        if model == "claude-code":
+            return self._call_claude_code(system_prompt, user_prompt)
+        elif model == "deepseek-reasoner":
             return self._call_deepseek_r1(system_prompt, user_prompt)
         elif model.startswith("deepseek-"):
             return self._call_deepseek(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode, _calling_role=role)
@@ -141,6 +145,58 @@ class LLMClient:
         else:
             # Groq model
             return self._call_groq(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
+
+    def _call_claude_code(self, system_prompt: str, user_prompt: str) -> str:
+        import subprocess, json
+
+        cmd = [
+            "claude", "-p", user_prompt.strip(),
+            "--output-format", "json",
+            "--model", "claude-opus-4-7",
+            "--effort", "medium",
+            "--no-session-persistence", "--tools", '""',
+            "--strict-mcp-config", "--disable-slash-commands"
+        ]
+        if system_prompt.strip():
+            cmd.extend(["--system-prompt", system_prompt.strip()])
+
+        try:
+            start = time.time()
+            result = subprocess.run(
+                cmd,
+                capture_output=True, text=True, timeout=600
+            )
+            elapsed = time.time() - start
+
+            if result.returncode != 0:
+                raise LLMError(f"claude CLI error: {result.stderr.strip()}")
+
+            data = json.loads(result.stdout)
+            content = data.get("result", "")
+
+            usage = data.get("usage", {})
+            c_read = usage.get("cache_read_input_tokens", 0)
+            c_create = usage.get("cache_creation_input_tokens", 0)
+            input_tok = usage.get("input_tokens", 0) + c_read + c_create
+            output_tok = usage.get("output_tokens", 0)
+            self._update_stats("anthropic/claude-opus-4-7", input_tok, output_tok)
+
+            if self.debug:
+                print(f"\n" + "-"*30)
+                print(f"🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)")
+                print(f"⏱️  [API 耗時]: {elapsed:.2f} 秒")
+                cache_str = ""
+                if c_read > 0: cache_str = f" [🔥 快取命中: {c_read:,}]"
+                elif c_create > 0: cache_str = f" [✍️ 建立快取: {c_create:,}]"
+                print(f"📊 [Token 統計]: 輸入 {input_tok} (純輸入 {usage.get('input_tokens',0):,}){cache_str} | 輸出 {output_tok}")
+                print("-"*30)
+
+            return content
+
+        except subprocess.TimeoutExpired:
+            raise LLMError("claude CLI timeout (>600s)")
+        except json.JSONDecodeError as e:
+            raise LLMError(f"claude CLI JSON parse error: {e}\nstdout: {result.stdout[:500]}")
 
     def _call_groq(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
         """Internal method to call Groq API."""
@@ -544,7 +600,8 @@ class LLMClient:
         # Expensive models (reasoner / pro / OpenRouter) don't benefit from SC — force n=1
         _coder_model = self.models.get(role, "")
         _is_expensive = (
-            _coder_model == "deepseek-reasoner"
+            _coder_model == "claude-code"
+            or _coder_model == "deepseek-reasoner"
             or _coder_model == "deepseek-v4-pro"
             or "/" in _coder_model
             or os.getenv("CODER_THINKING", "") == "1"  # thinking mode = expensive output

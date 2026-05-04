@@ -139,12 +139,12 @@ class WeaviateIndexer:
         self.client = weaviate.connect_to_local()
         
     def create_schema(self):
-        """Create the ManimGoldenPair collection schema."""
-        try:
-            self.client.collections.delete("ManimGoldenPair")
-        except:
-            pass
-        
+        """Create the ManimGoldenPair collection schema (idempotent: skip if already exists)."""
+        existing = [c.name for c in self.client.collections.list_all().values()]
+        if "ManimGoldenPair" in existing:
+            print("ℹ️  Schema already exists: ManimGoldenPair (skipping create)")
+            return
+
         self.client.collections.create(
             name="ManimGoldenPair",
             vectorizer_config=Configure.Vectorizer.text2vec_openai(),
@@ -152,11 +152,13 @@ class WeaviateIndexer:
                 # skip_vectorization=True: BM25 still indexes these for keyword search,
                 # but they are NOT included in the OpenAI embedding vector.
                 # Embedding only from video_description (natural language) + manim_modules.
+                Property(name="class_name", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="code_content", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="imports", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="complexity_score", data_type=DataType.INT),
                 Property(name="manim_modules", data_type=DataType.TEXT),  # vectorized: module names are useful signals
                 Property(name="source_file", data_type=DataType.TEXT, skip_vectorization=True),
+                Property(name="source_library", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="topic", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="video_description", data_type=DataType.TEXT),  # vectorized: primary semantic field
             ]

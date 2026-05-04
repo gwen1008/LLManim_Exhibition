@@ -20,6 +20,24 @@ The following rules are MANDATORY to prevent rendering failures:
 ✅ RegularPolygon(n=6)
 ✅ Square(side_length=2, color=YELLOW)
 
+=== AXES & GRAPHING CHEAT SHEET ===
+✅ axes.c2p(x, y)            # coords → screen position (use this for manual dots)
+✅ axes.i2gp(x, graph)       # x value → point ON an existing graph curve (use this for moving dot on curve)
+✅ axes.get_graph_label(graph, label=MathTex("y=x^2"), x_val=2, direction=UR)
+✅ axes.get_area(graph, x_range=[0,2], color=BLUE, opacity=0.5)
+✅ axes.get_riemann_rectangles(graph, x_range=[0,3], dx=0.5)
+
+# Moving dot on a curve — CORRECT pattern:
+x_tracker = ValueTracker(-3)
+dot = always_redraw(lambda: Dot(axes.i2gp(x_tracker.get_value(), graph), color=YELLOW))
+# DO NOT manually compute axes.c2p(x, np.sin(x)) — use i2gp instead
+
+=== BRACE & LABEL CHEAT SHEET ===
+✅ brace = Brace(obj, DOWN)
+✅ brace_text = brace.get_text("Width")        # returns Text mobject
+✅ brace_label = BraceLabel(obj, "Width", DOWN) # shorthand: brace + label in one
+✅ brace.get_tex("W")                          # returns MathTex mobject
+
 """
 
 MANIM_LAYOUT_RULES = """
@@ -222,6 +240,28 @@ Using any of the following will cause an immediate NameError or TypeError at ren
    - FunctionGraph       → use TracedPath instead
    - MathTex / Tex       → pre-build once outside always_redraw, never rebuild dynamically
    - Text                → pre-build once outside always_redraw
+
+✅ CORRECT — dynamic number display (e.g., "r = 1.23" that changes with tracker):
+   # NEVER: always_redraw(lambda: MathTex(f"r = {tracker.get_value():.2f}"))  ← TIMEOUT
+   # CORRECT: use DecimalNumber with updater — rebuilt-free, frame-rate safe
+   radius_display = DecimalNumber(1.0, num_decimal_places=2)
+   radius_display.add_updater(lambda m: m.set_value(tracker.get_value()))
+   # For labelled display: use VGroup(Text("r = "), radius_display).arrange(RIGHT)
+
+✅ CORRECT — physics simulation with dummy driver Mobject:
+   # When you need frame-by-frame state updates (spring, pendulum, etc.):
+   position = ValueTracker(2.0)
+   velocity = ValueTracker(0.0)
+   def physics_update(mob, dt):
+       x, v = position.get_value(), velocity.get_value()
+       a = -10 * x - 0.5 * v   # F = -kx - damping*v
+       velocity.set_value(v + a * dt)
+       position.set_value(x + velocity.get_value() * dt)
+   driver = Mobject()
+   driver.add_updater(physics_update)
+   self.add(driver)
+   self.wait(5)
+   driver.clear_updaters()
 
 ## BANNED: MathTex Array Indexing — Causes IndexError
 - NEVER use `eq[n]` hardcoded index on MathTex/Tex. Linter will BLOCK with HARDCODED_MOBJECT_INDEX.

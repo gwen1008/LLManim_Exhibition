@@ -170,6 +170,7 @@ if __name__ == "__main__":
                 _results = _rag.retrieve_examples(user_topic, limit=2)
                 _results += _rag.retrieve_rules(user_topic, limit=2)
                 _ctx = _rag.format_for_prompt(_results)
+                print(f"📏 [RAG Debug] Total RAG context length: {len(_ctx)} chars (~{len(_ctx)//4} tokens)")
                 _rag.close()
             return _ctx
             
@@ -364,8 +365,8 @@ if __name__ == "__main__":
             print(f"❌ [Fatal] LLM API 完全失敗：{e}")
             sys.exit(1)
             
-        # ── 階段四：FinalJudge 兩階段品質評分 ─────────────────────────────
-        if result and os.path.exists(str(result)):
+        # ── 階段四：FinalJudge 兩階段品質評分 (手動關閉以節省 Token) ─────────────────────────────
+        if False and result and os.path.exists(str(result)):
             print("\n🏛️  [階段 4: FinalJudge] 啟動兩階段品質評分...")
             try:
                 from agents.utils.final_judge import FinalJudge

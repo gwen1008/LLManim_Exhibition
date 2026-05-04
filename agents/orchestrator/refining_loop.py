@@ -1687,22 +1687,22 @@ Then provide the corrected code.
                             new_code = LLMClient.extract_code(new_code_raw) or new_code_raw
                             break
                     else:
-                        # [Tier-3 Escalation] i >= 2 + 複雜空間錯誤 → 切換 DeepSeek-R1
+                        # [Tier-3 Escalation] Disabled: user wants to stay on primary model (e.g. Opus 4.7)
                         _use_r1 = False
                         _is_repeated = any(isinstance(e, dict) and str(e.get("error_type", "")).startswith("REPEATED_") for e in reflection_memory)
                         _is_surgical = getattr(_triage_result, 'is_surgical', False) if _triage_result else patch_mode
                         
                         if _is_repeated and not _is_surgical:
-                            _use_r1 = True
-                            print(f"🧠 [Tier-3] 檢測到相同錯誤簽名（ Dedup >= 1 ），啟動 DeepSeek-R1 深度推理模式...")
+                            # print(f"🧠 [Tier-3] 檢測到相同錯誤簽名，但根據設定維持主模型模式...")
+                            _use_r1 = False
                         elif i >= 2 and _triage_result is not None:
                             _is_hard_spatial = (
                                 getattr(_triage_result, 'category', '') in ("LAYOUT_OR_VISUAL", "RENDER_ERROR")
                                 or consecutive_timeouts >= 1
                             )
                             if _is_hard_spatial:
-                                _use_r1 = True
-                                print(f"🧠 [Tier-3] 第 {i+1} 輪啟動 DeepSeek-R1 深度推理模式...")
+                                # print(f"🧠 [Tier-3] 進入第 {i+1} 輪，維持主模型進行深度修復...")
+                                _use_r1 = False
 
                         # [Self-Consistency] Adaptive N: surgical=1, first iteration=2, subsequent=1
                         # Reflection memory already guides later iterations, N>1 adds latency without proportional gain

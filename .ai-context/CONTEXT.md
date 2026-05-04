@@ -4,30 +4,40 @@
 > 規則：只放「現在進行 + 最近決策」。超過 100 行就砍舊的。
 > Claude Code 用戶請參考 `~/.claude/projects/-Users-liaozhenting-Desktop-LLManim-Agent/memory/MEMORY.md`（自動載入）。
 
-**更新日期**：2026-04-22
+**更新日期**：2026-05-04
 **當前 branch**：`feat/core-and-agents`
 
 ---
 
 ## 🎯 現在在做什麼
 
-- Pipeline context / telemetry / final judge 元件整合（參考最新 commit `8ca8d1a`）
+- Pipeline context / telemetry / final judge 元件整合
 - A/B 測試流程（Route A vs Route B），輸出在 `ab_test_runs/`
 - 多題批次評測（`run_ab_batch_20.py`、`test_script_q*.py` 是 per-question runtime 暫存檔）
 
 ## 🧠 最近的關鍵決策（新→舊，最多 10 條）
 
-- **2026-04-22**：決定用 `.ai-context/CONTEXT.md` 作為跨 AI 單一真相來源；Stop hook 自動寫 `CHANGELOG.md`
-- **2026-04-18**：Azure TTS 在單題 OK，大量 eval（15 題）會 429 → 批次評測時可能要降速或混用 local
-- **2026-03-29**：修復 audio 2x 時長 bug（main.py Step 2 injection 被移除）
-- **2026-03-29**：Prompter 加 Rule 4/4b/4c/5（禁 dict-driven layout、三角形用 Polygon、禁 step_explanation footer）
-- **2026-03-29**：Planner templates 改三角形用 `Polygon(vertices)`，y 座標限制 [-2.0, +2.5]
+- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
+
+- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
+
+- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
+
+- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
+
+
+
+
+
+
+
 
 ## 🚧 未完成 / 卡點
 
 - [ ] 20+ 個 `test_script_q*.py` 未 gitignore，git status 髒（2026-04-22 待處理）
 - [ ] `ab_test_runs/`、`stable_outputs_route_b/` 要決定是 gitignore 還是加進版控
 - [ ] 上次 eval（20260329）僅 8/15 pass（53%），TIMEOUT × 5 還沒根因分析
+- [ ] `knowledge_base/examples` 和 `manimator` 檔案被標記為 dirty，需確認是否為 submodule 或空目錄變更
 
 ## 🧱 硬限制（不要挑戰）
 

@@ -9,6 +9,7 @@ from ..core.manim_api_rules import (
 )
 from .templates import (
     CODER_SYSTEM_PART,
+    OPUS_CODER_SYSTEM_PART,
     CODER_USER_PART,
     VISUAL_AUDIT_PROMPT_TEMPLATE
 )
@@ -20,22 +21,35 @@ class CoderPrompter:
         system_prompt 包含靜態規則，適合 DeepSeek Prompt Cache。
         user_prompt 包含動態的 script_json，每次呼叫都不同。
         """
-        system_prompt = CODER_SYSTEM_PART
-        for _k, _v in {
-            "MANIM_API_STRICT_RULES": MANIM_API_STRICT_RULES,
-            "MANIM_LAYOUT_RULES": MANIM_LAYOUT_RULES,
-            "MANIM_LAYOUT_ENGINE_DOCS": MANIM_LAYOUT_ENGINE_DOCS,
-            "MANIM_LANGUAGE_RULES": MANIM_LANGUAGE_RULES,
-            "MANIM_BANNED_APIS": MANIM_BANNED_APIS,
-            "MANIM_GEOMETRY_RULES": MANIM_GEOMETRY_RULES,
-        }.items():
-            system_prompt = system_prompt.replace(f"{{{_k}}}", _v)
-        user_prompt = CODER_USER_PART.format(
-            rag_context=rag_context,
-            spatial_hints=spatial_hints,
-            script_json=script_json,
-            target_scene=target_scene,
-        )
+        import os
+        coder_model = os.getenv("CODER_MODEL", "deepseek-chat")
+        
+        if "opus" in coder_model.lower() or "claude-code" in coder_model.lower():
+            system_prompt = OPUS_CODER_SYSTEM_PART
+            user_prompt = CODER_USER_PART.format(
+                rag_context=rag_context,
+                spatial_hints=spatial_hints,
+                script_json=script_json,
+                target_scene=target_scene,
+            )
+        else:
+            system_prompt = CODER_SYSTEM_PART
+            for _k, _v in {
+                "MANIM_API_STRICT_RULES": MANIM_API_STRICT_RULES,
+                "MANIM_LAYOUT_RULES": MANIM_LAYOUT_RULES,
+                "MANIM_LAYOUT_ENGINE_DOCS": MANIM_LAYOUT_ENGINE_DOCS,
+                "MANIM_LANGUAGE_RULES": MANIM_LANGUAGE_RULES,
+                "MANIM_BANNED_APIS": MANIM_BANNED_APIS,
+                "MANIM_GEOMETRY_RULES": MANIM_GEOMETRY_RULES
+            }.items():
+                system_prompt = system_prompt.replace(f"{{{_k}}}", _v)
+    
+            user_prompt = CODER_USER_PART.format(
+                rag_context=rag_context,
+                spatial_hints=spatial_hints,
+                script_json=script_json,
+                target_scene=target_scene,
+            )
         return system_prompt, user_prompt
 
 class VisualFixPrompter:
