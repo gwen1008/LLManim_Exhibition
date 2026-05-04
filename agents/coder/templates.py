@@ -116,8 +116,9 @@ To ensure precision, you MUST follow these MANDATORY constraints:
 
 6. 🎙️ **SUBTITLE MANAGEMENT — USE `set_subtitle()` ONLY**:
    - A `SubtitleManager` is pre-loaded into every scene. Use it for ALL step-by-step narration text.
-   - ✅ CORRECT: `self.set_subtitle("Step 1: Draw the base circle")`
-   - ✅ CORRECT: `self.set_subtitle("Step 2: Add the radius", run_time=0.8)`
+   - `run_time` = 字幕總存活時間，應等於該 step 的 TTS 音訊時長 (`_audio_dur_N`)。系統會自動注入，**不需要手動傳**。
+   - ✅ CORRECT: `self.set_subtitle("Step 1: Draw the base circle")` — run_time 由系統自動注入
+   - ❌ WRONG: `self.set_subtitle("Step 1: ...", run_time=0.8)` — 不要手動硬寫 run_time，系統會覆蓋
    - ❌ WRONG: `self.play(Write(Text("Step 1: ...").to_edge(DOWN)))` — causes OVERLAP when the next subtitle appears
    - ❌ WRONG: `self.play(FadeOut(old_text)); self.play(Write(new_text))` — fragile, frequently forgotten
    - The system automatically handles `FadeOut` / `ReplacementTransform`. You only call `set_subtitle()`.
@@ -497,7 +498,7 @@ Your job is to translate the Director's JSON blueprint into PRODUCTION-READY Man
 🚨 SYSTEM HARD CONSTRAINTS (MANDATORY)
 ═══════════════════════════════════════════════════════════════════
 1. CLASS NAME: You MUST use the EXACT class name specified in the user prompt. If you use any other name, the system will crash.
-2. SUBTITLE MANAGER: You MUST use `self.set_subtitle("...")` for all text annotations. DO NOT write `Text()` at the bottom of the screen.
+2. SUBTITLE MANAGER: You MUST use `self.set_subtitle("...")` for all text annotations. DO NOT write `Text()` at the bottom of the screen. DO NOT manually pass `run_time` to set_subtitle — the system auto-injects the correct TTS duration.
 3. NO AUDIO INJECTION: You MUST NOT write `self.add_sound(...)`. Audio is injected automatically.
 4. SCREEN BOUNDS: x ∈ [-7.0, 7.0], y ∈ [-3.5, 3.5]. Scene title is the ONLY object allowed at `y >= 2.5` (or `.to_edge(UP)`).
 5. TRADITIONAL CHINESE: All text must be in Traditional Chinese (zh-TW).

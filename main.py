@@ -94,13 +94,48 @@ def _inject_audio_sync(code: str, updated_sequence: list, final_audio_path: str)
             )
             code = code[:match.start()] + inject_lines + code[match.start():]
 
-        # === Step 2: 不替換 remaining_N 公式 ===
-        # Coder 寫的 remaining_N = max(0.1, _audio_dur_{N-1} - anim_time_N + 0.5) 是正確的
-        # _audio_dur_N 變數已在 Step 1 注入，Coder 的公式直接引用即可
-        # 注意：不要替換成全時長，否則每步 wait = anim_time + full_audio → 影片 2x 時長
+        # === Step 2: patch set_subtitle() 加上 run_time=_audio_dur_N ===
+        # SubtitleManager.show() 的 run_time 現在代表「字幕總存活時間」= TTS 時長
+        # 從後往前 patch，避免 offset 位移（此時 add_sound 注入已完成，重新 finditer）
+        def _patch_set_subtitle(seg: str, dur_var: str) -> str:
+            """找 seg 內第一個 self.set_subtitle(...) 並注入 run_time=dur_var。
+            用括號計數而非 regex，避免字串內含 ')' 被提早截斷。"""
+            anchor = 'self.set_subtitle('
+            start = seg.find(anchor)
+            if start == -1:
+                return seg
+            paren_start = start + len(anchor) - 1  # 指向 '('
+            depth = 0
+            end = paren_start
+            for i, ch in enumerate(seg[paren_start:], paren_start):
+                if ch == '(':
+                    depth += 1
+                elif ch == ')':
+                    depth -= 1
+                    if depth == 0:
+                        end = i
+                        break
+            call_str = seg[start:end + 1]
+            if 'run_time' in call_str:
+                return seg  # 已有 run_time，不覆蓋
+            # 在最後的 ')' 前插入 , run_time=dur_var
+            patched_call = seg[start:end] + f', run_time={dur_var}' + ')'
+            return seg[:start] + patched_call + seg[end + 1:]
+
+        step_markers_patched = list(step_pattern.finditer(code))
+        for marker_idx in range(n_inject - 1, -1, -1):
+            match = step_markers_patched[marker_idx]
+            dur_var = f"_audio_dur_{marker_idx}"
+            if marker_idx + 1 < len(step_markers_patched):
+                seg_end = step_markers_patched[marker_idx + 1].start()
+            else:
+                seg_end = len(code)
+            seg = code[match.start():seg_end]
+            patched_seg = _patch_set_subtitle(seg, dur_var)
+            code = code[:match.start()] + patched_seg + code[seg_end:]
 
         injected = True
-        print(f"🎵 [Audio Post-Inject] 成功注入 {n_inject} 個 self.add_sound()，wait 同步至實際 TTS 時長")
+        print(f"🎵 [Audio Post-Inject] 成功注入 {n_inject} 個 self.add_sound() + set_subtitle run_time 同步")
 
     # Fallback: 若 step 標記對不上，退而注入 final_narrative 在 construct() 開頭
     if not injected:

@@ -46,46 +46,62 @@ class SubtitleManager:
 
     def show(self, text_str, run_time=1.0):
         import re
+        FADE_IN = 0.10
+        FADE_BETWEEN = 0.08
+
         # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\\.!\\?]+)', str(text_str))
+        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
         sentences = []
         for i in range(0, len(parts)-1, 2):
             sentences.append((parts[i] + parts[i+1]).strip())
         if len(parts) % 2 == 1 and parts[-1].strip():
             sentences.append(parts[-1].strip())
-            
+
+        # 過濾空字串，確保 is_last 判斷正確
+        sentences = [s for s in sentences if s]
         if not sentences:
             return
-            
+
         total_len = sum(len(s) for s in sentences)
-        
-        for s in sentences:
-            if not s: continue
-            
-            # YouTube Style: Bold white text with black background
+        n = len(sentences)
+
+        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
+        time_cursor = 0.0
+
+        for idx, s in enumerate(sentences):
+
             text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
             bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
             new_mob = VGroup(bg, text_mob).move_to(self._y)
-            
             if new_mob.width > self.MAX_WIDTH:
                 new_mob.scale_to_fit_width(self.MAX_WIDTH)
-                
-            chunk_time = run_time * (len(s) / max(1, total_len))
-            anim_time = min(0.15, chunk_time / 2)
-            wait_time = max(0.0, chunk_time - anim_time)
-            
+
+            is_last = (idx == n - 1)
+
             if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=anim_time)
+                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
+                time_cursor += FADE_IN
             else:
                 self.scene.play(
-                    FadeOut(self._current, run_time=anim_time/2), 
-                    FadeIn(new_mob, run_time=anim_time/2)
+                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
+                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
                 )
-                
-            if wait_time > 0:
-                self.scene.wait(wait_time)
-                
+                time_cursor += FADE_BETWEEN
+
             self._current = new_mob
+
+            if not is_last:
+                # 按字數比例分配時間給非最後一句
+                chunk_ratio = len(s) / max(1, total_len)
+                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
+                if hold > 0:
+                    self.scene.wait(hold)
+                    time_cursor += hold
+            else:
+                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
+                remaining = run_time - time_cursor
+                if remaining > 0:
+                    self.scene.wait(remaining)
 
     def clear(self, run_time=0.5):
         if self._current is not None:

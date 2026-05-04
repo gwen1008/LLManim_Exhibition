@@ -4,7 +4,7 @@
 > 規則：只放「現在進行 + 最近決策」。超過 100 行就砍舊的。
 > Claude Code 用戶請參考 `~/.claude/projects/-Users-liaozhenting-Desktop-LLManim-Agent/memory/MEMORY.md`（自動載入）。
 
-**更新日期**：2026-05-04
+**更新日期**：2026-05-05
 **當前 branch**：`feat/core-and-agents`
 
 ---
@@ -17,15 +17,17 @@
 
 ## 🧠 最近的關鍵決策（新→舊，最多 10 條）
 
+- **2026-05-05**：更新 CONTEXT.md 和 CHANGELOG，記錄 refining_loop 邏輯優化與程式碼清理，並調整 CLAUDE.md 以反映最新專案規則。
+
+- **2026-05-05**：更新 CONTEXT.md 和 CHANGELOG，記錄 refining_loop 邏輯優化與程式碼清理，並調整 CLAUDE.md 以反映最新專案規則。
+
 - **2026-05-04**：將臨時腳本和 RAG 維護工具加入 gitignore，並更新 CHANGELOG，以保持 git 狀態乾淨並記錄進度
 
-- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
+- **2026-05-04**：將臨時腳本和 RAG 維護工具加入 gitignore，並更新 CHANGELOG，以保持 git 狀態乾淨並記錄進度
 
-- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
 
-- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
 
-- **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
+
 
 
 
