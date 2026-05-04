@@ -15,6 +15,7 @@ from ..utils.vision_agent import VisionAgent
 from ..utils.audio_engine import AudioEngine
 from ..core.llm_client import LLMClient, LLMError
 from ..core.rag_retriever import RAGRetriever
+from ..core.pipeline_config import CFG
 from utils.patcher import apply_patch_block
 
 # ─────────────────────────────────────────────────────────────────────
@@ -45,46 +46,62 @@ class SubtitleManager:
 
     def show(self, text_str, run_time=1.0):
         import re
+        FADE_IN = 0.10
+        FADE_BETWEEN = 0.08
+
         # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!\?]+)', str(text_str))
+        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
         sentences = []
         for i in range(0, len(parts)-1, 2):
             sentences.append((parts[i] + parts[i+1]).strip())
         if len(parts) % 2 == 1 and parts[-1].strip():
             sentences.append(parts[-1].strip())
-            
+
+        # 過濾空字串，確保 is_last 判斷正確
+        sentences = [s for s in sentences if s]
         if not sentences:
             return
-            
+
         total_len = sum(len(s) for s in sentences)
-        
-        for s in sentences:
-            if not s: continue
-            
-            # YouTube Style: Bold white text with black background
+        n = len(sentences)
+
+        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
+        time_cursor = 0.0
+
+        for idx, s in enumerate(sentences):
+
             text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
             bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
             new_mob = VGroup(bg, text_mob).move_to(self._y)
-            
             if new_mob.width > self.MAX_WIDTH:
                 new_mob.scale_to_fit_width(self.MAX_WIDTH)
-                
-            chunk_time = run_time * (len(s) / max(1, total_len))
-            anim_time = min(0.15, chunk_time / 2)
-            wait_time = max(0.0, chunk_time - anim_time)
-            
+
+            is_last = (idx == n - 1)
+
             if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=anim_time)
+                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
+                time_cursor += FADE_IN
             else:
                 self.scene.play(
-                    FadeOut(self._current, run_time=anim_time/2), 
-                    FadeIn(new_mob, run_time=anim_time/2)
+                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
+                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
                 )
-                
-            if wait_time > 0:
-                self.scene.wait(wait_time)
-                
+                time_cursor += FADE_BETWEEN
+
             self._current = new_mob
+
+            if not is_last:
+                # 按字數比例分配時間給非最後一句
+                chunk_ratio = len(s) / max(1, total_len)
+                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
+                if hold > 0:
+                    self.scene.wait(hold)
+                    time_cursor += hold
+            else:
+                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
+                remaining = run_time - time_cursor
+                if remaining > 0:
+                    self.scene.wait(remaining)
 
     def clear(self, run_time=0.5):
         if self._current is not None:
@@ -111,17 +128,15 @@ class SceneInstrumentor:
         result = self._original_play(*anims, **kwargs)
         self._step += 1
         snapshot = {"step": self._step, "mobjects": []}
-        
+
         for mob in getattr(self._scene, "mobjects", []):
-            opacity = 1.0 # Default to visible if we can't tell
-            
-            has_fill = hasattr(mob, "get_fill_opacity")
-            has_stroke = hasattr(mob, "get_stroke_opacity")
-            
-            if has_fill and has_stroke:
-                 opacity = mob.get_fill_opacity() + mob.get_stroke_opacity()
-            elif hasattr(mob, "fill_opacity") or hasattr(mob, "stroke_opacity"):
-                 opacity = getattr(mob, "fill_opacity", 0) + getattr(mob, "stroke_opacity", 0)
+            # Manim v0.20.0: __getattr__ wraps deprecated getters, making hasattr() unreliable.
+            # get_fill_opacity() may raise AttributeError or return None on internal mobjects.
+            # Use try/except + (val or 0) to handle both cases robustly.
+            try:
+                opacity = (mob.get_fill_opacity() or 0) + (mob.get_stroke_opacity() or 0)
+            except Exception:
+                opacity = 1.0  # assume visible if opacity cannot be determined
                  
             if opacity <= 0.01 or type(mob).__name__ == "BackgroundRectangle":
                 continue
@@ -165,6 +180,31 @@ class SceneInstrumentor:
 
 
 class RefiningLoop:
+    @staticmethod
+    def strip_injected_snippets(code: str) -> str:
+        """Strip auto-injected SubtitleManager/SceneInstrumentor classes and their init lines.
+
+        Called before sending code back to LLM for reflexion, so the model never sees
+        these infrastructure classes and won't attempt to reproduce/compress them
+        (which causes try=/except Exception= syntax corruption).
+        """
+        # Remove the full class definitions (they start with the class docstring marker)
+        code = re.sub(
+            r'^class SubtitleManager:.*?(?=\nclass |\n[^ \n])',
+            '', code, count=1, flags=re.DOTALL | re.MULTILINE
+        )
+        code = re.sub(
+            r'^class SceneInstrumentor:.*?(?=\nclass |\n[^ \n])',
+            '', code, count=1, flags=re.DOTALL | re.MULTILINE
+        )
+        # Remove the init lines injected into construct()
+        code = re.sub(r'^[ \t]*self\._sm = SubtitleManager\(self\)\n', '', code, flags=re.MULTILINE)
+        code = re.sub(r'^[ \t]*self\.set_subtitle = self\._sm\.show\n', '', code, flags=re.MULTILINE)
+        code = re.sub(r'^[ \t]*self\._instrumentor = SceneInstrumentor\(self.*\)\n', '', code, flags=re.MULTILINE)
+        # Clean up excess blank lines left behind
+        code = re.sub(r'\n{3,}', '\n\n', code)
+        return code.strip() + '\n'
+
     @staticmethod
     def _extract_reflection_from_response(response: str) -> tuple[str, dict|None]:
         """從合併回覆中分離 reflection JSON 和代碼。"""
@@ -213,12 +253,19 @@ class RefiningLoop:
         fps_label = f"{fps}fps" if fps != 15 else "標準"
         print(f"🚀 正在啟動 Manim 引擎進行渲染 ({fps_label})...")
         cmd = ["manim", "-v", "ERROR", "-ql", "--fps", str(fps), file_path, scene_name]
+        # [Parallel Eval Fix] If running under eval worker, isolate Manim's media output
+        # to the worker's tmpdir so concurrent renders don't overwrite each other's videos.
+        _eval_dir = os.environ.get("EVAL_OUTPUT_DIR")
+        if _eval_dir:
+            _media_dir = os.path.join(_eval_dir, "media")
+            os.makedirs(_media_dir, exist_ok=True)
+            cmd += ["--media_dir", _media_dir]
 
         try:
             # [HOTFIX] Added a 120-second timeout to prevent infinite loops (like `always_redraw` bugs or while loops)
             # from hanging the entire evaluation process.
             _r_start = time.time()
-            result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=CFG.render_timeout_sec)
             _r_dur = time.time() - _r_start
             
             if result.returncode == 0:
@@ -255,7 +302,7 @@ class RefiningLoop:
                 return False, combined_error
         except subprocess.TimeoutExpired:
             error_msg = (
-                "Render Error: Manim process timed out after 120 seconds.\n"
+                f"Render Error: Manim process timed out after {CFG.render_timeout_sec} seconds.\n"
                 "ROOT CAUSE: Almost certainly add_updater(lambda m: m.become(...)) "
                 "rebuilding a complex object (ParametricFunction, DashedLine, MathTex) every frame.\n"
                 "MANDATORY FIX — Replace ALL add_updater+become with always_redraw:\n"
@@ -370,7 +417,7 @@ class RefiningLoop:
         return header + body + footer
 
     @staticmethod
-    def pre_render_patch(code: str, log_path: str = None) -> str:
+    def pre_render_patch(code: str, log_path: str = None, scene_name: str = None, script_json: dict = None) -> str:
         """
         [Shift-Left Auto-Repair] Applies deterministic, zero-cost fixes before rendering.
         Eliminates wasting 10-15s engine spin-up for trivial deprecated API or structural issues.
@@ -378,7 +425,28 @@ class RefiningLoop:
         import re
         import ast
         patched = code
-        
+
+        # 0a. [Import Guarantee] Ensure `from manim import *` is always present.
+        # LLM occasionally omits it, causing immediate ImportError at render time.
+        if 'from manim import' not in patched and 'import manim' not in patched:
+            patched = 'from manim import *\n' + patched
+            print("🔧 [Shift-Left] Added missing 'from manim import *'")
+
+        # 0b. [Class Name Normalization] Ensure Scene subclass name matches scene_name.
+        # Prevents CLASS_NOT_FOUND errors when Coder uses a different name than Planner specified.
+        if scene_name:
+            _cls_pattern = r'class\s+(\w+)\s*\(\s*(?:MovingCamera|ThreeD|Zoomed|Vector)?Scene\s*\)'
+            _cls_match = re.search(_cls_pattern, patched)
+            if _cls_match and _cls_match.group(1) != scene_name:
+                _old_name = _cls_match.group(1)
+                patched = re.sub(
+                    rf'(?<!\w){re.escape(_old_name)}(?!\w)',
+                    scene_name,
+                    patched,
+                    count=1
+                )
+                print(f"🔧 [Shift-Left] Class name normalized: {_old_name} → {scene_name}")
+
         # 1. Fix get_graph -> plot
         patched = patched.replace(".get_graph(", ".plot(")
         patched = patched.replace(".get_lines()", ".get_vertices()")
@@ -401,18 +469,85 @@ class RefiningLoop:
             # Strip param type annotations: (x: int | None, y: str = "a")  →  (x, y = "a")
             patched = re.sub(r'(\w+)\s*:\s*(?:[\w\[\], |]+)(\s*[=,)])', r'\1\2', patched)
         
-        # 4. Strip \mathrm{} — keep content, remove command.
-        # \mathrm{} crashes Manim v0.19/v0.20 with "Missing } inserted" due to brace splitter bug.
-        # Previously this block converted \text{} -> \mathrm{}, which was self-defeating
-        # (linter bans \mathrm{}, so patch was creating the exact error linter blocks).
-        # Fix: strip \mathrm{X} -> X so it never reaches the LaTeX compiler.
+        # 4. Strip \mathrm{} and \text{} — keep content, remove command.
+        # Both commands crash Manim v0.19/v0.20 with "Missing } inserted" (LaTeX brace splitter bug).
+        # \text{} additionally requires amsmath which is not loaded by Manim's default template.
+        # Fix: strip both X -> X so they never reach the LaTeX compiler.
+        # This prevents LATEX_TEXT_CMD lint errors from triggering the LLM fix path,
+        # which was causing syntax-error deadlocks that exhausted the linter budget.
         patched = re.sub(r'\\mathrm\{([^}]*)\}', r'\1', patched)
+        patched = re.sub(r'\\text\{([^}]*)\}', r'\1', patched)
 
-        # 4b. Fix Sector(outer_radius=X) -> Sector(radius=X)
+        # 4b. [REMOVED] add_updater+become → always_redraw transform was removed.
+        # Reason: regex rewrite only updates the local variable (obj = always_redraw(...))
+        # but does NOT update prior self.add(obj) / VGroup(obj, ...) references, so the
+        # new always_redraw object is never added to the scene and the animation silently
+        # stops updating. UPDATER_BECOME_RISK is left for the LLM refining loop to handle
+        # with full context of surrounding self.add() calls.
+
+        # 4c. Fix Sector(outer_radius=X) -> Sector(radius=X)
         # Manim v0.20 Sector.__init__ uses 'radius', not 'outer_radius'.
         # Passing outer_radius= causes "got multiple values for keyword argument 'outer_radius'".
         patched = re.sub(r'Sector\(outer_radius=', 'Sector(radius=', patched)
-        
+
+        # 4d. Fix invalid "if VAR is [not] None= EXPR" syntax.
+        # LLM generates this when trying to conditionally cap a value inside custom Animation
+        # subclasses (e.g. interpolate_mobject). Pattern observed in ELEM_03/HIGH_04/MID_04/MID_05.
+        # Also covers "is None=" variant (observed in HIGH_04 ablation session 20260402_102257).
+        # Transforms:  if self._current is not None= min(0.2, run_time)
+        #           →  if self._current is not None:
+        #                  self._current = min(0.2, run_time)
+        # Transforms:  if fill_op is None= 0
+        #           →  if fill_op is None:
+        #                  fill_op = 0
+        _before_4d = patched
+        patched = re.sub(
+            r'^([ \t]*)if\s+(\S+)\s+is\s+(not\s+)?None=\s*(.+)$',
+            lambda m: (
+                f"{m.group(1)}if {m.group(2)} is {m.group(3) or ''}None:\n"
+                f"{m.group(1)}    {m.group(2)} = {m.group(4)}"
+            ),
+            patched,
+            flags=re.MULTILINE
+        )
+        if patched != _before_4d:
+            print("🔧 [Shift-Left] Fixed 'is [not] None=' invalid syntax → expanded to if block")
+
+        # 4e. Fix invalid keyword-as-assignment syntax.
+        # LLM collapses the SceneInstrumentor's try/except opacity pattern into pseudo-lines.
+        # Observed variants across eval sessions:
+        #   try= (mob.get_fill_opacity() or 0) + ...        (ELEM_03/ELEM_05/MID_04)
+        #   except Exception= 1.0                            (HIGH_01, session 20260402_102257)
+        #   except= some_value
+        #   finally= cleanup_val
+        # Regex captures optional classname/args between keyword and '=' to handle
+        # both "except= X" and "except Exception= X".
+        _before_4e = patched
+        _KW_AS_ASSIGN = re.compile(
+            r'^([ \t]*)(try|except|finally|with)(?:\s+\w+)?\s*=\s*(.+)$',
+            re.MULTILINE
+        )
+        def _fix_kw_assign(m: re.Match) -> str:
+            indent, kw, expr = m.group(1), m.group(2), m.group(3)
+            if kw == 'try':
+                return (
+                    f"{indent}try:\n"
+                    f"{indent}    opacity = {expr}\n"
+                    f"{indent}except Exception:\n"
+                    f"{indent}    opacity = 1.0"
+                )
+            if kw == 'except':
+                # "except Exception= 1.0" → restore the full except block
+                return (
+                    f"{indent}except Exception:\n"
+                    f"{indent}    opacity = {expr}"
+                )
+            # For finally=/with= just demote to a plain assignment so AST can parse
+            return f"{indent}_tmp = {expr}"
+        patched = _KW_AS_ASSIGN.sub(_fix_kw_assign, patched)
+        if patched != _before_4e:
+            print("🔧 [Shift-Left] Fixed keyword-as-assignment syntax → valid block")
+
         # 5. [Enforce Final Wait] Ensure the construct method ends with a wait operation
         try:
             tree = ast.parse(patched)
@@ -439,7 +574,82 @@ class RefiningLoop:
         except Exception as e:
             print(f"⚠️ [Shift-Left] AST parsing failed during pre-render patch: {e}")
 
-        # 6. [SubtitleManager] Inject to prevent subtitle overlap
+        # 5b. [Empty Animation Guard] Detect code with no self.play() or self.wait() calls.
+        # Such code renders a 0-second blank video — catch before wasting a full render cycle.
+        try:
+            _tree = ast.parse(patched)
+            _has_animation = False
+            for _node in ast.walk(_tree):
+                if isinstance(_node, ast.Expr) and isinstance(_node.value, ast.Call):
+                    _func = _node.value.func
+                    if isinstance(_func, ast.Attribute) and _func.attr in ('play', 'wait'):
+                        _has_animation = True
+                        break
+            if not _has_animation:
+                # Auto-inject a placeholder wait so Manim doesn't crash with 0-second render.
+                # This is better than failing outright — the LLM likely forgot to add animations.
+                _construct_match = re.search(r'(def construct\(self\):[ \t]*\n)(\s+)', patched)
+                if _construct_match:
+                    _indent = _construct_match.group(2)
+                    patched = patched.rstrip() + f"\n{_indent}self.wait(1)  # [Auto-injected: no self.play() found]\n"
+                    print("⚠️ [Shift-Left] No self.play()/self.wait() detected — injected fallback self.wait(1). LLM forgot animations.")
+        except Exception:
+            pass  # AST parse failed; skip this guard, render will catch it
+
+        # 6. [LayoutEngine Neutralizer] Neutralize incorrectly-used LayoutEngine/LayoutObject blocks.
+        # utils/layout_engine.py EXISTS in this project, but LLM almost always:
+        #   (a) omits `from utils.layout_engine import LayoutEngine, LayoutObject`
+        #   (b) calls non-existent methods like place_below() / place_above()
+        #   (c) passes string args to add_constraint() instead of kiwisolver expressions
+        # Only trigger when the import is missing (= LLM hallucinated incorrect usage).
+        # If properly imported, leave the code alone — it's a valid benchmark-style solution.
+        _has_layout_import = (
+            'from utils.layout_engine import' in patched
+            or 'from utils import layout_engine' in patched
+        )
+        try:
+            _layout_cls_pat = re.compile(
+                r'^([ \t]*)(\w+)\s*=\s*(?:LayoutEngine|LayoutObject|LayoutSolver)\s*\(', re.MULTILINE
+            )
+            _layout_match = _layout_cls_pat.search(patched)
+            if _layout_match and not _has_layout_import:
+                _layout_var = _layout_match.group(2)
+                _method_pat = re.compile(
+                    rf'^[ \t]*{re.escape(_layout_var)}\s*\.'
+                    r'(?:add_constraint|place_below|place_right_of|place_above|place_at|solve|apply|add)\s*\(',
+                    re.MULTILINE
+                )
+                # Collect object names from method call arguments (first identifier in each call)
+                _obj_names = []
+                for _m in _method_pat.finditer(patched):
+                    # grab the full line to extract first identifier argument
+                    _line_end = patched.find('\n', _m.start())
+                    _line = patched[_m.start():_line_end if _line_end != -1 else len(patched)]
+                    _args = re.findall(r'\b([a-zA-Z_]\w*)\b', _line)
+                    # skip the var name itself and common keywords
+                    _skip = {_layout_var, 'LEFT', 'RIGHT', 'UP', 'DOWN', 'CENTER', 'ORIGIN', 'True', 'False'}
+                    for _a in _args[1:]:  # [0] is the method name
+                        if _a not in _skip and not _a.startswith('_'):
+                            _obj_names.append(_a)
+                            break
+                _obj_names = list(dict.fromkeys(_obj_names))  # dedupe, preserve order
+
+                # Delete instantiation line + all method-call lines
+                patched = _layout_cls_pat.sub('', patched)
+                patched = _method_pat.sub('', patched)
+
+                # Insert VGroup.arrange() before first self.play() as positional fallback
+                if _obj_names:
+                    _indent = _layout_match.group(1) or '        '
+                    _arrange_line = f"{_indent}VGroup({', '.join(_obj_names)}).arrange(DOWN, buff=0.5)\n"
+                    patched = re.sub(r'([ \t]*self\.play\()', _arrange_line + r'\1', patched, count=1)
+                    print(f"🔧 [Shift-Left] LayoutEngine neutralized → VGroup({', '.join(_obj_names)}).arrange(DOWN)")
+                else:
+                    print("🔧 [Shift-Left] LayoutEngine neutralized (no objects extracted, layout lines removed)")
+        except Exception as e:
+            print(f"⚠️ [Shift-Left] LayoutEngine patch failed: {e}")
+
+        # 7. [SubtitleManager] Inject to prevent subtitle overlap
         if 'SubtitleManager' not in patched:
             class_match = re.search(r'^class\s+\w+\s*\(Scene\)\s*:', patched, re.MULTILINE)
             if class_match:
@@ -459,7 +669,7 @@ class RefiningLoop:
                 patched, count=1
             )
 
-        # 7. [SceneInstrumentor] Auto-inject collision/overlap tracking mechanism
+        # 8. [SceneInstrumentor] Auto-inject collision/overlap tracking mechanism
         if 'SceneInstrumentor' not in patched:
             class_match = re.search(r'^class\s+\w+\s*\(Scene\)\s*:', patched, re.MULTILINE)
             if class_match:
@@ -480,30 +690,91 @@ class RefiningLoop:
                 patched, count=1
             )
 
+        # 9. [Title Zone Protection] Only one object may use .to_edge(UP) — the title.
+        # Multiple .to_edge(UP) calls stack objects at the top, causing title overlap (HIGH_02 pattern).
+        # Strategy: keep the first occurrence (title), shift all subsequent ones down by 1.8 units.
+        # Result: 2nd+ objects land at y ≈ 1.9, safely below the title zone (y ≥ 2.5).
+        try:
+            _edge_up_re = re.compile(r'\.to_edge\s*\(\s*UP[^)]*\)')
+            _edge_up_lines = [(i, ln) for i, ln in enumerate(patched.splitlines()) if _edge_up_re.search(ln)]
+            if len(_edge_up_lines) > 1:
+                _lines = patched.splitlines()
+                _shifted = 0
+                for _idx, (_lno, _ln) in enumerate(_edge_up_lines):
+                    if _idx == 0:
+                        continue  # keep first (title)
+                    _lines[_lno] = _edge_up_re.sub(lambda m: m.group(0) + '.shift(DOWN * 1.8)', _lines[_lno])
+                    _shifted += 1
+                patched = '\n'.join(_lines)
+                print(f"🔧 [Shift-Left] Title Zone: shifted {_shifted} non-title .to_edge(UP) call(s) down 1.8 units")
+        except Exception as _e9:
+            print(f"⚠️ [Shift-Left] Title Zone patch failed: {_e9}")
+
+        # 10. [Audio Dur Fallback Replace] Deterministic truncation
+        try:
+            _sj = script_json if isinstance(script_json, dict) else (json.loads(script_json) if script_json else None)
+        except (json.JSONDecodeError, TypeError):
+            _sj = None
+        if _sj and 'scenes' in _sj and len(_sj['scenes']) > 0:
+            seq = _sj['scenes'][0].get('sequence', [])
+            max_injected = max(0, len(seq) - 1)
+            refs = [int(m) for m in re.findall(r'_audio_dur_(\d+)', patched)]
+            for n in set(refs):
+                if n > max_injected:
+                    patched = re.sub(rf'_audio_dur_{n}\b', f'_audio_dur_{max_injected}', patched)
+
         return patched
 
     @staticmethod
-    def auto_fix_loop(file_path, scene_name, user_topic, script_json, llm_client=None, max_attempts=5, backup_filename_prefix=None):
+    def auto_fix_loop(file_path, scene_name, user_topic, script_json, llm_client=None, max_attempts=5, backup_filename_prefix=None, _diagnostics=None):
         """
         自動修復循環：包含語義審查與語法修復 (Reflexion Mechanism Fully Implemented)。
+
+        Args:
+            _diagnostics: Optional dict. If provided, counter state is written into it at
+                every exit point so callers can build structured results without parsing logs.
+                Keys written: visual_attempts, linter_only_retries, consecutive_timeouts,
+                main_i, is_best_effort, failure_reason, reflection_memory, failed_code_snapshots.
+                See agents/orchestrator/refining_loop_types.py for the adapter.
         """
         diagnoser = ManimDiagnoser()
         llm = llm_client if llm_client else LLMClient()
         rag_retriever = RAGRetriever()
-        
+
+        # [Parallel Eval Fix] Use isolated media dir when running under eval worker.
+        _eval_dir = os.environ.get("EVAL_OUTPUT_DIR")
+        _media_base = os.path.join(_eval_dir, "media") if _eval_dir else "media"
+
         reflection_memory = []
         _failed_code_snapshots = []  # [(attempt_num, failure_type, code)] for OSF/debug archiving
         _prompt_cache = {}  # Task 9 Layer 2: hash(prompt) → raw_response，避免同一 session 內重複呼叫
         _failed_hashes = set()   # [Bug 3 Fix] Hashes whose cached responses already failed, skip cache
+        _syntax_rollback = False  # [Bug 4 Fix] Set when SyntaxError rollback occurs, poisons next prompt hash
         visual_attempts = 0
-        VISUAL_ATTEMPTS_LIMIT = 3
-        tdr_t1_attempts = 0       # Counts zero-cost TDR T1 re-renders (cap: 3)
-        tdr_t2_attempts = 0       # Counts cheap micro-prompt fixes (cap: 2)
+        VISUAL_ATTEMPTS_LIMIT = CFG.visual_attempts_limit
+        tdr_t1_attempts = 0       # Counts zero-cost TDR T1 re-renders (cap: CFG.tdr_t1_cap)
+        tdr_t2_attempts = 0       # Counts cheap micro-prompt fixes (cap: CFG.tdr_t2_cap)
         consecutive_timeouts = 0  # Track consecutive render timeouts for Template Override
         linter_only_retries = 0   # Linter failures are cheap — tracked separately
-        LINTER_RETRY_BUDGET = 3   # Extra retries for linter-only failures (don't eat render budget)
+        LINTER_RETRY_BUDGET = CFG.linter_retry_budget
 
         start_time = time.time()
+
+        def _fill_diagnostics(is_best_effort: bool, failure_reason):
+            """Fill _diagnostics out-param at every exit point (no-op when _diagnostics is None)."""
+            if _diagnostics is None:
+                return
+            _diagnostics.update({
+                "visual_attempts": visual_attempts,
+                "linter_only_retries": linter_only_retries,
+                "consecutive_timeouts": consecutive_timeouts,
+                "main_i": i,
+                "is_best_effort": is_best_effort,
+                "failure_reason": failure_reason,
+                "reflection_memory": list(reflection_memory),
+                "failed_code_snapshots": list(_failed_code_snapshots),
+            })
+
         last_successful_video_path = None
         last_error_message = ""  # Tracks the most recent Manim render error for patch fallback
         last_render_hash = None   # Render Cache: skip re-render when code is identical
@@ -524,7 +795,7 @@ class RefiningLoop:
 
             # [Shift-Left Auto-Repair] Apply zero-cost deterministic patches BEFORE linter/render
             log_path = os.path.join(os.path.dirname(os.path.abspath(file_path)), "scene_state_log.json")
-            patched_code = RefiningLoop.pre_render_patch(current_code, log_path=log_path)
+            patched_code = RefiningLoop.pre_render_patch(current_code, log_path=log_path, scene_name=scene_name, script_json=script_json)
             if patched_code != current_code:
                 current_code = patched_code
                 with open(file_path, "w", encoding="utf-8") as f:
@@ -573,9 +844,10 @@ class RefiningLoop:
             # 🛡️ [安全性檢查] 強制檢查音訊調用 (Hard Check)
             if "PASS" in review_feedback:
                 user_safe_topic = AudioEngine.get_safe_dir_name(user_topic)
-                audio_dir = os.path.join("media", "audio", user_safe_topic)
+                audio_dir = os.path.join(_media_base, "audio", user_safe_topic)
                 
-                if os.path.exists(audio_dir) and len(os.listdir(audio_dir)) > 0:
+                _audio_mp3s = [f for f in os.listdir(audio_dir) if f.endswith(".mp3") and os.path.getsize(os.path.join(audio_dir, f)) >= 1024] if os.path.exists(audio_dir) else []
+                if _audio_mp3s:
                     import ast
                     has_add_sound = False
                     try:
@@ -590,7 +862,7 @@ class RefiningLoop:
                         has_add_sound = True  # fallback: if code can compile but not parse, don't brutally crash
                         
                     if not has_add_sound:
-                        print("⚠️ [系統攔截] 檢測到音訊缺失！強制轉為 FAIL。")
+                        print("⚠️ [系統攔截] 檢測���音訊缺失！強制轉為 FAIL。")
                         review_feedback = """FAIL
 
 [Audio Sync]: Critical Violation - Audio files generated but NOT used.
@@ -635,8 +907,8 @@ Fix this immediately.
                 print("✅ 靜態審查通過！執行渲染...")
 
                 # ========== Phase 2: Manim 渲染檢查 (語法驗證) ==========
-                # [Fast I/O] 使用 8fps 快速預覽渲染（Vision QA 對幀率不敏感）
-                render_fps = 8
+                # [Fast I/O] 使用低 fps 快速預覽渲染（Vision QA 對幀率不敏感）
+                render_fps = CFG.fps_preview
 
                 # [Render Cache] Skip re-render if code is bit-for-bit identical to last render
                 _code_hash = hashlib.md5(current_code.encode("utf-8")).hexdigest()
@@ -667,9 +939,10 @@ Fix this immediately.
                     if message == "cached" and last_successful_video_path and os.path.exists(last_successful_video_path):
                         video_source = last_successful_video_path
                     else:
-                        video_source = os.path.join("media", "videos", os.path.splitext(os.path.basename(file_path))[0], f"480p{render_fps}", f"{scene_name}.mp4")
+                        video_source = os.path.join(_media_base, "videos", os.path.splitext(os.path.basename(file_path))[0], f"480p{render_fps}", f"{scene_name}.mp4")
                         if not os.path.exists(video_source):
                             print("⚠️ 找不到渲染後的影片，跳過視覺審查。")
+                            _fill_diagnostics(False, "video_not_found")
                             return False
                         last_successful_video_path = video_source
                     
@@ -744,10 +1017,27 @@ Fix this immediately.
                             print(f"⚠️ [Smart Frame] Variance selection failed ({_ve}), falling back to fixed %")
 
                         if not timestamps:
+                            # Telemetry-guided dynamic frame: conservatively replace 70% only
+                            # when the overlap hotspot remains in the later half and stays away
+                            # from the fixed anchor frames.
+                            _mid_pct = 0.70
+                            try:
+                                from ..utils.telemetry import (
+                                    choose_telemetry_midpoint_pct as _choose_mid_pct,
+                                    load_and_summarize as _tel_load,
+                                )
+                                _tel_sum = _tel_load(log_path)
+                                if _tel_sum and _tel_sum.get("iou_overlap_pairs_max", 0) > 0:
+                                    _wpct = _tel_sum.get("worst_overlap_step_pct")
+                                    _mid_pct = _choose_mid_pct(_wpct)
+                                    if _mid_pct != 0.70:
+                                        print(f"🎯 [Telemetry Frame] Replacing 70% with worst-overlap step at {_mid_pct:.0%}")
+                            except Exception:
+                                pass
                             timestamps = [
                                 video_duration * 0.10,  # 10% — setup/intro
                                 video_duration * 0.40,  # 40% — early animation
-                                video_duration * 0.70,  # 70% — mid animation
+                                video_duration * _mid_pct,  # dynamic — mid/worst-overlap
                                 video_duration * 0.95,  # 95% — near end
                             ]
 
@@ -779,10 +1069,22 @@ Fix this immediately.
                     except Exception as e:
                         print(f"⚠️ [Multi-Frame] Grid extraction failed ({e}), falling back to last frame.")
                     
+                    _frame_sampling_note = ""
+                    if timestamps:
+                        _pcts = [round((t / video_duration) * 100) for t in timestamps]
+                        _frame_sampling_note = (
+                            "FRAME SAMPLING NOTE:\n"
+                            f"- TL = {_pcts[0]}% of video\n"
+                            f"- TR = {_pcts[1]}% of video\n"
+                            f"- BL = {_pcts[2]}% of video\n"
+                            f"- BR = {_pcts[3]}% of video"
+                        )
+
                     # Use grid if available, otherwise fall back to single last frame
                     if os.path.exists(grid_frame_path):
                         frame_path = grid_frame_path
-                        print("🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (10% / 40% / 70% / 95%)")
+                        ts_str = " / ".join([f"{t:.1f}s" for t in timestamps])
+                        print(f"🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit ({ts_str})")
                     else:
                         frame_path = "temp_last_frame.jpg"
                         subprocess.run(["ffmpeg", "-sseof", "-1", "-i", video_source, "-vframes", "1", "-update", "1", frame_path, "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -809,8 +1111,21 @@ Fix this immediately.
                     except Exception:
                         pass
 
+                    # Telemetry: read SceneInstrumentor log and compute IoU summary
+                    _telemetry_context = None
+                    try:
+                        from ..utils.telemetry import load_and_summarize, format_telemetry_block
+                        _iou_summary = load_and_summarize(log_path)
+                        if _iou_summary and _iou_summary.get("iou_overlap_pairs_max", 0) > 0:
+                            _telemetry_context = format_telemetry_block(_iou_summary)
+                            print(f"📊 [Telemetry] IoU overlap: max_pairs={_iou_summary['iou_overlap_pairs_max']}, "
+                                  f"worst_step={_iou_summary['worst_overlap_step']}/{_iou_summary['total_steps']} "
+                                  f"({_iou_summary['worst_overlap_step_pct']:.0%})")
+                    except Exception as _tel_err:
+                        print(f"⚠️  [Telemetry] Failed to load overlap summary: {_tel_err}")
+
                     # Task 13 分級策略：最後一次視覺審查升級為短影片模式
-                    # visual_attempts == 2 表示這是 VISUAL_ATTEMPTS_LIMIT=3 的最後一次
+                    # visual_attempts == 2 表示這是 VISUAL_ATTEMPTS_LIMIT=3 的最後一���
                     use_video_audit = (visual_attempts >= VISUAL_ATTEMPTS_LIMIT - 1)
 
                     # [Opt] Adaptive detail: i==0 (first audit) → high detail for max accuracy.
@@ -834,22 +1149,26 @@ Fix this immediately.
 
                         # Prepend user_topic so Vision Agent's Phase 0 anchor always fires
                         _vision_context = f"TOPIC: {user_topic}\n\n{script_json}"
+                        if _frame_sampling_note:
+                            _vision_context += f"\n\n{_frame_sampling_note}"
                         if clip_result.returncode == 0 and os.path.exists(clip_path):
                             print("🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)")
                             _vstart = time.time()
-                            audit = vision_agent.audit_video(clip_path, _vision_context, code_context=current_code, spatial_metadata=_spatial_metadata)
+                            audit = vision_agent.audit_video(clip_path, _vision_context, code_context=current_code, spatial_metadata=_spatial_metadata, telemetry_context=_telemetry_context)
                             llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
                             os.remove(clip_path)
                         else:
                             print("⚠️ [Task 13] 影片擷取失敗，fallback 至 4-frame grid")
                             _vstart = time.time()
-                            audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail="high", spatial_metadata=_spatial_metadata)
+                            audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail="high", spatial_metadata=_spatial_metadata, telemetry_context=_telemetry_context)
                             llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
                     else:
                         print(f"🖼️  [Vision] 使用 detail={_frame_detail} (iteration {i})")
                         _vision_context = f"TOPIC: {user_topic}\n\n{script_json}"
+                        if _frame_sampling_note:
+                            _vision_context += f"\n\n{_frame_sampling_note}"
                         _vstart = time.time()
-                        audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail=_frame_detail, spatial_metadata=_spatial_metadata)
+                        audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail=_frame_detail, spatial_metadata=_spatial_metadata, telemetry_context=_telemetry_context)
                         llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
                     
                     if audit["verdict"] == "ERROR":
@@ -859,15 +1178,43 @@ Fix this immediately.
                         print(f"📝 總體評價: {audit.get('overall_critique', 'No critique')}")
 
                         # ── Tiered Defect Router (TDR) ────────────────────────────────
-                        # When defects include MISALIGNED, attempt cheap local fixes first.
-                        # Other defect types (OVERLAP, OVERFLOW) fall through to full rewrite.
+                        # OVERLAP T1: if overlap involves the title zone, attempt zero-cost AST fix first.
+                        # MISALIGNED T1/T2: cheap local fixes for alignment issues.
+                        # Other defect types fall through to full rewrite.
                         _defects = audit.get("defects", [])
+
+                        # OVERLAP T1: title zone collision → shift offending .to_edge(UP) down (zero cost)
+                        _overlap_defects = [d for d in _defects if d.get("code") == "OVERLAP"]
+                        _title_overlap = any(
+                            "title" in (d.get("description", "") + d.get("suggested_fix", "")).lower()
+                            for d in _overlap_defects
+                        )
+                        if _title_overlap and tdr_t1_attempts < CFG.tdr_t1_cap:
+                            try:
+                                import re as _re9
+                                _eu_re = _re9.compile(r'\.to_edge\s*\(\s*UP[^)]*\)')
+                                _eu_lines = [(i, ln) for i, ln in enumerate(current_code.splitlines()) if _eu_re.search(ln)]
+                                if len(_eu_lines) > 1:
+                                    _t1_lines = current_code.splitlines()
+                                    for _idx, (_lno, _) in enumerate(_eu_lines):
+                                        if _idx == 0:
+                                            continue
+                                        _t1_lines[_lno] = _eu_re.sub(lambda m: m.group(0) + '.shift(DOWN * 1.8)', _t1_lines[_lno])
+                                    _t1_code = '\n'.join(_t1_lines)
+                                    with open(file_path, "w", encoding="utf-8") as _f:
+                                        _f.write(_t1_code)
+                                    tdr_t1_attempts += 1
+                                    print(f"⚡ [TDR-T1] Title OVERLAP: shifted non-title .to_edge(UP) down 1.8 units (成本 $0)...")
+                                    continue
+                            except Exception as _ov_err:
+                                print(f"⚠️  [TDR-T1] Title overlap patch failed: {_ov_err}")
+
                         _misaligned_defects = [d for d in _defects if d.get("code") == "MISALIGNED"]
-                        if _misaligned_defects and (tdr_t1_attempts < 3 or tdr_t2_attempts < 2):
+                        if _misaligned_defects and (tdr_t1_attempts < CFG.tdr_t1_cap or tdr_t2_attempts < CFG.tdr_t2_cap):
                             try:
                                 _router = MisalignmentRouter()
 
-                                if tdr_t1_attempts < 3:
+                                if tdr_t1_attempts < CFG.tdr_t1_cap:
                                     # T1: zero-cost AST parametric fix (e.g. buff=0.2 → buff=0)
                                     _t1_patched = _router.try_t1_fix(_misaligned_defects, current_code)
                                     if _t1_patched:
@@ -877,7 +1224,7 @@ Fix this immediately.
                                         print(f"⚡ [TDR-T1] 參數補丁套用成功，直接重渲染 (成本 $0, 第 {tdr_t1_attempts} 次)...")
                                         continue  # Re-render immediately, no LLM call
 
-                                if tdr_t2_attempts < 2:
+                                if tdr_t2_attempts < CFG.tdr_t2_cap:
                                     # T2: lightweight micro-prompt (~2K tokens vs ~20K)
                                     _micro_prompt = _router.get_t2_prompt(_misaligned_defects, current_code)
                                     if _micro_prompt and visual_attempts < VISUAL_ATTEMPTS_LIMIT:
@@ -943,19 +1290,57 @@ Then provide the corrected code.
                                 patch_mode = False 
                     
                     else:
-                        print("✅ 視覺審查通過！影片品質符合標準。")
+                        # ── Vision Confidence Gradient Decision ───────────────────────
+                        # confidence_score 1-5 from VisionAgent.
+                        # Grade policy (thresholds from CFG):
+                        #   >= vision_conf_accept  → high confidence PASS → break immediately
+                        #   == vision_conf_soft_fail and budget exhausted → accept with warning
+                        #   == vision_conf_soft_fail and budget remains   → soft-FAIL, one more fix
+                        #   <  vision_conf_soft_fail                      → treat as FAIL
+                        _conf = audit.get("confidence_score", 5) if audit.get("verdict") != "ERROR" else 5
+                        _budget_exhausted = (i >= max_attempts - 2) or (visual_attempts >= VISUAL_ATTEMPTS_LIMIT - 1)
+
+                        if _conf >= CFG.vision_conf_accept:
+                            print(f"✅ 視覺審查通過！影片品質符合標準。(confidence={_conf}/5)")
+                        elif _conf == CFG.vision_conf_soft_fail and _budget_exhausted:
+                            print(f"⚠️  [Vision Gradient] confidence={_conf}/5，但已接近預算上限，接受此結果。")
+                        elif _conf < CFG.vision_conf_soft_fail and not _budget_exhausted:
+                            # Low-confidence PASS → downgrade, request another visual fix
+                            print(f"⚠️  [Vision Gradient] confidence={_conf}/5 過低，視為 soft-FAIL，要求額外修復...")
+                            success = False
+                            _low_conf_critique = audit.get("overall_critique", "Low confidence in visual quality.")
+                            review_feedback = (
+                                f"Visual check returned PASS but with very low confidence (score {_conf}/5). "
+                                f"The model is uncertain. Critique: {_low_conf_critique}\n\n"
+                                "Please review the code carefully for subtle visual issues: "
+                                "overlapping labels, off-screen elements, missing objects, or unclear layout."
+                            )
+                            visual_attempts += 1
+                        else:
+                            # _conf == vision_conf_soft_fail with budget remaining → same soft-FAIL path
+                            print(f"⚠️  [Vision Gradient] confidence={_conf}/5，尚有修復預算，嘗試進一步改善...")
+                            success = False
+                            _low_conf_critique = audit.get("overall_critique", "Moderate confidence in visual quality.")
+                            review_feedback = (
+                                f"Visual check returned PASS but with moderate confidence (score {_conf}/5). "
+                                f"Critique: {_low_conf_critique}\n\n"
+                                "Please improve visual clarity: ensure all labels are readable, "
+                                "no objects overlap unintentionally, and the layout matches the topic requirements."
+                            )
+                            visual_attempts += 1
+                        # ── End Vision Confidence Gradient ────────────────────────────
 
                     if success:
-                        if render_fps != 15:
-                            print(f"🌟 [High-Quality Render] 預覽驗證無誤，啟動最終高品質 15fps 算繪...")
-                            ret_15 = RefiningLoop.run_manim_task(file_path, scene_name, fps=15)
+                        if render_fps != CFG.fps_final:
+                            print(f"🌟 [High-Quality Render] 預覽驗證無誤，啟動最終高品質 {CFG.fps_final}fps 算繪...")
+                            ret_15 = RefiningLoop.run_manim_task(file_path, scene_name, fps=CFG.fps_final)
                             success_15 = ret_15[0]
                             if success_15:
                                 # Compute the actual 15fps video path (run_manim_task returns stdout, not path)
                                 video_source_15 = os.path.join(
-                                    "media", "videos",
+                                    _media_base, "videos",
                                     os.path.splitext(os.path.basename(file_path))[0],
-                                    "480p15", f"{scene_name}.mp4"
+                                    f"480p{CFG.fps_final}", f"{scene_name}.mp4"
                                 )
                                 if os.path.exists(video_source_15):
                                     video_source = video_source_15
@@ -965,7 +1350,7 @@ Then provide the corrected code.
                                 print(f"⚠️ 最終高品質算繪失敗，退回使用 {render_fps}fps 版本。:\n{ret_15[1]}")
 
                         duration = round(time.time() - start_time, 2)
-                        output_folder = "stable_outputs"
+                        output_folder = os.environ.get("EVAL_OUTPUT_DIR", "stable_outputs")
                         if not os.path.exists(output_folder):
                             os.makedirs(output_folder)
 
@@ -991,6 +1376,36 @@ Then provide the corrected code.
                         if _failed_code_snapshots:
                             print(f"📸 [Snapshot] 已儲存 {len(_failed_code_snapshots)} 個失敗版本至 {output_folder}/")
 
+                        # ── DPO Training Pairs ────────────────────────────────────────
+                        # Only emit pairs when there are actual failed attempts to contrast with.
+                        # Format: one JSONL record per (rejected, chosen) pair.
+                        # - prompt    : topic + visual plan JSON (task description, model-agnostic)
+                        # - rejected  : broken code from each failed attempt
+                        # - chosen    : final working code (this file_path content)
+                        # - metadata  : defect type, iteration number, topic
+                        if _failed_code_snapshots and backup_py_path and os.path.exists(backup_py_path):
+                            dpo_path = os.path.join(output_folder, f"{safe_name}_{timestamp}_dpo.jsonl")
+                            _dpo_prompt = f"TOPIC: {user_topic}\n\nVISUAL PLAN:\n{script_json}"
+                            try:
+                                with open(dpo_path, "w", encoding="utf-8") as _dpo_f:
+                                    for _snap_num, _snap_type, _snap_code in _failed_code_snapshots:
+                                        _pair = {
+                                            "prompt":    _dpo_prompt,
+                                            "rejected":  _snap_code,
+                                            "chosen":    current_code,
+                                            "metadata": {
+                                                "topic":          user_topic,
+                                                "attempt":        _snap_num,
+                                                "failure_type":   _snap_type,
+                                                "total_attempts": i + 1,
+                                            }
+                                        }
+                                        _dpo_f.write(json.dumps(_pair, ensure_ascii=False) + "\n")
+                                print(f"🧬 [DPO] 已儲存 {len(_failed_code_snapshots)} 個訓練對至 {os.path.basename(dpo_path)}")
+                            except Exception as _dpo_err:
+                                print(f"⚠️  [DPO] 儲存失敗（不影響主流程）: {_dpo_err}")
+                        # ── End DPO Training Pairs ────────────────────────────────────
+
                         print("\n" + "═"*40)
                         print(f"✨ 【渲染成功 / Rendering Success】 ✨")
                         print("═"*40)
@@ -998,8 +1413,9 @@ Then provide the corrected code.
                         print(f"📂  歸檔目錄: {output_folder}")
                         print(f"    🎥 {os.path.basename(backup_video_path)}")
                         print("═"*40 + "\n")
+                        _fill_diagnostics(False, "success")
                         return backup_video_path
-                
+
                 if not success:
                     if "VIOLATION REPORT" not in message:
                         _failed_code_snapshots.append((i + 1, "RENDER", current_code))
@@ -1059,7 +1475,7 @@ Then provide the corrected code.
                                 continue  # Skip the LLM prompt and directly retry the loop!
 
                         # Track consecutive timeouts for Template Override escalation
-                        is_timeout = "timed out after 120" in message
+                        is_timeout = f"timed out after {CFG.render_timeout_sec}" in message
                         if is_timeout:
                             consecutive_timeouts += 1
                         else:
@@ -1079,10 +1495,13 @@ Then provide the corrected code.
 
                         last_error_message = message  # Save for patch fallback (Bug #9)
                         history_context = RefiningLoop._format_reflection_memory(reflection_memory)
-                        base_fix = diagnoser.generate_fix_prompt(_trunc_msg, current_code, script_json, triage_result=_triage_result, slim=(i > 0))
-                        
-                        # [RAR-Agent] Inject verified examples from Weaviate vector database
-                        _rag_results = rag_retriever.retrieve_examples(_trunc_msg, limit=1)
+                        _code_for_llm = RefiningLoop.strip_injected_snippets(current_code)
+                        base_fix = diagnoser.generate_fix_prompt(_trunc_msg, _code_for_llm, script_json, triage_result=_triage_result, slim=(i > 0))
+
+                        # [RAR-Agent] Inject verified examples + API rules from Weaviate
+                        # Use user_topic (not error traceback) — topic gives semantically relevant examples
+                        _rag_results = rag_retriever.retrieve_examples(user_topic, limit=2)
+                        _rag_results += rag_retriever.retrieve_rules(_trunc_msg, limit=2)
                         if _rag_results:
                             base_fix += "\n\n" + rag_retriever.format_for_prompt(_rag_results)
 
@@ -1226,16 +1645,30 @@ Then provide the corrected code.
                 _triage_result = ErrorTriage(matched=True, is_surgical=is_static_error, category=_vision_cat, advice=review_feedback)
                 patch_mode = _triage_result.is_surgical  # [Bug Fix] Ensure patch_mode matches the prompt for linter errors!
                 
-                fix_prompt = diagnoser.generate_fix_prompt(review_feedback, current_code, script_json, triage_result=_triage_result, slim=(i > 0))
-                
-                # [RAR-Agent] Inject verified examples for layout/visual errors
-                _rag_results = rag_retriever.retrieve_examples(review_feedback, limit=1)
+                _code_for_llm = RefiningLoop.strip_injected_snippets(current_code)
+                fix_prompt = diagnoser.generate_fix_prompt(review_feedback, _code_for_llm, script_json, triage_result=_triage_result, slim=(i > 0))
+
+                # [RAR-Agent] Inject verified examples + API rules for layout/visual errors
+                # Use user_topic (not review feedback) — topic gives semantically relevant examples
+                _rag_results = rag_retriever.retrieve_examples(user_topic, limit=2)
+                _rag_results += rag_retriever.retrieve_rules(review_feedback, limit=2)
                 if _rag_results:
                     fix_prompt += "\n\n" + rag_retriever.format_for_prompt(_rag_results)
-                    
+
                 history_context = RefiningLoop._format_reflection_memory(reflection_memory)
+                # [Bug 4 Fix] If the last attempt ended with a SyntaxError rollback, inject that
+                # signal into the prompt so the hash differs and cache deadlock is broken.
+                _syntax_prefix = ""
+                if _syntax_rollback:
+                    _syntax_prefix = (
+                        f"⚠️ PREVIOUS REPAIR CAUSED SYNTAX ERROR: {last_error_message}\n"
+                        f"The current code still has the original static-analysis issue below. "
+                        f"Your previous fix introduced a Python syntax error — ensure the new code is "
+                        f"syntactically valid before addressing the linter issue.\n\n"
+                    )
+                    _syntax_rollback = False  # consume the flag
                 feedback_for_llm = f"""
-{fix_prompt}
+{_syntax_prefix}{fix_prompt}
 
 {history_context}
 
@@ -1270,16 +1703,22 @@ Then provide the corrected code.
                             new_code = LLMClient.extract_code(new_code_raw) or new_code_raw
                             break
                     else:
-                        # [Tier-3 Escalation] i >= 2 + 複雜空間錯誤 → 切換 DeepSeek-R1
+                        # [Tier-3 Escalation] Disabled: user wants to stay on primary model (e.g. Opus 4.7)
                         _use_r1 = False
-                        if i >= 2 and _triage_result is not None:
+                        _is_repeated = any(isinstance(e, dict) and str(e.get("error_type", "")).startswith("REPEATED_") for e in reflection_memory)
+                        _is_surgical = getattr(_triage_result, 'is_surgical', False) if _triage_result else patch_mode
+                        
+                        if _is_repeated and not _is_surgical:
+                            # print(f"🧠 [Tier-3] 檢測到相同錯誤簽名，但根據設定維持主模型模式...")
+                            _use_r1 = False
+                        elif i >= 2 and _triage_result is not None:
                             _is_hard_spatial = (
                                 getattr(_triage_result, 'category', '') in ("LAYOUT_OR_VISUAL", "RENDER_ERROR")
                                 or consecutive_timeouts >= 1
                             )
                             if _is_hard_spatial:
-                                _use_r1 = True
-                                print(f"🧠 [Tier-3] 第 {i+1} 輪啟動 DeepSeek-R1 深度推理模式...")
+                                # print(f"🧠 [Tier-3] 進入第 {i+1} 輪，維持主模型進行深度修復...")
+                                _use_r1 = False
 
                         # [Self-Consistency] Adaptive N: surgical=1, first iteration=2, subsequent=1
                         # Reflection memory already guides later iterations, N>1 adds latency without proportional gain
@@ -1312,6 +1751,10 @@ Then provide the corrected code.
                                 "reflection": ref
                             })
                         
+                        if not candidates:
+                            print("⚠️ [Self-Consistency] 所有 worker 連線失敗（candidates 為空），中止本輪修復。")
+                            break
+
                         valid_refs = [c for c in candidates if c["reflection"]]
                         if not valid_refs:
                             best_candidate = candidates[0]
@@ -1387,7 +1830,8 @@ Then provide the corrected code.
                                 
                                 print("🔄 [Fallback Rewrite] SEARCH/REPLACE failed. Switching to Full Rewrite mode.")
                                 patch_mode = False  # [Bug 2 Fix] Force full rewrite — do NOT let patch_mode carry over
-                                base_fix = diagnoser.generate_fix_prompt(patch_error_stripped, current_code, script_json, triage_result=_triage_stripped, slim=(i > 0))
+                                _code_for_llm = RefiningLoop.strip_injected_snippets(current_code)
+                                base_fix = diagnoser.generate_fix_prompt(patch_error_stripped, _code_for_llm, script_json, triage_result=_triage_stripped, slim=(i > 0))
                                 
                                 feedback_for_llm = f"""
 {base_fix}
@@ -1422,6 +1866,7 @@ Then provide the corrected code.
                 f.write(new_code)
 
             # [Bug 2 Fix] Post-write sanity check — reject gibberish writes (e.g., raw <<< SEARCH blocks)
+            _syntax_rollback = False
             try:
                 compile(new_code, file_path, 'exec')
             except SyntaxError as _sanity_err:
@@ -1432,6 +1877,17 @@ Then provide the corrected code.
                 _failed_hashes.add(prompt_hash)
                 if prompt_hash in _prompt_cache:
                     del _prompt_cache[prompt_hash]
+                # [Bug 4 Fix] Poison the next iteration's feedback so it doesn't produce the same
+                # broken output again (same prompt → same LLM output → infinite SyntaxError loop).
+                _syntax_rollback = True
+                last_error_message = (
+                    f"SyntaxError in generated code: {_sanity_err}\n"
+                    f"The previous repair attempt produced code that failed Python's compile() check at "
+                    f"line {_sanity_err.lineno}: {_sanity_err.msg}. "
+                    f"The offending snippet: {repr(_sanity_err.text)}. "
+                    f"You must write syntactically valid Python. Start fresh — do NOT reuse "
+                    f"the broken structure from the previous attempt."
+                )
 
             # Increment the appropriate counter
             if is_linter_only_failure and linter_only_retries < LINTER_RETRY_BUDGET:
@@ -1460,6 +1916,10 @@ Then provide the corrected code.
                 backup_py_path = os.path.join(output_folder, f"{safe_name}_{timestamp}.py")
                 shutil.copy2(file_path, backup_py_path)
                 
+            rag_retriever.close()
+            _fill_diagnostics(True, "max_iterations")
             return backup_video_path
-            
+
+        rag_retriever.close()
+        _fill_diagnostics(False, "max_iterations")
         return False

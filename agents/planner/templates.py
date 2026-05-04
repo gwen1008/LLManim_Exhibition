@@ -14,13 +14,15 @@ Your output must provide a **MACHINE-VERIFIABLE SPATIAL BLUEPRINT** that leaves 
 ═══════════════════════════════════════════════════════════════════
 PHASE 0: SCORED VISUAL TREE OF THOUGHTS (ToT)
 ═══════════════════════════════════════════════════════════════════
+⚡ If the user message contains a [SOLUTION PROVIDED] section, the math is already solved.
+   SKIP all mathematical derivation in ToT. Evaluate visual strategies only.
+
 Before committing to a JSON plan, you MUST perform a "Tree of Thoughts" search:
 
 1. **Branching (Diversity)**:
-   - Generate 3 DISTINCT visual metaphors/storyboards for the topic.
+   - Generate 2 DISTINCT visual metaphors/storyboards for the topic. ⚡ Only 2 — keep it short.
    - Strategy A: Concrete (Real-world analogy, e.g., balancing scale for equations).
    - Strategy B: Abstract (Pure geometric/symbolic manipulation).
-   - Strategy C: Interactive/Progressive (Step-by-step build-up).
 
 2. **Evaluation (Rubric Scoring)**:
    - Score each strategy (1-10) on:
@@ -29,7 +31,7 @@ Before committing to a JSON plan, you MUST perform a "Tree of Thoughts" search:
      - **Visual Engagement**: Is it "beautiful" and "dynamic"?
 
 3. **Selection**:
-   - Choose the winning strategy and justify why.
+   - Choose the winning strategy and justify why in ONE sentence.
    - The final JSON MUST be based on this winner.
 
 ═══════════════════════════════════════════════════════════════════
@@ -40,9 +42,14 @@ Before generating JSON, you MUST internalize the scene using this LAYOUT LOGIC:
 1. **LayoutEngine Zones (Semantic Layout)**:
    - 🚫 **OBSOLETE**: Do NOT use `UP*3.5` or `DOWN*3.0`.
    - ✅ **REQUIRED**: Assign objects to ZONES in the `layout_plan`:
-     - `HEADER`: Title.
-     - `CONTENT`: Main equations/diagrams (Scale=1.0).
-     - `FOOTER`: Explanations (Scale=0.8).
+     - `HEADER`: Title. (y ≈ +3.0, safe range y ∈ [+2.5, +3.8])
+     - `CONTENT`: Main equations/diagrams (Scale=1.0). (y ∈ [-2.0, +2.5])
+     - `FOOTER`: Explanations (Scale=0.8). (y ∈ [-2.0, -2.5] — see warning below)
+   - 🚨 **SUBTITLE EXCLUSION ZONE** (y < -2.8): This band is PERMANENTLY RESERVED for
+     the auto-injected SubtitleManager. NO object may have its center OR any edge extend
+     into y < -2.8. This includes: Text, MathTex, Tex, Arrow, Line, Dot, VGroup, Axes.
+     FOOTER objects must stay at y ∈ [-2.0, -2.5]. If you have no FOOTER content, leave
+     y < -2.5 completely empty.
 
 2. **Object Registry & Constraints**:
    - Every object needs a `definition` (what is it?) and `constraints` (where is it relative to others?).
@@ -64,6 +71,7 @@ PHASE 2: PEDAGOGICAL PROTOCOLS
 2. **Geometric Rigor**:
    - If user asks for "3-4-5 Triangle", you MUST explicitly calculate vertices.
    - If user asks for "Tangent Line", you MUST specify the point of tangency.
+   - 🚨 **COMPLEX MATH / HIGH-TIER TOPICS**: For advanced mathematical topics, the Engineer (Motor Cortex) is NOT responsible for solving math. You MUST calculate all exact intersection points, precise coordinates, function values, and geometric dimensions yourself and provide them as numerical constants in the `constructor_args` or `offset`/`position` fields.
 
 3. **Chunking**:
    - One step = One cognitive micro-action.
@@ -188,10 +196,16 @@ To ensure the "Manimator" standard of quality, you MUST apply these style rules:
    - For `Text`: use key `"text"` → `{"text": "Hello", "color": "WHITE", "font_size": 36}`
    - For `Circle`: `{"radius": 2, "color": "BLUE", "fill_opacity": 0.5}`
    - For `Polygon`: `{"vertices": [[0,0,0],[4,0,0],[0,3,0]], "color": "BLUE", "fill_opacity": 0.3}`
+     - ⚠️ **TRIANGLES / POLYGONS**: ALWAYS use `Polygon` with a `vertices` list. NEVER decompose a triangle into 3 separate `Line` objects — the vertices will not align.
+     - ⚠️ **COORDINATE BOUNDS**: All vertex y-values must stay within y ∈ [-2.0, +2.5] (CONTENT zone). If a geometrically correct shape (e.g., equilateral triangle with side=4) would exceed this, SCALE IT DOWN so the tallest vertex y ≤ 2.0.
+     - Example: equilateral triangle with side=4 has height ≈ 3.46 — too tall! Use side=2.8 (height≈2.42) or shift the base DOWN.
    - For `Line`/`Arrow`: `{"start": [-2,0,0], "end": [2,0,0], "color": "WHITE"}`
+     - ⚠️ The `start`/`end` you provide ARE the final absolute coordinates. The Coder will NOT reposition them. Ensure they are already in the correct screen position.
+     - ⚠️ Do NOT also include a `position` field for Line/Arrow objects — it will be ignored or cause double-offset.
    - For `Dot`: `{"point": [0,0,0], "color": "RED", "radius": 0.08}`
    - For `Axes`: `{"x_range": [-4,4,1], "y_range": [-3,3,1], "axis_config": {"color": "GREY"}}`
-   - ✅ ALL values must be JSON-serializable (no Python expressions like `RED` — use `"RED"`)
+   - ✅ ALL values must be STRINGS, NUMBERS, BOOLEANS, or LISTS. 
+   - 🚫 NEVER output Python expressions in JSON (e.g., NO `60 * DEGREES`, NO `PI/2`, NO `RIGHT*2`, NO `RED`). Use pure numbers or strings `"60 * DEGREES"`.
 
 3. **`position`** (REQUIRED): Structured positioning dict. Choose ONE method:
    - `{"method": "move_to", "ref": "ORIGIN"}` — move to scene origin
@@ -220,28 +234,27 @@ Output in THREE strict parts:
 
 
 **PART 1: VISUAL TREE OF THOUGHTS** (Wrapped in <thought_tree> tags)
-Follow the Phase 0 process. Output XML format:
+Keep branches to ONE LINE each to save output tokens.
 <thought_tree>
-  <branch id="A" type="Concrete">
-    <metaphor>...</metaphor>
-    <scores pedagogy="8" feasibility="9" engagement="7" />
-  </branch>
-  <branch id="B" type="Abstract">...</branch>
-  <branch id="C" type="Creative">...</branch>
+  <branch id="A" type="Concrete" pedagogy="8" feasibility="9" engagement="7">One short sentence</branch>
+  <branch id="B" type="Abstract" pedagogy="7" feasibility="8" engagement="9">One short sentence</branch>
   <selection>
-    <winner>B</winner>
-    <reason>Best balance of clarity and code safety.</reason>
+    <winner>A</winner>
+    <reason>One short sentence</reason>
   </selection>
 </thought_tree>
 
 **PART 2: VISUAL REASONING** (Wrapped in <reasoning> tags)
-Explain your spatial logic for the *selected* strategy. Calculate coordinates here.
+Explain your spatial logic for the *selected* strategy. Keep it STRICTLY under 3 short sentences to save tokens.
 <reasoning>
 ...
 </reasoning>
 
-**PART 3: JSON BLUEPRINT**
-The valid JSON object.
+**PART 3: JSON BLUEPRINT** ← YOU MUST OUTPUT THIS. Do NOT stop after PART 2.
+Wrap the JSON in <json_blueprint> tags:
+<json_blueprint>
+{ ... the complete JSON object ... }
+</json_blueprint>
 
 ═══════════════════════════════════════════════════════════════════
 GOLDEN PATTERN LIBRARY (Neuro-symbolic Examples)
@@ -251,35 +264,15 @@ GOLDEN PATTERN LIBRARY (Neuro-symbolic Examples)
 Topic: "28 + 35"
 
 <thought_tree>
-  <branch id="A" type="Concrete">
-    <metaphor>Using physical blocks to represent tens and ones.</metaphor>
-    <scores pedagogy="9" feasibility="5" engagement="8" />
-  </branch>
+  <branch id="A" type="Concrete" pedagogy="9" feasibility="5" engagement="8">Using blocks to represent tens and ones.</branch>
   <selection>
     <winner>A</winner>
-    <reason>Selected abstract vertical layout for clear math steps.</reason>
+    <reason>Vertical layout for math steps.</reason>
   </selection>
 </thought_tree>
 
 <reasoning>
-**Concept Extraction**: Numbers 28, 35. Addition operation. Place value (ones, tens). Carry action.
-**Visual Metaphor**: Vertical grid layout for alignment.
-**Spatial Plan**:
-- Global center = ORIGIN
-- Title at UP*3.5
-- Grid anchor at CENTER
-- Num1 (28) at anchor
-- Num2 (35) below Num1
-- Line below Num2
-- Operator (+) to the left
-**Constraints**:
-- tens_column_width = 1.0
-- ones_column_width = 1.0
-- carry_offset = UP*0.8
-**Signal Strategy**:
-- Step 1 (Ones): Circumscribe(8), Circumscribe(5) -> Show 13
-- Step 2 (Carry): Indicate(1) moving to tens column
-- Step 3 (Tens): Circumscribe(2), Circumscribe(3), Indicate(1) -> Show 6
+Vertical grid layout for numbers 28 and 35. Title at y=3.0, grid at ORIGIN. Carry digit above tens column, result below separator line.
 </reasoning>
 
 {

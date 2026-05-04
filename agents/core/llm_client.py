@@ -42,19 +42,33 @@ class LLMClient:
         # 根據不同角色使用不同模型，優化成本與效能
         self.models = {
             "default": os.getenv("GROQ_MODEL_DEFAULT", "llama-3.3-70b-versatile"),
-            "planner": os.getenv("GROQ_MODEL_PLANNER", "llama-3.3-70b-versatile"),
-            "coder": "deepseek-chat",  # Switched to DeepSeek-V3 for long-context stability
-            "reviewer": os.getenv("GROQ_MODEL_REVIEWER", "llama-3.1-8b-instant"),
-            "vision": "gpt-4o-mini",  # Switched for cost optimization (97% cheaper)
+            "planner": os.getenv("PLANNER_MODEL", "deepseek-chat"),
+            "coder": os.getenv("CODER_MODEL", "claude-code"),  # override via CODER_MODEL env var
+            # Vision: gpt-4o-mini (OpenAI) — better instruction following for strict QA
+            # Override with VISION_MODEL env var (e.g. google/gemini-2.0-flash-001 for cheaper runs)
+            "vision": os.getenv("VISION_MODEL", "gpt-4o-mini"),
         }
         
-        # --- Native OpenAI Support (for Vision) ---
+        # --- Native OpenAI Support (for Vision fallback) ---
         self.openai_api_key = os.getenv("OPENAI_API_KEY")
         if self.openai_api_key:
             from openai import OpenAI
             self.openai_client = OpenAI(api_key=self.openai_api_key)
         else:
             self.openai_client = None
+
+        # --- OpenRouter Support (Gemini Vision, future Qwen/Llama routing) ---
+        self.openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
+        if self.openrouter_api_key:
+            from openai import OpenAI as _OAI
+            self.openrouter_client = _OAI(
+                api_key=self.openrouter_api_key,
+                base_url="https://openrouter.ai/api/v1",
+                timeout=180.0,
+                max_retries=2,
+            )
+        else:
+            self.openrouter_client = None
         
         self.model = self.models["default"]
         
@@ -67,17 +81,29 @@ class LLMClient:
             "time_planner_sec": 0.0,
             "time_coder_sec": 0.0,
             "time_render_sec": 0.0,
-            "time_vision_sec": 0.0
+            "time_vision_sec": 0.0,
+            "time_rag_sec": 0.0
         }
         
-        # Pricing per 1M tokens (USD) - Industry standard Feb 2026
+        # Pricing per 1M tokens (USD) — updated 2026-04
+        # DeepSeek V4 pricing: https://api.deepseek.com
+        # deepseek-chat / deepseek-reasoner are deprecated aliases → deepseek-v4-flash
         self.pricing = {
-            "deepseek-chat": {"input": 0.14, "output": 0.28},
-            "deepseek-reasoner": {"input": 0.55, "output": 2.19},  # R1, cache miss price
+            "deepseek-v4-flash": {"input": 0.14, "output": 0.28},    # ¥1/¥2 per 1M
+            "deepseek-v4-pro": {"input": 0.42, "output": 0.84},      # ¥3/¥6 per 1M (限時 2.5 折)
+            "deepseek-chat": {"input": 0.14, "output": 0.28},        # deprecated → v4-flash
+            "deepseek-reasoner": {"input": 0.14, "output": 0.28},    # deprecated → v4-flash thinking
             "llama-3.3-70b-versatile": {"input": 0.59, "output": 0.79},
             "llama-3.1-8b-instant": {"input": 0.05, "output": 0.08},
             "gpt-4o": {"input": 2.50, "output": 10.00},
-            "gpt-4o-mini": {"input": 0.15, "output": 0.60}
+            "gpt-4o-mini": {"input": 0.15, "output": 0.60},
+            "google/gemini-2.0-flash-001": {"input": 0.10, "output": 0.40},
+            "qwen/qwen3-235b-a22b-2507": {"input": 0.071, "output": 0.10},
+            "anthropic/claude-haiku-4.5": {"input": 1.00, "output": 5.00},
+            "anthropic/claude-sonnet-4.5": {"input": 3.00, "output": 15.00},
+            "anthropic/claude-sonnet-4.6": {"input": 1.09, "output": 15.00},
+            "anthropic/claude-opus-4-7": {"input": 5.00, "output": 25.00},
+            "google/gemini-2.5-flash": {"input": 0.10, "output": 0.40},
         }
         
         self.debug = debug
@@ -89,13 +115,20 @@ class LLMClient:
         # Determine temperature to use
         req_temp = temperature if temperature is not None else 0.1
         
-        if model.startswith("deepseek-"):
-            return self._call_deepseek(system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
+        if model == "claude-code":
+            return self._call_claude_code(system_prompt, user_prompt)
+        elif model == "deepseek-reasoner":
+            return self._call_deepseek_r1(system_prompt, user_prompt)
+        elif model.startswith("deepseek-"):
+            return self._call_deepseek(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode, _calling_role=role)
+        elif "/" in model:
+            # OpenRouter model (e.g. google/gemini-2.0-flash-001, qwen/qwen3-235b-a22b-2507)
+            return self._call_openrouter(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
         elif role == "vision" or model.startswith("gpt"):
-            # Text-only default fallback for standard GPT calls without images
+            # Text-only OpenAI fallback
             if not self.openai_client:
                 raise LLMError("OpenAI API key not configured for vision/gpt models.")
-            
+
             kwargs = {
                 "model": model,
                 "messages": [
@@ -106,101 +139,229 @@ class LLMClient:
             }
             if json_mode:
                 kwargs["response_format"] = {"type": "json_object"}
-                
+
             completion = self.openai_client.chat.completions.create(**kwargs)
             return completion.choices[0].message.content
         else:
             # Groq model
             return self._call_groq(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
 
-    def _call_groq(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
-        """Internal method to call Groq API."""
-        try:
-            start_time = time.time()  # 開始計時
-            
-            kwargs = {
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
-                "temperature": temperature,
-                "timeout": 180, # 增加至 3 分鐘，避免長上下文生成時超時
-            }
+    def _call_claude_code(self, system_prompt: str, user_prompt: str) -> str:
+        import subprocess, json
 
-            if json_mode:
-                kwargs["response_format"] = {"type": "json_object"}
-            
-            completion = self.client.chat.completions.create(**kwargs)
-            
-            end_time = time.time()  # 結束計時
-            duration = end_time - start_time
-            
-            # 提取 Token 使用資訊
-            usage = completion.usage
-            response = completion.choices[0].message.content
-            
-            # Update Session Stats
-            self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
-            
-            if self.debug:
-                print(f"\n" + "-"*30)
-                print(f"🤖 [模型]: {model} (Groq)")
-                print(f"⏱️  [API 耗時]: {duration:.2f} 秒")
-                print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
-                
-                # 如果不是 PASS 且 debug 開啟，顯示完整的回饋細節
-                if "PASS" not in response:
-                    print(f"\n📢 [AI 審查/反饋意見]:\n{response.strip()}")
-                print("-" * 30)
-                
-            return response
-        except Exception as e:
-            error_msg = f"Error connecting to Groq: {str(e)}"
-            print(f"❌ {error_msg}")
-            raise LLMError(error_msg) from e
-    
-    def _call_deepseek(self, system_prompt, user_prompt, temperature=0.1, json_mode=False):
-        if not self.deepseek_client:
-            raise LLMError("DeepSeek API key not configured.")
+        cmd = [
+            "claude", "-p", user_prompt.strip(),
+            "--output-format", "json",
+            "--model", "claude-opus-4-7",
+            "--effort", "medium",
+            "--no-session-persistence", "--tools", '""',
+            "--strict-mcp-config", "--disable-slash-commands"
+        ]
+        if system_prompt.strip():
+            cmd.extend(["--system-prompt", system_prompt.strip()])
 
         try:
-            start_time = time.time()
-            
-            kwargs = {
-                "model": "deepseek-chat",
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_prompt}
-                ],
-                "temperature": temperature,
-                "max_tokens": 8192,
-            }
-            
-            if json_mode:
-                kwargs["response_format"] = {"type": "json_object"}
+            start = time.time()
+            result = subprocess.run(
+                cmd,
+                capture_output=True, text=True, timeout=600
+            )
+            elapsed = time.time() - start
 
-            completion = self.deepseek_client.chat.completions.create(**kwargs)
+            if result.returncode != 0:
+                raise LLMError(f"claude CLI error: {result.stderr.strip()}")
 
-            end_time = time.time()
-            content = completion.choices[0].message.content
-            usage = completion.usage
+            data = json.loads(result.stdout)
+            content = data.get("result", "")
 
-            self._update_stats("deepseek-chat", usage.prompt_tokens, usage.completion_tokens)
+            usage = data.get("usage", {})
+            c_read = usage.get("cache_read_input_tokens", 0)
+            c_create = usage.get("cache_creation_input_tokens", 0)
+            input_tok = usage.get("input_tokens", 0) + c_read + c_create
+            output_tok = usage.get("output_tokens", 0)
+            self._update_stats("anthropic/claude-opus-4-7", input_tok, output_tok)
 
             if self.debug:
                 print(f"\n" + "-"*30)
-                print(f"🤖 [模型]: deepseek-chat (DeepSeek-V3, OpenAI SDK)")
-                print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
-                print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
-                print("-" * 30)
+                print(f"🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)")
+                print(f"⏱️  [API 耗時]: {elapsed:.2f} 秒")
+                cache_str = ""
+                if c_read > 0: cache_str = f" [🔥 快取命中: {c_read:,}]"
+                elif c_create > 0: cache_str = f" [✍️ 建立快取: {c_create:,}]"
+                print(f"📊 [Token 統計]: 輸入 {input_tok} (純輸入 {usage.get('input_tokens',0):,}){cache_str} | 輸出 {output_tok}")
+                print("-"*30)
 
             return content
 
-        except Exception as e:
-            error_msg = f"Error connecting to DeepSeek: {str(e)}"
-            print(f"❌ {error_msg}")
-            raise LLMError(error_msg) from e
+        except subprocess.TimeoutExpired:
+            raise LLMError("claude CLI timeout (>600s)")
+        except json.JSONDecodeError as e:
+            raise LLMError(f"claude CLI JSON parse error: {e}\nstdout: {result.stdout[:500]}")
+
+    def _call_groq(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
+        """Internal method to call Groq API."""
+        max_retries = 3
+        last_exc = None
+        for attempt in range(max_retries):
+            try:
+                start_time = time.time()  # 開始計時
+
+                kwargs = {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "temperature": temperature,
+                    "timeout": 180,  # 增加至 3 分鐘，避免長上下文生成時超時
+                }
+
+                if json_mode:
+                    kwargs["response_format"] = {"type": "json_object"}
+
+                completion = self.client.chat.completions.create(**kwargs)
+
+                end_time = time.time()  # 結束計時
+                duration = end_time - start_time
+
+                # 提取 Token 使用資訊
+                usage = completion.usage
+                response = completion.choices[0].message.content
+
+                # Update Session Stats
+                self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
+
+                if self.debug:
+                    print(f"\n" + "-"*30)
+                    print(f"🤖 [模型]: {model} (Groq)")
+                    print(f"⏱️  [API 耗時]: {duration:.2f} 秒")
+                    print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
+
+                    # 如果不是 PASS 且 debug 開啟，顯示完整的回饋細節
+                    if "PASS" not in response:
+                        print(f"\n📢 [AI 審查/反饋意見]:\n{response.strip()}")
+                    print("-" * 30)
+
+                return response
+            except Exception as e:
+                last_exc = e
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                print(f"⚠️ [Groq retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
+                time.sleep(wait)
+        error_msg = f"Error connecting to Groq: {str(last_exc)}"
+        print(f"❌ {error_msg}")
+        raise LLMError(error_msg) from last_exc
+    
+    def _call_deepseek(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False, _calling_role=None):
+        if not self.deepseek_client:
+            raise LLMError("DeepSeek API key not configured.")
+
+        # [V4 Thinking Mode] 根據角色和對應的環境變數啟用
+        # CODER_THINKING=1   → coder 角色啟用思考模式
+        # PLANNER_THINKING=1 → planner 角色啟用思考模式
+        _thinking_enabled = (
+            (os.getenv("CODER_THINKING", "") == "1" and _calling_role == "coder")
+            or (os.getenv("PLANNER_THINKING", "") == "1" and _calling_role == "planner")
+        )
+
+        max_retries = 3
+        last_exc = None
+        for attempt in range(max_retries):
+            try:
+                start_time = time.time()
+
+                kwargs = {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "max_tokens": 16000 if _thinking_enabled else 8192,
+                }
+
+                if _thinking_enabled:
+                    # 思考模式：不支援 temperature，需要 extra_body
+                    kwargs["extra_body"] = {"thinking": {"type": "enabled"}}
+                    print(f"🧠 [V4 Thinking Mode] Enabled for {model}")
+                else:
+                    kwargs["temperature"] = temperature
+
+                if json_mode:
+                    kwargs["response_format"] = {"type": "json_object"}
+
+                completion = self.deepseek_client.chat.completions.create(**kwargs)
+
+                end_time = time.time()
+                content = completion.choices[0].message.content
+                usage = completion.usage
+
+                self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
+
+                if self.debug:
+                    print(f"\n" + "-"*30)
+                    print(f"🤖 [模型]: {model} (DeepSeek, OpenAI SDK)")
+                    print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
+                    print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
+                    print("-" * 30)
+
+                return content
+
+            except Exception as e:
+                last_exc = e
+                wait = 2 ** attempt  # 1s, 2s, 4s
+                print(f"⚠️ [DeepSeek retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
+                time.sleep(wait)
+        error_msg = f"Error connecting to DeepSeek: {str(last_exc)}"
+        print(f"❌ {error_msg}")
+        raise LLMError(error_msg) from last_exc
+
+    def _call_openrouter(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
+        """Call any model via OpenRouter (OpenAI-compatible API)."""
+        if not self.openrouter_client:
+            raise LLMError("OPENROUTER_API_KEY not configured.")
+
+        max_retries = 3
+        last_exc = None
+        for attempt in range(max_retries):
+            try:
+                start_time = time.time()
+
+                kwargs = {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    "temperature": temperature,
+                }
+                if json_mode:
+                    kwargs["response_format"] = {"type": "json_object"}
+
+                completion = self.openrouter_client.chat.completions.create(**kwargs)
+
+                end_time = time.time()
+                content = completion.choices[0].message.content
+                usage = completion.usage
+
+                self._update_stats(model, usage.prompt_tokens, usage.completion_tokens)
+
+                if self.debug:
+                    print(f"\n" + "-"*30)
+                    print(f"🌐 [模型]: {model} (OpenRouter)")
+                    print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
+                    print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
+                    print("-" * 30)
+
+                return content
+
+            except Exception as e:
+                last_exc = e
+                wait = 2 ** attempt
+                print(f"⚠️ [OpenRouter retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
+                time.sleep(wait)
+        error_msg = f"Error connecting to OpenRouter ({model}): {str(last_exc)}"
+        print(f"❌ {error_msg}")
+        raise LLMError(error_msg) from last_exc
 
     def _call_deepseek_r1(self, system_prompt, user_prompt):
         """
@@ -244,7 +405,7 @@ class LLMClient:
 
             if self.debug:
                 print(f"\n" + "-"*30)
-                print(f"🧠 [模型]: deepseek-reasoner (DeepSeek-R1, Tier-3 Escalation)")
+                print(f"🧠 [模型]: deepseek-reasoner (DeepSeek-V3.2 Thinking Mode, Tier-3 Escalation)")
                 print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
                 print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
                 print("-" * 30)
@@ -265,28 +426,35 @@ class LLMClient:
             detail: "low" or "high". Low uses fewer tokens (85 tokens/image).
             json_mode: Whether to return strictly structured JSON.
         """
-        if not self.openai_client:
-            raise LLMError("OpenAI API Key not configured.")
         if not base64_image:
             raise LLMError("ask_vision requires base64_image.")
 
+        model = self.models.get("vision", "google/gemini-2.0-flash-001")
+        use_openrouter = "/" in model  # e.g. google/gemini-2.0-flash-001
+
+        if use_openrouter:
+            if not self.openrouter_client:
+                raise LLMError("OPENROUTER_API_KEY not configured for vision model.")
+            vision_client = self.openrouter_client
+        else:
+            if not self.openai_client:
+                raise LLMError("OpenAI API Key not configured.")
+            vision_client = self.openai_client
+
         try:
             start_time = time.time()
-            model = self.models.get("vision", "gpt-4o-mini")
-            
+
             content_parts = [{"type": "text", "text": user_text}]
-            
-            content_parts.append({
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:image/jpeg;base64,{base64_image}",
-                    "detail": detail
-                }
-            })
-            
-            
+
+            image_url_obj: dict = {"url": f"data:image/jpeg;base64,{base64_image}"}
+            # `detail` is OpenAI-specific; Gemini via OpenRouter ignores/rejects it
+            if not use_openrouter:
+                image_url_obj["detail"] = detail
+
+            content_parts.append({"type": "image_url", "image_url": image_url_obj})
+
             kwargs = {
-                "model": self.models.get("vision", "gpt-4o-mini"),
+                "model": model,
                 "messages": [
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": content_parts}
@@ -294,12 +462,11 @@ class LLMClient:
                 "temperature": temperature,
                 "max_tokens": max_tokens
             }
-            
+
             if json_mode:
-                # Need to specifically allow JSON type
                 kwargs["response_format"] = {"type": "json_object"}
 
-            completion = self.openai_client.chat.completions.create(**kwargs)
+            completion = vision_client.chat.completions.create(**kwargs)
 
             end_time = time.time()
             duration = end_time - start_time
@@ -385,20 +552,32 @@ class LLMClient:
         )
 
         is_patch_mode = ("<<<< SEARCH" in user_prompt) or ("<<<< SEARCH" in system_prompt)
-        if is_patch_mode:
-            system_msg_prefix = (
-                "你是一個 Manim Community v0.19.2 專家。請嚴格按照 SEARCH/REPLACE 格式輸出修補內容，"
-                "不要加上任何 Markdown 代碼塊（例如 ```python）。\n\n"
-                + _MANIM_RULES_COMPACT
-            )
-        else:
-            system_msg_prefix = (
-                "你是一個 Manim Community v0.19.2 專家。若有 <reflection>...</reflection> 分析，"
-                "請放在代碼塊之前。代碼本身請包在 ```python ... ``` 代碼塊中。\n\n"
-                + _MANIM_RULES_COMPACT
-            )
 
-        full_system = system_msg_prefix + system_prompt
+        if system_prompt:
+            # Dual-arg call: caller owns the system prompt — do NOT prepend anything.
+            # Keeping system_prompt 100% stable is required for DeepSeek prefix cache hits.
+            # Patch-mode instruction goes into user_prompt prefix instead (user msg doesn't affect cache).
+            if is_patch_mode:
+                user_prompt = (
+                    "嚴格按照 SEARCH/REPLACE 格式輸出，不要加 Markdown 代碼塊（例如 ```python```）。\n\n"
+                    + user_prompt
+                )
+            full_system = system_prompt
+        else:
+            # Legacy single-arg fallback: no explicit system prompt, use compact prefix.
+            if is_patch_mode:
+                system_msg_prefix = (
+                    "你是一個 Manim Community v0.19.2 專家。請嚴格按照 SEARCH/REPLACE 格式輸出修補內容，"
+                    "不要加上任何 Markdown 代碼塊（例如 ```python）。\n\n"
+                    + _MANIM_RULES_COMPACT
+                )
+            else:
+                system_msg_prefix = (
+                    "你是一個 Manim Community v0.19.2 專家。若有 <reflection>...</reflection> 分析，"
+                    "請放在代碼塊之前。代碼本身請包在 ```python ... ``` 代碼塊中。\n\n"
+                    + _MANIM_RULES_COMPACT
+                )
+            full_system = system_msg_prefix
 
         if use_r1:
             content = self._call_deepseek_r1(full_system, user_prompt)
@@ -417,7 +596,20 @@ class LLMClient:
         Runs ask_for_fix 'n' times in parallel for Self-Consistency voting.
         """
         import concurrent.futures
-        
+
+        # Expensive models (reasoner / pro / OpenRouter) don't benefit from SC — force n=1
+        _coder_model = self.models.get(role, "")
+        _is_expensive = (
+            _coder_model == "claude-code"
+            or _coder_model == "deepseek-reasoner"
+            or _coder_model == "deepseek-v4-pro"
+            or "/" in _coder_model
+            or os.getenv("CODER_THINKING", "") == "1"  # thinking mode = expensive output
+        )
+        if _is_expensive:
+            print(f"⚡ [SC] {_coder_model} detected — forcing n=1 (no SC for expensive models)")
+            n = 1
+
         # Using a ThreadPoolExecutor to run N parallel calls
         with concurrent.futures.ThreadPoolExecutor(max_workers=n) as executor:
             futures = [
@@ -482,7 +674,8 @@ class LLMClient:
             "time_planner_sec": 0.0,
             "time_coder_sec": 0.0,
             "time_render_sec": 0.0,
-            "time_vision_sec": 0.0
+            "time_vision_sec": 0.0,
+            "time_rag_sec": 0.0
         }
 
     def close(self):

@@ -15,6 +15,7 @@ from agents.planner.planner import Planner
 from agents.coder.prompter import CoderPrompter
 from agents.core.llm_client import LLMClient
 from agents.core.logger import SessionLogger
+from agents.core.pipeline_config import StageTimer
 
 
 def _extract_first_json_object(text: str):
@@ -93,24 +94,48 @@ def _inject_audio_sync(code: str, updated_sequence: list, final_audio_path: str)
             )
             code = code[:match.start()] + inject_lines + code[match.start():]
 
-        # === Step 2: 替換 remaining_N / self.wait() 使用實際 duration ===
-        # 把 LLM 自己寫的 remaining_N = max(0.1, X - Y + Z) 替換成用 _audio_dur_N
-        # Pattern: remaining_N = max(...) → remaining_N = _audio_dur_N
-        # 同時去掉 LLM 猜測的 wait 計算，讓 wait 等待完整 TTS 時長
-        for marker_idx in range(n_inject):
-            step_i, step_data = audio_steps[marker_idx]
-            duration = step_data.get("duration", 2.0)
+        # === Step 2: patch set_subtitle() 加上 run_time=_audio_dur_N ===
+        # SubtitleManager.show() 的 run_time 現在代表「字幕總存活時間」= TTS 時長
+        # 從後往前 patch，避免 offset 位移（此時 add_sound 注入已完成，重新 finditer）
+        def _patch_set_subtitle(seg: str, dur_var: str) -> str:
+            """找 seg 內第一個 self.set_subtitle(...) 並注入 run_time=dur_var。
+            用括號計數而非 regex，避免字串內含 ')' 被提早截斷。"""
+            anchor = 'self.set_subtitle('
+            start = seg.find(anchor)
+            if start == -1:
+                return seg
+            paren_start = start + len(anchor) - 1  # 指向 '('
+            depth = 0
+            end = paren_start
+            for i, ch in enumerate(seg[paren_start:], paren_start):
+                if ch == '(':
+                    depth += 1
+                elif ch == ')':
+                    depth -= 1
+                    if depth == 0:
+                        end = i
+                        break
+            call_str = seg[start:end + 1]
+            if 'run_time' in call_str:
+                return seg  # 已有 run_time，不覆蓋
+            # 在最後的 ')' 前插入 , run_time=dur_var
+            patched_call = seg[start:end] + f', run_time={dur_var}' + ')'
+            return seg[:start] + patched_call + seg[end + 1:]
+
+        step_markers_patched = list(step_pattern.finditer(code))
+        for marker_idx in range(n_inject - 1, -1, -1):
+            match = step_markers_patched[marker_idx]
             dur_var = f"_audio_dur_{marker_idx}"
-            step_num = marker_idx + 1
-            # 替換 remaining_{step_num} = max(...) → remaining_{step_num} = _audio_dur_N
-            code = _re.sub(
-                rf'([ \t]*)remaining_{step_num}\s*=\s*max\([^\n]+\)',
-                rf'\1remaining_{step_num} = {dur_var}  # [audio-sync] use actual TTS duration',
-                code
-            )
+            if marker_idx + 1 < len(step_markers_patched):
+                seg_end = step_markers_patched[marker_idx + 1].start()
+            else:
+                seg_end = len(code)
+            seg = code[match.start():seg_end]
+            patched_seg = _patch_set_subtitle(seg, dur_var)
+            code = code[:match.start()] + patched_seg + code[seg_end:]
 
         injected = True
-        print(f"🎵 [Audio Post-Inject] 成功注入 {n_inject} 個 self.add_sound()，wait 同步至實際 TTS 時長")
+        print(f"🎵 [Audio Post-Inject] 成功注入 {n_inject} 個 self.add_sound() + set_subtitle run_time 同步")
 
     # Fallback: 若 step 標記對不上，退而注入 final_narrative 在 construct() 開頭
     if not injected:
@@ -136,7 +161,7 @@ if __name__ == "__main__":
     user_input = input("\n請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): ")
     
     # Initialize session logger
-    logger = SessionLogger()
+    logger = SessionLogger(max_files=1000, max_age_days=30)
     
     try:
         # Start logging session
@@ -175,10 +200,13 @@ if __name__ == "__main__":
         def _rag_task():
             print("\n📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...")
             from agents.core.rag_retriever import RAGRetriever as _RAG
-            _rag = _RAG()
-            _results = _rag.retrieve_examples(user_topic, limit=2)
-            _ctx = _rag.format_for_prompt(_results)
-            _rag.close()
+            with StageTimer("RAG", llm.session_stats, "time_rag_sec"):
+                _rag = _RAG()
+                _results = _rag.retrieve_examples(user_topic, limit=2)
+                _results += _rag.retrieve_rules(user_topic, limit=2)
+                _ctx = _rag.format_for_prompt(_results)
+                print(f"📏 [RAG Debug] Total RAG context length: {len(_ctx)} chars (~{len(_ctx)//4} tokens)")
+                _rag.close()
             return _ctx
             
         _pipeline_executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
@@ -186,11 +214,27 @@ if __name__ == "__main__":
 
         # 階段一：Director 規劃 (Planner)
         print("\n🎬 [階段 1: Director] 正在規劃動畫腳本...")
-        import time
-        _start_planner = time.time()
+        from agents.core.llm_client import LLMError
         planner = Planner(llm_client=llm)
-        script_json, thought_tree_raw = planner.plan_script(user_topic)
-        llm.session_stats["time_planner_sec"] += (time.time() - _start_planner)
+        _solution = os.environ.get("LLMANIM_SOLUTION", "").strip() or None
+        _answer   = os.environ.get("LLMANIM_ANSWER",   "").strip() or None
+        _ground_truth = {"answer": _answer, "solution": _solution} if (_answer or _solution) else None
+        if _solution:
+            print("📋 [Planner] Solution context provided — skipping math derivation.")
+        with StageTimer("Planner", llm.session_stats, "time_planner_sec"):
+            try:
+                script_json, thought_tree_raw = planner.plan_script_from_prompt(user_topic, solution=_solution)
+            except LLMError as e:
+                print(f"❌ [Fatal] Planner LLM 完全失敗：{e}")
+                sys.exit(1)
+
+        # Planner compliance check: verify solution keywords appear in thought_tree (Route C only)
+        if _solution and thought_tree_raw:
+            _sol_keywords = [w for w in _solution.split() if len(w) > 3 and w.replace("$","").replace("\\","").strip()][:20]
+            _matched = sum(1 for kw in _sol_keywords if kw in thought_tree_raw)
+            _compliance = round(_matched / len(_sol_keywords), 2) if _sol_keywords else 0.0
+            llm.session_stats["planner_solution_compliance"] = _compliance
+            print(f"📊 [Planner Compliance] {_matched}/{len(_sol_keywords)} solution keywords found in thought_tree → {_compliance:.0%}")
         
         # [Optimization] Strip XML thought/reasoning blocks before parsing
         script_json_clean = re.sub(r'<thought_tree>.*?</thought_tree>', '', script_json, flags=re.DOTALL)
@@ -209,6 +253,16 @@ if __name__ == "__main__":
         if parsed_script:
             script_json = json.dumps(parsed_script, ensure_ascii=False, indent=2)
             print(f"📉 [Compression] Planner Context Reduced: {len(script_json)} chars")
+            
+            # [Feature] Save the blueprint JSON for human review
+            try:
+                _out_dir = os.environ.get("EVAL_OUTPUT_DIR", "stable_outputs")
+                os.makedirs(_out_dir, exist_ok=True)
+                with open(os.path.join(_out_dir, "blueprint.json"), "w", encoding="utf-8") as f:
+                    f.write(script_json)
+                print(f"📄 [Blueprint] 已儲存完整劇本至: {os.path.join(_out_dir, 'blueprint.json')}")
+            except Exception as e:
+                print(f"⚠️ [Blueprint] Unable to save blueprint.json: {e}")
 
             # Task 11: Audio (Step 1.5) 與 RAG (Step 1.8) 並行執行，節省 15-28s
             from agents.utils.audio_engine import AudioEngine
@@ -247,10 +301,8 @@ if __name__ == "__main__":
                     script_json, target_scene, rag_context=_rag_ctx, spatial_hints=spatial_hints
                 )
                 
-                import time
-                _start_coder = time.time()
-                raw = llm.ask_for_fix(_cs, _cu, temperature=0.3)
-                llm.session_stats["time_coder_sec"] += (time.time() - _start_coder)
+                with StageTimer("Coder", llm.session_stats, "time_coder_sec", silent=True):
+                    raw = llm.ask_for_fix(_cs, _cu, temperature=0.3)
                 
                 code = LLMClient.extract_code(raw)
 
@@ -313,10 +365,8 @@ if __name__ == "__main__":
             )
 
             def _generate_candidate(temperature):
-                import time
-                _start = time.time()
-                raw = llm.ask_for_fix(coder_system, coder_user, temperature=temperature)
-                llm.session_stats["time_coder_sec"] += (time.time() - _start)
+                with StageTimer("Coder", llm.session_stats, "time_coder_sec", silent=True):
+                    raw = llm.ask_for_fix(coder_system, coder_user, temperature=temperature)
                 
                 code = LLMClient.extract_code(raw)
                 code = re.sub(r'class\s+\w+\(Scene\):', f'class {target_scene}(Scene):', code, count=1)
@@ -342,13 +392,32 @@ if __name__ == "__main__":
         # 階段三：自動修復與審查循環
         print("\n🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...")
         from agents.core.llm_client import LLMError
+        from agents.orchestrator.refining_loop_types import run_fix_loop
         try:
-            result = RefiningLoop.auto_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+            loop_result = run_fix_loop(target_file, target_scene, user_topic, script_json, llm_client=llm, backup_filename_prefix=user_input)
+            result = loop_result.video_path
         except LLMError as e:
             print(f"❌ [Fatal] LLM API 完全失敗：{e}")
             sys.exit(1)
             
-        # 最終統計報告
+        # ── 階段四：FinalJudge 兩階段品質評分 (手動關閉以節省 Token) ─────────────────────────────
+        if False and result and os.path.exists(str(result)):
+            print("\n🏛️  [階段 4: FinalJudge] 啟動兩階段品質評分...")
+            try:
+                from agents.utils.final_judge import FinalJudge
+                with open(target_file, "r", encoding="utf-8") as _cf:
+                    _final_code = _cf.read()
+                _fj = FinalJudge(llm_client=llm)
+                _fj_result = _fj.judge(str(result), script_json, _final_code, ground_truth=_ground_truth)
+                # Attach to session_stats so it's saved in cost_report.json
+                llm.session_stats["final_judge"] = {
+                    "weighted_total": _fj_result.get("weighted_total"),
+                    "scores":         _fj_result.get("scores", {}),
+                    "code_issues":    _fj_result.get("code_issues", []),
+                }
+            except Exception as _fj_err:
+                print(f"⚠️  [FinalJudge] 評分失敗，不影響影片輸出：{_fj_err}")
+        # ── 最終統計報告 ────────────────────────────────────────────────────
         print(llm.get_session_report())
         
     finally:
@@ -358,7 +427,7 @@ if __name__ == "__main__":
             # Previously written only inside try block, so LLMError / timeout / crash would skip it,
             # making failed tasks show '—' in the cost dashboard instead of their true token cost.
             try:
-                stable_out_dir = "stable_outputs"
+                stable_out_dir = os.environ.get("EVAL_OUTPUT_DIR", "stable_outputs")
                 os.makedirs(stable_out_dir, exist_ok=True)
                 with open(os.path.join(stable_out_dir, "cost_report.json"), "w", encoding="utf-8") as f:
                     json.dump(llm.session_stats, f, indent=2)

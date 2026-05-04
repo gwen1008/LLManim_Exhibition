@@ -15,18 +15,16 @@ class AcademicTranslator:
 
         print(f"\n🌐 [Auto-Translate] 偵測到中文輸入，啟動「學術級 Reviewer 翻譯 Agent」...")
         try:
-            print("   1️⃣  [Translator] 正在進行高精度學術翻譯與邏輯審查 (Single-Pass)...")
+            print("   1️⃣  [Translator] 正在進行數學術語翻譯...")
             translation_prompt = (
                 "# Role\n"
-                "You are a dual-expert in Academic Research and Manim Animation Development. "
-                "Your academic taste is impeccable, and you have zero tolerance for logical flaws or ambiguity.\n\n"
+                "You are an expert academic translator specializing in mathematics and science.\n\n"
                 "# Task\n"
-                "Translate the provided [Chinese Requirement] into a precise [English Animation Specification].\n\n"
+                "Translate the provided Chinese mathematical topic into precise English terminology.\n\n"
                 "# Constraints\n"
-                "1. Terminology: Use standard mathematical and Manim terms.\n"
-                "2. Logic: Ensure the sequence of events is explicitly clear.\n"
-                "3. Self-Reflection: Before outputting the final translation, think critically in a <reflection> block to ensure no semantic errors.\n"
-                "4. Output: The final translated English text MUST be inside <final_translation> tags.\n"
+                "1. Translate only — do NOT add animation steps, sequences, or specifications.\n"
+                "2. Use standard mathematical terminology.\n"
+                "3. Output the final translation inside <final_translation> tags.\n"
             )
             raw_response = self.llm.ask(translation_prompt, user_topic, role="default")
             

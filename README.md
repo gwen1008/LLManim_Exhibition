@@ -288,6 +288,8 @@ LLManim_Agent/
 ├── generate_240_cases.py          # 測試集生成工具
 ├── app.py                         # Streamlit Web UI
 │
+├── .agent/                        # AI 助理設定檔
+│   └── skills/                    # AI 技能庫（包含 Karpathy Guidelines 等）
 ├── agents/
 │   ├── core/
 │   │   ├── llm_client.py          # 多 Provider LLM 統一介面
@@ -379,6 +381,7 @@ Manim 的已知行為，傳入 `play()` 的動畫列表為空時報錯。本專�
 
 新增算術模板請先閱讀 [templates/IMPLEMENTER_GUIDE.md](templates/IMPLEMENTER_GUIDE.md)。
 知識庫貢獻請先閱讀 [knowledge_base/CONTRIBUTOR_GUIDE.md](knowledge_base/CONTRIBUTOR_GUIDE.md)。
+若使用 AI 輔助開發（如 Claude Code），請遵循 [CLAUDE.md](CLAUDE.md) 中定義的 **Karpathy Guidelines**，確保代碼精簡與精準修改。
 
 ---
 

@@ -1,0 +1,295 @@
+# Session Changelog
+
+> 由 `.claude/hooks/log-session.sh` 自動 append。
+> 每次 Claude Code session 結束時寫一行。
+> 想做每日/每週總結：`git log --since="7 days ago" --oneline` 配合這份檔案手動整理。
+
+---
+
+
+## 2026-04-22
+
+- `2026-04-22 01:04` | branch=`feat/core-and-agents` | dirty=9 files | head=`8ca8d1a feat: integrate pipeline context, telemetry, and final judge components`
+  - touched: .gitignore agents/core/llm_client.py knowledge_base/examples manimator run_evaluation.py 
+- `2026-04-22 01:05` | branch=`feat/core-and-agents` | dirty=9 files | head=`8ca8d1a feat: integrate pipeline context, telemetry, and final judge components`
+  - touched: .gitignore agents/core/llm_client.py knowledge_base/examples manimator run_evaluation.py 
+- `2026-04-22 01:06` | branch=`feat/core-and-agents` | dirty=9 files | head=`8ca8d1a feat: integrate pipeline context, telemetry, and final judge components`
+  - touched: .gitignore agents/core/llm_client.py knowledge_base/examples manimator run_evaluation.py 
+- `2026-04-22 01:07` | branch=`feat/core-and-agents` | dirty=9 files | head=`8ca8d1a feat: integrate pipeline context, telemetry, and final judge components`
+  - touched: .gitignore agents/core/llm_client.py knowledge_base/examples manimator run_evaluation.py 
+- `2026-04-22 01:08` | branch=`feat/core-and-agents` | dirty=9 files | head=`8ca8d1a feat: integrate pipeline context, telemetry, and final judge components`
+  - touched: .gitignore agents/core/llm_client.py knowledge_base/examples manimator run_evaluation.py 
+- `2026-04-22 01:09` | branch=`feat/core-and-agents` | dirty=9 files | head=`8ca8d1a feat: integrate pipeline context, telemetry, and final judge components`
+  - touched: .gitignore agents/core/llm_client.py knowledge_base/examples manimator run_evaluation.py 
+- `2026-04-22 01:11` | branch=`feat/core-and-agents` | dirty=6 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: knowledge_base/examples manimator analyze_ab.py excel_to_blueprint.py parse_excel.py 
+- `2026-04-22 01:12` | branch=`feat/core-and-agents` | dirty=6 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: knowledge_base/examples manimator analyze_ab.py excel_to_blueprint.py parse_excel.py 
+- `2026-04-22 01:14` | branch=`feat/core-and-agents` | dirty=7 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: knowledge_base/examples manimator analyze_ab.py analyze_overlap_fj.py excel_to_blueprint.py 
+- `2026-04-22 01:15` | branch=`feat/core-and-agents` | dirty=7 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: knowledge_base/examples manimator analyze_ab.py analyze_overlap_fj.py excel_to_blueprint.py 
+- `2026-04-22 01:16` | branch=`feat/core-and-agents` | dirty=7 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: knowledge_base/examples manimator analyze_ab.py analyze_overlap_fj.py excel_to_blueprint.py 
+- `2026-04-22 01:18` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/planner/planner.py agents/planner/templates.py knowledge_base/examples main.py manimator 
+- `2026-04-22 01:19` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/planner/planner.py agents/planner/templates.py knowledge_base/examples main.py manimator 
+- `2026-04-22 01:20` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/planner/planner.py agents/planner/templates.py knowledge_base/examples main.py manimator 
+- `2026-04-22 01:21` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/planner/planner.py agents/planner/templates.py knowledge_base/examples main.py manimator 
+- `2026-04-22 01:23` | branch=`feat/core-and-agents` | dirty=14 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py knowledge_base/examples 
+- `2026-04-22 01:25` | branch=`feat/core-and-agents` | dirty=14 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py knowledge_base/examples 
+- `2026-04-22 01:27` | branch=`feat/core-and-agents` | dirty=14 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py knowledge_base/examples 
+- `2026-04-22 01:31` | branch=`feat/core-and-agents` | dirty=14 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py knowledge_base/examples 
+- `2026-04-22 01:37` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-22 02:18` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-22 02:19` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-22 02:20` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-22 17:27` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-22 17:28` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-22 17:30` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+
+## 2026-04-24
+
+- `2026-04-24 00:43` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+
+## 2026-04-25
+
+- `2026-04-25 01:26` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 01:36` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 01:39` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 01:40` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 01:45` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 01:56` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 02:05` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 02:32` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 17:40` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 17:43` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 17:45` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 17:46` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 17:48` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 17:50` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 18:02` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 18:04` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 18:05` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 18:07` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 18:09` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 18:12` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 19:37` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:36` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:37` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:38` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:39` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:40` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:42` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:44` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:47` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:51` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 21:52` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:04` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:06` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:13` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:15` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:18` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:19` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:23` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:24` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-04-25 22:26` | branch=`feat/core-and-agents` | dirty=11 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+
+## 2026-04-26
+
+- `2026-04-26 02:13` | branch=`feat/core-and-agents` | dirty=15 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:31` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:32` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:33` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:34` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:35` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:36` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:37` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:38` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:39` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 02:42` | branch=`feat/core-and-agents` | dirty=16 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 19:32` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 22:40` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 22:41` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 22:43` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 22:44` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 22:53` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 23:12` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 23:14` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 23:15` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 23:16` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 23:22` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 23:41` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-26 23:43` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+
+## 2026-04-27
+
+- `2026-04-27 01:42` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:43` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:44` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:45` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:46` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:47` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:49` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:53` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:57` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:58` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 01:59` | branch=`feat/core-and-agents` | dirty=18 files | head=`7405f3b chore: add cross-AI context sync system + cleanup gitignore`
+  - touched: .gitignore agents/coder/templates.py agents/core/llm_client.py agents/orchestrator/refining_loop.py agents/planner/planner.py 
+- `2026-04-27 02:00` | branch=`feat/core-and-agents` | dirty=9 files | head=`3c06910 feat: improve agents, refining loop, final judge and eval runner`
+  - touched: knowledge_base/examples manimator optimization_report_2026-03.md main_route_d.py planner_arena/ 
+- `2026-04-27 02:02` | branch=`feat/core-and-agents` | dirty=5 files | head=`3c06910 feat: improve agents, refining loop, final judge and eval runner`
+  - touched: .gitignore knowledge_base/examples manimator optimization_report_2026-03.md video_showcase.md 
+- `2026-04-27 02:04` | branch=`feat/core-and-agents` | dirty=5 files | head=`3c06910 feat: improve agents, refining loop, final judge and eval runner`
+  - touched: .gitignore knowledge_base/examples manimator optimization_report_2026-03.md video_showcase.md 
+- `2026-04-27 02:05` | branch=`feat/core-and-agents` | dirty=3 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore knowledge_base/examples manimator 
+- `2026-04-27 02:06` | branch=`feat/core-and-agents` | dirty=3 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore knowledge_base/examples manimator 
+- `2026-04-27 02:07` | branch=`feat/core-and-agents` | dirty=4 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore knowledge_base/examples manimator prototypes/layout_engine_v1.py 
+- `2026-04-27 02:08` | branch=`feat/core-and-agents` | dirty=4 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore knowledge_base/examples manimator prototypes/layout_engine_v1.py 
+- `2026-04-27 02:09` | branch=`feat/core-and-agents` | dirty=7 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
+- `2026-04-27 02:10` | branch=`feat/core-and-agents` | dirty=7 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
+- `2026-04-27 02:12` | branch=`feat/core-and-agents` | dirty=7 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
+- `2026-04-27 02:13` | branch=`feat/core-and-agents` | dirty=9 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
+  - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
+- `2026-04-27 02:14` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+  - touched: knowledge_base/examples manimator 
+- `2026-04-27 02:15` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+  - touched: knowledge_base/examples manimator 
+
+## 2026-04-30
+
+- `2026-04-30 21:17` | branch=`feat/core-and-agents` | dirty=20 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/core/rag_retriever.py knowledge_base/examples manimator rag/ingest_3b1b.py rag/ingest_code.py 
+- `2026-04-30 21:25` | branch=`feat/core-and-agents` | dirty=21 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py knowledge_base/examples manimator rag/ingest_3b1b.py 
+
+## 2026-05-01
+
+- `2026-05-01 20:40` | branch=`feat/core-and-agents` | dirty=25 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/rag_retriever.py knowledge_base/examples 
+- `2026-05-01 20:48` | branch=`feat/core-and-agents` | dirty=26 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-01 21:56` | branch=`feat/core-and-agents` | dirty=31 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-01 23:18` | branch=`feat/core-and-agents` | dirty=32 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+
+## 2026-05-02
+
+- `2026-05-02 01:42` | branch=`feat/core-and-agents` | dirty=34 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-02 01:58` | branch=`feat/core-and-agents` | dirty=35 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-02 13:05` | branch=`feat/core-and-agents` | dirty=36 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+- `2026-05-02 18:02` | branch=`feat/core-and-agents` | dirty=37 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
+  - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+
+## 2026-05-04
+
+- `2026-05-04 23:29` | branch=`feat/core-and-agents` | dirty=2 files | head=`e1449b7 chore: ignore temporary scripts and RAG maintenance tools`
+  - touched: knowledge_base/examples manimator 
+- `2026-05-04 23:43` | branch=`feat/core-and-agents` | dirty=0 files | head=`3d648e4 docs: update context with recent logic improvements and cleanup`
+
+## 2026-05-05
+
+- `2026-05-05 00:02` | branch=`feat/core-and-agents` | dirty=5 files | head=`3d648e4 docs: update context with recent logic improvements and cleanup`
+  - touched: CLAUDE.md agents/coder/templates.py agents/orchestrator/refining_loop.py main.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 00:43` | branch=`feat/core-and-agents` | dirty=6 files | head=`3d648e4 docs: update context with recent logic improvements and cleanup`
+  - touched: CLAUDE.md README.md agents/coder/templates.py agents/orchestrator/refining_loop.py main.py 

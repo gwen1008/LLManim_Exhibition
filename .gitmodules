@@ -1,0 +1,3 @@
+[submodule "knowledge_base/examples"]
+	path = knowledge_base/examples
+	url = https://github.com/childe0905/manim-examples-contribution.git

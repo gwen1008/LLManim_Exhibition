@@ -33,6 +33,18 @@ Before any spatial analysis, verify that the animation content matches the task 
    - Set the verdict to FAIL immediately at the end.
    - Example: Context describes a "Tape Diagram" but frames show a sine wave or unit circle.
 
+### Phase 0.5: Conceptual Fidelity Check
+Before cataloguing individual elements, evaluate whether the VISUAL METAPHORS actually look like what they claim to represent.
+For each major visual element described in the Context (e.g., "pizza", "balance scale", "number line", "circle"):
+1. Does the shape/diagram look recognizably like that object **without relying on labels**?
+2. Would a student understand what it represents at a glance?
+Flag failures with code `WRONG_METAPHOR`:
+- A "pizza slice" rendered as a trapezoid or rectangle → WRONG_METAPHOR
+- A "circle" with jagged edges or missing curvature → WRONG_METAPHOR
+- A "balance scale" with no visible pivot or pans → WRONG_METAPHOR
+- A fraction diagram where the shaded portion doesn't match the stated fraction → WRONG_METAPHOR
+Be STRICT. If the metaphor is ambiguous or confusing, flag it as Major severity.
+
 ### Phase 1: Visual Inventory (Scene Graph)
 - List EVERY visible element in each frame quadrant.
 - For each element, record:
@@ -65,9 +77,10 @@ For each transition, describe:
 Using ONLY the evidence from Phases 0-3, check each rule.
 For each violation found, classify it:
 - `WRONG_CONTENT`: The animation depicts a completely unrelated topic (e.g., sine wave instead of a pie chart).
+- `WRONG_METAPHOR`: A visual element doesn't look like what it claims to represent (e.g., "pizza" rendered as a trapezoid, fraction shading doesn't match stated value).
 - `OVERLAP`: Two elements sharing the same grid cell with visual intersection.
 - `OVERFLOW`: Element with `near_edge=true` that visibly extends beyond canvas.
-- `MISALIGNED`: Aligned group members not sharing a common edge (gap > 0.15 units).
+- `MISALIGNED`: Aligned group members not sharing a common edge (gap > 0.15 units). Also flag labels that are clearly not adjacent to their target object.
 - `CLUTTER`: > 7 elements in a single quadrant with spacing < 0.2 units.
 - `TOO_FAST`: Critical content visible in only 1 of 4 frames (insufficient screen time).
 Report ONLY what you can CONFIRM from visual evidence. If ambiguous, state uncertainty.
@@ -182,18 +195,20 @@ Report ONLY what you can CONFIRM from visual evidence. If ambiguous, state uncer
                 except (ValueError, TypeError):
                     confidence_score = 3
                 
-                # Guard 0: WRONG_CONTENT always forces FAIL — no override allowed
-                if any(d.get("code") == "WRONG_CONTENT" for d in defects):
+                # Guard 0: WRONG_CONTENT / WRONG_METAPHOR always force FAIL — no override allowed
+                _critical_codes = {"WRONG_CONTENT", "WRONG_METAPHOR"}
+                if any(d.get("code") in _critical_codes for d in defects):
                     verdict = "FAIL"
-                    print("🚨 [Phase 0] WRONG_CONTENT detected → forced FAIL (content mismatch)")
+                    _triggered = [d.get("code") for d in defects if d.get("code") in _critical_codes]
+                    print(f"🚨 [Phase 0] {_triggered} detected → forced FAIL")
 
                 # Filter 1: LOW_CONTRAST false positives (Manim default theme always passes WCAG AA)
                 real = [d for d in defects if d.get("code") != "LOW_CONTRAST"]
                 if len(defects) - len(real) > 0:
                     print(f"🔇 Filtered {len(defects) - len(real)} LOW_CONTRAST false positive(s)")
                 if verdict == "FAIL" and len(real) == 0:
-                    # Only upgrade to PASS if there's no WRONG_CONTENT
-                    if not any(d.get("code") == "WRONG_CONTENT" for d in defects):
+                    # Only upgrade to PASS if there's no WRONG_CONTENT or WRONG_METAPHOR
+                    if not any(d.get("code") in {"WRONG_CONTENT", "WRONG_METAPHOR"} for d in defects):
                         print("✅ All defects were LOW_CONTRAST false positives → upgrading to PASS")
                         verdict, critique = "PASS", "All checks passed. (LOW_CONTRAST false positive filtered)"
                 defects = real
@@ -224,6 +239,19 @@ Report ONLY what you can CONFIRM from visual evidence. If ambiguous, state uncer
                     for d in defects:
                         emoji = {"Critical": "🔴", "Major": "🟠", "Minor": "🟡"}.get(d.get("severity", ""), "⚪")
                         print(f"  {emoji} [{d.get('code', '?')}] {d.get('description', '')[:80]}...")
+
+                # [GRPO-inspired] Boost confidence by animation richness (play call count).
+                # Idea from generative-manim: render_success=1.0 + 0.1/play, capped at 0.5.
+                # Here we apply a softer version: each self.play() in code bumps confidence
+                # by +0.2 (max +1), only if the verdict is PASS and code_context is available.
+                if verdict == "PASS" and code_context:
+                    import re as _re
+                    _play_count = len(_re.findall(r'self\.play\(', code_context))
+                    _bonus = min(_play_count * 0.2, 1.0)
+                    _boosted = min(round(confidence_score + _bonus), 5)
+                    if _boosted > confidence_score:
+                        print(f"🎬 [Animation Richness] {_play_count} self.play() calls → confidence {confidence_score} → {_boosted}")
+                        confidence_score = _boosted
 
                 return {"verdict": verdict, "overall_critique": critique,
                         "defects": defects, "raw_response": content,
@@ -308,7 +336,7 @@ Report ONLY what you can CONFIRM from visual evidence. If ambiguous, state uncer
             "confidence_score": best.get("confidence_score", 3),
         }
 
-    def audit_frame(self, image_path, script_context, code_context: str = None, detail: str = "low", spatial_metadata: str = None, num_passes: int = 1):
+    def audit_frame(self, image_path, script_context, code_context: str = None, detail: str = "low", spatial_metadata: str = None, telemetry_context: str = None, num_passes: int = 1):
         """
         Audit a specific image frame against the script context using Chain-of-Visual-Thought.
 
@@ -321,6 +349,8 @@ Report ONLY what you can CONFIRM from visual evidence. If ambiguous, state uncer
             spatial_metadata (str): Optional — formatted zone coordinate map from Planner's
                                     layout_plan. Makes suggested_fix use concrete coordinates
                                     instead of vague directions.
+            telemetry_context (str): Optional — IoU-based overlap telemetry from
+                                     SceneInstrumentor post-processing. Heuristic hint only.
 
         Returns:
             dict: Structured audit report with verdict, defects, and remediation suggestions
@@ -355,18 +385,21 @@ Use these zone boundaries as reference when writing `suggested_fix`.
 Example: instead of "move left", write "shift to x≈-3 to stay in LEFT_CONTENT zone".
 """
 
+            _telemetry_section = ""
+            if telemetry_context:
+                _telemetry_section = f"""
+{telemetry_context}
+"""
+
             # Enhanced user prompt with CoVT context
             user_text = f"""**AUDIT REQUEST**
 
 Context (Expected Scene Layout from Planner's JSON):
 {script_context}
-{_code_section}{_spatial_section}
+{_code_section}{_spatial_section}{_telemetry_section}
 **IMAGE FORMAT — TEMPORAL STORYBOARD (critical)**:
-This is a 2×2 grid of 4 frames sampled from the animation at the following timestamps:
-  🟦 TOP-LEFT  = 10% of total duration (early setup / intro)
-  🟩 TOP-RIGHT = 40% of total duration (first animations playing)
-  🟨 BOT-LEFT  = 70% of total duration (main content / mid-animation)
-  🟥 BOT-RIGHT = 95% of total duration (near end / final state)
+This is a 2×2 grid of 4 frames sampled from the animation.
+If the Context includes a "FRAME SAMPLING NOTE", use those exact percentages for TL/TR/BL/BR.
 Analyze **temporal progression** across frames, not just each frame in isolation.
 Flag issues like: object appears before it should, wrong transition direction, final state missing expected elements.
 
@@ -413,7 +446,7 @@ If you suggest moving an object, your `suggested_fix` MUST use coordinates or lo
                 "confidence_score": 0
             }
 
-    def audit_video(self, video_path: str, script_context, code_context: str = None, detail: str = "high", spatial_metadata: str = None):
+    def audit_video(self, video_path: str, script_context, code_context: str = None, detail: str = "high", spatial_metadata: str = None, telemetry_context: str = None):
         """
         Task 13: 用短影片片段進行視覺審查 (8-frame grid)。
         適用於最後一次 VISUAL_ATTEMPTS，能評估動畫流暢性與 timing。
@@ -469,11 +502,17 @@ Use these zone boundaries as reference when writing `suggested_fix`.
 Example: instead of "move left", write "shift to x≈-3 to stay in LEFT_CONTENT zone".
 """
 
+            _telemetry_section = ""
+            if telemetry_context:
+                _telemetry_section = f"""
+{telemetry_context}
+"""
+
             user_text = f"""**AUDIT REQUEST (Video Clip Mode - 8 Frame Grid)**
 
 Context (Expected Scene Layout from Planner's JSON):
 {script_context}
-{_code_section}{_spatial_section}
+{_code_section}{_spatial_section}{_telemetry_section}
 **TASK**: Perform a complete Chain-of-Visual-Thought audit on this 8-frame storyboard representing the video clip.
 Pay special attention to animation smoothness, timing, and whether transitions between states are correct.
 Follow all 5 steps in your reasoning framework.
@@ -515,4 +554,3 @@ If you suggest moving an object, your `suggested_fix` MUST use coordinates or lo
                 "temporal_analysis": "",
                 "confidence_score": 0
             }
-
