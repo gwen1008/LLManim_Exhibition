@@ -280,3 +280,8 @@
   - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
 - `2026-05-02 18:02` | branch=`feat/core-and-agents` | dirty=37 files | head=`18a9c43 chore: remove legacy agents and obsolete dev_tools`
   - touched: agents/coder/prompter.py agents/coder/templates.py agents/core/llm_client.py agents/core/manim_api_rules.py agents/core/rag_retriever.py 
+
+## 2026-05-04
+
+- `2026-05-04 23:29` | branch=`feat/core-and-agents` | dirty=2 files | head=`e1449b7 chore: ignore temporary scripts and RAG maintenance tools`
+  - touched: knowledge_base/examples manimator 

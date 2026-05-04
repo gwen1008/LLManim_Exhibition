@@ -17,6 +17,8 @@
 
 ## 🧠 最近的關鍵決策（新→舊，最多 10 條）
 
+- **2026-05-04**：將臨時腳本和 RAG 維護工具加入 gitignore，並更新 CHANGELOG，以保持 git 狀態乾淨並記錄進度
+
 - **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
 
 - **2026-05-02**：移除舊版 agents 和過時的 dev_tools，重構 rag_retriever 並大幅簡化 ingest_3b1b.py，移除 424 行冗餘程式碼，以清理專案結構並減少維護負擔
