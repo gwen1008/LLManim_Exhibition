@@ -12,10 +12,16 @@ LAST_COMMIT="$(git log -1 --pretty=format:'%h %s' 2>/dev/null | head -c 100)"
 CHANGED="$(git status --short 2>/dev/null | grep -v '\.ai-context/' | wc -l | tr -d ' ')"
 
 # Update 更新時間 and Branch lines
-sed -i '' \
-    -e "s/^\*\*更新時間\*\*：.*/**更新時間**：${TODAY}/" \
-    -e "s/^\*\*Branch\*\*：.*/**Branch**：${BRANCH}/" \
-    "$HANDOFF"
+python3 - "$HANDOFF" "$TODAY" "$BRANCH" <<'PYEOF'
+import sys, re
+path, today, branch = sys.argv[1], sys.argv[2], sys.argv[3]
+with open(path, 'r', encoding='utf-8') as f:
+    content = f.read()
+content = re.sub(r'\*\*更新時間\*\*：.*', f'**更新時間**：{today}', content)
+content = re.sub(r'\*\*Branch\*\*：.*', f'**Branch**：{branch}', content)
+with open(path, 'w', encoding='utf-8') as f:
+    f.write(content)
+PYEOF
 
 echo "[post-commit] HANDOFF.md updated (${TODAY}, ${BRANCH}, last: ${LAST_COMMIT})"
 exit 0
