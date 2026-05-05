@@ -307,3 +307,5 @@
   - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
 - `2026-05-05 22:58` | branch=`feat/core-and-agents` | dirty=2 files | head=`3100eae docs: overhaul README to match current project state`
   - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 23:05` | branch=`feat/core-and-agents` | dirty=2 files | head=`35bc99c fix: replace sed with python3 in post-commit hook (macOS sed unicode bug`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 

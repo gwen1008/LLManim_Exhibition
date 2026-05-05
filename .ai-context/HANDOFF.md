@@ -12,20 +12,18 @@
 ## 現在要做什麼
 
 - [x] auto-inject set_subtitle run_time from TTS duration (commit 9d29d9c)
-- [ ] 提交 agents/core/llm_client.py 的改动（13行，claudealt 帐号月费订阅验证）
-- [ ] 检查 .agent/skills/karpathy-guidelines/ 的用途和是否需要 commit
-- [ ] 分析 eval failures 根本原因（5 TIMEOUT、hallucination、syntax 错误）
-- [ ] 跑新 evaluation 验证 pass rate 提升至 80%+
+- [ ] 測試並提交 agents/core/llm_client.py 的改動（claudealt 帳號月費訂閱驗證）
+- [ ] 檢查 .agent/skills/karpathy-guidelines/ 的用途和是否納入版控
+- [ ] 分析 eval failures 根本原因（5 TIMEOUT、hallucination、syntax 錯誤）
+- [ ] 跑新 evaluation 驗證 pass rate 提升至 80%+
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `.ai-context/HANDOFF.md` | 新增（91行），完整交接文档 | Stop hook 自动生成，包含任务/架构/踩坑清单 |
-| `.ai-context/CHANGELOG.md` | stop hook 自动记录（+20/-2） | 增量更新，dedup 修复完成 |
-| `.ai-context/CONTEXT.md` | 精简（删除重复，+/-67） | 内容已合并至 MEMORY.md |
-| `agents/core/llm_client.py` | subprocess 路由调整（13行改） | **未 commit**，待测试 claudealt 帐号月费订阅 |
-| `.agent/skills/karpathy-guidelines/` | 新增文件夹 | **待确认**用途和是否需纳入版控 |
+| `.ai-context/CHANGELOG.md` | post-commit hook 更新（+2） | sed→python3 unicode 修復完成 |
+| `agents/core/llm_client.py` | subprocess 路由調整（+13/-4） | **未 commit**，claudealt 帳號月費訂閱驗證待測試 |
+| `.agent/skills/karpathy-guidelines/` | 新增文件夾 | **待確認**用途和是否納入版控 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

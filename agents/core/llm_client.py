@@ -149,8 +149,9 @@ class LLMClient:
     def _call_claude_code(self, system_prompt: str, user_prompt: str) -> str:
         import subprocess, json
 
-        cmd = [
-            "claude", "-p", user_prompt.strip(),
+        claude_bin = "/Users/liaozhenting/.local/bin/claude"
+        claude_cmd = [
+            claude_bin, "-p", user_prompt.strip(),
             "--output-format", "json",
             "--model", "claude-opus-4-7",
             "--effort", "medium",
@@ -158,7 +159,11 @@ class LLMClient:
             "--strict-mcp-config", "--disable-slash-commands"
         ]
         if system_prompt.strip():
-            cmd.extend(["--system-prompt", system_prompt.strip()])
+            claude_cmd.extend(["--system-prompt", system_prompt.strip()])
+
+        # Run as claudealt user (ntnutahrd123@gmail.com Max subscription)
+        # -i required to unlock claudealt's keychain via login shell environment
+        cmd = ["sudo", "-u", "claudealt", "-i"] + claude_cmd
 
         try:
             start = time.time()
