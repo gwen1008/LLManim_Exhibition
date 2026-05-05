@@ -55,8 +55,9 @@ test_ab_compare.py
 test_ab_planner_bypass.py
 test_route_2.py
 
-# Personal Claude config
-.claude/
+# Personal Claude config (hooks are tracked, personal settings are not)
+.claude/*
+!.claude/hooks
 
 # Local exclusions
 *.xlsx

@@ -1,0 +1,21 @@
+#!/bin/bash
+# post-commit: update HANDOFF.md with latest git state
+
+PROJECT_DIR="$(git rev-parse --show-toplevel)"
+HANDOFF="$PROJECT_DIR/.ai-context/HANDOFF.md"
+
+[ -f "$HANDOFF" ] || exit 0
+
+TODAY="$(date '+%Y-%m-%d')"
+BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'unknown')"
+LAST_COMMIT="$(git log -1 --pretty=format:'%h %s' 2>/dev/null | head -c 100)"
+CHANGED="$(git status --short 2>/dev/null | grep -v '\.ai-context/' | wc -l | tr -d ' ')"
+
+# Update 更新時間 and Branch lines
+sed -i '' \
+    -e "s/^\*\*更新時間\*\*：.*/**更新時間**：${TODAY}/" \
+    -e "s/^\*\*Branch\*\*：.*/**Branch**：${BRANCH}/" \
+    "$HANDOFF"
+
+echo "[post-commit] HANDOFF.md updated (${TODAY}, ${BRANCH}, last: ${LAST_COMMIT})"
+exit 0

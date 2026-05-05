@@ -247,9 +247,9 @@
   - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
 - `2026-04-27 02:13` | branch=`feat/core-and-agents` | dirty=9 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
   - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
-- `2026-04-27 02:14` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+- `2026-04-27 02:14` | branch=`feat/core-and-agents` | dirty=99 files | head=`168c010 chore: reorganize repo, remove stale scripts`
   - touched: knowledge_base/examples manimator 
-- `2026-04-27 02:15` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+- `2026-04-27 02:15` | branch=`feat/core-and-agents` | dirty=99 files | head=`168c010 chore: reorganize repo, remove stale scripts`
   - touched: knowledge_base/examples manimator 
 
 ## 2026-04-30
@@ -283,7 +283,7 @@
 
 ## 2026-05-04
 
-- `2026-05-04 23:29` | branch=`feat/core-and-agents` | dirty=2 files | head=`e1449b7 chore: ignore temporary scripts and RAG maintenance tools`
+- `2026-05-04 23:29` | branch=`feat/core-and-agents` | dirty=99 files | head=`e1449b7 chore: ignore temporary scripts and RAG maintenance tools`
   - touched: knowledge_base/examples manimator 
 - `2026-05-04 23:43` | branch=`feat/core-and-agents` | dirty=0 files | head=`3d648e4 docs: update context with recent logic improvements and cleanup`
 
@@ -293,3 +293,17 @@
   - touched: CLAUDE.md agents/coder/templates.py agents/orchestrator/refining_loop.py main.py .agent/skills/karpathy-guidelines/ 
 - `2026-05-05 00:43` | branch=`feat/core-and-agents` | dirty=6 files | head=`3d648e4 docs: update context with recent logic improvements and cleanup`
   - touched: CLAUDE.md README.md agents/coder/templates.py agents/orchestrator/refining_loop.py main.py 
+- `2026-05-05 00:44` | branch=`feat/core-and-agents` | dirty=1 files | head=`9d29d9c feat: auto-inject set_subtitle run_time from TTS duration`
+  - touched: .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 00:55` | branch=`feat/core-and-agents` | dirty=99 files | head=`9d29d9c feat: auto-inject set_subtitle run_time from TTS duration`
+  - touched: README.md .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 00:57` | branch=`feat/core-and-agents` | dirty=1 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:41` | branch=`feat/core-and-agents` | dirty=99 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:55` | branch=`feat/core-and-agents` | dirty=99 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:57` | branch=`feat/core-and-agents` | dirty=99 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:58` | branch=`feat/core-and-agents` | dirty=2 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
