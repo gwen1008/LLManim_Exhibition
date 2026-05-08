@@ -679,7 +679,7 @@ class RefiningLoop:
                 patched = _INSTRUMENTOR_SNIPPET + '\n\n' + patched
             
             # Inject self._instrumentor at the top of construct()
-            instrumentor_init = f"self._instrumentor = SceneInstrumentor(self, log_path='{log_path}')\n" if log_path else "self._instrumentor = SceneInstrumentor(self)\n"
+            instrumentor_init = f"self._instrumentor = SceneInstrumentor(self, log_path={repr(log_path)})\n" if log_path else "self._instrumentor = SceneInstrumentor(self)\n"
             patched = re.sub(
                 r'(def construct\(self\):[ \t]*\n)(\s+)',
                 lambda m: (

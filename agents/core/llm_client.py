@@ -42,7 +42,7 @@ class LLMClient:
         # 根據不同角色使用不同模型，優化成本與效能
         self.models = {
             "default": os.getenv("GROQ_MODEL_DEFAULT", "llama-3.3-70b-versatile"),
-            "planner": os.getenv("PLANNER_MODEL", "deepseek-chat"),
+            "planner": os.getenv("PLANNER_MODEL", "deepseek-v4-flash"),
             "coder": os.getenv("CODER_MODEL", "claude-code"),  # override via CODER_MODEL env var
             # Vision: gpt-4o-mini (OpenAI) — better instruction following for strict QA
             # Override with VISION_MODEL env var (e.g. google/gemini-2.0-flash-001 for cheaper runs)
@@ -99,9 +99,8 @@ class LLMClient:
             "gpt-4o-mini": {"input": 0.15, "output": 0.60},
             "google/gemini-2.0-flash-001": {"input": 0.10, "output": 0.40},
             "qwen/qwen3-235b-a22b-2507": {"input": 0.071, "output": 0.10},
-            "anthropic/claude-haiku-4.5": {"input": 1.00, "output": 5.00},
-            "anthropic/claude-sonnet-4.5": {"input": 3.00, "output": 15.00},
-            "anthropic/claude-sonnet-4.6": {"input": 1.09, "output": 15.00},
+            "anthropic/claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
+            "anthropic/claude-sonnet-4-6": {"input": 1.09, "output": 15.00},
             "anthropic/claude-opus-4-7": {"input": 5.00, "output": 25.00},
             "google/gemini-2.5-flash": {"input": 0.10, "output": 0.40},
             "google/gemini-2.5-pro-preview": {"input": 1.25, "output": 10.00},
@@ -401,7 +400,7 @@ class LLMClient:
                 merged_user = user_prompt.strip()
 
             kwargs = {
-                "model": "deepseek-reasoner",
+                "model": "deepseek-v4-flash",
                 "messages": [
                     {"role": "user", "content": merged_user}
                 ],
@@ -415,11 +414,11 @@ class LLMClient:
             content = completion.choices[0].message.content
             usage = completion.usage
 
-            self._update_stats("deepseek-reasoner", usage.prompt_tokens, usage.completion_tokens)
+            self._update_stats("deepseek-v4-flash", usage.prompt_tokens, usage.completion_tokens)
 
             if self.debug:
                 print(f"\n" + "-"*30)
-                print(f"🧠 [模型]: deepseek-reasoner (DeepSeek-V3.2 Thinking Mode, Tier-3 Escalation)")
+                print(f"🧠 [模型]: deepseek-v4-flash (DeepSeek-V4 Thinking Mode, Tier-3 Escalation)")
                 print(f"⏱️  [API 耗時]: {end_time - start_time:.2f} 秒")
                 print(f"📊 [Token 統計]: 輸入 {usage.prompt_tokens} | 輸出 {usage.completion_tokens} | 總計 {usage.total_tokens}")
                 print("-" * 30)

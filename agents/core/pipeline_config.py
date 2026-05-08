@@ -73,15 +73,15 @@ class PipelineConfig:
 
     # ── LLM models ────────────────────────────────────────────────────
     model_planner: str = field(
-        default_factory=lambda: os.getenv("PLANNER_MODEL", "deepseek-chat")
+        default_factory=lambda: os.getenv("PLANNER_MODEL", "deepseek-v4-flash")
     )
     model_coder: str = field(
-        default_factory=lambda: os.getenv("DEEPSEEK_MODEL_CODER", "deepseek-chat")
+        default_factory=lambda: os.getenv("DEEPSEEK_MODEL_CODER", "deepseek-v4-flash")
     )
     model_vision: str = field(
         default_factory=lambda: os.getenv("VISION_MODEL", "google/gemini-2.0-flash-001")
     )
-    model_tier3: str = "deepseek-reasoner"  # DeepSeek-V3.2 thinking mode
+    model_tier3: str = "deepseek-v4-flash"  # DeepSeek-V4 thinking mode
 
 
 # Global singleton — import and use directly:
