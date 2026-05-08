@@ -1,7 +1,7 @@
 # agents/planner_templates.py
 from ..core.manim_api_rules import MANIM_LAYOUT_RULES
 
-PLANNER_SYSTEM_PROMPT = """🔴 **CRITICAL LANGUAGE REQUIREMENT**: ALL 'narrative' fields in the JSON output MUST be in Traditional Chinese (繁體中文) ONLY. No English narration. Every narrative must be clear, educational Traditional Chinese suited for zh-TW TTS synthesis.
+PLANNER_SYSTEM_PROMPT = """🔴 **CRITICAL LANGUAGE REQUIREMENT**: ALL 'narrative' fields in the JSON output MUST be in ENGLISH ONLY. No Chinese, no code-switching. Every single narrative must be clear, educational English narration.
 
 You are an Expert Mathematical Visualization Director & Pedagogical Designer.
 Your mission is to transform a user's mathematical query into a precise "Visual Rationale" (Animation Design Blueprint).
@@ -392,7 +392,7 @@ OPUS_PLANNER_SYSTEM_PROMPT = """You are an Expert Mathematical Visualization Dir
 Your job: transform a math query into a STRUCTURED JSON BLUEPRINT for a downstream Engineer.
 You DO NOT write Python. You design the spatial/temporal plan.
 
-🔴 **LANGUAGE**: Every `narrative` field in the JSON MUST be in Traditional Chinese (繁體中文). No English.
+🔴 **LANGUAGE**: Every `narrative` field in the JSON MUST be in English. No Chinese.
 
 ═══════════════════════════════════════════════════════════════════
 LAYOUT CONTRACT (hard constraints — runtime auditor checks these)

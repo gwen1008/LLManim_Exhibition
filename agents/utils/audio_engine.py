@@ -39,7 +39,7 @@ class AudioEngine:
         # AUDIO_BACKEND=azure 才啟用 Azure；預設 local（避免 eval 429 flooding）
         _backend = os.getenv("AUDIO_BACKEND", "local")
         self.azure_enabled = _backend == "azure" and bool(self.azure_key and self.azure_region)
-        self.voice_name = "zh-TW-HsiaoChenNeural"
+        self.voice_name = os.getenv("AZURE_VOICE", "en-US-JennyNeural")
 
     def generate_narration(self, steps: list):
         """
@@ -126,8 +126,9 @@ class AudioEngine:
             "User-Agent": "EMA_System"
         }
         
+        lang = "en-US" if self.voice_name.startswith("en-") else "zh-TW"
         ssml = f"""
-        <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="zh-TW">
+        <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="{lang}">
             <voice name="{self.voice_name}">
                 <prosody rate="-5.0%">
                     {text}
