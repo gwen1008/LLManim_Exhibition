@@ -16,7 +16,7 @@
 - [x] Scene instrumentor 佈局儀表化實作
 - [x] Planner model-aware templates + Teammate A brief
 - [ ] 執行 Q101-Q150 評估運行
-- [ ] Merge feat/core-and-agents → main
+- [ ] Merge docs/teammate-tasks → main
 
 ## 上次 Session 改了什麼
 
@@ -24,11 +24,11 @@
 |------|----------|----------|
 | `agents/utils/final_judge.py` | +381：多維度評估系統完整重寫 | spatial_layout 權重優化，PASS/FAIL 判定邏輯更新 |
 | `agents/utils/scene_instrumentor.py` | +166：佈局儀表化模組新增 | crowding/overlap/text 指標自動採集 |
-| `agents/planner/templates.py` | +137：model-aware templates 系統 | gemini-2.5-flash/claude 分支路由實裝 |
-| `agents/planner/planner.py` | +42：Planner 核心改動 | 整合 model-aware templates 邏輯 |
-| `run_evaluation.py` | +93：評估流程擴展 | Q101-Q150 完整支援，test 覆蓋率增加 |
-| `tests/test_final_judge.py` | +166：測試新增 | final_judge 系統測試覆蓋擴展 |
-| `agents/core/rag_retriever.py` | 簡化與優化 | 約 50 行淨減少，增強可讀性 |
+| `tests/test_final_judge.py` | +166：測試覆蓋擴展 | 評估系統完整測試 |
+| `agents/planner/templates.py` | +137：model-aware templates 系統 | gemini-2.5-flash/claude 分支路由 |
+| `run_evaluation.py` | +93：評估流程擴展 | Q101-Q150 完整支援 |
+| `agents/planner/planner.py` | +42：Planner 核心改動 | templates 系統整合 |
+| 其他核心模組 | 整合與優化 | llm_client, rag_retriever, refining_loop, main 等串接 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

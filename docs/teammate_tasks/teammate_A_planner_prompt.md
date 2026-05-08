@@ -51,8 +51,16 @@ DEEPSEEK_API_KEY=...     # preflight 會檢查這個，沒設會卡住（你不�
 PLANNER_MODEL=claude-code-planner-full
 ```
 
-> 注意：Planner 本身走 Claude Code CLI 月費，不消耗 OpenRouter token。
-> 你不需要 AZURE_SPEECH_KEY、OPENAI_API_KEY。
+另外你需要在自己的電腦上登入 Claude CLI（@liaozhenting 會給你帳號）：
+
+```bash
+claude login
+```
+
+登入後不需要設任何額外 env var，Planner 會直接用你當前登入的帳號跑。
+
+> 注意：Planner 走 Claude Code CLI 月費訂閱，不消耗 OpenRouter token。
+> 你不需要 AZURE_SPEECH_KEY、OPENAI_API_KEY、CLAUDE_RUN_AS_USER。
 
 ### 4. 驗證環境
 
