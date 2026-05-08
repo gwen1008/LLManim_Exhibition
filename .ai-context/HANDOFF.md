@@ -12,9 +12,9 @@
 ## 現在要做什麼
 
 - [x] Coder routing 改用 claudealt 帳號
-- [x] Final judge 多維度評估系統重寫
-- [x] Scene instrumentor 佈局儀表化實作
-- [x] Planner model-aware templates + Teammate A/B/C brief
+- [x] Final judge + Scene instrumentor 多維度評估系統
+- [x] Planner model-aware templates + Teammate brief
+- [x] FastAPI backend + React frontend + layout auditor
 - [ ] 執行 Q101-Q150 評估運行
 - [ ] Merge docs/teammate-tasks → main
 
@@ -22,18 +22,11 @@
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `agents/utils/final_judge.py` | +381 | 多維度評估系統重寫 |
-| `agents/utils/scene_instrumentor.py` | +166 | 佈局儀表化完整 |
-| `tests/test_final_judge.py` | +166 | 評估測試完整 |
-| `agents/planner/templates.py` | +137 | model-aware templates（gemini/claude 路由） |
-| `run_evaluation.py` | +93 | Q101-Q150 cases 擴展 |
-| `agents/planner/planner.py` | +42 | planner 邏輯增強 |
-| `agents/orchestrator/refining_loop.py` | +35 | layout retry logic |
-| `main.py` | +27 | CLAUDE_RUN_AS_USER env var |
-| `CLAUDE.md` | +14 | 規範 cost/execution/working style |
-| `agents/core/rag_retriever.py` | -84 | 程式碼簡化 |
-| `docs/teammate_tasks/` | new | Teammate A/B/C task brief |
-| `.ai-context/` | +26 delta | CHANGELOG/CONTEXT/HANDOFF 自動同步 |
+| FastAPI backend（新增） | +n | REST API 架構建立 |
+| React frontend brief（新增） | +n | UI 原型設計 |
+| Layout auditor（新增） | +n | 場景佈局審計工具 |
+| Eval tooling（擴展） | +n | 評估工具鏈完整 |
+| `.ai-context/CHANGELOG.md` | +1 | Hook 自動生成 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
