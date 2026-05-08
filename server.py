@@ -39,8 +39,13 @@ _STAGE_PATTERNS = [
 
 import re as _re
 _COMPILED = [(pat, _re.compile(pat), stage, status) for pat, stage, status in _STAGE_PATTERNS]
-_VIDEO_RE = _re.compile(r"🎥\s+([\w\-\.]+\.mp4)")
+_VIDEO_RE = _re.compile(r"🎥\s+(\S+\.mp4)")
 _ARCHIVE_DIR_RE = _re.compile(r"歸檔目錄:\s*(\S+)")
+_JUDGE_SCORES_RE = _re.compile(
+    r"FinalJudge\].*?math_correctness=(\S+).*?concept_alignment=(\S+).*?visual_clarity=(\S+)"
+)
+_JUDGE_TOTAL_RE = _re.compile(r"FinalJudge\].*?Weighted Total:\s*([\d.]+)")
+_JUDGE_VERDICT_RE = _re.compile(r"FinalJudge\].*?Verdict:\s*(PASS|FAIL|ERROR)")
 
 
 async def _run_pipeline(task_id: str, topic: str) -> None:
@@ -62,6 +67,15 @@ async def _run_pipeline(task_id: str, topic: str) -> None:
 
     archive_dir = "stable_outputs"
     video_found = False
+    judge_emitted = False
+    judge_scores: dict = {}
+    judge_total: float | None = None
+
+    def _to_pct(v: str) -> float | None:
+        try:
+            return round(float(v) * 20, 2)  # 1-5 → 0-100
+        except (ValueError, TypeError):
+            return None
 
     async for raw in proc.stdout:
         line = raw.decode("utf-8", errors="replace").rstrip()
@@ -79,6 +93,30 @@ async def _run_pipeline(task_id: str, topic: str) -> None:
             video_path = f"{archive_dir}/{m.group(1)}"
             task["events"].append({"stage": "render", "status": "done", "video_path": video_path})
 
+        # detect FinalJudge scores
+        m = _JUDGE_SCORES_RE.search(line)
+        if m:
+            judge_scores = {
+                "math_correctness":  _to_pct(m.group(1)) or 0.0,
+                "concept_alignment": _to_pct(m.group(2)) or 0.0,
+                "visual_clarity":    _to_pct(m.group(3)) or 0.0,
+            }
+
+        m = _JUDGE_TOTAL_RE.search(line)
+        if m:
+            judge_total = float(m.group(1))
+
+        m = _JUDGE_VERDICT_RE.search(line)
+        if m and not judge_emitted:
+            judge_emitted = True
+            verdict = "PASS" if m.group(1) == "PASS" else "FAIL"
+            score = round(min(100.0, (judge_total / 5) * 100), 2) if judge_total else 0.0
+            task["events"].append({
+                "stage": "judge", "status": "done",
+                "verdict": verdict, "score": score,
+                "scores": judge_scores or {"math_correctness": 0.0, "visual_clarity": 0.0, "concept_alignment": 0.0},
+            })
+
         # detect stage transitions
         for _, compiled, stage, status in _COMPILED:
             if compiled.search(line):
@@ -87,30 +125,31 @@ async def _run_pipeline(task_id: str, topic: str) -> None:
 
     await proc.wait()
 
-    # fallback: scan stable_outputs for newest mp4 matching safe topic name
+    # fallback: pick the newest mp4 in archive_dir (sanitization differs between server/main)
     if not video_found:
-        safe = topic.replace(" ", "_").replace(".", "_").replace("/", "_") \
-                    .replace("*", "x").replace("+", "_plus_").replace("-", "_minus_")
-        out_dir = PROJECT_ROOT / "stable_outputs"
+        out_dir = PROJECT_ROOT / archive_dir
+        if not out_dir.exists():
+            out_dir = PROJECT_ROOT / "stable_outputs"
         if out_dir.exists():
             candidates = sorted(
-                [f for f in out_dir.iterdir() if f.name.startswith(safe) and f.suffix == ".mp4"],
+                [f for f in out_dir.iterdir() if f.suffix == ".mp4"],
                 key=lambda f: f.stat().st_mtime, reverse=True,
             )
             if candidates:
-                video_path = f"stable_outputs/{candidates[0].name}"
+                video_path = f"{archive_dir}/{candidates[0].name}"
                 task["events"].append({"stage": "render", "status": "done", "video_path": video_path})
                 video_found = True
 
     if not video_found:
         task["events"].append({"stage": "render", "status": "error"})
 
-    task["events"].append({
-        "stage": "judge", "status": "done",
-        "verdict": "PASS" if video_found else "FAIL",
-        "score": 75 if video_found else 0,
-        "scores": {"math_correctness": 75, "visual_clarity": 75, "concept_alignment": 75},
-    })
+    if not judge_emitted:
+        task["events"].append({
+            "stage": "judge", "status": "done",
+            "verdict": "PASS" if video_found else "FAIL",
+            "score": 0.0,
+            "scores": {"math_correctness": 0.0, "visual_clarity": 0.0, "concept_alignment": 0.0},
+        })
     task["done"] = True
 
 
