@@ -22,9 +22,7 @@
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `rag/check_weaviate.py` 等 (4 scripts) | +276 行 | Teammate B RAG 驗證工具：check_weaviate, ingest_rules, relevance_audit_20, test_retrieval |
-| `.gitignore` | -4 | knowledge_base/examples 改為 tracked |
-| `.ai-context/CHANGELOG.md` | +3 | Hook 自動更新 |
+| `.ai-context/CHANGELOG.md` | +1 | Hook 自動追蹤 RAG scripts required by Teammate B task brief |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
