@@ -5,17 +5,17 @@
 > **由 git post-commit hook 自動更新**，永遠對應最新 commit。
 
 **更新時間**：2026-05-08
-**Branch**：feat/core-and-agents
+**Branch**：docs/teammate-tasks
 
 ---
 
 ## 現在要做什麼
 
-- [x] Coder routing 改用 claudealt 帳號（月費無 token 消耗）
+- [x] Coder routing 改用 claudealt 帳號
 - [x] Final judge 多維度評估系統重寫
 - [x] Scene instrumentor 佈局儀表化實作
-- [x] Planner model-aware templates (gemini-2.5-flash/claude 分支)
-- [ ] 執行 run_code_review_q101.py 完成 Q101-Q150 code review
+- [x] Planner model-aware templates + Teammate A brief
+- [ ] 執行 Q101-Q150 評估運行
 - [ ] Merge feat/core-and-agents → main
 
 ## 上次 Session 改了什麼
@@ -23,11 +23,12 @@
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
 | `agents/utils/final_judge.py` | +381：多維度評估系統完整重寫 | spatial_layout 權重優化，PASS/FAIL 判定邏輯更新 |
+| `agents/utils/scene_instrumentor.py` | +166：佈局儀表化模組新增 | crowding/overlap/text 指標自動採集 |
 | `agents/planner/templates.py` | +137：model-aware templates 系統 | gemini-2.5-flash/claude 分支路由實裝 |
-| `main.py` | +27：Coder routing 改用 claudealt | 月費 Claude Max，不消耗 API token |
-| `agents/orchestrator/refining_loop.py` | +35：佈局評估整合 | LAYOUT_RETRY_BUDGET=2 引入 |
-| `agents/utils/scene_instrumentor.py` | +166：佈局儀表化模組 | crowding/overlap/text 指標自動採集 |
-| `run_evaluation.py` | +93：評估流程擴展 | Q01-Q150 完整支援 |
+| `agents/planner/planner.py` | +42：Planner 核心改動 | 整合 model-aware templates 邏輯 |
+| `run_evaluation.py` | +93：評估流程擴展 | Q101-Q150 完整支援，test 覆蓋率增加 |
+| `tests/test_final_judge.py` | +166：測試新增 | final_judge 系統測試覆蓋擴展 |
+| `agents/core/rag_retriever.py` | 簡化與優化 | 約 50 行淨減少，增強可讀性 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

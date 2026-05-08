@@ -46,11 +46,13 @@ pip install weaviate-client
 跟 @liaozhenting 要 `.env` 檔，放到專案根目錄。你至少需要：
 
 ```
-OPENROUTER_API_KEY=...   # 用來跑 Planner (Opus) 和 judge
+OPENROUTER_API_KEY=...   # 用來跑 judge（Claude Opus 4.7 via OpenRouter）
+DEEPSEEK_API_KEY=...     # preflight 會檢查這個，沒設會卡住（你不用它，但要有）
 PLANNER_MODEL=claude-code-planner-full
 ```
 
-> 注意：你不需要 AZURE_SPEECH_KEY、OPENAI_API_KEY、DEEPSEEK_API_KEY。
+> 注意：Planner 本身走 Claude Code CLI 月費，不消耗 OpenRouter token。
+> 你不需要 AZURE_SPEECH_KEY、OPENAI_API_KEY。
 
 ### 4. 驗證環境
 
@@ -58,7 +60,7 @@ PLANNER_MODEL=claude-code-planner-full
 python run_planner_eval.py --dry-run
 ```
 
-看到 `✅ preflight OK` 就代表環境 OK 了。如果失敗，截圖給 @liaozhenting。
+看到 `✅ Dry run successful!` 就代表環境 OK 了。如果失敗，截圖給 @liaozhenting。
 
 ---
 
