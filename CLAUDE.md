@@ -21,6 +21,20 @@ DO NOT GIVE ME HIGH LEVEL SHIT, IF I ASK FOR FIX OR EXPLANATION, I WANT ACTUAL C
 
 If I ask for adjustments to code I have provided you, do not repeat all of my code unnecessarily. Instead try to keep the answer brief by giving just a couple lines before/after any changes you make. Multiple code blocks are ok.
 
+## Cost & Model Context
+- This project uses **Claude Code CLI subscription** (not OpenRouter API) for primary Claude calls. When analyzing "cost" or "usage" data, default to subscription/quota framing, not per-token API pricing.
+- Coder routes through Claude Code subscription Opus (`claudealt` system account); FinalJudge has been migrated off OpenRouter to subscription Claude.
+
+## Execution Boundaries
+- For long-running evals (30+ question benchmarks, 150-video runs), **do NOT execute directly**. Print the exact command and let me run it manually.
+- Never modify the Planner system prompt (e.g., adding spatial/layout rules) without explicit confirmation — propose first, wait for approval.
+- Never run `git push` directly; the pre-push hook requires user execution. Stage and commit, then hand off the push command.
+
+## Working Style
+- When asked to discuss/diagnose, stay focused — do NOT propose building parallel systems or listing exhaustive options without first checking the existing codebase.
+- After making fixes involving regex, string parsing, or comparison logic, run a self-review pass for edge cases (empty strings, escaped chars, missing operators) BEFORE declaring done.
+- Prefer free/local alternatives first when proposing services; ask before defaulting to paid APIs.
+
 ## Karpathy Guidelines (Coding Behavior)
 - **Think Before Coding**: Don't assume, don't hide confusion, and surface tradeoffs. Ask if uncertain.
 - **Simplicity First**: Write the minimum code required to solve the problem. No speculative abstractions or unrequested flexibility.

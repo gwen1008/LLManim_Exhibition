@@ -13,20 +13,163 @@ Based on: G-Eval (CoT + form-filling), Prometheus (per-score rubric descriptions
           LLM-Rubric (multi-dimension decomposition).
 """
 import os
+import re
 import json
 import base64
 import subprocess
 
 
+def _normalize_text(s: str) -> str:
+    """Lowercase + strip whitespace + remove common punctuation/units for fuzzy match."""
+    if s is None:
+        return ""
+    s = str(s).lower().strip()
+    s = re.sub(r"[\s,，。.!?；;:：、]+", "", s)
+    return s
+
+
+def _extract_numbers(s: str) -> list[float]:
+    """Pull all numeric tokens (incl. fractions like 1/2) from a string as floats."""
+    if s is None:
+        return []
+    nums = []
+    # Fractions a/b first (so we don't double-count a and b)
+    consumed = set()
+    for m in re.finditer(r"(-?\d+)\s*/\s*(\d+)", str(s)):
+        try:
+            a, b = int(m.group(1)), int(m.group(2))
+            if b != 0:
+                nums.append(a / b)
+                consumed.update(range(m.start(), m.end()))
+        except (ValueError, ZeroDivisionError):
+            pass
+    # Plain decimals/integers, skipping consumed spans
+    for m in re.finditer(r"-?\d+(?:\.\d+)?", str(s)):
+        if m.start() in consumed:
+            continue
+        try:
+            nums.append(float(m.group(0)))
+        except ValueError:
+            pass
+    return nums
+
+
+_REL_OP_RE = re.compile(r"(<=|>=|<|>|≤|≥|≠|=)")
+# Arithmetic operators that, together with relational ops, must match in sequence
+# for equation-style answers (e.g. '3^2 + 4^2 = 5^2' vs '3^2 - 4^2 = 5^2').
+_STRUCT_OP_RE = re.compile(r"(<=|>=|<|>|≤|≥|≠|=|\+|\-|\*|/|\^)")
+
+
+def _normalize_relational(s: str) -> str:
+    """Lowercase, strip whitespace/punct except relational operators and digits/letters/fractions.
+
+    Preserves operator order so '0.7 < 0.75 = 3/4' and '0.7 > 0.75 = 3/4' do not collapse to equal forms.
+    """
+    if s is None:
+        return ""
+    s = str(s).lower()
+    # Unify unicode operators
+    s = s.replace("≤", "<=").replace("≥", ">=").replace("≠", "!=")
+    # Drop whitespace and most punctuation, keep digits, letters (incl. CJK), '/', '.', and operators
+    s = re.sub(r"[^0-9a-z一-鿿/<>=!.\-]+", "", s)
+    return s
+
+
+def _is_relational(s: str) -> bool:
+    """Ground truth contains a relational operator or chained equation (>=2 '=' signs)."""
+    if not s:
+        return False
+    if re.search(r"<=|>=|<|>|≤|≥|≠", str(s)):
+        return True
+    # Chained equation like 'a = b = c' or '3^2 - 4^2 = 5^2' (single '=' with structure)
+    if str(s).count("=") >= 1 and re.search(r"=", str(s)):
+        # Has '=' AND at least one operator on either side that suggests an equation,
+        # not just a labeled value like "answer = 12"
+        return bool(re.search(r"[+\-*/^]\s*\d", str(s)) or str(s).count("=") >= 2)
+    return False
+
+
+def _compare_answer(extracted: str, ground_truth: str) -> bool | None:
+    """
+    Conservative answer comparison.
+
+    Returns:
+        True  — extracted answer matches ground truth (numbers all present, or text substring match).
+        False — clearly does not match (numbers conflict).
+        None  — inconclusive (extraction failed, or no comparable signal).
+    """
+    if not extracted or not ground_truth:
+        return None
+
+    gt_nums = _extract_numbers(ground_truth)
+    ex_nums = _extract_numbers(extracted)
+
+    # Numeric-priority comparison: ground truth's key numbers must all appear in extracted.
+    if gt_nums:
+        if not ex_nums:
+            return None  # extracted had no numbers → inconclusive
+        # Allow small float tolerance (0.01) and ordering-free containment.
+        for gn in gt_nums:
+            if not any(abs(gn - en) <= max(0.01, abs(gn) * 0.001) for en in ex_nums):
+                return False
+
+        # Relational / equation answers: numbers alone are not enough.
+        # '0.7 < 0.75 = 3/4' must NOT match '0.7 > 0.75 = 3/4'.
+        # Require the operator sequence to match too, else fall back to None.
+        if _is_relational(ground_truth):
+            # Use the *structural* op sequence (rel + arith) so equations like
+            # '3^2 + 4^2 = 5^2' don't collapse-equal to '3^2 - 4^2 = 5^2'.
+            gt_ops = _STRUCT_OP_RE.findall(str(ground_truth))
+            ex_ops = _STRUCT_OP_RE.findall(str(extracted))
+            if gt_ops:
+                if gt_ops == ex_ops:
+                    return True
+                # Operators present in GT but mismatch in extracted → conflict, not match.
+                if ex_ops and gt_ops != ex_ops:
+                    return False
+                # Extracted has no operators at all — can't confirm relational claim.
+                return None
+            # GT looks relational (e.g. equation with structured RHS) but no ops captured;
+            # require normalized-string containment as a stricter check.
+            gt_n = _normalize_relational(ground_truth)
+            ex_n = _normalize_relational(extracted)
+            if gt_n and ex_n and (gt_n in ex_n or ex_n in gt_n):
+                return True
+            return None
+
+        return True
+
+    # No numbers in GT — fall back to normalized text containment (both directions).
+    gt_n = _normalize_text(ground_truth)
+    ex_n = _normalize_text(extracted)
+    if not gt_n or not ex_n:
+        return None
+    if gt_n in ex_n or ex_n in gt_n:
+        return True
+    # Token-overlap fallback (>=50% of GT tokens present)
+    gt_tokens = [t for t in re.split(r"[^\w一-鿿]+", str(ground_truth).lower()) if len(t) >= 2]
+    if gt_tokens:
+        hit = sum(1 for t in gt_tokens if t in str(extracted).lower())
+        if hit / len(gt_tokens) >= 0.5:
+            return True
+    return None  # inconclusive — don't trigger veto on fuzzy text
+
+
 class FinalJudge:
     # ── Weights (must sum to 1.0) ──────────────────────────────────────────
-    # math_correctness: Claude reads code (most reliable signal)
-    # concept_alignment + visual_clarity: GPT-4o views frames
+    # math_correctness: Claude reads code (most reliable text signal)
+    # concept_alignment + visual_clarity: GPT-4o views frames (LLM, noisy)
+    # spatial_layout: deterministic from SceneInstrumentor (highest trust)
     WEIGHTS = {
-        "math_correctness":  0.50,  # Claude only
-        "concept_alignment": 0.20,  # GPT-4o only
-        "visual_clarity":    0.30,  # GPT-4o only
+        "math_correctness":  0.40,  # Claude only
+        "concept_alignment": 0.15,  # GPT-4o only
+        "visual_clarity":    0.15,  # GPT-4o only
+        "spatial_layout":    0.30,  # deterministic — see LayoutAuditor
     }
+
+    # Verdict thresholds — calibrate against golden_set after collecting labels.
+    PASS_THRESHOLD = 3.5      # weighted_total below this → FAIL
+    DIMENSION_FLOOR = 2       # any single dimension <= this → FAIL (hard veto)
 
     # ── Code Reviewer prompt (Claude 3.5 Sonnet) ──────────────────────────
     _CODE_REVIEW_SYSTEM = """You are an expert Manim Community Edition (CE) code reviewer.
@@ -60,10 +203,17 @@ Check ONLY these categories (ignore style/formatting):
 - 2: One critical error that actively teaches incorrect mathematics (wrong formula, wrong shape used).
 - 1: Fundamentally wrong — multiple critical errors or the core concept is misrepresented.
 
+**Final answer extraction:**
+If a [GROUND TRUTH] block is provided, infer what numerical or short-text answer the
+animation will display to the student at the end (e.g., "9", "12 cm", "x = 3", "周長相同時正方形面積最大").
+Pull this from MathTex/Text contents, final highlighted values, or the conclusion screen.
+If you cannot determine it, set the field to null. Do not invent.
+
 Output ONLY valid JSON, no preamble:
 {
   "math_score": <1-5>,
   "math_justification": "...",
+  "final_answer_in_video": "<string or null — the answer the animation conveys>",
   "issues": [
     {
       "severity": "Critical" | "Major" | "Minor",
@@ -132,7 +282,6 @@ Review the [Code Analysis] section. For each issue found there:
     def __init__(self, llm_client=None):
         from ..core.llm_client import LLMClient
         self.llm = llm_client if llm_client else LLMClient()
-        self._claude_model = os.getenv("CODE_REVIEWER_MODEL", "anthropic/claude-sonnet-4.6")
 
     # ──────────────────────────────────────────────────────────────────────
     # Phase 1: Code Analysis
@@ -194,19 +343,18 @@ Review the [Code Analysis] section. For each issue found there:
 Review for mathematical and logical correctness. Output JSON only."""
 
         try:
-            raw = self.llm._call_openrouter(
-                self._claude_model,
+            raw = self.llm._call_claude_code(
                 self._CODE_REVIEW_SYSTEM,
                 user_prompt,
-                temperature=0.1,
-                json_mode=False,
             )
         except Exception as e:
             print(f"⚠️ [FinalJudge Phase 1] Claude API error: {e} — math_score unavailable")
             return {
                 "math_score": None,
                 "math_justification": f"Code review unavailable: {e}",
-                "issues": [], "summary": "Code review skipped due to API error."
+                "issues": [], "summary": "Code review skipped due to API error.",
+                "final_answer_in_video": None,
+                "ground_truth_match": None,
             }
 
         try:
@@ -217,8 +365,18 @@ Review for mathematical and logical correctness. Output JSON only."""
             result.setdefault("math_justification", "")
             result.setdefault("issues", [])
             result.setdefault("summary", "")
+            result.setdefault("final_answer_in_video", None)
+
+            # Ground-truth hard compare (only when GT.answer present and extraction succeeded)
+            gt_match = None
+            if ground_truth and ground_truth.get("answer") and result["final_answer_in_video"]:
+                gt_match = _compare_answer(result["final_answer_in_video"], ground_truth["answer"])
+            result["ground_truth_match"] = gt_match
 
             print(f"🔬 [Phase 1] math_score={result['math_score']} | issues={len(result['issues'])}")
+            if result["final_answer_in_video"] is not None:
+                _gt_icon = {True: "✅", False: "❌", None: "❓"}[gt_match]
+                print(f"  {_gt_icon} extracted_answer={result['final_answer_in_video']!r} (gt_match={gt_match})")
             for iss in result["issues"]:
                 sev_icon = {"Critical": "🔴", "Major": "🟠", "Minor": "🟡"}.get(iss.get("severity", ""), "⚪")
                 print(f"  {sev_icon} [{iss.get('category')}] {iss.get('description', '')[:80]}")
@@ -368,38 +526,95 @@ Review for mathematical and logical correctness. Output JSON only."""
 Follow the 4-step protocol in your system prompt.
 Output ONLY the JSON object."""
 
-        try:
-            content = self.llm.ask_vision(
-                self._VISUAL_JUDGE_SYSTEM, user_text,
-                base64_image=b64, detail="high",
-                max_tokens=2000, temperature=0.1,
-                json_mode=True
-            )
-        except Exception as e:
-            print(f"❌ [FinalJudge Phase 2] GPT-4o error: {e}")
+        # ── Self-consistency: n parallel passes, median of scores ───────────
+        n_passes = int(os.getenv("LLMANIM_FJ_PASSES", "3"))
+        n_passes = max(1, min(n_passes, 5))
+
+        def _single_pass(_idx):
+            try:
+                content = self.llm.ask_vision(
+                    self._VISUAL_JUDGE_SYSTEM, user_text,
+                    base64_image=b64, detail="high",
+                    max_tokens=2000,
+                    temperature=0.5 if n_passes > 1 else 0.1,
+                    json_mode=True
+                )
+                start = content.find("{")
+                end = content.rfind("}") + 1
+                return json.loads(content[start:end])
+            except Exception as _e:
+                print(f"⚠️ [FinalJudge Phase 2 pass {_idx}] failed: {_e}")
+                return None
+
+        if n_passes == 1:
+            results = [_single_pass(0)]
+        else:
+            import concurrent.futures
+            with concurrent.futures.ThreadPoolExecutor(max_workers=n_passes) as ex:
+                results = list(ex.map(_single_pass, range(n_passes)))
+
+        valid = [r for r in results if r and "scores" in r]
+        # Require at least 2 successful passes for self-consistency mode (n>=2)
+        # Otherwise variance is too high; treat as visual-API failure.
+        min_required = 2 if n_passes >= 2 else 1
+        if len(valid) < min_required:
+            print(f"❌ [FinalJudge Phase 2] Only {len(valid)}/{n_passes} passes succeeded — visual unavailable")
             return None
 
-        print("\n--- FinalJudge Visual Response ---")
-        print(content[:800] + ("..." if len(content) > 800 else ""))
-        print("----------------------------------\n")
+        # Median per-dimension score, attach justification from highest-confidence pass
+        def _extract_score(r, dim):
+            s = r["scores"].get(dim, {})
+            try:
+                return int(s.get("score") if isinstance(s, dict) else s)
+            except (ValueError, TypeError):
+                return None
 
-        try:
-            start = content.find("{")
-            end = content.rfind("}") + 1
-            return json.loads(content[start:end])
-        except Exception as e:
-            print(f"⚠️ [FinalJudge Phase 2] JSON parse failed: {e}")
-            return None
+        def _median(vals):
+            vals = sorted(v for v in vals if v is not None)
+            if not vals:
+                return None
+            mid = len(vals) // 2
+            return vals[mid] if len(vals) % 2 else (vals[mid - 1] + vals[mid]) // 2
+
+        agg_scores = {}
+        for dim in ("concept_alignment", "visual_clarity"):
+            dim_scores = [_extract_score(r, dim) for r in valid]
+            agg_scores[dim] = {
+                "score": _median(dim_scores),
+                "justification": " | ".join(
+                    str(r["scores"].get(dim, {}).get("justification", ""))[:120]
+                    for r in valid if r["scores"].get(dim)
+                )[:400],
+                "raw_scores": dim_scores,
+            }
+
+        # Use first valid pass for textual fields (frame_analysis etc.)
+        primary = valid[0]
+        consensus_note = f"[{len(valid)}/{n_passes} passes; concept={agg_scores['concept_alignment']['raw_scores']}, clarity={agg_scores['visual_clarity']['raw_scores']}]"
+        print(f"\n--- FinalJudge Visual Consensus ---\n{consensus_note}")
+        print(f"concept_alignment median = {agg_scores['concept_alignment']['score']}")
+        print(f"visual_clarity    median = {agg_scores['visual_clarity']['score']}")
+        print("-----------------------------------\n")
+
+        return {
+            "scores": agg_scores,
+            "frame_analysis": primary.get("frame_analysis", ""),
+            "metaphor_audit": primary.get("metaphor_audit", ""),
+            "code_confirmation": primary.get("code_confirmation", ""),
+            "consensus": consensus_note,
+        }
 
     # ──────────────────────────────────────────────────────────────────────
     # Aggregate
     # ──────────────────────────────────────────────────────────────────────
-    def _aggregate(self, code_analysis: dict, visual_result: dict | None) -> dict:
-        """Compute weighted score across three dimensions.
+    def _aggregate(self, code_analysis: dict, visual_result: dict | None,
+                   layout_audit: dict | None = None) -> dict:
+        """Compute weighted score across all dimensions.
 
         math_correctness  → Claude code review (sole source of truth)
         concept_alignment → GPT-4o visual frames
         visual_clarity    → GPT-4o visual frames
+        spatial_layout    → LayoutAuditor (deterministic from SceneInstrumentor log)
         """
         scores = {}
 
@@ -407,17 +622,26 @@ Output ONLY the JSON object."""
         _raw_math = code_analysis.get("math_score")
         scores["math_correctness"] = int(_raw_math) if _raw_math is not None else None
 
+        # spatial_layout: deterministic; None when log unavailable (don't auto-fail)
+        if layout_audit and layout_audit.get("score_1_to_5") is not None:
+            scores["spatial_layout"] = int(layout_audit["score_1_to_5"])
+        else:
+            scores["spatial_layout"] = None
+
         if visual_result and "scores" in visual_result:
             v_scores = visual_result["scores"]
             for dim in ("concept_alignment", "visual_clarity"):
                 entry = v_scores.get(dim, {})
+                _raw = entry.get("score") if isinstance(entry, dict) else entry
                 try:
-                    scores[dim] = int(entry.get("score", 3))
+                    scores[dim] = int(_raw) if _raw is not None else None
                 except (ValueError, TypeError):
-                    scores[dim] = 3
+                    scores[dim] = None
         else:
-            scores["concept_alignment"] = 3
-            scores["visual_clarity"] = 3
+            # Visual API unavailable — do NOT default to 3 (that silently rewards failures).
+            # Mark as None so verdict logic can flag this as ERROR / api_failure.
+            scores["concept_alignment"] = None
+            scores["visual_clarity"] = None
 
         # Weighted total — skip dimensions with None score, renormalize weights
         available = {d: scores[d] for d in self.WEIGHTS if scores.get(d) is not None}
@@ -427,15 +651,22 @@ Output ONLY the JSON object."""
         else:
             weighted = None
 
+        # ── Verdict decision (hard veto > thresholds > overall score) ────────
+        verdict, veto_reason = self._decide_verdict(code_analysis, scores, weighted)
+
         score_str = " | ".join(f"{d}={scores.get(d, 'N/A')}" for d in self.WEIGHTS)
         print(f"\n{'='*50}")
         print(f"🏛️  [FinalJudge] {score_str}")
         print(f"🏛️  [FinalJudge] Weighted Total: {weighted}")
+        print(f"🏛️  [FinalJudge] Verdict: {verdict}" + (f" (reason: {veto_reason})" if veto_reason else ""))
         print(f"{'='*50}\n")
 
         result = {
+            "verdict": verdict,
+            "veto_reason": veto_reason,
             "weighted_total": weighted,
             "scores": scores,
+            "ground_truth_match": code_analysis.get("ground_truth_match"),
         }
 
         # Add per-dimension justifications
@@ -447,34 +678,79 @@ Output ONLY the JSON object."""
             result["frame_analysis"] = visual_result.get("frame_analysis", "")
             result["metaphor_audit"] = visual_result.get("metaphor_audit", "")
             result["code_confirmation"] = visual_result.get("code_confirmation", "")
+            result["consensus"] = visual_result.get("consensus", "")
 
         result["code_issues"] = code_analysis.get("issues", [])
         result["code_summary"] = code_analysis.get("summary", "")
+        result["final_answer_in_video"] = code_analysis.get("final_answer_in_video")
+
+        if layout_audit:
+            result["layout_audit"] = {
+                "verdict":      layout_audit.get("verdict"),
+                "score":        layout_audit.get("score_1_to_5"),
+                "metrics":      layout_audit.get("metrics", {}),
+                "violations":   layout_audit.get("violations", []),
+            }
 
         return result
+
+    def _decide_verdict(self, code_analysis: dict, scores: dict, weighted: float | None) -> tuple[str, str | None]:
+        """Return (verdict, veto_reason). veto_reason is None when verdict == PASS."""
+        # 1. Critical code issue → instant FAIL (regardless of weighted score)
+        for iss in code_analysis.get("issues", []):
+            if str(iss.get("severity", "")).lower() == "critical":
+                return "FAIL", "critical_code_issue"
+
+        # 2. Ground truth hard mismatch (only fires when comparison was conclusive)
+        if code_analysis.get("ground_truth_match") is False:
+            return "FAIL", "ground_truth_mismatch"
+
+        # 3. Visual API totally failed → cannot judge → ERROR (not silent PASS)
+        if scores.get("concept_alignment") is None and scores.get("visual_clarity") is None:
+            return "ERROR", "visual_api_failure"
+
+        # 4. Math review unavailable AND no other strong signal → ERROR
+        if scores.get("math_correctness") is None and weighted is None:
+            return "ERROR", "all_phases_failed"
+
+        # 5. Any single dimension at or below floor → FAIL (no rescue by other dims)
+        for dim, val in scores.items():
+            if val is not None and val <= self.DIMENSION_FLOOR:
+                return "FAIL", f"low_dimension_{dim}"
+
+        # 6. Overall threshold
+        if weighted is None or weighted < self.PASS_THRESHOLD:
+            return "FAIL", "below_threshold"
+
+        return "PASS", None
 
     # ──────────────────────────────────────────────────────────────────────
     # Public entry point
     # ──────────────────────────────────────────────────────────────────────
     def judge(self, video_path: str, script_context: str, code: str,
-              ground_truth: dict = None) -> dict:
+              ground_truth: dict = None,
+              scene_state_log_path: str = None) -> dict:
         """
-        Run full two-phase evaluation.
+        Run full multi-phase evaluation.
 
         Args:
-            video_path:      Path to rendered .mp4
-            script_context:  Planner JSON string (or dict) describing the animation
-            code:            Generated Manim Python source code
-            ground_truth:    Optional dict with keys "answer" and/or "solution"
-                             Used to verify math_correctness against known correct answer
+            video_path:           Path to rendered .mp4
+            script_context:       Planner JSON string (or dict) describing the animation
+            code:                 Generated Manim Python source code
+            ground_truth:         Optional dict with keys "answer" and/or "solution"
+                                  Used to verify math_correctness against known correct answer
+            scene_state_log_path: Optional path to SceneInstrumentor's scene_state_log.json
+                                  Used to compute the deterministic `spatial_layout` dimension
 
         Returns:
-            dict with verdict, weighted_total, scores, score_details, code_issues
+            dict with verdict, weighted_total, scores, score_details, code_issues, layout_audit
         """
         print("\n" + "="*50)
-        print("🏛️  [FinalJudge] Starting two-phase quality evaluation")
+        print("🏛️  [FinalJudge] Starting multi-phase quality evaluation")
         if ground_truth:
             print(f"🎯 [FinalJudge] Ground truth provided (answer={bool(ground_truth.get('answer'))}, solution={bool(ground_truth.get('solution'))})")
+        if scene_state_log_path:
+            print(f"📐 [FinalJudge] Scene-state log provided: {scene_state_log_path}")
         print("="*50)
 
         # Store ground_truth for use in _analyze_visual
@@ -486,5 +762,18 @@ Output ONLY the JSON object."""
         # Phase 2: Visual review
         visual_result = self._analyze_visual(video_path, script_context, code_analysis)
 
+        # Phase 3: Layout audit (deterministic, ~10ms, $0)
+        layout_audit = None
+        if scene_state_log_path:
+            try:
+                from .layout_auditor import LayoutAuditor
+                layout_audit = LayoutAuditor().audit(scene_state_log_path)
+                _ls = layout_audit.get("score_1_to_5")
+                _v = layout_audit.get("verdict")
+                _vio = len(layout_audit.get("violations", []))
+                print(f"📐 [FinalJudge Phase 3] Layout {_v} | score={_ls} | violations={_vio}")
+            except Exception as e:
+                print(f"⚠️ [FinalJudge Phase 3] Layout audit failed: {e}")
+
         # Aggregate
-        return self._aggregate(code_analysis, visual_result)
+        return self._aggregate(code_analysis, visual_result, layout_audit)

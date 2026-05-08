@@ -91,8 +91,30 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
     with tempfile.TemporaryDirectory(prefix=f"llmanim_eval_{case_id}_") as tmp_out:
         env = os.environ.copy()
         env["EVAL_OUTPUT_DIR"] = tmp_out
-        if case.get("solution"):
-            env["LLMANIM_SOLUTION"] = case["solution"]
+
+        # Ground truth: read from `ground_truth` block (AB24 schema) with fallback
+        # to top-level `answer`/`solution` (legacy schema).
+        gt_block = case.get("ground_truth") or {}
+        gt_answer = (gt_block.get("answer") or case.get("answer") or "").strip()
+        gt_solution = (gt_block.get("solution") or case.get("solution") or "").strip()
+
+        if gt_answer:
+            env["LLMANIM_ANSWER"] = gt_answer
+        if gt_solution:
+            env["LLMANIM_SOLUTION"] = gt_solution
+
+        # Fail fast if the case declares a ground_truth block but yields nothing
+        # exportable — silent dead-code GT was the original Finding 1 bug.
+        if gt_block and not (gt_answer or gt_solution):
+            return {
+                "id": case_id, "topic": topic,
+                "category": case.get("category", "-"),
+                "question_type": case.get("question_type", "-"),
+                "knowledge_point": case.get("knowledge_point", "-"),
+                "difficulty": case.get("difficulty", "-"),
+                "status": "Failed",
+                "error": "ground_truth block present but answer/solution both empty",
+            }
 
         try:
             proc = subprocess.Popen(
@@ -136,6 +158,9 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
                 return {
                     "id": case_id, "topic": topic,
                     "category": case.get("category", "-"),
+                    "question_type": case.get("question_type", "-"),
+                    "knowledge_point": case.get("knowledge_point", "-"),
+                    "difficulty": case.get("difficulty", "-"),
                     "status": "TIMEOUT",
                     "error": "Task exceeded 15-minute hard limit (900s).",
                     "metrics": {
@@ -250,6 +275,9 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
             return {
                 "id": case_id, "topic": topic,
                 "category": case.get("category", "-"),
+                "question_type": case.get("question_type", "-"),
+                "knowledge_point": case.get("knowledge_point", "-"),
+                "difficulty": case.get("difficulty", "-"),
                 "new_video": f"{case_id}/video.mp4",
                 "old_video": old_video_rel,
                 "trace_link": f"{case_id}/thought_trace.log",
@@ -270,10 +298,13 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
                     "vision_sec": f"{cost_stats.get('time_vision_sec', 0.0):.2f}",
                     "rag_sec": f"{cost_stats.get('time_rag_sec', 0.0):.2f}",
                     "max_simultaneous_objects": instrumentor_stats.get("max_simultaneous_objects", "-"),
+                    "fj_verdict":        cost_stats.get("final_judge", {}).get("verdict", "-"),
+                    "fj_veto_reason":    cost_stats.get("final_judge", {}).get("veto_reason", "") or "",
                     "fj_weighted":       cost_stats.get("final_judge", {}).get("weighted_total", "-"),
                     "fj_math":           cost_stats.get("final_judge", {}).get("scores", {}).get("math_correctness", "-"),
                     "fj_concept":        cost_stats.get("final_judge", {}).get("scores", {}).get("concept_alignment", "-"),
                     "fj_visual":         cost_stats.get("final_judge", {}).get("scores", {}).get("visual_clarity", "-"),
+                    "fj_gt_match":       cost_stats.get("final_judge", {}).get("ground_truth_match", "-"),
                     "quality_score": quality_score,
                     "pattern_rate": pattern_result["pattern_rate"],
                     "animation_count": pattern_result["animation_count"],
@@ -287,6 +318,9 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
         except Exception as e:
             print(f"❌ [{case_id}] Failed: {e}")
             return {"id": case_id, "topic": topic, "category": case.get("category", "-"),
+                    "question_type": case.get("question_type", "-"),
+                    "knowledge_point": case.get("knowledge_point", "-"),
+                    "difficulty": case.get("difficulty", "-"),
                     "status": "Failed", "error": str(e)}
 
 
@@ -316,6 +350,7 @@ def run_compare():
         fj_concept_vals = []
         fj_visual_vals = []
         fj_cost_vals = []
+        fj_verdicts = []  # list of "PASS"/"FAIL"/"ERROR"
 
         per_case = {}
         for c in cases:
@@ -325,10 +360,14 @@ def run_compare():
             math_s = c.get("FJ Math", "-")
             concept_s = c.get("FJ Concept", "-")
             visual_s = c.get("FJ Visual", "-")
+            verdict_s = c.get("FJ Verdict", "-") or "-"
             per_case[cid] = {
                 "weighted": weighted,
                 "math": math_s,
+                "verdict": verdict_s,
             }
+            if verdict_s in ("PASS", "FAIL", "ERROR"):
+                fj_verdicts.append(verdict_s)
             # Extract FinalJudge-specific cost from cost_report.json
             cost_path = s / cid / "cost_report.json"
             if cost_path.exists():
@@ -370,10 +409,21 @@ def run_compare():
         def total_cost(lst):
             return f"${sum(lst):.4f}" if lst else "-"
 
+        n_pass = sum(1 for v in fj_verdicts if v == "PASS")
+        n_fail = sum(1 for v in fj_verdicts if v == "FAIL")
+        n_err  = sum(1 for v in fj_verdicts if v == "ERROR")
+        n_judged = len(fj_verdicts)
+        pass_rate = f"{n_pass}/{n_judged} ({100*n_pass/n_judged:.0f}%)" if n_judged else "-"
+
         rows.append({
             "session": s.name,
             "n_total": n_total,
             "n_success": n_success,
+            "n_pass": n_pass,
+            "n_fail": n_fail,
+            "n_err":  n_err,
+            "n_judged": n_judged,
+            "pass_rate": pass_rate,
             "avg_weighted": avg(fj_weighted_vals),
             "avg_math": avg(fj_math_vals),
             "avg_concept": avg(fj_concept_vals),
@@ -383,12 +433,12 @@ def run_compare():
         })
 
     # ── 總覽表 ──────────────────────────────────────────────────────────────
-    print("\n" + "═" * 90)
+    print("\n" + "═" * 100)
     print("  LLManim FinalJudge 跨 Session 趨勢")
-    print("═" * 90)
-    hdr = f"{'Session':<26} {'Cases':>6} {'Weighted':>10} {'Math':>6} {'Concept':>8} {'Visual':>7} {'FJ Cost':>9}"
+    print("═" * 100)
+    hdr = f"{'Session':<26} {'Cases':>6} {'Pass':>16} {'Weighted':>10} {'Math':>6} {'Concept':>8} {'Visual':>7} {'FJ Cost':>9}"
     print(hdr)
-    print("─" * 80)
+    print("─" * 100)
     for r in rows:
         trend = ""
         if len(rows) > 1:
@@ -402,9 +452,9 @@ def run_compare():
                 except (ValueError, TypeError):
                     pass
         cases_str = f"{r['n_success']}/{r['n_total']}"
-        print(f"{r['session']:<26} {cases_str:>6}   {r['avg_weighted']:>6}{trend:<8} {r['avg_math']:>6} {r['avg_concept']:>8} {r['avg_visual']:>7} {r['fj_cost']:>9}")
+        print(f"{r['session']:<26} {cases_str:>6}   {r['pass_rate']:>14}  {r['avg_weighted']:>6}{trend:<8} {r['avg_math']:>6} {r['avg_concept']:>8} {r['avg_visual']:>7} {r['fj_cost']:>9}")
 
-    print("─" * 70)
+    print("─" * 100)
 
     # ── Per-case 歷史追蹤（只顯示至少有一個 session 有 FJ 資料的 case）──────────────────────
     tracked_cases = sorted(
@@ -422,6 +472,7 @@ def run_compare():
         header += f"  {r['session'][:18]:<20}"
     print(header)
     print("─" * 90)
+    _vmark = {"PASS": "✓", "FAIL": "✗", "ERROR": "!", "-": " "}
     for cid in tracked_cases:
         line = f"{cid:<{case_col_w}}"
         for r in rows:
@@ -429,7 +480,8 @@ def run_compare():
             if pc:
                 w = pc["weighted"]
                 m = pc["math"]
-                line += f"  w={w:>4} m={m:>4}        "
+                v = _vmark.get(pc.get("verdict", "-"), "?")
+                line += f"  [{v}] w={w:>4} m={m:>3}    "
             else:
                 line += f"  {'—':<20}"
         print(line)
@@ -496,18 +548,11 @@ def main():
                 status = row["Status"]
                 
                 # 所有已跑過的題目都跳過（不管成功或失敗），保留真實成功率
-                completed_cases.add(case_id)
-                
                 if status != "Success":
-                    # Failed/TIMEOUT 直接保留舊紀錄，不重跑
-                    results.append({
-                        "id": case_id,
-                        "topic": row["Topic"],
-                        "category": row.get("Category", "-"),
-                        "status": status,
-                        "error": "Previous run failed/timeout (preserved)"
-                    })
+                    # Failed/TIMEOUT → 重跑，不加進 completed_cases
                     continue
+
+                completed_cases.add(case_id)
                 
                 m = {
                     "iterations": row.get("Iterations", "-"),
@@ -725,8 +770,8 @@ def generate_summary_csv(session_dir, results):
     with open(csv_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.writer(f)
         writer.writerow([
-            "Case ID", "Topic", "Category", "Status",
-            "FJ Weighted", "FJ Math", "FJ Concept", "FJ Visual",
+            "Case ID", "Topic", "Category", "Question Type", "Knowledge Point", "Difficulty", "Status",
+            "FJ Verdict", "FJ Veto Reason", "FJ Weighted", "FJ Math", "FJ Concept", "FJ Visual", "FJ GT Match",
             "Quality Score", "Pattern Rate", "Animation Count", "Missing Patterns", "Disallowed Violations", "Error Types",
             "Iterations", "Defects", "Max Objects",
             "Total Tokens", "Cost USD", "Duration Sec", "Code Lines", "Video Duration Sec",
@@ -738,11 +783,17 @@ def generate_summary_csv(session_dir, results):
                 r["id"],
                 r["topic"],
                 r.get("category", "-"),
+                r.get("question_type", "-"),
+                r.get("knowledge_point", "-"),
+                r.get("difficulty", "-"),
                 r["status"],
+                m.get("fj_verdict", "-"),
+                m.get("fj_veto_reason", ""),
                 m.get("fj_weighted", "-"),
                 m.get("fj_math", "-"),
                 m.get("fj_concept", "-"),
                 m.get("fj_visual", "-"),
+                m.get("fj_gt_match", "-"),
                 m.get("quality_score", "-"),
                 m.get("pattern_rate", "-"),
                 m.get("animation_count", "-"),

@@ -14,7 +14,7 @@
 - [x] Coder routing 改用 claudealt 帳號
 - [x] Final judge 多維度評估系統重寫
 - [x] Scene instrumentor 佈局儀表化實作
-- [x] Planner model-aware templates + Teammate A brief
+- [x] Planner model-aware templates + Teammate A/B/C brief
 - [ ] 執行 Q101-Q150 評估運行
 - [ ] Merge docs/teammate-tasks → main
 
@@ -22,13 +22,18 @@
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `agents/utils/final_judge.py` | +381：多維度評估系統完整重寫 | spatial_layout 權重優化，PASS/FAIL 判定邏輯更新 |
-| `agents/utils/scene_instrumentor.py` | +166：佈局儀表化模組新增 | crowding/overlap/text 指標自動採集 |
-| `tests/test_final_judge.py` | +166：測試覆蓋擴展 | 評估系統完整測試 |
-| `agents/planner/templates.py` | +137：model-aware templates 系統 | gemini-2.5-flash/claude 分支路由 |
-| `run_evaluation.py` | +93：評估流程擴展 | Q101-Q150 完整支援 |
-| `agents/planner/planner.py` | +42：Planner 核心改動 | templates 系統整合 |
-| 其他核心模組 | 整合與優化 | llm_client, rag_retriever, refining_loop, main 等串接 |
+| `agents/utils/final_judge.py` | +381 | 多維度評估系統重寫 |
+| `agents/utils/scene_instrumentor.py` | +166 | 佈局儀表化完整 |
+| `tests/test_final_judge.py` | +166 | 評估測試完整 |
+| `agents/planner/templates.py` | +137 | model-aware templates（gemini/claude 路由） |
+| `run_evaluation.py` | +93 | Q101-Q150 cases 擴展 |
+| `agents/planner/planner.py` | +42 | planner 邏輯增強 |
+| `agents/orchestrator/refining_loop.py` | +35 | layout retry logic |
+| `main.py` | +27 | CLAUDE_RUN_AS_USER env var |
+| `CLAUDE.md` | +14 | 規範 cost/execution/working style |
+| `agents/core/rag_retriever.py` | -84 | 程式碼簡化 |
+| `docs/teammate_tasks/` | new | Teammate A/B/C task brief |
+| `.ai-context/` | +26 delta | CHANGELOG/CONTEXT/HANDOFF 自動同步 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

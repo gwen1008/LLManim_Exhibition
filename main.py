@@ -400,23 +400,38 @@ if __name__ == "__main__":
             print(f"❌ [Fatal] LLM API 完全失敗：{e}")
             sys.exit(1)
             
-        # ── 階段四：FinalJudge 兩階段品質評分 (手動關閉以節省 Token) ─────────────────────────────
-        if False and result and os.path.exists(str(result)):
+        # ── 階段四：FinalJudge 兩階段品質評分 ──────────────────────────────────
+        # Set LLMANIM_DISABLE_FJ=1 to skip (saves ~$0.05/case in token-tight runs).
+        _fj_disabled = os.environ.get("LLMANIM_DISABLE_FJ", "").strip() in ("1", "true", "yes")
+        if not _fj_disabled and result and os.path.exists(str(result)):
             print("\n🏛️  [階段 4: FinalJudge] 啟動兩階段品質評分...")
             try:
                 from agents.utils.final_judge import FinalJudge
                 with open(target_file, "r", encoding="utf-8") as _cf:
                     _final_code = _cf.read()
                 _fj = FinalJudge(llm_client=llm)
-                _fj_result = _fj.judge(str(result), script_json, _final_code, ground_truth=_ground_truth)
+                _scene_log = os.path.join(os.path.dirname(os.path.abspath(target_file)), "scene_state_log.json")
+                _fj_result = _fj.judge(
+                    str(result), script_json, _final_code,
+                    ground_truth=_ground_truth,
+                    scene_state_log_path=_scene_log if os.path.exists(_scene_log) else None,
+                )
                 # Attach to session_stats so it's saved in cost_report.json
                 llm.session_stats["final_judge"] = {
-                    "weighted_total": _fj_result.get("weighted_total"),
-                    "scores":         _fj_result.get("scores", {}),
-                    "code_issues":    _fj_result.get("code_issues", []),
+                    "verdict":             _fj_result.get("verdict"),
+                    "veto_reason":         _fj_result.get("veto_reason"),
+                    "weighted_total":      _fj_result.get("weighted_total"),
+                    "scores":              _fj_result.get("scores", {}),
+                    "ground_truth_match":  _fj_result.get("ground_truth_match"),
+                    "final_answer_in_video": _fj_result.get("final_answer_in_video"),
+                    "code_issues":         _fj_result.get("code_issues", []),
+                    "consensus":           _fj_result.get("consensus", ""),
+                    "layout_audit":        _fj_result.get("layout_audit"),
                 }
             except Exception as _fj_err:
                 print(f"⚠️  [FinalJudge] 評分失敗，不影響影片輸出：{_fj_err}")
+        elif _fj_disabled:
+            print("⏭️  [階段 4: FinalJudge] 已透過 LLMANIM_DISABLE_FJ=1 停用")
         # ── 最終統計報告 ────────────────────────────────────────────────────
         print(llm.get_session_report())
         

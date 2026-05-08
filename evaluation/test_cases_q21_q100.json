@@ -1,0 +1,1682 @@
+[
+  {
+    "id": "Q021",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數加減",
+    "difficulty": 3,
+    "topic": "算式 $\\frac{13}{6} - \\left( -2\\frac{3}{4} \\right)$ 之值為何？\n\n(A) $\\frac{59}{12}$\n(B) $-\\frac{7}{12}$\n(C) $\\frac{41}{12}$\n(D) $\\frac{12}{5}$\n\n【題目類型】選擇題\n【知識點】分數加減\n【正確答案】（選項A）$\\frac{59}{12}$\n【解題步驟】\n【計算過程】\n步驟 1: -2 3/4 = -11/4\n步驟 2: 13/6 - (-11/4) = 13/6 + 11/4\n步驟 3: 13/6 = 26/12\n步驟 4: 11/4 = 33/12\n步驟 5: 26/12 + 33/12 = 59/12\n最終答案: 59/12",
+    "topic_en": "",
+    "answer": "（選項A）$\\frac{59}{12}$",
+    "solution": "首先，將帶分數轉換為假分數。$-2\\frac{3}{4} = -\\frac{2 \\times 4 + 3}{4} = -\\frac{11}{4}$。\n原式改寫為 $\\frac{13}{6} - (-\\frac{11}{4})$。\n根據運算規則，減去一個數等於加上它的相反數，因此算式變為 $\\frac{13}{6} + \\frac{11}{4}$。\n接著進行通分，分母 $6$ 與 $4$ 的最小公倍數為 $12$。\n將兩分數擴分：$\\frac{13}{6} = \\frac{26}{12}$，$\\frac{11}{4} = \\frac{33}{12}$。\n最後將分子相加：$\\frac{26}{12} + \\frac{33}{12} = \\frac{59}{12}$。\n\n【計算過程】\n步驟 1: -2 3/4 = -11/4\n步驟 2: 13/6 - (-11/4) = 13/6 + 11/4\n步驟 3: 13/6 = 26/12\n步驟 4: 11/4 = 33/12\n步驟 5: 26/12 + 33/12 = 59/12\n最終答案: 59/12",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q022",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "估算 $1005 \\times (-\\frac{1005}{1004})$ 的值最接近下列哪一個整數？\n\n(A) (A) $-1004$\n(B) (B) $-1005$\n(C) (C) $-1006$\n(D) (D) $-1007$\n\n【題目類型】選擇題\n【知識點】分數乘除\n【正確答案】（選項C）(C) $-1006$",
+    "topic_en": "",
+    "answer": "（選項C）(C) $-1006$",
+    "solution": "首先，將假分數 $-\\frac{1005}{1004}$ 轉換為帶分數，可以寫成 $-1\\frac{1}{1004}$，也就是 $(-1 - \\frac{1}{1004})$。接著利用分配律將式子展開：$1005 \\times (-1 - \\frac{1}{1004}) = 1005 \\times (-1) - 1005 \\times \\frac{1}{1004} = -1005 - \\frac{1005}{1004}$。因為 $\\frac{1005}{1004} = 1\\frac{1}{1004}$，所以原式變成 $-1005 - 1\\frac{1}{1004} = -1006\\frac{1}{1004}$。在數線上，這個數位於 $-1006$ 與 $-1007$ 之間，但距離 $-1006$ 非常近。因此最接近的整數為 $-1006$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q023",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 $(-2\\frac{1}{4}) \\div 1\\frac{1}{2} \\times (-\\frac{8}{9})$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】分數乘除\n【正確答案】4/3\n【解題步驟】\n【計算過程】\n步驟 1: -2\\frac{1}{4} = -\\frac{9}{4}\n步驟 2: 1\\frac{1}{2} = \\frac{3}{2}\n步驟 3: (-\\frac{9}{4}) \\div \\frac{3}{2} \\times (-\\frac{8}{9}) = (-\\frac{9}{4}) \\times \\frac{2}{3} \\times (-\\frac{8}{9})\n步驟 4: (-\\frac{9}{4}) \\times \\frac{2}{3} = -\\frac{3}{2}\n步驟 5: (-\\frac{3}{2}) \\times (-\\frac{8}{9}) = \\frac{4}{3}\n最終答案: 4/3",
+    "topic_en": "",
+    "answer": "4/3",
+    "solution": "進行分數乘除運算時，第一步需將算式中所有的帶分數化為假分數。$-2\\frac{1}{4}$ 化為 $-\\frac{9}{4}$，$1\\frac{1}{2}$ 化為 $\\frac{3}{2}$。然後將除以 $\\frac{3}{2}$ 轉換為乘以倒數 $\\frac{2}{3}$。算式重寫為 $(-\\frac{9}{4}) \\times \\frac{2}{3} \\times (-\\frac{8}{9})$。算式中總共包含兩個負號，負負得正，因此結果必為正數。接著進行約分：$-\\frac{9}{4} \\times \\frac{2}{3} = -\\frac{3}{2}$，接著 $-\\frac{3}{2} \\times (-\\frac{8}{9}) = \\frac{24}{18} = \\frac{4}{3}$。\n\n【計算過程】\n步驟 1: -2\\frac{1}{4} = -\\frac{9}{4}\n步驟 2: 1\\frac{1}{2} = \\frac{3}{2}\n步驟 3: (-\\frac{9}{4}) \\div \\frac{3}{2} \\times (-\\frac{8}{9}) = (-\\frac{9}{4}) \\times \\frac{2}{3} \\times (-\\frac{8}{9})\n步驟 4: (-\\frac{9}{4}) \\times \\frac{2}{3} = -\\frac{3}{2}\n步驟 5: (-\\frac{3}{2}) \\times (-\\frac{8}{9}) = \\frac{4}{3}\n最終答案: 4/3",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q024",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 $(-\\frac{7}{18}) \\times 2\\frac{4}{7} \\div (-1\\frac{1}{3})$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數乘除\n【正確答案】3/4\n【解題步驟】\n【計算過程】\n步驟 1: 2\\frac{4}{7} = \\frac{18}{7}\n步驟 2: -1\\frac{1}{3} = -\\frac{4}{3}\n步驟 3: (-\\frac{7}{18}) \\times \\frac{18}{7} \\div (-\\frac{4}{3}) = (-\\frac{7}{18}) \\times \\frac{18}{7} \\times (-\\frac{3}{4})\n步驟 4: (-\\frac{7}{18}) \\times \\frac{18}{7} = -1\n步驟 5: -1 \\times (-\\frac{3}{4}) = \\frac{3}{4}\n最終答案: 3/4",
+    "topic_en": "",
+    "answer": "3/4",
+    "solution": "在遇到帶分數的乘除混合運算時，必須先將所有的帶分數化為假分數。$2\\frac{4}{7}$ 化為 $\\frac{18}{7}$，$-1\\frac{1}{3}$ 化為 $-\\frac{4}{3}$。接著，將除以一個分數轉換為乘以該分數的倒數，所以 $\\div (-\\frac{4}{3})$ 變成 $\\times (-\\frac{3}{4})$。整個算式變為 $(-\\frac{7}{18}) \\times \\frac{18}{7} \\times (-\\frac{3}{4})$。判斷式子中有兩個負號相乘，因此最後的結果為正數。前兩項 $(-\\frac{7}{18}) \\times \\frac{18}{7}$ 約分後為 $-1$，再乘以 $(-\\frac{3}{4})$，得到答案 $\\frac{3}{4}$。\n\n【計算過程】\n步驟 1: 2\\frac{4}{7} = \\frac{18}{7}\n步驟 2: -1\\frac{1}{3} = -\\frac{4}{3}\n步驟 3: (-\\frac{7}{18}) \\times \\frac{18}{7} \\div (-\\frac{4}{3}) = (-\\frac{7}{18}) \\times \\frac{18}{7} \\times (-\\frac{3}{4})\n步驟 4: (-\\frac{7}{18}) \\times \\frac{18}{7} = -1\n步驟 5: -1 \\times (-\\frac{3}{4}) = \\frac{3}{4}\n最終答案: 3/4",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q025",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "算式 $[-8 - (-14)] \\div (\\frac{2}{3} \\times \\frac{9}{4})$ 之值為 _____\n\n【題目類型】填空題\n【知識點】完整的四則混合運算\n【正確答案】4.0\n【解題步驟】\n【計算過程】\n步驟 1: -8 - (-14) = 6\n步驟 2: \\frac{2}{3} \\times \\frac{9}{4} = \\frac{3}{2}\n步驟 3: 6 \\div \\frac{3}{2} = 4\n最終答案: 4",
+    "topic_en": "",
+    "answer": "4.0",
+    "solution": "首先計算中括號內的整數減法，減去一個負數等於加上一個正數：$-8 - (-14) = -8 + 14 = 6$。接著計算小括號內的分數乘法，可以先進行約分：$\\frac{2}{3} \\times \\frac{9}{4} = \\frac{1 \\times 3}{1 \\times 2} = \\frac{3}{2}$。最後進行除法運算：$6 \\div \\frac{3}{2} = 6 \\times \\frac{2}{3} = 4$。\n\n【計算過程】\n步驟 1: -8 - (-14) = 6\n步驟 2: \\frac{2}{3} \\times \\frac{9}{4} = \\frac{3}{2}\n步驟 3: 6 \\div \\frac{3}{2} = 4\n最終答案: 4",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q026",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 4,
+    "topic": "算式 $-3.2 \\div [(\\frac{1}{4} - 1) \\times \\frac{8}{3} + \\frac{1}{2}]$ 之值為何？\n\n【題目類型】計算題\n【知識點】完整的四則混合運算\n【正確答案】\\frac{32}{15}\n【解題步驟】\n【計算過程】\n步驟 1: \\frac{1}{4} - 1 = -\\frac{3}{4}\n步驟 2: -\\frac{3}{4} \\times \\frac{8}{3} = -2\n步驟 3: -2 + \\frac{1}{2} = -\\frac{3}{2}\n步驟 4: -3.2 = -\\frac{16}{5}\n步驟 5: -\\frac{16}{5} \\div (-\\frac{3}{2}) = \\frac{32}{15}\n最終答案: \\frac{32}{15}",
+    "topic_en": "",
+    "answer": "\\frac{32}{15}",
+    "solution": "首先計算小括號內的減法：$\\frac{1}{4} - 1 = -\\frac{3}{4}$。接著進行中括號內的乘法運算：$-\\frac{3}{4} \\times \\frac{8}{3} = -2$。再來計算中括號內的加法：$-2 + \\frac{1}{2} = -\\frac{3}{2}$。最後，將 $-3.2$ 化為分數 $-\\frac{16}{5}$，並進行除法運算：$-\\frac{16}{5} \\div (-\\frac{3}{2}) = -\\frac{16}{5} \\times (-\\frac{2}{3}) = \\frac{32}{15}$。\n\n【計算過程】\n步驟 1: \\frac{1}{4} - 1 = -\\frac{3}{4}\n步驟 2: -\\frac{3}{4} \\times \\frac{8}{3} = -2\n步驟 3: -2 + \\frac{1}{2} = -\\frac{3}{2}\n步驟 4: -3.2 = -\\frac{16}{5}\n步驟 5: -\\frac{16}{5} \\div (-\\frac{3}{2}) = \\frac{32}{15}\n最終答案: \\frac{32}{15}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q027",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "算式 $2024 \\div \\frac{3}{7} - 2024 \\times \\frac{4}{3}$ 之值與下列哪一個式子的值相等？\n\n(A) $2024 \\times (\\frac{7}{3} - \\frac{4}{3})$\n(B) $2024 \\times (\\frac{3}{7} - \\frac{4}{3})$\n(C) $2024 \\div (\\frac{3}{7} - \\frac{4}{3})$\n(D) $2024 \\div (\\frac{7}{3} - \\frac{4}{3})$\n\n【題目類型】選擇題\n【知識點】完整的四則混合運算\n【正確答案】（選項A）$2024 \\times (\\frac{7}{3} - \\frac{4}{3})$\n【解題步驟】\n【計算過程】\n步驟 1: 2024 \\div \\frac{3}{7} = 2024 \\times \\frac{7}{3}\n步驟 2: 2024 \\times \\frac{7}{3} - 2024 \\times \\frac{4}{3} = 2024 \\times (\\frac{7}{3} - \\frac{4}{3})\n最終答案: 2024 \\times (\\frac{7}{3} - \\frac{4}{3})",
+    "topic_en": "",
+    "answer": "（選項A）$2024 \\times (\\frac{7}{3} - \\frac{4}{3})$",
+    "solution": "根據分數的除法規則，除以一個分數等於乘以該分數的倒數。因此 $2024 \\div \\frac{3}{7} = 2024 \\times \\frac{7}{3}$。原式可改寫為 $2024 \\times \\frac{7}{3} - 2024 \\times \\frac{4}{3}$。接著利用乘法對減法的分配律，提出共同的因數 $2024$，得到 $2024 \\times (\\frac{7}{3} - \\frac{4}{3})$。故選 A。\n\n【計算過程】\n步驟 1: 2024 \\div \\frac{3}{7} = 2024 \\times \\frac{7}{3}\n步驟 2: 2024 \\times \\frac{7}{3} - 2024 \\times \\frac{4}{3} = 2024 \\times (\\frac{7}{3} - \\frac{4}{3})\n最終答案: 2024 \\times (\\frac{7}{3} - \\frac{4}{3})",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q028",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "整數加減",
+    "difficulty": 2,
+    "topic": "計算 $(-45) - (-18) + 20$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數加減\n【正確答案】-7.0\n【解題步驟】\n【計算過程】\n步驟 1: -(-18) = +18\n步驟 2: -45 + 18 = -27\n步驟 3: -27 + 20 = -7\n最終答案: -7",
+    "topic_en": "",
+    "answer": "-7.0",
+    "solution": "首先處理括號與運算符號。根據『減去一個負數等於加上一個正數』的規則，將式子中的『-(-18)』轉換為『+18』。原式變為 -45 + 18 + 20。接著由左至右進行計算：-45 + 18 等於 -27。最後計算 -27 + 20，因為一負一正相加，相當於求兩者絕對值的差並冠上絕對值較大者的性質符號，故答案為 -7。\n\n【計算過程】\n步驟 1: -(-18) = +18\n步驟 2: -45 + 18 = -27\n步驟 3: -27 + 20 = -7\n最終答案: -7",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q029",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 $185 + [(-215) + (-185)]$ 的值。\n\n【題目類型】計算題\n【知識點】整數加減\n【正確答案】-215.0\n【解題步驟】\n【計算過程】\n步驟 1: 185 + [(-215) + (-185)] = 185 + (-215) + (-185)\n步驟 2: 185 + (-185) + (-215) = 0 + (-215)\n步驟 3: 0 + (-215) = -215\n最終答案: -215",
+    "topic_en": "",
+    "answer": "-215.0",
+    "solution": "本題如果直接由左至右計算，會需要處理較大的數字相減。我們可以觀察算式中的數字特徵，發現括號外面有一個 185，括號裡面有一個 -185。根據加法的結合律與交換律，我們可以先將括號拆開，重新組合：原式 = 185 + (-215) + (-185) = 185 + (-185) + (-215)。因為 185 與 -185 互為相反數，相加的結果為 0。最後剩下 0 + (-215) = -215。這樣可以大幅簡化計算過程。\n\n【計算過程】\n步驟 1: 185 + [(-215) + (-185)] = 185 + (-215) + (-185)\n步驟 2: 185 + (-185) + (-215) = 0 + (-215)\n步驟 3: 0 + (-215) = -215\n最終答案: -215",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q030",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 $(-73) - 28 + (-17) - (-38)$ 的值，下列何者正確？\n\n(A) -80.0\n(B) -156.0\n(C) -46.0\n(D) 66.0\n\n【題目類型】選擇題\n【知識點】整數加減\n【正確答案】（選項A）-80\n【解題步驟】\n【計算過程】\n步驟 1: +(-17) = -17\n步驟 2: -(-38) = +38\n步驟 3: -73 - 28 = -101\n步驟 4: -101 - 17 = -118\n步驟 5: -118 + 38 = -80\n最終答案: -80",
+    "topic_en": "",
+    "answer": "（選項A）-80",
+    "solution": "首先將算式中的括號去除，特別注意運算符號的轉換。原式 = -73 - 28 - 17 + 38。接著由左至右逐步計算：先算 -73 - 28 = -101。再算 -101 - 17 = -118。最後計算 -118 + 38，這是一個負數加上一個正數，相當於計算 118 減去 38 的絕對值差，並保留負號，得到 -80。因此正確答案為 A。\n\n【計算過程】\n步驟 1: +(-17) = -17\n步驟 2: -(-38) = +38\n步驟 3: -73 - 28 = -101\n步驟 4: -101 - 17 = -118\n步驟 5: -118 + 38 = -80\n最終答案: -80",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q031",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數加減",
+    "difficulty": 4,
+    "topic": "計算 $543 - [219 + (-543)] - 381$ 的值為何？\n\n(A) 486.0\n(B) -600.0\n(C) -162.0\n(D) -486.0\n\n【題目類型】選擇題\n【知識點】整數加減\n【正確答案】（選項A）486\n【解題步驟】\n【計算過程】\n步驟 1: 543 - [219 - 543] - 381 = 543 - 219 + 543 - 381\n步驟 2: 543 + 543 = 1086\n步驟 3: -219 - 381 = -600\n步驟 4: 1086 - 600 = 486\n最終答案: 486",
+    "topic_en": "",
+    "answer": "（選項A）486",
+    "solution": "此題若先算括號內會稍微繁瑣，最佳解法是直接去中括號。中括號前面是減號『-』，所以去掉括號時，括號內的每一項都必須變號。原式 = 543 - 219 - (-543) - 381 = 543 - 219 + 543 - 381。此時可以重新排列順序：(543 + 543) - (219 + 381) = 1086 - 600 = 486。若學生選擇先算中括號內：219 + (-543) = -324。接著算 543 - (-324) - 381 = 543 + 324 - 381 = 867 - 381 = 486，答案亦相同。故選A。\n\n【計算過程】\n步驟 1: 543 - [219 - 543] - 381 = 543 - 219 + 543 - 381\n步驟 2: 543 + 543 = 1086\n步驟 3: -219 - 381 = -600\n步驟 4: 1086 - 600 = 486\n最終答案: 486",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q032",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數加減",
+    "difficulty": 4,
+    "topic": "計算 $(-1234) + 567 - (-2234) - 1567$ 的值。\n\n【題目類型】計算題\n【知識點】整數加減\n【正確答案】0.0\n【解題步驟】\n【計算過程】\n步驟 1: -(-2234) = +2234\n步驟 2: -1234 + 2234 = 1000\n步驟 3: 567 - 1567 = -1000\n步驟 4: 1000 + (-1000) = 0\n最終答案: 0",
+    "topic_en": "",
+    "answer": "0.0",
+    "solution": "此題數字雖然較大，但有明顯的規律。首先，將減去一個負數轉換為加上一個正數：原式 = -1234 + 567 + 2234 - 1567。接著，利用加法交換律與結合律，將尾數相同的數字組合在一起進行計算。我們可以將式子重新排列為：(-1234 + 2234) + (567 - 1567)。計算第一組：-1234 + 2234 = 1000。計算第二組：567 - 1567 = -1000。最後將兩組結果相加：1000 + (-1000) = 0。\n\n【計算過程】\n步驟 1: -(-2234) = +2234\n步驟 2: -1234 + 2234 = 1000\n步驟 3: 567 - 1567 = -1000\n步驟 4: 1000 + (-1000) = 0\n最終答案: 0",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q033",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數加減",
+    "difficulty": 2,
+    "topic": "計算 $(-35) + (-28) + 75$ 的值。\n\n【題目類型】計算題\n【知識點】整數加減\n【正確答案】12.0\n【解題步驟】\n【計算過程】\n步驟 1: (-35) + (-28) = -63\n步驟 2: -63 + 75 = 12\n最終答案: 12",
+    "topic_en": "",
+    "answer": "12.0",
+    "solution": "計算多個整數相加時，我們可以由左至右依序計算。首先計算 $(-35) + (-28)$，因為兩數皆為負數（同號），所以將絕對值相加並加上負號，得到 $-63$。接著計算 $(-63) + 75$，兩數為異號相加，我們將絕對值較大的數減去絕對值較小的數，並取絕對值較大數字的正負號。因為 $75 > 63$，所以結果為 $75 - 63 = 12$。\n\n【計算過程】\n步驟 1: (-35) + (-28) = -63\n步驟 2: -63 + 75 = 12\n最終答案: 12",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q034",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 $(-58) - (-32) + 18$ 的值為何？\n\n(A) $-108$\n(B) $-72$\n(C) $-8$\n(D) $44$\n\n【題目類型】選擇題\n【知識點】整數加減\n【正確答案】（選項C）$-8$\n【解題步驟】\n【計算過程】\n步驟 1: -(-32) = + 32\n步驟 2: (-58) + 32 + 18 = -58 + 50\n步驟 3: -58 + 50 = -8\n最終答案: -8",
+    "topic_en": "",
+    "answer": "（選項C）$-8$",
+    "solution": "首先，根據去括號法則，減去一個負數等於加上一個正數，所以 $-(-32)$ 會變成 $+32$。原式可以改寫為 $-58 + 32 + 18$。接著我們由左至右計算，或是先將正數結合。若先將後面兩個正數相加，得到 $32 + 18 = 50$。最後計算 $-58 + 50$，由於是異號相加，絕對值較大的是 $58$，所以取負號，結果為 $-(58 - 50) = -8$。\n\n【計算過程】\n步驟 1: -(-32) = + 32\n步驟 2: (-58) + 32 + 18 = -58 + 50\n步驟 3: -58 + 50 = -8\n最終答案: -8",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q035",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 $423 + [(-158) + (-423)]$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數加減\n【正確答案】-158.0\n【解題步驟】\n【計算過程】\n步驟 1: 423 + [(-158) + (-423)] = 423 + (-423) + (-158)\n步驟 2: 423 + (-423) = 0\n步驟 3: 0 + (-158) = -158\n最終答案: -158",
+    "topic_en": "",
+    "answer": "-158.0",
+    "solution": "觀察題目算式 $423 + [(-158) + (-423)]$，我們發現括號外有一個正的 $423$，而括號內有一個負的 $-423$。因為整數加法符合交換律和結合律，我們可以改變相加的順序。將原式改寫為 $[423 + (-423)] + (-158)$。互為相反數的兩數相加結果為 $0$，因此式子變成 $0 + (-158)$，最後結果即為 $-158$。\n\n【計算過程】\n步驟 1: 423 + [(-158) + (-423)] = 423 + (-423) + (-158)\n步驟 2: 423 + (-423) = 0\n步驟 3: 0 + (-158) = -158\n最終答案: -158",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q036",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數加減",
+    "difficulty": 3,
+    "topic": "下列哪一個算式的計算結果與 $125 - 78 - (-25)$ 相同？\n\n(A) $(125 - 78) - 25$\n(B) $125 + 25 - 78$\n(C) $125 - (78 + 25)$\n(D) $78 - 125 + 25$\n\n【題目類型】選擇題\n【知識點】整數加減\n【正確答案】（選項B）$125 + 25 - 78$",
+    "topic_en": "",
+    "answer": "（選項B）$125 + 25 - 78$",
+    "solution": "原算式為 $125 - 78 - (-25)$。我們知道減去一個負數等於加上這個數字的正數，所以 $- (-25)$ 可以改寫為 $+ 25$。因此原式變成 $125 - 78 + 25$。此時，為了讓計算更方便，我們可以把加上 $25$ 往前移，即利用運算律改為 $125 + 25 - 78$。對比選項，選項 B 完全符合。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q037",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 $(-144) + 67 - (-44)$ 的值。\n\n【題目類型】計算題\n【知識點】整數加減\n【正確答案】-33.0\n【解題步驟】\n【計算過程】\n步驟 1: -(-44) = + 44\n步驟 2: -144 + 44 = -100\n步驟 3: -100 + 67 = -33\n最終答案: -33",
+    "topic_en": "",
+    "answer": "-33.0",
+    "solution": "原式為 $(-144) + 67 - (-44)$。首先處理減去負數的部分，$- (-44)$ 等同於 $+ 44$，所以算式變為 $-144 + 67 + 44$。接著，觀察數字可以發現，$-144$ 和 $+44$ 的尾數相同，適合先做計算。我們將順序交換，變為 $(-144) + 44 + 67$。計算 $(-144) + 44$，因為是異號相加且絕對值 $144 > 44$，故結果為 $-100$。最後計算 $-100 + 67$，同樣是異號相加，結果為 $-33$。\n\n【計算過程】\n步驟 1: -(-44) = + 44\n步驟 2: -144 + 44 = -100\n步驟 3: -100 + 67 = -33\n最終答案: -33",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q038",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數加減",
+    "difficulty": 3,
+    "topic": "小明計算算式 $-45 - (-23) + (-12)$ 的過程如下：\n步驟一：原式 = $-45 + 23 - 12$\n步驟二：原式 = $-(45 + 23) - 12$\n步驟三：原式 = $-68 - 12$\n步驟四：原式 = $-80$\n請問小明從哪一個步驟開始發生錯誤？\n\n(A) 步驟一\n(B) 步驟二\n(C) 步驟三\n(D) 步驟四\n\n【題目類型】選擇題\n【知識點】整數加減\n【正確答案】（選項B）步驟二",
+    "topic_en": "",
+    "answer": "（選項B）步驟二",
+    "solution": "檢視小明的計算過程：\n步驟一是正確的，因為 $-(-23)$ 等於 $+23$，而 $+(-12)$ 等於 $-12$。\n步驟二發生了錯誤。小明試圖把前面的 $-45 + 23$ 提取一個負號，但是正確的提取方式應該是 $-(45 - 23)$，而不是 $-(45 + 23)$。正因為這裡符號提取錯誤，導致後續的結果完全不對。正確算法應為 $(-45 + 23) - 12 = -22 - 12 = -34$。因此錯誤發生在步驟二。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q039",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "整數加減",
+    "difficulty": 4,
+    "topic": "計算 $99 - 198 + 299 - 398$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數加減\n【正確答案】-198.0\n【解題步驟】\n【計算過程】\n步驟 1: 99 - 198 = -99\n步驟 2: 299 - 398 = -99\n步驟 3: (-99) + (-99) = -198\n最終答案: -198",
+    "topic_en": "",
+    "answer": "-198.0",
+    "solution": "這題如果直接從左到右計算會比較繁瑣。我們可以觀察數字之間的關聯，使用分組的方法來簡化。將算式兩兩分組為 $(99 - 198) + (299 - 398)$。計算第一個括號：$99 - 198 = -99$；計算第二個括號：$299 - 398 = -99$。最後將兩個結果相加：$(-99) + (-99) = -198$。\n另一種思維是將數字視為接近百位的數：$(100-1) - (200-2) + (300-1) - (400-2)$，也能推導出相同答案。\n\n【計算過程】\n步驟 1: 99 - 198 = -99\n步驟 2: 299 - 398 = -99\n步驟 3: (-99) + (-99) = -198\n最終答案: -198",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q040",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數加減",
+    "difficulty": 4,
+    "topic": "計算 $15 - [ (-28) - 17 + (-5) ]$ 的值。\n\n【題目類型】計算題\n【知識點】整數加減\n【正確答案】65.0\n【解題步驟】\n【計算過程】\n步驟 1: -28 - 17 - 5 = -50\n步驟 2: 15 - (-50) = 15 + 50\n步驟 3: 15 + 50 = 65\n最終答案: 65",
+    "topic_en": "",
+    "answer": "65.0",
+    "solution": "根據四則運算法則，必須先計算中括號 $[$ $]$ 內部的數值。中括號內為 $(-28) - 17 + (-5)$，可以先將運算符號簡化，變成 $-28 - 17 - 5$。這三個數字都是負數連減，代表要將它們的絕對值相加並冠上負號。$28 + 17 + 5 = 50$，所以括號內的結果為 $-50$。接著將這個結果代回原式：$15 - [ -50 ]$。根據去括號法則，負負得正，式子變為 $15 + 50$，最終結果為 $65$。\n\n【計算過程】\n步驟 1: -28 - 17 - 5 = -50\n步驟 2: 15 - (-50) = 15 + 50\n步驟 3: 15 + 50 = 65\n最終答案: 65",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q041",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數加減",
+    "difficulty": 4,
+    "topic": "某地昨天的清晨溫度為 $-5^{\\circ}\\text{C}$，到了中午溫度上升了 $12^{\\circ}\\text{C}$，入夜後溫度又下降了 $9^{\\circ}\\text{C}$，則入夜後的溫度為多少 $^{\\circ}\\text{C}$？\n\n(A) $-2$\n(B) $2$\n(C) $16$\n(D) $-26$\n\n【題目類型】選擇題\n【知識點】整數加減\n【正確答案】（選項A）$-2$\n【解題步驟】\n【計算過程】\n步驟 1: -5 + 12 = 7\n步驟 2: 7 - 9 = -2\n最終答案: -2",
+    "topic_en": "",
+    "answer": "（選項A）$-2$",
+    "solution": "這是一個整數加減法在生活情境中的應用。我們將初始溫度設為基準。清晨溫度是 $-5$。溫度「上升」代表加上正數，所以到了中午溫度變成 $-5 + 12 = 7$。接著溫度「下降」代表減去正數（或加上負數），所以入夜後的溫度為 $7 - 9$。由於 $7$ 不夠減 $9$，結果會是負數，最終答案為 $-2$。表示入夜後溫度為 $-2^{\\circ}\\text{C}$。\n\n【計算過程】\n步驟 1: -5 + 12 = 7\n步驟 2: 7 - 9 = -2\n最終答案: -2",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q042",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 2,
+    "topic": "計算 $24 \\times (-5)$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數乘除\n【正確答案】-120.0\n【解題步驟】\n【計算過程】\n步驟 1: 24 * 5 = 120\n步驟 2: -(120) = -120\n最終答案: -120",
+    "topic_en": "",
+    "answer": "-120.0",
+    "solution": "進行正負數乘法時，首先判斷結果的符號。正整數乘以負整數，結果為負數。接著將數字部分相乘：$24 \\times 5 = 120$，加上負號即可得到答案 $-120$。\n\n【計算過程】\n步驟 1: 24 * 5 = 120\n步驟 2: -(120) = -120\n最終答案: -120",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q043",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "計算 $(-48) \\div (-8) \\times (-3)$ 的值。\n\n【題目類型】計算題\n【知識點】整數乘除\n【正確答案】-18.0\n【解題步驟】\n【計算過程】\n步驟 1: (-48) / (-8) = 6\n步驟 2: 6 * (-3) = -18\n最終答案: -18",
+    "topic_en": "",
+    "answer": "-18.0",
+    "solution": "在只有乘法與除法的算式中，必須依據「由左至右」的原則進行運算。首先計算前面的除法：$(-48) \\div (-8)$，因為負負得正，結果為 $6$。接著將結果帶入後面的乘法，計算 $6 \\times (-3)$，正數乘以負數得到負數，結果為 $-18$。\n\n【計算過程】\n步驟 1: (-48) / (-8) = 6\n步驟 2: 6 * (-3) = -18\n最終答案: -18",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q044",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "若要計算 $(-25) \\times 998$ 的值，下列哪一個算式與其計算結果相等？\n\n(A) $(-25) \\times 1000 - 2$\n(B) $(-25) \\times 1000 + 50$\n(C) $(-25) \\times 1000 - 50$\n(D) $(-25) \\times 1000 + 2$\n\n【題目類型】選擇題\n【知識點】整數乘除\n【正確答案】（選項B）$(-25) \\times 1000 + 50$",
+    "topic_en": "",
+    "answer": "（選項B）$(-25) \\times 1000 + 50$",
+    "solution": "為了讓計算更簡便，可以將接近 $1000$ 的數字 $998$ 改寫為 $(1000 - 2)$。算式變為 $(-25) \\times (1000 - 2)$。接著利用乘法對減法的分配律：$A \\times (B - C) = A \\times B - A \\times C$，展開後得到 $(-25) \\times 1000 - (-25) \\times 2$。後半部減去一個負數等於加上一個正數，即 $- (-50) = + 50$。所以結果為 $(-25) \\times 1000 + 50$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q045",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "關於算式 $(-72) \\div (-6) \\div (-3)$ 的計算過程與結果，下列敘述何者正確？\n\n(A) 可以先算 $(-6) \\div (-3) = 2$，再算 $(-72) \\div 2 = -36$\n(B) 必須先算 $(-72) \\div (-6) = 12$，再算 $12 \\div (-3) = -4$\n(C) 因為算式中有奇數個負號，所以不管怎麼算結果都是正數\n(D) 算式可以改寫為 $(-72) \\div [(-6) \\div (-3)]$\n\n【題目類型】選擇題\n【知識點】整數乘除\n【正確答案】（選項B）必須先算 $(-72) \\div (-6) = 12$，再算 $12 \\div (-3) = -4$",
+    "topic_en": "",
+    "answer": "（選項B）必須先算 $(-72) \\div (-6) = 12$，再算 $12 \\div (-3) = -4$",
+    "solution": "在四則運算中，若算式僅含有乘除法，必須由左至右依序計算。因為除法不具備結合律，我們不能任意加括號先算後面的部分。第一步先計算 $(-72) \\div (-6)$ 得到正數 $12$；第二步再計算 $12 \\div (-3)$ 得到負數 $-4$。因此選項 B 的步驟完全正確。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q046",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "計算 $(-5) \\times 17 \\times (-20)$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數乘除\n【正確答案】1700.0\n【解題步驟】\n【計算過程】\n步驟 1: (-5) * (-20) = 100\n步驟 2: 100 * 17 = 1700\n最終答案: 1700",
+    "topic_en": "",
+    "answer": "1700.0",
+    "solution": "在只有乘法的算式中，因為乘法具有交換律與結合律，我們可以改變數字相乘的順序讓計算更方便。觀察題目中的數字，$(-5)$ 與 $(-20)$ 乘起來會變成漂亮的整數 $100$（負負得正）。所以我們先將這兩個數相乘：$(-5) \\times (-20) = 100$。接著再將 $100$ 乘以 $17$，即可輕鬆得到 $1700$。\n\n【計算過程】\n步驟 1: (-5) * (-20) = 100\n步驟 2: 100 * 17 = 1700\n最終答案: 1700",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q047",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 4,
+    "topic": "已知 $a$、$b$、$c$ 皆為不為零的整數，且 $a \\times b < 0$、$b \\div c > 0$。下列敘述何者必定正確？\n\n(A) $a \\times c > 0$\n(B) $a \\div c < 0$\n(C) $a$、$b$、$c$ 三數中必有兩個正數\n(D) $a$、$b$、$c$ 三數中必有兩個負數\n\n【題目類型】選擇題\n【知識點】整數乘除\n【正確答案】（選項B）$a \\div c < 0$",
+    "topic_en": "",
+    "answer": "（選項B）$a \\div c < 0$",
+    "solution": "判斷數值正負時，兩數相乘除若小於零代表異號，大於零代表同號。因為 $a \\times b < 0$，代表 $a$ 與 $b$ 符號相反（一正一負）。又因為 $b \\div c > 0$，代表 $b$ 與 $c$ 符號相同（同正或同負）。綜合上述條件推論，因為 $b$ 和 $c$ 同號，而 $a$ 和 $b$ 異號，所以 $a$ 必定與 $c$ 異號。既然 $a$ 與 $c$ 異號，那麼不管是相乘 $a \\times c$ 還是相除 $a \\div c$，結果都必定小於零。故選項 B 為正確答案。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q048",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 4,
+    "topic": "計算 $54 \\times (-39) - 46 \\times 39$ 的值。\n\n【題目類型】計算題\n【知識點】整數乘除\n【正確答案】-3900.0\n【解題步驟】\n【計算過程】\n步驟 1: 54 * (-39) + 46 * (-39) = (-39) * (54 + 46)\n步驟 2: (-39) * 100 = -3900\n最終答案: -3900",
+    "topic_en": "",
+    "answer": "-3900.0",
+    "solution": "觀察題目算式 $54 \\times (-39) - 46 \\times 39$，可以發現前後兩項都有數字 $39$。為了利用分配律，我們可以將後面的減號視為負號給予 $39$，將原算式改寫為 $54 \\times (-39) + 46 \\times (-39)$。這時兩項都含有共同乘數 $(-39)$，提出 $(-39)$ 後得到 $(-39) \\times (54 + 46)$。括號內的數相加為 $100$，最後計算 $(-39) \\times 100 = -3900$。\n\n【計算過程】\n步驟 1: 54 * (-39) + 46 * (-39) = (-39) * (54 + 46)\n步驟 2: (-39) * 100 = -3900\n最終答案: -3900",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q049",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "計算 $25 \\times (-39) \\times 4$ 的值。\n\n(A) 3900.0\n(B) -3900.0\n(C) -390.0\n(D) 390.0\n\n【題目類型】選擇題\n【知識點】整數乘除\n【正確答案】（選項B）-3900\n【解題步驟】\n【計算過程】\n步驟 1: 25 * 4 = 100\n步驟 2: 100 * (-39) = -3900\n最終答案: -3900",
+    "topic_en": "",
+    "answer": "（選項B）-3900",
+    "solution": "在進行多個整數相乘時，可以利用乘法交換律與結合律來簡化計算。觀察題目中的數字，發現 $25$ 和 $4$ 相乘可以得到 $100$。因此，我們可以先將原式改變順序，計算 $(25 \\times 4) \\times (-39)$。括號內計算結果為 $100$，接著計算 $100 \\times (-39)$，根據正負得負的規則，最後結果為 $-3900$。\n\n【計算過程】\n步驟 1: 25 * 4 = 100\n步驟 2: 100 * (-39) = -3900\n最終答案: -3900",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q050",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "計算 $(-48) \\div (-6) \\times (-3)$ 的值。\n\n【題目類型】計算題\n【知識點】整數乘除\n【正確答案】-24.0\n【解題步驟】\n【計算過程】\n步驟 1: (-48) / (-6) = 8\n步驟 2: 8 * (-3) = -24\n最終答案: -24",
+    "topic_en": "",
+    "answer": "-24.0",
+    "solution": "在沒有括號的整數乘除混合運算中，運算順序必須「由左至右」依序進行。首先計算左邊的除法：$(-48) \\div (-6)$，根據負負得正的規則，結果為 $8$。接著將得到的結果再與後面的數字相乘：$8 \\times (-3)$，根據正負得負的規則，最終答案為 $-24$。\n\n【計算過程】\n步驟 1: (-48) / (-6) = 8\n步驟 2: 8 * (-3) = -24\n最終答案: -24",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q051",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "計算 $42 \\div (-7) \\times 2$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數乘除\n【正確答案】-12.0\n【解題步驟】\n【計算過程】\n步驟 1: 42 / (-7) = -6\n步驟 2: -6 * 2 = -12\n最終答案: -12",
+    "topic_en": "",
+    "answer": "-12.0",
+    "solution": "在進行乘除混合運算時，規則是「由左至右」計算。首先，先計算 $42 \\div (-7)$。因為正數除以負數結果為負數，所以得到 $-6$。接下來，將這一步的結果乘以後面的數字，即 $(-6) \\times 2$。負數乘以正數結果為負數，所以最終答案為 $-12$。\n\n【計算過程】\n步驟 1: 42 / (-7) = -6\n步驟 2: -6 * 2 = -12\n最終答案: -12",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q052",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 3,
+    "topic": "關於整數的乘除運算，下列哪一個算式的結果與其他三者**不同**？\n\n(A) $(-60) \\div 6 \\times 2$\n(B) $(-60) \\div (6 \\times 2)$\n(C) $(-60) \\times 2 \\div 6$\n(D) $(-60) \\div 3$\n\n【題目類型】選擇題\n【知識點】整數乘除\n【正確答案】（選項B）$(-60) \\div (6 \\times 2)$\n【解題步驟】\n【計算過程】\n步驟 1: (-60) / 6 * 2 = -20\n步驟 2: (-60) / 12 = -5\n步驟 3: (-60) * 2 / 6 = -20\n步驟 4: (-60) / 3 = -20\n最終答案: B",
+    "topic_en": "",
+    "answer": "（選項B）$(-60) \\div (6 \\times 2)$",
+    "solution": "我們可以分別計算每個選項的結果。選項 A 是乘除混合運算，由左至右計算：$(-60) \\div 6 = -10$，接著 $-10 \\times 2 = -20$。選項 B 中有括號，必須先算括號內的乘法：$6 \\times 2 = 12$，接著算 $(-60) \\div 12 = -5$。選項 C 交換了乘法與除法的順序但仍符合同級運算：$(-60) \\times 2 = -120$，$-120 \\div 6 = -20$。選項 D 直接計算 $(-60) \\div 3 = -20$。比較四個選項，只有選項 B 的結果是 $-5$，與其他三個結果 $-20$ 不同。\n\n【計算過程】\n步驟 1: (-60) / 6 * 2 = -20\n步驟 2: (-60) / 12 = -5\n步驟 3: (-60) * 2 / 6 = -20\n步驟 4: (-60) / 3 = -20\n最終答案: B",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q053",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 4,
+    "topic": "計算 $(-13) \\times 24 - (-13) \\times (-76)$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數乘除\n【正確答案】-1300.0\n【解題步驟】\n【計算過程】\n步驟 1: 24 - (-76) = 24 + 76\n步驟 2: 24 + 76 = 100\n步驟 3: -13 * 100 = -1300\n最終答案: -1300",
+    "topic_en": "",
+    "answer": "-1300.0",
+    "solution": "觀察算式 $(-13) \\times 24 - (-13) \\times (-76)$，我們可以發現兩項都乘上了公因數 $(-13)$。根據分配律的逆向操作，我們可以將 $(-13)$ 提出來，算式改寫為 $(-13) \\times [ 24 - (-76) ]$。接著先處理中括號內的運算：$24 - (-76) = 24 + 76 = 100$。最後再計算 $(-13) \\times 100$，得到結果為 $-1300$。這樣算不僅比較快，也能避免大數字直接相乘的錯誤。\n\n【計算過程】\n步驟 1: 24 - (-76) = 24 + 76\n步驟 2: 24 + 76 = 100\n步驟 3: -13 * 100 = -1300\n最終答案: -1300",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q054",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 4,
+    "topic": "在計算 $(-15) \\times 998$ 時，下列哪一個計算過程與結果是正確的？\n\n(A) $(-15) \\times (1000 - 2) = -15000 - 30 = -15030$\n(B) $(-15) \\times (1000 - 2) = -15000 + 30 = -14970$\n(C) $(-15) \\times (1000 + 2) = -15000 - 30 = -15030$\n(D) $(-15) \\times (1000 - 2) = -15000 - 2 = -15002$\n\n【題目類型】選擇題\n【知識點】整數乘除\n【正確答案】（選項B）$(-15) \\times (1000 - 2) = -15000 + 30 = -14970$\n【解題步驟】\n【計算過程】\n步驟 1: (-15) * (1000 - 2) = (-15) * 1000 - (-15) * 2\n步驟 2: -15000 - (-30) = -15000 + 30\n步驟 3: -15000 + 30 = -14970\n最終答案: -14970",
+    "topic_en": "",
+    "answer": "（選項B）$(-15) \\times (1000 - 2) = -15000 + 30 = -14970$",
+    "solution": "利用乘法分配律計算 $(-15) \\times 998$。因為 998 接近 1000，我們可以將 998 改寫為 $(1000 - 2)$。算式變成 $(-15) \\times (1000 - 2)$。根據乘法分配律，將括號外的 $(-15)$ 分別乘進括號內的 1000 與 2，得到 $(-15) \\times 1000 - (-15) \\times 2。計算後得到 $-15000 - (-30)$。由於減去一個負數等於加上一個正數，故結果為 $-15000 + 30 = -14970$。因此選項 B 正確。\n\n【計算過程】\n步驟 1: (-15) * (1000 - 2) = (-15) * 1000 - (-15) * 2\n步驟 2: -15000 - (-30) = -15000 + 30\n步驟 3: -15000 + 30 = -14970\n最終答案: -14970",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q055",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "整數乘除",
+    "difficulty": 4,
+    "topic": "計算 $(-125) \\times (-17) \\times 8 \\div (-10)$ 的值。\n\n【題目類型】計算題\n【知識點】整數乘除\n【正確答案】-1700.0\n【解題步驟】\n【計算過程】\n步驟 1: (-125) * 8 = -1000\n步驟 2: (-1000) * (-17) = 17000\n步驟 3: 17000 / (-10) = -1700\n最終答案: -1700",
+    "topic_en": "",
+    "answer": "-1700.0",
+    "solution": "觀察算式 $(-125) \\times (-17) \\times 8 \\div (-10)$，由於乘法具有交換律，可以先將 $(-125)$ 與 $8$ 相乘，這樣可以湊成整數 $-1000$，使得後續的計算更加簡便。步驟如下：先計算 $(-125) \\times 8 = -1000$。接著計算 $(-1000) \\times (-17) = 17000$，此處套用同號數相乘為正數的規則。最後計算 $17000 \\div (-10) = -1700$，此處套用異號數相除為負數的規則。故最終答案為 $-1700$。\n\n【計算過程】\n步驟 1: (-125) * 8 = -1000\n步驟 2: (-1000) * (-17) = 17000\n步驟 3: 17000 / (-10) = -1700\n最終答案: -1700",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q056",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 2,
+    "topic": "計算 $(-15) - 24 \\div (-3) \\times 2$ 的值為何？\n\n(A) 1.0\n(B) -11.0\n(C) -31.0\n(D) 26.0\n\n【題目類型】選擇題\n【知識點】四則運算算則（不含去括號）\n【正確答案】（選項A）1\n【解題步驟】\n【計算過程】\n步驟 1: 24 \\div (-3) = -8\n步驟 2: -8 \\times 2 = -16\n步驟 3: -15 - (-16) = 1\n最終答案: 1",
+    "topic_en": "",
+    "answer": "（選項A）1",
+    "solution": "本題測驗整數的四則運算。算式中包含減法、除法與乘法。根據『先乘除、後加減』的原則，我們必須先處理乘除的部分。而乘除混合時，應『由左至右』依序計算。首先計算除法：24 ÷ (-3) = -8。接下來計算乘法：(-8) × 2 = -16。最後處理前面的減法：(-15) - (-16)。根據負數的減法規則，減去一個數等於加上這個數的相反數，因此變成 (-15) + 16 = 1。\n\n【計算過程】\n步驟 1: 24 \\div (-3) = -8\n步驟 2: -8 \\times 2 = -16\n步驟 3: -15 - (-16) = 1\n最終答案: 1",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q057",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $75 \\times (-38) + 75 \\times (-62)$ 的值。\n\n【題目類型】計算題\n【知識點】四則運算算則（不含去括號）\n【正確答案】-7500.0\n【解題步驟】\n【計算過程】\n步驟 1: (-38) + (-62) = -100\n步驟 2: 75 \\times (-100) = -7500\n最終答案: -7500",
+    "topic_en": "",
+    "answer": "-7500.0",
+    "solution": "本題測驗整數四則運算中分配律的應用。觀察算式可以發現，加號前後的兩項都乘上了相同的數字 75。為避免繁雜的乘法計算，我們可以利用乘法對加法的分配律，將共同的因數 75 提出來。算式可改寫為：75 × [(-38) + (-62)]。接著先計算括號內的加法：兩個負數相加，(-38) + (-62) = -100。最後計算 75 × (-100)，正數乘負數結果為負，得到 -7500。\n\n【計算過程】\n步驟 1: (-38) + (-62) = -100\n步驟 2: 75 \\times (-100) = -7500\n最終答案: -7500",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q058",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 2,
+    "topic": "計算 $15 \\times (-4) - (-28)$ 的值。\n\n【題目類型】計算題\n【知識點】四則運算算則（不含去括號）\n【正確答案】-32.0\n【解題步驟】\n【計算過程】\n步驟 1: 15 \\times (-4) = -60\n步驟 2: -60 - (-28) = -32\n最終答案: -32",
+    "topic_en": "",
+    "answer": "-32.0",
+    "solution": "本題測驗整數的四則運算規則。在四則運算中，必須遵循「先乘除、後加減」的原則。首先計算乘法部分：$15 \\times (-4) = -60$。接著將結果代回原算式，進行減法運算：$-60 - (-28)$。減去一個負數等於加上它的相反數，所以原式變為 $-60 + 28 = -32$。\n\n【計算過程】\n步驟 1: 15 \\times (-4) = -60\n步驟 2: -60 - (-28) = -32\n最終答案: -32",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q059",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "關於算式 $40 - 24 \\div (2 - 6) \\times (-3)$ 的計算結果，下列何者正確？\n\n(A) 22.0\n(B) 38.0\n(C) 12.0\n(D) 58.0\n\n【題目類型】選擇題\n【知識點】四則運算算則（不含去括號）\n【正確答案】（選項A）22\n【解題步驟】\n【計算過程】\n步驟 1: 2 - 6 = -4\n步驟 2: 24 \\div (-4) = -6\n步驟 3: -6 \\times (-3) = 18\n步驟 4: 40 - 18 = 22\n最終答案: 22",
+    "topic_en": "",
+    "answer": "（選項A）22",
+    "solution": "本題測驗含有小括號的整數四則運算。根據運算規則，必須「先算括號內的式子，再由左至右進行乘除運算，最後進行加減運算」。第一步，計算括號內的減法：$2 - 6 = -4$。算式變為 $40 - 24 \\div (-4) \\times (-3)$。第二步，由左至右進行乘除：先算 $24 \\div (-4) = -6$。第三步，再算 $(-6) \\times (-3) = 18$。第四步，進行最後的減法：$40 - 18 = 22$。因此正確答案為 A。\n\n【計算過程】\n步驟 1: 2 - 6 = -4\n步驟 2: 24 \\div (-4) = -6\n步驟 3: -6 \\times (-3) = 18\n步驟 4: 40 - 18 = 22\n最終答案: 22",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q060",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $(-125) \\times 87 + (-125) \\times 13$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算算則（不含去括號）\n【正確答案】-12500.0\n【解題步驟】\n【計算過程】\n步驟 1: 87 + 13 = 100\n步驟 2: -125 \\times 100 = -12500\n最終答案: -12500",
+    "topic_en": "",
+    "answer": "-12500.0",
+    "solution": "本題測驗分配律的概念與應用。觀察算式 $(-125) \\times 87 + (-125) \\times 13$，可以發現兩項都乘上 $(-125)$。根據分配律 $a \\times b + a \\times c = a \\times (b + c)$，我們可以將 $(-125)$ 提出來。原式變為 $(-125) \\times (87 + 13)$。先計算括號內的加法：$87 + 13 = 100$。最後進行乘法：$(-125) \\times 100 = -12500$。這樣的算法比起直接乘開更為簡便。\n\n【計算過程】\n步驟 1: 87 + 13 = 100\n步驟 2: -125 \\times 100 = -12500\n最終答案: -12500",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q061",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $(-54) \\div 6 - 8 \\times (-3)$ 的值。\n\n【題目類型】計算題\n【知識點】四則運算算則（不含去括號）\n【正確答案】15.0\n【解題步驟】\n【計算過程】\n步驟 1: (-54) \\div 6 = -9\n步驟 2: 8 \\times (-3) = -24\n步驟 3: -9 - (-24) = 15\n最終答案: 15",
+    "topic_en": "",
+    "answer": "15.0",
+    "solution": "本題測驗包含乘除與加減的混合運算。依照「先乘除、後加減」的原則，應先分別計算除法與乘法的部分。首先計算前面的除法：$(-54) \\div 6 = -9$。接著計算後面的乘法：$8 \\times (-3) = -24$。最後將兩者的結果相減：$-9 - (-24)$。減去一個負數相當於加上正數，即 $-9 + 24 = 15$。\n\n【計算過程】\n步驟 1: (-54) \\div 6 = -9\n步驟 2: 8 \\times (-3) = -24\n步驟 3: -9 - (-24) = 15\n最終答案: 15",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q062",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $(-36) \\div 4 \\times (-3) + 15$ 的值，下列哪一個選項正確？\n\n(A) 18.0\n(B) 42.0\n(C) -12.0\n(D) 12.0\n\n【題目類型】選擇題\n【知識點】四則運算算則（不含去括號）\n【正確答案】（選項B）42\n【解題步驟】\n【計算過程】\n步驟 1: (-36) \\div 4 = -9\n步驟 2: -9 \\times (-3) = 27\n步驟 3: 27 + 15 = 42\n最終答案: 42",
+    "topic_en": "",
+    "answer": "（選項B）42",
+    "solution": "本題測驗連乘除的運算規則。在只有乘除的算式中，必須「由左至右」依序計算，不可隨意改變順序。最後再進行加法。第一步，先算由左邊數來的第一個除法：$(-36) \\div 4 = -9$。算式變為 $-9 \\times (-3) + 15$。第二步，接著算乘法：$-9 \\times (-3) = 27$。第三步，進行加法：$27 + 15 = 42$。正確答案為 B。\n\n【計算過程】\n步驟 1: (-36) \\div 4 = -9\n步驟 2: -9 \\times (-3) = 27\n步驟 3: 27 + 15 = 42\n最終答案: 42",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q063",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 4,
+    "topic": "關於算式 $(-76) \\times 115 - (-76) \\times 15$ 的計算結果，下列何者正確？\n\n(A) -9880.0\n(B) -7600.0\n(C) 7600.0\n(D) 9880.0\n\n【題目類型】選擇題\n【知識點】四則運算算則（不含去括號）\n【正確答案】（選項B）-7600\n【解題步驟】\n【計算過程】\n步驟 1: 115 - 15 = 100\n步驟 2: -76 \\times 100 = -7600\n最終答案: -7600",
+    "topic_en": "",
+    "answer": "（選項B）-7600",
+    "solution": "本題測驗分配律在減法與負數中的應用。算式 $(-76) \\times 115 - (-76) \\times 15$ 中，兩項皆有乘數 $(-76)$。利用分配律將公因數 $(-76)$ 提出，原式可以改寫為 $(-76) \\times (115 - 15)$。先計算括號內的減法：$115 - 15 = 100$。最後計算乘法：$(-76) \\times 100 = -7600$。因此正確答案為 B。\n\n【計算過程】\n步驟 1: 115 - 15 = 100\n步驟 2: -76 \\times 100 = -7600\n最終答案: -7600",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q064",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $(-48) \\div (-6) \\times (-2) - (13 - 25) \\times 3$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算算則（不含去括號）\n【正確答案】20.0\n【解題步驟】\n【計算過程】\n步驟 1: (-48) \\div (-6) = 8\n步驟 2: 8 \\times (-2) = -16\n步驟 3: 13 - 25 = -12\n步驟 4: -12 \\times 3 = -36\n步驟 5: -16 - (-36) = 20\n最終答案: 20",
+    "topic_en": "",
+    "answer": "20.0",
+    "solution": "本題為綜合四則運算，包含括號、乘除與加減。根據運算規則，先計算括號內的式子，再處理乘除，最後做加減。第一部分，由左至右計算前面的乘除：$(-48) \\div (-6) = 8$，接著 $8 \\times (-2) = -16$。第二部分，計算括號內的減法：$13 - 25 = -12$。第三部分，將括號結果乘上 3：$(-12) \\times 3 = -36$。最後將第一部分與第三部分的結果相減：$-16 - (-36) = -16 + 36 = 20$。\n\n【計算過程】\n步驟 1: (-48) \\div (-6) = 8\n步驟 2: 8 \\times (-2) = -16\n步驟 3: 13 - 25 = -12\n步驟 4: -12 \\times 3 = -36\n步驟 5: -16 - (-36) = 20\n最終答案: 20",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q065",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 2,
+    "topic": "計算 $12 - 4 \\times (-3)$ 的值。\n\n(A) 24.0\n(B) 0.0\n(C) -24.0\n(D) -12.0\n\n【題目類型】選擇題\n【知識點】四則運算算則（不含去括號）\n【正確答案】（選項A）24\n【解題步驟】\n【計算過程】\n步驟 1: 12 - 4 \\times (-3) = 12 - (-12)\n步驟 2: 12 - (-12) = 12 + 12\n步驟 3: 12 + 12 = 24\n最終答案: 24",
+    "topic_en": "",
+    "answer": "（選項A）24",
+    "solution": "在進行整數的四則運算時，必須遵守「先乘除後加減」的原則。因此，算式中應先計算乘法部分。首先計算 $4 \\times (-3) = -12$，原式可改寫為 $12 - (-12)$。接著進行減法運算，減去一個負數等於加上它的相反數，所以 $12 - (-12) = 12 + 12 = 24$。\n\n【計算過程】\n步驟 1: 12 - 4 \\times (-3) = 12 - (-12)\n步驟 2: 12 - (-12) = 12 + 12\n步驟 3: 12 + 12 = 24\n最終答案: 24",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q066",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $(-28) \\div (7 - 11) + (-5)$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算算則（不含去括號）\n【正確答案】2.0\n【解題步驟】\n【計算過程】\n步驟 1: 7 - 11 = -4\n步驟 2: (-28) \\div (-4) = 7\n步驟 3: 7 + (-5) = 2\n最終答案: 2",
+    "topic_en": "",
+    "answer": "2.0",
+    "solution": "四則運算中若有括號，必須優先計算括號內的式子。首先計算 $(7 - 11) = -4$。接著依據「先乘除後加減」的原則處理除法，計算 $(-28) \\div (-4) = 7$（負號除以負號結果為正）。最後進行加法計算：$7 + (-5) = 2$。\n\n【計算過程】\n步驟 1: 7 - 11 = -4\n步驟 2: (-28) \\div (-4) = 7\n步驟 3: 7 + (-5) = 2\n最終答案: 2",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q067",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $72 \\times (-45) + 72 \\times (-55)$ 的值。\n\n【題目類型】計算題\n【知識點】四則運算算則（不含去括號）\n【正確答案】-7200.0\n【解題步驟】\n【計算過程】\n步驟 1: 72 \\times [(-45) + (-55)] = 72 \\times (-100)\n步驟 2: 72 \\times (-100) = -7200\n最終答案: -7200",
+    "topic_en": "",
+    "answer": "-7200.0",
+    "solution": "這題可以運用乘法對加法的「分配律」來簡化計算。觀察算式，兩項都有共同的乘數 72，因此我們可以將 72 提出來，算式變為 $72 \\times [(-45) + (-55)]$。先計算中括號內的加法：$(-45) + (-55) = -100$。最後計算乘法：$72 \\times (-100) = -7200$。這樣計算可以避免繁瑣的大數字相乘。\n\n【計算過程】\n步驟 1: 72 \\times [(-45) + (-55)] = 72 \\times (-100)\n步驟 2: 72 \\times (-100) = -7200\n最終答案: -7200",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q068",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $15 - (-18) \\div 3 \\times 2$ 的值。\n\n(A) 27.0\n(B) 18.0\n(C) 3.0\n(D) 22.0\n\n【題目類型】選擇題\n【知識點】四則運算算則（不含去括號）\n【正確答案】（選項A）27\n【解題步驟】\n【計算過程】\n步驟 1: (-18) \\div 3 = -6\n步驟 2: (-6) \\times 2 = -12\n步驟 3: 15 - (-12) = 27\n最終答案: 27",
+    "topic_en": "",
+    "answer": "（選項A）27",
+    "solution": "根據四則運算「先乘除後加減、由左至右計算」的原則，算式中應先處理乘除法部分。遇到連續的乘除法 $(-18) \\div 3 \\times 2$，必須「由左至右」依序計算。先算 $(-18) \\div 3 = -6$，接著算 $(-6) \\times 2 = -12$。將結果代回原式，得到 $15 - (-12)$。減去一個負數等於加上它的相反數，所以 $15 + 12 = 27$。\n\n【計算過程】\n步驟 1: (-18) \\div 3 = -6\n步驟 2: (-6) \\times 2 = -12\n步驟 3: 15 - (-12) = 27\n最終答案: 27",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q069",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $(-25) \\times 74 + (-25) \\times 26$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算算則（不含去括號）\n【正確答案】-2500.0\n【解題步驟】\n【計算過程】\n步驟 1: (-25) \\times (74 + 26) = (-25) \\times 100\n步驟 2: (-25) \\times 100 = -2500\n最終答案: -2500",
+    "topic_en": "",
+    "answer": "-2500.0",
+    "solution": "本題測試分配律的應用。觀察算式中加號的前後，可以發現兩項都乘上了共通的因數 $(-25)$。根據分配律，我們可以將 $(-25)$ 提出，將算式改寫為 $(-25) \\times (74 + 26)$。先計算括號內的加法：$74 + 26 = 100$。接著將結果相乘：$(-25) \\times 100 = -2500$。透過分配律可大幅減少計算時間並降低錯誤率。\n\n【計算過程】\n步驟 1: (-25) \\times (74 + 26) = (-25) \\times 100\n步驟 2: (-25) \\times 100 = -2500\n最終答案: -2500",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q070",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $38 - 48 \\div (-6 - 2) \\times 3$ 的值。\n\n【題目類型】計算題\n【知識點】四則運算算則（不含去括號）\n【正確答案】56.0\n【解題步驟】\n【計算過程】\n步驟 1: -6 - 2 = -8\n步驟 2: 48 \\div (-8) = -6\n步驟 3: -6 \\times 3 = -18\n步驟 4: 38 - (-18) = 56\n最終答案: 56",
+    "topic_en": "",
+    "answer": "56.0",
+    "solution": "這是一道綜合四則運算題，依循「括號優先、先乘除後加減、同級運算由左至右」的步驟。第一步，先計算括號內的運算：$(-6 - 2) = -8$。算式變為 $38 - 48 \\div (-8) \\times 3$。第二步，處理連續的乘除法，必須由左至右：先算除法 $48 \\div (-8) = -6$，接著算乘法 $(-6) \\times 3 = -18$。第三步，將乘除結果代回原式進行減法：$38 - (-18)$。減去一個負數等於加上正數，即 $38 + 18 = 56$。\n\n【計算過程】\n步驟 1: -6 - 2 = -8\n步驟 2: 48 \\div (-8) = -6\n步驟 3: -6 \\times 3 = -18\n步驟 4: 38 - (-18) = 56\n最終答案: 56",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q071",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $(-86) \\times 54 - (-86) \\times 154$ 的值。\n\n(A) -17888.0\n(B) -8600.0\n(C) 8600.0\n(D) 17888.0\n\n【題目類型】選擇題\n【知識點】四則運算算則（不含去括號）\n【正確答案】（選項C）8600\n【解題步驟】\n【計算過程】\n步驟 1: (-86) \\times (54 - 154) = (-86) \\times (-100)\n步驟 2: (-86) \\times (-100) = 8600\n最終答案: 8600",
+    "topic_en": "",
+    "answer": "（選項C）8600",
+    "solution": "此題考查分配律在減法上的應用。兩項乘法中都有共同的因數 $(-86)$，利用分配律將其提出，算式可改寫為 $(-86) \\times (54 - 154)$。先計算括號內的減法：$54 - 154 = -100$。接著進行乘法計算：$(-86) \\times (-100)$。因為負負得正，最後結果為 8600。\n\n【計算過程】\n步驟 1: (-86) \\times (54 - 154) = (-86) \\times (-100)\n步驟 2: (-86) \\times (-100) = 8600\n最終答案: 8600",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q072",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算算則（不含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $(-144) \\div (-6) \\times (-2) - 8 \\times (-5)$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算算則（不含去括號）\n【正確答案】-8.0\n【解題步驟】\n【計算過程】\n步驟 1: (-144) \\div (-6) = 24\n步驟 2: 24 \\times (-2) = -48\n步驟 3: 8 \\times (-5) = -40\n步驟 4: -48 - (-40) = -8\n最終答案: -8",
+    "topic_en": "",
+    "answer": "-8.0",
+    "solution": "本題由兩個需要先運算的乘除區塊組成。首先處理前半段的乘除：$(-144) \\div (-6) \\times (-2)$。由左至右先算除法 $(-144) \\div (-6) = 24$，再算乘法 $24 \\times (-2) = -48$。接著處理後半段的乘法：$8 \\times (-5) = -40$。最後將兩段結果帶回原式相減：$-48 - (-40)$。減去一個負數等於加上正數，即 $-48 + 40 = -8$。\n\n【計算過程】\n步驟 1: (-144) \\div (-6) = 24\n步驟 2: 24 \\times (-2) = -48\n步驟 3: 8 \\times (-5) = -40\n步驟 4: -48 - (-40) = -8\n最終答案: -8",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q073",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 2,
+    "topic": "計算 $-8 + (-3) \\times [ 15 - (-5) ] \\div 10$ 之值為何？\n\n(A) -14.0\n(B) -22.0\n(C) -11.0\n(D) -2.0\n\n【題目類型】選擇題\n【知識點】四則運算（含去括號）\n【正確答案】（選項A）-14\n【解題步驟】\n【計算過程】\n步驟 1: 15 - (-5) = 20\n步驟 2: (-3) \\times 20 = -60\n步驟 3: -60 \\div 10 = -6\n步驟 4: -8 + (-6) = -14\n最終答案: -14",
+    "topic_en": "",
+    "answer": "（選項A）-14",
+    "solution": "進行四則運算時，必須遵循「先乘除，後加減，括號先算」的原則。\n首先計算中括號內的值：$15 - (-5) = 15 + 5 = 20$。\n原式變為：$-8 + (-3) \\times 20 \\div 10$。\n接著進行乘除運算（由左至右）：$(-3) \\times 20 = -60$，然後 $-60 \\div 10 = -6$。\n原式變為：$-8 + (-6)$。\n最後進行加法運算：$-8 + (-6) = -14$。\n\n【計算過程】\n步驟 1: 15 - (-5) = 20\n步驟 2: (-3) \\times 20 = -60\n步驟 3: -60 \\div 10 = -6\n步驟 4: -8 + (-6) = -14\n最終答案: -14",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q074",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $432 \\times (-67) - 432 \\times 33$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算（含去括號）\n【正確答案】-43200.0\n【解題步驟】\n【計算過程】\n步驟 1: 432 \\times [(-67) - 33] = 432 \\times (-100)\n步驟 2: 432 \\times (-100) = -43200\n最終答案: -43200",
+    "topic_en": "",
+    "answer": "-43200.0",
+    "solution": "觀察算式 $432 \\times (-67) - 432 \\times 33$，可以發現兩項都含有共同的乘數 $432$。\n利用分配律 $a \\times b - a \\times c = a \\times (b - c)$，將 $432$ 提出來：\n原式 $= 432 \\times [(-67) - 33]$\n計算括號內的減法：$(-67) - 33 = -100$\n最後進行乘法：$432 \\times (-100) = -43200$。\n\n【計算過程】\n步驟 1: 432 \\times [(-67) - 33] = 432 \\times (-100)\n步驟 2: 432 \\times (-100) = -43200\n最終答案: -43200",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q075",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $24 - (-3) \\times [ 12 - (-4) \\times 3 ] \\div 6$ 之值為何？\n\n【題目類型】計算題\n【知識點】四則運算（含去括號）\n【正確答案】36.0\n【解題步驟】\n【計算過程】\n步驟 1: (-4) \\times 3 = -12\n步驟 2: 12 - (-12) = 24\n步驟 3: (-3) \\times 24 = -72\n步驟 4: -72 \\div 6 = -12\n步驟 5: 24 - (-12) = 36\n最終答案: 36",
+    "topic_en": "",
+    "answer": "36.0",
+    "solution": "計算含有多重括號的算式時，需由內向外計算，先處理小括號，再處理中括號，且在每個括號內依然要遵守「先乘除，後加減」的規則。\n步驟 1：處理中括號內的乘法 $(-4) \\times 3 = -12$。\n步驟 2：計算中括號的減法 $12 - (-12) = 12 + 12 = 24$。\n此時原式簡化為 $24 - (-3) \\times 24 \\div 6$。\n步驟 3：依由左至右順序進行乘除計算。先算乘法 $(-3) \\times 24 = -72$。\n步驟 4：再算除法 $-72 \\div 6 = -12$。\n步驟 5：最後進行減法運算，注意減去負數等於加上正數：$24 - (-12) = 24 + 12 = 36$。\n\n【計算過程】\n步驟 1: (-4) \\times 3 = -12\n步驟 2: 12 - (-12) = 24\n步驟 3: (-3) \\times 24 = -72\n步驟 4: -72 \\div 6 = -12\n步驟 5: 24 - (-12) = 36\n最終答案: 36",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q076",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 2,
+    "topic": "在數線上，絕對值大於 2 且小於 7 的整數共有 _____ 個。\n\n【題目類型】填空題\n【知識點】四則運算（含去括號）\n【正確答案】8.0\n【解題步驟】\n【計算過程】\n步驟 1: 4 \\times 2 = 8\n最終答案: 8",
+    "topic_en": "",
+    "answer": "8.0",
+    "solution": "首先，了解絕對值的意義為數線上點到原點的距離。題目要求絕對值大於 2 且小於 7 的整數。我們可以先找出符合條件的正整數：大於 2 且小於 7 的整數有 3, 4, 5, 6，共 4 個。接著，因為負整數的絕對值也是正數，對應的負整數有 -3, -4, -5, -6，同樣也是 4 個。因此，符合條件的整數總共有 4 + 4 = 8 個。\n\n【計算過程】\n步驟 1: 4 \\times 2 = 8\n最終答案: 8",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q077",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $15 - (-3) \\times [12 - (-4) \\times (-2)]$ 之值為何？\n\n(A) 27.0\n(B) 75.0\n(C) 3.0\n(D) -81.0\n\n【題目類型】選擇題\n【知識點】四則運算（含去括號）\n【正確答案】（選項A）27\n【解題步驟】\n【計算過程】\n步驟 1: (-4) \\times (-2) = 8\n步驟 2: 12 - 8 = 4\n步驟 3: (-3) \\times 4 = -12\n步驟 4: 15 - (-12) = 27\n最終答案: 27",
+    "topic_en": "",
+    "answer": "（選項A）27",
+    "solution": "在進行四則運算時，必須遵守「先乘除後加減、括號內先算」的運算規則。首先處理中括號內的式子 $12 - (-4) \\times (-2)$，依據先乘除後加減，先算 $(-4) \\times (-2) = 8$，此時中括號內變成 $12 - 8 = 4$。接著將 4 代回原式，式子變為 $15 - (-3) \\times 4$。再次依據先乘除後加減，先算 $(-3) \\times 4 = -12$，最後變成 $15 - (-12)$，將減去負數轉換為加上正數，得到 $15 + 12 = 27$。\n\n【計算過程】\n步驟 1: (-4) \\times (-2) = 8\n步驟 2: 12 - 8 = 4\n步驟 3: (-3) \\times 4 = -12\n步驟 4: 15 - (-12) = 27\n最終答案: 27",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q078",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $398 \\times 256 - 399 \\times 255$ 之值為何？\n\n【題目類型】計算題\n【知識點】四則運算（含去括號）\n【正確答案】143.0\n【解題步驟】\n【計算過程】\n步驟 1: 398 \\times (255 + 1) = 398 \\times 255 + 398\n步驟 2: (398 + 1) \\times 255 = 398 \\times 255 + 255\n步驟 3: (398 \\times 255 + 398) - (398 \\times 255 + 255) = 398 - 255\n步驟 4: 398 - 255 = 143\n最終答案: 143",
+    "topic_en": "",
+    "answer": "143.0",
+    "solution": "這類看似數字很大的題目，其實不需要直接硬算，我們可以利用分配律來簡化。觀察數字 $398, 399$ 與 $255, 256$。我們可以將式子改寫為：$398 \\times (255 + 1) - (398 + 1) \\times 255$。接著利用乘法對加法的分配律展開：第一部分變成 $398 \\times 255 + 398 \\times 1$，第二部分變成 $-(398 \\times 255 + 1 \\times 255)$。兩者相減：$(398 \\times 255 + 398) - (398 \\times 255 + 255)$。括號展開後，$398 \\times 255$ 互相抵消，最後只剩下 $398 - 255 = 143$。\n\n【計算過程】\n步驟 1: 398 \\times (255 + 1) = 398 \\times 255 + 398\n步驟 2: (398 + 1) \\times 255 = 398 \\times 255 + 255\n步驟 3: (398 \\times 255 + 398) - (398 \\times 255 + 255) = 398 - 255\n步驟 4: 398 - 255 = 143\n最終答案: 143",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q079",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $(-5) \\times [(-8) + 14 \\div (-2)]$ 的結果為何？\n\n(A) -75.0\n(B) 15.0\n(C) 75.0\n(D) 5.0\n\n【題目類型】選擇題\n【知識點】四則運算（含去括號）\n【正確答案】（選項C）75\n【解題步驟】\n【計算過程】\n步驟 1: 14 \\div (-2) = -7\n步驟 2: (-8) + (-7) = -15\n步驟 3: (-5) \\times (-15) = 75\n最終答案: 75",
+    "topic_en": "",
+    "answer": "（選項C）75",
+    "solution": "這題考驗括號與四則運算優先順序的綜合應用。我們必須先處理中括號 $[(-8) + 14 \\div (-2)]$ 裡面的式子。在中括號內，因為有加法與除法，依據「先乘除後加減」的規則，必須先算除法 $14 \\div (-2) = -7$。接著將結果代回中括號：$(-8) + (-7) = -15$。現在中括號的值算出來了，再與括號外的數字相乘：$(-5) \\times (-15)$。由於負負得正，結果為 $75$。\n\n【計算過程】\n步驟 1: 14 \\div (-2) = -7\n步驟 2: (-8) + (-7) = -15\n步驟 3: (-5) \\times (-15) = 75\n最終答案: 75",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q080",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $1999 \\times (-2000) - 1998 \\times (-2001)$ 之值為何？\n\n(A) -3998.0\n(B) -2.0\n(C) 2.0\n(D) 3998.0\n\n【題目類型】選擇題\n【知識點】四則運算（含去括號）\n【正確答案】（選項B）-2\n【解題步驟】\n【計算過程】\n步驟 1: 1999 \\times (-2000) = -3998000\n步驟 2: -2000 - 1 = -2001\n步驟 3: 1998 \\times (-2001) = 1998 \\times (-2000) - 1998\n步驟 4: -3996000 - 1998 = -3997998\n步驟 5: -3998000 - (-3997998) = -2\n最終答案: -2",
+    "topic_en": "",
+    "answer": "（選項B）-2",
+    "solution": "本題數字龐大，硬算容易出錯。可以藉由觀察數字間的關聯，利用分配律與代數的概念來解題。我們可以將 $1998$ 寫成 $(1999 - 1)$，將 $(-2001)$ 寫成 $(-2000 - 1)$。將其代入原式後方，得到：\n原式 $= 1999 \\times (-2000) - [ (1999 - 1) \\times (-2000 - 1) ]$。 \n接著利用分配律展開中括號裡的部分：\n$= 1999 \\times (-2000) - [ 1999 \\times (-2000) - 1999 \\times 1 - 1 \\times (-2000) + 1 \\times 1 ]$\n$= 1999 \\times (-2000) - [ 1999 \\times (-2000) - 1999 + 2000 + 1 ]$。 \n由於前方的 $1999 \\times (-2000)$ 剛好會被減掉，式子大幅簡化為：\n$= - [ - 1999 + 2000 + 1 ] = - [ 2 ] = -2$。\n\n【計算過程】\n步驟 1: 1999 \\times (-2000) = -3998000\n步驟 2: -2000 - 1 = -2001\n步驟 3: 1998 \\times (-2001) = 1998 \\times (-2000) - 1998\n步驟 4: -3996000 - 1998 = -3997998\n步驟 5: -3998000 - (-3997998) = -2\n最終答案: -2",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q081",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 2,
+    "topic": "數線上絕對值小於 $4$ 的整數共有 _____ 個。\n\n【題目類型】填空題\n【知識點】四則運算（含去括號）\n【正確答案】7.0",
+    "topic_en": "",
+    "answer": "7.0",
+    "solution": "絕對值的幾何意義代表數線上的點到原點的距離。絕對值小於 $4$ 的整數，即在數線上距離原點小於 $4$ 的整數點。這些點介於 $-4$ 與 $4$ 之間（不含 $-4$ 和 $4$），也就是 $-3, -2, -1, 0, 1, 2, 3$。計算後可知共有 $7$ 個。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q082",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $15 - 3 \\times [(-4) + 2 \\times (-3)]$ 之值為何？\n\n【題目類型】計算題\n【知識點】四則運算（含去括號）\n【正確答案】45.0\n【解題步驟】\n【計算過程】\n步驟 1: 2 \\times (-3) = -6\n步驟 2: (-4) + (-6) = -10\n步驟 3: 3 \\times (-10) = -30\n步驟 4: 15 - (-30) = 45\n最終答案: 45",
+    "topic_en": "",
+    "answer": "45.0",
+    "solution": "此題考查含有中括號與小括號的整數四則運算。依據運算順序「先算括號內，先乘除後加減」：第一步：先算中括號內的乘法 $2 \\times (-3) = -6$。第二步：計算中括號內的加法 $(-4) + (-6) = -10$。第三步：進行中括號外的乘法 $3 \\times (-10) = -30$。第四步：最後進行減法 $15 - (-30) = 15 + 30 = 45$。\n\n【計算過程】\n步驟 1: 2 \\times (-3) = -6\n步驟 2: (-4) + (-6) = -10\n步驟 3: 3 \\times (-10) = -30\n步驟 4: 15 - (-30) = 45\n最終答案: 45",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q083",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $99 \\times (-25) + 99 \\times 35$ 之值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算（含去括號）\n【正確答案】990.0",
+    "topic_en": "",
+    "answer": "990.0",
+    "solution": "此題考查乘法分配律的逆向應用（提出公因數）。觀察算式，前後兩項都有共同的因數 $99$。我們可以將 $99$ 提出來，算式變為：$99 \\times [(-25) + 35]$。括號內先算：$(-25) + 35 = 10$。最後計算：$99 \\times 10 = 990$。這樣可以避免繁瑣且容易出錯的兩位數乘法運算。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q084",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 4,
+    "topic": "算式 $543 \\times 269 - 542 \\times 270$ 之值為何？\n\n(A) $273$\n(B) $-273$\n(C) $-1$\n(D) $269$\n\n【題目類型】選擇題\n【知識點】四則運算（含去括號）\n【正確答案】（選項B）$-273$\n【解題步驟】\n【計算過程】\n步驟 1: (542 + 1) \\times 269 - 542 \\times (269 + 1) = (542 \\times 269 + 269) - (542 \\times 269 + 542)\n步驟 2: 542 \\times 269 + 269 - 542 \\times 269 - 542 = 269 - 542\n步驟 3: 269 - 542 = -273\n最終答案: -273",
+    "topic_en": "",
+    "answer": "（選項B）$-273$",
+    "solution": "此題若直接計算數值龐大且易錯，可透過拆解數字並利用分配律來簡化。我們可以將 $543$ 拆解為 $(542 + 1)$，將 $270$ 拆解為 $(269 + 1)$。原式可改寫為：$(542 + 1) \\times 269 - 542 \\times (269 + 1)$。利用分配律展開，第一部分為 $(542 \\times 269) + (1 \\times 269)$，第二部分為 $(542 \\times 269) + (542 \\times 1)$。原式變為：$(542 \\times 269 + 269) - (542 \\times 269 + 542)$。去括號後：$542 \\times 269 + 269 - 542 \\times 269 - 542$。抵消掉相同的 $542 \\times 269$ 後，剩下 $269 - 542 = -273$。\n\n【計算過程】\n步驟 1: (542 + 1) \\times 269 - 542 \\times (269 + 1) = (542 \\times 269 + 269) - (542 \\times 269 + 542)\n步驟 2: 542 \\times 269 + 269 - 542 \\times 269 - 542 = 269 - 542\n步驟 3: 269 - 542 = -273\n最終答案: -273",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q085",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $20 - 2 \\times [ 7 - ( -3 + 4 \\times 2 ) ]$ 之值為何？\n\n(A) $16$\n(B) $36$\n(C) $-16$\n(D) $10$\n\n【題目類型】選擇題\n【知識點】四則運算（含去括號）\n【正確答案】（選項A）$16$\n【解題步驟】\n【計算過程】\n步驟 1: -3 + 4 \\times 2 = 5\n步驟 2: 7 - 5 = 2\n步驟 3: 2 \\times 2 = 4\n步驟 4: 20 - 4 = 16\n最終答案: 16",
+    "topic_en": "",
+    "answer": "（選項A）$16$",
+    "solution": "依據運算順序，由最內層的括號開始計算，並遵守先乘除後加減。第一步：計算小括號內部的乘法與加減，$(-3) + 4 \\times 2 = -3 + 8 = 5$。第二步：計算中括號內部的減法，$7 - 5 = 2$。第三步：回到最外層的四則運算，先進行乘法，$2 \\times 2 = 4$。第四步：進行最後的減法，$20 - 4 = 16$。\n\n【計算過程】\n步驟 1: -3 + 4 \\times 2 = 5\n步驟 2: 7 - 5 = 2\n步驟 3: 2 \\times 2 = 4\n步驟 4: 20 - 4 = 16\n最終答案: 16",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q086",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 4,
+    "topic": "計算 $125 \\times (-37) \\times 8 \\div (-10)$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算（含去括號）\n【正確答案】3700.0",
+    "topic_en": "",
+    "answer": "3700.0",
+    "solution": "此題若按照由左至右計算，第一步 $125 \\times (-37)$ 數字大且易算錯。我們可以利用乘法交換律與結合律，尋找容易計算的數字組合。觀察到 $125 \\times 8 = 1000$，這是非常適合優先計算的組合。第一步：重新排列順序為 $(125 \\times 8) \\times (-37) \\div (-10)$。第二步：計算括號內 $1000 \\times (-37) = -37000$。第三步：進行除法運算，負負得正，$-37000 \\div (-10) = 3700$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q087",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 $15 - (-5) \\times [ 12 - (-4) \\times 3 ] \\div 4$ 之值為何？\n\n(A) 120.0\n(B) 75.0\n(C) -15.0\n(D) 45.0\n\n【題目類型】選擇題\n【知識點】四則運算（含去括號）\n【正確答案】（選項D）45\n【解題步驟】\n【計算過程】\n步驟 1: (-4) * 3 = -12\n步驟 2: 12 - (-12) = 24\n步驟 3: (-5) * 24 / 4 = -30\n步驟 4: 15 - (-30) = 45\n最終答案: 45",
+    "topic_en": "",
+    "answer": "（選項D）45",
+    "solution": "本題測驗整數的四則運算順序與去括號法則。首先必須遵循「先乘除後加減、括號內先算」的原則。\n第一步，計算中括號 $[ 12 - (-4) \\times 3 ]$ 的值。括號內也有乘法與減法，應先算乘法：$(-4) \\times 3 = -12$。接著算減法：$12 - (-12)$，運用去括號法則（負負得正），即 $12 + 12 = 24$。\n第二步，將中括號的結果代回原式，得到 $15 - (-5) \\times 24 \\div 4$。此時只剩下減法、乘法與除法，依據先乘除後加減的原則，需先計算 $(-5) \\times 24 \\div 4$。\n第三步，由左至右計算乘除：$(-5) \\times 24 = -120$，接著 $-120 \\div 4 = -30$。\n第四步，代回算式得到 $15 - (-30)$，再次運用去括號法則，變為 $15 + 30 = 45$。故選 D。\n\n【計算過程】\n步驟 1: (-4) * 3 = -12\n步驟 2: 12 - (-12) = 24\n步驟 3: (-5) * 24 / 4 = -30\n步驟 4: 15 - (-30) = 45\n最終答案: 45",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q088",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算算式 $852 \\times 476 - 850 \\times 477$ 之值為何？\n\n【題目類型】計算題\n【知識點】四則運算（含去括號）\n【正確答案】102.0\n【解題步驟】\n【計算過程】\n步驟 1: (850 + 2) * 476 - 850 * 477 = 850 * 476 + 2 * 476 - 850 * 477\n步驟 2: 850 * 476 - 850 * 477 + 952 = 850 * (476 - 477) + 952\n步驟 3: 850 * (-1) + 952 = -850 + 952\n步驟 4: -850 + 952 = 102\n最終答案: 102",
+    "topic_en": "",
+    "answer": "102.0",
+    "solution": "本題測驗學生是否具備數字觀察能力並能靈活運用分配律，而非僅靠蠻力直算。直接計算大數字容易出錯且耗時。\n觀察題目中的數字：$852$ 與 $850$ 相近、$476$ 與 $477$ 相近。我們可以透過拆解其中一個數字來創造公因數。\n我們將前項的 $852$ 拆解為 $(850 + 2)$，算式改寫為：$(850 + 2) \\times 476 - 850 \\times 477$。\n利用分配律展開前項，得到 $850 \\times 476 + 2 \\times 476 - 850 \\times 477$。\n接下來，將含有 $850$ 的兩項放在一起利用分配律合併：$850 \\times 476 - 850 \\times 477$ 可以提出 $850$，變成 $850 \\times (476 - 477)$。\n括號內 $476 - 477$ 的結果為 $-1$，所以這部分等於 $850 \\times (-1) = -850$。\n剩下的部分為 $2 \\times 476 = 952$。\n最後將兩部分相加：$-850 + 952 = 102$。這就是簡化後的運算結果。\n\n【計算過程】\n步驟 1: (850 + 2) * 476 - 850 * 477 = 850 * 476 + 2 * 476 - 850 * 477\n步驟 2: 850 * 476 - 850 * 477 + 952 = 850 * (476 - 477) + 952\n步驟 3: 850 * (-1) + 952 = -850 + 952\n步驟 4: -850 + 952 = 102\n最終答案: 102",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q089",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "數線上，若絕對值大於 3 且小於等於 8 的「負整數」共有 $a$ 個，這些整數的總和為 $b$。求 $a \\times b$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】四則運算（含去括號）\n【正確答案】-150.0\n【解題步驟】\n【計算過程】\n步驟 1: (-4) + (-5) + (-6) + (-7) + (-8) = -30\n步驟 2: 5 * (-30) = -150\n最終答案: -150",
+    "topic_en": "",
+    "answer": "-150.0",
+    "solution": "本題測驗學生對絕對值概念、數線範圍以及負數四則運算的綜合應用能力。\n第一步，先找出符合「絕對值大於 3 且小於等於 8」的數。絕對值代表與原點的距離，因此距離原點介於 3 到 8（包含 8，不包含 3）的整數有：正整數部分的 4, 5, 6, 7, 8，以及負整數部分的 -4, -5, -6, -7, -8。\n第二步，根據題目條件過濾出「負整數」，因此符合條件的數字只有：-4, -5, -6, -7, -8。\n第三步，計算這些負整數的數量。清點後共有 5 個數字，所以得到 $a = 5$。\n第四步，計算這些數字的總和 $b$。$b = (-4) + (-5) + (-6) + (-7) + (-8)$。由於皆為負數相加，可將數字相加後加上負號：$-(4+5+6+7+8) = -30$，因此 $b = -30$。\n第五步，計算 $a \\times b$ 的值：$5 \\times (-30)$，正負相乘得負，故答案為 $-150$。\n\n【計算過程】\n步驟 1: (-4) + (-5) + (-6) + (-7) + (-8) = -30\n步驟 2: 5 * (-30) = -150\n最終答案: -150",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q090",
+    "category": "Middle",
+    "question_type": "選擇題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 2,
+    "topic": "已知 $a = 3.2 \\times 10^{-4}$，下列關於 $a$ 值的敘述何者正確？\n\n(A) (A) $a < 0$\n(B) (B) $0 < a < 1$ 且 $a$ 比較接近 0\n(C) (C) $0 < a < 1$ 且 $a$ 比較接近 1\n(D) (D) $a > 1$\n\n【題目類型】選擇題\n【知識點】指數與科學記號\n【正確答案】（選項B）(B) $0 < a < 1$ 且 $a$ 比較接近 0",
+    "topic_en": "",
+    "answer": "（選項B）(B) $0 < a < 1$ 且 $a$ 比較接近 0",
+    "solution": "科學記號 $a \\times 10^n$ 中，當指數 $n$ 為負整數時，代表該數是一個介於 0 與 1 之間的極小正數。將 $3.2 \\times 10^{-4}$ 轉換為小數表示法，可以將小數點向左移動 4 位，得到 0.00032。顯然 $0 < 0.00032 < 1$，而且 0.00032 距離 0 非常近，距離 1 較遠。因此選項 (B) 是正確的。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q091",
+    "category": "Middle",
+    "question_type": "計算題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "計算 $(-2)^4 \\div (-8) - 3^2 \\times (-1)$ 的值。\n\n【題目類型】計算題\n【知識點】指數與科學記號\n【正確答案】7.0\n【解題步驟】\n【計算過程】\n步驟 1: (-2)^4 = 16\n步驟 2: 3^2 = 9\n步驟 3: 16 / (-8) = -2\n步驟 4: 9 * (-1) = -9\n步驟 5: -2 - (-9) = 7\n最終答案: 7",
+    "topic_en": "",
+    "answer": "7.0",
+    "solution": "根據四則運算法則，必須先處理指數運算，再處理乘除，最後才做加減。首先計算指數部分：$(-2)^4 = (-2) \\times (-2) \\times (-2) \\times (-2) = 16$，而 $3^2 = 3 \\times 3 = 9$。原式轉換為 $16 \\div (-8) - 9 \\times (-1)$。接著進行乘除運算：$16 \\div (-8) = -2$，$9 \\times (-1) = -9$。最後進行減法運算：$-2 - (-9) = -2 + 9 = 7$。\n\n【計算過程】\n步驟 1: (-2)^4 = 16\n步驟 2: 3^2 = 9\n步驟 3: 16 / (-8) = -2\n步驟 4: 9 * (-1) = -9\n步驟 5: -2 - (-9) = 7\n最終答案: 7",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q092",
+    "category": "Middle",
+    "question_type": "填空題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "某種微小細菌的長度約為 $0.0000025$ 公尺，若將此長度以科學記號表示為 $a \\times 10^n$ 公尺，則 $a + n = $ _____。\n\n【題目類型】填空題\n【知識點】指數與科學記號\n【正確答案】-3.5",
+    "topic_en": "",
+    "answer": "-3.5",
+    "solution": "科學記號的標準格式為 $a \\times 10^n$，其中 $1 \\le a < 10$，且 $n$ 為整數。對於小數 $0.0000025$，我們需要將小數點向右移動 6 位，才能得到介於 1 與 10 之間的數字 2.5。向右移動 6 位代表除以 $10^6$，相當於乘上 $10^{-6}$。因此 $0.0000025 = 2.5 \\times 10^{-6}$。比對格式可知 $a = 2.5$ 且 $n = -6$。最後計算 $a + n = 2.5 + (-6) = -3.5$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q093",
+    "category": "Middle",
+    "question_type": "選擇題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "下列各式的值，何者與 $(-5)^6$ 相同？\n\n(A) (A) $-5^6$\n(B) (B) $5^6$\n(C) (C) $(-5)^2 \\times (-5)^3$\n(D) (D) $(-5)^{12} \\div (-5)^2$\n\n【題目類型】選擇題\n【知識點】指數與科學記號\n【正確答案】（選項B）(B) $5^6$",
+    "topic_en": "",
+    "answer": "（選項B）(B) $5^6$",
+    "solution": "首先分析 $(-5)^6$ 的特性，因為底數是負數，而指數 6 是偶數，所以負負得正，結果與 $5^6$ 完全相同。接著我們檢視各個選項：選項 (A) $-5^6$ 代表先算 $5^6$ 再加上負號，結果為負數，與原式不符。選項 (B) $5^6$ 與原式數值相同。選項 (C) 根據指數律，同底數相乘時指數相加，所以 $(-5)^2 \\times (-5)^3 = (-5)^{2+3} = (-5)^5$，為負數，與原式不符。選項 (D) 根據指數律，同底數相除時指數相減，所以 $(-5)^{12} \\div (-5)^2 = (-5)^{12-2} = (-5)^{10}$，與原式不同。因此正確選項為 (B)。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q094",
+    "category": "Middle",
+    "question_type": "計算題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "計算 $\\left(-\\frac{1}{2}\\right)^3 \\times 16 + (-4)^2$ 的值。\n\n【題目類型】計算題\n【知識點】指數與科學記號\n【正確答案】14.0\n【解題步驟】\n【計算過程】\n步驟 1: (-1/2)^3 = -1/8\n步驟 2: -1/8 * 16 = -2\n步驟 3: (-4)^2 = 16\n步驟 4: -2 + 16 = 14\n最終答案: 14",
+    "topic_en": "",
+    "answer": "14.0",
+    "solution": "計算本題需要遵循四則運算的先後順序，優先處理指數的部分。首先，$\\left(-\\frac{1}{2}\\right)^3 = \\left(-\\frac{1}{2}\\right) \\times \\left(-\\frac{1}{2}\\right) \\times \\left(-\\frac{1}{2}\\right) = -\\frac{1}{8}$。另外，$(-4)^2 = (-4) \\times (-4) = 16$。把這兩個結果代回原式，可得 $-\\frac{1}{8} \\times 16 + 16$。接著進行乘法運算：$-\\frac{1}{8} \\times 16 = -2$。最後進行加法運算：$-2 + 16 = 14$。故此題答案為 14。\n\n【計算過程】\n步驟 1: (-1/2)^3 = -1/8\n步驟 2: -1/8 * 16 = -2\n步驟 3: (-4)^2 = 16\n步驟 4: -2 + 16 = 14\n最終答案: 14",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q095",
+    "category": "Middle",
+    "question_type": "選擇題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 4,
+    "topic": "計算 $4.5 \\times 10^7 - 2.1 \\times 10^6$ 的結果，並以科學記號表示為 $a \\times 10^n$。下列關於 $a$ 與 $n$ 的敘述，何者正確？\n\n(A) (A) $a = 2.4$ 且 $n = 7$\n(B) (B) $a = 2.4$ 且 $n = 6$\n(C) (C) $a = 4.29$ 且 $n = 7$\n(D) (D) $a = 4.29$ 且 $n = 6$\n\n【題目類型】選擇題\n【知識點】指數與科學記號\n【正確答案】（選項C）(C) $a = 4.29$ 且 $n = 7$",
+    "topic_en": "",
+    "answer": "（選項C）(C) $a = 4.29$ 且 $n = 7$",
+    "solution": "在進行科學記號的加減運算時，必須先將兩個數字的指數部分化成相同的次方。一般來說，將較小的指數轉換為較大的指數，或者兩者都換成一般數字來運算。將 $2.1 \\times 10^6$ 轉換為底數為 $10^7$ 的形式：$2.1 \\times 10^6 = 0.21 \\times 10^7$。接著將兩式相減：$4.5 \\times 10^7 - 0.21 \\times 10^7 = (4.5 - 0.21) \\times 10^7 = 4.29 \\times 10^7$。結果已經符合科學記號的標準格式 $1 \\le a < 10$，因此 $a = 4.29$，$n = 7$。故選 (C)。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q096",
+    "category": "Middle",
+    "question_type": "選擇題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 4,
+    "topic": "已知甲 $= 3.4 \\times 10^{-5}$，乙 $= 4.3 \\times 10^{-6}$，丙 $= 0.000035$，則甲、乙、丙三數的大小關係為何？\n\n(A) (A) 甲 > 丙 > 乙\n(B) (B) 丙 > 甲 > 乙\n(C) (C) 丙 > 乙 > 甲\n(D) (D) 甲 > 乙 > 丙\n\n【題目類型】選擇題\n【知識點】指數與科學記號\n【正確答案】（選項B）(B) 丙 > 甲 > 乙",
+    "topic_en": "",
+    "answer": "（選項B）(B) 丙 > 甲 > 乙",
+    "solution": "為了方便比較大小，我們可以將三數都轉換為小數，或者都轉換為具有相同指數的科學記號。方法一：全部化為一般小數。甲 $= 0.000034$，乙 $= 0.0000043$，丙 $= 0.000035$。由小數比對可知：$0.000035 > 0.000034 > 0.0000043$，即丙 > 甲 > 乙。方法二：全部轉換為科學記號並比較。甲 $= 3.4 \\times 10^{-5}$，乙 $= 4.3 \\times 10^{-6}$，丙 $= 3.5 \\times 10^{-5}$。先比較指數，指數越大數值越大（因為這三數皆為正），所以甲和丙（指數為-5）大於乙（指數為-6）。再比較甲和丙的係數，因為 $3.5 > 3.4$，所以丙 > 甲。綜合結果為：丙 > 甲 > 乙。故選 (B)。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q097",
+    "category": "Middle",
+    "question_type": "選擇題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 2,
+    "topic": "已知 $x = 3.4 \\times 10^{-5}$，下列關於 $x$ 值的敘述何者正確？\n\n(A) (A) $x$ 是一個負數\n(B) (B) $x$ 介於 0 與 1 之間，且比較接近 0\n(C) (C) $x$ 介於 0 與 1 之間，且比較接近 1\n(D) (D) $x$ 是一個大於 1 的數\n\n【題目類型】選擇題\n【知識點】指數與科學記號\n【正確答案】（選項B）(B) $x$ 介於 0 與 1 之間，且比較接近 0",
+    "topic_en": "",
+    "answer": "（選項B）(B) $x$ 介於 0 與 1 之間，且比較接近 0",
+    "solution": "科學記號 $3.4 \\times 10^{-5}$ 等於 $3.4 \\times 0.00001 = 0.000034$。此數字是一個非常小的正數，大於 0 且遠小於 1，因此介於 0 與 1 之間，並且非常接近 0。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q098",
+    "category": "Middle",
+    "question_type": "計算題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "計算 $(-2)^4 \\div (-4) - (-3)^2 \\times 2$ 的值。\n\n【題目類型】計算題\n【知識點】指數與科學記號\n【正確答案】-22.0\n【解題步驟】\n【計算過程】\n步驟 1: (-2)^4 = 16\n步驟 2: (-3)^2 = 9\n步驟 3: 16 \\div (-4) = -4\n步驟 4: 9 \\times 2 = 18\n步驟 5: -4 - 18 = -22\n最終答案: -22",
+    "topic_en": "",
+    "answer": "-22.0",
+    "solution": "根據四則運算規則，必須先算括號內的指數，再進行乘除，最後才進行加減。首先計算 $(-2)^4 = 16$，以及 $(-3)^2 = 9$。接著進行乘除運算：$16 \\div (-4) = -4$，$9 \\times 2 = 18$。最後將兩者相減：$-4 - 18 = -22$。\n\n【計算過程】\n步驟 1: (-2)^4 = 16\n步驟 2: (-3)^2 = 9\n步驟 3: 16 \\div (-4) = -4\n步驟 4: 9 \\times 2 = 18\n步驟 5: -4 - 18 = -22\n最終答案: -22",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q099",
+    "category": "Middle",
+    "question_type": "選擇題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "計算 $(5 \\times 10^4) \\times (4 \\times 10^3)$，並將結果以科學記號表示，下列何者正確？\n\n(A) (A) $20 \\times 10^7$\n(B) (B) $2 \\times 10^8$\n(C) (C) $2 \\times 10^7$\n(D) (D) $9 \\times 10^{12}$\n\n【題目類型】選擇題\n【知識點】指數與科學記號\n【正確答案】（選項B）(B) $2 \\times 10^8$",
+    "topic_en": "",
+    "answer": "（選項B）(B) $2 \\times 10^8$",
+    "solution": "將數字部分與 10 的次方部分分別相乘：$(5 \\times 4) \\times (10^4 \\times 10^3) = 20 \\times 10^7$。但 $20$ 不符合科學記號前面數字必須介於 1 到小於 10 之間的規定，因此需將 $20$ 改寫為 $2 \\times 10^1$。最後結果為 $(2 \\times 10^1) \\times 10^7 = 2 \\times 10^8$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q100",
+    "category": "Middle",
+    "question_type": "選擇題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "已知數值 $m = 4.8 \\times 10^{-5}$，下列關於 $m$ 值的敘述何者正確？\n\n(A) (A) $m$ 是一個負數\n(B) (B) $m$ 介於 $0$ 與 $1$ 之間，且比較接近 $0$\n(C) (C) $m$ 介於 $0$ 與 $1$ 之間，且比較接近 $1$\n(D) (D) $m$ 大於 $1$\n\n【題目類型】選擇題\n【知識點】指數與科學記號\n【正確答案】（選項B）(B) $m$ 介於 $0$ 與 $1$ 之間，且比較接近 $0$\n【解題步驟】\n【計算過程】\n步驟 1: 4.8 \\times 10^{-5} = 0.000048\n最終答案: 0.000048",
+    "topic_en": "",
+    "answer": "（選項B）(B) $m$ 介於 $0$ 與 $1$ 之間，且比較接近 $0$",
+    "solution": "將科學記號展開為一般小數，可以幫助我們判斷數值大小。$4.8 \\times 10^{-5}$ 代表將數字 $4.8$ 的小數點向左移動 $5$ 位，得到 $0.000048$。這是一個正數，且大於 $0$、小於 $1$，數值非常小，因此比較接近 $0$。故正確答案為 (B)。\n\n【計算過程】\n步驟 1: 4.8 \\times 10^{-5} = 0.000048\n最終答案: 0.000048",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  }
+]

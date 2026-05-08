@@ -59,6 +59,9 @@ test_route_2.py
 .claude/*
 !.claude/hooks
 
+# Claude Code agent skills (local AI tool config, not useful to teammates)
+.agent/
+
 # Local exclusions
 *.xlsx
 .agents/
