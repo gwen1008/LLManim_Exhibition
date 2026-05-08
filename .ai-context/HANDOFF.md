@@ -4,26 +4,30 @@
 > 讀完這份文件即可接手，不需要問專案背景。
 > **由 git post-commit hook 自動更新**，永遠對應最新 commit。
 
-**更新時間**：2026-05-05
+**更新時間**：2026-05-08
 **Branch**：feat/core-and-agents
 
 ---
 
 ## 現在要做什麼
 
-- [x] auto-inject set_subtitle run_time from TTS duration (commit 9d29d9c)
-- [ ] 測試並提交 agents/core/llm_client.py 的改動（claudealt 帳號月費訂閱驗證）
-- [ ] 檢查 .agent/skills/karpathy-guidelines/ 的用途和是否納入版控
-- [ ] 分析 eval failures 根本原因（5 TIMEOUT、hallucination、syntax 錯誤）
-- [ ] 跑新 evaluation 驗證 pass rate 提升至 80%+
+- [x] Coder routing 改用 claudealt 帳號（月費無 token 消耗）
+- [x] Final judge 多維度評估系統重寫
+- [x] Scene instrumentor 佈局儀表化實作
+- [x] Planner model-aware templates (gemini-2.5-flash/claude 分支)
+- [ ] 執行 run_code_review_q101.py 完成 Q101-Q150 code review
+- [ ] Merge feat/core-and-agents → main
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `.ai-context/CHANGELOG.md` | post-commit hook 更新（+2） | sed→python3 unicode 修復完成 |
-| `agents/core/llm_client.py` | subprocess 路由調整（+13/-4） | **未 commit**，claudealt 帳號月費訂閱驗證待測試 |
-| `.agent/skills/karpathy-guidelines/` | 新增文件夾 | **待確認**用途和是否納入版控 |
+| `agents/utils/final_judge.py` | +381：多維度評估系統完整重寫 | spatial_layout 權重優化，PASS/FAIL 判定邏輯更新 |
+| `agents/planner/templates.py` | +137：model-aware templates 系統 | gemini-2.5-flash/claude 分支路由實裝 |
+| `main.py` | +27：Coder routing 改用 claudealt | 月費 Claude Max，不消耗 API token |
+| `agents/orchestrator/refining_loop.py` | +35：佈局評估整合 | LAYOUT_RETRY_BUDGET=2 引入 |
+| `agents/utils/scene_instrumentor.py` | +166：佈局儀表化模組 | crowding/overlap/text 指標自動採集 |
+| `run_evaluation.py` | +93：評估流程擴展 | Q01-Q150 完整支援 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
