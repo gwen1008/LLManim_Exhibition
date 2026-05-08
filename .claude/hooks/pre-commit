@@ -1,0 +1,16 @@
+#!/bin/bash
+# pre-commit: auto-stage HANDOFF.md and CHANGELOG.md if they have unstaged changes
+
+PROJECT_DIR="$(git rev-parse --show-toplevel)"
+
+for f in ".ai-context/HANDOFF.md" ".ai-context/CHANGELOG.md"; do
+    full="$PROJECT_DIR/$f"
+    [ -f "$full" ] || continue
+    # stage if modified (M) or untracked (??)
+    if git status --short -- "$f" 2>/dev/null | grep -qE '^( M|\?\?)'; then
+        git add "$full"
+        echo "[pre-commit] staged $f"
+    fi
+done
+
+exit 0

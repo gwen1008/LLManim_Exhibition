@@ -1,0 +1,27 @@
+#!/bin/bash
+# post-commit: update HANDOFF.md with latest git state
+
+PROJECT_DIR="$(git rev-parse --show-toplevel)"
+HANDOFF="$PROJECT_DIR/.ai-context/HANDOFF.md"
+
+[ -f "$HANDOFF" ] || exit 0
+
+TODAY="$(date '+%Y-%m-%d')"
+BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo 'unknown')"
+LAST_COMMIT="$(git log -1 --pretty=format:'%h %s' 2>/dev/null | head -c 100)"
+CHANGED="$(git status --short 2>/dev/null | grep -v '\.ai-context/' | wc -l | tr -d ' ')"
+
+# Update 更新時間 and Branch lines
+python3 - "$HANDOFF" "$TODAY" "$BRANCH" <<'PYEOF'
+import sys, re
+path, today, branch = sys.argv[1], sys.argv[2], sys.argv[3]
+with open(path, 'r', encoding='utf-8') as f:
+    content = f.read()
+content = re.sub(r'\*\*更新時間\*\*：.*', f'**更新時間**：{today}', content)
+content = re.sub(r'\*\*Branch\*\*：.*', f'**Branch**：{branch}', content)
+with open(path, 'w', encoding='utf-8') as f:
+    f.write(content)
+PYEOF
+
+echo "[post-commit] HANDOFF.md updated (${TODAY}, ${BRANCH}, last: ${LAST_COMMIT})"
+exit 0

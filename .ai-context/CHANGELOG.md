@@ -247,9 +247,9 @@
   - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
 - `2026-04-27 02:13` | branch=`feat/core-and-agents` | dirty=9 files | head=`f1bae21 chore: gitignore arena scripts, remove optimization report`
   - touched: .gitignore dspy_demo.py generate_240_cases.py knowledge_base/examples manimator 
-- `2026-04-27 02:14` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+- `2026-04-27 02:14` | branch=`feat/core-and-agents` | dirty=99 files | head=`168c010 chore: reorganize repo, remove stale scripts`
   - touched: knowledge_base/examples manimator 
-- `2026-04-27 02:15` | branch=`feat/core-and-agents` | dirty=2 files | head=`168c010 chore: reorganize repo, remove stale scripts`
+- `2026-04-27 02:15` | branch=`feat/core-and-agents` | dirty=99 files | head=`168c010 chore: reorganize repo, remove stale scripts`
   - touched: knowledge_base/examples manimator 
 
 ## 2026-04-30
@@ -283,7 +283,7 @@
 
 ## 2026-05-04
 
-- `2026-05-04 23:29` | branch=`feat/core-and-agents` | dirty=2 files | head=`e1449b7 chore: ignore temporary scripts and RAG maintenance tools`
+- `2026-05-04 23:29` | branch=`feat/core-and-agents` | dirty=99 files | head=`e1449b7 chore: ignore temporary scripts and RAG maintenance tools`
   - touched: knowledge_base/examples manimator 
 - `2026-05-04 23:43` | branch=`feat/core-and-agents` | dirty=0 files | head=`3d648e4 docs: update context with recent logic improvements and cleanup`
 
@@ -293,3 +293,62 @@
   - touched: CLAUDE.md agents/coder/templates.py agents/orchestrator/refining_loop.py main.py .agent/skills/karpathy-guidelines/ 
 - `2026-05-05 00:43` | branch=`feat/core-and-agents` | dirty=6 files | head=`3d648e4 docs: update context with recent logic improvements and cleanup`
   - touched: CLAUDE.md README.md agents/coder/templates.py agents/orchestrator/refining_loop.py main.py 
+- `2026-05-05 00:44` | branch=`feat/core-and-agents` | dirty=1 files | head=`9d29d9c feat: auto-inject set_subtitle run_time from TTS duration`
+  - touched: .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 00:55` | branch=`feat/core-and-agents` | dirty=99 files | head=`9d29d9c feat: auto-inject set_subtitle run_time from TTS duration`
+  - touched: README.md .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 00:57` | branch=`feat/core-and-agents` | dirty=1 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:41` | branch=`feat/core-and-agents` | dirty=99 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:55` | branch=`feat/core-and-agents` | dirty=99 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:57` | branch=`feat/core-and-agents` | dirty=99 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 22:58` | branch=`feat/core-and-agents` | dirty=2 files | head=`3100eae docs: overhaul README to match current project state`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 23:05` | branch=`feat/core-and-agents` | dirty=2 files | head=`35bc99c fix: replace sed with python3 in post-commit hook (macOS sed unicode bug`
+  - touched: agents/core/llm_client.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-05 23:10` | branch=`feat/core-and-agents` | dirty=1 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: .agent/skills/karpathy-guidelines/ 
+
+## 2026-05-06
+
+- `2026-05-06 00:12` | branch=`feat/core-and-agents` | dirty=2 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/rag_retriever.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-06 02:18` | branch=`feat/core-and-agents` | dirty=3 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py .agent/skills/karpathy-guidelines/ 
+- `2026-05-06 02:58` | branch=`feat/core-and-agents` | dirty=4 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py .agent/skills/karpathy-guidelines/ evaluation/test_cases_ab24.json 
+- `2026-05-06 03:07` | branch=`feat/core-and-agents` | dirty=5 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py .agent/skills/karpathy-guidelines/ evaluation/test_cases_ab24.json run_planner_ab.py 
+- `2026-05-06 16:43` | branch=`feat/core-and-agents` | dirty=7 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py run_evaluation.py .agent/skills/karpathy-guidelines/ evaluation/test_cases_ab24.json 
+- `2026-05-06 23:04` | branch=`feat/core-and-agents` | dirty=11 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/utils/final_judge.py main.py run_evaluation.py 
+
+## 2026-05-07
+
+- `2026-05-07 00:33` | branch=`feat/core-and-agents` | dirty=16 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/templates.py agents/utils/final_judge.py 
+- `2026-05-07 01:03` | branch=`feat/core-and-agents` | dirty=17 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-05-07 02:46` | branch=`feat/core-and-agents` | dirty=18 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-05-07 13:28` | branch=`feat/core-and-agents` | dirty=19 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-05-07 14:34` | branch=`feat/core-and-agents` | dirty=20 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-05-07 22:05` | branch=`feat/core-and-agents` | dirty=21 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+
+## 2026-05-08
+
+- `2026-05-08 00:27` | branch=`feat/core-and-agents` | dirty=22 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-05-08 00:29` | branch=`feat/core-and-agents` | dirty=23 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-05-08 02:18` | branch=`feat/core-and-agents` | dirty=24 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
+- `2026-05-08 14:35` | branch=`feat/core-and-agents` | dirty=25 files | head=`c3024b2 feat: route Coder subprocess through claudealt system account`
+  - touched: agents/core/llm_client.py agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 

@@ -61,7 +61,7 @@ graph TD
     Template -->|Synced Code| Render
 
     subgraph "AI Pipeline"
-        Planner[🧠 Planner\nGroq llama-3.3-70b] -->|JSON Script| Coder[💻 Coder\nDeepSeek-V3]
+        Planner[🧠 Planner\nGemini 2.5 Flash] -->|JSON Script| Coder[💻 Coder\nClaude Opus 4.7]
         Coder -->|Python Code| Linter[🔍 Linter\nStatic Analysis]
         Linter -->|Patched Code| Render[🎬 Manim Render]
     end
@@ -92,22 +92,20 @@ Planner 輸出分鏡後，三個任務**並行執行**（非序列）：
 
 | 角色 | 模型 | 說明 |
 | --- | --- | --- |
-| Planner | Groq `llama-3.3-70b` | 快速分鏡規劃 |
-| Coder | DeepSeek `deepseek-chat` (V3) | 高精度代碼生成 |
-| Reviewer | Groq `llama-3.1-8b-instant` | 代碼審查 |
-| Vision QA | OpenAI `gpt-4o-mini` | 影像審查 |
-| Tier-3 Escalation | DeepSeek `deepseek-reasoner` (R1) | 複雜問題升級 |
+| Planner | Google `gemini-2.5-flash`（OpenRouter） | 快速分鏡規劃 |
+| Coder | Anthropic `claude-opus-4-7`（OpenRouter） | 高精度代碼生成 |
+| Vision QA | OpenAI `gpt-4o` | 影像審查 |
+| Tier-3 Escalation | DeepSeek `deepseek-v4-flash thinking` | 複雜問題升級 |
 
 ---
 
 ## 📊 效能表現與測試基準
 
-在 **240 題 K-12（國小至高中）** 數學標竿測試中：
+在 **15 題 K-12（國小至高中）** 數學標竿測試中：
 
 | 指標 | 數值 |
 | --- | --- |
-| 整體生成成功率 | **90.0%** (216/240) |
-| 一次通關率 (1-Iteration, 0 錯誤) | **75.9%** |
+| 整體生成成功率 | **80.0%** (12/15) |
 | 平均 API 成本 / 支影片 | **$0.0115 USD** |
 | 平均生成時間（含渲染與語音） | **~233 秒** |
 | 生成影片平均長度 | **~88 秒** |
@@ -146,16 +144,19 @@ pip install -r requirements.txt
 在專案根目錄建立 `.env` 檔案：
 
 ```ini
-# --- Core LLM ---
-GROQ_API_KEY=gsk_xxxxxxxxxxxx          # Planner & Reviewer
-DEEPSEEK_API_KEY=sk-xxxxxxxxxxxx       # Coder（必填）
+# --- Core LLM（透過 OpenRouter）---
+OPENROUTER_API_KEY=sk-or-xxxxxxxxxxxx  # Planner (Gemini) & Coder (Opus)（必填）
+PLANNER_MODEL=google/gemini-2.5-flash
+CODER_MODEL=anthropic/claude-opus-4-7
 
 # --- Azure Speech（語音合成）---
 AZURE_SPEECH_KEY=xxxxxxxxxxxx
-AZURE_SPEECH_REGION=eastus             # 或 southeastasia 等
+AZURE_SPEECH_REGION=eastasia           # 或 eastus 等
+AUDIO_BACKEND=azure
 
 # --- OpenAI（Vision QA）---
 OPENAI_API_KEY=sk-xxxxxxxxxxxx         # GPT-4o 視覺審查
+VISION_MODEL=gpt-4o
 
 # --- 可選（RAG 影片描述入庫）---
 # 僅在執行 rag/ingest_video.py 時需要，平時可省略
@@ -237,8 +238,16 @@ manim -pqh test_script.py GeneratedScene
 python run_evaluation.py
 ```
 
-測試集位於 `evaluation/test_cases_random_240.json`（240 題 K-12 數學）。
+測試集位於 `evaluation/test_cases.json`。
 評估報告輸出至 `evaluation/reports/`。
+
+### Planner 模型評估
+
+比較不同 Planner 模型的分鏡品質：
+
+```bash
+python run_planner_eval.py
+```
 
 ### Zero-Shot Baseline 對比
 
@@ -246,12 +255,6 @@ python run_evaluation.py
 
 ```bash
 python run_zero_shot_baseline.py
-```
-
-### 生成測試集
-
-```bash
-python generate_240_cases.py
 ```
 
 ---
@@ -284,33 +287,37 @@ LLManim_Agent/
 ├── main.py                        # 通用生成入口（主程式）
 ├── run_math.py                    # 算術直式動畫 CLI
 ├── run_evaluation.py              # Benchmark 評估跑器
+├── run_planner_eval.py            # Planner 模型比較評估
 ├── run_zero_shot_baseline.py      # Zero-shot 對比基準
-├── generate_240_cases.py          # 測試集生成工具
 ├── app.py                         # Streamlit Web UI
 │
-├── .agent/                        # AI 助理設定檔
-│   └── skills/                    # AI 技能庫（包含 Karpathy Guidelines 等）
 ├── agents/
 │   ├── core/
 │   │   ├── llm_client.py          # 多 Provider LLM 統一介面
 │   │   ├── rag_retriever.py       # Weaviate 向量檢索
-│   │   ├── session_logger.py      # 成本與 token 追蹤
+│   │   ├── logger.py              # 成本與 token 追蹤
+│   │   ├── pipeline_config.py     # Pipeline 設定
 │   │   └── manim_api_rules.py     # Manim API 限制規則庫
 │   ├── planner/
 │   │   └── planner.py             # CoT 分鏡規劃 → JSON
 │   ├── coder/
 │   │   ├── prompter.py            # Coder prompt 建構
 │   │   ├── dspy_coder.py          # DSPy Coder 模組
-│   │   ├── code_reviewer.py       # 代碼審查
-│   │   ├── manim_diagnoser.py     # 錯誤診斷
+│   │   ├── diagnoser.py           # 錯誤診斷
+│   │   ├── misalign_fixer.py      # 位置錯位修復
+│   │   ├── positioning_ast.py     # AST 座標分析
 │   │   └── lint_manim.py          # 靜態 Lint 分析
 │   ├── orchestrator/
 │   │   ├── refining_loop.py       # 自動修復主迴圈（最多 5 次）
-│   │   ├── task_router.py         # 路由邏輯（算術 vs 通用）
-│   │   └── academic_translator.py # 語境轉換
+│   │   ├── router.py              # 路由邏輯（算術 vs 通用）
+│   │   ├── translator.py          # 語境轉換
+│   │   ├── pipeline_context.py    # Pipeline 狀態管理
+│   │   └── refining_loop_types.py # 型別定義
 │   └── utils/
 │       ├── audio_engine.py        # Azure TTS 語音合成 + 時間同步
 │       ├── vision_agent.py        # GPT-4o 視覺 QA
+│       ├── final_judge.py         # 最終品質判斷
+│       ├── telemetry.py           # 效能追蹤
 │       └── scene_instrumentor.py  # Scene 狀態監測工具
 │
 ├── templates/                     # 確定性算術模板
@@ -323,7 +330,6 @@ LLManim_Agent/
 │
 ├── evaluation/
 │   ├── test_cases.json            # 預設測試集
-│   ├── test_cases_random_240.json # 240 題隨機測試集
 │   └── reports/                   # 評估報告輸出
 │
 ├── knowledge_base/                # RAG 文件庫
