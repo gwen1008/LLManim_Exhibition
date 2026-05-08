@@ -1,13 +1,29 @@
 # agents/planner.py
 import json
 import re
+import os
 from ..core.llm_client import LLMClient
-from .templates import PLANNER_SYSTEM_PROMPT
+from .templates import PLANNER_SYSTEM_PROMPT, OPUS_PLANNER_SYSTEM_PROMPT
+
+# Strict allowlist — new aliases routing to claude-opus must be added here explicitly.
+_OPUS_PLANNER_ALIASES = {"claude-code", "anthropic/claude-opus-4-7"}
+_OPUS_COMPACT_ALIASES = {"claude-code-planner-compact"}
+_OPUS_FULL_ALIASES    = {"claude-code-planner", "claude-code-planner-full"}
+
 
 class Planner:
     def __init__(self, llm_client=None):
         self.client = llm_client if llm_client else LLMClient()
-        self.system_prompt = PLANNER_SYSTEM_PROMPT
+        planner_model = os.getenv("PLANNER_MODEL", "")
+        if planner_model in _OPUS_COMPACT_ALIASES:
+            self.system_prompt = OPUS_PLANNER_SYSTEM_PROMPT
+            self.is_opus = True
+        elif planner_model in _OPUS_FULL_ALIASES or planner_model in _OPUS_PLANNER_ALIASES:
+            self.system_prompt = PLANNER_SYSTEM_PROMPT
+            self.is_opus = True
+        else:
+            self.system_prompt = PLANNER_SYSTEM_PROMPT
+            self.is_opus = False
 
     @staticmethod
     def _extract_first_json_object(text: str) -> str | None:
@@ -36,15 +52,29 @@ class Planner:
         Plans a script based on a text prompt and optional file context (PDF).
         If solution is provided, Planner skips math derivation and focuses on visual planning.
         """
-        tail = "You MUST output all THREE parts: PART 1 (thought_tree XML), PART 2 (reasoning XML), and PART 3 (JSON blueprint). Do NOT stop after PART 2."
+        if self.is_opus:
+            tail = (
+                "Output exactly THREE parts: <thought_tree>...</thought_tree> (1-2 sentences), "
+                "<reasoning>...</reasoning> (1-3 sentences explaining layout choice), "
+                "<json_blueprint>...</json_blueprint>."
+            )
+            skip_clause = (
+                "The verified solution is provided above; do NOT re-derive math. "
+                "Mention the solution's key terms/numbers in <thought_tree>. "
+                "Focus reasoning entirely on visual strategy."
+            )
+        else:
+            tail = "You MUST output all THREE parts: PART 1 (thought_tree XML), PART 2 (reasoning XML), and PART 3 (JSON blueprint). Do NOT stop after PART 2."
+            skip_clause = (
+                "Since the verified solution is above, in PHASE 0 ToT SKIP all math derivation. "
+                "Focus ToT entirely on VISUAL STRATEGY: which metaphor/layout best illustrates this solution step by step."
+            )
 
         if solution:
             user_content = (
                 f"Design a professional educational animation for: '{prompt}'. Include 3-5 well-structured steps.\n\n"
                 f"[SOLUTION PROVIDED — USE DIRECTLY, DO NOT RE-COMPUTE]\n{solution}\n\n"
-                f"Since the verified solution is above, in PHASE 0 ToT SKIP all math derivation. "
-                f"Focus ToT entirely on VISUAL STRATEGY: which metaphor/layout best illustrates this solution step by step. "
-                f"{tail}"
+                f"{skip_clause} {tail}"
             )
         else:
             user_content = f"Design a professional educational animation for: '{prompt}'. Include 3-5 well-structured steps. {tail}"

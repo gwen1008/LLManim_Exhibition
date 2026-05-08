@@ -757,6 +757,8 @@ class RefiningLoop:
         consecutive_timeouts = 0  # Track consecutive render timeouts for Template Override
         linter_only_retries = 0   # Linter failures are cheap — tracked separately
         LINTER_RETRY_BUDGET = CFG.linter_retry_budget
+        layout_only_retries = 0   # Deterministic layout-audit failures — independent budget
+        LAYOUT_RETRY_BUDGET = 2   # Cap to avoid burning visual_attempts on layout fixes
 
         start_time = time.time()
 
@@ -767,6 +769,7 @@ class RefiningLoop:
             _diagnostics.update({
                 "visual_attempts": visual_attempts,
                 "linter_only_retries": linter_only_retries,
+                "layout_only_retries": layout_only_retries,
                 "consecutive_timeouts": consecutive_timeouts,
                 "main_i": i,
                 "is_best_effort": is_best_effort,
@@ -781,10 +784,10 @@ class RefiningLoop:
 
         i = 0  # Main iteration counter (only incremented on render/vision failures)
         total_loops = 0  # Safety cap to prevent infinite loops
-        while i < max_attempts and total_loops < max_attempts + LINTER_RETRY_BUDGET:
+        while i < max_attempts and total_loops < max_attempts + LINTER_RETRY_BUDGET + LAYOUT_RETRY_BUDGET:
             total_loops += 1
             print(f"\n" + "═"*50)
-            print(f"🔄  迭代進行中: 第 {i+1} / {max_attempts} 次嘗試 (linter retries: {linter_only_retries}/{LINTER_RETRY_BUDGET})")
+            print(f"🔄  迭代進行中: 第 {i+1} / {max_attempts} 次嘗試 (linter retries: {linter_only_retries}/{LINTER_RETRY_BUDGET} | layout retries: {layout_only_retries}/{LAYOUT_RETRY_BUDGET})")
             print("═"*50)
             
             is_linter_only_failure = False  # Track if this iteration was linter-only (cheap)
@@ -1090,6 +1093,34 @@ Fix this immediately.
                         subprocess.run(["ffmpeg", "-sseof", "-1", "-i", video_source, "-vframes", "1", "-update", "1", frame_path, "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                         print("🖼️  [Fallback] Using single last frame for Vision Audit")
                     
+                    # ── [Layout Gate] Deterministic layout audit BEFORE Vision LLM call ──
+                    # Reads SceneInstrumentor's scene_state_log.json, checks for text-occlusion,
+                    # excessive overlap, crowding. If FAILED, feed fix prompt to Coder and skip
+                    # this iteration's Vision audit (saves tokens + targets the real problem).
+                    # Has its own budget (LAYOUT_RETRY_BUDGET) to avoid burning visual_attempts.
+                    if layout_only_retries < LAYOUT_RETRY_BUDGET:
+                        try:
+                            from ..utils.layout_auditor import LayoutAuditor, LayoutVerdict
+                            _layout_audit = LayoutAuditor().audit(log_path)
+                            if _layout_audit["verdict"] == LayoutVerdict.FAIL:
+                                _layout_fix_prompt = LayoutAuditor.build_fix_prompt(_layout_audit)
+                                print(f"\n📐 [Layout Gate] FAILED — {len(_layout_audit['violations'])} violations detected")
+                                for _v in _layout_audit["violations"]:
+                                    print(f"   ❌ [{_v['severity']}] {_v['metric']}={_v['value']} (step {_v['step']})")
+                                print(f"   Layout retry {layout_only_retries+1}/{LAYOUT_RETRY_BUDGET} — feeding fix prompt to Coder...")
+                                review_feedback = "FAIL\n\n" + _layout_fix_prompt
+                                success = False
+                                layout_only_retries += 1
+                                # Skip Vision audit — let Coder fix layout first, re-render next iteration.
+                                # i is NOT incremented because layout retries use independent budget.
+                                continue
+                            else:
+                                print(f"📐 [Layout Gate] PASS (score={_layout_audit.get('score_1_to_5')})")
+                        except Exception as _lg_err:
+                            print(f"⚠️ [Layout Gate] audit failed: {_lg_err} — skipping gate")
+                    else:
+                        print(f"📐 [Layout Gate] budget exhausted ({layout_only_retries}/{LAYOUT_RETRY_BUDGET}) — proceeding to Vision audit")
+
                     vision_agent = VisionAgent(llm_client=llm)
 
                     # P2-3: Extract layout_plan zone coordinates from script_json for Vision hints

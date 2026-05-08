@@ -1,0 +1,1052 @@
+[
+  {
+    "id": "Q101",
+    "category": "Middle",
+    "question_type": "計算題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 4,
+    "topic": "某種微小細菌的長度約為 $3.2$ 微米。已知 $1$ 微米等於 $10^{-6}$ 公尺，如果將 $5$ 百萬個這種細菌首尾相連緊密排成一直線，請問總長度是多少公尺？（請將答案以科學記號表示）\n\n【題目類型】計算題\n【知識點】指數與科學記號\n【正確答案】1.6 \\times 10^1 公尺\n【解題步驟】\n【計算過程】\n步驟 1: 3.2 \\times 10^{-6} \\times 5 \\times 10^6 = 16 \\times 10^0\n步驟 2: 16 \\times 1 = 16\n步驟 3: 16 = 1.6 \\times 10^1\n最終答案: 1.6 \\times 10^1 公尺",
+    "topic_en": "",
+    "answer": "1.6 \\times 10^1 公尺",
+    "solution": "首先，將細菌的長度單位由微米換算為公尺：一個細菌長度為 $3.2 \\times 10^{-6}$ 公尺。接著，將細菌的數量轉換為科學記號：$5$ 百萬可以寫成 $5 \\times 10^6$。總長度等於單一個細菌的長度乘上細菌總數，即 $(3.2 \\times 10^{-6}) \\times (5 \\times 10^6)$。運用乘法交換律與指數律，將數字部分與 $10$ 的次方部分分別相乘：$3.2 \\times 5 = 16$，而 $10^{-6} \\times 10^6 = 10^0 = 1$。所以總長度為 $16$ 公尺。最後，題目要求以科學記號表示，因此要將 $16$ 寫成 $1.6 \\times 10^1$。\n\n【計算過程】\n步驟 1: 3.2 \\times 10^{-6} \\times 5 \\times 10^6 = 16 \\times 10^0\n步驟 2: 16 \\times 1 = 16\n步驟 3: 16 = 1.6 \\times 10^1\n最終答案: 1.6 \\times 10^1 公尺",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q102",
+    "category": "Middle",
+    "question_type": "填空題",
+    "knowledge_point": "指數與科學記號",
+    "difficulty": 4,
+    "topic": "計算 $(4.5 \\times 10^5) + (7 \\times 10^4)$，並將結果以科學記號表示為 $a \\times 10^n$，求 $a+n$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】指數與科學記號\n【正確答案】10.2\n【解題步驟】\n【計算過程】\n步驟 1: 7 \\times 10^4 = 0.7 \\times 10^5\n步驟 2: 4.5 \\times 10^5 + 0.7 \\times 10^5 = 5.2 \\times 10^5\n步驟 3: 5.2 + 5 = 10.2\n最終答案: 10.2",
+    "topic_en": "",
+    "answer": "10.2",
+    "solution": "在進行科學記號的加減法時，必須先將 $10$ 的指數化為相同，才能合併前面的數字。我們可以將 $7 \\times 10^4$ 轉換為與 $10^5$ 同次方的形式，也就是 $0.7 \\times 10^5$。接著進行加法：$(4.5 \\times 10^5) + (0.7 \\times 10^5) = (4.5 + 0.7) \\times 10^5 = 5.2 \\times 10^5$。結果已經是標準的科學記號格式。對照題目給定的格式 $a \\times 10^n$，可得 $a = 5.2$，$n = 5$。因此求得 $a+n = 5.2 + 5 = 10.2$。\n\n【計算過程】\n步驟 1: 7 \\times 10^4 = 0.7 \\times 10^5\n步驟 2: 4.5 \\times 10^5 + 0.7 \\times 10^5 = 5.2 \\times 10^5\n步驟 3: 5.2 + 5 = 10.2\n最終答案: 10.2",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q103",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 2,
+    "topic": "求 $48$、$72$、$120$ 的最大公因數為 _____\n\n【題目類型】填空題\n【知識點】因數與倍數\n【正確答案】24.0\n【解題步驟】\n【計算過程】\n步驟 1: 48 = 2^4 \\times 3\n步驟 2: 72 = 2^3 \\times 3^2\n步驟 3: 120 = 2^3 \\times 3 \\times 5\n步驟 4: 2^3 \\times 3 = 24\n最終答案: 24",
+    "topic_en": "",
+    "answer": "24.0",
+    "solution": "將 48、72、120 作短除法，或質因數分解：$48 = 2^4 \\times 3$，$72 = 2^3 \\times 3^2$，$120 = 2^3 \\times 3 \\times 5$。尋找共同的質因數，並取最低次方。共同質因數有 2 和 3，2 的最低次方為 3，3 的最低次方為 1。因此最大公因數為 $2^3 \\times 3 = 24$。\n\n【計算過程】\n步驟 1: 48 = 2^4 \\times 3\n步驟 2: 72 = 2^3 \\times 3^2\n步驟 3: 120 = 2^3 \\times 3 \\times 5\n步驟 4: 2^3 \\times 3 = 24\n最終答案: 24",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q104",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 3,
+    "topic": "求 $280$ 與 $2^3 \\times 3 \\times 5^2$ 的最小公倍數，請將答案以標準分解式表示。\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】2^3 \\times 3 \\times 5^2 \\times 7\n【解題步驟】\n【計算過程】\n步驟 1: 280 = 2^3 \\times 5 \\times 7\n最終答案: 2^3 \\times 3 \\times 5^2 \\times 7",
+    "topic_en": "",
+    "answer": "2^3 \\times 3 \\times 5^2 \\times 7",
+    "solution": "首先將 280 作質因數分解，得到 $280 = 2^3 \\times 5 \\times 7$。另一數為 $2^3 \\times 3 \\times 5^2$。求最小公倍數時，須找出所有出現過的質因數（包含 2、3、5、7），並針對每一個質因數取最高次方。2 的最高次方為 3，3 的最高次方為 1，5 的最高次方為 2，7 的最高次方為 1。故最小公倍數為 $2^3 \\times 3 \\times 5^2 \\times 7$。\n\n【計算過程】\n步驟 1: 280 = 2^3 \\times 5 \\times 7\n最終答案: 2^3 \\times 3 \\times 5^2 \\times 7",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q105",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 3,
+    "topic": "下列哪一個選項中所表示的數，與 $180$ 的最大公因數為 $30$？\n\n(A) (A) $2^2 \\times 3 \\times 5^2$\n(B) (B) $2 \\times 3^2 \\times 5$\n(C) (C) $2 \\times 3 \\times 5^2 \\times 7$\n(D) (D) $3^2 \\times 5 \\times 7$\n\n【題目類型】選擇題\n【知識點】因數與倍數\n【正確答案】（選項C）(C) $2 \\times 3 \\times 5^2 \\times 7$",
+    "topic_en": "",
+    "answer": "（選項C）(C) $2 \\times 3 \\times 5^2 \\times 7$",
+    "solution": "首先將 180 與 30 寫成標準分解式：$180 = 2^2 \\times 3^2 \\times 5$，$30 = 2 \\times 3 \\times 5$。最大公因數是由共同質因數的最低次方所組成。因為最大公因數中有 $2^1$，而 180 有 $2^2$，代表另一個數的 2 必須恰好是 1 次方。同理，最大公因數中有 $3^1$，而 180 有 $3^2$，代表另一個數的 3 必須恰好是 1 次方。最大公因數中有 $5^1$，而 180 有 $5^1$，另一個數的 5 的次方可以大於等於 1。(A) 選項與 180 的最大公因數為 $2^2 \\times 3 \\times 5 = 60$。(B) 選項與 180 的最大公因數為 $2 \\times 3^2 \\times 5 = 90$。(C) 選項與 180 的最大公因數為 $2 \\times 3 \\times 5 = 30$，符合條件。(D) 選項沒有質因數 2，最大公因數為 $3^2 \\times 5 = 45$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q106",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 3,
+    "topic": "求 $45$、$75$、$105$ 的最小公倍數。\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】1575.0\n【解題步驟】\n【計算過程】\n步驟 1: 45 = 3^2 \\times 5\n步驟 2: 75 = 3 \\times 5^2\n步驟 3: 105 = 3 \\times 5 \\times 7\n步驟 4: 3^2 \\times 5^2 \\times 7 = 1575\n最終答案: 1575",
+    "topic_en": "",
+    "answer": "1575.0",
+    "solution": "將三個數分別做質因數分解：$45 = 3^2 \\times 5$，$75 = 3 \\times 5^2$，$105 = 3 \\times 5 \\times 7$。最小公倍數必須包含所有出現過的質因數 3、5、7，且每個質因數都要取出現過的最高次方。3 的最高次方是 2，5 的最高次方是 2，7 的最高次方是 1。因此最小公倍數為 $3^2 \\times 5^2 \\times 7 = 9 \\times 25 \\times 7 = 1575$。\n\n【計算過程】\n步驟 1: 45 = 3^2 \\times 5\n步驟 2: 75 = 3 \\times 5^2\n步驟 3: 105 = 3 \\times 5 \\times 7\n步驟 4: 3^2 \\times 5^2 \\times 7 = 1575\n最終答案: 1575",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q107",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 3,
+    "topic": "若 $a = 2^3 \\times 5^2 \\times 7$，$b = 2^2 \\times 3 \\times 5^3$，則 $a$ 與 $b$ 的最大公因數為何？\n\n(A) (A) $2^2 \\times 5^2$\n(B) (B) $2^3 \\times 5^3$\n(C) (C) $2^2 \\times 3 \\times 5^2 \\times 7$\n(D) (D) $2^3 \\times 3 \\times 5^3 \\times 7$\n\n【題目類型】選擇題\n【知識點】因數與倍數\n【正確答案】（選項A）(A) $2^2 \\times 5^2$",
+    "topic_en": "",
+    "answer": "（選項A）(A) $2^2 \\times 5^2$",
+    "solution": "求兩數的最大公因數，要找出兩數共同的質因數，並取較低的次方。$a$ 的質因數有 2, 5, 7；$b$ 的質因數有 2, 3, 5。共同的質因數為 2 和 5。比較次方：$2^3$ 與 $2^2$ 較低的是 $2^2$；$5^2$ 與 $5^3$ 較低的是 $5^2$。因此最大公因數為 $2^2 \\times 5^2$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q108",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 4,
+    "topic": "已知 $A = 2^a \\times 3^2 \\times 5^c$，$B = 2^3 \\times 3^b \\times 5^2$。若 $A$ 與 $B$ 的最大公因數為 $2^2 \\times 3 \\times 5^2$，且最小公倍數為 $2^3 \\times 3^2 \\times 5^3$，則 $a+b+c$ 的值為何？\n\n(A) (A) $5$\n(B) (B) $6$\n(C) (C) $7$\n(D) (D) $8$\n\n【題目類型】選擇題\n【知識點】因數與倍數\n【正確答案】（選項B）(B) $6$",
+    "topic_en": "",
+    "answer": "（選項B）(B) $6$",
+    "solution": "根據最大公因數（取較低次方）與最小公倍數（取較高次方）的規則，我們來逐一分析質因數的次方。對於質因數 2：兩數的次方分別為 $a$ 和 3，最大公因數的 2 次方為 2，代表較小值為 2，所以 $a=2$。對於質因數 3：次方分別為 2 和 $b$，最大公因數為 $3^1$，代表較小值為 1，所以 $b=1$。對於質因數 5：次方分別為 $c$ 和 2，最小公倍數為 $5^3$，代表較大值為 3，所以 $c=3$。最後將它們相加：$a+b+c = 2 + 1 + 3 = 6$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q109",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 4,
+    "topic": "有三個數 $36$、$60$、$126$，求它們的最大公因數與最小公倍數之和。\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】1266.0\n【解題步驟】\n【計算過程】\n步驟 1: 36 = 2^2 \\times 3^2\n步驟 2: 60 = 2^2 \\times 3 \\times 5\n步驟 3: 126 = 2 \\times 3^2 \\times 7\n步驟 4: 2 \\times 3 = 6\n步驟 5: 2^2 \\times 3^2 \\times 5 \\times 7 = 1260\n步驟 6: 1260 + 6 = 1266\n最終答案: 1266",
+    "topic_en": "",
+    "answer": "1266.0",
+    "solution": "首先將三個數作質因數分解：$36 = 2^2 \\times 3^2$；$60 = 2^2 \\times 3 \\times 5$；$126 = 2 \\times 3^2 \\times 7$。求最大公因數：取共同質因數的最低次方，共同質因數有 2 和 3，最低次方均為 1，因此最大公因數為 $2^1 \\times 3^1 = 6$。求最小公倍數：取所有出現過的質因數的最高次方，出現的質因數有 2, 3, 5, 7，最高次方分別為 2, 2, 1, 1，因此最小公倍數為 $2^2 \\times 3^2 \\times 5 \\times 7 = 4 \\times 9 \\times 5 \\times 7 = 1260$。最後將兩者相加：$1260 + 6 = 1266$。\n\n【計算過程】\n步驟 1: 36 = 2^2 \\times 3^2\n步驟 2: 60 = 2^2 \\times 3 \\times 5\n步驟 3: 126 = 2 \\times 3^2 \\times 7\n步驟 4: 2 \\times 3 = 6\n步驟 5: 2^2 \\times 3^2 \\times 5 \\times 7 = 1260\n步驟 6: 1260 + 6 = 1266\n最終答案: 1266",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q110",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 3,
+    "topic": "下列選項中所表示的數，哪一個與 $360$ 的最大公因數為 $60$？\n\n(A) (A) $2^2 \\times 3^2 \\times 5^2 \\times 7$\n(B) (B) $2^3 \\times 3 \\times 5 \\times 11$\n(C) (C) $2^2 \\times 3 \\times 5^2 \\times 7$\n(D) (D) $2 \\times 3 \\times 5^2$\n\n【題目類型】選擇題\n【知識點】因數與倍數\n【正確答案】（選項C）(C) $2^2 \\times 3 \\times 5^2 \\times 7$\n【解題步驟】\n【計算過程】\n步驟 1: 360 = 2^3 \\times 3^2 \\times 5\n步驟 2: 60 = 2^2 \\times 3 \\times 5\n最終答案: (C)",
+    "topic_en": "",
+    "answer": "（選項C）(C) $2^2 \\times 3 \\times 5^2 \\times 7$",
+    "solution": "首先將題目提供的數值化為標準分解式，以利觀察。$360 = 2^3 \\times 3^2 \\times 5$，而目標的最大公因數 $60 = 2^2 \\times 3 \\times 5$。根據最大公因數『挑共有質因數且指數取小』的原則，要讓選項的數與 $2^3 \\times 3^2 \\times 5$ 的最大公因數為 $2^2 \\times 3 \\times 5$，代表該選項必須包含 $2^2$（不能是 $2^3$ 以上，否則公因數的 2 會變成三次方）、必須包含 $3^1$（不能是 $3^2$ 以上）、以及包含至少 $5^1$。我們來檢驗選項：(A) 最大公因數會是 $2^2 \\times 3^2 \\times 5 = 180$；(B) 最大公因數會是 $2^3 \\times 3 \\times 5 = 120$；(C) 最大公因數為 $2^2 \\times 3 \\times 5 = 60$；(D) 最大公因數為 $2 \\times 3 \\times 5 = 30$。因此選(C)。\n\n【計算過程】\n步驟 1: 360 = 2^3 \\times 3^2 \\times 5\n步驟 2: 60 = 2^2 \\times 3 \\times 5\n最終答案: (C)",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q111",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 4,
+    "topic": "已知甲、乙兩正整數，甲數 $= 2^a \\times 3^2 \\times 7$，乙數 $= 2^3 \\times 3^b \\times 5$。若甲、乙兩數的最大公因數為 $72$，且最小公倍數為 $2^4 \\times 3^3 \\times 5 \\times 7$，則 $a+b=$ _____\n\n【題目類型】填空題\n【知識點】因數與倍數\n【正確答案】7.0\n【解題步驟】\n【計算過程】\n步驟 1: 72 = 2^3 \\times 3^2\n步驟 2: \\max(a, 3) = 4 = a=4\n步驟 3: \\max(2, b) = 3 = b=3\n步驟 4: 4 + 3 = 7\n最終答案: 7",
+    "topic_en": "",
+    "answer": "7.0",
+    "solution": "我們要利用最大公因數與最小公倍數的結構，反推未知的指數。首先將最大公因數化為標準分解式：$72 = 2^3 \\times 3^2$。我們知道，求最大公因數是『指數取較小值』。對於質因數 2，甲數的指數是 a，乙數是 3，最大公因數是 3，代表 a 至少是 3。對於質因數 3，甲數是 2，乙數是 b，最大公因數是 2，代表 b 至少是 2。接著看最小公倍數 $2^4 \\times 3^3 \\times 5 \\times 7$。求最小公倍數是『指數取較大值』。對於質因數 2，甲數(a)和乙數(3)取大的要等於 4，所以 a 只能是 4。對於質因數 3，甲數(2)和乙數(b)取大的要等於 3，所以 b 只能是 3。因此我們得到 $a=4$，$b=3$。最後計算 $a+b = 4+3 = 7$。\n\n【計算過程】\n步驟 1: 72 = 2^3 \\times 3^2\n步驟 2: \\max(a, 3) = 4 = a=4\n步驟 3: \\max(2, b) = 3 = b=3\n步驟 4: 4 + 3 = 7\n最終答案: 7",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q112",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 2,
+    "topic": "求 $48$、$72$、$120$ 的最大公因數為 _____。\n\n【題目類型】填空題\n【知識點】因數與倍數\n【正確答案】24.0\n【解題步驟】\n【計算過程】\n步驟 1: 48 = 2^4 \\times 3\n步驟 2: 72 = 2^3 \\times 3^2\n步驟 3: 120 = 2^3 \\times 3 \\times 5\n步驟 4: 2^3 \\times 3 = 24\n最終答案: 24",
+    "topic_en": "",
+    "answer": "24.0",
+    "solution": "我們可以用標準分解式來找最大公因數：\n$48 = 2^4 \\times 3$\n$72 = 2^3 \\times 3^2$\n$120 = 2^3 \\times 3 \\times 5$\n最大公因數要取各數都有的質因數，並挑選其次方數最小的，因此這三個數的最大公因數為 $2^3 \\times 3 = 8 \\times 3 = 24$。\n\n【計算過程】\n步驟 1: 48 = 2^4 \\times 3\n步驟 2: 72 = 2^3 \\times 3^2\n步驟 3: 120 = 2^3 \\times 3 \\times 5\n步驟 4: 2^3 \\times 3 = 24\n最終答案: 24",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q113",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 3,
+    "topic": "下列選項中所表示的數，哪一個與 $180$ 的最大公因數為 $30$？\n\n(A) (A) $2^2 \\times 3 \\times 5^2$\n(B) (B) $2 \\times 3^2 \\times 5^2$\n(C) (C) $2 \\times 3 \\times 5^2 \\times 7$\n(D) (D) $2 \\times 3^2 \\times 5 \\times 7$\n\n【題目類型】選擇題\n【知識點】因數與倍數\n【正確答案】（選項C）(C) $2 \\times 3 \\times 5^2 \\times 7$\n【解題步驟】\n【計算過程】\n步驟 1: 180 = 2^2 \\times 3^2 \\times 5\n步驟 2: 30 = 2 \\times 3 \\times 5\n最終答案: C",
+    "topic_en": "",
+    "answer": "（選項C）(C) $2 \\times 3 \\times 5^2 \\times 7$",
+    "solution": "首先，將 $180$ 和 $30$ 寫成標準分解式：\n$180 = 2^2 \\times 3^2 \\times 5$\n$30 = 2 \\times 3 \\times 5$\n我們要找一個數，它與 $180$ 共同具備的質因數次方最小值剛好是 $2^1 \\times 3^1 \\times 5^1$。\n檢查每個選項：\n(A) $2^2 \\times 3 \\times 5^2$：最大公因數為 $2^2 \\times 3 \\times 5 = 60$\n(B) $2 \\times 3^2 \\times 5^2$：最大公因數為 $2 \\times 3^2 \\times 5 = 90$\n(C) $2 \\times 3 \\times 5^2 \\times 7$：最大公因數為 $2 \\times 3 \\times 5 = 30$\n(D) $2 \\times 3^2 \\times 5 \\times 7$：最大公因數為 $2 \\times 3^2 \\times 5 = 90$\n因此，只有 (C) 符合條件。\n\n【計算過程】\n步驟 1: 180 = 2^2 \\times 3^2 \\times 5\n步驟 2: 30 = 2 \\times 3 \\times 5\n最終答案: C",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q114",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 3,
+    "topic": "計算分數的加減時，常需要通分。若要計算 $\\frac{5}{84} - \\frac{7}{120}$，其最簡公分母(即兩分母的最小公倍數)為 _____。\n\n【題目類型】填空題\n【知識點】因數與倍數\n【正確答案】840.0\n【解題步驟】\n【計算過程】\n步驟 1: 84 = 2^2 \\times 3 \\times 7\n步驟 2: 120 = 2^3 \\times 3 \\times 5\n步驟 3: 2^3 \\times 3 \\times 5 \\times 7 = 840\n最終答案: 840",
+    "topic_en": "",
+    "answer": "840.0",
+    "solution": "在進行分數通分時，最簡公分母就是這兩個分母的最小公倍數。\n我們先將分母做標準分解式：\n$84 = 2^2 \\times 3 \\times 7$\n$120 = 2^3 \\times 3 \\times 5$\n最小公倍數為取所有出現過的質因數，並且挑選最高次方：\n$2^3 \\times 3 \\times 5 \\times 7 = 8 \\times 3 \\times 5 \\times 7 = 840$。\n因此最簡公分母為 $840$。\n\n【計算過程】\n步驟 1: 84 = 2^2 \\times 3 \\times 7\n步驟 2: 120 = 2^3 \\times 3 \\times 5\n步驟 3: 2^3 \\times 3 \\times 5 \\times 7 = 840\n最終答案: 840",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q115",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 4,
+    "topic": "已知兩正整數 $A = 2^a \\times 3^2 \\times 5$，$B = 2^3 \\times 3^b \\times 7$。若 $A$、$B$ 的最大公因數為 $36$，最小公倍數為 $2520$，則 $a + b =$ ？\n\n(A) (A) $3$\n(B) (B) $4$\n(C) (C) $5$\n(D) (D) $6$\n\n【題目類型】選擇題\n【知識點】因數與倍數\n【正確答案】（選項B）(B) $4$\n【解題步驟】\n【計算過程】\n步驟 1: 36 = 2^2 \\times 3^2\n步驟 2: 2520 = 2^3 \\times 3^2 \\times 5 \\times 7\n步驟 3: 2 + 2 = 4\n最終答案: B",
+    "topic_en": "",
+    "answer": "（選項B）(B) $4$",
+    "solution": "首先，將最大公因數與最小公倍數寫成標準分解式：\n最大公因數 $36 = 2^2 \\times 3^2$\n最小公倍數 $2520 = 2^3 \\times 3^2 \\times 5 \\times 7$\n接下來比對 $A$ 和 $B$ 的質因數：\n$A = 2^a \\times 3^2 \\times 5$\n$B = 2^3 \\times 3^b \\times 7$\n對於質因數 2：最大公因數的次方為 2，表示 $\\min(a, 3) = 2$，因此 $a = 2$。\n對於質因數 3：最小公倍數的次方為 2，表示 $\\max(2, b) = 2$；同時最大公因數的次方也是 2，表示 $\\min(2, b) = 2$。這代表 $b$ 必須等於 2。\n所以 $a = 2$，$b = 2$，則 $a + b = 2 + 2 = 4$。\n\n【計算過程】\n步驟 1: 36 = 2^2 \\times 3^2\n步驟 2: 2520 = 2^3 \\times 3^2 \\times 5 \\times 7\n步驟 3: 2 + 2 = 4\n最終答案: B",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q116",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 4,
+    "topic": "有三個分數分別為 $\\frac{14}{15}$、$\\frac{21}{20}$、$\\frac{35}{24}$，若要將這三個分數同乘上一個正整數 $N$ 之後，這三個數的結果都會變成整數，則 $N$ 的最小值為多少？\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】120.0\n【解題步驟】\n【計算過程】\n步驟 1: 15 = 3 \\times 5\n步驟 2: 20 = 2^2 \\times 5\n步驟 3: 24 = 2^3 \\times 3\n步驟 4: 2^3 \\times 3 \\times 5 = 120\n最終答案: 120",
+    "topic_en": "",
+    "answer": "120.0",
+    "solution": "若三個分數乘以正整數 $N$ 後都要變成整數，這表示 $N$ 必須能夠消去每一個分數的分母。也就是說，$N$ 必須是 $15$、$20$ 和 $24$ 的公倍數。\n因為題目要求 $N$ 的最小值，所以我們要求的是這三個分母的最小公倍數。\n$15 = 3 \\times 5$\n$20 = 2^2 \\times 5$\n$24 = 2^3 \\times 3$\n找出最小公倍數：$2^3 \\times 3 \\times 5 = 8 \\times 3 \\times 5 = 120$。\n因此，$N$ 的最小值為 120。\n\n【計算過程】\n步驟 1: 15 = 3 \\times 5\n步驟 2: 20 = 2^2 \\times 5\n步驟 3: 24 = 2^3 \\times 3\n步驟 4: 2^3 \\times 3 \\times 5 = 120\n最終答案: 120",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q117",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "因數與倍數",
+    "difficulty": 4,
+    "topic": "將 $\\frac{3}{104}$ 與 $\\frac{5}{156}$ 通分化為同分母的分數時，若分母選用 $104$ 與 $156$ 的最小公倍數，則通分後這兩個分數的新分子相加之和為 _____。\n\n【題目類型】填空題\n【知識點】因數與倍數\n【正確答案】19.0\n【解題步驟】\n【計算過程】\n步驟 1: 104 = 2^3 \\times 13\n步驟 2: 156 = 2^2 \\times 3 \\times 13\n步驟 3: 2^3 \\times 3 \\times 13 = 312\n步驟 4: 312 \\div 104 = 3\n步驟 5: 3 \\times 3 = 9\n步驟 6: 312 \\div 156 = 2\n步驟 7: 5 \\times 2 = 10\n步驟 8: 9 + 10 = 19\n最終答案: 19",
+    "topic_en": "",
+    "answer": "19.0",
+    "solution": "首先，我們需要求出 $104$ 和 $156$ 的最小公倍數，作為通分後的新分母。\n將兩數做標準分解式：\n$104 = 8 \\times 13 = 2^3 \\times 13$\n$156 = 12 \\times 13 = 2^2 \\times 3 \\times 13$\n最小公倍數為：$2^3 \\times 3 \\times 13 = 8 \\times 3 \\times 13 = 312$。\n接著進行通分：\n對於 $\\frac{3}{104}$：分母由 $104$ 擴分至 $312$，放大了 $312 \\div 104 = 3$ 倍，因此新分子為 $3 \\times 3 = 9$。\n對於 $\\frac{5}{156}$：分母由 $156$ 擴分至 $312$，放大了 $312 \\div 156 = 2$ 倍，因此新分子為 $5 \\times 2 = 10$。\n最後將兩個新分子相加：$9 + 10 = 19$。\n\n【計算過程】\n步驟 1: 104 = 2^3 \\times 13\n步驟 2: 156 = 2^2 \\times 3 \\times 13\n步驟 3: 2^3 \\times 3 \\times 13 = 312\n步驟 4: 312 \\div 104 = 3\n步驟 5: 3 \\times 3 = 9\n步驟 6: 312 \\div 156 = 2\n步驟 7: 5 \\times 2 = 10\n步驟 8: 9 + 10 = 19\n最終答案: 19",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q118",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數加減",
+    "difficulty": 2,
+    "topic": "已知 $x = -2$， $y = -2 \\frac{1}{3}$， $z = -2 \\frac{1}{4}$，下列關於 $x$、$y$、$z$ 三數的大小關係，何者正確？\n\n(A) (A) $x > z > y$\n(B) (B) $x > y > z$\n(C) (C) $y > z > x$\n(D) (D) $z > y > x$\n\n【題目類型】選擇題\n【知識點】分數加減\n【正確答案】（選項A）(A) $x > z > y$",
+    "topic_en": "",
+    "answer": "（選項A）(A) $x > z > y$",
+    "solution": "本題旨在測驗負分數的大小比較。第一步可以將帶分數的整數部分與分數部分分開思考。因為三個數的整數部分都是 $-2$，我們只需比較分數部分。$y$ 的分數部分為 $-\\frac{1}{3}$，通分後為 $-\\frac{4}{12}$；$z$ 的分數部分為 $-\\frac{1}{4}$，通分後為 $-\\frac{3}{12}$。在負數中，絕對值越大的數值越小，因為 $-\\frac{4}{12} < -\\frac{3}{12} < 0$，可以推得 $-2 \\frac{1}{3} < -2 \\frac{1}{4} < -2$，也就是 $y < z < x$。反過來寫即為 $x > z > y$，故選(A)。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q119",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "分數加減",
+    "difficulty": 3,
+    "topic": "算式 $\\frac{5}{12} + \\frac{7}{15} - (\\frac{17}{12} - \\frac{8}{15})$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】分數加減\n【正確答案】0.0\n【解題步驟】\n【計算過程】\n步驟 1: \\frac{5}{12} + \\frac{7}{15} - (\\frac{17}{12} - \\frac{8}{15}) = \\frac{5}{12} + \\frac{7}{15} - \\frac{17}{12} + \\frac{8}{15}\n步驟 2: \\frac{5}{12} + \\frac{7}{15} - \\frac{17}{12} + \\frac{8}{15} = (\\frac{5}{12} - \\frac{17}{12}) + (\\frac{7}{15} + \\frac{8}{15})\n步驟 3: (\\frac{5}{12} - \\frac{17}{12}) + (\\frac{7}{15} + \\frac{8}{15}) = \\frac{-12}{12} + \\frac{15}{15}\n步驟 4: -1 + 1 = 0\n最終答案: 0",
+    "topic_en": "",
+    "answer": "0.0",
+    "solution": "本題旨在運用去括號法則與加法結合律來簡化分數加減計算。原式中有一組括號，且括號前為減號，去括號時括號內的各項皆須變號。原式 $= \\frac{5}{12} + \\frac{7}{15} - \\frac{17}{12} + \\frac{8}{15}$。接著利用交換律與結合律，將分母相同的分數放在一起計算：$(\\frac{5}{12} - \\frac{17}{12}) + (\\frac{7}{15} + \\frac{8}{15})$。計算括號內的值可得：$\\frac{-12}{12} + \\frac{15}{15} = -1 + 1 = 0$。\n\n【計算過程】\n步驟 1: \\frac{5}{12} + \\frac{7}{15} - (\\frac{17}{12} - \\frac{8}{15}) = \\frac{5}{12} + \\frac{7}{15} - \\frac{17}{12} + \\frac{8}{15}\n步驟 2: \\frac{5}{12} + \\frac{7}{15} - \\frac{17}{12} + \\frac{8}{15} = (\\frac{5}{12} - \\frac{17}{12}) + (\\frac{7}{15} + \\frac{8}{15})\n步驟 3: (\\frac{5}{12} - \\frac{17}{12}) + (\\frac{7}{15} + \\frac{8}{15}) = \\frac{-12}{12} + \\frac{15}{15}\n步驟 4: -1 + 1 = 0\n最終答案: 0",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q120",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數加減",
+    "difficulty": 3,
+    "topic": "計算 $\\frac{3}{4} - (\\frac{1}{2} + \\frac{1}{3})$ 的過程中，下列哪一個步驟是正確的？\n\n(A) (A) 原式 $= \\frac{3}{4} - \\frac{1}{2} + \\frac{1}{3}$\n(B) (B) 原式 $= \\frac{3}{4} - \\frac{1}{2} - \\frac{1}{3}$\n(C) (C) 原式 $= \\frac{3-1+1}{4-2+3}$\n(D) (D) 原式 $= (\\frac{3}{4} - \\frac{1}{2}) + \\frac{1}{3}$\n\n【題目類型】選擇題\n【知識點】分數加減\n【正確答案】（選項B）(B) 原式 $= \\frac{3}{4} - \\frac{1}{2} - \\frac{1}{3}$",
+    "topic_en": "",
+    "answer": "（選項B）(B) 原式 $= \\frac{3}{4} - \\frac{1}{2} - \\frac{1}{3}$",
+    "solution": "本題主要考驗學生是否能正確應用去括號法則。當括號前有負號時，這代表我們要減去括號內「整體」的值，相當於將 $-1$ 分配乘進括號內的每一項。因此 $\\frac{3}{4} - (\\frac{1}{2} + \\frac{1}{3})$ 去掉括號後，括號內的正 $\\frac{1}{2}$ 會變成負 $\\frac{1}{2}$，正 $\\frac{1}{3}$ 也會變成負 $\\frac{1}{3}$，寫成算式即為 $\\frac{3}{4} - \\frac{1}{2} - \\frac{1}{3}$。故(B)為正確步驟。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q121",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數加減",
+    "difficulty": 4,
+    "topic": "已知甲、乙兩數為分數，且甲 $= -\\frac{5}{8}$，若要使「甲 $-$ 乙」的值為正數，則乙數不可能是下列何者？\n\n(A) (A) $-1$\n(B) (B) $-\\frac{3}{4}$\n(C) (C) $-\\frac{1}{2}$\n(D) (D) $-\\frac{7}{8}$\n\n【題目類型】選擇題\n【知識點】分數加減\n【正確答案】（選項C）(C) $-\\frac{1}{2}$",
+    "topic_en": "",
+    "answer": "（選項C）(C) $-\\frac{1}{2}$",
+    "solution": "本題測驗分數減法與大小比較的邏輯概念。題目給定「甲 $-$ 乙」的值為正數（即大於 $0$），寫成不等式為 甲 $-$ 乙 $> 0$，這表示 甲 $>$ 乙。已知甲 $= -\\frac{5}{8}$，因此乙必須小於 $-\\frac{5}{8}$。我們來檢查各選項是否小於 $-\\frac{5}{8}$：\n(A) $-1 = -\\frac{8}{8} < -\\frac{5}{8}$，符合。\n(B) $-\\frac{3}{4} = -\\frac{6}{8} < -\\frac{5}{8}$，符合。\n(C) $-\\frac{1}{2} = -\\frac{4}{8} > -\\frac{5}{8}$，乙大於甲，相減會是負數，不符合。\n(D) $-\\frac{7}{8} < -\\frac{5}{8}$，符合。\n因此，乙數不可能是選項(C)的數值。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q122",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數加減",
+    "difficulty": 2,
+    "topic": "算式 $3 \\frac{1}{2} - (-1 \\frac{2}{5})$ 之值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】\\frac{49}{10}\n【解題步驟】\n【計算過程】\n步驟 1: 3 \\frac{1}{2} - (-1 \\frac{2}{5}) = 3 \\frac{1}{2} + 1 \\frac{2}{5}\n步驟 2: 3 \\frac{1}{2} + 1 \\frac{2}{5} = \\frac{7}{2} + \\frac{7}{5}\n步驟 3: \\frac{7}{2} + \\frac{7}{5} = \\frac{35}{10} + \\frac{14}{10}\n步驟 4: \\frac{35}{10} + \\frac{14}{10} = \\frac{49}{10}\n最終答案: \\frac{49}{10}",
+    "topic_en": "",
+    "answer": "\\frac{49}{10}",
+    "solution": "本題測驗減去負數的運算規則與帶分數的加法。依據運算規則「減去一個負數等於加上它的相反數」，原式可改寫為 $3 \\frac{1}{2} + 1 \\frac{2}{5}$。接著將帶分數化為假分數進行運算：$3 \\frac{1}{2} = \\frac{7}{2}$，$1 \\frac{2}{5} = \\frac{7}{5}$。將分母通分為 $10$，可得 $\\frac{7}{2} = \\frac{35}{10}$，$\\frac{7}{5} = \\frac{14}{10}$。兩者相加得到 $\\frac{49}{10}$，化為帶分數為 $4 \\frac{9}{10}$。\n\n【計算過程】\n步驟 1: 3 \\frac{1}{2} - (-1 \\frac{2}{5}) = 3 \\frac{1}{2} + 1 \\frac{2}{5}\n步驟 2: 3 \\frac{1}{2} + 1 \\frac{2}{5} = \\frac{7}{2} + \\frac{7}{5}\n步驟 3: \\frac{7}{2} + \\frac{7}{5} = \\frac{35}{10} + \\frac{14}{10}\n步驟 4: \\frac{35}{10} + \\frac{14}{10} = \\frac{49}{10}\n最終答案: \\frac{49}{10}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q123",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數加減",
+    "difficulty": 3,
+    "topic": "計算 $2 \\frac{3}{4} + (-1 \\frac{5}{6}) - \\frac{7}{12}$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】\\frac{1}{3}\n【解題步驟】\n【計算過程】\n步驟 1: 2 \\frac{3}{4} + (-1 \\frac{5}{6}) - \\frac{7}{12} = 2 \\frac{3}{4} - 1 \\frac{5}{6} - \\frac{7}{12}\n步驟 2: 2 \\frac{3}{4} - 1 \\frac{5}{6} - \\frac{7}{12} = \\frac{11}{4} - \\frac{11}{6} - \\frac{7}{12}\n步驟 3: \\frac{11}{4} - \\frac{11}{6} - \\frac{7}{12} = \\frac{33}{12} - \\frac{22}{12} - \\frac{7}{12}\n步驟 4: \\frac{33-22-7}{12} = \\frac{4}{12}\n步驟 5: \\frac{4}{12} = \\frac{1}{3}\n最終答案: \\frac{1}{3}",
+    "topic_en": "",
+    "answer": "\\frac{1}{3}",
+    "solution": "本題測驗帶分數混合計算及三個異分母分數的通分。首先將算式的符號化簡：「加上一個負數等於減去該正數」，所以原式 $= 2 \\frac{3}{4} - 1 \\frac{5}{6} - \\frac{7}{12}$。為了避免整數與分數退位計算出錯，可將帶分數化為假分數：$2 \\frac{3}{4} = \\frac{11}{4}$，$1 \\frac{5}{6} = \\frac{11}{6}$。原式改寫為 $\\frac{11}{4} - \\frac{11}{6} - \\frac{7}{12}$。接著找出分母 $4, 6, 12$ 的最小公倍數，即為 $12$。將分數通分為同分母：$\\frac{11}{4} = \\frac{33}{12}$，$\\frac{11}{6} = \\frac{22}{12}$。算式成為 $\\frac{33}{12} - \\frac{22}{12} - \\frac{7}{12} = \\frac{33 - 22 - 7}{12} = \\frac{4}{12}$。最後約分成最簡分數，得 $\\frac{1}{3}$。\n\n【計算過程】\n步驟 1: 2 \\frac{3}{4} + (-1 \\frac{5}{6}) - \\frac{7}{12} = 2 \\frac{3}{4} - 1 \\frac{5}{6} - \\frac{7}{12}\n步驟 2: 2 \\frac{3}{4} - 1 \\frac{5}{6} - \\frac{7}{12} = \\frac{11}{4} - \\frac{11}{6} - \\frac{7}{12}\n步驟 3: \\frac{11}{4} - \\frac{11}{6} - \\frac{7}{12} = \\frac{33}{12} - \\frac{22}{12} - \\frac{7}{12}\n步驟 4: \\frac{33-22-7}{12} = \\frac{4}{12}\n步驟 5: \\frac{4}{12} = \\frac{1}{3}\n最終答案: \\frac{1}{3}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q124",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "分數加減",
+    "difficulty": 4,
+    "topic": "若 $a = -3 \\frac{1}{5}$， $b = 1 \\frac{3}{4}$，求 $|a| - |b|$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】分數加減\n【正確答案】\\frac{29}{20}\n【解題步驟】\n【計算過程】\n步驟 1: |-3 \\frac{1}{5}| - |1 \\frac{3}{4}| = 3 \\frac{1}{5} - 1 \\frac{3}{4}\n步驟 2: 3 \\frac{1}{5} - 1 \\frac{3}{4} = \\frac{16}{5} - \\frac{7}{4}\n步驟 3: \\frac{16}{5} - \\frac{7}{4} = \\frac{64}{20} - \\frac{35}{20}\n步驟 4: \\frac{64}{20} - \\frac{35}{20} = \\frac{29}{20}\n最終答案: \\frac{29}{20}",
+    "topic_en": "",
+    "answer": "\\frac{29}{20}",
+    "solution": "本題綜合了絕對值概念與異分母帶分數的減法。首先需計算 $a$ 與 $b$ 的絕對值。$|a| = |-3 \\frac{1}{5}| = 3 \\frac{1}{5}$；$|b| = |1 \\frac{3}{4}| = 1 \\frac{3}{4}$。接著將兩者相減：$3 \\frac{1}{5} - 1 \\frac{3}{4}$。將帶分數化為假分數進行計算：$3 \\frac{1}{5} = \\frac{16}{5}$，$1 \\frac{3}{4} = \\frac{7}{4}$。尋找 $5$ 和 $4$ 的最小公倍數 $20$ 進行通分：$\\frac{16}{5} = \\frac{64}{20}$，$\\frac{7}{4} = \\frac{35}{20}$。最後將分子相減：$\\frac{64}{20} - \\frac{35}{20} = \\frac{29}{20}$，若化為帶分數則為 $1 \\frac{9}{20}$。\n\n【計算過程】\n步驟 1: |-3 \\frac{1}{5}| - |1 \\frac{3}{4}| = 3 \\frac{1}{5} - 1 \\frac{3}{4}\n步驟 2: 3 \\frac{1}{5} - 1 \\frac{3}{4} = \\frac{16}{5} - \\frac{7}{4}\n步驟 3: \\frac{16}{5} - \\frac{7}{4} = \\frac{64}{20} - \\frac{35}{20}\n步驟 4: \\frac{64}{20} - \\frac{35}{20} = \\frac{29}{20}\n最終答案: \\frac{29}{20}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q125",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數加減",
+    "difficulty": 4,
+    "topic": "計算 $-(4 \\frac{2}{7} - 3 \\frac{5}{9}) + (2 \\frac{4}{9} - 1 \\frac{5}{7})$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】0.0\n【解題步驟】\n【計算過程】\n步驟 1: -(4 \\frac{2}{7} - 3 \\frac{5}{9}) + (2 \\frac{4}{9} - 1 \\frac{5}{7}) = -4 \\frac{2}{7} + 3 \\frac{5}{9} + 2 \\frac{4}{9} - 1 \\frac{5}{7}\n步驟 2: -4 \\frac{2}{7} + 3 \\frac{5}{9} + 2 \\frac{4}{9} - 1 \\frac{5}{7} = (-4 \\frac{2}{7} - 1 \\frac{5}{7}) + (3 \\frac{5}{9} + 2 \\frac{4}{9})\n步驟 3: -4 \\frac{2}{7} - 1 \\frac{5}{7} = -6\n步驟 4: 3 \\frac{5}{9} + 2 \\frac{4}{9} = 6\n步驟 5: -6 + 6 = 0\n最終答案: 0",
+    "topic_en": "",
+    "answer": "0.0",
+    "solution": "本題旨在考查複雜算式的去括號及加法交換律、結合律應用。如果直接在括號內進行通分，會遇到分母為 $63$ 的繁瑣計算，因此我們先去括號。括號前為負號時，括號內各項要變號；第二個括號前為正號，直接去掉即可。原式可改寫為：$-4 \\frac{2}{7} + 3 \\frac{5}{9} + 2 \\frac{4}{9} - 1 \\frac{5}{7}$。接著，利用交換律與結合律，將分母同為 $7$ 的項以及分母同為 $9$ 的項分別放在一起：$(-4 \\frac{2}{7} - 1 \\frac{5}{7}) + (3 \\frac{5}{9} + 2 \\frac{4}{9})$。首先計算分母為 $7$ 的部分：$-4 \\frac{2}{7} - 1 \\frac{5}{7} = -(\\frac{30}{7} + \\frac{12}{7}) = -\\frac{42}{7} = -6$。接著計算分母為 $9$ 的部分：$3 \\frac{5}{9} + 2 \\frac{4}{9} = \\frac{32}{9} + \\frac{22}{9} = \\frac{54}{9} = 6$。最後將兩部分相加：$-6 + 6 = 0$。\n\n【計算過程】\n步驟 1: -(4 \\frac{2}{7} - 3 \\frac{5}{9}) + (2 \\frac{4}{9} - 1 \\frac{5}{7}) = -4 \\frac{2}{7} + 3 \\frac{5}{9} + 2 \\frac{4}{9} - 1 \\frac{5}{7}\n步驟 2: -4 \\frac{2}{7} + 3 \\frac{5}{9} + 2 \\frac{4}{9} - 1 \\frac{5}{7} = (-4 \\frac{2}{7} - 1 \\frac{5}{7}) + (3 \\frac{5}{9} + 2 \\frac{4}{9})\n步驟 3: -4 \\frac{2}{7} - 1 \\frac{5}{7} = -6\n步驟 4: 3 \\frac{5}{9} + 2 \\frac{4}{9} = 6\n步驟 5: -6 + 6 = 0\n最終答案: 0",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q126",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數加減",
+    "difficulty": 3,
+    "topic": "算式 $\\frac{5}{14} + \\frac{7}{15} - (\\frac{19}{14} - \\frac{8}{15})$ 之值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】0.0\n【解題步驟】\n【計算過程】\n步驟 1: 5/14 + 7/15 - (19/14 - 8/15) = 5/14 + 7/15 - 19/14 + 8/15\n步驟 2: (5/14 - 19/14) + (7/15 + 8/15) = -14/14 + 15/15\n步驟 3: -1 + 1 = 0\n最終答案: 0",
+    "topic_en": "",
+    "answer": "0.0",
+    "solution": "當算式中含有多個分數加減，且部分分數的分母相同時，可先利用去括號法則拆解。括號前為負號，去括號時括號內各項要變號，原式等於 $\\frac{5}{14} + \\frac{7}{15} - \\frac{19}{14} + \\frac{8}{15}$。接著利用交換律與結合律，將分母同為 14 與 15 的分數分組計算：$(\\frac{5}{14} - \\frac{19}{14}) + (\\frac{7}{15} + \\frac{8}{15}) = \\frac{-14}{14} + \\frac{15}{15} = -1 + 1 = 0$。\n\n【計算過程】\n步驟 1: 5/14 + 7/15 - (19/14 - 8/15) = 5/14 + 7/15 - 19/14 + 8/15\n步驟 2: (5/14 - 19/14) + (7/15 + 8/15) = -14/14 + 15/15\n步驟 3: -1 + 1 = 0\n最終答案: 0",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q127",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數加減",
+    "difficulty": 3,
+    "topic": "判斷下列各算式的值，何者與 $-\\frac{3}{5} - (\\frac{1}{2} - \\frac{2}{3})$ 的值相等？\n\n(A) (A) $-\\frac{3}{5} - \\frac{1}{2} - \\frac{2}{3}$\n(B) (B) $-\\frac{3}{5} - \\frac{1}{2} + \\frac{2}{3}$\n(C) (C) $-\\frac{3}{5} + \\frac{1}{2} - \\frac{2}{3}$\n(D) (D) $\\frac{3}{5} - \\frac{1}{2} + \\frac{2}{3}$\n\n【題目類型】選擇題\n【知識點】分數加減\n【正確答案】（選項B）(B) $-\\frac{3}{5} - \\frac{1}{2} + \\frac{2}{3}$",
+    "topic_en": "",
+    "answer": "（選項B）(B) $-\\frac{3}{5} - \\frac{1}{2} + \\frac{2}{3}$",
+    "solution": "根據整數與分數的去括號法則，當括號前面是減號（負號）時，去掉括號後，括號內每一項的正負號都要改變。原式括號內為正的 $\\frac{1}{2}$ 與負的 $\\frac{2}{3}$，去括號後分別變為負的 $\\frac{1}{2}$ 與正的 $\\frac{2}{3}$。因此原式等於 $-\\frac{3}{5} - \\frac{1}{2} + \\frac{2}{3}$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q128",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數加減",
+    "difficulty": 4,
+    "topic": "小明計算 $-3\\frac{2}{5} - 1\\frac{1}{4}$ 的過程如下，請問他從哪一個步驟開始發生錯誤？步驟一：$(-3 + \\frac{2}{5}) - (1 + \\frac{1}{4})$，步驟二：$-3 + \\frac{2}{5} - 1 - \\frac{1}{4}$，步驟三：$(-3 - 1) + (\\frac{2}{5} - \\frac{1}{4})$，步驟四：$-4 + \\frac{3}{20} = -3\\frac{17}{20}$。\n\n(A) (A) 步驟一\n(B) (B) 步驟二\n(C) (C) 步驟三\n(D) (D) 步驟四\n\n【題目類型】選擇題\n【知識點】分數加減\n【正確答案】（選項A）(A) 步驟一",
+    "topic_en": "",
+    "answer": "（選項A）(A) 步驟一",
+    "solution": "帶分數 $-3\\frac{2}{5}$ 代表的是 $-3$ 又減去 $\\frac{2}{5}$，因此在拆解為整數與分數時，應寫成 $-(3 + \\frac{2}{5})$，展開後為 $-3 - \\frac{2}{5}$。小明在步驟一將其錯誤地拆解為 $-3 + \\frac{2}{5}$，這代表他忽略了最前面的負號是涵蓋整個帶分數的，因此從步驟一就已經發生觀念上的錯誤。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q129",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數加減",
+    "difficulty": 4,
+    "topic": "計算 $\\left| -1\\frac{1}{6} + \\frac{3}{4} \\right| - \\left|-1\\frac{5}{12}\\right|$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】-1.0\n【解題步驟】\n【計算過程】\n步驟 1: |-1 1/6 + 3/4| = |-7/6 + 3/4|\n步驟 2: |-14/12 + 9/12| = |-5/12|\n步驟 3: |-5/12| = 5/12\n步驟 4: |-1 5/12| = 17/12\n步驟 5: 5/12 - 17/12 = -1\n最終答案: -1",
+    "topic_en": "",
+    "answer": "-1.0",
+    "solution": "運算時應先處理絕對值內的式子，再取絕對值，最後進行減法。第一部分：絕對值內為 $-1\\frac{1}{6} + \\frac{3}{4} = -\\frac{7}{6} + \\frac{3}{4} = -\\frac{14}{12} + \\frac{9}{12} = -\\frac{5}{12}$，取絕對值後為 $\\frac{5}{12}$。第二部分：絕對值內為 $-1\\frac{5}{12} = -\\frac{17}{12}$，取絕對值後為 $\\frac{17}{12}$。最後將兩者相減：$\\frac{5}{12} - \\frac{17}{12} = -\\frac{12}{12} = -1$。\n\n【計算過程】\n步驟 1: |-1 1/6 + 3/4| = |-7/6 + 3/4|\n步驟 2: |-14/12 + 9/12| = |-5/12|\n步驟 3: |-5/12| = 5/12\n步驟 4: |-1 5/12| = 17/12\n步驟 5: 5/12 - 17/12 = -1\n最終答案: -1",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q130",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數加減",
+    "difficulty": 2,
+    "topic": "已知 $a=-\\frac{1}{2}$，$b=-1\\frac{1}{3}$，$c=-\\frac{5}{6}$，下列關於 $a$、$b$、$c$ 三數的大小關係，何者正確？\n\n(A) (A) $a>c>b$\n(B) (B) $a>b>c$\n(C) (C) $b>c>a$\n(D) (D) $c>a>b$\n\n【題目類型】選擇題\n【知識點】分數加減\n【正確答案】（選項A）(A) $a>c>b$\n【解題步驟】\n【計算過程】\n步驟 1: a = -1/2 = -3/6\n步驟 2: b = -1\\frac{1}{3} = -4/3 = -8/6\n步驟 3: c = -5/6 = -5/6\n最終答案: a>c>b",
+    "topic_en": "",
+    "answer": "（選項A）(A) $a>c>b$",
+    "solution": "首先，我們可以將這三個分數進行通分，以利比較大小。找分母2、3、6的最小公倍數，即為6。\n$a=-\\frac{1}{2}=-\\frac{3}{6}$\n$b=-1\\frac{1}{3}=-\\frac{4}{3}=-\\frac{8}{6}$\n$c=-\\frac{5}{6}$\n接下來比較這三個負分數的大小。在數線上，負數的絕對值越大，代表距離原點越遠，其數值越小。\n因為 $\\frac{8}{6} > \\frac{5}{6} > \\frac{3}{6}$，所以負數大小關係為 $-\\frac{3}{6} > -\\frac{5}{6} > -\\frac{8}{6}$。\n因此，$a > c > b$，故選(A)。\n\n【計算過程】\n步驟 1: a = -1/2 = -3/6\n步驟 2: b = -1\\frac{1}{3} = -4/3 = -8/6\n步驟 3: c = -5/6 = -5/6\n最終答案: a>c>b",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q131",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數加減",
+    "difficulty": 3,
+    "topic": "算式 $\\frac{9}{4} - (-1\\frac{2}{3})$ 之值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】\\frac{47}{12}\n【解題步驟】\n【計算過程】\n步驟 1: -1\\frac{2}{3} = -\\frac{5}{3}\n步驟 2: \\frac{9}{4} - (-\\frac{5}{3}) = \\frac{9}{4} + \\frac{5}{3}\n步驟 3: \\frac{9}{4} = \\frac{27}{12}\n步驟 4: \\frac{5}{3} = \\frac{20}{12}\n步驟 5: \\frac{27}{12} + \\frac{20}{12} = \\frac{47}{12}\n最終答案: \\frac{47}{12}",
+    "topic_en": "",
+    "answer": "\\frac{47}{12}",
+    "solution": "在進行含有負數及帶分數的運算時，第一步通常先將帶分數化為假分數，並處理符號。\n原式為 $\\frac{9}{4} - (-1\\frac{2}{3})$。\n先將帶分數 $-1\\frac{2}{3}$ 化為假分數 $-\\frac{5}{3}$。\n接著根據減去一個數等於加上其相反數的規則(負負得正)，原式變為 $\\frac{9}{4} + \\frac{5}{3}$。\n然後進行異分母分數的加法，需先通分。4與3的最小公倍數是12。\n$\\frac{9}{4} = \\frac{27}{12}$，$\\frac{5}{3} = \\frac{20}{12}$。\n相加得到 $\\frac{27}{12} + \\frac{20}{12} = \\frac{47}{12}$，或化為帶分數 $3\\frac{11}{12}$。\n\n【計算過程】\n步驟 1: -1\\frac{2}{3} = -\\frac{5}{3}\n步驟 2: \\frac{9}{4} - (-\\frac{5}{3}) = \\frac{9}{4} + \\frac{5}{3}\n步驟 3: \\frac{9}{4} = \\frac{27}{12}\n步驟 4: \\frac{5}{3} = \\frac{20}{12}\n步驟 5: \\frac{27}{12} + \\frac{20}{12} = \\frac{47}{12}\n最終答案: \\frac{47}{12}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q132",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 2,
+    "topic": "計算 $(-\\frac{3}{8}) \\times \\frac{4}{9}$ 之值為何？\n\n【題目類型】計算題\n【知識點】分數乘除\n【正確答案】-\\frac{1}{6}\n【解題步驟】\n【計算過程】\n步驟 1: (-3/8) \\times (4/9) = -(3 \\times 4) / (8 \\times 9)\n步驟 2: -(1 \\times 1) / (2 \\times 3) = -1/6\n最終答案: -\\frac{1}{6}",
+    "topic_en": "",
+    "answer": "-\\frac{1}{6}",
+    "solution": "這是一個負數與正數的分數乘法。首先，負數乘以正數的結果為負數。接著進行分數的乘法，為了計算方便，可以先進行約分。分子 $3$ 與分母 $9$ 可以約分為 $1$ 和 $3$；分子 $4$ 與分母 $8$ 可以約分為 $1$ 和 $2$。最後將剩餘的分子與分母相乘：$-\\frac{1 \\times 1}{2 \\times 3} = -\\frac{1}{6}$。\n\n【計算過程】\n步驟 1: (-3/8) \\times (4/9) = -(3 \\times 4) / (8 \\times 9)\n步驟 2: -(1 \\times 1) / (2 \\times 3) = -1/6\n最終答案: -\\frac{1}{6}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q133",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 $(-1 \\frac{1}{3}) \\times 2 \\frac{1}{4}$ 的結果為何？\n\n(A) (A) $-2 \\frac{1}{12}$\n(B) (B) $-3$\n(C) (C) $3$\n(D) (D) $-1 \\frac{4}{9}$\n\n【題目類型】選擇題\n【知識點】分數乘除\n【正確答案】（選項B）(B) $-3$\n【解題步驟】\n【計算過程】\n步驟 1: -1 1/3 = -4/3\n步驟 2: 2 1/4 = 9/4\n步驟 3: (-4/3) \\times (9/4) = -3\n最終答案: -3",
+    "topic_en": "",
+    "answer": "（選項B）(B) $-3$",
+    "solution": "在計算帶分數的乘除時，必須先將帶分數轉換為假分數。$-1 \\frac{1}{3} = -\\frac{4}{3}$，$2 \\frac{1}{4} = \\frac{9}{4}$。接著進行分數的乘法：$(-\\frac{4}{3}) \\times \\frac{9}{4}$。透過約分，分子與分母的 $4$ 約掉，分子的 $9$ 與分母的 $3$ 約分成 $3$。一負一正相乘結果為負，最後得到 $-3$。\n\n【計算過程】\n步驟 1: -1 1/3 = -4/3\n步驟 2: 2 1/4 = 9/4\n步驟 3: (-4/3) \\times (9/4) = -3\n最終答案: -3",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q134",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 $( -2 \\frac{1}{2} ) \\div 1 \\frac{1}{4} \\times ( - \\frac{3}{5} )$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數乘除\n【正確答案】\\frac{6}{5}\n【解題步驟】\n【計算過程】\n步驟 1: -2 1/2 = -5/2\n步驟 2: 1 1/4 = 5/4\n步驟 3: (-5/2) \\div (5/4) = (-5/2) \\times (4/5) = -2\n步驟 4: -2 \\times (-3/5) = 6/5\n最終答案: \\frac{6}{5}",
+    "topic_en": "",
+    "answer": "\\frac{6}{5}",
+    "solution": "計算分數的乘除混合運算時，首先將所有的帶分數化為假分數：$-2 \\frac{1}{2} = -\\frac{5}{2}$，$1 \\frac{1}{4} = \\frac{5}{4}$。算式變成 $(-\\frac{5}{2}) \\div \\frac{5}{4} \\times (-\\frac{3}{5})$。接著將除法轉換為乘以倒數：$(-\\frac{5}{2}) \\times \\frac{4}{5} \\times (-\\frac{3}{5})$。先計算前兩項，$(-\\frac{5}{2}) \\times \\frac{4}{5} = -2$；再將結果乘以最後一項：$(-2) \\times (-\\frac{3}{5}) = \\frac{6}{5}$（或寫作 $1 \\frac{1}{5}$）。\n\n【計算過程】\n步驟 1: -2 1/2 = -5/2\n步驟 2: 1 1/4 = 5/4\n步驟 3: (-5/2) \\div (5/4) = (-5/2) \\times (4/5) = -2\n步驟 4: -2 \\times (-3/5) = 6/5\n最終答案: \\frac{6}{5}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q135",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "若 $(-\\frac{5}{7}) \\times \\square = 1 \\frac{3}{14}$，則 $\\square$ 應填入哪個分數？（請化為最簡假分數）\n\n【題目類型】填空題\n【知識點】分數乘除\n【正確答案】-\\frac{17}{10}\n【解題步驟】\n【計算過程】\n步驟 1: 1 3/14 = 17/14\n步驟 2: \\square = (17/14) \\div (-5/7) = \\square = (17/14) \\times (-7/5)\n步驟 3: (17/14) \\times (-7/5) = -17/10\n最終答案: -\\frac{17}{10}",
+    "topic_en": "",
+    "answer": "-\\frac{17}{10}",
+    "solution": "這是一個求解未知數的問題。根據等量公理，要求出 $\\square$，必須將等式兩邊同除以 $(-\\frac{5}{7})$，也就是 $\\square = 1 \\frac{3}{14} \\div (-\\frac{5}{7})$。首先將帶分數轉換為假分數：$1 \\frac{3}{14} = \\frac{17}{14}$。接著將除法轉為乘法：$\\frac{17}{14} \\times (-\\frac{7}{5})$。透過約分，分子的 $7$ 和分母的 $14$ 約為 $1$ 和 $2$，計算結果為 $-\\frac{17}{10}$。\n\n【計算過程】\n步驟 1: 1 3/14 = 17/14\n步驟 2: \\square = (17/14) \\div (-5/7) = \\square = (17/14) \\times (-7/5)\n步驟 3: (17/14) \\times (-7/5) = -17/10\n最終答案: -\\frac{17}{10}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q136",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 4,
+    "topic": "計算 $2023 \\times (-\\frac{2024}{2023})$ 的值最接近下列哪一個整數？\n\n(A) (A) $-2022$\n(B) (B) $-2023$\n(C) (C) $-2024$\n(D) (D) $-2025$\n\n【題目類型】選擇題\n【知識點】分數乘除\n【正確答案】（選項C）(C) $-2024$\n【解題步驟】\n【計算過程】\n步驟 1: 2023 \\times (-2024 / 2023) = -2024\n最終答案: -2024",
+    "topic_en": "",
+    "answer": "（選項C）(C) $-2024$",
+    "solution": "這題雖然有「估算」的語氣，但其實數字經過設計，是可以直接精確計算的。算式為 $2023 \\times (-\\frac{2024}{2023})$。因為乘數 $2023$ 與分母的 $2023$ 相同，兩者可以直接約分消掉，剩下分子的 $-2024$。所以計算的精確結果就是 $-2024$，即最接近的整數為 $-2024$。\n\n【計算過程】\n步驟 1: 2023 \\times (-2024 / 2023) = -2024\n最終答案: -2024",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q137",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 4,
+    "topic": "計算 $(1 - \\frac{1}{2}) \\times (1 - \\frac{1}{3}) \\times (1 - \\frac{1}{4}) \\times \\dots \\times (1 - \\frac{1}{10})$ 的值為何？\n\n【題目類型】填空題\n【知識點】分數乘除\n【正確答案】\\frac{1}{10}\n【解題步驟】\n【計算過程】\n步驟 1: 1 - 1/2 = 1/2\n步驟 2: 1 - 1/3 = 2/3\n步驟 3: 1 - 1/10 = 9/10\n步驟 4: 1/2 \\times 2/3 \\times 3/4 \\times 4/5 \\times 5/6 \\times 6/7 \\times 7/8 \\times 8/9 \\times  9/10 = 1/10\n最終答案: \\frac{1}{10}",
+    "topic_en": "",
+    "answer": "\\frac{1}{10}",
+    "solution": "這是一個找規律的連乘題。首先，我們將每個括號內的分數減法算出來：第一項 $1 - \\frac{1}{2} = \\frac{1}{2}$；第二項 $1 - \\frac{1}{3} = \\frac{2}{3}$；第三項 $1 - \\frac{1}{4} = \\frac{3}{4}$；以此類推，最後一項 $1 - \\frac{1}{10} = \\frac{9}{10}$。將它們相乘可得：$\\frac{1}{2} \\times \\frac{2}{3} \\times \\frac{3}{4} \\times \\dots \\times \\frac{9}{10}$。可以觀察到前一項的分母與後一項的分子都是相同的數字，能夠兩兩約分。所有的 $2, 3, 4, \\dots, 9$ 都會被約掉，最後只剩下第一項的分子 $1$ 與最後一項的分母 $10$，故答案為 $\\frac{1}{10}$。\n\n【計算過程】\n步驟 1: 1 - 1/2 = 1/2\n步驟 2: 1 - 1/3 = 2/3\n步驟 3: 1 - 1/10 = 9/10\n步驟 4: 1/2 \\times 2/3 \\times 3/4 \\times 4/5 \\times 5/6 \\times 6/7 \\times 7/8 \\times 8/9 \\times  9/10 = 1/10\n最終答案: \\frac{1}{10}",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q138",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 2,
+    "topic": "下列哪一個算式的結果與 $\\frac{2}{3} \\div (-\\frac{4}{5}) \\div \\frac{5}{6}$ 的結果相同？\n\n(A) (A) $\\frac{2}{3} \\times (-\\frac{5}{4}) \\times \\frac{6}{5}$\n(B) (B) $\\frac{2}{3} \\times (-\\frac{4}{5}) \\times \\frac{6}{5}$\n(C) (C) $\\frac{2}{3} \\times (-\\frac{5}{4}) \\times \\frac{5}{6}$\n(D) (D) $\\frac{2}{3} \\times (-\\frac{4}{5}) \\times \\frac{5}{6}$\n\n【題目類型】選擇題\n【知識點】分數乘除\n【正確答案】（選項A）(A) $\\frac{2}{3} \\times (-\\frac{5}{4}) \\times \\frac{6}{5}$\n【解題步驟】\n【計算過程】\n步驟 1: 2/3 \\div (-4/5) = 2/3 \\times (-5/4)\n步驟 2: 2/3 \\times (-5/4) \\div 5/6 = 2/3 \\times (-5/4) \\times 6/5\n最終答案: 選項(A)",
+    "topic_en": "",
+    "answer": "（選項A）(A) $\\frac{2}{3} \\times (-\\frac{5}{4}) \\times \\frac{6}{5}$",
+    "solution": "在分數的除法運算中，除以一個分數等同於乘以這個分數的倒數。因此，$ \\div (-\\frac{4}{5}) $ 會變成 $ \\times (-\\frac{5}{4}) $；同理，$ \\div \\frac{5}{6} $ 會變成 $ \\times \\frac{6}{5} $。故原算式可以改寫為 $\\frac{2}{3} \\times (-\\frac{5}{4}) \\times \\frac{6}{5}$。\n\n【計算過程】\n步驟 1: 2/3 \\div (-4/5) = 2/3 \\times (-5/4)\n步驟 2: 2/3 \\times (-5/4) \\div 5/6 = 2/3 \\times (-5/4) \\times 6/5\n最終答案: 選項(A)",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q139",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 2,
+    "topic": "計算 2\\frac{1}{4} \\times (-\\frac{8}{9}) \\times \\frac{1}{2} 的值為何？\n\n【題目類型】計算題\n【知識點】分數乘除\n【正確答案】-1.0\n【解題步驟】\n【計算過程】\n步驟 1: 2\\frac{1}{4} = \\frac{9}{4}\n步驟 2: \\frac{9}{4} \\times (-\\frac{8}{9}) = -2\n步驟 3: -2 \\times \\frac{1}{2} = -1\n最終答案: -1",
+    "topic_en": "",
+    "answer": "-1.0",
+    "solution": "在計算分數連乘時，應先將算式中的帶分數化為假分數。2又1/4等於9/4。接著觀察算式中的負號數量，只有一個負號，所以最終結果為負數。將各個分數的分子與分子相乘，分母與分母相乘，並在過程中進行約分以簡化計算。9/4乘以-8/9可以約分為-2，最後再乘以1/2即可得到-1。\n\n【計算過程】\n步驟 1: 2\\frac{1}{4} = \\frac{9}{4}\n步驟 2: \\frac{9}{4} \\times (-\\frac{8}{9}) = -2\n步驟 3: -2 \\times \\frac{1}{2} = -1\n最終答案: -1",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q140",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "估算 1005 \\times (-\\frac{1005}{1004}) 的值最接近下列哪一個整數？\n\n(A) -1004.0\n(B) -1005.0\n(C) -1006.0\n(D) -1007.0\n\n【題目類型】選擇題\n【知識點】分數乘除\n【正確答案】（選項C）-1006\n【解題步驟】\n【計算過程】\n步驟 1: -\\frac{1005}{1004} = -1\\frac{1}{1004}\n步驟 2: 1005 \\times (-1\\frac{1}{1004}) = -1005 - \\frac{1005}{1004}\n步驟 3: -1005 - 1\\frac{1}{1004} = -1006\\frac{1}{1004}\n最終答案: -1006",
+    "topic_en": "",
+    "answer": "（選項C）-1006",
+    "solution": "題目要求估算數值，我們可以先將假分數 -1005/1004 寫成帶分數 -1又1/1004，也就是 -(1 + 1/1004)。利用分配律，原式變成 1005 乘以 -(1 + 1/1004)，等於 -1005 減去 1005/1004。因為 1005/1004 等於 1又1/1004，所以結果為 -1005 - 1又1/1004 = -1006又1/1004。這個數值最接近的整數為 -1006。\n\n【計算過程】\n步驟 1: -\\frac{1005}{1004} = -1\\frac{1}{1004}\n步驟 2: 1005 \\times (-1\\frac{1}{1004}) = -1005 - \\frac{1005}{1004}\n步驟 3: -1005 - 1\\frac{1}{1004} = -1006\\frac{1}{1004}\n最終答案: -1006",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q141",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 (-\\frac{15}{22}) \\times 1\\frac{4}{5} \\div (-2\\frac{1}{2}) 的值。請化為最簡分數。\n\n【題目類型】填空題\n【知識點】分數乘除\n【正確答案】27/55\n【解題步驟】\n【計算過程】\n步驟 1: 1\\frac{4}{5} = \\frac{9}{5}\n步驟 2: -2\\frac{1}{2} = -\\frac{5}{2}\n步驟 3: (-\\frac{15}{22}) \\times \\frac{9}{5} \\times (-\\frac{2}{5}) = \\frac{27}{55}\n最終答案: 27/55",
+    "topic_en": "",
+    "answer": "27/55",
+    "solution": "處理帶分數的乘除混合運算時，第一步必須將所有的帶分數化為假分數。1又4/5等於9/5，-2又1/2等於-5/2。算式變為 (-15/22) 乘以 9/5 再除以 (-5/2)。第二步是將除法轉換為乘法，也就是乘上除數的倒數，算式成為 (-15/22) 乘以 9/5 乘以 (-2/5)。第三步觀察算式中有兩個負號，所以結果為正數。最後將分子相乘、分母相乘，並在相乘前進行約分，15與5約分剩3，22與2約分剩11，最後得到 27/55。\n\n【計算過程】\n步驟 1: 1\\frac{4}{5} = \\frac{9}{5}\n步驟 2: -2\\frac{1}{2} = -\\frac{5}{2}\n步驟 3: (-\\frac{15}{22}) \\times \\frac{9}{5} \\times (-\\frac{2}{5}) = \\frac{27}{55}\n最終答案: 27/55",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q142",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 3,
+    "topic": "下列哪一個算式的值與 3\\frac{1}{3} \\div (-1\\frac{1}{4}) 的結果不同？\n\n(A) \\frac{10}{3} \\times (-\\frac{4}{5})\n(B) -\\frac{10 \\times 4}{3 \\times 5}\n(C) (3 \\div (-1)) + (\\frac{1}{3} \\div (-\\frac{1}{4}))\n(D) -(\\frac{10}{3} \\times \\frac{4}{5})\n\n【題目類型】選擇題\n【知識點】分數乘除\n【正確答案】（選項C）(3 \\div (-1)) + (\\frac{1}{3} \\div (-\\frac{1}{4}))\n【解題步驟】\n【計算過程】\n步驟 1: 3\\frac{1}{3} \\div (-1\\frac{1}{4}) = \\frac{10}{3} \\div (-\\frac{5}{4})\n步驟 2: \\frac{10}{3} \\div (-\\frac{5}{4}) = \\frac{10}{3} \\times (-\\frac{4}{5})\n最終答案:",
+    "topic_en": "",
+    "answer": "（選項C）(3 \\div (-1)) + (\\frac{1}{3} \\div (-\\frac{1}{4}))",
+    "solution": "原式 3又1/3 除以 -1又1/4，必須先化為假分數，等於 10/3 除以 -5/4。接著將除號轉換為乘以除數的倒數，等於 10/3 乘以 -4/5，這與選項(A)相同。提出負號後，可將分子與分母分別相乘，如選項(B)與(D)的表示法皆正確。選項(C)將帶分數拆成整數與分數各自相除再相加，這是嚴重錯誤的運算觀念，除法並沒有這種對被除數和除數同時分配的性質。\n\n【計算過程】\n步驟 1: 3\\frac{1}{3} \\div (-1\\frac{1}{4}) = \\frac{10}{3} \\div (-\\frac{5}{4})\n步驟 2: \\frac{10}{3} \\div (-\\frac{5}{4}) = \\frac{10}{3} \\times (-\\frac{4}{5})\n最終答案: ",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q143",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 4,
+    "topic": "計算 (-5\\frac{1}{7}) \\times 1\\frac{1}{11} \\times (-1\\frac{2}{9}) \\times \\frac{7}{36} 的值為何？\n\n【題目類型】計算題\n【知識點】分數乘除\n【正確答案】4/3\n【解題步驟】\n【計算過程】\n步驟 1: -5\\frac{1}{7} = -\\frac{36}{7}\n步驟 2: 1\\frac{1}{11} = \\frac{12}{11}\n步驟 3: -1\\frac{2}{9} = -\\frac{11}{9}\n步驟 4: (-\\frac{36}{7} \\times \\frac{7}{36}) \\times (\\frac{12}{11} \\times (-\\frac{11}{9})) = -1 \\times (-\\frac{4}{3})\n步驟 5: -1 \\times (-\\frac{4}{3}) = \\frac{4}{3}\n最終答案: 4/3",
+    "topic_en": "",
+    "answer": "4/3",
+    "solution": "首先將所有的帶分數化為假分數。算式變為 (-36/7) 乘以 12/11 乘以 (-11/9) 乘以 7/36。觀察這些假分數的分子與分母，發現 36 與 36、7 與 7、11 與 11 皆可以互相約分。利用乘法交換律與結合律重新分組：將 (-36/7) 與 7/36 放在一起乘，12/11 與 (-11/9) 放在一起乘。前半部得到 -1，後半部約分後得到 -12/9，再約為 -4/3。最後將 -1 乘以 -4/3，負負得正，結果為 4/3。\n\n【計算過程】\n步驟 1: -5\\frac{1}{7} = -\\frac{36}{7}\n步驟 2: 1\\frac{1}{11} = \\frac{12}{11}\n步驟 3: -1\\frac{2}{9} = -\\frac{11}{9}\n步驟 4: (-\\frac{36}{7} \\times \\frac{7}{36}) \\times (\\frac{12}{11} \\times (-\\frac{11}{9})) = -1 \\times (-\\frac{4}{3})\n步驟 5: -1 \\times (-\\frac{4}{3}) = \\frac{4}{3}\n最終答案: 4/3",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q144",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 4,
+    "topic": "計算 (-2024) \\times (\\frac{1}{2023} - \\frac{1}{2024}) 的值。\n\n【題目類型】填空題\n【知識點】分數乘除\n【正確答案】-0.000494315\n【解題步驟】\n【計算過程】\n步驟 1: (-2024) \\times \\frac{1}{2023} - (-2024) \\times \\frac{1}{2024} = -\\frac{2024}{2023} - (-1)\n步驟 2: -\\frac{2024}{2023} + 1 = -\\frac{2024}{2023} + \\frac{2023}{2023}\n步驟 3: -\\frac{2024}{2023} + \\frac{2023}{2023} = -\\frac{1}{2023}\n最終答案: -1/2023",
+    "topic_en": "",
+    "answer": "-0.000494315",
+    "solution": "如果直接計算括號內的分數相減，通分會使得數字非常大。這題應該利用乘法對減法的分配律，將 -2024 分別乘入括號內的兩個分數。原式等於 (-2024) 乘以 1/2023 減去 (-2024) 乘以 1/2024。前半部化簡為 -2024/2023，後半部的 (-2024) 乘以 1/2024 剛好等於 -1。所以算式變為 -2024/2023 減去 (-1)，也就是 -2024/2023 加上 1。將 1 寫成 2023/2023，兩者相加即可得到結果為 -1/2023。\n\n【計算過程】\n步驟 1: (-2024) \\times \\frac{1}{2023} - (-2024) \\times \\frac{1}{2024} = -\\frac{2024}{2023} - (-1)\n步驟 2: -\\frac{2024}{2023} + 1 = -\\frac{2024}{2023} + \\frac{2023}{2023}\n步驟 3: -\\frac{2024}{2023} + \\frac{2023}{2023} = -\\frac{1}{2023}\n最終答案: -1/2023",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q145",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "分數乘除",
+    "difficulty": 4,
+    "topic": "關於算式 (-4\\frac{1}{2}) \\div 1\\frac{1}{5} \\div (-\\frac{3}{4}) 的計算過程，下列哪一個步驟開始發生錯誤？ 步驟一：原式 = (-\\frac{9}{2}) \\div \\frac{6}{5} \\div (-\\frac{3}{4}) 步驟二：原式 = (-\\frac{9}{2}) \\div [\\frac{6}{5} \\times (-\\frac{4}{3})] 步驟三：原式 = (-\\frac{9}{2}) \\div (-\\frac{8}{5}) 步驟四：原式 = \\frac{45}{16}\n\n(A) 步驟一\n(B) 步驟二\n(C) 步驟三\n(D) 步驟四\n\n【題目類型】選擇題\n【知識點】分數乘除\n【正確答案】（選項B）步驟二\n【解題步驟】\n【計算過程】\n步驟 1: (-\\frac{9}{2}) \\div \\frac{6}{5} \\div (-\\frac{3}{4}) = (-\\frac{9}{2}) \\times \\frac{5}{6} \\times (-\\frac{4}{3})\n步驟 2: (-\\frac{9}{2}) \\times \\frac{5}{6} \\times (-\\frac{4}{3}) = 5\n最終答案: 5",
+    "topic_en": "",
+    "answer": "（選項B）步驟二",
+    "solution": "步驟一將帶分數化為假分數是正確的。錯誤發生在步驟二。原式是連續的除法，除法並不遵守結合律，所以不能加上中括號優先計算後面的兩項。如果硬要將後兩項結合，後面的除號必須變更。正確的作法應該是將所有的除號都轉換為乘上倒數，也就是 (-9/2) 乘以 5/6 乘以 (-4/3)，這樣就能適用乘法結合律與交換律了。由於步驟二觀念錯誤，導致後續計算全錯。\n\n【計算過程】\n步驟 1: (-\\frac{9}{2}) \\div \\frac{6}{5} \\div (-\\frac{3}{4}) = (-\\frac{9}{2}) \\times \\frac{5}{6} \\times (-\\frac{4}{3})\n步驟 2: (-\\frac{9}{2}) \\times \\frac{5}{6} \\times (-\\frac{4}{3}) = 5\n最終答案: 5",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q146",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 2,
+    "topic": "算式 $2024 \\times \\frac{3}{7} - 2024 \\div \\frac{7}{4}$ 的值與下列哪一個式子的值相等？\n\n(A) $2024 \\times (\\frac{3}{7} - \\frac{4}{7})$\n(B) $2024 \\times (\\frac{3}{7} - \\frac{7}{4})$\n(C) $2024 \\div (\\frac{3}{7} - \\frac{4}{7})$\n(D) $2024 \\div (\\frac{7}{3} - \\frac{7}{4})$\n\n【題目類型】選擇題\n【知識點】完整的四則混合運算\n【正確答案】（選項A）$2024 \\times (\\frac{3}{7} - \\frac{4}{7})$",
+    "topic_en": "",
+    "answer": "（選項A）$2024 \\times (\\frac{3}{7} - \\frac{4}{7})$",
+    "solution": "首先處理除法，將除以 $\\frac{7}{4}$ 改為乘以它的倒數 $\\frac{4}{7}$。算式變成 $2024 \\times \\frac{3}{7} - 2024 \\times \\frac{4}{7}$。接著觀察到兩項都有共同的乘數 $2024$，運用分配律將 $2024$ 提出，括號內剩下 $\\frac{3}{7} - \\frac{4}{7}$，因此可得 $2024 \\times (\\frac{3}{7} - \\frac{4}{7})$。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q147",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 2,
+    "topic": "計算 $[(-8) - (-14)] \\div (\\frac{2}{3} \\times 3)$ 的值為 _____\n\n【題目類型】填空題\n【知識點】完整的四則混合運算\n【正確答案】3.0\n【解題步驟】\n【計算過程】\n步驟 1: (-8) - (-14) = 6\n步驟 2: \\frac{2}{3} \\times 3 = 2\n步驟 3: 6 \\div 2 = 3\n最終答案: 3",
+    "topic_en": "",
+    "answer": "3.0",
+    "solution": "根據四則運算規則，應先計算括號內的式子。中括號內為 $(-8) - (-14)$，減去一個負數等於加上該正數，故 $(-8) + 14 = 6$。後方的括號為 $\\frac{2}{3} \\times 3 = 2$。最後計算除法，將兩結果相除：$6 \\div 2 = 3$。\n\n【計算過程】\n步驟 1: (-8) - (-14) = 6\n步驟 2: \\frac{2}{3} \\times 3 = 2\n步驟 3: 6 \\div 2 = 3\n最終答案: 3",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q148",
+    "category": "Elementary",
+    "question_type": "計算題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "計算 $1.5 \\div [(\\frac{1}{3} - 1) \\times 3 + \\frac{1}{2}]$ 的值為何？\n\n【題目類型】計算題\n【知識點】完整的四則混合運算\n【正確答案】-1.0\n【解題步驟】\n【計算過程】\n步驟 1: \\frac{1}{3} - 1 = -\\frac{2}{3}\n步驟 2: -\\frac{2}{3} \\times 3 = -2\n步驟 3: -2 + \\frac{1}{2} = -\\frac{3}{2}\n步驟 4: \\frac{3}{2} \\div (-\\frac{3}{2}) = -1\n最終答案: -1",
+    "topic_en": "",
+    "answer": "-1.0",
+    "solution": "計算有括號的四則運算，必須由內層括號開始。首先計算小括號內的 $\\frac{1}{3} - 1$，通分後得 $\\frac{1}{3} - \\frac{3}{3} = -\\frac{2}{3}$。接著處理中括號內先乘後加的規則：$-\\frac{2}{3} \\times 3 = -2$。然後將 $-2$ 加上 $\\frac{1}{2}$，通分得到 $-\\frac{4}{2} + \\frac{1}{2} = -\\frac{3}{2}$。最後，把原題最前面的小數 $1.5$ 轉換為分數 $\\frac{3}{2}$，並除以中括號的結果：$\\frac{3}{2} \\div (-\\frac{3}{2}) = -1$。\n\n【計算過程】\n步驟 1: \\frac{1}{3} - 1 = -\\frac{2}{3}\n步驟 2: -\\frac{2}{3} \\times 3 = -2\n步驟 3: -2 + \\frac{1}{2} = -\\frac{3}{2}\n步驟 4: \\frac{3}{2} \\div (-\\frac{3}{2}) = -1\n最終答案: -1",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q149",
+    "category": "Elementary",
+    "question_type": "選擇題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "關於算式 $\\frac{1}{2} - \\frac{1}{3} \\times (-\\frac{3}{4}) \\div \\frac{1}{2}$ 的計算過程，下列敘述何者正確？\n\n(A) 應先算 $\\frac{1}{2} - \\frac{1}{3}$，再算乘除\n(B) 算式的最終結果大於 $0$\n(C) 將除號改為乘號時，算式變為 $\\frac{1}{2} - \\frac{1}{3} \\times (-\\frac{3}{4}) \\times \\frac{1}{2}$\n(D) 算式的最終結果為 $0$\n\n【題目類型】選擇題\n【知識點】完整的四則混合運算\n【正確答案】（選項B）算式的最終結果大於 $0$",
+    "topic_en": "",
+    "answer": "（選項B）算式的最終結果大於 $0$",
+    "solution": "在四則混合運算中，若沒有括號則必須遵循「先乘除，後加減」的原則。原式 $\\frac{1}{2} - \\frac{1}{3} \\times (-\\frac{3}{4}) \\div \\frac{1}{2}$ 中，乘除部分為 $\\frac{1}{3} \\times (-\\frac{3}{4}) \\div \\frac{1}{2}$。計算乘法得到 $-\\frac{1}{4}$，接著除以 $\\frac{1}{2}$ 相當於乘以 $2$，得到 $-\\frac{1}{2}$。將此結果代回原式，得到 $\\frac{1}{2} - (-\\frac{1}{2})$，即 $\\frac{1}{2} + \\frac{1}{2} = 1$。結果為 $1$，是大於 $0$ 的正數，因此只有選項B正確。",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "Q150",
+    "category": "Elementary",
+    "question_type": "填空題",
+    "knowledge_point": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "計算 $\\frac{5}{6} \\div [ \\frac{1}{2} - (\\frac{1}{3} - \\frac{1}{4}) ]$ 的值為 _____\n\n【題目類型】填空題\n【知識點】完整的四則混合運算\n【正確答案】2.0\n【解題步驟】\n【計算過程】\n步驟 1: \\frac{1}{3} - \\frac{1}{4} = \\frac{1}{12}\n步驟 2: \\frac{1}{2} - \\frac{1}{12} = \\frac{5}{12}\n步驟 3: \\frac{5}{6} \\div \\frac{5}{12} = 2\n最終答案: 2",
+    "topic_en": "",
+    "answer": "2.0",
+    "solution": "依照四則運算的規則，從最內層的括號開始計算。首先通分計算小括號內的 $\\frac{1}{3} - \\frac{1}{4}$，最小公倍數為 $12$，故得 $\\frac{4}{12} - \\frac{3}{12} = \\frac{1}{12}$。接著計算中括號內的 $\\frac{1}{2} - \\frac{1}{12}$，將 $\\frac{1}{2}$ 擴分為 $\\frac{6}{12}$，相減得到 $\\frac{5}{12}$。最後處理括號外的除法，$\\frac{5}{6} \\div \\frac{5}{12}$ 等於 $\\frac{5}{6} \\times \\frac{12}{5}$，分子分母約分後結果為 $2$。\n\n【計算過程】\n步驟 1: \\frac{1}{3} - \\frac{1}{4} = \\frac{1}{12}\n步驟 2: \\frac{1}{2} - \\frac{1}{12} = \\frac{5}{12}\n步驟 3: \\frac{5}{6} \\div \\frac{5}{12} = 2\n最終答案: 2",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  }
+]

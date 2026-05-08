@@ -1,0 +1,737 @@
+[
+  {
+    "id": "E01",
+    "category": "Elementary",
+    "subcategory": "geometry",
+    "is_application": false,
+    "topic": "比較三個周長都是 12 的長方形（3×3 正方形、2×4、1×5），用色塊呈現面積差異，並說明周長相同時正方形面積最大。",
+    "topic_en": "Compare three rectangles all with perimeter 12 (3x3 square, 2x4, 1x5). Use colored blocks to show area differences and explain that the square has the largest area.",
+    "description": "Visual proof: Among rectangles with equal perimeter, the square has the maximum area.",
+    "ground_truth": {
+      "answer": "面積分別為 9、8、5。3×3 正方形面積最大。",
+      "solution": "周長 12 → 半周長 6 → 長+寬=6。\n（長,寬,面積）：(3,3,9), (2,4,8), (1,5,5)。\n結論：周長固定時，長與寬越接近，面積越大；正方形最大。"
+    },
+    "required_patterns": [
+      "Rectangle|Square|VGroup",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "E02",
+    "category": "Elementary",
+    "subcategory": "geometry",
+    "is_application": false,
+    "topic": "把一個三角形剪成三塊重組成一個長方形，視覺說明三角形面積 = 底 × 高 ÷ 2。",
+    "topic_en": "Cut a triangle into three pieces and rearrange them into a rectangle, showing visually that triangle area = base * height / 2.",
+    "description": "Visual derivation of triangle area formula via rectangle decomposition.",
+    "ground_truth": {
+      "answer": "三角形面積 = 底 × 高 ÷ 2。",
+      "solution": "從三角形頂點向底邊作高，將三角形切割並翻轉重組為一個底 × (高/2) 的長方形，故面積為 底×高÷2。"
+    },
+    "required_patterns": [
+      "Polygon|Triangle|Rectangle",
+      "self\\.play\\(",
+      "MathTex|Text"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "E03",
+    "category": "Elementary",
+    "subcategory": "number",
+    "is_application": false,
+    "topic": "在數線上標出 0.7、3/4、0.75 三個數，並比較大小（0.7 < 0.75 = 3/4）。",
+    "topic_en": "Mark 0.7, 3/4, and 0.75 on a number line and compare their sizes (0.7 < 0.75 = 3/4).",
+    "description": "Number line comparison of decimal and fraction representations.",
+    "ground_truth": {
+      "answer": "0.7 < 0.75 = 3/4",
+      "solution": "3/4 = 0.75。在數線上 0.7 在 0.75 左側。所以 0.7 < 3/4 = 0.75。"
+    },
+    "required_patterns": [
+      "NumberLine|Line",
+      "self\\.play\\(",
+      "MathTex|Text"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3
+  },
+  {
+    "id": "E04",
+    "category": "Elementary",
+    "subcategory": "number",
+    "is_application": false,
+    "topic": "用 10x10 的格子方塊呈現 35% 的意義（塗色 35 格），並轉換為小數 0.35 與分數 7/20。",
+    "topic_en": "Use a 10x10 grid to visualize 35% (shade 35 cells), then convert to 0.35 and 7/20.",
+    "description": "Percent-decimal-fraction equivalence via 100-cell grid.",
+    "ground_truth": {
+      "answer": "35% = 0.35 = 7/20",
+      "solution": "35% 表示每 100 份取 35 份。\n寫成小數：35/100 = 0.35。\n約分為分數：35/100 = 7/20（分子分母同除以 5）。"
+    },
+    "required_patterns": [
+      "Square|Rectangle|VGroup",
+      "self\\.play\\(",
+      "MathTex|Text"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "E05",
+    "category": "Elementary",
+    "subcategory": "fraction",
+    "is_application": false,
+    "topic": "用矩形塊視覺證明 1/2 + 1/3 = 5/6：先將兩個矩形分別切成 2 等份與 3 等份，再通分為 6 等份相加。",
+    "topic_en": "Visually prove 1/2 + 1/3 = 5/6 using rectangular blocks: divide into halves and thirds, then find common denominator (6) and add.",
+    "description": "Common denominator addition of fractions via area model.",
+    "ground_truth": {
+      "answer": "1/2 + 1/3 = 5/6",
+      "solution": "1/2 = 3/6，1/3 = 2/6。\n通分後相加：3/6 + 2/6 = 5/6。\n視覺上：將兩個相同大小的矩形都切成 6 等份，分別塗色 3 格與 2 格，合計 5 格。"
+    },
+    "required_patterns": [
+      "Rectangle|VGroup",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "E06",
+    "category": "Elementary",
+    "subcategory": "fraction",
+    "is_application": false,
+    "topic": "用兩個一樣大的圓形披薩，比較 2/3 與 5/8 哪個大（通分到 24：16/24 vs 15/24）。",
+    "topic_en": "Compare 2/3 and 5/8 using two identical pizza diagrams. Find common denominator 24: 16/24 vs 15/24, so 2/3 > 5/8.",
+    "description": "Fraction comparison via common denominator and area visualization.",
+    "ground_truth": {
+      "answer": "2/3 > 5/8",
+      "solution": "通分：2/3 = 16/24，5/8 = 15/24。\n16/24 > 15/24，所以 2/3 > 5/8。"
+    },
+    "required_patterns": [
+      "Sector|AnnularSector|Circle",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "E07",
+    "category": "Elementary",
+    "subcategory": "application",
+    "is_application": true,
+    "topic": "一杯水裝滿後倒掉 1/4，剩下加滿後再倒掉 1/4，連續操作三次後杯子裡的水量是多少？以水杯水位變化動畫呈現。",
+    "topic_en": "A cup full of water has 1/4 poured out, refilled to full, then 1/4 poured out again, repeated three times. How much water remains? Show via water level animation.",
+    "description": "Sequential operations word problem with visual cup model.",
+    "ground_truth": {
+      "answer": "杯子裡水量為原本的 3/4（每次倒掉後立刻加滿，所以第 3 次倒掉後剩 3/4）。",
+      "solution": "理解題意：每次倒掉 1/4 後都「加滿」回 1，再倒掉 1/4。\n第 1 次倒：滿 → 加滿 → 倒 1/4 → 剩 3/4\n第 2 次：3/4 → 加滿 → 倒 1/4 → 剩 3/4\n第 3 次：同上 → 剩 3/4\n答案：3/4 杯。"
+    },
+    "required_patterns": [
+      "Rectangle|Cylinder",
+      "self\\.play\\(",
+      "MathTex|Text"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "E08",
+    "category": "Elementary",
+    "subcategory": "application",
+    "is_application": true,
+    "topic": "兩人從相距 600 公尺的兩端同時出發相向而行，一人速度 60 m/min、另一人 40 m/min，幾分鐘後相遇？以數線動畫呈現兩人靠近過程。",
+    "topic_en": "Two people start 600m apart and walk toward each other at 60 m/min and 40 m/min. When do they meet? Show on a number line as they approach.",
+    "description": "Meeting problem with constant speeds, visualized on a number line.",
+    "ground_truth": {
+      "answer": "6 分鐘後相遇。",
+      "solution": "兩人速度和 = 60 + 40 = 100 m/min。\n相遇時間 = 距離 / 速度和 = 600 / 100 = 6 分鐘。"
+    },
+    "required_patterns": [
+      "NumberLine|Line",
+      "Dot|Circle",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "M01",
+    "category": "Middle",
+    "subcategory": "algebra",
+    "is_application": false,
+    "topic": "視覺證明 (a+b)² = a² + 2ab + b²：將邊長為 a+b 的大正方形切成 4 塊（a²、ab、ab、b²）並標示。",
+    "topic_en": "Visually prove (a+b)^2 = a^2 + 2ab + b^2 by dividing a square of side (a+b) into 4 regions: a^2, ab, ab, b^2.",
+    "description": "Algebraic identity proven via geometric area decomposition.",
+    "ground_truth": {
+      "answer": "(a+b)² = a² + 2ab + b²",
+      "solution": "邊長 a+b 的正方形面積為 (a+b)²。\n將其切成四塊：左上 a×a = a²，右上 a×b = ab，左下 b×a = ab，右下 b×b = b²。\n總面積 = a² + 2ab + b²。"
+    },
+    "required_patterns": [
+      "Rectangle|Square|VGroup",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "M02",
+    "category": "Middle",
+    "subcategory": "algebra",
+    "is_application": false,
+    "topic": "在座標平面上畫出 x+y=7 與 2x-y=2 兩條直線，並標出交點 (3,4)，說明聯立方程式解的幾何意義。",
+    "topic_en": "Plot x+y=7 and 2x-y=2 on a coordinate plane, mark the intersection (3,4), and explain that the solution to a system of linear equations is the intersection point.",
+    "description": "Geometric meaning of system of linear equations as line intersection.",
+    "ground_truth": {
+      "answer": "(x, y) = (3, 4)",
+      "solution": "由 x+y=7 ⇒ y=7-x。\n代入 2x-y=2：2x-(7-x)=2 ⇒ 3x=9 ⇒ x=3。\n回代：y = 7-3 = 4。\n兩線交於 (3,4)。"
+    },
+    "required_patterns": [
+      "Axes|NumberPlane",
+      "Line",
+      "Dot",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "M03",
+    "category": "Middle",
+    "subcategory": "geometry",
+    "is_application": false,
+    "topic": "證明三角形內角和為 180°：過頂點作底邊的平行線，將三個內角轉移至同一直線上。",
+    "topic_en": "Prove the sum of interior angles in a triangle is 180 degrees by drawing a line through one vertex parallel to the opposite side and transferring angles.",
+    "description": "Classical proof using parallel line and alternate interior angles.",
+    "ground_truth": {
+      "answer": "三角形內角和 = 180°",
+      "solution": "在三角形 ABC 中，過頂點 A 作 BC 的平行線。\n根據內錯角相等，∠B 與平行線左側角相等，∠C 與平行線右側角相等。\n而平角為 180°，故 ∠A + ∠B + ∠C = 180°。"
+    },
+    "required_patterns": [
+      "Polygon|Line|Angle",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "M04",
+    "category": "Middle",
+    "subcategory": "geometry",
+    "is_application": false,
+    "topic": "畢氏定理視覺證明：對 3-4-5 直角三角形，在三邊外各畫一個正方形，呈現 3²+4²=5²（9+16=25）。",
+    "topic_en": "Visual proof of Pythagorean theorem with a 3-4-5 right triangle: draw squares on each side, showing 3^2 + 4^2 = 5^2 (9+16=25).",
+    "description": "Pythagorean theorem demonstrated with squares on the sides.",
+    "ground_truth": {
+      "answer": "3² + 4² = 5² (9 + 16 = 25)",
+      "solution": "直角三角形兩股長 3、4，斜邊 5。\n分別在三邊外接正方形，面積為 9、16、25。\n9 + 16 = 25，驗證 a² + b² = c²。"
+    },
+    "required_patterns": [
+      "Polygon|Square|Triangle",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "M05",
+    "category": "Middle",
+    "subcategory": "function",
+    "is_application": false,
+    "topic": "在座標平面上畫出 y = 2x + 1 與 y = -x + 4 兩條直線並求交點。",
+    "topic_en": "Plot y = 2x + 1 and y = -x + 4 on a coordinate plane and find their intersection.",
+    "description": "Linear function graphing and intersection finding.",
+    "ground_truth": {
+      "answer": "交點 (1, 3)",
+      "solution": "令 2x+1 = -x+4 ⇒ 3x = 3 ⇒ x = 1。\n代入得 y = 2(1)+1 = 3。\n交點 (1, 3)。"
+    },
+    "required_patterns": [
+      "Axes|NumberPlane",
+      "Line",
+      "Dot",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "M06",
+    "category": "Middle",
+    "subcategory": "function",
+    "is_application": false,
+    "topic": "在座標平面上畫反比例函數 y = 6/x 的雙曲線（x > 0 與 x < 0 兩支），並標示 (1,6),(2,3),(3,2),(6,1) 等點。",
+    "topic_en": "Graph the inverse proportion y = 6/x (two hyperbola branches in Q1 and Q3), marking points (1,6), (2,3), (3,2), (6,1).",
+    "description": "Inverse proportion graph with characteristic points.",
+    "ground_truth": {
+      "answer": "y = 6/x 為雙曲線，分布於第一、三象限。",
+      "solution": "代入 x = 1, 2, 3, 6 得 y = 6, 3, 2, 1。\n當 x → 0 時 y → ±∞，當 x → ±∞ 時 y → 0。\n圖形為雙曲線，兩支分別在第一、第三象限。"
+    },
+    "required_patterns": [
+      "Axes|NumberPlane",
+      "ParametricFunction|FunctionGraph",
+      "Dot",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "M07",
+    "category": "Middle",
+    "subcategory": "application",
+    "is_application": true,
+    "topic": "矩形花園周長 20 公尺，長為 x 公尺時面積 A(x) = x(10-x)。動畫顯示 x 從 1 變到 9 時面積變化，並指出 x=5 時面積最大為 25 平方公尺。",
+    "topic_en": "A rectangular garden has perimeter 20m. With length x, the area is A(x) = x(10-x). Animate x from 1 to 9 and identify maximum area = 25 m^2 at x=5.",
+    "description": "Optimization application showing maximum area when length=width.",
+    "ground_truth": {
+      "answer": "x = 5 公尺時面積最大為 25 平方公尺。",
+      "solution": "周長 20 ⇒ 長+寬 = 10 ⇒ 寬 = 10-x。\nA(x) = x(10-x) = 10x - x²。\n配方：A(x) = -(x-5)² + 25。\n當 x = 5 時 A 最大 = 25。"
+    },
+    "required_patterns": [
+      "Rectangle|Axes",
+      "ValueTracker|always_redraw",
+      "MathTex",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "M08",
+    "category": "Middle",
+    "subcategory": "application",
+    "is_application": true,
+    "topic": "甲車時速 60 km、乙車時速 80 km 同向行駛，乙在後方追擊，初始相距 40 km。動畫呈現追擊過程，求多久追上。",
+    "topic_en": "Car A travels at 60 km/h, Car B at 80 km/h in the same direction with B behind by 40 km. Animate the chase and find when B catches A.",
+    "description": "Chase problem with relative velocity, animated on a road.",
+    "ground_truth": {
+      "answer": "2 小時後追上。",
+      "solution": "相對速度 = 80 - 60 = 20 km/h。\n追擊時間 = 40 / 20 = 2 小時。\n（兩小時內甲走 120 km、乙走 160 km，乙從後 40 km 追到同位置）"
+    },
+    "required_patterns": [
+      "Line|NumberLine",
+      "Dot|Square",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "H01",
+    "category": "High",
+    "subcategory": "trigonometry",
+    "is_application": false,
+    "topic": "在單位圓上動畫展示 sin θ、cos θ 的幾何意義：θ 從 0 旋轉到 2π 時，標示對應點 (cos θ, sin θ) 及其投影。",
+    "topic_en": "Animate the geometric meaning of sin and cos on the unit circle: rotate theta from 0 to 2pi and show the point (cos theta, sin theta) and its projections.",
+    "description": "Unit circle definition of trigonometric functions with rotating angle.",
+    "ground_truth": {
+      "answer": "在單位圓上，角 θ 對應點 (cos θ, sin θ)；cos θ 為 x 座標、sin θ 為 y 座標。",
+      "solution": "單位圓 x²+y²=1。\n從 (1,0) 逆時針旋轉 θ 弧度，到達點 P。\nP 的橫座標即 cos θ，縱座標即 sin θ。\n當 θ = 0, π/2, π, 3π/2, 2π 時，P 分別為 (1,0), (0,1), (-1,0), (0,-1), (1,0)。"
+    },
+    "required_patterns": [
+      "Circle",
+      "Dot",
+      "Line",
+      "ValueTracker|always_redraw",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "H02",
+    "category": "High",
+    "subcategory": "trigonometry",
+    "is_application": false,
+    "topic": "視覺推導和角公式 sin(A+B) = sinA·cosB + cosA·sinB：用兩個直角三角形拼接，呈現對應線段長度的和。",
+    "topic_en": "Visually derive sin(A+B) = sin A cos B + cos A sin B using two right triangles arranged to show the corresponding segment lengths.",
+    "description": "Geometric proof of sine addition formula.",
+    "ground_truth": {
+      "answer": "sin(A+B) = sin A cos B + cos A sin B",
+      "solution": "在矩形中構造兩個共邊的直角三角形，斜邊分別為 1，包含角 A 與 B。\n總高度（即 sin(A+B)）由兩段組成：上段 sin A · cos B（角 A 三角形貢獻），下段 cos A · sin B（角 B 三角形旋轉後貢獻）。\n相加即得 sin(A+B) = sin A cos B + cos A sin B。"
+    },
+    "required_patterns": [
+      "Polygon|Triangle|Line",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "H03",
+    "category": "High",
+    "subcategory": "calculus",
+    "is_application": false,
+    "topic": "黎曼和：在 [0,1] 區間上對 y = x² 用越來越窄的長方形逼近曲線下面積，呈現 n=4, 8, 16, 64 時的長方形圖，最後收斂到 1/3。",
+    "topic_en": "Riemann sum: approximate the area under y = x^2 on [0,1] using rectangles of decreasing width (n=4, 8, 16, 64), converging to 1/3.",
+    "description": "Riemann integral as limit of rectangle sums.",
+    "ground_truth": {
+      "answer": "∫₀¹ x² dx = 1/3",
+      "solution": "將 [0,1] 等分為 n 段，每段寬 1/n，第 i 段右端高度為 (i/n)²。\n黎曼和 = Σᵢ₌₁ⁿ (i/n)² · (1/n) = (1/n³) · Σi²。\n用公式 Σi² = n(n+1)(2n+1)/6，化簡得 (n+1)(2n+1)/(6n²)。\n當 n → ∞，極限為 2/6 = 1/3。"
+    },
+    "required_patterns": [
+      "Axes",
+      "Rectangle|VGroup",
+      "FunctionGraph|ParametricFunction",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 6
+  },
+  {
+    "id": "H04",
+    "category": "High",
+    "subcategory": "calculus",
+    "is_application": false,
+    "topic": "視覺呈現 f(x) = x³ - 3x 的導數：在曲線上多個點畫出切線，並讓 x 移動時切線斜率對應到 f'(x) = 3x² - 3 的圖形。",
+    "topic_en": "Visualize the derivative of f(x) = x^3 - 3x: draw tangent lines at multiple points on the curve, and trace how the slope corresponds to f'(x) = 3x^2 - 3.",
+    "description": "Derivative as instantaneous slope, animated with moving tangent line.",
+    "ground_truth": {
+      "answer": "f'(x) = 3x² - 3",
+      "solution": "由微分公式 d/dx(xⁿ) = nx^(n-1)：\nf(x) = x³ - 3x\nf'(x) = 3x² - 3\nf'(x)=0 解得 x=±1，對應局部極值。"
+    },
+    "required_patterns": [
+      "Axes",
+      "FunctionGraph|ParametricFunction",
+      "Line",
+      "ValueTracker|always_redraw",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 6
+  },
+  {
+    "id": "H05",
+    "category": "High",
+    "subcategory": "combinatorics",
+    "is_application": false,
+    "topic": "從 5 個不同顏色的球（紅橙黃綠藍）中取 3 個排成一排，用樹狀圖動畫逐層展開呈現 P(5,3) = 5×4×3 = 60 種排列。",
+    "topic_en": "From 5 differently colored balls (red, orange, yellow, green, blue), pick 3 and arrange in a row. Animate a tree diagram layer by layer to show P(5,3) = 5x4x3 = 60 permutations.",
+    "description": "Permutation P(5,3) visualized via animated tree diagram.",
+    "ground_truth": {
+      "answer": "P(5,3) = 5 × 4 × 3 = 60",
+      "solution": "第一個位置：5 種選擇。\n第二個位置：剩 4 種（不重複）。\n第三個位置：剩 3 種。\n總排列數 = 5 × 4 × 3 = 60。\n公式：P(n,r) = n!/(n-r)! = 5!/2! = 60。"
+    },
+    "required_patterns": [
+      "VGroup|Dot|Circle",
+      "Line",
+      "Text|MathTex",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "H06",
+    "category": "High",
+    "subcategory": "analytic_geometry",
+    "is_application": false,
+    "topic": "拋物線 y² = 4x 的幾何定義：標示焦點 F(1,0)、準線 x=-1，並動態呈現曲線上任一點到焦點與到準線距離相等。",
+    "topic_en": "Geometric definition of parabola y^2 = 4x: mark focus F(1,0), directrix x=-1, and animate that any point on the curve is equidistant from focus and directrix.",
+    "description": "Parabola defined by focus-directrix property.",
+    "ground_truth": {
+      "answer": "拋物線 y²=4x 的焦點為 (1,0)，準線為 x=-1。",
+      "solution": "標準式 y² = 4ax，這裡 4a = 4 ⇒ a = 1。\n焦點 (a, 0) = (1, 0)，準線 x = -a = -1。\n對曲線上任一點 P(x, y)：到焦點距離 = √((x-1)²+y²)，到準線距離 = x+1。\n由 y² = 4x 可驗證兩距離相等。"
+    },
+    "required_patterns": [
+      "Axes",
+      "FunctionGraph|ParametricFunction",
+      "Dot",
+      "Line",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "H07",
+    "category": "High",
+    "subcategory": "application",
+    "is_application": true,
+    "topic": "一家工廠生產 x 件商品的總成本為 C(x) = x² - 10x + 30（百元），每件售價固定 6 百元。動畫呈現利潤函數 P(x) = -x² + 16x - 30 的拋物線圖形，並標出頂點 (8, 34) 為最大利潤。",
+    "topic_en": "A factory's total cost is C(x) = x^2 - 10x + 30 (hundred dollars) for x units, with fixed selling price 6 per unit. Animate the profit function P(x) = -x^2 + 16x - 30 and mark the vertex (8, 34) as the maximum profit.",
+    "description": "Quadratic optimization: maximum profit via vertex of downward parabola.",
+    "ground_truth": {
+      "answer": "生產 x = 8 件時利潤最大，最大利潤為 34 百元。",
+      "solution": "利潤 P(x) = 收入 - 成本 = 6x - (x²-10x+30) = -x²+16x-30。\n配方：P(x) = -(x-8)² + 34。\n拋物線開口向下，頂點 (8, 34) 為最大值。\n故生產 8 件時利潤最大為 34 百元。"
+    },
+    "required_patterns": [
+      "Axes",
+      "FunctionGraph|ParametricFunction",
+      "Dot",
+      "MathTex",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "H08",
+    "category": "High",
+    "subcategory": "application",
+    "is_application": true,
+    "topic": "用 24 公分鐵絲圍成長方形，何時面積最大？以變數 x 從 1 到 11 動態呈現面積 A(x) = x(12-x)，並用一階導數 A'(x) = 12-2x = 0 求出 x=6（正方形）面積最大為 36。",
+    "topic_en": "A 24cm wire is bent into a rectangle. When is the area maximum? Animate area A(x) = x(12-x) as x varies, and use derivative A'(x) = 12-2x = 0 to find x=6 (square) with maximum area 36.",
+    "description": "Optimization with calculus: square maximizes area for fixed perimeter.",
+    "ground_truth": {
+      "answer": "x = 6 公分（正方形）時面積最大為 36 平方公分。",
+      "solution": "周長 24 ⇒ 長 + 寬 = 12，設長 x、寬 12-x。\n面積 A(x) = x(12-x) = 12x - x²。\nA'(x) = 12 - 2x，令 A'(x) = 0 ⇒ x = 6。\nA''(x) = -2 < 0，故為極大值。\nA(6) = 6·6 = 36 cm²。"
+    },
+    "required_patterns": [
+      "Rectangle|Axes",
+      "ValueTracker|always_redraw",
+      "MathTex",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 6
+  },
+  {
+    "id": "E09",
+    "category": "Elementary",
+    "subcategory": "statistics",
+    "is_application": false,
+    "topic": "8 個小朋友的身高（120, 125, 130, 128, 135, 122, 130, 130 cm）用長條圖呈現，動畫排序後找出眾數與中位數。",
+    "topic_en": "Heights of 8 children (120, 125, 130, 128, 135, 122, 130, 130 cm) shown as a bar chart. Animate sorting and identify the mode and median.",
+    "description": "Bar chart visualization for finding mode and median.",
+    "ground_truth": {
+      "answer": "眾數 = 130 cm，中位數 = 129 cm",
+      "solution": "排序後：120, 122, 125, 128, 130, 130, 130, 135。\n眾數：出現最多次的是 130（3 次）。\n中位數：8 個數的中位數取第 4、5 個的平均 = (128+130)/2 = 129。"
+    },
+    "required_patterns": [
+      "Rectangle|BarChart|VGroup",
+      "self\\.play\\(",
+      "MathTex|Text"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "E10",
+    "category": "Elementary",
+    "subcategory": "measurement",
+    "is_application": false,
+    "topic": "長 8、寬 5、高 3 的長方體，動畫展開成平面展開圖（6 個矩形），計算總表面積。",
+    "topic_en": "A rectangular box with length 8, width 5, height 3. Animate unfolding into a 2D net (6 rectangles) and compute total surface area.",
+    "description": "Surface area via 3D-to-net unfolding animation.",
+    "ground_truth": {
+      "answer": "表面積 = 158 平方單位",
+      "solution": "長方體有 3 對相對的面：\n上下：8×5 = 40，共 2 面 = 80\n前後：8×3 = 24，共 2 面 = 48\n左右：5×3 = 15，共 2 面 = 30\n總和 = 80 + 48 + 30 = 158。"
+    },
+    "required_patterns": [
+      "Rectangle|Prism|VGroup",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "M09",
+    "category": "Middle",
+    "subcategory": "probability",
+    "is_application": false,
+    "topic": "兩顆公正骰子同時擲出，用 6×6 樣本空間格子動畫呈現所有 36 種結果，標出和為 7 的對角線，計算 P(和=7)。",
+    "topic_en": "Roll two fair dice. Display the 6x6 sample space grid with all 36 outcomes, highlight the diagonal where sum=7, and compute P(sum=7).",
+    "description": "Sample space visualization for two-dice probability.",
+    "ground_truth": {
+      "answer": "P(和=7) = 6/36 = 1/6",
+      "solution": "兩骰樣本空間共 6×6 = 36 種等可能結果。\n和為 7 的組合：(1,6),(2,5),(3,4),(4,3),(5,2),(6,1) 共 6 種。\nP(和=7) = 6/36 = 1/6。"
+    },
+    "required_patterns": [
+      "Square|VGroup",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 4
+  },
+  {
+    "id": "M10",
+    "category": "Middle",
+    "subcategory": "statistics",
+    "is_application": false,
+    "topic": "5 筆考試成績 (60, 70, 80, 85, 95)，動畫呈現平均 78、依序計算每筆與平均的離差平方並加總，求標準差。",
+    "topic_en": "Five exam scores (60, 70, 80, 85, 95). Animate the mean (78), squared deviations from mean, and compute the standard deviation.",
+    "description": "Standard deviation derivation step-by-step.",
+    "ground_truth": {
+      "answer": "標準差 σ ≈ 12.04",
+      "solution": "平均 = (60+70+80+85+95)/5 = 390/5 = 78。\n離差平方：(60-78)²=324, (70-78)²=64, (80-78)²=4, (85-78)²=49, (95-78)²=289。\n總和 = 730，變異數 = 730/5 = 146。\n標準差 σ = √146 ≈ 12.04。"
+    },
+    "required_patterns": [
+      "Rectangle|VGroup|NumberLine",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "H09",
+    "category": "High",
+    "subcategory": "vectors",
+    "is_application": false,
+    "topic": "在 2D 平面畫向量 a=(3,1)、b=(1,2)，動畫呈現平行四邊形法則求 a+b=(4,3)，並計算內積 a·b 與夾角。",
+    "topic_en": "On a 2D plane, draw vectors a=(3,1) and b=(1,2). Animate the parallelogram law for a+b=(4,3), then compute the dot product and the angle between them.",
+    "description": "Vector addition (parallelogram law) and dot product geometry.",
+    "ground_truth": {
+      "answer": "a+b = (4,3)，a·b = 5，cosθ = 5/(√10·√5) = √2/2，θ = 45°",
+      "solution": "加法：a+b = (3+1, 1+2) = (4,3)。\n內積：a·b = 3·1 + 1·2 = 5。\n|a| = √10, |b| = √5。\ncosθ = (a·b)/(|a||b|) = 5/(√10·√5) = 5/√50 = √2/2。\nθ = 45°。"
+    },
+    "required_patterns": [
+      "Axes|NumberPlane",
+      "Arrow|Vector",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  },
+  {
+    "id": "H10",
+    "category": "High",
+    "subcategory": "sequences",
+    "is_application": false,
+    "topic": "等比數列 1, 2, 4, 8, 16, 32 用矩形面積堆疊動畫呈現前 n 項和，視覺證明 Sₙ = 2ⁿ - 1。",
+    "topic_en": "Geometric sequence 1, 2, 4, 8, 16, 32. Use stacked rectangle areas to visually show the partial sum S_n = 2^n - 1.",
+    "description": "Geometric series sum visualized via rectangle stacking.",
+    "ground_truth": {
+      "answer": "Sₙ = 2ⁿ - 1（首項 1、公比 2 的等比級數前 n 項和）",
+      "solution": "首項 a=1，公比 r=2。\n等比級數和公式：Sₙ = a(rⁿ-1)/(r-1) = (2ⁿ-1)/1 = 2ⁿ-1。\n驗證：S₁=1, S₂=3, S₃=7, S₄=15, S₅=31, S₆=63，皆滿足 2ⁿ-1。\n視覺：將 1+2+4+...+2^(n-1) 的矩形堆疊起來，剛好比 2ⁿ 少 1 格。"
+    },
+    "required_patterns": [
+      "Rectangle|VGroup",
+      "self\\.play\\(",
+      "MathTex"
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 5
+  }
+]

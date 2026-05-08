@@ -108,39 +108,45 @@ def _make_visual(concept: int, clarity: int) -> dict:
 
 
 class TestAggregate:
-    # tracer bullet
+    # WEIGHTS = math 0.40, concept 0.15, clarity 0.15, spatial_layout 0.30
+    # When spatial_layout=None it's excluded and remaining weights renormalize.
     def test_all_scores_present_correct_weighted_total(self):
-        """math*0.5 + concept*0.2 + clarity*0.3 = 5*0.5+4*0.2+3*0.3 = 4.2"""
+        """math=5, concept=4, clarity=3, spatial=None
+        → renorm over (math+concept+clarity) = 0.70
+        → (5*0.4 + 4*0.15 + 3*0.15) / 0.70 = 3.05/0.70 ≈ 4.357"""
         code = {"math_score": 5, "math_justification": "", "issues": [], "summary": ""}
         visual = _make_visual(concept=4, clarity=3)
         result = _aggregate(code, visual)
-        assert result["weighted_total"] == pytest.approx(4.2, abs=0.01)
+        assert result["weighted_total"] == pytest.approx(4.357, abs=0.01)
 
-    def test_scores_dict_has_all_three_dimensions(self):
+    def test_scores_dict_has_all_four_dimensions(self):
         code = {"math_score": 4, "issues": [], "summary": ""}
         result = _aggregate(code, _make_visual(4, 4))
-        assert set(result["scores"].keys()) == {"math_correctness", "concept_alignment", "visual_clarity"}
+        assert set(result["scores"].keys()) == {
+            "math_correctness", "concept_alignment", "visual_clarity", "spatial_layout"
+        }
 
     def test_math_none_renormalizes_to_visual_only(self):
-        """math=None → only concept(0.2) + clarity(0.3), renorm weight=0.5
-        → (4*0.2 + 3*0.3) / 0.5 = 3.4"""
+        """math=None, spatial=None → only concept(0.15) + clarity(0.15), renorm weight=0.30
+        → (4*0.15 + 3*0.15) / 0.30 = 1.05/0.30 = 3.5"""
         code = {"math_score": None, "issues": [], "summary": ""}
         result = _aggregate(code, _make_visual(concept=4, clarity=3))
-        assert result["weighted_total"] == pytest.approx(3.4, abs=0.01)
+        assert result["weighted_total"] == pytest.approx(3.5, abs=0.01)
         assert result["scores"]["math_correctness"] is None
 
-    def test_visual_none_defaults_concept_clarity_to_3(self):
-        """visual_result=None → concept/clarity fallback to 3.
-        math=5 → 5*0.5 + 3*0.2 + 3*0.3 = 4.0"""
+    def test_visual_none_keeps_concept_clarity_none(self):
+        """visual_result=None → concept/clarity = None (no silent 3/5 reward).
+        Only math=5 contributes; weighted = 5*0.5/0.5 = 5.0 (renormalized to math weight)."""
         code = {"math_score": 5, "issues": [], "summary": ""}
         result = _aggregate(code, None)
-        assert result["scores"]["concept_alignment"] == 3
-        assert result["scores"]["visual_clarity"] == 3
-        assert result["weighted_total"] == pytest.approx(4.0, abs=0.01)
+        assert result["scores"]["concept_alignment"] is None
+        assert result["scores"]["visual_clarity"] is None
+        assert result["weighted_total"] == pytest.approx(5.0, abs=0.01)
+        assert result["verdict"] == "ERROR"
+        assert result["veto_reason"] == "visual_api_failure"
 
-    def test_all_none_weighted_total_is_none(self):
+    def test_visual_none_scores_keeps_them_none(self):
         code = {"math_score": None, "issues": [], "summary": ""}
-        # visual_result with None-like scores
         visual = {
             "scores": {
                 "concept_alignment": {"score": None},
@@ -148,17 +154,18 @@ class TestAggregate:
             }
         }
         result = _aggregate(code, visual)
-        # concept/clarity will raise ValueError on int(None) → fall back to 3
-        # So weighted_total won't be None here; test the scores["math_correctness"] is None
         assert result["scores"]["math_correctness"] is None
+        assert result["scores"]["concept_alignment"] is None
+        assert result["scores"]["visual_clarity"] is None
+        assert result["weighted_total"] is None
+        assert result["verdict"] == "ERROR"
 
-    def test_all_scores_truly_missing_returns_none_total(self):
-        """Simulate full unavailability: math=None, no visual."""
+    def test_all_phases_failed_returns_error(self):
+        """math=None, visual=None → ERROR."""
         code = {"math_score": None, "issues": [], "summary": ""}
         result = _aggregate(code, None)
-        # visual=None → concept=3, clarity=3 (defaults) → NOT None
-        # weighted = (3*0.2 + 3*0.3) / 0.5 = 3.0
-        assert result["weighted_total"] == pytest.approx(3.0, abs=0.01)
+        assert result["weighted_total"] is None
+        assert result["verdict"] == "ERROR"
 
     def test_code_issues_always_in_result(self):
         issues = [{"severity": "Critical", "category": "MATH_ERROR",
@@ -193,3 +200,116 @@ class TestAggregate:
         code = {"math_score": 1, "issues": [], "summary": ""}
         result = _aggregate(code, _make_visual(1, 1))
         assert result["weighted_total"] == pytest.approx(1.0, abs=0.01)
+
+
+# ── Verdict / hard veto logic ────────────────────────────────────────────────
+
+class TestVerdict:
+    def test_critical_code_issue_forces_fail(self):
+        """Even with weighted >= threshold, a Critical issue → FAIL."""
+        code = {
+            "math_score": 5,
+            "issues": [{"severity": "Critical", "category": "MATH_ERROR",
+                        "description": "wrong formula", "fix": ""}],
+            "summary": "",
+        }
+        result = _aggregate(code, _make_visual(5, 5))
+        assert result["verdict"] == "FAIL"
+        assert result["veto_reason"] == "critical_code_issue"
+        # weighted_total still computed (used for trend)
+        assert result["weighted_total"] == pytest.approx(5.0, abs=0.01)
+
+    def test_dimension_floor_triggers_fail(self):
+        """math=2 (<=DIMENSION_FLOOR) → FAIL even if other dims are 5."""
+        code = {"math_score": 2, "issues": [], "summary": ""}
+        result = _aggregate(code, _make_visual(5, 5))
+        assert result["verdict"] == "FAIL"
+        assert result["veto_reason"] == "low_dimension_math_correctness"
+
+    def test_below_threshold_fails(self):
+        """All 3s → weighted=3.0 < 3.5 → FAIL."""
+        code = {"math_score": 3, "issues": [], "summary": ""}
+        result = _aggregate(code, _make_visual(3, 3))
+        assert result["weighted_total"] == pytest.approx(3.0, abs=0.01)
+        assert result["verdict"] == "FAIL"
+        assert result["veto_reason"] == "below_threshold"
+
+    def test_above_threshold_passes(self):
+        """math=4, concept=4, clarity=4 → weighted=4.0 >= 3.5 → PASS."""
+        code = {"math_score": 4, "issues": [], "summary": ""}
+        result = _aggregate(code, _make_visual(4, 4))
+        assert result["verdict"] == "PASS"
+        assert result["veto_reason"] is None
+
+    def test_ground_truth_mismatch_forces_fail(self):
+        """ground_truth_match=False → FAIL even with all 5s."""
+        code = {
+            "math_score": 5, "issues": [], "summary": "",
+            "ground_truth_match": False,
+        }
+        result = _aggregate(code, _make_visual(5, 5))
+        assert result["verdict"] == "FAIL"
+        assert result["veto_reason"] == "ground_truth_mismatch"
+
+    def test_ground_truth_match_true_does_not_force_pass(self):
+        """gt_match=True doesn't override low scores."""
+        code = {
+            "math_score": 1, "issues": [], "summary": "",
+            "ground_truth_match": True,
+        }
+        result = _aggregate(code, _make_visual(5, 5))
+        # math=1 hits dimension floor
+        assert result["verdict"] == "FAIL"
+
+    def test_ground_truth_inconclusive_does_not_force_fail(self):
+        """gt_match=None → no GT veto; verdict driven by scores."""
+        code = {
+            "math_score": 5, "issues": [], "summary": "",
+            "ground_truth_match": None,
+        }
+        result = _aggregate(code, _make_visual(5, 5))
+        assert result["verdict"] == "PASS"
+
+
+# ── Answer comparison helper ─────────────────────────────────────────────────
+
+from agents.utils.final_judge import _compare_answer  # noqa: E402
+
+
+class TestCompareAnswer:
+    def test_numeric_match_exact(self):
+        assert _compare_answer("9", "9") is True
+
+    def test_numeric_match_with_units(self):
+        assert _compare_answer("12 cm", "12") is True
+
+    def test_numeric_mismatch(self):
+        assert _compare_answer("8", "9") is False
+
+    def test_multiple_numbers_all_present(self):
+        # GT says 9, 8, 5 → extracted has all three
+        assert _compare_answer("分別為 9、8 和 5", "面積為 9、8、5") is True
+
+    def test_multiple_numbers_one_missing(self):
+        assert _compare_answer("分別為 9 和 8", "面積為 9、8、5") is False
+
+    def test_text_only_substring_match(self):
+        assert _compare_answer("正方形面積最大", "正方形面積最大") is True
+
+    def test_text_token_overlap(self):
+        # GT has Chinese keywords; extracted contains them
+        assert _compare_answer("此題答案是周長相同時正方形面積最大", "周長相同時正方形面積最大") is True
+
+    def test_empty_inputs_inconclusive(self):
+        assert _compare_answer("", "9") is None
+        assert _compare_answer("9", "") is None
+        assert _compare_answer(None, "9") is None
+
+    def test_extracted_no_numbers_when_gt_has_numbers(self):
+        """GT has numbers but extracted has none → inconclusive (None), NOT False."""
+        assert _compare_answer("不知道", "9") is None
+
+    def test_fraction_handled(self):
+        # 1/2 = 0.5
+        assert _compare_answer("0.5", "1/2") is True
+        assert _compare_answer("1/2", "0.5") is True

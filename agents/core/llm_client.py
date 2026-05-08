@@ -104,6 +104,8 @@ class LLMClient:
             "anthropic/claude-sonnet-4.6": {"input": 1.09, "output": 15.00},
             "anthropic/claude-opus-4-7": {"input": 5.00, "output": 25.00},
             "google/gemini-2.5-flash": {"input": 0.10, "output": 0.40},
+            "google/gemini-2.5-pro-preview": {"input": 1.25, "output": 10.00},
+            "openai/gpt-5.5": {"input": 5.00, "output": 30.00},
         }
         
         self.debug = debug
@@ -115,8 +117,10 @@ class LLMClient:
         # Determine temperature to use
         req_temp = temperature if temperature is not None else 0.1
         
-        if model == "claude-code":
+        if model in ("claude-code", "claude-code-planner", "claude-code-planner-compact", "claude-code-planner-full"):
             return self._call_claude_code(system_prompt, user_prompt)
+        if model == "claude-sonnet-judge":
+            return self._call_claude_code(system_prompt, user_prompt, claude_model="claude-sonnet-4-6")
         elif model == "deepseek-reasoner":
             return self._call_deepseek_r1(system_prompt, user_prompt)
         elif model.startswith("deepseek-"):
@@ -146,14 +150,15 @@ class LLMClient:
             # Groq model
             return self._call_groq(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
 
-    def _call_claude_code(self, system_prompt: str, user_prompt: str) -> str:
+    def _call_claude_code(self, system_prompt: str, user_prompt: str, claude_model: str = "claude-opus-4-7") -> str:
         import subprocess, json
 
-        claude_bin = "/Users/liaozhenting/.local/bin/claude"
+        import shutil
+        claude_bin = os.getenv("CLAUDE_BIN") or shutil.which("claude") or "/Users/liaozhenting/.local/bin/claude"
         claude_cmd = [
             claude_bin, "-p", user_prompt.strip(),
             "--output-format", "json",
-            "--model", "claude-opus-4-7",
+            "--model", claude_model,
             "--effort", "medium",
             "--no-session-persistence", "--tools", '""',
             "--strict-mcp-config", "--disable-slash-commands"
@@ -161,9 +166,13 @@ class LLMClient:
         if system_prompt.strip():
             claude_cmd.extend(["--system-prompt", system_prompt.strip()])
 
-        # Run as claudealt user (ntnutahrd123@gmail.com Max subscription)
-        # -i required to unlock claudealt's keychain via login shell environment
-        cmd = ["sudo", "-u", "claudealt", "-i"] + claude_cmd
+        # CLAUDE_RUN_AS_USER: set to a system user (e.g. "claudealt") to run via sudo -u.
+        # Leave unset to run as the current user (e.g. on teammate machines).
+        _run_as = os.getenv("CLAUDE_RUN_AS_USER", "")
+        if _run_as:
+            cmd = ["sudo", "-u", _run_as, "-i"] + claude_cmd
+        else:
+            cmd = claude_cmd
 
         try:
             start = time.time()

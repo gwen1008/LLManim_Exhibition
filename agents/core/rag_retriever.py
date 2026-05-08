@@ -32,70 +32,48 @@ class RAGRetriever:
             self.client = None
 
     def retrieve_examples(self, query: str, limit: int = 2) -> List[Dict]:
-        """Retrieve code examples with source-balanced results.
+        """Retrieve verified ManimCE code examples from curated examples only.
 
-        Fix #4: To prevent 3b1b (918 items) from dominating over curated examples (90 items),
-        we split the limit evenly: half from examples, half from 3b1b.
+        Returns empty list if best score < RELEVANCE_THRESHOLD to avoid
+        injecting misleading off-topic examples into the Coder prompt.
         """
         if not self.client:
             return []
         try:
             collection = self.client.collections.get("ManimGoldenPair")
             SCORE_THRESHOLD = 0.4
+            RELEVANCE_THRESHOLD = 0.65  # below this = off-topic, don't inject
             results = []
 
-            # Fetch from each source separately to avoid volume bias
-            per_source_limit = max(1, limit // 2)
-            sources = [
-                ("examples", Filter.by_property("source_library").equal("examples")),
-                ("3b1b",     Filter.by_property("source_library").equal("3b1b")),
-                # Legacy entries without source_library tag
-                ("legacy",   None),
-            ]
-
-            for source_name, f in sources:
-                if len(results) >= limit:
-                    break
-
-                # Skip legacy if we already have enough results
-                if source_name == "legacy" and len(results) >= limit:
+            response = collection.query.hybrid(
+                query=query,
+                limit=limit,
+                alpha=0.5,
+                filters=Filter.by_property("source_library").equal("examples"),
+                return_metadata=MetadataQuery(score=True)
+            )
+            for obj in response.objects:
+                score = obj.metadata.score
+                desc = obj.properties.get("video_description", "No description")
+                print(f"  📋 [score={score:.3f}] {desc[:60]}")
+                if score < SCORE_THRESHOLD:
                     continue
+                results.append({
+                    "description": desc,
+                    "code": obj.properties.get("code_content", ""),
+                    "imports": obj.properties.get("imports", ""),
+                    "modules": obj.properties.get("manim_modules", ""),
+                    "score": score,
+                    "kind": "example",
+                    "source": "examples",
+                })
 
-                kwargs = dict(
-                    query=query,
-                    limit=per_source_limit,
-                    alpha=0.5,
-                    return_metadata=__import__(
-                        'weaviate.classes.query', fromlist=['MetadataQuery']
-                    ).MetadataQuery(score=True)
-                )
-                if f is not None:
-                    kwargs['filters'] = f
-                elif source_name == "legacy":
-                    # Only pick up objects that have no source_library set
-                    kwargs['filters'] = Filter.by_property("source_file").not_equal("3b1b")
+            best_score = max((r["score"] for r in results), default=0.0)
+            if best_score < RELEVANCE_THRESHOLD:
+                print(f"🔍 RAG Examples: skipped (best={best_score:.3f} < {RELEVANCE_THRESHOLD}) for '{query[:40]}'")
+                return []
 
-                response = collection.query.hybrid(**kwargs)
-                for obj in response.objects:
-                    src = obj.properties.get("source_file", "")
-                    if src.startswith("manim_ce_rules"):
-                        continue
-                    score = obj.metadata.score
-                    desc = obj.properties.get("video_description", "No description")
-                    print(f"  📋 [{source_name}|score={score:.3f}] {desc[:60]}")
-                    if score < SCORE_THRESHOLD:
-                        continue
-                    results.append({
-                        "description": desc,
-                        "code": obj.properties.get("code_content", ""),
-                        "imports": obj.properties.get("imports", ""),
-                        "modules": obj.properties.get("manim_modules", ""),
-                        "score": score,
-                        "kind": "example",
-                        "source": source_name,
-                    })
-
-            print(f"🔍 RAG Examples: {len(results)} relevant (threshold={SCORE_THRESHOLD}) for '{query[:40]}'")
+            print(f"🔍 RAG Examples: {len(results)} relevant (best={best_score:.3f}) for '{query[:40]}'")
             return results[:limit]
         except Exception as e:
             print(f"⚠️  RAG Retrieval Failed: {e}")

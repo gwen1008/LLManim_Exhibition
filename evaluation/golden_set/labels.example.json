@@ -1,0 +1,23 @@
+[
+  {
+    "id": "G01",
+    "video_path": "runs/20260428_151145/E01/stable_outputs/E01_xxxx.mp4",
+    "code_path": "runs/20260428_151145/E01/test_script.py",
+    "topic": "比較三個周長都是 12 的長方形...",
+    "ground_truth": {
+      "answer": "面積分別為 9、8、5。3×3 正方形面積最大。",
+      "solution": ""
+    },
+    "expected_verdict": "PASS",
+    "notes": "視覺清晰、數學正確、字幕同步"
+  },
+  {
+    "id": "G02",
+    "video_path": "runs/<session>/<case>/stable_outputs/xxx.mp4",
+    "code_path": "runs/<session>/<case>/test_script.py",
+    "topic": "...",
+    "ground_truth": {"answer": "9"},
+    "expected_verdict": "FAIL",
+    "notes": "影片最後顯示 8，但正解是 9（教錯數學）"
+  }
+]
