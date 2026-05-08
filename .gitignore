@@ -89,7 +89,6 @@ experiments/
 latest
 opus_prompt_extract.txt
 prime_factorization_60.py
-run_planner_eval.py
 scratch/
 temp_lines.txt
 test_debug.log
