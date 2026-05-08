@@ -367,3 +367,6 @@
 - `2026-05-08 15:20` | branch=`docs/teammate-tasks` | dirty=27 files | head=`f377bfe feat: support CLAUDE_RUN_AS_USER env var for portable Claude CLI executi`
   - touched: CLAUDE.md agents/core/rag_retriever.py agents/orchestrator/refining_loop.py agents/planner/planner.py agents/planner/templates.py 
 - `2026-05-08 15:26` | branch=`docs/teammate-tasks` | dirty=0 files | head=`0d8dbca feat: add FastAPI backend, React frontend brief, layout auditor, and eva`
+- `2026-05-08 16:30` | branch=`docs/teammate-tasks` | dirty=0 files | head=`2df664c feat: convert knowledge_base/examples from submodule to tracked director`
+- `2026-05-08 16:53` | branch=`docs/teammate-tasks` | dirty=5 files | head=`2df664c feat: convert knowledge_base/examples from submodule to tracked director`
+  - touched: .gitignore rag/check_weaviate.py rag/ingest_rules.py rag/relevance_audit_20.py rag/test_retrieval.py 

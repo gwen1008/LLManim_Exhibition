@@ -98,16 +98,12 @@ rag/append_knowledge.py
 rag/audit_100_k9.py
 rag/audit_weaviate.py
 rag/batch_test_15.py
-rag/check_weaviate.py
 rag/check_weaviate_general.py
 rag/clean_knowledge.py
 rag/cleanup_legacy.py
 rag/hotfix_backfill.py
-rag/ingest_rules.py
 rag/refine_knowledge_base.py
-rag/relevance_audit_20.py
 rag/scrape_manim_docs.py
 rag/stress_test.py
 rag/test_k9_strict.py
-rag/test_retrieval.py
 rag/upgrade_schema.py
