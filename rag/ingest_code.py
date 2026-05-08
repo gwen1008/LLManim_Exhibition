@@ -114,6 +114,7 @@ class ManimCodeChunker:
                         'complexity_score': complexity,
                         'manim_modules': ', '.join(used_modules),
                         'source_file': str(filepath.relative_to(self.source_dir)),
+                        'source_library': 'examples',
                         'topic': topic_name,
                         'video_description': video_desc
                     })
