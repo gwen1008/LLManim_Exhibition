@@ -13,7 +13,7 @@
 
 - [x] Coder routing 改用 claudealt 帳號
 - [x] Final judge + Scene instrumentor 多維度評估系統
-- [x] Planner model-aware templates + Teammate brief
+- [x] Planner model-aware templates + Teammate briefs (A/B)
 - [x] FastAPI backend + React frontend + layout auditor
 - [ ] 執行 Q101-Q150 評估運行
 - [ ] Merge docs/teammate-tasks → main
@@ -22,11 +22,9 @@
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| FastAPI backend（新增） | +n | REST API 架構建立 |
-| React frontend brief（新增） | +n | UI 原型設計 |
-| Layout auditor（新增） | +n | 場景佈局審計工具 |
-| Eval tooling（擴展） | +n | 評估工具鏈完整 |
-| `.ai-context/CHANGELOG.md` | +1 | Hook 自動生成 |
+| `rag/check_weaviate.py` 等 (4 scripts) | +276 行 | Teammate B RAG 驗證工具：check_weaviate, ingest_rules, relevance_audit_20, test_retrieval |
+| `.gitignore` | -4 | knowledge_base/examples 改為 tracked |
+| `.ai-context/CHANGELOG.md` | +3 | Hook 自動更新 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
