@@ -4,13 +4,19 @@ RAG Retriever Module
 Handles retrieval of 'Golden Manim Examples' from Weaviate to ground the Coder agent.
 """
 
+import os
 import weaviate
 from weaviate.classes.query import MetadataQuery, Filter
 from typing import List, Dict
 
+# Default collection. Override via RAG_COLLECTION env to switch KBs at runtime
+# (e.g. RAG_COLLECTION=ManimKB150 to use the 150-question-derived KB).
+COLLECTION_NAME = os.environ.get("RAG_COLLECTION", "ManimGoldenPair")
+
+
 class RAGRetriever:
     """Interface for retrieving semantic code examples from vector database."""
-    
+
     def __init__(self, host: str = "localhost", port: int = 8080):
         # Connect to local Weaviate instance
         # Note: In docker-compose we set OPENAI_APIKEY env var for the container.
@@ -26,7 +32,7 @@ class RAGRetriever:
     def _check_connection(self):
         """Verify connection to Weaviate."""
         if self.client and self.client.is_live():
-            print("✅ RAG System: Connected to Weaviate.")
+            print(f"✅ RAG System: Connected to Weaviate (collection={COLLECTION_NAME}).")
         else:
             print("⚠️  RAG System: Weaviate is not live.")
             self.client = None
@@ -40,7 +46,7 @@ class RAGRetriever:
         if not self.client:
             return []
         try:
-            collection = self.client.collections.get("ManimGoldenPair")
+            collection = self.client.collections.get(COLLECTION_NAME)
             SCORE_THRESHOLD = 0.4
             RELEVANCE_THRESHOLD = 0.65  # below this = off-topic, don't inject
             results = []
@@ -66,6 +72,9 @@ class RAGRetriever:
                     "score": score,
                     "kind": "example",
                     "source": "examples",
+                    # Diagnostic fields for tooling (not used by Coder prompt formatter):
+                    "class_name": obj.properties.get("class_name", ""),
+                    "source_file": obj.properties.get("source_file", ""),
                 })
 
             best_score = max((r["score"] for r in results), default=0.0)
@@ -84,7 +93,7 @@ class RAGRetriever:
         if not self.client:
             return []
         try:
-            collection = self.client.collections.get("ManimGoldenPair")
+            collection = self.client.collections.get(COLLECTION_NAME)
             response = collection.query.hybrid(
                 query=query,
                 limit=limit,

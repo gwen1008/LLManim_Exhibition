@@ -9,7 +9,9 @@ services:
     command: tail -f /dev/null
 
   weaviate:
-    image: cr.weaviate.io/semitechnologies/weaviate:1.28.4
+    # 1.33.0 required: older versions ship Google vectorizer that calls v1 endpoint
+    # where gemini-embedding-001 doesn't exist.
+    image: cr.weaviate.io/semitechnologies/weaviate:1.33.0
     ports:
       - "8080:8080"
       - "50051:50051"
@@ -19,10 +21,10 @@ services:
       QUERY_DEFAULTS_LIMIT: 25
       AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
       PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
-      DEFAULT_VECTORIZER_MODULE: "text2vec-openai"
-      ENABLE_MODULES: "text2vec-openai"
+      DEFAULT_VECTORIZER_MODULE: "text2vec-google"
+      ENABLE_MODULES: "text2vec-google"
       CLUSTER_HOSTNAME: "node1"
-      OPENAI_APIKEY: "${OPENAI_API_KEY}"
+      GOOGLE_APIKEY: "${GOOGLE_API_KEY}"
     restart: unless-stopped
 
 volumes:
