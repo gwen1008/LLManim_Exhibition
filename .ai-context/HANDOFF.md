@@ -15,17 +15,16 @@
 - [x] GT-match \frac 修復
 - [x] --variant A|B|C flag 與 compare_variants.py 工具完成
 - [x] BenchmarkJudge system + judge calibration framework 完成
-- [x] RAG retrieval audit 工具 + B vs C 對比分析（發現 v2 no-filter 檢索弱化 24pp）
+- [x] RAG retrieval audit 工具（audit_retrieval_30.py）+ B vs C 對比分析完成
 - [ ] C 組 30 題完整評估執行 + compare_variants 最終對比分析
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `rag/audit_retrieval_30.py` | 新建 retrieval audit 工具（slug 命中率 + no-filter 檢索覆蓋分析） | B/C 雙集合對比支援 |
-| `rag/retrieval_audit_30_ManimGoldenPair_KB150_v2.csv/.md` | B 組審計結果（filt 87% vs no-filter 67%） | v1 基線穩定 |
-| `rag/retrieval_audit_30_ManimKB150v2_rules.csv/.md` | C 組審計結果（filt 87% vs no-filter 43%）+ 根本原因分析 | v2 docstring 較弱→embedding 訊號衰減 |
-| `.ai-context/CHANGELOG.md` | 2026-05-21 audit 對比日誌：no-filter 弱化原因、後續建議 | 等 C 組完整跑完再決定優化策略 |
+| `evaluation/compare_variants.py` | 擴展 variant 比較邏輯（+23 行），細化 A/B/C session 差異報告 | 支援多維度對比分析 |
+| `rag/audit_retrieval_30.py` | 新建 retrieval audit 工具（slug 命中 + no-filter 檢索覆蓋分析） | B/C 雙集合對比就緒 |
+| `.ai-context/CHANGELOG.md` | 2026-05-21 audit 工具 + gitignore glob 完成日誌 | session 進度確認 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

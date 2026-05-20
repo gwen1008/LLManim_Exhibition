@@ -494,3 +494,6 @@
   - touched: rag/audit_retrieval_30.py 
 - `2026-05-21 00:40` | branch=`main` | dirty=5 files | head=`fd63fd6 feat(eval): compare_variants.py for A/B/C session diff reports`
   - touched: rag/audit_retrieval_30.py rag/retrieval_audit_30_ManimGoldenPair_KB150_v2.csv rag/retrieval_audit_30_ManimGoldenPair_KB150_v2.md rag/retrieval_audit_30_ManimKB150v2_rules.csv rag/retrieval_audit_30_ManimKB150v2_rules.md 
+- `2026-05-21 00:44` | branch=`main` | dirty=0 files | head=`15011b6 feat(rag): audit_retrieval_30.py tool + gitignore glob for audit outputs`
+- `2026-05-21 00:52` | branch=`main` | dirty=1 files | head=`15011b6 feat(rag): audit_retrieval_30.py tool + gitignore glob for audit outputs`
+  - touched: evaluation/compare_variants.py 

@@ -288,12 +288,13 @@ if __name__ == "__main__":
                 if not sequence_data:
                     return None, None
                 print(f"\n🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...")
-                try:
-                    audio_engine = AudioEngine(topic=user_topic)
-                    return audio_engine.generate_narration(sequence_data)
-                except Exception as e:
-                    print(f"❌ 語音生成發生錯誤: {e}")
-                    return None, None
+                with StageTimer("Audio", llm.session_stats, "time_audio_sec", silent=True):
+                    try:
+                        audio_engine = AudioEngine(topic=user_topic)
+                        return audio_engine.generate_narration(sequence_data)
+                    except Exception as e:
+                        print(f"❌ 語音生成發生錯誤: {e}")
+                        return None, None
 
             # [Optimization V4] Audio ‖ RAG ‖ Coder 三路並行。
             # Coder 內部先 block 等 RAG（~5-10s），拿到 rag_context 後立即呼叫 LLM。
@@ -427,11 +428,12 @@ if __name__ == "__main__":
                     _final_code = _cf.read()
                 _fj = FinalJudge(llm_client=llm)
                 _scene_log = os.path.join(os.path.dirname(os.path.abspath(target_file)), "scene_state_log.json")
-                _fj_result = _fj.judge(
-                    str(result), script_json, _final_code,
-                    ground_truth=_ground_truth,
-                    scene_state_log_path=_scene_log if os.path.exists(_scene_log) else None,
-                )
+                with StageTimer("FinalJudge", llm.session_stats, "time_final_judge_sec"):
+                    _fj_result = _fj.judge(
+                        str(result), script_json, _final_code,
+                        ground_truth=_ground_truth,
+                        scene_state_log_path=_scene_log if os.path.exists(_scene_log) else None,
+                    )
                 # Attach to session_stats so it's saved in cost_report.json
                 llm.session_stats["final_judge"] = {
                     "verdict":             _fj_result.get("verdict"),

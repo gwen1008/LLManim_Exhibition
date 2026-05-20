@@ -1186,13 +1186,17 @@ Fix this immediately.
                             print("🎬 [Task 13] 最後一次視覺審查 → 短影片模式 (2s 320p clip)")
                             _vstart = time.time()
                             audit = vision_agent.audit_video(clip_path, _vision_context, code_context=current_code, spatial_metadata=_spatial_metadata, telemetry_context=_telemetry_context)
-                            llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
+                            _vdur = time.time() - _vstart
+                            llm.session_stats["time_vision_sec"] += _vdur
+                            llm.session_stats.setdefault("vision_per_iter_sec", []).append(_vdur)
                             os.remove(clip_path)
                         else:
                             print("⚠️ [Task 13] 影片擷取失敗，fallback 至 4-frame grid")
                             _vstart = time.time()
                             audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail="high", spatial_metadata=_spatial_metadata, telemetry_context=_telemetry_context)
-                            llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
+                            _vdur = time.time() - _vstart
+                            llm.session_stats["time_vision_sec"] += _vdur
+                            llm.session_stats.setdefault("vision_per_iter_sec", []).append(_vdur)
                     else:
                         print(f"🖼️  [Vision] 使用 detail={_frame_detail} (iteration {i})")
                         _vision_context = f"TOPIC: {user_topic}\n\n{script_json}"
@@ -1200,7 +1204,9 @@ Fix this immediately.
                             _vision_context += f"\n\n{_frame_sampling_note}"
                         _vstart = time.time()
                         audit = vision_agent.audit_frame(frame_path, _vision_context, code_context=current_code, detail=_frame_detail, spatial_metadata=_spatial_metadata, telemetry_context=_telemetry_context)
-                        llm.session_stats["time_vision_sec"] += (time.time() - _vstart)
+                        _vdur = time.time() - _vstart
+                        llm.session_stats["time_vision_sec"] += _vdur
+                        llm.session_stats.setdefault("vision_per_iter_sec", []).append(_vdur)
                     
                     if audit["verdict"] == "ERROR":
                         print(f"⚠️  [Vision API Error] 視覺審查無法執行，跳過本次視覺檢查：{audit.get('overall_critique', '')}")
