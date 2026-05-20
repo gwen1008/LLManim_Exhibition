@@ -14,16 +14,19 @@
 - [x] KB150 v2 完全發佈：29 題 docstring 注入 + Weaviate ingestion 完成
 - [x] GT-match \frac 修復
 - [ ] 切換 main.py RAG collection 預設到 ManimKB150v2
-- [ ] Variant B 30 題評估 + kb_quick_audit 驗證
+- [ ] BenchmarkJudge runner path adapter 實作
+- [ ] benchmark_set 30 題精修狀態確認（目前全 draft，awaiting manual curation）
+- [ ] kb_quick_audit 驗證腳本完成
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `knowledge_base/kb150_v2/` (29 files) | 注入 teaching method docstring (各 +5 行) | Weaviate ManimKB150v2 collection 就位，smoke test 通過 |
-| `main.py` | 支援 RAG_COLLECTION 環境變數 (+20 行) | 預設仍需手動指定為 ManimKB150v2 |
-| `rag/ingest_code.py` + `ingest_rules.py` | 優化 docstring 擷取與 metadata 格式 (+39 行) | v2 ingestion pipeline 完整 |
-| `run_evaluation.py` | 擴展 self-check 與 collection 選擇邏輯 (+63 行) | evaluation 系統已支援 v2 |
+| `knowledge_base/kb150_v2/` (29 files) | 注入 teaching method docstring (+2936 lines) | f082c31：docstring 已進 Weaviate ManimKB150v2 collection |
+| `rag/ingest_code.py` + `ingest_rules.py` | docstring 擷取與 metadata 優化 (+39 lines) | 472b02a：v2 RAG ingestion pipeline 完整 |
+| `agents/utils/final_judge.py` | normalize \frac{a}{b} → a/b 前置處理 | de4cc85：修復字串匹配 bug，GT-match 穩定度提升 |
+| `run_evaluation.py` | self-check + BenchmarkJudge 整合 (+63 lines) | bc23f61/0e0baab：B-track 系統完整 |
+| `main.py` | 支援 RAG_COLLECTION 環境變數 (+20 lines) | 預設仍需手動切至 ManimKB150v2 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

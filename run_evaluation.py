@@ -78,7 +78,7 @@ def parse_error_types(stdout: str) -> str:
     return "|".join(found) if found else "NONE"
 
 
-def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark_root: Path) -> dict:
+def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark_root: Path, variant_env: dict = None) -> dict:
     """
     Run one evaluation case in isolation.
     Uses a per-case tmpdir as EVAL_OUTPUT_DIR so parallel workers never conflict.
@@ -91,6 +91,8 @@ def run_single_case(case: dict, session_dir: Path, project_root: Path, benchmark
     with tempfile.TemporaryDirectory(prefix=f"llmanim_eval_{case_id}_") as tmp_out:
         env = os.environ.copy()
         env["EVAL_OUTPUT_DIR"] = tmp_out
+        if variant_env:
+            env.update(variant_env)
 
         # Ground truth: read from `ground_truth` block (AB24 schema) with fallback
         # to top-level `answer`/`solution` (legacy schema).
@@ -494,6 +496,20 @@ def main():
     parser.add_argument("--resume", type=str, help="Path to an existing session directory to resume from (e.g., runs/20260321_020857)")
     parser.add_argument("--case", type=str, help="Optional: Run only a specific Case ID")
     parser.add_argument("--cases", type=str, help="Optional: Run only a comma-separated list of Case IDs")
+    parser.add_argument("--qids", type=str, help="Alias for --cases (handoff naming).")
+    parser.add_argument("--sample", type=str, help="Alias for --test-cases (handoff naming).")
+    parser.add_argument(
+        "--variant", choices=["A", "B", "C"], default=None,
+        help="RAG-150 experiment variant. "
+             "A=DISABLE_RAG=1 (no-RAG baseline); "
+             "B=RAG_COLLECTION=ManimGoldenPair_KB150_v2 (kb150 v1 + rules); "
+             "C=RAG_COLLECTION=ManimKB150v2_rules (kb150_v2 system-generated examples + rules, 2026-05-20). "
+             "Session dir gets a _variant{A,B,C} suffix so benchmark_runner.py can pair them."
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true",
+        help="With --variant: list resolved cases + env vars and exit without running."
+    )
     parser.add_argument("--workers", type=int, default=1,
                         help="Number of parallel workers (default: 1 = serial). "
                              "Each worker uses an isolated tmpdir so stable_outputs never conflict.")
@@ -505,16 +521,36 @@ def main():
         run_compare()
         return
 
-    if args.case and args.cases:
-        parser.error("Use either --case or --cases, not both.")
+    if args.case and (args.cases or args.qids):
+        parser.error("Use either --case or --cases/--qids, not both.")
+    if args.cases and args.qids:
+        parser.error("Use either --cases or --qids, not both.")
 
     target_id = args.case
     target_ids = None
-    if args.cases:
-        target_ids = {c.strip() for c in args.cases.split(",") if c.strip()}
+    cases_arg = args.cases or args.qids
+    if cases_arg:
+        target_ids = {c.strip() for c in cases_arg.split(",") if c.strip()}
         if not target_ids:
-            parser.error("--cases was provided but no valid Case IDs were found.")
-    test_cases_path = Path(args.test_cases)
+            parser.error("--cases/--qids was provided but no valid Case IDs were found.")
+    test_cases_path = Path(args.sample) if args.sample else Path(args.test_cases)
+
+    # Variant env block: pinned to a single switched variable so A/B differ ONLY
+    # in the RAG channel. Everything else (model, retries, budgets) inherits.
+    variant_env = None
+    variant_suffix = ""
+    if args.variant == "A":
+        variant_env = {"DISABLE_RAG": "1"}
+        variant_suffix = "_variantA"
+    elif args.variant == "B":
+        variant_env = {"DISABLE_RAG": "0", "RAG_COLLECTION": "ManimGoldenPair_KB150_v2"}
+        variant_suffix = "_variantB"
+    elif args.variant == "C":
+        # kb150_v2 (system-generated examples, 2026-05-20) + rules.
+        # Same shape as B (rules + 29 examples, total 260 chunks), only the
+        # 29 examples differ — controls for the v1/v2 example axis cleanly.
+        variant_env = {"DISABLE_RAG": "0", "RAG_COLLECTION": "ManimKB150v2_rules"}
+        variant_suffix = "_variantC"
 
     if args.resume:
         session_dir = Path(args.resume)
@@ -524,9 +560,12 @@ def main():
         print(f"🔄 Resuming Evaluation Session from: {session_dir}")
     else:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        session_dir = RUNS_ROOT / timestamp
-        session_dir.mkdir(parents=True, exist_ok=True)
-        print(f"🚀 Starting New Evaluation Session: {timestamp}")
+        session_dir = RUNS_ROOT / f"{timestamp}{variant_suffix}"
+        if not args.dry_run:
+            session_dir.mkdir(parents=True, exist_ok=True)
+        print(f"🚀 Starting New Evaluation Session: {session_dir.name}")
+        if variant_env:
+            print(f"🧪 Variant {args.variant} env overrides: {variant_env}")
 
     print(f"📂 Results will be stored in: {session_dir}")
 
@@ -613,6 +652,14 @@ def main():
     for cid in completed_cases:
         print(f"⏭️ Skipping Task [{cid}]: Already completed.")
 
+    if args.dry_run:
+        print(f"\n🟡 [DRY-RUN] variant={args.variant} sample={test_cases_path}")
+        print(f"   variant_env={variant_env}")
+        print(f"   would-run cases ({len(pending_cases)}):")
+        for c in pending_cases:
+            print(f"     - {c['id']}: {c['topic'][:60]}")
+        return
+
     workers = args.workers
     save_lock = threading.Lock()
     _eval_start = time.time()
@@ -683,13 +730,13 @@ def main():
     if workers <= 1:
         for i, case in enumerate(pending_cases):
             print(f"\n🎬 [{i+1}/{len(pending_cases)}] Running Task [{case['id']}]: {case['topic'][:40]}...")
-            result = run_single_case(case, session_dir, PROJECT_ROOT, BENCHMARK_ROOT)
+            result = run_single_case(case, session_dir, PROJECT_ROOT, BENCHMARK_ROOT, variant_env)
             _on_done(result)
     else:
         print(f"⚡ Parallel mode: {workers} workers")
         with ProcessPoolExecutor(max_workers=workers) as executor:
             futures = {
-                executor.submit(run_single_case, case, session_dir, PROJECT_ROOT, BENCHMARK_ROOT): case["id"]
+                executor.submit(run_single_case, case, session_dir, PROJECT_ROOT, BENCHMARK_ROOT, variant_env): case["id"]
                 for case in pending_cases
             }
             for future in as_completed(futures):
