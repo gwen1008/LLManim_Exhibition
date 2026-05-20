@@ -4,25 +4,30 @@
 > 讀完這份文件即可接手，不需要問專案背景。
 > **由 git post-commit hook 自動更新**，永遠對應最新 commit。
 
-**更新時間**：2026-05-08
-**Branch**：docs/teammate-tasks
+**更新時間**：2026-05-20
+**Branch**：main
 
 ---
 
 ## 現在要做什麼
 
-- [x] Coder routing 改用 claudealt 帳號
-- [x] Final judge + Scene instrumentor 多維度評估系統
-- [x] Planner model-aware templates + Teammate briefs (A/B)
-- [x] FastAPI backend + React frontend + layout auditor
-- [ ] 執行 Q101-Q150 評估運行
-- [ ] Merge docs/teammate-tasks → main
+- [x] Phase B1-B3 實現（FJ + layout_auditor + judge_calibration）
+- [ ] 運行 experiment_sample_30.json 產生 benchmark videos（30 題）
+- [ ] 人工精修 benchmark_set 版本
+- [ ] Vision backend A/B test 決策（GPT-4o 抓錯率 vs Opus CP 成本 trade-off）
+- [ ] W2.2 統一分數聚合（FJ absolute + Pairwise relative）
+- [ ] 驗證測試通過並 commit dirty files（agents/utils/benchmark_judge.py 等）
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `.ai-context/CHANGELOG.md` | +1 | Hook 自動追蹤 RAG scripts required by Teammate B task brief |
+| KB150 模板集合（15 個） | Scene template 更新 + 佈局優化 | ingest_*.py 集成完成，main.py phase B 路由就緒 |
+| `agents/utils/benchmark_judge.py` | BenchmarkJudge 系統新增 | candidate vs benchmark 0-100 評分系統 |
+| `evaluation/golden_set/judge_calibration.py` | 統計框架重構 (+563 行) | Opus vs GPT-4o 對標完成，準備 W2.2 聚合 |
+| `evaluation/golden_set/benchmark_raw_results.json` | 150 題基準結果集 (+195 行) | 評估 baseline 資料集 |
+| `tests/test_benchmark_judge.py` | 完整測試套件 (+307 行) | BenchmarkJudge 邏輯覆蓋 |
+| RAG 管線 | rag/ingest_*.py 最佳化 | Gemini vectorizer 集成完成 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
@@ -33,6 +38,7 @@
 - **`manimator/`** 是第三方 submodule，絕對不能改
 - **3b1b/videos** 是 ManimGL，本專案是 ManimCE，不能 copy-paste
 - **RefiningLoop 最多 5 次**，不要調高
+- **Claude Code CLI 月費訂閱可看本地圖**：用 `--tools "Read" --add-dir <dir>` 讓 Opus 自己 Read jpg/png；月費 quota 計（不扣 API）。`_call_claude_code` 預設 `--tools ""` 禁用工具，要看圖必須 override。`-p` 模式無 image flag，**只能透過 Read tool 路徑載圖**
 
 ---
 

@@ -1,0 +1,321 @@
+{
+  "6385d2dcf2d0e4ea": {
+    "final_100": 100,
+    "scores": {
+      "completeness": 100,
+      "accuracy": 100,
+      "clarity": 100
+    },
+    "modes": {
+      "completeness": "same",
+      "accuracy": "same",
+      "clarity": "same"
+    },
+    "likert_votes": {
+      "completeness": [
+        "same",
+        "same",
+        "same"
+      ],
+      "accuracy": [
+        "same",
+        "same",
+        "same"
+      ],
+      "clarity": [
+        "same",
+        "same",
+        "same"
+      ]
+    },
+    "evidence": {
+      "completeness": "Candidate contains every element the benchmark shows: expression, left-to-right note, divide step with sign rule, multiply step with final answer -24. | Candidate (D1-D4) includes all the same elements as benchmark: rule statement, expression, division step, multiplication step, and final answer -24. | Candidate contains every element present in benchmark: title, original expression, arrow, Step 1 division with reasoning, Step 2 multiplication with final answer -24.",
+      "accuracy": "Math is correct in both: (-48)÷(-6)=8, 8×(-3)=-24; sign rules stated correctly in both rows. | Math is correct in both: (-48)÷(-6)=8, then 8×(-3)=-24, with sign rules shown identically. | All math identical and correct: (-48)÷(-6)=8, 8×(-3)=-24; sign rules stated correctly in both.",
+      "clarity": "Layout, fonts, color coding and spacing appear visually indistinguishable between candidate and benchmark frames. | Layout, spacing, font sizes, and color usage are visually identical between the two rows with no overlap or clipping. | Layout, font sizes, spacing, and color usage appear visually identical between candidate and benchmark."
+    },
+    "deterministic": {
+      "math_score": 5,
+      "math_penalty": 0,
+      "cand_layout": 5,
+      "bench_layout": 5,
+      "layout_gap_penalty": 0,
+      "accuracy_factor": 1.0
+    },
+    "confidences": [
+      "high",
+      "high",
+      "high"
+    ],
+    "passes": [
+      {
+        "pass": 1,
+        "tag": "cand@TOP",
+        "raw": {
+          "frame_inventory": "Both TOP (candidate) and BOTTOM (benchmark) rows show essentially identical frames: title 'Order of Operations: Left to Right', the expression (-48)÷(-6)×(-3), step 1 dividing to get 8, then step 2 multiplying 8×(-3) = -24 with sign rules explained.",
+          "dimensions": {
+            "completeness": {
+              "likert": "same",
+              "evidence": "Candidate contains every element the benchmark shows: expression, left-to-right note, divide step with sign rule, multiply step with final answer -24."
+            },
+            "accuracy": {
+              "likert": "same",
+              "evidence": "Math is correct in both: (-48)÷(-6)=8, 8×(-3)=-24; sign rules stated correctly in both rows."
+            },
+            "clarity": {
+              "likert": "same",
+              "evidence": "Layout, fonts, color coding and spacing appear visually indistinguishable between candidate and benchmark frames."
+            }
+          },
+          "confidence": "high"
+        },
+        "meta": {
+          "elapsed_sec": 11.23,
+          "input_tokens": 7658,
+          "output_tokens": 446
+        }
+      },
+      {
+        "pass": 2,
+        "tag": "cand@BOTTOM",
+        "raw": {
+          "frame_inventory": "Both rows show identical-looking sequences: intro of 'Order of Operations: Left to Right' with (-48)÷(-6)×(-3), arrow indicating left-to-right, Step 1 dividing to get 8×(-3), and Step 2 multiplying to get -24.",
+          "dimensions": {
+            "completeness": {
+              "likert": "same",
+              "evidence": "Candidate (D1-D4) includes all the same elements as benchmark: rule statement, expression, division step, multiplication step, and final answer -24."
+            },
+            "accuracy": {
+              "likert": "same",
+              "evidence": "Math is correct in both: (-48)÷(-6)=8, then 8×(-3)=-24, with sign rules shown identically."
+            },
+            "clarity": {
+              "likert": "same",
+              "evidence": "Layout, spacing, font sizes, and color usage are visually identical between the two rows with no overlap or clipping."
+            }
+          },
+          "confidence": "high"
+        },
+        "meta": {
+          "elapsed_sec": 11.09,
+          "input_tokens": 7667,
+          "output_tokens": 420
+        }
+      },
+      {
+        "pass": 3,
+        "tag": "cand@TOP",
+        "raw": {
+          "frame_inventory": "Both rows show identical 4-step progression: title 'Order of Operations: Left to Right', the expression (-48)÷(-6)×(-3) with arrow, then Step 1 Divide (8×(-3) with Negative÷Negative=Positive), then Step 2 Multiply giving -24.",
+          "dimensions": {
+            "completeness": {
+              "likert": "same",
+              "evidence": "Candidate contains every element present in benchmark: title, original expression, arrow, Step 1 division with reasoning, Step 2 multiplication with final answer -24."
+            },
+            "accuracy": {
+              "likert": "same",
+              "evidence": "All math identical and correct: (-48)÷(-6)=8, 8×(-3)=-24; sign rules stated correctly in both."
+            },
+            "clarity": {
+              "likert": "same",
+              "evidence": "Layout, font sizes, spacing, and color usage appear visually identical between candidate and benchmark."
+            }
+          },
+          "confidence": "high"
+        },
+        "meta": {
+          "elapsed_sec": 11.41,
+          "input_tokens": 7658,
+          "output_tokens": 425
+        }
+      }
+    ],
+    "n_successful_passes": 3,
+    "candidate_video": "/Users/liaozhenting/Desktop/LLManim_Agent/runs/20260518_001817/Q050/video.mp4",
+    "benchmark_video": "/Users/liaozhenting/Desktop/LLManim_Agent/runs/20260518_001817/Q050/video.mp4"
+  },
+  "506cf156901cd092": {
+    "final_100": 100,
+    "status": "ok",
+    "scores": {
+      "completeness": 100,
+      "accuracy": 100,
+      "clarity": 100
+    },
+    "modes": {
+      "completeness": "same",
+      "accuracy": "same",
+      "clarity": "same"
+    },
+    "likert_votes": {
+      "completeness": [
+        "same",
+        "same",
+        "same"
+      ],
+      "accuracy": [
+        "same",
+        "same",
+        "same"
+      ],
+      "clarity": [
+        "same",
+        "same",
+        "same"
+      ]
+    },
+    "evidence": {
+      "completeness": "Candidate and benchmark contain identical elements: title, expression, both steps, sign rules, and final answer -24. | Candidate has all the same elements: title, original expression, divide-first step with 8, multiply step with -24, and sign rules. | Candidate includes all the same elements as benchmark: expression, sign rules, intermediate result 8, and final -24.",
+      "accuracy": "Both display correct math: (-48)÷(-6)=8 and 8×(-3)=-24 with correct sign-rule explanations. | Both show (-48)÷(-6)=8 and 8×(-3)=-24 correctly with proper sign rules. | Both show identical correct math: (-48)÷(-6)=8 and 8×(-3)=-24, with correct sign rules.",
+      "clarity": "Layouts, fonts, spacing, and arrow highlights appear visually identical between top and bottom rows. | Layout, font sizes, spacing, and arrow placement are visually identical between top and bottom rows. | Layout, fonts, and spacing appear visually identical between candidate and benchmark; no overlap or clipping in either."
+    },
+    "evidence_per_pass": [
+      {
+        "pass": 1,
+        "tag": "cand@TOP",
+        "completeness": {
+          "likert": "same",
+          "evidence": "Candidate and benchmark contain identical elements: title, expression, both steps, sign rules, and final answer -24."
+        },
+        "accuracy": {
+          "likert": "same",
+          "evidence": "Both display correct math: (-48)÷(-6)=8 and 8×(-3)=-24 with correct sign-rule explanations."
+        },
+        "clarity": {
+          "likert": "same",
+          "evidence": "Layouts, fonts, spacing, and arrow highlights appear visually identical between top and bottom rows."
+        }
+      },
+      {
+        "pass": 2,
+        "tag": "cand@BOTTOM",
+        "completeness": {
+          "likert": "same",
+          "evidence": "Candidate has all the same elements: title, original expression, divide-first step with 8, multiply step with -24, and sign rules."
+        },
+        "accuracy": {
+          "likert": "same",
+          "evidence": "Both show (-48)÷(-6)=8 and 8×(-3)=-24 correctly with proper sign rules."
+        },
+        "clarity": {
+          "likert": "same",
+          "evidence": "Layout, font sizes, spacing, and arrow placement are visually identical between top and bottom rows."
+        }
+      },
+      {
+        "pass": 3,
+        "tag": "cand@TOP",
+        "completeness": {
+          "likert": "same",
+          "evidence": "Candidate includes all the same elements as benchmark: expression, sign rules, intermediate result 8, and final -24."
+        },
+        "accuracy": {
+          "likert": "same",
+          "evidence": "Both show identical correct math: (-48)÷(-6)=8 and 8×(-3)=-24, with correct sign rules."
+        },
+        "clarity": {
+          "likert": "same",
+          "evidence": "Layout, fonts, and spacing appear visually identical between candidate and benchmark; no overlap or clipping in either."
+        }
+      }
+    ],
+    "deterministic": {
+      "math_score": 5,
+      "math_penalty": 0,
+      "cand_layout": 5,
+      "bench_layout": 5,
+      "layout_gap_penalty": 0,
+      "accuracy_factor": 1.0
+    },
+    "confidences": [
+      "high",
+      "high",
+      "high"
+    ],
+    "passes": [
+      {
+        "pass": 1,
+        "tag": "cand@TOP",
+        "raw": {
+          "frame_inventory": "Both rows show identical content: T1/D1 introduce the expression (-48)÷(-6)×(-3) with 'left to right' note; T2/D2 highlight the division with an arrow yielding 8; T3/D3 show Step 1 Divide first → 8×(-3) with sign rule; T4/D4 show Step 2 multiply giving -24.",
+          "dimensions": {
+            "completeness": {
+              "likert": "same",
+              "evidence": "Candidate and benchmark contain identical elements: title, expression, both steps, sign rules, and final answer -24."
+            },
+            "accuracy": {
+              "likert": "same",
+              "evidence": "Both display correct math: (-48)÷(-6)=8 and 8×(-3)=-24 with correct sign-rule explanations."
+            },
+            "clarity": {
+              "likert": "same",
+              "evidence": "Layouts, fonts, spacing, and arrow highlights appear visually identical between top and bottom rows."
+            }
+          },
+          "confidence": "high"
+        },
+        "meta": {
+          "elapsed_sec": 11.32,
+          "input_tokens": 7655,
+          "output_tokens": 429
+        }
+      },
+      {
+        "pass": 2,
+        "tag": "cand@BOTTOM",
+        "raw": {
+          "frame_inventory": "Both top (benchmark) and bottom (candidate) rows show nearly identical frames: title 'Order of Operations: Left to Right', the expression (-48) ÷ (-6) × (-3), then division step yielding 8, then multiplication step yielding -24.",
+          "dimensions": {
+            "completeness": {
+              "likert": "same",
+              "evidence": "Candidate has all the same elements: title, original expression, divide-first step with 8, multiply step with -24, and sign rules."
+            },
+            "accuracy": {
+              "likert": "same",
+              "evidence": "Both show (-48)÷(-6)=8 and 8×(-3)=-24 correctly with proper sign rules."
+            },
+            "clarity": {
+              "likert": "same",
+              "evidence": "Layout, font sizes, spacing, and arrow placement are visually identical between top and bottom rows."
+            }
+          },
+          "confidence": "high"
+        },
+        "meta": {
+          "elapsed_sec": 10.18,
+          "input_tokens": 7664,
+          "output_tokens": 397
+        }
+      },
+      {
+        "pass": 3,
+        "tag": "cand@TOP",
+        "raw": {
+          "frame_inventory": "Top and bottom rows appear nearly identical: T1/D1 show the expression (-48)÷(-6)×(-3) with 'left to right' note; T2/D2 add an arrow and result (-48)÷(-6)=8; T3/D3 show Step 1 (Negative÷Negative=Positive, =8) yielding 8×(-3); T4/D4 show Step 2 (Positive×Negative=Negative, =-24).",
+          "dimensions": {
+            "completeness": {
+              "likert": "same",
+              "evidence": "Candidate includes all the same elements as benchmark: expression, sign rules, intermediate result 8, and final -24."
+            },
+            "accuracy": {
+              "likert": "same",
+              "evidence": "Both show identical correct math: (-48)÷(-6)=8 and 8×(-3)=-24, with correct sign rules."
+            },
+            "clarity": {
+              "likert": "same",
+              "evidence": "Layout, fonts, and spacing appear visually identical between candidate and benchmark; no overlap or clipping in either."
+            }
+          },
+          "confidence": "high"
+        },
+        "meta": {
+          "elapsed_sec": 11.38,
+          "input_tokens": 7655,
+          "output_tokens": 459
+        }
+      }
+    ],
+    "n_successful_passes": 3,
+    "candidate_video": "/Users/liaozhenting/Desktop/LLManim_Agent/runs/20260518_001817/Q050/video.mp4",
+    "benchmark_video": "/Users/liaozhenting/Desktop/LLManim_Agent/runs/20260518_001817/Q050/video.mp4"
+  }
+}

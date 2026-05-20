@@ -371,3 +371,78 @@
 - `2026-05-08 16:53` | branch=`docs/teammate-tasks` | dirty=5 files | head=`2df664c feat: convert knowledge_base/examples from submodule to tracked director`
   - touched: .gitignore rag/check_weaviate.py rag/ingest_rules.py rag/relevance_audit_20.py rag/test_retrieval.py 
 - `2026-05-08 16:55` | branch=`docs/teammate-tasks` | dirty=0 files | head=`a48062b feat: track rag scripts required by teammate B task brief`
+
+## 2026-05-17
+
+- `2026-05-17 17:07` | branch=`main` | dirty=0 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+- `2026-05-17 17:26` | branch=`main` | dirty=1 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: run_A_old_q1_10.log 
+- `2026-05-17 17:53` | branch=`main` | dirty=2 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: run_A_old_q1_10.log run_B_kb150_q1_10.log 
+
+## 2026-05-18
+
+- `2026-05-18 03:22` | branch=`main` | dirty=6 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: rag/retrieval_audit_50.csv rag/retrieval_audit_50.log rag/retrieval_audit_50.py rag/retrieval_audit_50_summary.json run_A_old_q1_10.log 
+
+## 2026-05-19
+
+- `2026-05-19 16:42` | branch=`main` | dirty=7 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: evaluation/experiment_sample_30.json rag/retrieval_audit_50.csv rag/retrieval_audit_50.log rag/retrieval_audit_50.py rag/retrieval_audit_50_summary.json 
+- `2026-05-19 16:43` | branch=`main` | dirty=8 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: evaluation/experiment_sample_30.json rag/check_sample_collision.py rag/retrieval_audit_50.csv rag/retrieval_audit_50.log rag/retrieval_audit_50.py 
+- `2026-05-19 16:49` | branch=`main` | dirty=9 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: evaluation/experiment_sample_30.json evaluation/sample_collision_report.csv rag/check_sample_collision.py rag/retrieval_audit_50.csv rag/retrieval_audit_50.log 
+- `2026-05-19 16:58` | branch=`main` | dirty=17 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py knowledge_base/kb150/fraction_add_sub/AbsoluteValueFractionSubtraction.py knowledge_base/kb150/fraction_mul_div/FractionMultiplicationCancellation.py 
+- `2026-05-19 17:10` | branch=`main` | dirty=19 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py knowledge_base/kb150/fraction_add_sub/AbsoluteValueFractionSubtraction.py knowledge_base/kb150/fraction_mul_div/FractionMultiplicationCancellation.py 
+- `2026-05-19 17:17` | branch=`main` | dirty=21 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py knowledge_base/kb150/factor_multiple/GCDLCMExponents.py 
+- `2026-05-19 17:34` | branch=`main` | dirty=24 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py knowledge_base/kb150/factor_multiple/GCDLCMExponents.py 
+- `2026-05-19 17:39` | branch=`main` | dirty=25 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py knowledge_base/kb150/factor_multiple/GCDLCMExponents.py 
+- `2026-05-19 18:26` | branch=`main` | dirty=28 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py 
+- `2026-05-19 23:48` | branch=`main` | dirty=29 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py 
+
+## 2026-05-20
+
+- `2026-05-20 00:04` | branch=`main` | dirty=28 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py knowledge_base/kb150/factor_multiple/GCDLCMAndSum.py 
+- `2026-05-20 01:51` | branch=`main` | dirty=30 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py 
+- `2026-05-20 01:58` | branch=`main` | dirty=32 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationSubtraction.py 
+- `2026-05-20 02:30` | branch=`main` | dirty=33 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py knowledge_base/kb150/exponent_scientific_notation/ScientificNotationBacterialLength.py 
+- `2026-05-20 02:33` | branch=`main` | dirty=34 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 02:34` | branch=`main` | dirty=33 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 02:38` | branch=`main` | dirty=34 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 02:51` | branch=`main` | dirty=35 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 02:51` | branch=`main` | dirty=34 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 02:52` | branch=`main` | dirty=35 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 02:58` | branch=`main` | dirty=34 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 03:04` | branch=`main` | dirty=35 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 09:49` | branch=`main` | dirty=36 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 10:41` | branch=`main` | dirty=39 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 10:43` | branch=`main` | dirty=40 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 10:53` | branch=`main` | dirty=41 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 10:53` | branch=`main` | dirty=44 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 13:16` | branch=`main` | dirty=45 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
+  - touched: agents/core/rag_retriever.py agents/utils/benchmark_judge.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_calibration.py 
