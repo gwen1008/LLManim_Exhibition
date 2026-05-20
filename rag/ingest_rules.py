@@ -63,9 +63,9 @@ def split_into_sections(body: str, filename: str, meta: dict) -> List[Dict]:
     return chunks
 
 
-def get_indexed_rule_sources(client) -> set:
+def get_indexed_rule_sources(client, collection_name: str) -> set:
     """Return set of already-indexed source_files for rules."""
-    collection = client.collections.get("ManimGoldenPair")
+    collection = client.collections.get(collection_name)
     response = collection.query.fetch_objects(
         filters=Filter.by_property("source_library").equal("rules"),
         limit=500,
@@ -73,11 +73,11 @@ def get_indexed_rule_sources(client) -> set:
     return {obj.properties.get("source_file", "") for obj in response.objects}
 
 
-def run():
+def run(collection_name: str = "ManimGoldenPair"):
     client = weaviate.connect_to_local()
     try:
-        print("🔍 Checking already-indexed rules...")
-        indexed = get_indexed_rule_sources(client)
+        print(f"🔍 Checking already-indexed rules in collection={collection_name}...")
+        indexed = get_indexed_rule_sources(client, collection_name)
         print(f"   {len(indexed)} already indexed, will skip.")
 
         all_chunks = []
@@ -97,8 +97,8 @@ def run():
             print("✅ Everything already indexed. Nothing to do.")
             return
 
-        print(f"\n📤 Uploading {len(all_chunks)} rule chunks...")
-        collection = client.collections.get("ManimGoldenPair")
+        print(f"\n📤 Uploading {len(all_chunks)} rule chunks to {collection_name}...")
+        collection = client.collections.get(collection_name)
         with collection.batch.dynamic() as batch:
             for chunk in all_chunks:
                 batch.add_object(properties=chunk)
@@ -110,6 +110,14 @@ def run():
 
 
 if __name__ == "__main__":
-    print("🚀 Starting CE Rules Ingestion (append-only)...")
-    run()
+    import os, argparse
+    ap = argparse.ArgumentParser(description="Ingest CE Rules into Weaviate (append-only)")
+    ap.add_argument(
+        "--collection",
+        default=os.environ.get("RAG_COLLECTION", "ManimGoldenPair"),
+        help="Target collection (default: ManimGoldenPair, or env RAG_COLLECTION)",
+    )
+    args = ap.parse_args()
+    print(f"🚀 Starting CE Rules Ingestion (append-only) → {args.collection}...")
+    run(args.collection)
     print("🎉 CE Rules ingestion complete!")

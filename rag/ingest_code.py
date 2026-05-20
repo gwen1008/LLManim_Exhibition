@@ -97,7 +97,11 @@ class ManimCodeChunker:
                     # Extract docstring to use as video_description
                     docstring = ast.get_docstring(node)
                     topic_name = filepath.relative_to(self.source_dir).parts[0]
-                    video_desc = docstring.strip() if docstring else f"{node.name} example about {topic_name}"
+                    raw_desc = docstring.strip() if docstring else f"{node.name} example about {topic_name}"
+                    # [W1.2] Prefix knowledge slug into description so BM25 + embedding
+                    # both get an explicit knowledge-point signal. Helps reduce top-1
+                    # cross-knowledge-point misretrievals (~12% in pre-fix baseline).
+                    video_desc = f"[knowledge: {topic_name}] {raw_desc}"
 
                     # Extract used Manim modules (uses module-level MANIM_CLASSES constant)
                     used_modules = set()
@@ -116,7 +120,8 @@ class ManimCodeChunker:
                         'source_file': str(filepath.relative_to(self.source_dir)),
                         'source_library': 'examples',
                         'topic': topic_name,
-                        'video_description': video_desc
+                        'knowledge_slug': topic_name,  # [W1.2] explicit field for filter queries
+                        'video_description': video_desc,
                     })
         
         return chunks
@@ -173,6 +178,10 @@ class WeaviateIndexer:
                 Property(name="source_file", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="source_library", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="topic", data_type=DataType.TEXT, skip_vectorization=True),
+                # [W1.2] dedicated field for cross-knowledge-point filter queries.
+                # Same value as `topic` but kept as a separate field so the filter
+                # path is unambiguous (topic is overloaded across libraries).
+                Property(name="knowledge_slug", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="video_description", data_type=DataType.TEXT),  # vectorized: primary semantic field
             ]
         )

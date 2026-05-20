@@ -197,18 +197,34 @@ if __name__ == "__main__":
         # ========== 🎬 Original AI Pipeline (Planner + Coder) ==========
 
         # [Optimization V5] Start RAG task in parallel with Planner
+        # [Experiment toggle] DISABLE_RAG=1 → run as no-RAG baseline (Group A in the
+        # three-way comparison). Returns "" so Coder prompt has no example/rule block.
+        _disable_rag = os.environ.get("DISABLE_RAG", "0") == "1"
+        # [W1.2] Optional knowledge-point pinning. When set, the retriever
+        # only considers examples whose knowledge_slug matches. Eliminates
+        # the cross-knowledge-point misretrieval (e.g. an integer-add query
+        # pulling a scientific-notation example as top-1). Caller (e.g.
+        # run_evaluation.py) sets this per-case based on the question's
+        # knowledge_point field.
+        _rag_knowledge_slug = os.environ.get("RAG_KNOWLEDGE_SLUG", "").strip() or None
+
         def _rag_task():
+            if _disable_rag:
+                print("\n🚫 [階段 1.8: RAG DISABLED] DISABLE_RAG=1 → 跳過 RAG 檢索（純 Opus baseline 模式）")
+                return ""
             print("\n📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...")
+            if _rag_knowledge_slug:
+                print(f"🎯 [RAG] Knowledge-point filter: {_rag_knowledge_slug}")
             from agents.core.rag_retriever import RAGRetriever as _RAG
             with StageTimer("RAG", llm.session_stats, "time_rag_sec"):
                 _rag = _RAG()
-                _results = _rag.retrieve_examples(user_topic, limit=2)
+                _results = _rag.retrieve_examples(user_topic, limit=2, knowledge_slug=_rag_knowledge_slug)
                 _results += _rag.retrieve_rules(user_topic, limit=2)
                 _ctx = _rag.format_for_prompt(_results)
                 print(f"📏 [RAG Debug] Total RAG context length: {len(_ctx)} chars (~{len(_ctx)//4} tokens)")
                 _rag.close()
             return _ctx
-            
+
         _pipeline_executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
         _rag_future = _pipeline_executor.submit(_rag_task)
 

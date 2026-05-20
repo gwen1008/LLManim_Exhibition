@@ -18,10 +18,12 @@ class RAGRetriever:
     """Interface for retrieving semantic code examples from vector database."""
 
     def __init__(self, host: str = "localhost", port: int = 8080):
-        # Connect to local Weaviate instance
-        # Note: In docker-compose we set OPENAI_APIKEY env var for the container.
-        # Here we rely on the python client using the local env var if needed for client-side operations,
-        # but mostly we rely on the server-side text2vec-openai module.
+        # Variant-A baseline: env DISABLE_RAG=1 disables ALL retrieval paths
+        # (main.py initial inject + refining_loop fix-prompt injects).
+        if os.environ.get("DISABLE_RAG", "0") == "1":
+            print("🚫 RAG: disabled (DISABLE_RAG=1) — retriever will return no examples/rules.")
+            self.client = None
+            return
         try:
             self.client = weaviate.connect_to_local(host=host, port=port)
             self._check_connection()
@@ -37,11 +39,17 @@ class RAGRetriever:
             print("⚠️  RAG System: Weaviate is not live.")
             self.client = None
 
-    def retrieve_examples(self, query: str, limit: int = 2) -> List[Dict]:
+    def retrieve_examples(self, query: str, limit: int = 2, knowledge_slug: str = None) -> List[Dict]:
         """Retrieve verified ManimCE code examples from curated examples only.
 
         Returns empty list if best score < RELEVANCE_THRESHOLD to avoid
         injecting misleading off-topic examples into the Coder prompt.
+
+        [W1.2] If `knowledge_slug` is provided (e.g. "integer_add_sub"),
+        results are further constrained to that knowledge point. This
+        eliminates the ~12% cross-knowledge-point misretrieval seen in
+        the pre-fix baseline (where e.g. an integer-add query could
+        pull a scientific-notation example as top-1).
         """
         if not self.client:
             return []
@@ -51,11 +59,17 @@ class RAGRetriever:
             RELEVANCE_THRESHOLD = 0.65  # below this = off-topic, don't inject
             results = []
 
+            # Compose filter: always require source_library==examples;
+            # optionally also pin to a knowledge_slug if caller provided one.
+            _f = Filter.by_property("source_library").equal("examples")
+            if knowledge_slug:
+                _f = _f & Filter.by_property("knowledge_slug").equal(knowledge_slug)
+
             response = collection.query.hybrid(
                 query=query,
                 limit=limit,
                 alpha=0.5,
-                filters=Filter.by_property("source_library").equal("examples"),
+                filters=_f,
                 return_metadata=MetadataQuery(score=True)
             )
             for obj in response.objects:
