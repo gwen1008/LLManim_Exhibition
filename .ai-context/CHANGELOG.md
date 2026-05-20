@@ -489,3 +489,8 @@
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
 - `2026-05-21 00:37` | branch=`main` | dirty=1 files | head=`d94a106 feat(rag): retrieval audit tooling and layout/ingest improvements`
   - touched: evaluation/compare_variants.py 
+- `2026-05-21 00:38` | branch=`main` | dirty=0 files | head=`fd63fd6 feat(eval): compare_variants.py for A/B/C session diff reports`
+- `2026-05-21 00:38` | branch=`main` | dirty=1 files | head=`fd63fd6 feat(eval): compare_variants.py for A/B/C session diff reports`
+  - touched: rag/audit_retrieval_30.py 
+- `2026-05-21 00:40` | branch=`main` | dirty=5 files | head=`fd63fd6 feat(eval): compare_variants.py for A/B/C session diff reports`
+  - touched: rag/audit_retrieval_30.py rag/retrieval_audit_30_ManimGoldenPair_KB150_v2.csv rag/retrieval_audit_30_ManimGoldenPair_KB150_v2.md rag/retrieval_audit_30_ManimKB150v2_rules.csv rag/retrieval_audit_30_ManimKB150v2_rules.md 

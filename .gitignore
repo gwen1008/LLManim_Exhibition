@@ -119,9 +119,10 @@ evaluation/kb150_audit.csv
 evaluation/kb150_review_log.json
 evaluation/sample_collision_report.csv
 evaluation/golden_set/raw_results.json
-rag/retrieval_audit_50.csv
-rag/retrieval_audit_50.log
-rag/retrieval_audit_50_summary.json
+rag/retrieval_audit_*.csv
+rag/retrieval_audit_*.log
+rag/retrieval_audit_*.md
+rag/retrieval_audit_*_summary.json
 
 # Benchmark videos (large binaries, store externally — share via download link)
 evaluation/benchmark_set/**/*.mp4

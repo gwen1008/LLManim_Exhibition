@@ -11,19 +11,21 @@
 
 ## 現在要做什麼
 
-- [x] KB150 v2 完全發佈：29 題 docstring 注injection + Weaviate ingestion 完成
+- [x] KB150 v2 完全發佈（29 題 docstring 注injection + Weaviate ingestion）
 - [x] GT-match \frac 修復
-- [x] --variant A|B|C flag 實作完成
-- [x] A vs C compare_variants.py 工具完成（markdown 報告 + HTML gallery）
-- [ ] C 組評估執行中（awaiting 完成後跑比較分析）
-- [ ] Retrieval audit 工具：模擬 C 組 retrieval，分析每題撈到哪個 v2 範例與 score
+- [x] --variant A|B|C flag 與 compare_variants.py 工具完成
+- [x] BenchmarkJudge system + judge calibration framework 完成
+- [x] RAG retrieval audit 工具 + B vs C 對比分析（發現 v2 no-filter 檢索弱化 24pp）
+- [ ] C 組 30 題完整評估執行 + compare_variants 最終對比分析
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `evaluation/compare_variants.py` (新增) | A vs C 對比工具：cost 聚合、知識分類、per-case sorted by ΔW、cross-tab、HTML gallery | 用法：`python evaluation/compare_variants.py --a runs/20260520_154252_variantA --c runs/<C_timestamp>_variantC` |
-| `.ai-context/CHANGELOG.md` | 記錄 2026-05-21 RAG retrieval audit 工具化進度 | session 記錄 |
+| `rag/audit_retrieval_30.py` | 新建 retrieval audit 工具（slug 命中率 + no-filter 檢索覆蓋分析） | B/C 雙集合對比支援 |
+| `rag/retrieval_audit_30_ManimGoldenPair_KB150_v2.csv/.md` | B 組審計結果（filt 87% vs no-filter 67%） | v1 基線穩定 |
+| `rag/retrieval_audit_30_ManimKB150v2_rules.csv/.md` | C 組審計結果（filt 87% vs no-filter 43%）+ 根本原因分析 | v2 docstring 較弱→embedding 訊號衰減 |
+| `.ai-context/CHANGELOG.md` | 2026-05-21 audit 對比日誌：no-filter 弱化原因、後續建議 | 等 C 組完整跑完再決定優化策略 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
