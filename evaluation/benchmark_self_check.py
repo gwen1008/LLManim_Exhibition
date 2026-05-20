@@ -191,7 +191,15 @@ def main():
                       if p.is_dir() and p.name.startswith("Q"))
     if args.qids:
         keep = {q.strip() for q in args.qids.split(",")}
+        before = {p.name for p in qid_dirs}
         qid_dirs = [p for p in qid_dirs if p.name in keep]
+        missing = sorted(keep - before)
+        if missing:
+            print(f"⚠️  qids not in {root.name}/: {missing}  "
+                  f"(available example: {sorted(before)[:3]}...)")
+        if not qid_dirs:
+            print(f"❌ filter matched 0 qids — nothing to do.")
+            sys.exit(3)
 
     if args.bj_self:
         bj_rows = _bj_self_sanity(qid_dirs, passes=args.passes)

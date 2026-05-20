@@ -448,3 +448,31 @@
   - touched: agents/core/rag_retriever.py agents/utils/benchmark_judge.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_calibration.py 
 - `2026-05-20 13:19` | branch=`main` | dirty=38 files | head=`0e0baab feat(benchmark-judge): full B-track system + downstream wiring`
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 15:05` | branch=`main` | dirty=36 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 15:11` | branch=`main` | dirty=37 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 15:12` | branch=`main` | dirty=38 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 15:42` | branch=`main` | dirty=39 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 16:07` | branch=`main` | dirty=40 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 16:22` | branch=`main` | dirty=43 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 16:52` | branch=`main` | dirty=57 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 17:36` | branch=`main` | dirty=58 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 17:57` | branch=`main` | dirty=62 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 18:03` | branch=`main` | dirty=63 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 20:25` | branch=`main` | dirty=65 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_self_check.py evaluation/golden_set/judge_calibration.py 
+- `2026-05-20 20:44` | branch=`main` | dirty=66 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_self_check.py evaluation/golden_set/judge_calibration.py 
+- `2026-05-20 20:47` | branch=`main` | dirty=67 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_self_check.py evaluation/golden_set/judge_calibration.py 
+- `2026-05-20 21:16` | branch=`main` | dirty=68 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_self_check.py evaluation/golden_set/judge_calibration.py 

@@ -11,22 +11,22 @@
 
 ## 現在要做什麼
 
-- [x] Phase B1-B3 實現（FJ + layout_auditor + judge_calibration）
-- [ ] 新增 evaluation/benchmark_self_check.py（mp4 驗證工具）
-- [ ] 運行 30 部 self-sanity 驗證（passes=2，--no-cache）
-- [ ] Vision backend A/B test 決策（基於 self-sanity 結果）
-- [ ] W2.2 統一分數聚合（FJ absolute + Pairwise relative）
+- [x] Phase B1-B3 實現 + BJ self-sanity driver
+- [x] 完成 variant A 30 題評估
+- [x] KB150 v2 工具鏈全部完工 + 29/29 渲染成功
+- [ ] KB150 v2 人工評分（進行中，2 題 Planner 拆字串錯誤待修復：ScientificNotationBacterialLength、AbsoluteValueFractionSubtraction）
+- [ ] 決策：A_FADEOUT_GAP / D_OVERLAP_RISK 修復方案
+- [ ] Variant B 30 題評估 + W2.2 分數聚合
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `agents/utils/final_judge.py` | BJ 系統核心實現 (+382 行) | candidate vs benchmark 0-100 評分邏輯完成 |
-| `agents/utils/layout_auditor.py` | 佈局稽核強化 (+162 行) | spatial/layout 驗證增強，hallucination 防護 |
-| `evaluation/golden_set/judge_calibration.py` | 統計校準完全重構 (+563 行) | Opus vs GPT-4o 對標完成，W2.2 聚合準備 |
-| KB150 模板 (13 個) | 科學記號/分數/整數主題優化 | CompareScientific/Fraction/GCD/Integer 全量更新 |
-| `main.py` | BenchmarkJudge 系統路由接入 (+20 行) | B 軌完整路由就緒，phase B3 任務完成 |
-| RAG 管線 | rag/ingest_*.py 向量化優化 | Gemini vectorizer 集成完成 |
+| KB150 v2 29 題 templates | 排版、wait 時間重算、cleanup 嘗試 (+2992/-1378, 41 files) | 29/29 渲染成功，人評進行中發現 2 題 Planner 拆帶分數/科學記號時出錯 |
+| `evaluation/benchmark_self_check.py` | file-level self-check 驅動程序完整實現 | Phase 1 驗證通過，BJ self-sanity runner 就位 |
+| `run_evaluation.py` | self-check runner path + variant A/B 命令行支持 | A 已驗證無誤，B 備妥 |
+| `main.py` | BJ 路由與自檢機制最終整合 | 評估系統完整串聯，Variant B 可開始 |
+| `rag/ingest_code.py`, `ingest_rules.py` | RAG 管線與 BJ 系統對接 | Gemini vectorizer 管線完整，評估資源就位 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

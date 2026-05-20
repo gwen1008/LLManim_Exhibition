@@ -28,10 +28,24 @@ def _normalize_text(s: str) -> str:
     return s
 
 
+_LATEX_FRAC_RE = re.compile(r"\\[td]?frac\s*\{\s*(-?\d+)\s*\}\s*\{\s*(-?\d+)\s*\}")
+
+
+def _normalize_latex_fractions(s: str) -> str:
+    r"""Rewrite \frac{a}{b} (and \dfrac{a}{b}) → a/b so _extract_numbers picks them up.
+
+    Without this, GT '\\frac{3}{4}' is parsed as [3.0, 4.0] while extracted '3/4'
+    is parsed as [0.75], and they never match. Five variant-A questions
+    (Q026/Q122/Q123/Q124/Q137) failed for exactly this reason.
+    """
+    return _LATEX_FRAC_RE.sub(lambda m: f"{m.group(1)}/{m.group(2)}", str(s))
+
+
 def _extract_numbers(s: str) -> list[float]:
     """Pull all numeric tokens (incl. fractions like 1/2) from a string as floats."""
     if s is None:
         return []
+    s = _normalize_latex_fractions(s)
     nums = []
     # Fractions a/b first (so we don't double-count a and b)
     consumed = set()
