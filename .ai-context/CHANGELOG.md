@@ -476,3 +476,5 @@
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_self_check.py evaluation/golden_set/judge_calibration.py 
 - `2026-05-20 21:16` | branch=`main` | dirty=68 files | head=`bc23f61 feat(benchmark-judge): file-level self-check + BJ self-sanity driver`
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_self_check.py evaluation/golden_set/judge_calibration.py 
+- `2026-05-20 21:23` | branch=`main` | dirty=66 files | head=`de4cc85 fix(final-judge): normalize \frac{a}{b} → a/b before number extraction`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 

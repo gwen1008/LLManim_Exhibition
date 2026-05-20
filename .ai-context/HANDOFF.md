@@ -14,19 +14,18 @@
 - [x] Phase B1-B3 實現 + BJ self-sanity driver
 - [x] 完成 variant A 30 題評估
 - [x] KB150 v2 工具鏈全部完工 + 29/29 渲染成功
-- [ ] KB150 v2 人工評分（進行中，2 題 Planner 拆字串錯誤待修復：ScientificNotationBacterialLength、AbsoluteValueFractionSubtraction）
-- [ ] 決策：A_FADEOUT_GAP / D_OVERLAP_RISK 修復方案
-- [ ] Variant B 30 題評估 + W2.2 分數聚合
+- [x] GT-match \frac 修復
+- [ ] KB150 v2 人工評分 + 修復 Planner 拆字串錯誤（ScientificNotationBacterialLength、AbsoluteValueFractionSubtraction）
+- [ ] Variant B 30 題評估 + kb_quick_audit 驗證
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| KB150 v2 29 題 templates | 排版、wait 時間重算、cleanup 嘗試 (+2992/-1378, 41 files) | 29/29 渲染成功，人評進行中發現 2 題 Planner 拆帶分數/科學記號時出錯 |
-| `evaluation/benchmark_self_check.py` | file-level self-check 驅動程序完整實現 | Phase 1 驗證通過，BJ self-sanity runner 就位 |
-| `run_evaluation.py` | self-check runner path + variant A/B 命令行支持 | A 已驗證無誤，B 備妥 |
-| `main.py` | BJ 路由與自檢機制最終整合 | 評估系統完整串聯，Variant B 可開始 |
-| `rag/ingest_code.py`, `ingest_rules.py` | RAG 管線與 BJ 系統對接 | Gemini vectorizer 管線完整，評估資源就位 |
+| `agents/utils/final_judge.py` | \frac{a}{b} → a/b 正規化修復 (de4cc85) | GT-match 評分準確度提升 |
+| `evaluation/judge_calibration.py` + `run_evaluation.py` | BJ self-check file-level validator + --qids warn 機制 (bc23f61) | Phase 1 驗證通過，self-sanity driver 完工 |
+| `rag/ingest_code.py` + `ingest_rules.py` | RAG 管線完整對接 BJ 系統 | Gemini vectorizer 管線就位 |
+| `rag/kb_quick_audit.py` | 新工具：RAG / BJ 系統量化驗證 | 評估管線品質檢查用
 
 ## 踩過的坑（新 AI 最容易重犯）
 
