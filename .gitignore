@@ -111,3 +111,20 @@ rag/scrape_manim_docs.py
 rag/stress_test.py
 rag/test_k9_strict.py
 rag/upgrade_schema.py
+
+# Execution logs / audit outputs (2026-05-21)
+test_log.json
+kb150_v2_review_log.json
+evaluation/kb150_audit.csv
+evaluation/kb150_review_log.json
+evaluation/sample_collision_report.csv
+evaluation/golden_set/raw_results.json
+rag/retrieval_audit_50.csv
+rag/retrieval_audit_50.log
+rag/retrieval_audit_50_summary.json
+
+# Benchmark videos (large binaries, store externally — share via download link)
+evaluation/benchmark_set/**/*.mp4
+
+# Reference papers (13MB, store externally)
+參考文獻/

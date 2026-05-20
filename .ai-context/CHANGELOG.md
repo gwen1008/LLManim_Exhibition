@@ -482,3 +482,8 @@
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
 - `2026-05-20 21:49` | branch=`main` | dirty=56 files | head=`f082c31 docs(kb150_v2): inject teaching method docstrings into all 29 scenes`
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+
+## 2026-05-21
+
+- `2026-05-21 00:12` | branch=`main` | dirty=55 files | head=`fb1601f feat(eval): --variant A|B|C for RAG-150 controlled comparison`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 

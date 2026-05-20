@@ -4,7 +4,7 @@
 > 讀完這份文件即可接手，不需要問專案背景。
 > **由 git post-commit hook 自動更新**，永遠對應最新 commit。
 
-**更新時間**：2026-05-20
+**更新時間**：2026-05-21
 **Branch**：main
 
 ---
@@ -13,20 +13,20 @@
 
 - [x] KB150 v2 完全發佈：29 題 docstring 注入 + Weaviate ingestion 完成
 - [x] GT-match \frac 修復
+- [x] --variant A|B|C flag 實作完成
+- [ ] --variant C 評估執行中（awaiting ~60 min）
+- [ ] A vs C 對比分析
 - [ ] 切換 main.py RAG collection 預設到 ManimKB150v2
-- [ ] BenchmarkJudge runner path adapter 實作
-- [ ] benchmark_set 30 題精修狀態確認（目前全 draft，awaiting manual curation）
-- [ ] kb_quick_audit 驗證腳本完成
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `knowledge_base/kb150_v2/` (29 files) | 注入 teaching method docstring (+2936 lines) | f082c31：docstring 已進 Weaviate ManimKB150v2 collection |
-| `rag/ingest_code.py` + `ingest_rules.py` | docstring 擷取與 metadata 優化 (+39 lines) | 472b02a：v2 RAG ingestion pipeline 完整 |
-| `agents/utils/final_judge.py` | normalize \frac{a}{b} → a/b 前置處理 | de4cc85：修復字串匹配 bug，GT-match 穩定度提升 |
-| `run_evaluation.py` | self-check + BenchmarkJudge 整合 (+63 lines) | bc23f61/0e0baab：B-track 系統完整 |
-| `main.py` | 支援 RAG_COLLECTION 環境變數 (+20 lines) | 預設仍需手動切至 ManimKB150v2 |
+| `knowledge_base/kb150/` (29 files) | 題目內容與 docstring 優化 (+2889/-1356 lines) | 新 RAG ingestion 與 evaluation 系統整合 |
+| `main.py` | 新增 --variant A\|B\|C flag、RAG_COLLECTION 環境變數 (+20 lines) | fb1601f：RAG-150 controlled benchmark 基礎 |
+| `rag/ingest_code.py` + `ingest_rules.py` | v2 format 解析與 metadata 優化 (+39 lines) | 完整 KB150v2 RAG pipeline 支援 |
+| `agents/core/rag_retriever.py` (dirty) | variant 路由邏輯整合 | 支援 --variant A\|B\|C 自動切換 RAG collection |
+| `agents/utils/final_judge.py`, `layout_auditor.py` (dirty) | evaluation runner 適配 | BenchmarkJudge 與 A/B/C track 系統整合 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
