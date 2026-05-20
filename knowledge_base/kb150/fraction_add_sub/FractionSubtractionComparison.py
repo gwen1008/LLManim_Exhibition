@@ -4,7 +4,42 @@ class FractionSubtractionComparison(Scene):
     """
     Fraction addition subtraction 分數加減: Visualizes fraction subtraction and comparison, finding which fraction '乙' does not satisfy '甲 - 乙 > 0' when '甲 = -5/8'.
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # [VISUAL REASONING]
         # 1. Pedagogical Goal: Demonstrate how 'A - B > 0' implies 'A > B' and apply this to negative fractions.
         # 2. Layout Strategy: Problem statement and derivation on the left, options and checks on the right.
@@ -12,34 +47,34 @@ class FractionSubtractionComparison(Scene):
         # 4. Animation Flow: Introduce problem, derive inequality, then check each option step-by-step.
 
         # --- 1. Title and Problem Introduction ---
-        title = Text("分數減法與大小比較", font_size=40).to_edge(UP)
+        title = Text("Fraction Subtraction & Comparison", font_size=40).to_edge(UP)
         self.play(Write(title))
         self.wait(0.5)
 
-        known_alpha = MathTex(r"\text{甲} = -\frac{5}{8}", font_size=48)
-        condition = MathTex(r"\text{甲} - \text{乙} > 0", font_size=48)
+        known_alpha = MathTex(r"x = -\frac{5}{8}", font_size=48)
+        condition = MathTex(r"x - y > 0", font_size=48)
 
         problem_group = VGroup(known_alpha, condition).arrange(DOWN, buff=0.8).to_edge(LEFT).shift(UP*0.5)
-        
+
         self.play(Write(known_alpha))
         self.wait(1)
         self.play(Write(condition))
         self.wait(1)
 
         # --- 2. Derivation of the Inequality ---
-        derivation_text = Text("根據條件，如果 甲 - 乙 > 0，則", font_size=30).next_to(problem_group, DOWN, buff=0.8).align_to(problem_group, LEFT)
+        derivation_text = Text("From x - y > 0, we get:", font_size=28).next_to(problem_group, DOWN, buff=0.8).align_to(problem_group, LEFT)
         self.play(Write(derivation_text))
         self.wait(0.5)
 
-        derivation_eq = MathTex(r"\text{甲} > \text{乙}", font_size=48).next_to(derivation_text, DOWN, buff=0.3).align_to(derivation_text, LEFT)
+        derivation_eq = MathTex(r"x > y", font_size=48).next_to(derivation_text, DOWN, buff=0.3).align_to(derivation_text, LEFT)
         self.play(Write(derivation_eq))
         self.wait(1)
 
-        substitution_text = Text("將 甲 的值代入，我們得到：", font_size=30).next_to(derivation_eq, DOWN, buff=0.8).align_to(derivation_eq, LEFT)
+        substitution_text = Text("Substituting x:", font_size=28).next_to(derivation_eq, DOWN, buff=0.8).align_to(derivation_eq, LEFT)
         self.play(Write(substitution_text))
         self.wait(0.5)
 
-        final_condition = MathTex(r"\text{乙} < -\frac{5}{8}", font_size=48, color=YELLOW).next_to(substitution_text, DOWN, buff=0.3).align_to(substitution_text, LEFT)
+        final_condition = MathTex(r"y < -\frac{5}{8}", font_size=48, color="#FFBE0B").next_to(substitution_text, DOWN, buff=0.3).align_to(substitution_text, LEFT)
         self.play(Write(final_condition))
         self.wait(1.5)
 
@@ -50,7 +85,7 @@ class FractionSubtractionComparison(Scene):
         self.wait(0.5)
 
         # --- 3. Check Each Option ---
-        options_label = Text("檢查各選項：", font_size=36).to_edge(UP).shift(RIGHT*3)
+        options_label = Text("Check options:", font_size=32).to_edge(UP).shift(RIGHT*3)
         self.play(FadeIn(options_label, shift=UP))
         self.wait(0.5)
 
@@ -78,7 +113,7 @@ class FractionSubtractionComparison(Scene):
             self.play(Write(comparison_eq))
             self.wait(0.5)
 
-            result_text = Text("符合", color=GREEN, font_size=30) if is_correct else Text("不符合", color=RED, font_size=30)
+            result_text = Text("符合", color="#06D6A0", font_size=30) if is_correct else Text("不符合", color="#FF006E", font_size=30)
             result_text.next_to(comparison_eq, RIGHT, buff=0.5)
             self.play(Write(result_text))
             self.wait(1.5)
@@ -103,7 +138,7 @@ class FractionSubtractionComparison(Scene):
             option_C_val.animate.set_color(RED).scale(1.2),
             final_condition.animate.set_opacity(0.3)
         )
-        final_answer_box = SurroundingRectangle(option_C_val, color=RED, buff=0.2)
+        final_answer_box = self.get_glow_rect(option_C_val, color="#FF006E", buff=0.2)
         self.play(Create(final_answer_box))
         self.wait(2)
 
@@ -115,8 +150,8 @@ class FractionSubtractionComparison(Scene):
         self.wait(0.5)
 
         final_conclusion = VGroup(
-            Text("因此，乙數不可能是選項(C)的數值。", font_size=40),
-            MathTex(r"(C) -\frac{1}{2}", font_size=48, color=RED)
+            Text("Therefore y cannot be option (C).", font_size=32),
+            MathTex(r"(C) -\frac{1}{2}", font_size=48, color="#FF006E")
         ).arrange(DOWN, buff=0.5).move_to(ORIGIN)
         self.play(Write(final_conclusion))
         self.wait(3)

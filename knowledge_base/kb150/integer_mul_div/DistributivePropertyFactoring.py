@@ -4,14 +4,48 @@ class DistributivePropertyFactoring(Scene):
     """
     Integer multiplication division 整數乘除: Visualizes factoring out a common integer (-13) using the distributive property for (-13)*24 - (-13)*(-76).
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # 1. Initial Expression
         title = Text("Distributive Property: Factoring Common Factor", font_size=36).to_edge(UP)
         self.play(Write(title))
 
-        initial_expression_str = "(-13) \\times 24 - (-13) \\times (-76)"
-        initial_expression = MathTex(initial_expression_str, font_size=48)
-        initial_expression.to_center().shift(UP * 1.5)
+        initial_expression = MathTex("(-13)", r" \times ", "24", " - ", "(-13)", r" \times ", "(-76)", font_size=48)
+        initial_expression.center().shift(UP * 1.5)
         self.play(Write(initial_expression))
         self.wait(1)
 
@@ -20,10 +54,9 @@ class DistributivePropertyFactoring(Scene):
         self.play(Write(common_factor_text))
 
         # Highlight (-13) in both terms
-        # MathTex structure: ( -13 ) \times 24 - ( -13 ) \times ( -76 )
-        # Indices:           0  1   2  3      4   5  6  7   8  9      10 11 12
-        common_factor_1 = initial_expression[1]
-        common_factor_2 = initial_expression[7]
+        # Indices: 0:"(-13)", 1:" \times ", 2:"24", 3:" - ", 4:"(-13)", 5:" \times ", 6:"(-76)"
+        common_factor_1 = initial_expression[0]
+        common_factor_2 = initial_expression[4]
 
         self.play(
             common_factor_1.animate.set_color(YELLOW),
@@ -33,7 +66,7 @@ class DistributivePropertyFactoring(Scene):
         )
         self.wait(1)
 
-        common_factor_value = MathTex("-13", color=YELLOW, font_size=36).next_to(common_factor_text, RIGHT)
+        common_factor_value = MathTex("-13", color="#FFBE0B", font_size=36).next_to(common_factor_text, RIGHT)
         self.play(Write(common_factor_value))
         self.wait(1)
 
@@ -45,8 +78,7 @@ class DistributivePropertyFactoring(Scene):
             FadeIn(distributive_law_text, shift=UP)
         )
 
-        factored_expression_str = "(-13) \\times [ 24 - (-76) ]"
-        factored_expression = MathTex(factored_expression_str, font_size=48)
+        factored_expression = MathTex("(-13)", r" \times ", "[", "24", " - ", "(-76)", "]", font_size=48)
         factored_expression.align_to(initial_expression, LEFT)
         factored_expression.next_to(distributive_law_text, DOWN, buff=0.8)
 
@@ -61,9 +93,8 @@ class DistributivePropertyFactoring(Scene):
         simplify_brackets_text = Text("Simplify inside brackets:", font_size=30).next_to(factored_expression, DOWN, buff=0.8).align_to(factored_expression, LEFT)
         self.play(Write(simplify_brackets_text))
 
-        # Highlight the bracketed part
-        bracket_content = factored_expression[5:10] # [ 24 - (-76) ]
-        self.play(Indicate(bracket_content, color=BLUE))
+        bracket_content = VGroup(factored_expression[3], factored_expression[4], factored_expression[5]) # 24 - (-76)
+        self.play(Indicate(bracket_content, color="#3A86FF"))
         self.wait(0.5)
 
         step1_bracket = MathTex("24 - (-76)", font_size=40).next_to(simplify_brackets_text, RIGHT, buff=0.5)
@@ -79,8 +110,7 @@ class DistributivePropertyFactoring(Scene):
         self.wait(1)
 
         # Substitute 100 back into the expression
-        new_factored_expression_str = "(-13) \\times 100"
-        new_factored_expression = MathTex(new_factored_expression_str, font_size=48)
+        new_factored_expression = MathTex("(-13)", r" \times ", "100", font_size=48)
         new_factored_expression.align_to(factored_expression, LEFT)
         new_factored_expression.next_to(simplify_brackets_text, DOWN, buff=0.8)
 
@@ -95,20 +125,15 @@ class DistributivePropertyFactoring(Scene):
         final_calculation_text = Text("Final calculation:", font_size=30).next_to(new_factored_expression, DOWN, buff=0.8).align_to(new_factored_expression, LEFT)
         self.play(Write(final_calculation_text))
 
-        final_answer = MathTex("= -1300", font_size=48, color=GREEN).next_to(new_factored_expression, RIGHT, buff=0.5)
+        final_answer = MathTex("= -1300", font_size=48, color="#06D6A0").next_to(new_factored_expression, RIGHT, buff=0.5)
         self.play(Write(final_answer))
         self.wait(1.5)
 
         # Highlight the final answer
         final_answer_group = VGroup(new_factored_expression, final_answer)
-        box = SurroundingRectangle(final_answer_group, color=GREEN, buff=0.2)
+        box = self.get_glow_rect(final_answer_group, color="#06D6A0", buff=0.2)
         self.play(Create(box))
         self.wait(2)
 
-        self.play(
-            FadeOut(title),
-            FadeOut(final_calculation_text),
-            FadeOut(final_answer_group),
-            FadeOut(box)
-        )
-        self.wait(0.5)
+        self.play(FadeOut(*self.mobjects))
+        self.wait(1)

@@ -6,7 +6,42 @@ class FractionArithmeticWithBrackets(Scene):
     involving brackets, multiplication, division, and subtraction with negative numbers:
     1/2 * [2/3 - (-1/4) * 2] / 7/6, demonstrating order of operations.
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # Original problem statement
         problem_text = MathTex(
             r"\frac{1}{2} \times \left[ \frac{2}{3} - \left(-\frac{1}{4}\right) \times 2 \right] \div \frac{7}{6}"
@@ -26,7 +61,7 @@ class FractionArithmeticWithBrackets(Scene):
         # Highlight (-1/4) * 2 in the current expression
         # Indices for (-\frac{1}{4}) \times 2 are 5 to 10
         highlight_part1 = VGroup(*current_expression[5:11])
-        rect1 = SurroundingRectangle(highlight_part1, color=YELLOW)
+        rect1 = self.get_glow_rect(highlight_part1, color="#FFBE0B")
         self.play(Create(rect1))
         self.wait(1)
 
@@ -55,7 +90,7 @@ class FractionArithmeticWithBrackets(Scene):
         # Highlight 2/3 - (-1/2) in the current expression
         # Indices for \frac{2}{3} - \left(-\frac{1}{2}\right) are 3 to 8
         highlight_part2 = VGroup(*current_expression[3:9])
-        rect2 = SurroundingRectangle(highlight_part2, color=YELLOW)
+        rect2 = self.get_glow_rect(highlight_part2, color="#FFBE0B")
         self.play(Create(rect2))
         self.wait(1)
 
@@ -84,7 +119,7 @@ class FractionArithmeticWithBrackets(Scene):
         # Highlight 2/3 + 1/2 in the current expression
         # Indices for \frac{2}{3} + \frac{1}{2} are 3 to 5
         highlight_part3 = VGroup(*current_expression[3:6])
-        rect3 = SurroundingRectangle(highlight_part3, color=YELLOW)
+        rect3 = self.get_glow_rect(highlight_part3, color="#FFBE0B")
         self.play(Create(rect3))
         self.wait(1)
 
@@ -116,7 +151,7 @@ class FractionArithmeticWithBrackets(Scene):
         self.wait(0.5)
 
         # Highlight the entire expression
-        rect4 = SurroundingRectangle(current_expression, color=YELLOW)
+        rect4 = self.get_glow_rect(current_expression, color="#FFBE0B")
         self.play(Create(rect4))
         self.wait(1)
 
@@ -136,7 +171,7 @@ class FractionArithmeticWithBrackets(Scene):
 
         # Final answer
         final_answer_label = Text("Final Answer:", font_size=35).next_to(explanation4_final, DOWN, buff=0.7).to_edge(LEFT)
-        final_answer_value = MathTex(r"\frac{1}{2}", color=GREEN).next_to(final_answer_label, RIGHT, buff=0.3)
+        final_answer_value = MathTex(r"\frac{1}{2}", color="#06D6A0").next_to(final_answer_label, RIGHT, buff=0.3)
         
         self.play(
             FadeOut(rect4),

@@ -5,6 +5,24 @@ class FractionExpressionSimplification(Scene):
     Fraction addition subtraction 分數加減: Visualizes simplifying a complex fraction expression by removing parentheses and grouping like terms.
     """
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # Title
         title = Text("Simplifying Fraction Expressions", font_size=40).to_edge(UP)
         self.play(Write(title))
@@ -18,7 +36,7 @@ class FractionExpressionSimplification(Scene):
         self.wait(1)
 
         # Step 2: Remove Parentheses
-        step1_label = Text("Step 1: Remove Parentheses", font_size=28, color=YELLOW).to_edge(LEFT).shift(UP*2)
+        step1_label = Text("Step 1: Remove Parentheses", font_size=28, color="#FFBE0B").to_edge(LEFT).shift(UP*2)
         self.play(Write(step1_label))
         self.wait(0.5)
 
@@ -28,34 +46,13 @@ class FractionExpressionSimplification(Scene):
             r"-4 \frac{2}{7} + 3 \frac{5}{9} + 2 \frac{4}{9} - 1 \frac{5}{7}"
         ).scale(0.9).next_to(initial_expr_text, DOWN, buff=0.8).align_to(initial_expr_text, LEFT)
 
-        # Highlight terms that change sign
-        minus_sign_1 = initial_expr_text[0][0] # -
-        paren_1_open = initial_expr_text[0][1] # (
-        term_4_2_7 = initial_expr_text[0][2:6] # 4 2/7
-        minus_sign_2 = initial_expr_text[0][6] # -
-        term_3_5_9 = initial_expr_text[0][7:11] # 3 5/9
-        paren_1_close = initial_expr_text[0][11] # )
-
-        plus_sign_3 = initial_expr_text[0][12] # +
-        paren_2_open = initial_expr_text[0][13] # (
-        term_2_4_9 = initial_expr_text[0][14:18] # 2 4/9
-        minus_sign_4 = initial_expr_text[0][18] # -
-        term_1_5_7 = initial_expr_text[0][19:23] # 1 5/7
-        paren_2_close = initial_expr_text[0][23] # )
-
         self.play(
-            FadeOut(minus_sign_1, paren_1_open, paren_1_close),
-            FadeOut(plus_sign_3, paren_2_open, paren_2_close),
-            term_4_2_7.animate.shift(RIGHT * 0.5), # Adjust position slightly
-            term_3_5_9.animate.shift(RIGHT * 0.5), # Adjust position slightly
-            term_2_4_9.animate.shift(RIGHT * 0.5), # Adjust position slightly
-            term_1_5_7.animate.shift(RIGHT * 0.5), # Adjust position slightly
             ReplacementTransform(initial_expr_text, expr_after_parentheses)
         )
         self.wait(1.5)
 
         # Step 3: Group Like Terms
-        step2_label = Text("Step 2: Group Like Terms", font_size=28, color=YELLOW).next_to(step1_label, DOWN, buff=0.5).align_to(step1_label, LEFT)
+        step2_label = Text("Step 2: Group Like Terms", font_size=28, color="#FFBE0B").next_to(step1_label, DOWN, buff=0.5).align_to(step1_label, LEFT)
         self.play(Write(step2_label))
         self.wait(0.5)
 
@@ -84,7 +81,7 @@ class FractionExpressionSimplification(Scene):
         self.wait(1.5)
 
         # Step 4: Calculate Denominator 7 Terms
-        step3_label = Text("Step 3: Calculate 7-denominator terms", font_size=28, color=YELLOW).next_to(step2_label, DOWN, buff=0.5).align_to(step2_label, LEFT)
+        step3_label = Text("Step 3: Calculate 7-denominator terms", font_size=28, color="#FFBE0B").next_to(step2_label, DOWN, buff=0.5).align_to(step2_label, LEFT)
         self.play(Write(step3_label))
         self.wait(0.5)
 
@@ -105,7 +102,7 @@ class FractionExpressionSimplification(Scene):
         self.wait(1)
 
         # Step 5: Calculate Denominator 9 Terms
-        step4_label = Text("Step 4: Calculate 9-denominator terms", font_size=28, color=YELLOW).next_to(step3_label, DOWN, buff=0.5).align_to(step3_label, LEFT)
+        step4_label = Text("Step 4: Calculate 9-denominator terms", font_size=28, color="#FFBE0B").next_to(step3_label, DOWN, buff=0.5).align_to(step3_label, LEFT)
         self.play(Write(step4_label), FadeOut(step2_label))
         self.wait(0.5)
 
@@ -126,7 +123,7 @@ class FractionExpressionSimplification(Scene):
         self.wait(1)
 
         # Step 6: Final Addition
-        step5_label = Text("Step 5: Final Addition", font_size=28, color=YELLOW).next_to(step4_label, DOWN, buff=0.5).align_to(step4_label, LEFT)
+        step5_label = Text("Step 5: Final Addition", font_size=28, color="#FFBE0B").next_to(step4_label, DOWN, buff=0.5).align_to(step4_label, LEFT)
         self.play(Write(step5_label), FadeOut(step3_label))
         self.wait(0.5)
 
@@ -148,4 +145,6 @@ class FractionExpressionSimplification(Scene):
             FadeOut(calc_9_part_1, calc_9_part_2, calc_9_part_3, result_9, final_sum_expr),
             final_answer.animate.move_to(ORIGIN).set_color(GREEN)
         )
+        self.wait(1)
+        self.play(FadeOut(*self.mobjects))
         self.wait(1)

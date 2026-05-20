@@ -4,7 +4,42 @@ class MixedArithmeticOrderOfOperations(Scene):
     """
     Complete mixed arithmetic 完整的四則混合運算: Visualizes the step-by-step solution of a mixed arithmetic expression with powers and fractions: (-1/2)^3 / (1/4 - 1/3) * (-2)^2.
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # Title and initial problem statement
         title = Text("Mixed Arithmetic Operations", font_size=48).to_edge(UP)
         self.play(Write(title))
@@ -25,7 +60,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(0.5)
 
         # Highlight (-1/2)^3 using its MathTex parts
-        highlight_1 = SurroundingRectangle(current_expression[0][0:4], color=YELLOW, buff=0.1)
+        highlight_1 = self.get_glow_rect(current_expression[0][0:4], color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_1))
         self.wait(0.5)
 
@@ -54,7 +89,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(0.5)
 
         # Highlight (-2)^2
-        highlight_2 = SurroundingRectangle(current_expression[0][8:12], color=YELLOW, buff=0.1)
+        highlight_2 = self.get_glow_rect(current_expression[0][8:12], color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_2))
         self.wait(0.5)
 
@@ -82,7 +117,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(0.5)
 
         # Highlight (1/4 - 1/3)
-        highlight_3 = SurroundingRectangle(current_expression[0][2:7], color=YELLOW, buff=0.1)
+        highlight_3 = self.get_glow_rect(current_expression[0][2:7], color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_3))
         self.wait(0.5)
 
@@ -113,7 +148,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(0.5)
 
         # Highlight -1/8 / (-1/12)
-        highlight_4 = SurroundingRectangle(current_expression[0][0:5], color=YELLOW, buff=0.1)
+        highlight_4 = self.get_glow_rect(current_expression[0][0:5], color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_4))
         self.wait(0.5)
 
@@ -144,7 +179,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(0.5)
 
         # Highlight the entire remaining expression
-        highlight_5 = SurroundingRectangle(current_expression, color=YELLOW, buff=0.1)
+        highlight_5 = self.get_glow_rect(current_expression, color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_5))
         self.wait(0.5)
 
@@ -155,7 +190,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.play(Write(calc_5))
         self.wait(1)
 
-        final_answer = MathTex(r"6", font_size=72, color=GREEN).move_to(current_expression)
+        final_answer = MathTex(r"6", font_size=72, color="#06D6A0").move_to(current_expression)
         self.play(
             Transform(current_expression, final_answer),
             FadeOut(highlight_5),

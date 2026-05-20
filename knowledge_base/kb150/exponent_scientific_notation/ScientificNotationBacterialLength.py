@@ -2,140 +2,163 @@ from manim import *
 
 class ScientificNotationBacterialLength(Scene):
     """
-    Exponent scientific notation 指數與科學記號: Visualizes calculating total length of 5 million bacteria (3.2 micrometers each) in meters,
-    converting units and expressing the final answer in scientific notation.
+    Exponent scientific notation 指數與科學記號: Visualizes the "unit-conversion-then-scientific-notation-multiplication" workflow.
+
+    動畫手法範本：單位換算 + 科學記號相乘
+    ----------
+    適用場景：
+    - 應用題涉及微觀單位（微米、奈米）換算為公尺、克等基本單位
+    - 數量級懸殊的數字相乘（如極小數 × 極大數）
+    - 結果須以「標準科學記號」表示（1 ≤ |a| < 10）
+
+    視覺要點（六步驟）：
+    1. 單一物體尺度 → 用 10^n 換算為基本單位
+    2. 數量（百萬/億）→ 轉成 10^m
+    3. 列出總量算式（兩科記相乘）
+    4. 分離「數字部分」與「指數部分」分別運算
+    5. 合併兩部分結果
+    6. 調整為標準科學記號（檢查係數範圍）
+
+    注意：本範本用「8 奈米 × 4 千萬」作為示意例（避開 Q101 的 3.2 微米 × 5 百萬），
+    使用者套用時須**自行替換**真實題目的尺度與數量，並重新計算指數加總。
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
-        # Problem Statement
-        problem_text = Text("問題：5百萬個細菌首尾相連，總長度是多少公尺？", font_size=36)
-        problem_text.to_edge(UP)
-        self.play(Write(problem_text))
-        self.wait(1)
 
-        # Step 1: Convert single bacterium length to meters
-        step1_title = Text("步驟 1: 單一細菌長度換算為公尺", font_size=30).next_to(problem_text, DOWN, buff=0.5).to_edge(LEFT)
-        self.play(Write(step1_title))
+        # 🌌 Set sleek deep-dark slate background
 
-        bacterium_length_um = MathTex(r"\text{單一細菌長度} = 3.2 \text{ 微米}")
-        conversion_factor = MathTex(r"1 \text{ 微米} = 10^{-6} \text{ 公尺}")
-        
-        step1_grp = VGroup(bacterium_length_um, conversion_factor).arrange(DOWN, buff=0.5).next_to(step1_title, DOWN, buff=0.5).align_to(step1_title, LEFT)
-        self.play(Write(step1_grp))
-        self.wait(1)
+        self.camera.background_color = "#0B0F19"
 
-        bacterium_length_m = MathTex(r"3.2 \text{ 微米} = 3.2 \times 10^{-6} \text{ 公尺}", color=YELLOW)
-        bacterium_length_m.next_to(conversion_factor, DOWN, buff=0.5).align_to(step1_title, LEFT)
-        self.play(TransformMatchingTex(bacterium_length_um, bacterium_length_m))
-        self.play(FadeOut(conversion_factor))
-        self.wait(1)
 
-        # Step 2: Convert number of bacteria to scientific notation
-        step2_title = Text("步驟 2: 細菌總數轉換為科學記號", font_size=30).next_to(bacterium_length_m, DOWN, buff=1).to_edge(LEFT)
-        self.play(Write(step2_title))
+        # 📐 Add modern thin background coordinate grid
 
-        num_bacteria_text = MathTex(r"\text{細菌總數} = 5 \text{ 百萬個}")
-        num_bacteria_sci = MathTex(r"5 \text{ 百萬個} = 5 \times 10^6 \text{ 個}", color=YELLOW)
-        
-        step2_grp = VGroup(num_bacteria_text, num_bacteria_sci).arrange(DOWN, buff=0.5).next_to(step2_title, DOWN, buff=0.5).align_to(step2_title, LEFT)
-        self.play(Write(num_bacteria_text))
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
+        # 標題：描述手法
+        title = Text("Technique: Unit Conversion + Scientific Notation Multiplication", font_size=28).to_edge(UP)
+        self.play(Write(title))
         self.wait(0.5)
-        self.play(TransformMatchingTex(num_bacteria_text, num_bacteria_sci))
-        self.wait(1)
 
-        # Move relevant parts to center for calculation
+        # Step 1: 單一物體尺度換算（用 8 奈米作為示意，避開 Q101 的 3.2 微米）
+        step1 = Text("Step 1: Convert per-item size to base unit", font_size=24).next_to(title, DOWN, buff=0.4).to_edge(LEFT)
+        self.play(Write(step1))
+
+        size_orig = MathTex(r"\text{size} = 8 \text{ nm}")
+        size_factor = MathTex(r"1 \text{ nm} = 10^{-9} \text{ m}")
+        size_grp = VGroup(size_orig, size_factor).arrange(DOWN, buff=0.4).next_to(step1, DOWN, buff=0.3).align_to(step1, LEFT)
+        self.play(Write(size_grp))
+        self.wait(0.5)
+
+        size_m = MathTex(r"8 \text{ nm} = 8 \times 10^{-9} \text{ m}", color="#FFBE0B")
+        size_m.next_to(size_factor, DOWN, buff=0.4).align_to(step1, LEFT)
+        self.play(TransformMatchingTex(size_orig, size_m), FadeOut(size_factor))
+        self.wait(0.5)
+
+        # Step 2: 數量轉科學記號
+        step2 = Text("Step 2: Convert quantity to scientific form", font_size=24).next_to(size_m, DOWN, buff=0.6).to_edge(LEFT)
+        self.play(Write(step2))
+
+        qty_orig = MathTex(r"\text{count} = 4 \times 10^7")
+        qty_orig.next_to(step2, DOWN, buff=0.3).align_to(step2, LEFT)
+        self.play(Write(qty_orig))
+        self.wait(0.5)
+
+        # 移到上方準備計算
         self.play(
-            FadeOut(step1_title),
-            FadeOut(step2_title),
-            bacterium_length_m.animate.shift(UP * 2.5).to_edge(LEFT).set_color(WHITE),
-            num_bacteria_sci.animate.shift(UP * 2.5).next_to(bacterium_length_m, RIGHT, buff=1).set_color(WHITE),
-            problem_text.animate.set_opacity(0.3)
+            FadeOut(step1), FadeOut(step2),
+            size_m.animate.shift(UP * 2.5).to_edge(LEFT).set_color(WHITE),
+            qty_orig.animate.shift(UP * 2.5).next_to(size_m, RIGHT, buff=1).set_color(WHITE),
         )
-        
-        # Step 3: Set up the total length calculation
-        calc_title = Text("計算總長度", font_size=36).to_edge(UP)
-        self.play(Transform(problem_text, calc_title))
 
-        total_length_eq = MathTex(
-            r"\text{總長度} =",
-            r"(3.2 \times 10^{-6})",
+        # Step 3: 總量算式
+        step3 = Text("Step 3: Set up the product", font_size=24).next_to(size_m, DOWN, buff=0.8).to_edge(LEFT)
+        self.play(Write(step3))
+        total_eq = MathTex(
+            r"\text{total} =",
+            r"(8 \times 10^{-9})",
             r"\times",
-            r"(5 \times 10^6)",
-            font_size=48
+            r"(4 \times 10^7)",
+            font_size=42,
         ).move_to(ORIGIN)
-        self.play(Write(total_length_eq[0]))
-        self.play(FadeIn(total_length_eq[1]), FadeIn(total_length_eq[3]), FadeIn(total_length_eq[2]))
+        self.play(Write(total_eq))
         self.wait(1)
 
-        # Step 4: Rearrange and multiply
-        rearranged_eq = MathTex(
-            r"\text{總長度} =",
-            r"(3.2 \times 5)",
-            r"\times",
-            r"(10^{-6} \times 10^6)",
-            font_size=48
-        ).move_to(ORIGIN)
-        self.play(TransformMatchingTex(total_length_eq, rearranged_eq))
-        self.wait(1.5)
+        # Step 4: 分離數字與指數部分
+        step4 = Text("Step 4: Group coefficients and exponents separately", font_size=24).next_to(total_eq, UP, buff=0.4)
+        self.play(Transform(step3, step4))
 
-        # Calculate numerical part
-        num_product = MathTex(r"3.2 \times 5 = 16", color=BLUE).next_to(rearranged_eq, DOWN, buff=0.8).to_edge(LEFT)
-        self.play(Write(num_product))
+        rearranged = MathTex(
+            r"\text{total} =",
+            r"(8 \times 4)",
+            r"\times",
+            r"(10^{-9} \times 10^7)",
+            font_size=42,
+        ).move_to(ORIGIN)
+        self.play(TransformMatchingTex(total_eq, rearranged))
         self.wait(1)
 
-        # Calculate powers of 10 part
-        exp_product = MathTex(r"10^{-6} \times 10^6 = 10^{-6+6} = 10^0", color=GREEN).next_to(num_product, RIGHT, buff=1)
-        self.play(Write(exp_product))
-        self.wait(1.5)
-
-        # Step 5: Simplify 10^0
-        exp_simplify = MathTex(r"10^0 = 1", color=GREEN).next_to(exp_product, DOWN, buff=0.5).align_to(exp_product, LEFT)
-        self.play(Write(exp_simplify))
+        num_prod = MathTex(r"8 \times 4 = 32", color="#3A86FF").next_to(rearranged, DOWN, buff=0.5).to_edge(LEFT)
+        exp_prod = MathTex(r"10^{-9} \times 10^7 = 10^{-2}", color="#06D6A0").next_to(num_prod, RIGHT, buff=1)
+        self.play(Write(num_prod), Write(exp_prod))
         self.wait(1)
 
-        # Step 6: Combine results
-        combined_result = MathTex(
-            r"\text{總長度} =",
-            r"16",
-            r"\times",
-            r"1",
-            font_size=48
-        ).move_to(ORIGIN)
+        # Step 5: 合併
+        step5 = Text("Step 5: Combine", font_size=24).next_to(rearranged, UP, buff=0.4)
+        self.play(Transform(step3, step5))
+
+        combined = MathTex(r"\text{total} = 32 \times 10^{-2}", font_size=42, color="#FFBE0B").move_to(ORIGIN)
         self.play(
-            TransformMatchingTex(rearranged_eq[0], combined_result[0]),
-            TransformMatchingTex(rearranged_eq[1], combined_result[1]),
-            TransformMatchingTex(rearranged_eq[3], combined_result[3]),
-            TransformMatchingTex(rearranged_eq[2], combined_result[2]),
-            FadeOut(num_product),
-            FadeOut(exp_product),
-            FadeOut(exp_simplify)
+            TransformMatchingTex(rearranged, combined),
+            FadeOut(num_prod), FadeOut(exp_prod),
         )
         self.wait(1)
 
-        final_intermediate = MathTex(r"\text{總長度} = 16 \text{ 公尺}", font_size=48, color=YELLOW).move_to(ORIGIN)
-        self.play(TransformMatchingTex(combined_result, final_intermediate))
+        # Step 6: 標準科學記號（係數須在 [1, 10) 內）
+        step6 = Text("Step 6: Normalize to standard scientific notation (1 ≤ |a| < 10)",
+                     font_size=22).next_to(combined, UP, buff=0.4)
+        self.play(Transform(step3, step6))
+
+        normalize = MathTex(r"32 \times 10^{-2} = 3.2 \times 10^1 \times 10^{-2} = 3.2 \times 10^{-1}",
+                            font_size=38, color="#06D6A0").next_to(combined, DOWN, buff=0.6)
+        self.play(Write(normalize))
         self.wait(1.5)
 
-        # Step 7: Convert to standard scientific notation
-        sci_notation_rule = Text("科學記號要求數字部分介於 1 (含) 到 10 (不含) 之間", font_size=28, color=BLUE)
-        sci_notation_rule.next_to(final_intermediate, DOWN, buff=1)
-        self.play(Write(sci_notation_rule))
+        # 最終答案
+        final = MathTex(r"\text{Result: } 3.2 \times 10^{-1} \text{ m}", font_size=44).move_to(ORIGIN)
+        self.play(
+            FadeOut(VGroup(size_m, qty_orig, combined, normalize, step3)),
+            Write(final),
+        )
+        box = self.get_glow_rect(final, color="#06D6A0", buff=0.3)
+        self.play(Create(box))
         self.wait(2)
 
-        final_answer_sci = MathTex(r"16 = 1.6 \times 10^1", font_size=48, color=GREEN).next_to(final_intermediate, DOWN, buff=0.5)
-        self.play(Write(final_answer_sci))
-        self.wait(1.5)
-
-        final_result_text = MathTex(r"\text{最終答案: } 1.6 \times 10^1 \text{ 公尺}", font_size=54, color=WHITE)
-        final_result_text.move_to(ORIGIN)
-        
-        self.play(
-            FadeOut(final_intermediate),
-            FadeOut(sci_notation_rule),
-            FadeOut(final_answer_sci),
-            FadeOut(bacterium_length_m),
-            FadeOut(num_bacteria_sci),
-            Transform(problem_text, final_result_text)
-        )
-        final_box = SurroundingRectangle(problem_text, color=GREEN, buff=0.3)
-        self.play(Create(final_box))
-        self.wait(3)
+        hint = Text("To apply: replace the numbers above; the six-step skeleton stays identical.",
+                    font_size=20, color=GRAY).to_edge(DOWN, buff=0.4)
+        self.play(Write(hint))
+        self.wait(2)
+        self.play(FadeOut(VGroup(title, final, box, hint)))

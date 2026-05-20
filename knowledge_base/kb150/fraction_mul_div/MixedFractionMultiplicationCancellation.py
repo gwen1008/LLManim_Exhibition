@@ -4,7 +4,51 @@ class MixedFractionMultiplicationCancellation(Scene):
     """
     Fraction multiplication division 分數乘除: Visualizes the step-by-step calculation of (-5 1/7) * 1 1/11 * (-1 2/9) * 7/36 using mixed-to-improper fraction conversion, commutative property, and cancellation.
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
+        def create_fraction(num_tex, den_tex, font_size=48):
+            num = MathTex(num_tex, font_size=font_size)
+            den = MathTex(den_tex, font_size=font_size)
+            width = max(num.width, den.width) + 0.2
+            bar = Line(LEFT * width / 2, RIGHT * width / 2, stroke_width=2)
+            num.next_to(bar, UP, buff=0.1)
+            den.next_to(bar, DOWN, buff=0.1)
+            return VGroup(num, bar, den)
+
         # Initial problem statement
         problem_text = Text("Calculate the value of:", font_size=36).to_edge(UP)
         initial_expr_parts = [
@@ -56,8 +100,8 @@ class MixedFractionMultiplicationCancellation(Scene):
         self.wait(0.5)
 
         # Highlight terms to be grouped
-        self.play(Indicate(initial_expr_parts[0], color=YELLOW), Indicate(initial_expr_parts[6], color=YELLOW)) # (-36/7) and (7/36)
-        self.play(Indicate(initial_expr_parts[2], color=BLUE), Indicate(initial_expr_parts[4], color=BLUE)) # (12/11) and (-11/9)
+        self.play(Indicate(initial_expr_parts[0], color="#FFBE0B"), Indicate(initial_expr_parts[6], color="#FFBE0B")) # (-36/7) and (7/36)
+        self.play(Indicate(initial_expr_parts[2], color="#3A86FF"), Indicate(initial_expr_parts[4], color="#3A86FF")) # (12/11) and (-11/9)
         self.wait(1)
 
         # Create the rearranged expression
@@ -81,19 +125,26 @@ class MixedFractionMultiplicationCancellation(Scene):
         self.wait(0.5)
 
         # Isolate the first group for cancellation (remove parentheses for clearer lines)
-        first_group_for_cancel = MathTex(r"-\frac{36}{7} \times \frac{7}{36}", font_size=48).move_to(rearranged_expr_part1)
+        frac1 = create_fraction("36", "7", font_size=48)
+        frac2 = create_fraction("7", "36", font_size=48)
+        first_group_for_cancel = VGroup(
+            MathTex("-", font_size=48),
+            frac1,
+            MathTex(r"\times", font_size=48),
+            frac2
+        ).arrange(RIGHT, buff=0.2).move_to(rearranged_expr_part1)
         self.play(Transform(rearranged_expr_part1, first_group_for_cancel))
         self.wait(0.5)
 
         # Cancellation lines for 36
-        line_36_1 = Line(first_group_for_cancel[1][0].get_corner(UL), first_group_for_cancel[1][0].get_corner(DR), stroke_width=3, color=RED) # 36 in first fraction
-        line_36_2 = Line(first_group_for_cancel[3][1].get_corner(UL), first_group_for_cancel[3][1].get_corner(DR), stroke_width=3, color=RED) # 36 in second fraction
+        line_36_1 = Line(frac1[0].get_corner(UL), frac1[0].get_corner(DR), stroke_width=3, color="#FF006E") # 36 in first fraction
+        line_36_2 = Line(frac2[2].get_corner(UL), frac2[2].get_corner(DR), stroke_width=3, color="#FF006E") # 36 in second fraction
         self.play(Create(line_36_1), Create(line_36_2))
         self.wait(0.5)
         
         # Cancellation lines for 7
-        line_7_1 = Line(first_group_for_cancel[1][1].get_corner(UL), first_group_for_cancel[1][1].get_corner(DR), stroke_width=3, color=RED) # 7 in first fraction
-        line_7_2 = Line(first_group_for_cancel[3][0].get_corner(UL), first_group_for_cancel[3][0].get_corner(DR), stroke_width=3, color=RED) # 7 in second fraction
+        line_7_1 = Line(frac1[2].get_corner(UL), frac1[2].get_corner(DR), stroke_width=3, color="#FF006E") # 7 in first fraction
+        line_7_2 = Line(frac2[0].get_corner(UL), frac2[0].get_corner(DR), stroke_width=3, color="#FF006E") # 7 in second fraction
         self.play(Create(line_7_1), Create(line_7_2))
         self.wait(0.5)
 
@@ -112,21 +163,29 @@ class MixedFractionMultiplicationCancellation(Scene):
         self.wait(0.5)
 
         # Isolate the second group for cancellation
-        second_group_for_cancel = MathTex(r"\frac{12}{11} \times \left(-\frac{11}{9}\right)", font_size=48).move_to(rearranged_expr_part2)
+        frac3 = create_fraction("12", "11", font_size=48)
+        frac4 = create_fraction("11", "9", font_size=48)
+        second_group_for_cancel = VGroup(
+            frac3,
+            MathTex(r"\times", font_size=48),
+            MathTex(r"\left(-", font_size=48),
+            frac4,
+            MathTex(r"\right)", font_size=48)
+        ).arrange(RIGHT, buff=0.15).move_to(rearranged_expr_part2)
         self.play(Transform(rearranged_expr_part2, second_group_for_cancel))
         self.wait(0.5)
 
         # Cancellation lines for 11
-        line_11_1 = Line(second_group_for_cancel[0][1].get_corner(UL), second_group_for_cancel[0][1].get_corner(DR), stroke_width=3, color=RED) # 11 in first fraction
-        line_11_2 = Line(second_group_for_cancel[2][1][0].get_corner(UL), second_group_for_cancel[2][1][0].get_corner(DR), stroke_width=3, color=RED) # 11 in second fraction
+        line_11_1 = Line(frac3[2].get_corner(UL), frac3[2].get_corner(DR), stroke_width=3, color="#FF006E") # 11 in first fraction
+        line_11_2 = Line(frac4[0].get_corner(UL), frac4[0].get_corner(DR), stroke_width=3, color="#FF006E") # 11 in second fraction
         self.play(Create(line_11_1), Create(line_11_2))
         self.wait(0.5)
 
         # Cancellation lines for 12 and 9 (by 3)
-        line_12 = Line(second_group_for_cancel[0][0].get_corner(UL), second_group_for_cancel[0][0].get_corner(DR), stroke_width=3, color=RED) # 12
-        new_4 = MathTex("4", font_size=36, color=GREEN).next_to(second_group_for_cancel[0][0], UP, buff=0.1)
-        line_9 = Line(second_group_for_cancel[2][1][1].get_corner(UL), second_group_for_cancel[2][1][1].get_corner(DR), stroke_width=3, color=RED) # 9
-        new_3 = MathTex("3", font_size=36, color=GREEN).next_to(second_group_for_cancel[2][1][1], DOWN, buff=0.1)
+        line_12 = Line(frac3[0].get_corner(UL), frac3[0].get_corner(DR), stroke_width=3, color="#FF006E") # 12
+        new_4 = MathTex("4", font_size=36, color="#06D6A0").next_to(frac3[0], UP, buff=0.1)
+        line_9 = Line(frac4[2].get_corner(UL), frac4[2].get_corner(DR), stroke_width=3, color="#FF006E") # 9
+        new_3 = MathTex("3", font_size=36, color="#06D6A0").next_to(frac4[2], DOWN, buff=0.1)
         
         self.play(Create(line_12), Write(new_4))
         self.play(Create(line_9), Write(new_3))
@@ -157,13 +216,13 @@ class MixedFractionMultiplicationCancellation(Scene):
         )
         self.wait(1)
 
-        final_result = MathTex(r"\frac{4}{3}", font_size=60, color=GREEN).next_to(final_multiplication_expr, DOWN, buff=0.8)
+        final_result = MathTex(r"\frac{4}{3}", font_size=60, color="#06D6A0").next_to(final_multiplication_expr, DOWN, buff=0.8)
         self.play(Write(final_result))
         self.wait(1)
 
-        final_answer_box = SurroundingRectangle(final_result, color=GREEN, buff=0.2)
+        final_answer_box = self.get_glow_rect(final_result, color="#06D6A0", buff=0.2)
         self.play(Create(final_answer_box))
         self.wait(2)
         
-        self.play(FadeOut(problem_text, rearranged_expr, final_multiplication_expr, final_answer_box, step5_label))
+        self.play(FadeOut(*self.mobjects))
         self.wait(1)

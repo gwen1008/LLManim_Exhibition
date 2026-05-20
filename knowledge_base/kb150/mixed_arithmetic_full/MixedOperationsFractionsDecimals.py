@@ -4,7 +4,42 @@ class MixedOperationsFractionsDecimals(Scene):
     """
     Complete mixed arithmetic 完整的四則混合運算: Visualizes the step-by-step solution of a complex arithmetic expression: -3.2 ÷ [(1/4 - 1) × 8/3 + 1/2].
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # Title
         title = Text("四則混合運算 (Mixed Operations)", font_size=40).to_edge(UP)
         self.play(Write(title))
@@ -21,12 +56,12 @@ class MixedOperationsFractionsDecimals(Scene):
         self.wait(1)
 
         # --- Step 1: Calculate (1/4 - 1) ---
-        step_label_1 = Text("Step 1: Calculate inner parenthesis", font_size=28, color=BLUE).to_edge(LEFT).shift(UP*1.5)
+        step_label_1 = Text("Step 1: Calculate inner parenthesis", font_size=28, color="#3A86FF").to_edge(LEFT).shift(UP*1.5)
         self.play(Write(step_label_1))
 
         # Highlight (1/4 - 1)
         highlight_group_1 = VGroup(current_expr[3], current_expr[4], current_expr[5], current_expr[6], current_expr[7])
-        rect1 = SurroundingRectangle(highlight_group_1, color=YELLOW)
+        rect1 = self.get_glow_rect(highlight_group_1, color="#FFBE0B")
         self.play(Create(rect1))
         self.wait(0.5)
 
@@ -45,12 +80,12 @@ class MixedOperationsFractionsDecimals(Scene):
         self.wait(1)
 
         # --- Step 2: Calculate -3/4 * 8/3 ---
-        step_label_2 = Text("Step 2: Calculate multiplication in brackets", font_size=28, color=BLUE).next_to(step_label_1, DOWN, buff=1.0, aligned_edge=LEFT)
+        step_label_2 = Text("Step 2: Calculate multiplication in brackets", font_size=28, color="#3A86FF").next_to(step_label_1, DOWN, buff=1.0, aligned_edge=LEFT)
         self.play(Write(step_label_2), FadeOut(step_label_1))
 
         # Highlight -3/4 * 8/3
         highlight_group_2 = VGroup(current_expr[3], current_expr[4], current_expr[5])
-        rect2 = SurroundingRectangle(highlight_group_2, color=YELLOW)
+        rect2 = self.get_glow_rect(highlight_group_2, color="#FFBE0B")
         self.play(Create(rect2))
         self.wait(0.5)
 
@@ -69,12 +104,12 @@ class MixedOperationsFractionsDecimals(Scene):
         self.wait(1)
 
         # --- Step 3: Calculate -2 + 1/2 ---
-        step_label_3 = Text("Step 3: Calculate addition in brackets", font_size=28, color=BLUE).next_to(step_label_2, DOWN, buff=1.0, aligned_edge=LEFT)
+        step_label_3 = Text("Step 3: Calculate addition in brackets", font_size=28, color="#3A86FF").next_to(step_label_2, DOWN, buff=1.0, aligned_edge=LEFT)
         self.play(Write(step_label_3), FadeOut(step_label_2))
 
         # Highlight -2 + 1/2
         highlight_group_3 = VGroup(current_expr[3], current_expr[4], current_expr[5])
-        rect3 = SurroundingRectangle(highlight_group_3, color=YELLOW)
+        rect3 = self.get_glow_rect(highlight_group_3, color="#FFBE0B")
         self.play(Create(rect3))
         self.wait(0.5)
 
@@ -93,12 +128,12 @@ class MixedOperationsFractionsDecimals(Scene):
         self.wait(1)
 
         # --- Step 4: Convert -3.2 to fraction ---
-        step_label_4 = Text("Step 4: Convert decimal to fraction", font_size=28, color=BLUE).next_to(step_label_3, DOWN, buff=1.0, aligned_edge=LEFT)
+        step_label_4 = Text("Step 4: Convert decimal to fraction", font_size=28, color="#3A86FF").next_to(step_label_3, DOWN, buff=1.0, aligned_edge=LEFT)
         self.play(Write(step_label_4), FadeOut(step_label_3))
 
         # Highlight -3.2
         highlight_group_4 = current_expr[0]
-        rect4 = SurroundingRectangle(highlight_group_4, color=YELLOW)
+        rect4 = self.get_glow_rect(highlight_group_4, color="#FFBE0B")
         self.play(Create(rect4))
         self.wait(0.5)
 
@@ -117,12 +152,12 @@ class MixedOperationsFractionsDecimals(Scene):
         self.wait(1)
 
         # --- Step 5: Final Division ---
-        step_label_5 = Text("Step 5: Perform final division", font_size=28, color=BLUE).next_to(step_label_4, DOWN, buff=1.0, aligned_edge=LEFT)
+        step_label_5 = Text("Step 5: Perform final division", font_size=28, color="#3A86FF").next_to(step_label_4, DOWN, buff=1.0, aligned_edge=LEFT)
         self.play(Write(step_label_5), FadeOut(step_label_4))
 
         # Highlight entire expression
         highlight_group_5 = VGroup(current_expr[0], current_expr[1], current_expr[2])
-        rect5 = SurroundingRectangle(highlight_group_5, color=YELLOW)
+        rect5 = self.get_glow_rect(highlight_group_5, color="#FFBE0B")
         self.play(Create(rect5))
         self.wait(0.5)
 
@@ -134,12 +169,12 @@ class MixedOperationsFractionsDecimals(Scene):
         self.wait(1.5)
 
         # Final Answer
-        final_answer = MathTex(r"\frac{32}{15}", color=GREEN, font_size=60).move_to(current_expr.get_center())
+        final_answer = MathTex(r"\frac{32}{15}", color="#06D6A0", font_size=60).move_to(current_expr.get_center())
         self.play(ReplacementTransform(current_expr, final_answer), FadeOut(rect5))
         # Fade out all step labels and calculations
         self.play(FadeOut(VGroup(step_label_5, step4_calc, step5_calc))) 
         
-        final_box = SurroundingRectangle(final_answer, color=GREEN, buff=0.2)
-        final_text = Text("Final Answer", color=GREEN, font_size=30).next_to(final_answer, DOWN, buff=0.5)
+        final_box = self.get_glow_rect(final_answer, color="#06D6A0", buff=0.2)
+        final_text = Text("Final Answer", color="#06D6A0", font_size=30).next_to(final_answer, DOWN, buff=0.5)
         self.play(Create(final_box), Write(final_text))
         self.wait(2)

@@ -2,145 +2,138 @@ from manim import *
 
 class ScientificNotationSubtraction(Scene):
     """
-    Exponent scientific notation 指數與科學記號: Visualizes subtracting 2.1e6 from 4.5e7 by unifying exponents to 10^7, resulting in 4.29e7.
+    Exponent scientific notation 指數與科學記號: Visualizes the "unify-exponents" technique for scientific notation addition/subtraction.
+
+    動畫手法範本：統一指數後加減
+    ----------
+    適用場景：
+    - 科學記號加減運算（兩項 10^p 與 10^q 不同次方）
+    - p ≠ q 時必須先把較小指數的項調整為較大指數
+    - 再用分配律提出 10^max(p,q) → 數字部分加減 → 標準化
+
+    視覺要點（四步驟）：
+    1. 用 Indicate 標記兩個不同的指數，提示「指數不同不可直接相加減」
+    2. 用 Arrow + 文字提示「小數點往左移、指數加 1」的調整規則
+    3. 統一指數後，用 TransformMatchingTex 改寫為共享指數的形式
+    4. 提出公因數 10^max → 算出數字部分 → 再標準化
+
+    注意：本範本用 3.6 × 10^5 + 8 × 10^3 作為示意例（避開 Q102 的 4.5×10^5 + 7×10^4），
+    使用者套用時須**自行**判斷哪個項要調整、移多少位、指數加減多少。
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
-        # Title and initial problem statement
-        title = Text("Scientific Notation Subtraction", font_size=40).to_edge(UP)
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
+        title = Text("Technique: Unify Exponents Before Add/Subtract", font_size=32).to_edge(UP)
         self.play(Write(title))
         self.wait(0.5)
 
-        problem_text = MathTex(
-            "4.5 \\times 10^7",
-            "-",
-            "2.1 \\times 10^6"
+        # 示意題目：3.6 × 10^5 + 8 × 10^3
+        problem = MathTex(
+            "3.6 \\times 10^5",
+            "+",
+            "8 \\times 10^3",
         ).scale(1.2).next_to(title, DOWN, buff=1)
-        self.play(Write(problem_text))
+        self.play(Write(problem))
+        self.wait(0.8)
+
+        # Step 1: 標記兩個不同的指數
+        exp1 = problem[0][5:7]  # 10^5
+        exp2 = problem[2][3:5]  # 10^3
+        label1 = Text("Exponents differ!", font_size=24, color="#FFBE0B").next_to(problem, DOWN, buff=0.5)
+        self.play(Indicate(exp1, scale_factor=1.3), Indicate(exp2, scale_factor=1.3), Write(label1))
+        self.wait(1)
+        self.play(FadeOut(label1))
+
+        # Step 2: 規則說明
+        rule1 = Text("Step 1: Lift the smaller exponent to match the larger.", font_size=22).next_to(problem, DOWN, buff=0.4)
+        rule2 = Text("Rule: shift decimal left by k → add k to the exponent.", font_size=22, color=GRAY).next_to(rule1, DOWN, buff=0.2)
+        self.play(Write(rule1), Write(rule2))
+        self.wait(1.5)
+
+        # 演示調整：8 × 10^3 → 0.08 × 10^5（小數點往左移 2 位、指數加 2）
+        adjust = MathTex(r"8 \times 10^3 = 0.08 \times 10^5", color="#FFBE0B").next_to(rule2, DOWN, buff=0.6)
+        self.play(Write(adjust))
+        self.wait(1.5)
+        self.play(FadeOut(rule1), FadeOut(rule2))
+
+        # Step 3: 改寫成統一指數的式子
+        unified = MathTex(
+            "3.6 \\times 10^5", "+", "0.08 \\times 10^5",
+        ).scale(1.2).move_to(problem)
+        self.play(TransformMatchingTex(problem, unified), FadeOut(adjust))
         self.wait(1)
 
-        # Highlight the different exponents
-        exp7 = problem_text[0][5:7] # 10^7
-        exp6 = problem_text[2][5:7] # 10^6
+        step3 = Text("Step 2: Factor out the shared 10^5.", font_size=22).next_to(unified, DOWN, buff=0.5)
+        self.play(Write(step3))
+        self.wait(0.8)
 
-        diff_exponents_label = Text("Exponents are different!", font_size=30, color=YELLOW).next_to(problem_text, DOWN, buff=0.5)
-        self.play(
-            Indicate(exp7, scale_factor=1.2),
-            Indicate(exp6, scale_factor=1.2),
-            Write(diff_exponents_label)
-        )
-        self.wait(1.5)
-
-        self.play(FadeOut(diff_exponents_label))
-
-        # Explanation for unifying exponents
-        explanation1 = Text("To subtract, exponents must be the same.", font_size=30).next_to(problem_text, DOWN, buff=0.5)
-        explanation2 = Text("Convert the smaller exponent to the larger one.", font_size=30).next_to(explanation1, DOWN)
-        self.play(Write(explanation1))
-        self.play(Write(explanation2))
-        self.wait(1.5)
-
-        self.play(FadeOut(explanation1), FadeOut(explanation2))
-
-        # Focus on the term to be converted
-        term_to_convert = problem_text[2].copy().next_to(problem_text, DOWN, buff=1.0)
-        self.play(
-            TransformMatchingTex(problem_text[2], term_to_convert),
-            problem_text[0].animate.set_opacity(0.3),
-            problem_text[1].animate.set_opacity(0.3)
-        )
-        self.wait(0.5)
-
-        conversion_arrow = Arrow(term_to_convert.get_bottom(), DOWN * 2 + LEFT * 2, buff=0.2)
-        conversion_text = Text("Convert:", font_size=30).next_to(term_to_convert, LEFT, buff=0.5)
-        self.play(Write(conversion_text))
-
-        # Step-by-step conversion of 2.1 x 10^6 to 0.21 x 10^7
-        original_num = MathTex("2.1 \\times 10^6").scale(1.1).next_to(conversion_text, RIGHT, buff=0.5)
-        self.play(Write(original_num))
-        self.wait(0.5)
-
-        decimal_point = original_num[0][1] # The '.' in 2.1
-        arrow_left = Arrow(decimal_point.get_center(), decimal_point.get_center() + LEFT * 0.5, buff=0.05, color=YELLOW)
-        shift_decimal_text = Text("Shift decimal left by 1", font_size=25, color=YELLOW).next_to(arrow_left, UP, buff=0.1)
-        self.play(GrowArrow(arrow_left), Write(shift_decimal_text))
+        factored = MathTex("(3.6 + 0.08)", "\\times 10^5").scale(1.2).move_to(unified)
+        self.play(TransformMatchingTex(unified, factored))
         self.wait(1)
 
-        new_coeff = MathTex("0.21").scale(1.1).move_to(original_num[0][0:3], aligned_edge=LEFT)
-        new_exponent = MathTex("10^7").scale(1.1).move_to(original_num[0][4:], aligned_edge=LEFT)
-        
-        self.play(
-            Transform(original_num[0][0:3], new_coeff),
-            FadeOut(arrow_left),
-            FadeOut(shift_decimal_text)
-        )
-        self.wait(0.5)
+        # Step 4: 算出數字部分
+        step4 = Text("Step 3: Compute the coefficient sum.", font_size=22).next_to(factored, DOWN, buff=0.5)
+        self.play(Transform(step3, step4))
 
-        increase_exp_text = Text("Increase exponent by 1", font_size=25, color=GREEN).next_to(original_num[0][4:], UP, buff=0.1)
-        self.play(
-            Transform(original_num[0][4:], new_exponent),
-            Write(increase_exp_text)
-        )
-        self.wait(1.5)
-
-        converted_term = VGroup(new_coeff, MathTex("\\times").scale(1.1), new_exponent).arrange(RIGHT, buff=0.1).move_to(original_num)
-        self.play(
-            FadeOut(original_num),
-            FadeOut(increase_exp_text),
-            Transform(term_to_convert, converted_term),
-            FadeOut(conversion_text)
-        )
+        coeff_calc = MathTex("3.6 + 0.08 = 3.68", color="#FFBE0B").next_to(step4, DOWN, buff=0.3)
+        self.play(Write(coeff_calc))
         self.wait(1)
 
-        # Replace the original term with the converted one
-        self.play(
-            TransformMatchingTex(problem_text[2], converted_term.copy().move_to(problem_text[2])),
-            FadeOut(term_to_convert), # Remove the temporary converted term
-            problem_text[0].animate.set_opacity(1),
-            problem_text[1].animate.set_opacity(1)
-        )
-        problem_text[2].become(converted_term) # Update problem_text[2] to the new mobject
+        result = MathTex("3.68", "\\times 10^5").scale(1.2).move_to(factored)
+        self.play(TransformMatchingTex(factored, result), FadeOut(coeff_calc))
         self.wait(1)
 
-        # Rewrite the problem with unified exponents
-        unified_problem = MathTex(
-            "4.5 \\times 10^7 - 0.21 \\times 10^7"
-        ).scale(1.2).move_to(problem_text)
-        self.play(TransformMatchingTex(problem_text, unified_problem))
+        # 標準化檢查：3.68 已在 [1, 10) 內，無需再調整
+        check = Text("Step 4: Coefficient already in [1, 10) → standard form.", font_size=22, color="#06D6A0").next_to(result, DOWN, buff=0.6)
+        self.play(Transform(step3, check))
         self.wait(1)
 
-        # Factor out the common exponent
-        factored_problem = MathTex(
-            "(4.5 - 0.21)",
-            "\\times 10^7"
-        ).scale(1.2).move_to(unified_problem)
-        self.play(TransformMatchingTex(unified_problem, factored_problem))
+        # 最終答案
+        final_a = MathTex("a = 3.68", color="#3A86FF").next_to(result, DOWN, buff=1.5).align_to(result, LEFT)
+        final_n = MathTex("n = 5", color="#06D6A0").next_to(final_a, RIGHT, buff=1.0)
+        self.play(Write(final_a), Write(final_n))
         self.wait(1.5)
 
-        # Perform the subtraction
-        subtraction_hint = MathTex("4.5 - 0.21 = 4.29", color=YELLOW).next_to(factored_problem, DOWN, buff=0.5)
-        self.play(Write(subtraction_hint))
-        self.wait(1.5)
-
-        result = MathTex(
-            "4.29",
-            "\\times 10^7"
-        ).scale(1.2).move_to(factored_problem)
-        self.play(
-            TransformMatchingTex(factored_problem, result),
-            FadeOut(subtraction_hint)
-        )
-        self.wait(1.5)
-
-        # Final answer breakdown (a and n)
-        final_a = MathTex("a = 4.29", color=BLUE).next_to(result, DOWN, buff=0.8).align_to(result, LEFT)
-        final_n = MathTex("n = 7", color=GREEN).next_to(final_a, RIGHT, buff=1.0)
-
-        self.play(Write(final_a))
-        self.play(Write(final_n))
-        self.wait(2)
-
-        # Highlight final answer
-        final_answer_group = VGroup(result, final_a, final_n)
-        final_box = SurroundingRectangle(final_answer_group, color=WHITE, buff=0.5)
+        final_group = VGroup(result, final_a, final_n)
+        final_box = self.get_glow_rect(final_group, color="#F8FAFC", buff=0.3)
         self.play(Create(final_box))
+        self.wait(1.5)
+
+        hint = Text("If coefficient ≥ 10, normalize again (shift right, increase exponent).",
+                    font_size=20, color=GRAY).to_edge(DOWN, buff=0.4)
+        self.play(Write(hint))
         self.wait(2)
+        self.play(FadeOut(VGroup(title, step3, result, final_a, final_n, final_box, hint)))

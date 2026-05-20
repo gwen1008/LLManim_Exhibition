@@ -4,15 +4,50 @@ class CompareScientificNotationAndDecimal(Scene):
     """
     Exponent scientific notation 指數與科學記號: Visualizes comparing three numbers (3.4e-5, 4.3e-6, 0.000035) by converting all to scientific notation.
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # 1. Title and Problem Statement
-        title = Text("比較甲、乙、丙三數的大小關係", font_size=40).to_edge(UP)
+        title = Text("Compare three numbers A, B, C", font_size=40).to_edge(UP)
         self.play(Write(title))
 
         # Original numbers
-        initial_a = MathTex(r"\text{甲 } = 3.4 \times 10^{-5}")
-        initial_b = MathTex(r"\text{乙 } = 4.3 \times 10^{-6}")
-        initial_c = MathTex(r"\text{丙 } = 0.000035")
+        initial_a = MathTex(r"A = 3.4 \times 10^{-5}")
+        initial_b = MathTex(r"B = 4.3 \times 10^{-6}")
+        initial_c = MathTex(r"C = 0.000035")
         
         problem_group = VGroup(initial_a, initial_b, initial_c).arrange(DOWN, aligned_edge=LEFT, buff=0.5).next_to(title, DOWN, buff=1)
         
@@ -20,13 +55,13 @@ class CompareScientificNotationAndDecimal(Scene):
         self.wait(1)
 
         # 2. Strategy Introduction
-        strategy_text = Text("策略：將所有數字轉換為科學記號", font_size=36, color=YELLOW).to_edge(LEFT).shift(UP*1.5)
+        strategy_text = Text("Strategy: convert all to scientific notation", font_size=32, color="#FFBE0B").to_edge(LEFT).shift(UP*1.5)
         self.play(Write(strategy_text))
         self.wait(1)
 
         # 3. Convert 丙 to scientific notation
         # Create separate label and value for 丙 to animate
-        c_label_temp = MathTex(r"\text{丙 } = ").move_to(initial_c.get_left()).shift(RIGHT * 0.5)
+        c_label_temp = MathTex(r"C = ").move_to(initial_c.get_left()).shift(RIGHT * 0.5)
         c_val_original_temp = MathTex(r"0.000035").next_to(c_label_temp, RIGHT, buff=0.1)
         
         # Replace initial_c with its components for animation
@@ -39,7 +74,7 @@ class CompareScientificNotationAndDecimal(Scene):
 
         # Initial decimal point position (after the first 0)
         initial_dp_pos = c_val_original_temp[0][1].get_right() # Position after the first '0'
-        decimal_point = Dot(initial_dp_pos, radius=0.05, color=RED)
+        decimal_point = Dot(initial_dp_pos, radius=0.05, color="#FF006E")
         self.play(FadeIn(decimal_point))
         self.wait(0.5)
 
@@ -47,8 +82,8 @@ class CompareScientificNotationAndDecimal(Scene):
         c_val_converted_target = MathTex(r"3.5 \times 10^{-5}").move_to(c_val_original_temp.get_center())
         target_dp_pos = c_val_converted_target[0][1].get_right() # Position after '3' in '3.5'
         
-        arrow = Arrow(initial_dp_pos, target_dp_pos, buff=0, color=BLUE)
-        arrow_text = Text("移動 5 位", font_size=25, color=BLUE).next_to(arrow, UP, buff=0.1)
+        arrow = Arrow(initial_dp_pos, target_dp_pos, buff=0, color="#3A86FF")
+        arrow_text = Text("shift 5 places", font_size=25, color="#3A86FF").next_to(arrow, UP, buff=0.1)
         
         self.play(Create(arrow), Write(arrow_text))
         self.play(decimal_point.animate.move_to(target_dp_pos), run_time=2)
@@ -61,9 +96,9 @@ class CompareScientificNotationAndDecimal(Scene):
         self.play(FadeOut(strategy_text))
         
         # Create new MathTex objects for comparison, aligned
-        final_a_comp = MathTex(r"\text{甲 } = 3.4 \times 10^{-5}")
-        final_b_comp = MathTex(r"\text{乙 } = 4.3 \times 10^{-6}")
-        final_c_comp = MathTex(r"\text{丙 } = 3.5 \times 10^{-5}") # A fresh MathTex for consistency
+        final_a_comp = MathTex(r"A = 3.4 \times 10^{-5}")
+        final_b_comp = MathTex(r"B = 4.3 \times 10^{-6}")
+        final_c_comp = MathTex(r"C = 3.5 \times 10^{-5}") # A fresh MathTex for consistency
         
         # Group the currently displayed objects for transformation
         current_display_group = VGroup(initial_a, initial_b, c_label_temp, c_val_original_temp)
@@ -85,7 +120,7 @@ class CompareScientificNotationAndDecimal(Scene):
         self.wait(1)
 
         # 5. Comparison Step 1 (Exponents)
-        compare_exp_text = Text("步驟1: 比較指數", font_size=36, color=YELLOW).to_edge(LEFT).shift(UP*1.5)
+        compare_exp_text = Text("Step 1: compare exponents", font_size=32, color="#FFBE0B").to_edge(LEFT).shift(UP*1.5)
         self.play(Write(compare_exp_text))
         self.wait(0.5)
 
@@ -95,9 +130,9 @@ class CompareScientificNotationAndDecimal(Scene):
         exp_c = initial_c[0][9:] # -5
         
         self.play(
-            Indicate(exp_a, color=BLUE),
-            Indicate(exp_b, color=BLUE),
-            Indicate(exp_c, color=BLUE)
+            Indicate(exp_a, color="#3A86FF"),
+            Indicate(exp_b, color="#3A86FF"),
+            Indicate(exp_c, color="#3A86FF")
         )
         self.wait(1)
 
@@ -105,7 +140,7 @@ class CompareScientificNotationAndDecimal(Scene):
         self.play(Write(exp_comparison))
         self.wait(1)
 
-        conclusion_exp = Text("因此，甲和丙 > 乙", font_size=30).next_to(exp_comparison, DOWN, buff=0.5)
+        conclusion_exp = Text("Therefore A and C > B", font_size=28).next_to(exp_comparison, DOWN, buff=0.5)
         self.play(Write(conclusion_exp))
         self.wait(1)
 
@@ -117,7 +152,7 @@ class CompareScientificNotationAndDecimal(Scene):
         self.wait(0.5)
 
         # 6. Comparison Step 2 (Coefficients for 甲 and 丙)
-        compare_coeff_text = Text("步驟2: 比較甲和丙的係數", font_size=36, color=YELLOW).to_edge(LEFT).shift(UP*1.5)
+        compare_coeff_text = Text("Step 2: compare coefficients of A and C", font_size=28, color="#FFBE0B").to_edge(LEFT).shift(UP*1.5)
         self.play(Transform(compare_exp_text, compare_coeff_text)) # Transform previous text
         self.wait(0.5)
 
@@ -126,8 +161,8 @@ class CompareScientificNotationAndDecimal(Scene):
         coeff_c = initial_c[0][3:6] # 3.5
 
         self.play(
-            Indicate(coeff_a, color=GREEN),
-            Indicate(coeff_c, color=GREEN)
+            Indicate(coeff_a, color="#06D6A0"),
+            Indicate(coeff_c, color="#06D6A0")
         )
         self.wait(1)
 
@@ -135,7 +170,7 @@ class CompareScientificNotationAndDecimal(Scene):
         self.play(Write(coeff_comparison))
         self.wait(1)
 
-        conclusion_coeff = Text("因此，丙 > 甲", font_size=30).next_to(coeff_comparison, DOWN, buff=0.5)
+        conclusion_coeff = Text("Therefore C > A", font_size=28).next_to(coeff_comparison, DOWN, buff=0.5)
         self.play(Write(conclusion_coeff))
         self.wait(1)
 
@@ -146,15 +181,15 @@ class CompareScientificNotationAndDecimal(Scene):
         self.play(FadeOut(compare_exp_text)) # Fade out the transformed text
         self.play(initial_b.animate.set_opacity(1)) # Restore opacity of 乙
         
-        final_ordering_text = Text("綜合比較結果：", font_size=36, color=YELLOW).to_edge(LEFT).shift(UP*1.5)
+        final_ordering_text = Text("Final ordering:", font_size=32, color="#FFBE0B").to_edge(LEFT).shift(UP*1.5)
         self.play(Write(final_ordering_text))
         self.wait(0.5)
 
-        final_result = MathTex(r"\text{丙 } > \text{甲 } > \text{乙}", font_size=50, color=GREEN).next_to(comparison_group, DOWN, buff=1)
+        final_result = MathTex(r"C > A > B", font_size=50, color="#06D6A0").next_to(comparison_group, DOWN, buff=1)
         self.play(Write(final_result))
         self.wait(2)
 
-        final_box = SurroundingRectangle(final_result, color=GREEN, buff=0.2)
+        final_box = self.get_glow_rect(final_result, color="#06D6A0", buff=0.2)
         self.play(Create(final_box))
         self.wait(2)
 

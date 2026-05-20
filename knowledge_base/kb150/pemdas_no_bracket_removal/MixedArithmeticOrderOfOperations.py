@@ -4,7 +4,42 @@ class MixedArithmeticOrderOfOperations(Scene):
     """
     PEMDAS order of operations without bracket removal 四則運算算則 不含去括號: Visualizes the step-by-step solution of 38 - 48 ÷ (-6 - 2) × 3, following order of operations.
     """
+    def get_glow_rect(self, mobject, color="#3A86FF", buff=0.15):
+
+        return RoundedRectangle(
+
+            corner_radius=0.15,
+
+            color=color,
+
+            stroke_width=3,
+
+            fill_color=color,
+
+            fill_opacity=0.15
+
+        ).surround(mobject, buff=buff)
+
+
     def construct(self):
+
+        # 🌌 Set sleek deep-dark slate background
+
+        self.camera.background_color = "#0B0F19"
+
+
+        # 📐 Add modern thin background coordinate grid
+
+        grid = NumberPlane(
+
+            x_range=[-7, 7, 1], y_range=[-4, 4, 1],
+
+            background_line_style={"stroke_color": "#1E293B", "stroke_opacity": 0.4, "stroke_width": 1}
+
+        )
+
+        self.add(grid)
+
         # Title
         title = Text("Order of Operations: 38 - 48 ÷ (-6 - 2) × 3", font_size=36).to_edge(UP)
         self.play(Write(title))
@@ -23,12 +58,12 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(1)
 
         # Step 1: Parentheses (-6 - 2)
-        step_label_1 = Text("Step 1: Parentheses", font_size=30, color=BLUE).next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
+        step_label_1 = Text("Step 1: Parentheses", font_size=30, color="#3A86FF").next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
         self.play(Write(step_label_1))
 
         # Highlight the part to be calculated
         highlight_target_1 = current_expr_vgroup[1] # "-6 - 2"
-        highlight_rect_1 = SurroundingRectangle(highlight_target_1, color=YELLOW, buff=0.1)
+        highlight_rect_1 = self.get_glow_rect(highlight_target_1, color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_rect_1))
         self.wait(1)
 
@@ -51,7 +86,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(1.5)
 
         # Step 2: Division (48 ÷ -8) - Left to right for multiplication/division
-        step_label_2 = Text("Step 2: Division (Left to Right)", font_size=30, color=BLUE).next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
+        step_label_2 = Text("Step 2: Division (Left to Right)", font_size=30, color="#3A86FF").next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
         self.play(Write(step_label_2))
 
         # current_expr_vgroup is now: [0] "38 - 48 \div (", [1] "-8", [2] ") \times 3"
@@ -63,7 +98,7 @@ class MixedArithmeticOrderOfOperations(Scene):
             current_expr_vgroup[1],     # "-8"
             current_expr_vgroup[2][0]   # ")"
         )
-        highlight_rect_2 = SurroundingRectangle(highlight_target_2_parts, color=YELLOW, buff=0.1)
+        highlight_rect_2 = self.get_glow_rect(highlight_target_2_parts, color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_rect_2))
         self.wait(1)
 
@@ -97,13 +132,13 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(1.5)
 
         # Step 3: Multiplication (-6 * 3)
-        step_label_3 = Text("Step 3: Multiplication (Left to Right)", font_size=30, color=BLUE).next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
+        step_label_3 = Text("Step 3: Multiplication (Left to Right)", font_size=30, color="#3A86FF").next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
         self.play(Write(step_label_3))
 
         # current_expr_vgroup is now: [0] "38 - ", [1] "-6", [2] " \times 3"
         # Highlight "-6 \times 3"
         highlight_target_3 = VGroup(current_expr_vgroup[1], current_expr_vgroup[2])
-        highlight_rect_3 = SurroundingRectangle(highlight_target_3, color=YELLOW, buff=0.1)
+        highlight_rect_3 = self.get_glow_rect(highlight_target_3, color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_rect_3))
         self.wait(1)
 
@@ -136,11 +171,11 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(1.5)
 
         # Step 4: Subtraction (38 - (-18))
-        step_label_4 = Text("Step 4: Subtraction", font_size=30, color=BLUE).next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
+        step_label_4 = Text("Step 4: Subtraction", font_size=30, color="#3A86FF").next_to(current_expr_vgroup, DOWN, buff=0.8).align_to(current_expr_vgroup, LEFT)
         self.play(Write(step_label_4))
 
         # Highlight the entire expression
-        highlight_rect_4 = SurroundingRectangle(current_expr_vgroup, color=YELLOW, buff=0.1)
+        highlight_rect_4 = self.get_glow_rect(current_expr_vgroup, color="#FFBE0B", buff=0.1)
         self.play(Create(highlight_rect_4))
         self.wait(1)
 
@@ -149,7 +184,7 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(1.5)
 
         # Transform to final answer
-        final_answer_mobject = MathTex("56", font_size=64, color=GREEN)
+        final_answer_mobject = MathTex("56", font_size=64, color="#06D6A0")
         final_answer_mobject.move_to(current_expr_vgroup.get_center())
 
         self.play(
@@ -161,6 +196,6 @@ class MixedArithmeticOrderOfOperations(Scene):
         self.wait(2)
 
         # Final emphasis
-        final_box = SurroundingRectangle(final_answer_mobject, color=GREEN, buff=0.2)
+        final_box = self.get_glow_rect(final_answer_mobject, color="#06D6A0", buff=0.2)
         self.play(Create(final_box))
         self.wait(2)
