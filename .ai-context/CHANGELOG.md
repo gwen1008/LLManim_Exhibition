@@ -487,3 +487,5 @@
 
 - `2026-05-21 00:12` | branch=`main` | dirty=55 files | head=`fb1601f feat(eval): --variant A|B|C for RAG-150 controlled comparison`
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-21 00:37` | branch=`main` | dirty=1 files | head=`d94a106 feat(rag): retrieval audit tooling and layout/ingest improvements`
+  - touched: evaluation/compare_variants.py 
