@@ -446,3 +446,5 @@
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
 - `2026-05-20 13:16` | branch=`main` | dirty=45 files | head=`49b6133 Merge pull request #14 from childe0905/feat/kb150-manim-templates`
   - touched: agents/core/rag_retriever.py agents/utils/benchmark_judge.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_calibration.py 
+- `2026-05-20 13:19` | branch=`main` | dirty=38 files | head=`0e0baab feat(benchmark-judge): full B-track system + downstream wiring`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 

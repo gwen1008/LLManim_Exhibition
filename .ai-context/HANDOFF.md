@@ -12,22 +12,21 @@
 ## 現在要做什麼
 
 - [x] Phase B1-B3 實現（FJ + layout_auditor + judge_calibration）
-- [ ] 運行 experiment_sample_30.json 產生 benchmark videos（30 題）
-- [ ] 人工精修 benchmark_set 版本
-- [ ] Vision backend A/B test 決策（GPT-4o 抓錯率 vs Opus CP 成本 trade-off）
+- [ ] 新增 evaluation/benchmark_self_check.py（mp4 驗證工具）
+- [ ] 運行 30 部 self-sanity 驗證（passes=2，--no-cache）
+- [ ] Vision backend A/B test 決策（基於 self-sanity 結果）
 - [ ] W2.2 統一分數聚合（FJ absolute + Pairwise relative）
-- [ ] 驗證測試通過並 commit dirty files（agents/utils/benchmark_judge.py 等）
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| KB150 模板集合（15 個） | Scene template 更新 + 佈局優化 | ingest_*.py 集成完成，main.py phase B 路由就緒 |
-| `agents/utils/benchmark_judge.py` | BenchmarkJudge 系統新增 | candidate vs benchmark 0-100 評分系統 |
-| `evaluation/golden_set/judge_calibration.py` | 統計框架重構 (+563 行) | Opus vs GPT-4o 對標完成，準備 W2.2 聚合 |
-| `evaluation/golden_set/benchmark_raw_results.json` | 150 題基準結果集 (+195 行) | 評估 baseline 資料集 |
-| `tests/test_benchmark_judge.py` | 完整測試套件 (+307 行) | BenchmarkJudge 邏輯覆蓋 |
-| RAG 管線 | rag/ingest_*.py 最佳化 | Gemini vectorizer 集成完成 |
+| `agents/utils/final_judge.py` | BJ 系統核心實現 (+382 行) | candidate vs benchmark 0-100 評分邏輯完成 |
+| `agents/utils/layout_auditor.py` | 佈局稽核強化 (+162 行) | spatial/layout 驗證增強，hallucination 防護 |
+| `evaluation/golden_set/judge_calibration.py` | 統計校準完全重構 (+563 行) | Opus vs GPT-4o 對標完成，W2.2 聚合準備 |
+| KB150 模板 (13 個) | 科學記號/分數/整數主題優化 | CompareScientific/Fraction/GCD/Integer 全量更新 |
+| `main.py` | BenchmarkJudge 系統路由接入 (+20 行) | B 軌完整路由就緒，phase B3 任務完成 |
+| RAG 管線 | rag/ingest_*.py 向量化優化 | Gemini vectorizer 集成完成 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 
