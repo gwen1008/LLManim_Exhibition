@@ -109,7 +109,7 @@ def _load_sample(sample_path: Path, qid_filter=None):
 
 # ── Build tuples (no LLM call, useful for --dry-run) ─────────────────────────
 
-def _build_jobs(sample, session_a, session_b, benchmark_root):
+def _build_jobs(sample, session_a, session_b, benchmark_root, session_c=None):
     jobs = []
     for entry in sample:
         qid = entry["id"]
@@ -119,6 +119,7 @@ def _build_jobs(sample, session_a, session_b, benchmark_root):
         bench = _benchmark_paths(benchmark_root, qid)
         cand_a = _candidate_paths(session_a, qid) if session_a else None
         cand_b = _candidate_paths(session_b, qid) if session_b else None
+        cand_c = _candidate_paths(session_c, qid) if session_c else None
 
         jobs.append({
             "qid":   qid,
@@ -133,6 +134,9 @@ def _build_jobs(sample, session_a, session_b, benchmark_root):
             "candidate_b":   {k: str(v) for k, v in cand_b.items()} if cand_b else None,
             "candidate_b_status": (
                 "present" if cand_b and _exists(cand_b["video"]) else "missing"),
+            "candidate_c":   {k: str(v) for k, v in cand_c.items()} if cand_c else None,
+            "candidate_c_status": (
+                "present" if cand_c and _exists(cand_c["video"]) else "missing"),
         })
     return jobs
 
@@ -142,22 +146,23 @@ def _print_dry_run(jobs):
     bench_ok = sum(1 for j in jobs if j["benchmark_status"] == "present")
     a_ok = sum(1 for j in jobs if j["candidate_a_status"] == "present")
     b_ok = sum(1 for j in jobs if j["candidate_b_status"] == "present")
+    c_ok = sum(1 for j in jobs if j["candidate_c_status"] == "present")
     bench_final = sum(1 for j in jobs if j.get("benchmark_source") == "final")
     bench_draft = sum(1 for j in jobs if j.get("benchmark_source") == "draft")
     print(f"\n📊 Dry-run plan ({n} questions)")
     print(f"   benchmark present: {bench_ok}/{n}  (final={bench_final}, draft={bench_draft})")
     print(f"   variant A present: {a_ok}/{n}")
     print(f"   variant B present: {b_ok}/{n}")
-    print(f"   judgable (all 3): "
-          f"{sum(1 for j in jobs if j['benchmark_status']=='present' and j['candidate_a_status']=='present' and j['candidate_b_status']=='present')}/{n}")
+    print(f"   variant C present: {c_ok}/{n}")
 
-    print("\n  qid    bench  candA  candB")
-    print("  " + "-" * 40)
+    print("\n  qid    bench  candA  candB  candC")
+    print("  " + "-" * 48)
     for j in jobs:
         b = "✓" if j["benchmark_status"] == "present" else "✗"
         a = "✓" if j["candidate_a_status"] == "present" else "✗"
         bb = "✓" if j["candidate_b_status"] == "present" else "✗"
-        print(f"  {j['qid']:<6} {b:>5}  {a:>5}  {bb:>5}")
+        cc = "✓" if j["candidate_c_status"] == "present" else "✗"
+        print(f"  {j['qid']:<6} {b:>5}  {a:>5}  {bb:>5}  {cc:>5}")
 
 
 # ── Real run (BJ scoring) ────────────────────────────────────────────────────
@@ -206,6 +211,7 @@ def _run(jobs, cache_path, force, only_judgable):
         for variant_key, cand_status_key in [
             ("candidate_a", "candidate_a_status"),
             ("candidate_b", "candidate_b_status"),
+            ("candidate_c", "candidate_c_status"),
         ]:
             cand = j.get(variant_key)
             tag = variant_key[-1].upper()
@@ -259,16 +265,25 @@ def _write_outputs(results, out_dir, stamp):
                 if r.get("variant_A", {}).get("status") == "ok"]
     b_scores = [r["variant_B"]["final_100"] for r in results
                 if r.get("variant_B", {}).get("status") == "ok"]
+    c_scores = [r["variant_C"]["final_100"] for r in results
+                if r.get("variant_C", {}).get("status") == "ok"]
     judged_pairs = [r for r in results
                     if r.get("variant_A", {}).get("status") == "ok"
                     and r.get("variant_B", {}).get("status") == "ok"]
+    judged_ac = [r for r in results
+                 if r.get("variant_A", {}).get("status") == "ok"
+                 and r.get("variant_C", {}).get("status") == "ok"]
     b_minus_a = [r["variant_B"]["final_100"] - r["variant_A"]["final_100"]
                  for r in judged_pairs]
+    c_minus_a = [r["variant_C"]["final_100"] - r["variant_A"]["final_100"]
+                 for r in judged_ac]
 
     a_insufficient = sum(1 for r in results
                          if r.get("variant_A", {}).get("status") == "insufficient_passes")
     b_insufficient = sum(1 for r in results
                          if r.get("variant_B", {}).get("status") == "insufficient_passes")
+    c_insufficient = sum(1 for r in results
+                         if r.get("variant_C", {}).get("status") == "insufficient_passes")
 
     lines = [
         f"# BenchmarkJudge Runner Report — {stamp}\n",
@@ -276,33 +291,44 @@ def _write_outputs(results, out_dir, stamp):
         f"- skipped (no bench): {sum(1 for r in results if r['status']=='skip_no_benchmark')}",
         f"- variant A scored:  {len(a_scores)}  (insufficient: {a_insufficient})",
         f"- variant B scored:  {len(b_scores)}  (insufficient: {b_insufficient})",
-        f"- paired (both A+B): {len(judged_pairs)}",
+        f"- variant C scored:  {len(c_scores)}  (insufficient: {c_insufficient})",
+        f"- paired (A+B): {len(judged_pairs)}",
+        f"- paired (A+C): {len(judged_ac)}",
     ]
     if a_scores:
         lines.append(f"- A mean: {sum(a_scores)/len(a_scores):.1f}")
     if b_scores:
         lines.append(f"- B mean: {sum(b_scores)/len(b_scores):.1f}")
+    if c_scores:
+        lines.append(f"- C mean: {sum(c_scores)/len(c_scores):.1f}")
     if b_minus_a:
-        lines.append(f"- B−A mean (RAG effect): {sum(b_minus_a)/len(b_minus_a):+.1f}")
+        lines.append(f"- B−A mean (v1 RAG effect): {sum(b_minus_a)/len(b_minus_a):+.1f}")
         wins = sum(1 for d in b_minus_a if d > 0)
         ties = sum(1 for d in b_minus_a if d == 0)
         loses = sum(1 for d in b_minus_a if d < 0)
         lines.append(f"- B wins/ties/loses: {wins}/{ties}/{loses}")
+    if c_minus_a:
+        lines.append(f"- C−A mean (v2 RAG effect): {sum(c_minus_a)/len(c_minus_a):+.1f}")
+        wins = sum(1 for d in c_minus_a if d > 0)
+        ties = sum(1 for d in c_minus_a if d == 0)
+        loses = sum(1 for d in c_minus_a if d < 0)
+        lines.append(f"- C wins/ties/loses: {wins}/{ties}/{loses}")
 
     lines += [
         "\n## Per-Question\n",
-        "| qid | status | A | B | B−A | notes |",
-        "|---|---|---|---|---|---|",
+        "| qid | status | A | B | C | B−A | C−A | notes |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for r in results:
         a = r.get("variant_A", {})
         b = r.get("variant_B", {})
+        c = r.get("variant_C", {})
         a_s = a.get("final_100", "—") if a.get("status") == "ok" else f"({a.get('status','?')})"
         b_s = b.get("final_100", "—") if b.get("status") == "ok" else f"({b.get('status','?')})"
-        delta = ""
-        if a.get("status") == "ok" and b.get("status") == "ok":
-            delta = f"{b['final_100'] - a['final_100']:+d}"
-        lines.append(f"| {r['qid']} | {r['status']} | {a_s} | {b_s} | {delta} | |")
+        c_s = c.get("final_100", "—") if c.get("status") == "ok" else f"({c.get('status','?')})"
+        d_ba = f"{b['final_100'] - a['final_100']:+d}" if a.get("status") == "ok" and b.get("status") == "ok" else ""
+        d_ca = f"{c['final_100'] - a['final_100']:+d}" if a.get("status") == "ok" and c.get("status") == "ok" else ""
+        lines.append(f"| {r['qid']} | {r['status']} | {a_s} | {b_s} | {c_s} | {d_ba} | {d_ca} | |")
 
     md_path.write_text("\n".join(lines), encoding="utf-8")
     print(f"\n💾 results: {json_path}")
@@ -319,7 +345,9 @@ def main():
     ap.add_argument("--session-a", default=None,
                     help="runs/<timestamp> session that produced variant A (no-RAG)")
     ap.add_argument("--session-b", default=None,
-                    help="runs/<timestamp> session that produced variant B (with-RAG)")
+                    help="runs/<timestamp> session that produced variant B (kb150 v1 RAG)")
+    ap.add_argument("--session-c", default=None,
+                    help="runs/<timestamp> session that produced variant C (kb150_v2 RAG)")
     ap.add_argument("--qids", default=None,
                     help="Comma-separated qid filter (e.g. Q028,Q050)")
     ap.add_argument("--dry-run", action="store_true",
@@ -338,6 +366,7 @@ def main():
     benchmark_root = Path(args.benchmark_dir)
     session_a = Path(args.session_a) if args.session_a else None
     session_b = Path(args.session_b) if args.session_b else None
+    session_c = Path(args.session_c) if args.session_c else None
     qid_filter = [q.strip() for q in args.qids.split(",")] if args.qids else None
 
     if not sample_path.exists():
@@ -349,8 +378,9 @@ def main():
     print(f"   benchmark dir: {benchmark_root}  (exists={benchmark_root.exists()})")
     print(f"   variant A session: {session_a or '<none>'}")
     print(f"   variant B session: {session_b or '<none>'}")
+    print(f"   variant C session: {session_c or '<none>'}")
 
-    jobs = _build_jobs(sample, session_a, session_b, benchmark_root)
+    jobs = _build_jobs(sample, session_a, session_b, benchmark_root, session_c=session_c)
 
     if args.dry_run:
         _print_dry_run(jobs)

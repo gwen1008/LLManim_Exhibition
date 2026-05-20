@@ -30,25 +30,112 @@ REPO = Path(__file__).resolve().parents[1]
 import re
 
 
-def _normalize_answer(s: str) -> str:
-    """Best-effort normalize LaTeX/ASCII fraction representations for comparison."""
+def _atoms(s: str) -> set[str]:
+    """Convert one answer string into a set of equivalent canonical forms.
+
+    Two answers match if their atom sets intersect — handles cases like
+    "49/10 = 4 9/10" where candidate writes multiple equivalent forms.
+    """
     if not s:
-        return ""
-    s = s.strip().strip("$ ").replace("\\,", "").replace(" ", "")
-    # \frac{a}{b} → a/b
-    s = re.sub(r"\\d?frac\{([^{}]+)\}\{([^{}]+)\}", r"\1/\2", s)
-    # Mixed number "4 9/10" or "4\frac{9}{10}" already covered above → 4_9/10
-    return s.lower()
+        return set()
+    s = str(s).strip().strip("$").replace("\\,", " ").strip()
+    s = s.replace("　", " ")
+    # Strip unit suffixes / language noise that aren't part of the answer
+    # ("公尺" / "meters" / "公斤" / "metres" etc are unit labels)
+    for unit in ["公尺", "公分", "公里", "公斤", "公克", "毫米", "毫秒", "秒",
+                 "meters", "meter", "metres", "centimeters", "millimeters",
+                 "kilometers", "feet", "inches", " m", " cm", " mm", " km"]:
+        s = s.replace(unit, " ")
+    # Strip common label prefixes like "LCM = ", "GCD = "
+    s = re.sub(r"^[a-zA-Z]+\s*=\s*", "", s.strip())
+    # Split on "=" — each side is an equivalent form
+    pieces = [p.strip() for p in s.split("=") if p.strip()]
+    if not pieces:
+        pieces = [s]
+
+    out: set[str] = set()
+    for piece in pieces:
+        # Unify multiplication symbol: × ≡ \times ≡ *
+        norm = piece.replace("×", r"\times").replace("*", r"\times")
+        # \frac{a}{b} / \dfrac / \tfrac → a/b
+        norm = re.sub(r"\\[dt]?frac\s*\{([^{}]+)\}\s*\{([^{}]+)\}", r"\1/\2", norm)
+        # Mixed number "4 9/10" → improper "49/10"
+        m = re.match(r"^(-?)\s*(\d+)\s+(\d+)\s*/\s*(\d+)$", norm.strip())
+        if m:
+            sign = m.group(1) or ""
+            whole, num, den = int(m.group(2)), int(m.group(3)), int(m.group(4))
+            norm = f"{sign}{whole * den + num}/{den}"
+        norm = re.sub(r"\s+", "", norm).lower()
+        if not norm:
+            continue
+        out.add(norm)
+        # Numeric equivalence
+        try:
+            f = float(norm)
+            out.add(str(f))
+            if f == int(f):
+                out.add(str(int(f)))
+        except ValueError:
+            pass
+        # Fraction equivalence: "32/15" → float (multiple precision levels)
+        m2 = re.match(r"^(-?\d+)/(\d+)$", norm)
+        if m2:
+            try:
+                num, den = int(m2.group(1)), int(m2.group(2))
+                if den != 0:
+                    f = num / den
+                    for prec in (4, 6, 9):
+                        out.add(f"{f:.{prec}f}".rstrip("0").rstrip("."))
+            except ValueError:
+                pass
+        # Decimal → fuzzy match: round to 4 decimal places
+        try:
+            f = float(norm)
+            out.add(f"{f:.4f}".rstrip("0").rstrip("."))
+        except ValueError:
+            pass
+    return out
 
 
 def _gt_match_fixed(fj: dict, ground_truth: str) -> Optional[bool]:
-    """Re-compute GT match with the bug-fixed normalizer."""
+    """Re-compute GT match with the bug-fixed normalizer.
+
+    Returns True if any atom of the candidate's answer matches any atom of GT.
+    """
     if not ground_truth:
         return None
     raw_answer = fj.get("final_answer_in_video") or ""
     if not raw_answer:
         return None
-    return _normalize_answer(raw_answer) == _normalize_answer(ground_truth)
+    a = _atoms(raw_answer)
+    b = _atoms(ground_truth)
+    return bool(a & b)
+
+
+# Back-compat alias (older code still imports _normalize_answer)
+def _normalize_answer(s: str) -> str:
+    atoms = _atoms(s)
+    return next(iter(atoms)) if atoms else ""
+
+
+def _load_sample_gt(sample_path: Path) -> dict[str, str]:
+    """Load ground-truth answers from experiment_sample_30.json (or similar)."""
+    if not sample_path.exists():
+        return {}
+    cases = json.loads(sample_path.read_text(encoding="utf-8"))
+    out = {}
+    for c in cases:
+        qid = c.get("id", "")
+        if not qid:
+            continue
+        # Prefer `ground_truth.answer`, fall back to top-level `answer`
+        gt = c.get("ground_truth", {}).get("answer") if isinstance(c.get("ground_truth"), dict) else None
+        gt = gt or c.get("answer", "")
+        out[qid] = str(gt) if gt else ""
+    return out
+
+
+REPO_GT = _load_sample_gt(REPO / "evaluation" / "experiment_sample_30.json")
 
 
 def load_session(session_dir: Path) -> dict[str, dict]:
@@ -59,7 +146,6 @@ def load_session(session_dir: Path) -> dict[str, dict]:
 
     # Read summary.csv for ground truth + meta
     summary_path = session_dir / "summary.csv"
-    gt_map: dict[str, str] = {}
     topic_map: dict[str, str] = {}
     knowledge_map: dict[str, str] = {}
     if summary_path.exists():
@@ -92,7 +178,9 @@ def load_session(session_dir: Path) -> dict[str, dict]:
 
         fj = cr.get("final_judge", {}) or {}
         scores = fj.get("scores", {}) or {}
-        # Try to extract GT answer from per-case if available; otherwise skip the re-compute
+        # Re-compute GT match with bug-fixed normalizer.
+        gt_truth = REPO_GT.get(qid, "")
+        gt_match_fixed = _gt_match_fixed(fj, gt_truth) if gt_truth else None
         out[qid] = {
             "verdict": fj.get("verdict"),
             "weighted": fj.get("weighted_total"),
@@ -101,6 +189,8 @@ def load_session(session_dir: Path) -> dict[str, dict]:
             "visual": scores.get("visual_clarity"),
             "layout": scores.get("spatial_layout"),
             "gt_match_raw": fj.get("ground_truth_match"),
+            "gt_match_fixed": gt_match_fixed,
+            "ground_truth": gt_truth,
             "final_answer": fj.get("final_answer_in_video"),
             "cost": cr.get("total_cost_usd"),
             "tokens": cr.get("total_prompt_tokens", 0) + cr.get("total_completion_tokens", 0),
@@ -126,11 +216,13 @@ def aggregate(data: dict[str, dict]) -> dict:
     if not cases:
         return {"n": 0}
     pass_count = sum(1 for c in cases if c["verdict"] == "PASS")
-    gt_count = sum(1 for c in cases if c.get("gt_match_raw") is True)
+    gt_count_raw = sum(1 for c in cases if c.get("gt_match_raw") is True)
+    gt_count_fixed = sum(1 for c in cases if c.get("gt_match_fixed") is True)
     return {
         "n": len(cases),
         "pass_rate": pass_count / len(cases),
-        "gt_rate": gt_count / len(cases),
+        "gt_rate_raw": gt_count_raw / len(cases),
+        "gt_rate_fixed": gt_count_fixed / len(cases),
         "avg_weighted": sum((c["weighted"] or 0) for c in cases) / len(cases),
         "avg_math": sum((c["math"] or 0) for c in cases) / len(cases),
         "avg_concept": sum((c["concept"] or 0) for c in cases) / len(cases),
@@ -183,7 +275,8 @@ def render_md(a_data: dict, c_data: dict, a_name: str, c_name: str) -> str:
     lines.append("|---|---:|---:|---:|")
     metric_map = [
         ("Pass rate", "pass_rate", "%"),
-        ("GT-match rate (raw)", "gt_rate", "%"),
+        ("GT-match (raw, broken)", "gt_rate_raw", "%"),
+        ("GT-match (LaTeX-normalized)", "gt_rate_fixed", "%"),
         ("Avg weighted", "avg_weighted", ""),
         ("Avg math", "avg_math", ""),
         ("Avg concept", "avg_concept", ""),
