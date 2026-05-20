@@ -10,6 +10,11 @@ from manim import *
 
 
 class IntegerExpressionSimplification(Scene):
+    """
+    整數加減: 雙負號化簡 → 相反數分組相消 → 剩餘項相加減
+
+    題目：計算 (-3456) + 789 - (-4456) - 1789 的值
+    """
     def construct(self):
         title = Text("Pairing Opposites to Reach Zero", color=WHITE, font_size=36)
         title.to_edge(UP, buff=0.5)

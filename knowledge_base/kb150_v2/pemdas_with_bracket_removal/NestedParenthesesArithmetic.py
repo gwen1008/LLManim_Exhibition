@@ -5,6 +5,11 @@
 from manim import *
 
 class NestedParenthesesArithmetic(Scene):
+    """
+    四則運算（含去括號）: 嵌套括號優先 = 先算最內層乘法、再括號內減法、最後外層乘除加減
+
+    題目：計算 30 - (-5) × [18 - (-2) × 4] ÷ 10 的值
+    """
     def construct(self):
         # Step 1
         title = Text("Order of Operations with Nested Brackets", color=WHITE, font_size=36)

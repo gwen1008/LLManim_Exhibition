@@ -6,6 +6,11 @@
 from manim import *
 
 class FindExponentsGCDLCM(Scene):
+    """
+    因數與倍數: 利用 GCD(最小指數) 與 LCM(最大指數) 反推質因數分解中的未知指數
+
+    題目：已知 M = 2^x × 3^3 × 7^z, N = 2^4 × 3^y × 7^2, GCD(M,N) = 2^2 × 3^2 × 7, LCM(M,N) = 2^4 × 3^3 × 7^2，求 x, y, z 的值
+    """
     def construct(self):
         title = Text("Finding x, y, z from GCD and LCM", color=WHITE, font_size=34)
         title.move_to(ORIGIN + np.array([0, 3.2, 0]))

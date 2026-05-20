@@ -7,6 +7,11 @@
 from manim import *
 
 class FractionExpressionSimplification(Scene):
+    """
+    分數加減: 去括號(含符號變換)→相同分母項歸類→分別計算→合併
+
+    題目：計算 -(5 3/11 - 2 5/8) + (5 3/8 - 2 8/11) 的值
+    """
     def construct(self):
         # Step 1
         title = Text("Grouping Mixed Numbers by Denominator", color=WHITE, font_size=34).to_edge(UP, buff=0.5)

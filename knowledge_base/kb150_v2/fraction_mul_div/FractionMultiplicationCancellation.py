@@ -7,6 +7,11 @@
 from manim import *
 
 class FractionMultiplicationCancellation(Scene):
+    """
+    分數乘除: 整數與分母相同時直接約分
+
+    題目：計算 18 × (-37/18) 的值
+    """
     def construct(self):
         title = Text("約分捷徑：18 × (-37/18)", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
 

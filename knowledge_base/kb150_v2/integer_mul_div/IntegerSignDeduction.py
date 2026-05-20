@@ -7,6 +7,11 @@ from manim import *
 
 
 class IntegerSignDeduction(Scene):
+    """
+    整數乘除: 符號推理 = 從乘除不等式推導整數符號關係
+
+    題目：若 m × n > 0 且 n ÷ p < 0，且已知 m < 0，求 n 和 p 的正負
+    """
     def construct(self):
         title = Text("Determining Signs of n and p", color=WHITE, font_size=38).move_to(ORIGIN + np.array([0, 3.0, 0]))
         num_line = NumberLine(x_range=[-5, 5, 1], length=10, include_numbers=False, color=GREY).move_to(ORIGIN)

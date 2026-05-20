@@ -6,6 +6,11 @@
 from manim import *
 
 class DistributivePropertyWithNegatives(Scene):
+    """
+    四則運算算則（不含去括號）: 分配律簡化 = 提取公因數轉化減法為括號形式
+
+    題目：計算 (-83) × 124 - (-83) × 24 的值
+    """
     def construct(self):
         title = Text("分配律：提出共同因式", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
         step_label = Text("步驟 1：原始算式", color=YELLOW, font_size=28).move_to(ORIGIN + np.array([0, 1.8, 0]))

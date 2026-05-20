@@ -5,6 +5,11 @@
 from manim import *
 
 class MixedArithmeticOrderOfOperations(Scene):
+    """
+    完整的四則混合運算: 運算順序 = 先算冪次、括號、乘除、加減
+
+    題目：計算 (-1/3)^2 ÷ (1/6 - 1/4) × (-3)^2 的值
+    """
     def construct(self):
         title = Text("Order of Operations", color=YELLOW, font_size=40).move_to(ORIGIN + np.array([0, 3.0, 0]))
         step_label = Text("Step 1: Evaluate the powers", color=ORANGE, font_size=28).move_to(ORIGIN + np.array([0, 1.8, 0]))

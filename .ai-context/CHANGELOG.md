@@ -478,3 +478,5 @@
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/benchmark_self_check.py evaluation/golden_set/judge_calibration.py 
 - `2026-05-20 21:23` | branch=`main` | dirty=66 files | head=`de4cc85 fix(final-judge): normalize \frac{a}{b} → a/b before number extraction`
   - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 
+- `2026-05-20 21:42` | branch=`main` | dirty=85 files | head=`472b02a feat(kb150_v2): system-generated RAG examples + tooling`
+  - touched: agents/core/rag_retriever.py agents/utils/final_judge.py agents/utils/layout_auditor.py evaluation/golden_set/judge_calibration.py knowledge_base/kb150/exponent_scientific_notation/CompareScientificNotationAndDecimal.py 

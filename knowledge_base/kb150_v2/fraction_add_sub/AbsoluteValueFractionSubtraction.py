@@ -4,6 +4,11 @@
 from manim import *
 
 class AbsoluteValueFractionSubtraction(Scene):
+    """
+    分數加減: 絕對值 → 帶分數化假分數 → 通分 → 分子加減
+
+    題目：若 a = -3 2/5, b = 2 1/4, 求 |a| - |b| 的值
+    """
     def construct(self):
         # Step 1
         title = Text("Absolute Value of Mixed Fractions", color=WHITE, font_size=36).to_edge(UP, buff=0.5)

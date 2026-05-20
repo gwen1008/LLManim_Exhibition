@@ -4,6 +4,11 @@
 from manim import *
 
 class DistributiveLawComplexSubtraction(Scene):
+    """
+    四則運算（含去括號）: 代換法 + 分配律 = 用代換簡化相似項結構，再用分配律展開
+
+    題目：計算 2025 × (-2026) - 2024 × (-2027) 的值
+    """
     def construct(self):
         title = Text("Substitution + Distributive Law", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
         eq_original = MathTex(r"2025 \times (-2026) - 2024 \times (-2027)", color=WHITE).move_to(ORIGIN)

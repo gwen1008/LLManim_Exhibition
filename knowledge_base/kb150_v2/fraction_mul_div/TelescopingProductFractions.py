@@ -7,6 +7,11 @@ from manim import *
 
 
 class TelescopingProductFractions(Scene):
+    """
+    分數乘除: 相鄰分子分母相消的連乘式化簡（望遠鏡型約分）
+
+    題目：計算 (3/5) × (5/7) × (7/9) × (9/11) × (11/13) 的值
+    """
     def construct(self):
         title = Text("Telescoping Product", color=WHITE, font_size=40).to_edge(UP, buff=0.6)
 

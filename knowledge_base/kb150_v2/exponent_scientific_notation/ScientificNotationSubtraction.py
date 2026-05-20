@@ -6,6 +6,11 @@
 from manim import *
 
 class ScientificNotationSubtraction(Scene):
+    """
+    指數與科學記號: 統一指數後提公因數加減
+
+    題目：計算 (5.4×10^6) + (9×10^4) 並化為科學記號
+    """
     def construct(self):
         title = Text("Adding Numbers in Scientific Notation", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
         step_label = Text("Step 1: Original Expression", color=YELLOW, font_size=28).move_to(ORIGIN + np.array([0, 2.0, 0]))

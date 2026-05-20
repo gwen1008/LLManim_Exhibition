@@ -9,6 +9,11 @@ from manim import *
 
 
 class GCDLCMExponents(Scene):
+    """
+    因數與倍數: 用 GCD 和 LCM 的質因數分解式反推多個未知指數
+
+    題目：已知 P = 3^a × 5^2 × 7, Q = 3^2 × 5^b × 11, GCD(P,Q) = 3^2 × 5^2 = 225, LCM(P,Q) = 3^3 × 5^3 × 7 × 11，求 a + b 的值
+    """
     def construct(self):
         title = Text("Finding a + b via GCD and LCM", color=WHITE, font_size=38).to_edge(UP)
         stage_center = ORIGIN

@@ -6,6 +6,11 @@
 from manim import *
 
 class MixedFractionMultiplicationCancellation(Scene):
+    """
+    分數乘除: 帶分數化假分數 → 重排項使相鄰項相同 → 配對約分
+
+    題目：計算 (-4 1/3) × 1 1/2 × (-1 2/5) × 5/26 的值
+    """
     def construct(self):
         # Step 1
         title = Text("Multiplying Fractions with Cancellation", color=WHITE, font_size=36).to_edge(UP, buff=0.5)

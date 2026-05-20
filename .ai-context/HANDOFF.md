@@ -11,21 +11,19 @@
 
 ## 現在要做什麼
 
-- [x] Phase B1-B3 實現 + BJ self-sanity driver
-- [x] 完成 variant A 30 題評估
-- [x] KB150 v2 工具鏈全部完工 + 29/29 渲染成功
+- [x] KB150 v2 完全發佈：29 題 docstring 注入 + Weaviate ingestion 完成
 - [x] GT-match \frac 修復
-- [ ] KB150 v2 人工評分 + 修復 Planner 拆字串錯誤（ScientificNotationBacterialLength、AbsoluteValueFractionSubtraction）
+- [ ] 切換 main.py RAG collection 預設到 ManimKB150v2
 - [ ] Variant B 30 題評估 + kb_quick_audit 驗證
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `agents/utils/final_judge.py` | \frac{a}{b} → a/b 正規化修復 (de4cc85) | GT-match 評分準確度提升 |
-| `evaluation/judge_calibration.py` + `run_evaluation.py` | BJ self-check file-level validator + --qids warn 機制 (bc23f61) | Phase 1 驗證通過，self-sanity driver 完工 |
-| `rag/ingest_code.py` + `ingest_rules.py` | RAG 管線完整對接 BJ 系統 | Gemini vectorizer 管線就位 |
-| `rag/kb_quick_audit.py` | 新工具：RAG / BJ 系統量化驗證 | 評估管線品質檢查用
+| `knowledge_base/kb150_v2/` (29 files) | 注入 teaching method docstring (各 +5 行) | Weaviate ManimKB150v2 collection 就位，smoke test 通過 |
+| `main.py` | 支援 RAG_COLLECTION 環境變數 (+20 行) | 預設仍需手動指定為 ManimKB150v2 |
+| `rag/ingest_code.py` + `ingest_rules.py` | 優化 docstring 擷取與 metadata 格式 (+39 行) | v2 ingestion pipeline 完整 |
+| `run_evaluation.py` | 擴展 self-check 與 collection 選擇邏輯 (+63 行) | evaluation 系統已支援 v2 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

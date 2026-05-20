@@ -4,6 +4,11 @@
 from manim import *
 
 class IntegerSubtractionWithBrackets(Scene):
+    """
+    整數加減: 括號去除法則 + 項重排優化（相反數相消）
+
+    題目：計算 365 - [148 + (-365)] - 217 的值
+    """
     def construct(self):
         title = Text("Evaluate: 365 - [148 + (-365)] - 217", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
         step_label = Text("Step 1: Original Expression", color=YELLOW, font_size=28).move_to(ORIGIN + np.array([0, 1.8, 0]))

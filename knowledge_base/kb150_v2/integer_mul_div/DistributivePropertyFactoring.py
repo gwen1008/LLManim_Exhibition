@@ -5,6 +5,11 @@
 from manim import *
 
 class DistributivePropertyFactoring(Scene):
+    """
+    整數乘除: 分配律逆用 = 提取公因數簡化表達式
+
+    題目：計算 (-17) × 35 - (-17) × (-65) 的值
+    """
     def construct(self):
         # Step 1
         title = Text("Reverse Distributive Law", color=WHITE, font_size=38).to_edge(UP, buff=0.5)

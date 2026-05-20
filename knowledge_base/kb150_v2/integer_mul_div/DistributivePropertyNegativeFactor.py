@@ -5,6 +5,11 @@
 from manim import *
 
 class DistributivePropertyNegativeFactor(Scene):
+    """
+    整數乘除: 負公因數提取 = 改寫減法並提出負號共同因數
+
+    題目：計算 73 × (-28) - 27 × 28 的值
+    """
     def construct(self):
         title = Text("Factoring a Negative Common Factor", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
         eq0 = MathTex(r"73 \times (-28) - 27 \times 28", color=WHITE).move_to(ORIGIN)

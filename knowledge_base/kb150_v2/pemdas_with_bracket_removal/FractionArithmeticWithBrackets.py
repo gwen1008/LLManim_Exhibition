@@ -7,6 +7,11 @@ from manim import *
 
 
 class FractionArithmeticWithBrackets(Scene):
+    """
+    四則運算（含去括號）: 帶括號分數運算 = 按運算順序計算最內層乘除、括號內加減、最後乘除
+
+    題目：計算 1/3 × [3/4 - (-1/6) × 3] ÷ 5/4 的值
+    """
     def construct(self):
         title = Text("Order of Operations with Fractions", color=WHITE, font_size=36)
         title.move_to(ORIGIN + np.array([0, 3.0, 0]))

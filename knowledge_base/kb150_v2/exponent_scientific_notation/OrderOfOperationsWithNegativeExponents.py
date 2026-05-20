@@ -7,6 +7,11 @@ from manim import *
 
 
 class OrderOfOperationsWithNegativeExponents(Scene):
+    """
+    指數與科學記號: 負數冪次運算遵循指數優先規則
+
+    題目：計算 (-3)^3 ÷ 9 - (-2)^4 × 3 的值
+    """
     def construct(self):
         # Step 1
         title = Text("Order of Operations with Negative Powers", color=WHITE, font_size=34)

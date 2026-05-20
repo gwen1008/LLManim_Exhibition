@@ -5,6 +5,11 @@
 from manim import *
 
 class IntegerSubtractionErrorAnalysis(Scene):
+    """
+    整數加減: 負號提取規則 = 括號前的負號改變括號內所有項的符號
+
+    題目：錯誤分析：學生計算 -58 - (-31) + (-17)，請找出符號處理錯誤的步驟並改正
+    """
     def construct(self):
         title = Text("Error Analysis: Sign Handling", color=WHITE, font_size=38).to_edge(UP, buff=0.5)
         original_expr = MathTex("-58 - (-31) + (-17)", color=WHITE).move_to(ORIGIN + np.array([0, 1.8, 0]))

@@ -6,6 +6,11 @@
 from manim import *
 
 class MixedArithmeticOrderOfOperations(Scene):
+    """
+    四則運算算則（不含去括號）: 不含去括號的運算順序 = 先括號、後乘除、最後加減
+
+    題目：計算 25 - 36 ÷ (-5 - 4) × 2 的值
+    """
     def construct(self):
         title = Text("Order of Operations", color=YELLOW, font_size=40).to_edge(UP, buff=0.5)
         step_label_1 = Text("Step 1: Evaluate inside parentheses", color=WHITE, font_size=28).move_to(ORIGIN + np.array([0, 1.8, 0]))

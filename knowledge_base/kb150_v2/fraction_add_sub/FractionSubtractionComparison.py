@@ -5,6 +5,11 @@ from manim import *
 
 
 class FractionSubtractionComparison(Scene):
+    """
+    分數加減: 利用 x - y > 0 ⇒ x > y 來建立分數不等式比較條件
+
+    題目：若 a = -3/7, 求下列哪個 b 值不滿足 a - b > 0：(A) -1/2 (B) -4/5 (C) -7/10 (D) -2/5
+    """
     def construct(self):
         title = Text("Identifying the Failing Option", color=WHITE, font_size=36)
         title.move_to(ORIGIN + np.array([0, 3.2, 0]))

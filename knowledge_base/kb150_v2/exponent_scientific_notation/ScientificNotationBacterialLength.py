@@ -5,6 +5,11 @@
 from manim import *
 
 class ScientificNotationBacterialLength(Scene):
+    """
+    指數與科學記號: 單位換算 + 科學記號分離數字與指數相乘
+
+    題目：某病毒直徑約 6×10^-8 公尺，若 5×10^9 個首尾相連緊密排成一直線，求總長度，請以科學記號 a×10^n 表示
+    """
     def construct(self):
         # Step 1 — Problem statement
         title = Text("Virus diameter × count", color=WHITE, font_size=36).to_edge(UP, buff=0.6)

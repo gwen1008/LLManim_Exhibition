@@ -5,6 +5,11 @@
 from manim import *
 
 class DistributivePropertyMixedNumberMultiplication(Scene):
+    """
+    完整的四則混合運算: 混合數分配律 = 將帶分數展開為整數加分數後分配乘法
+
+    題目：計算 49 5/6 × (-6) 的值
+    """
     def construct(self):
         title = Text("Compute 49 5/6 × (-6)", color=WHITE, font_size=40).to_edge(UP, buff=0.5)
         step_label = Text("Step 1: Split the mixed number", color=YELLOW, font_size=28).move_to(ORIGIN + np.array([0, 1.6, 0]))

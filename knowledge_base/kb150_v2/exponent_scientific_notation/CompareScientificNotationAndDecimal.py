@@ -5,6 +5,11 @@
 from manim import *
 
 class CompareScientificNotationAndDecimal(Scene):
+    """
+    指數與科學記號: 科學記號統一後比較大小
+
+    題目：比較三數大小並由小到大排列：A = 7.5×10^-3, B = 8.2×10^-4, C = 0.00021
+    """
     def construct(self):
         title = Text("Compare & Sort: Scientific Notation", color=WHITE, font_size=38)
         title.to_edge(UP, buff=0.5)

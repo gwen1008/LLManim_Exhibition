@@ -7,6 +7,11 @@
 from manim import *
 
 class MixedOperationsFractionsDecimals(Scene):
+    """
+    完整的四則混合運算: 嵌套括號化簡 = 由內到外逐步計算括號、乘除、加減
+
+    題目：計算 -4.5 ÷ [(1/5 - 1) × 5/4 + 3/4] 的值
+    """
     def construct(self):
         title = Text("Nested Brackets: Inside-Out Simplification", color=WHITE, font_size=34).move_to(ORIGIN + np.array([0, 3.0, 0]))
         eq0 = MathTex(r"-4.5 \div \left[\left(\tfrac{1}{5}-1\right)\times \tfrac{5}{4}+\tfrac{3}{4}\right]", color=WHITE).scale(0.95).move_to(np.array([0, 0.3, 0]))

@@ -5,6 +5,11 @@
 from manim import *
 
 class OrderOfOperationsComplexArithmetic(Scene):
+    """
+    四則運算算則（不含去括號）: 複雜運算順序 = 先括號、乘除左右順序、最後加減
+
+    題目：計算 (-72) ÷ (-8) × (-3) - (17 - 30) × 2 的值
+    """
     def construct(self):
         # Step 1
         title = Text("Order of Operations", color=YELLOW, font_size=40).move_to(ORIGIN + np.array([0, 3.2, 0]))

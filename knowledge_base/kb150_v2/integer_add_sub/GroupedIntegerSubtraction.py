@@ -5,6 +5,11 @@
 from manim import *
 
 class GroupedIntegerSubtraction(Scene):
+    """
+    整數加減: 交替加減式兩兩分組，每組差值相等時可快速化簡
+
+    題目：計算 45 - 58 + 65 - 78 + 85 - 98 的值
+    """
     def construct(self):
         title = Text("Alternating Sum by Pair Grouping", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
         expr_full = MathTex("45 - 58 + 65 - 78 + 85 - 98", color=WHITE).move_to(ORIGIN + np.array([0, 0.8, 0]))

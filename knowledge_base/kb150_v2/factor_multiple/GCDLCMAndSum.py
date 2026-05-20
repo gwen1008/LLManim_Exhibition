@@ -7,6 +7,11 @@ from manim import *
 
 
 class GCDLCMAndSum(Scene):
+    """
+    因數與倍數: 質因數分解後標出各數共有因數(最低次)與全部因數(最高次)
+
+    題目：求 28、42、105 的最大公因數與最小公倍數之和
+    """
     def construct(self):
         # Step 1
         title = Text("GCD + LCM of 28, 42, 105", color=WHITE, font_size=38)
