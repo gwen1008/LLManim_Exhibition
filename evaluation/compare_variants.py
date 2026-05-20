@@ -128,14 +128,35 @@ def _load_sample_gt(sample_path: Path) -> dict[str, str]:
         qid = c.get("id", "")
         if not qid:
             continue
-        # Prefer `ground_truth.answer`, fall back to top-level `answer`
         gt = c.get("ground_truth", {}).get("answer") if isinstance(c.get("ground_truth"), dict) else None
         gt = gt or c.get("answer", "")
         out[qid] = str(gt) if gt else ""
     return out
 
 
+def _load_sample_kp(sample_path: Path) -> dict[str, str]:
+    """Load KP labels from experiment_sample_30.json — single source of truth.
+
+    A/C session summaries label KP differently (A: '-' falls back to Category=Elementary;
+    C: explicit Chinese KP like '整數加減'). Using the sample JSON gives both sessions
+    the same KP labels so by-KP cross-tab actually compares like-for-like.
+    """
+    if not sample_path.exists():
+        return {}
+    cases = json.loads(sample_path.read_text(encoding="utf-8"))
+    out = {}
+    for c in cases:
+        qid = c.get("id", "")
+        if not qid:
+            continue
+        # Prefer the Chinese knowledge_point, fall back to category
+        kp = c.get("knowledge_point", "") or c.get("category", "") or "(?)"
+        out[qid] = kp
+    return out
+
+
 REPO_GT = _load_sample_gt(REPO / "evaluation" / "experiment_sample_30.json")
+REPO_KP = _load_sample_kp(REPO / "evaluation" / "experiment_sample_30.json")
 
 
 def load_session(session_dir: Path) -> dict[str, dict]:
@@ -155,11 +176,10 @@ def load_session(session_dir: Path) -> dict[str, dict]:
                 if not qid:
                     continue
                 topic_map[qid] = row.get("Topic", "")[:80]
-                # `Knowledge Point` can literally be "-" in old A-group summaries; fall back to Category
-                kp = row.get("Knowledge Point", "").strip()
-                if not kp or kp == "-":
-                    kp = row.get("Category", "").strip()
-                knowledge_map[qid] = kp
+                # Use sample JSON as single source of truth for KP labels — A and C
+                # summaries label KP inconsistently (A often `-`→Category=Elementary,
+                # C uses Chinese KP names), so by-KP tables can't compare otherwise.
+                knowledge_map[qid] = REPO_KP.get(qid) or row.get("Knowledge Point", "").strip() or row.get("Category", "").strip()
 
     # Read each case's cost_report.json
     for case_dir in sorted(session_dir.iterdir()):
