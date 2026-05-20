@@ -2,7 +2,7 @@
 FinalJudge — Post-render rubric-based quality evaluator.
 
 Two-phase evaluation:
-  Phase 1: Claude 3.5 Sonnet reads the generated Python code
+  Phase 1: Claude Opus 4.7 (via Claude Code CLI subscription) reads the generated Python code
            → checks math logic, API correctness, structural issues
   Phase 2: GPT-4o views rendered video frames
            → receives Phase 1 code analysis as context hint
@@ -185,7 +185,7 @@ class FinalJudge:
     PASS_THRESHOLD = 3.5      # weighted_total below this → FAIL
     DIMENSION_FLOOR = 2       # any single dimension <= this → FAIL (hard veto)
 
-    # ── Code Reviewer prompt (Claude 3.5 Sonnet) ──────────────────────────
+    # ── Code Reviewer prompt (Claude Opus 4.7 via CLI subscription) ───────
     _CODE_REVIEW_SYSTEM = """You are an expert Manim Community Edition (CE) code reviewer.
 You analyze generated Manim Python code to find mathematical and logical problems.
 
@@ -223,11 +223,33 @@ animation will display to the student at the end (e.g., "9", "12 cm", "x = 3", "
 Pull this from MathTex/Text contents, final highlighted values, or the conclusion screen.
 If you cannot determine it, set the field to null. Do not invent.
 
+**Expected visual events extraction (CRITICAL — used by vision check-list):**
+Identify 3-7 *concrete, screen-visible* events that this animation should produce.
+Each event must be a thing a human can confirm by looking at a frame WITHOUT reading code.
+
+Good event examples:
+- "A red Circle appears in the upper-left quadrant"
+- "Two MathTex equations '1/2' and '2/4' shown side by side"
+- "A blue Arrow connects the left and right shapes"
+- "A right-angle marker (small square) drawn at vertex B"
+
+Bad event examples (DO NOT EMIT — too abstract or narrative):
+- "The concept of fractions is explained" (no visual to verify)
+- "Student understands division" (judgement, not observable)
+- "Voiceover mentions PI" (audio, not visual)
+- "Wait 2 seconds" (no visual content)
+
+Each event has a weight 1.0 (mandatory) or 0.5 (nice-to-have).
+Limit to events that are actually rendered (Mobject construction + .play() / .add() / .show()).
+
 Output ONLY valid JSON, no preamble:
 {
   "math_score": <1-5>,
   "math_justification": "...",
   "final_answer_in_video": "<string or null — the answer the animation conveys>",
+  "expected_visual_events": [
+    {"id": "E1", "description": "...", "weight": 1.0}
+  ],
   "issues": [
     {
       "severity": "Critical" | "Major" | "Minor",
@@ -240,57 +262,48 @@ Output ONLY valid JSON, no preamble:
   "summary": "one sentence overall assessment"
 }"""
 
-    # ── Visual Judge prompt (GPT-4o) ───────────────────────────────────────
-    _VISUAL_JUDGE_SYSTEM = """# ROLE: STRICT MATHEMATICAL ANIMATION CRITIC
+    # ── Visual Judge prompt (event-checklist + visual_clarity) ─────────────
+    _VISUAL_JUDGE_SYSTEM = """# ROLE: STRICT VISUAL FACT-CHECKER FOR MATH ANIMATION
 
-You are an uncompromising expert judge for AI-generated math educational animations.
-You NEVER rubber-stamp. You actively seek out problems.
-A score of 5 means FLAWLESS — only give it when there are truly no issues.
+You are checking whether an AI-generated math animation actually shows the
+expected visual events. You do NOT score "concept alignment" holistically —
+instead you check off each event one-by-one and answer YES/NO based ONLY on
+what you can SEE in the frames.
 
-## MANDATORY EVALUATION PROTOCOL (follow IN ORDER):
+You will receive a 2×N grid of frames (one row × multiple columns OR a 2-row
+grid; each tile is a snapshot at a different timestamp of the same video) and
+a list of EXPECTED VISUAL EVENTS extracted from the code.
 
-### Step 1: Frame-by-Frame Inventory
-For each of the 4 frames (TL=10%, TR=35%, BL=65%, BR=90%):
-- List every visible element (text, shapes, labels, axes)
-- Note any overlapping elements
-- Note any elements near/outside the canvas edge
+## PROTOCOL (follow strictly):
 
-### Step 2: Visual Metaphor Audit
-For each named visual concept in the Context (e.g., "pizza", "balance scale"):
-- Does the shape LOOK LIKE that object WITHOUT relying on labels?
-- Would a 10-year-old student recognize it instantly?
-- Flag any metaphor that requires a label to be understood.
+### Step 1: Frame inventory
+Briefly list every visible element across the grid (shapes, text, axes,
+arrows). One short paragraph.
 
-### Step 3: Code Issue Confirmation
-Review the [Code Analysis] section. For each issue found there:
-- Can you SEE evidence of that problem in the frames?
-- Note which issues are visible vs invisible in the frames.
+### Step 2: Per-event check
+For EACH event in [EXPECTED EVENTS], decide:
+  - present = 1 if you can SEE the event in any of the frames
+  - present = 0 if the event is missing, wrong, or only inferable from labels
+Be conservative: when uncertain, output 0.
+Include a 1-line `evidence` field citing the frame (TL/TR/BL/BR) and what you saw.
 
-### Step 4: Score TWO dimensions only (1-5 scale)
-
-**concept_alignment** — Does the animation represent the intended concept visually?
-- 5: Perfect. Visual metaphors are immediately recognizable without labels.
-- 4: Good alignment, minor ambiguity.
-- 3: Concept conveyed but requires labels to understand.
-- 2: Visual metaphors are confusing or misleading.
-- 1: Animation does not represent the intended concept.
-
-**visual_clarity** — Layout, legibility, absence of overlap/overflow:
-- 5: Perfect. No overlaps, nothing off-screen, all text readable.
-- 4: Minor imperfection not impeding reading.
-- 3: Some cramping or slight overlap but still readable.
-- 2: Significant overlap or off-screen elements blocking comprehension.
-- 1: Chaotic layout. Cannot parse the visual.
+### Step 3: Score visual_clarity ONLY (1-5)
+This score is independent of the event check. Judges layout/legibility:
+- 5: No overlaps, nothing off-screen, all text readable
+- 4: Minor imperfection not impeding reading
+- 3: Some cramping or slight overlap but still readable
+- 2: Significant overlap or off-screen elements
+- 1: Chaotic layout — cannot parse
 
 ## OUTPUT FORMAT (strict JSON, no other text):
 {
-  "frame_analysis": "2-3 sentences describing what you see across all 4 frames",
-  "metaphor_audit": "assessment of each visual metaphor — does it look like what it claims?",
-  "code_confirmation": "which code issues are visible in the frames, which are not",
-  "scores": {
-    "concept_alignment": {"score": X, "justification": "..."},
-    "visual_clarity":    {"score": X, "justification": "..."}
-  }
+  "frame_inventory": "one short paragraph",
+  "event_checks": [
+    {"id": "E1", "present": 0|1, "evidence": "..."},
+    {"id": "E2", "present": 0|1, "evidence": "..."}
+    /* one entry per expected event, in same order */
+  ],
+  "visual_clarity": {"score": <1-5>, "justification": "..."}
 }"""
 
     def __init__(self, llm_client=None):
@@ -331,8 +344,8 @@ Review the [Code Analysis] section. For each issue found there:
         return code
 
     def _analyze_code(self, code: str, script_context: str, ground_truth: dict = None) -> dict:
-        """Phase 1: Claude Sonnet reviews the Manim code."""
-        print("🔬 [FinalJudge Phase 1] Code analysis (Claude Sonnet)...")
+        """Phase 1: Claude Opus reviews the Manim code."""
+        print("🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...")
 
         _scene_code = self._extract_scene_code(code)
         _ctx = f"\nAnimation context: {str(script_context)[:600]}\n" if script_context else ""
@@ -380,6 +393,27 @@ Review for mathematical and logical correctness. Output JSON only."""
             result.setdefault("issues", [])
             result.setdefault("summary", "")
             result.setdefault("final_answer_in_video", None)
+            # Sanitize expected_visual_events: drop entries without description,
+            # auto-assign IDs and clamp weights.
+            _raw_events = result.get("expected_visual_events") or []
+            _events = []
+            for i, ev in enumerate(_raw_events, 1):
+                if not isinstance(ev, dict):
+                    continue
+                desc = str(ev.get("description", "")).strip()
+                if not desc:
+                    continue
+                try:
+                    w = float(ev.get("weight", 1.0))
+                except (ValueError, TypeError):
+                    w = 1.0
+                w = max(0.0, min(1.0, w))
+                _events.append({
+                    "id":          str(ev.get("id") or f"E{i}"),
+                    "description": desc,
+                    "weight":      w,
+                })
+            result["expected_visual_events"] = _events
 
             # Ground-truth hard compare (only when GT.answer present and extraction succeeded)
             gt_match = None
@@ -387,7 +421,9 @@ Review for mathematical and logical correctness. Output JSON only."""
                 gt_match = _compare_answer(result["final_answer_in_video"], ground_truth["answer"])
             result["ground_truth_match"] = gt_match
 
-            print(f"🔬 [Phase 1] math_score={result['math_score']} | issues={len(result['issues'])}")
+            print(f"🔬 [Phase 1] math_score={result['math_score']} | issues={len(result['issues'])} | events={len(result['expected_visual_events'])}")
+            for ev in result["expected_visual_events"]:
+                print(f"  · [{ev['id']} w={ev['weight']:.1f}] {ev['description'][:70]}")
             if result["final_answer_in_video"] is not None:
                 _gt_icon = {True: "✅", False: "❌", None: "❓"}[gt_match]
                 print(f"  {_gt_icon} extracted_answer={result['final_answer_in_video']!r} (gt_match={gt_match})")
@@ -403,15 +439,28 @@ Review for mathematical and logical correctness. Output JSON only."""
     # ──────────────────────────────────────────────────────────────────────
     # Phase 2: Visual Analysis
     # ──────────────────────────────────────────────────────────────────────
-    def _extract_frames(self, video_path: str, script_context: str = "") -> str | None:
-        """Extract step-based frame grid → base64 string.
+    def _extract_frames(self, video_path: str, script_context: str = "",
+                        keep_file: bool = False) -> tuple[str | None, str | None]:
+        """Extract step-based frame grid.
 
         Strategy: infer number of steps from Planner JSON, sample one frame
         per step at ~90% of each step's time window (captures the completed state).
         Fallback to 4 evenly-spaced frames if step count can't be determined.
         Max 6 frames arranged in a grid.
+
+        Returns:
+            (base64_string, file_path) — both may be None on failure.
+            file_path is removed unless keep_file=True (Opus backend needs the
+            file on disk for Claude's Read tool).
         """
-        grid_path = "temp_final_judge_grid.jpg"
+        # Write to /tmp (world-readable by default on macOS) so the Opus backend
+        # — which runs as a different user via `sudo -u claudealt` — can Read
+        # the file. The default tempfile.gettempdir() under /var/folders/... has
+        # mode 0o700 and would block cross-user access (EACCES).
+        import tempfile as _tempfile
+        _fd, grid_path = _tempfile.mkstemp(prefix="fj_grid_", suffix=".jpg", dir="/tmp")
+        os.close(_fd)
+        os.chmod(grid_path, 0o644)
         try:
             dur_result = subprocess.run(
                 ["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -483,20 +532,34 @@ Review for mathematical and logical correctness. Output JSON only."""
             )
         except Exception as e:
             print(f"⚠️ [FinalJudge Phase 2] Frame extraction failed: {e}")
-            return None
+            try:
+                os.remove(grid_path)
+            except OSError:
+                pass
+            return None, None
 
         if not os.path.exists(grid_path):
-            return None
+            return None, None
         with open(grid_path, "rb") as f:
             b64 = base64.b64encode(f.read()).decode("utf-8")
-        os.remove(grid_path)
-        return b64
+        if not keep_file:
+            os.remove(grid_path)
+            return b64, None
+        return b64, grid_path
 
     def _analyze_visual(self, video_path: str, script_context: str, code_analysis: dict) -> dict:
-        """Phase 2: GPT-4o analyzes frames with code analysis as context."""
-        print("👁️  [FinalJudge Phase 2] Visual analysis (GPT-4o)...")
+        """Phase 2: Vision model checks events + visual_clarity.
 
-        b64 = self._extract_frames(video_path, script_context)
+        Backend selectable via env var FJ_VISION_BACKEND:
+          - "gpt4o" (default): OpenAI GPT-4o via base64 image
+          - "opus":             Claude Opus via Claude Code CLI Read tool
+        """
+        backend = os.getenv("FJ_VISION_BACKEND", "gpt4o").strip().lower()
+        backend_label = {"gpt4o": "GPT-4o", "opus": "Claude Opus"}.get(backend, backend)
+        print(f"👁️  [FinalJudge Phase 2] Visual analysis ({backend_label})...")
+
+        keep_file = (backend == "opus")
+        b64, grid_path = self._extract_frames(video_path, script_context, keep_file=keep_file)
         if not b64:
             print("⚠️ [FinalJudge Phase 2] No frames — defaulting to code-only scores")
             return None
@@ -530,21 +593,29 @@ Review for mathematical and logical correctness. Output JSON only."""
                     _gt_block += f"Solution steps: {_sol[:400]}\n"
                 _gt_block += "Use this to verify concept_alignment: does the animation show the correct mathematical process?\n"
 
+        # ── Build [EXPECTED EVENTS] block from code analysis ────────────────
+        events = code_analysis.get("expected_visual_events") or []
+        if events:
+            _events_text = "\n**[EXPECTED EVENTS — check each one]**\n"
+            for ev in events:
+                _events_text += f"- {ev['id']} (weight {ev['weight']:.1f}): {ev['description']}\n"
+        else:
+            _events_text = ""
+
         user_text = f"""**FINAL QUALITY AUDIT**
 
 **Animation Context** (from Planner):
-{str(script_context)[:1000]}
-{_gt_block}{_code_issues_text}{_code_math}
+{str(script_context)[:800]}
+{_gt_block}{_code_issues_text}{_code_math}{_events_text}
 **Storyboard**: Each frame captures the completed state of one animation step (sampled at ~90% of each step window). Frames are arranged left-to-right, top-to-bottom in chronological order.
 
-Follow the 4-step protocol in your system prompt.
-Output ONLY the JSON object."""
+Follow the protocol in your system prompt. Output ONLY the JSON object."""
 
-        # ── Self-consistency: n parallel passes, median of scores ───────────
+        # ── Self-consistency: n parallel passes ─────────────────────────────
         n_passes = int(os.getenv("LLMANIM_FJ_PASSES", "3"))
         n_passes = max(1, min(n_passes, 5))
 
-        def _single_pass(_idx):
+        def _gpt4o_pass(_idx):
             try:
                 content = self.llm.ask_vision(
                     self._VISUAL_JUDGE_SYSTEM, user_text,
@@ -560,6 +631,66 @@ Output ONLY the JSON object."""
                 print(f"⚠️ [FinalJudge Phase 2 pass {_idx}] failed: {_e}")
                 return None
 
+        def _opus_pass(_idx):
+            # Opus reads the grid image via Claude Code CLI's Read tool.
+            # Pattern mirrors agents/utils/pairwise_judge.py::_call_opus_read.
+            import shutil as _shutil, time as _time, subprocess as _sp
+            claude_bin = (
+                os.getenv("CLAUDE_BIN")
+                or _shutil.which("claude")
+                or "/Users/liaozhenting/.local/bin/claude"
+            )
+            run_as = os.getenv("CLAUDE_RUN_AS_USER", "claudealt")
+            model  = os.getenv("FJ_OPUS_MODEL", "claude-opus-4-7")
+            grid_abs = os.path.abspath(grid_path)
+            opus_prompt = (
+                f"{user_text}\n\n"
+                f"The frame grid is at: {grid_abs}\n"
+                f"Use the Read tool to view the image before answering. "
+                f"Then output ONLY the JSON described in your system prompt."
+            )
+            cmd_inner = [
+                claude_bin, "-p", opus_prompt.strip(),
+                "--model", model,
+                "--output-format", "json",
+                "--no-session-persistence",
+                "--tools", "Read",
+                "--add-dir", os.path.dirname(grid_abs),
+                "--system-prompt", self._VISUAL_JUDGE_SYSTEM,
+                "--strict-mcp-config",
+                "--disable-slash-commands",
+            ]
+            cmd = (["sudo", "-u", run_as, "-i"] + cmd_inner) if run_as else cmd_inner
+            try:
+                t0 = _time.time()
+                r = _sp.run(cmd, capture_output=True, text=True, timeout=300)
+                elapsed = _time.time() - t0
+                if r.returncode != 0:
+                    print(f"⚠️ [FinalJudge Phase 2 pass {_idx}] Opus CLI rc={r.returncode}: {r.stderr.strip()[-300:]}")
+                    return None
+                data = json.loads(r.stdout)
+                usage = data.get("usage", {}) or {}
+                in_tok = (usage.get("input_tokens", 0)
+                          + usage.get("cache_read_input_tokens", 0)
+                          + usage.get("cache_creation_input_tokens", 0))
+                out_tok = usage.get("output_tokens", 0)
+                try:
+                    self.llm._update_stats(f"anthropic/{model}", in_tok, out_tok)
+                except Exception:
+                    pass
+                print(f"  [pass {_idx}] Opus {elapsed:.1f}s in={in_tok} out={out_tok}")
+                raw = data.get("result", "")
+                s, e = raw.find("{"), raw.rfind("}") + 1
+                if s == -1 or e <= 0:
+                    print(f"⚠️ [FinalJudge Phase 2 pass {_idx}] no JSON in Opus output")
+                    return None
+                return json.loads(raw[s:e])
+            except Exception as _e:
+                print(f"⚠️ [FinalJudge Phase 2 pass {_idx}] Opus failed: {_e}")
+                return None
+
+        _single_pass = _opus_pass if backend == "opus" else _gpt4o_pass
+
         if n_passes == 1:
             results = [_single_pass(0)]
         else:
@@ -567,17 +698,70 @@ Output ONLY the JSON object."""
             with concurrent.futures.ThreadPoolExecutor(max_workers=n_passes) as ex:
                 results = list(ex.map(_single_pass, range(n_passes)))
 
-        valid = [r for r in results if r and "scores" in r]
-        # Require at least 2 successful passes for self-consistency mode (n>=2)
-        # Otherwise variance is too high; treat as visual-API failure.
+        # Cleanup Opus grid file
+        if grid_path and os.path.exists(grid_path):
+            try:
+                os.remove(grid_path)
+            except OSError:
+                pass
+
+        valid = [r for r in results if r and ("event_checks" in r or "visual_clarity" in r)]
         min_required = 2 if n_passes >= 2 else 1
         if len(valid) < min_required:
             print(f"❌ [FinalJudge Phase 2] Only {len(valid)}/{n_passes} passes succeeded — visual unavailable")
             return None
 
-        # Median per-dimension score, attach justification from highest-confidence pass
-        def _extract_score(r, dim):
-            s = r["scores"].get(dim, {})
+        # ── Per-event majority vote ─────────────────────────────────────────
+        # For each expected event id, gather present votes across passes; >= ceil(n/2)
+        # of present=1 means that event is considered confirmed.
+        event_id_to_meta = {ev["id"]: ev for ev in events}
+        event_votes = {ev["id"]: [] for ev in events}
+        event_evidence = {ev["id"]: [] for ev in events}
+        for r in valid:
+            for chk in r.get("event_checks") or []:
+                eid = str(chk.get("id", "")).strip()
+                if eid not in event_votes:
+                    continue
+                try:
+                    p = int(chk.get("present", 0))
+                except (ValueError, TypeError):
+                    p = 0
+                event_votes[eid].append(1 if p else 0)
+                ev_text = str(chk.get("evidence", "")).strip()
+                if ev_text:
+                    event_evidence[eid].append(ev_text[:100])
+
+        # Confirmed events: per-event majority (>= ceil(votes/2)).
+        confirmed = {}
+        for eid, votes in event_votes.items():
+            if not votes:
+                confirmed[eid] = 0  # event never voted on → treat as missing
+                continue
+            need = (len(votes) + 1) // 2
+            confirmed[eid] = 1 if sum(votes) >= need else 0
+
+        # Alignment = Σ w·p / Σ w
+        if events:
+            total_w = sum(ev["weight"] for ev in events) or 1.0
+            alignment = sum(event_id_to_meta[eid]["weight"] * p for eid, p in confirmed.items()) / total_w
+        else:
+            alignment = None
+
+        # ── Map alignment → 1-5 concept_alignment with concave curve ─────────
+        # score = round(1 + 4 * alignment^1.5)  →  alignment=1.0 → 5, 0.9 → 4, 0.7 → 3
+        # Hard cap: 5 only if alignment == 1.0 AND #events >= 3 (prevents 1-event saturation)
+        if alignment is None:
+            concept_score = None
+        else:
+            raw = 1 + 4 * (alignment ** 1.5)
+            concept_score = int(round(raw))
+            if concept_score == 5 and (alignment < 0.999 or len(events) < 3):
+                concept_score = 4
+            concept_score = max(1, min(5, concept_score))
+
+        # ── visual_clarity: median of per-pass scores (unchanged dim) ───────
+        def _extract_clarity(r):
+            s = r.get("visual_clarity") or {}
             try:
                 return int(s.get("score") if isinstance(s, dict) else s)
             except (ValueError, TypeError):
@@ -590,32 +774,53 @@ Output ONLY the JSON object."""
             mid = len(vals) // 2
             return vals[mid] if len(vals) % 2 else (vals[mid - 1] + vals[mid]) // 2
 
-        agg_scores = {}
-        for dim in ("concept_alignment", "visual_clarity"):
-            dim_scores = [_extract_score(r, dim) for r in valid]
-            agg_scores[dim] = {
-                "score": _median(dim_scores),
-                "justification": " | ".join(
-                    str(r["scores"].get(dim, {}).get("justification", ""))[:120]
-                    for r in valid if r["scores"].get(dim)
-                )[:400],
-                "raw_scores": dim_scores,
-            }
+        clarity_raw = [_extract_clarity(r) for r in valid]
+        clarity_score = _median(clarity_raw)
 
-        # Use first valid pass for textual fields (frame_analysis etc.)
+        # ── Build aggregated dict in same shape as old code ─────────────────
+        agg_scores = {
+            "concept_alignment": {
+                "score": concept_score,
+                "justification": (
+                    f"event-checklist: {sum(confirmed.values())}/{len(events)} events confirmed "
+                    f"(alignment={alignment:.2f})" if events else "no events"
+                ),
+                "raw_alignment": alignment,
+                "event_votes": event_votes,
+                "event_confirmed": confirmed,
+            },
+            "visual_clarity": {
+                "score": clarity_score,
+                "justification": " | ".join(
+                    str((r.get("visual_clarity") or {}).get("justification", ""))[:120]
+                    for r in valid
+                )[:400],
+                "raw_scores": clarity_raw,
+            },
+        }
+
         primary = valid[0]
-        consensus_note = f"[{len(valid)}/{n_passes} passes; concept={agg_scores['concept_alignment']['raw_scores']}, clarity={agg_scores['visual_clarity']['raw_scores']}]"
+        consensus_note = (
+            f"[{len(valid)}/{n_passes} passes; events={sum(confirmed.values())}/{len(events)} "
+            f"confirmed → concept={concept_score}; clarity={clarity_raw} → median={clarity_score}]"
+        )
         print(f"\n--- FinalJudge Visual Consensus ---\n{consensus_note}")
-        print(f"concept_alignment median = {agg_scores['concept_alignment']['score']}")
-        print(f"visual_clarity    median = {agg_scores['visual_clarity']['score']}")
+        for eid in event_votes:
+            votes = event_votes[eid]
+            mark = "✅" if confirmed[eid] else "❌"
+            desc = event_id_to_meta[eid]["description"][:60]
+            print(f"  {mark} {eid} votes={votes} — {desc}")
+        print(f"concept_alignment = {concept_score} (alignment={alignment})")
+        print(f"visual_clarity    = {clarity_score}")
         print("-----------------------------------\n")
 
         return {
             "scores": agg_scores,
-            "frame_analysis": primary.get("frame_analysis", ""),
-            "metaphor_audit": primary.get("metaphor_audit", ""),
-            "code_confirmation": primary.get("code_confirmation", ""),
+            "frame_inventory": primary.get("frame_inventory", ""),
             "consensus": consensus_note,
+            "alignment_value": alignment,
+            "events_total": len(events),
+            "events_confirmed": sum(confirmed.values()) if events else 0,
         }
 
     # ──────────────────────────────────────────────────────────────────────
@@ -689,9 +894,10 @@ Output ONLY the JSON object."""
                 d: visual_result["scores"].get(d, {}).get("justification", "")
                 for d in self.WEIGHTS
             }
-            result["frame_analysis"] = visual_result.get("frame_analysis", "")
-            result["metaphor_audit"] = visual_result.get("metaphor_audit", "")
-            result["code_confirmation"] = visual_result.get("code_confirmation", "")
+            result["frame_inventory"]    = visual_result.get("frame_inventory", "")
+            result["alignment_value"]    = visual_result.get("alignment_value")
+            result["events_total"]       = visual_result.get("events_total", 0)
+            result["events_confirmed"]   = visual_result.get("events_confirmed", 0)
             result["consensus"] = visual_result.get("consensus", "")
 
         result["code_issues"] = code_analysis.get("issues", [])
