@@ -15,19 +15,15 @@
 - [x] Variant-C support + GT-match LaTeX normalizer + per-stage timing
 - [x] BenchmarkJudge system + judge calibration framework 完成
 - [x] RAG retrieval audit 工具 + compare_variants 工具完成
+- [ ] Git push origin/main（推送 ONBOARDING + timing commits 到遠端）
 - [ ] C 組 30 題完整評估執行 + compare_variants 最終對比分析
-- [ ] BenchmarkJudge runner path adapter + self-check 腳本
 
 ## 上次 Session 改了什麼
 
 | 檔案 | 改了什麼 | 注意事項 |
 |------|----------|----------|
-| `agents/core/llm_client.py` | 加 timing keys（time_audio_sec 等） | per-stage 耗時記錄 |
-| `agents/orchestrator/refining_loop.py` | Vision per-iter list（3 處修改） | vision_per_iter_sec 累積 |
-| `main.py` | StageTimer 包裝 Audio + FinalJudge | 自動記錄耗時 |
-| `evaluation/compare_variants.py` | A/B/C session 差異報告（+123 行） | 多維度對比 |
-| `rag/audit_retrieval_30.py` | 新建 retrieval audit 工具 | slug 命中 + no-filter 檢索分析 |
-| `.ai-context/CHANGELOG.md` | 2026-05-21 session 進度（含 variant-C + timing） | 自動更新 |
+| `.ai-context/ONBOARDING.md` | 新建新組員上手指南 | perf optimization track 開場；5 分鐘跑起來、baseline 量測指南、效能驗證流程 |
+| `.ai-context/CHANGELOG.md` | +1 行自動更新 | 記錄 2026-05-21 session 完成項目 |
 
 ## 踩過的坑（新 AI 最容易重犯）
 

@@ -498,3 +498,4 @@
 - `2026-05-21 00:52` | branch=`main` | dirty=1 files | head=`15011b6 feat(rag): audit_retrieval_30.py tool + gitignore glob for audit outputs`
   - touched: evaluation/compare_variants.py 
 - `2026-05-21 00:57` | branch=`main` | dirty=0 files | head=`467ee0f feat(eval): variant-C support + GT-match LaTeX normalizer`
+- `2026-05-21 01:04` | branch=`main` | dirty=0 files | head=`aacea7f docs: ONBOARDING.md for new contributor (perf optimization track)`
