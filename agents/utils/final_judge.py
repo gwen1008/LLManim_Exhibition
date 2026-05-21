@@ -256,14 +256,25 @@ def _compare_answer(extracted: str, ground_truth: str) -> bool | None:
 
 class FinalJudge:
     # ── Weights (must sum to 1.0) ──────────────────────────────────────────
-    # math_correctness: Claude reads code (most reliable text signal)
-    # concept_alignment + visual_clarity: GPT-4o views frames (LLM, noisy)
-    # spatial_layout: deterministic from SceneInstrumentor (highest trust)
+    # math_logic:        Claude reads code → reasoning correct? (text signal)
+    # math_displayed:    GT-match on extracted final answer → student sees right value?
+    # concept_alignment: GPT-4o/Opus event-checklist
+    # visual_clarity:    GPT-4o/Opus layout/legibility
+    # spatial_layout:    deterministic from SceneInstrumentor
+    #
+    # Split rationale (2026-05-21 P1-1): old single math_correctness=0.40 mixed
+    # code-logic and on-screen-answer. A scene could have correct algebra in
+    # code but show a typo final answer, or vice versa — both got the same
+    # number. Splitting lets the dimension floor / weights distinguish them.
+    # When ground truth is unavailable, math_displayed is None and its weight
+    # automatically reflows to the remaining dimensions (existing renorm in
+    # _aggregate handles this).
     WEIGHTS = {
-        "math_correctness":  0.40,  # Claude only
-        "concept_alignment": 0.15,  # GPT-4o only
-        "visual_clarity":    0.15,  # GPT-4o only
-        "spatial_layout":    0.30,  # deterministic — see LayoutAuditor
+        "math_logic":        0.20,
+        "math_displayed":    0.20,
+        "concept_alignment": 0.15,
+        "visual_clarity":    0.15,
+        "spatial_layout":    0.30,
     }
 
     # Verdict thresholds — calibrate against golden_set after collecting labels.
@@ -970,9 +981,24 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
         """
         scores = {}
 
-        # math: Claude is the only judge — None means review was unavailable
+        # math_logic: Claude code review (1-5)
         _raw_math = code_analysis.get("math_score")
-        scores["math_correctness"] = int(_raw_math) if _raw_math is not None else None
+        _logic_val = int(_raw_math) if _raw_math is not None else None
+        scores["math_logic"] = _logic_val
+        # Back-compat: keep math_correctness pointing at the same value so any
+        # downstream reader / log writer still sees a number under the old key.
+        scores["math_correctness"] = _logic_val
+
+        # math_displayed: derived from gt_match. None → dim excluded from
+        # weighted total (existing renorm handles it). 5/1 only — we trust
+        # _compare_answer's True/False as a binary signal, no middle ground.
+        _gt = code_analysis.get("ground_truth_match")
+        if _gt is True:
+            scores["math_displayed"] = 5
+        elif _gt is False:
+            scores["math_displayed"] = 1
+        else:
+            scores["math_displayed"] = None
 
         # spatial_layout: deterministic; None when log unavailable (don't auto-fail)
         if layout_audit and layout_audit.get("score_1_to_5") is not None:

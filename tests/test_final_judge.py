@@ -108,23 +108,51 @@ def _make_visual(concept: int, clarity: int) -> dict:
 
 
 class TestAggregate:
-    # WEIGHTS = math 0.40, concept 0.15, clarity 0.15, spatial_layout 0.30
+    # WEIGHTS (post P1-1): math_logic 0.20, math_displayed 0.20, concept 0.15,
+    # clarity 0.15, spatial_layout 0.30. math_displayed=None when no gt_match.
     # When spatial_layout=None it's excluded and remaining weights renormalize.
     def test_all_scores_present_correct_weighted_total(self):
-        """math=5, concept=4, clarity=3, spatial=None
-        → renorm over (math+concept+clarity) = 0.70
-        → (5*0.4 + 4*0.15 + 3*0.15) / 0.70 = 3.05/0.70 ≈ 4.357"""
+        """math_score=5, gt=None (→ math_displayed=None), concept=4, clarity=3, spatial=None
+        → only math_logic + concept + clarity contribute, weight sum = 0.50
+        → (5*0.2 + 4*0.15 + 3*0.15) / 0.50 = 2.05/0.50 = 4.10"""
         code = {"math_score": 5, "math_justification": "", "issues": [], "summary": ""}
         visual = _make_visual(concept=4, clarity=3)
         result = _aggregate(code, visual)
-        assert result["weighted_total"] == pytest.approx(4.357, abs=0.01)
+        assert result["weighted_total"] == pytest.approx(4.10, abs=0.01)
 
-    def test_scores_dict_has_all_four_dimensions(self):
+    def test_scores_dict_has_all_dimensions(self):
         code = {"math_score": 4, "issues": [], "summary": ""}
         result = _aggregate(code, _make_visual(4, 4))
+        # math_correctness retained as back-compat alias of math_logic
         assert set(result["scores"].keys()) == {
-            "math_correctness", "concept_alignment", "visual_clarity", "spatial_layout"
+            "math_logic", "math_displayed", "math_correctness",
+            "concept_alignment", "visual_clarity", "spatial_layout",
         }
+
+    def test_math_correctness_alias_matches_math_logic(self):
+        """Back-compat: math_correctness key must equal math_logic value."""
+        code = {"math_score": 4, "issues": [], "summary": ""}
+        result = _aggregate(code, _make_visual(4, 4))
+        assert result["scores"]["math_correctness"] == result["scores"]["math_logic"] == 4
+
+    def test_math_displayed_from_gt_true(self):
+        code = {"math_score": 4, "issues": [], "summary": "", "ground_truth_match": True}
+        result = _aggregate(code, _make_visual(4, 4))
+        assert result["scores"]["math_displayed"] == 5
+
+    def test_math_displayed_from_gt_false_triggers_floor(self):
+        """gt_match=False → math_displayed=1 ≤ DIMENSION_FLOOR → FAIL.
+        Note: the older ground_truth_mismatch veto also still fires; whichever
+        check runs first wins. Both are correct verdicts."""
+        code = {"math_score": 5, "issues": [], "summary": "", "ground_truth_match": False}
+        result = _aggregate(code, _make_visual(5, 5))
+        assert result["scores"]["math_displayed"] == 1
+        assert result["verdict"] == "FAIL"
+
+    def test_math_displayed_none_when_gt_inconclusive(self):
+        code = {"math_score": 4, "issues": [], "summary": "", "ground_truth_match": None}
+        result = _aggregate(code, _make_visual(4, 4))
+        assert result["scores"]["math_displayed"] is None
 
     def test_math_none_renormalizes_to_visual_only(self):
         """math=None, spatial=None → only concept(0.15) + clarity(0.15), renorm weight=0.30
@@ -220,11 +248,11 @@ class TestVerdict:
         assert result["weighted_total"] == pytest.approx(5.0, abs=0.01)
 
     def test_dimension_floor_triggers_fail(self):
-        """math=2 (<=DIMENSION_FLOOR) → FAIL even if other dims are 5."""
+        """math_logic=2 (<=DIMENSION_FLOOR) → FAIL even if other dims are 5."""
         code = {"math_score": 2, "issues": [], "summary": ""}
         result = _aggregate(code, _make_visual(5, 5))
         assert result["verdict"] == "FAIL"
-        assert result["veto_reason"] == "low_dimension_math_correctness"
+        assert result["veto_reason"] == "low_dimension_math_logic"
 
     def test_below_threshold_fails(self):
         """All 3s → weighted=3.0 < 3.5 → FAIL."""
