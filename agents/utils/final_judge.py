@@ -147,6 +147,47 @@ def _is_relational(s: str) -> bool:
     return False
 
 
+def _event_agreement(event_votes: dict[str, list[int]]) -> tuple[float, dict[str, float]]:
+    """Per-event unanimity rate aggregated over all events.
+
+    For each event, unanimity = max(yes, no) / total_votes (range 0.5..1.0).
+    Returns (overall_mean, per_event_unanimity).
+
+    1.0 = all passes agree on this event
+    0.5 = half/half split (max disagreement for binary vote)
+    """
+    per_event = {}
+    for eid, votes in event_votes.items():
+        if not votes:
+            per_event[eid] = 0.0
+            continue
+        yes = sum(votes)
+        no = len(votes) - yes
+        per_event[eid] = max(yes, no) / len(votes)
+    if not per_event:
+        return 0.0, {}
+    valid = [v for v in per_event.values() if v > 0]
+    overall = sum(valid) / len(valid) if valid else 0.0
+    return overall, per_event
+
+
+def _clarity_agreement(scores: list[int | None]) -> float:
+    """1.0 if all clarity scores identical; degrades by stddev.
+
+    Empty/single-vote → 1.0 (no disagreement possible).
+    stddev=0  → 1.0
+    stddev=1  → 0.5  (e.g. [3,4,5])
+    stddev≥2  → 0.0  (e.g. [1,5])
+    """
+    vals = [v for v in scores if v is not None]
+    if len(vals) <= 1:
+        return 1.0
+    mean = sum(vals) / len(vals)
+    var = sum((v - mean) ** 2 for v in vals) / len(vals)
+    stddev = var ** 0.5
+    return max(0.0, 1.0 - stddev / 2.0)
+
+
 def _compare_answer(extracted: str, ground_truth: str) -> bool | None:
     """
     Conservative answer comparison.
@@ -735,12 +776,42 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
 
         _single_pass = _opus_pass if backend == "opus" else _gpt4o_pass
 
-        if n_passes == 1:
-            results = [_single_pass(0)]
-        else:
+        def _run_passes(indices):
+            if len(indices) == 1:
+                return [_single_pass(indices[0])]
             import concurrent.futures
-            with concurrent.futures.ThreadPoolExecutor(max_workers=n_passes) as ex:
-                results = list(ex.map(_single_pass, range(n_passes)))
+            with concurrent.futures.ThreadPoolExecutor(max_workers=len(indices)) as ex:
+                return list(ex.map(_single_pass, indices))
+
+        results = _run_passes(list(range(n_passes)))
+
+        # ── Conditional extra passes on low agreement (opt-in via env) ──────
+        # When event-level unanimity falls below threshold, the panel cannot
+        # tell whether the candidate confirms each event. Spend 2 extra Opus
+        # calls to break ties. Off by default (cost-sensitive).
+        agreement_retry = os.getenv("LLMANIM_FJ_AGREEMENT_RETRY", "0").strip() == "1"
+        agreement_threshold = float(os.getenv("LLMANIM_FJ_AGREEMENT_THRESHOLD", "0.67"))
+        extra_added = 0
+        if agreement_retry and n_passes < 5 and events:
+            # Quick agreement probe using first-round results
+            probe_votes = {ev["id"]: [] for ev in events}
+            for r in [x for x in results if x]:
+                for chk in r.get("event_checks") or []:
+                    eid = str(chk.get("id", "")).strip()
+                    if eid in probe_votes:
+                        try:
+                            probe_votes[eid].append(1 if int(chk.get("present", 0)) else 0)
+                        except (ValueError, TypeError):
+                            probe_votes[eid].append(0)
+            probe_overall, _ = _event_agreement(probe_votes)
+            if probe_overall < agreement_threshold:
+                add_n = min(2, 5 - n_passes)
+                print(f"⚖️  [FinalJudge Phase 2] agreement={probe_overall:.2f} < {agreement_threshold} "
+                      f"— adding {add_n} extra passes")
+                extra = _run_passes(list(range(n_passes, n_passes + add_n)))
+                results.extend(extra)
+                extra_added = add_n
+                n_passes += add_n
 
         # Cleanup Opus grid file
         if grid_path and os.path.exists(grid_path):
@@ -821,6 +892,12 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
         clarity_raw = [_extract_clarity(r) for r in valid]
         clarity_score = _median(clarity_raw)
 
+        # ── Inter-pass agreement telemetry (P1-2) ───────────────────────────
+        # Does not affect scores. Surfaces panel disagreement so we can spot
+        # cases where the score is just a coin-flip across passes.
+        event_agreement_overall, event_agreement_per = _event_agreement(event_votes)
+        clarity_agreement_val = _clarity_agreement(clarity_raw)
+
         # ── Build aggregated dict in same shape as old code ─────────────────
         agg_scores = {
             "concept_alignment": {
@@ -844,18 +921,23 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
         }
 
         primary = valid[0]
+        extra_note = f" (+{extra_added} extra on low-agreement)" if extra_added else ""
         consensus_note = (
-            f"[{len(valid)}/{n_passes} passes; events={sum(confirmed.values())}/{len(events)} "
-            f"confirmed → concept={concept_score}; clarity={clarity_raw} → median={clarity_score}]"
+            f"[{len(valid)}/{n_passes} passes{extra_note}; "
+            f"events={sum(confirmed.values())}/{len(events)} confirmed → concept={concept_score}; "
+            f"clarity={clarity_raw} → median={clarity_score}; "
+            f"agreement: event={event_agreement_overall:.2f} clarity={clarity_agreement_val:.2f}]"
         )
         print(f"\n--- FinalJudge Visual Consensus ---\n{consensus_note}")
         for eid in event_votes:
             votes = event_votes[eid]
             mark = "✅" if confirmed[eid] else "❌"
+            unan = event_agreement_per.get(eid, 0.0)
+            warn = " ⚠️low-agreement" if 0 < unan < 0.67 else ""
             desc = event_id_to_meta[eid]["description"][:60]
-            print(f"  {mark} {eid} votes={votes} — {desc}")
+            print(f"  {mark} {eid} votes={votes} unan={unan:.2f}{warn} — {desc}")
         print(f"concept_alignment = {concept_score} (alignment={alignment})")
-        print(f"visual_clarity    = {clarity_score}")
+        print(f"visual_clarity    = {clarity_score} (agreement={clarity_agreement_val:.2f})")
         print("-----------------------------------\n")
 
         return {
@@ -865,6 +947,13 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
             "alignment_value": alignment,
             "events_total": len(events),
             "events_confirmed": sum(confirmed.values()) if events else 0,
+            "agreement": {
+                "event_overall": event_agreement_overall,
+                "event_per_id":  event_agreement_per,
+                "clarity":       clarity_agreement_val,
+                "n_passes_run":  n_passes,
+                "n_passes_extra": extra_added,
+            },
         }
 
     # ──────────────────────────────────────────────────────────────────────
@@ -943,6 +1032,8 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
             result["events_total"]       = visual_result.get("events_total", 0)
             result["events_confirmed"]   = visual_result.get("events_confirmed", 0)
             result["consensus"] = visual_result.get("consensus", "")
+            if visual_result.get("agreement"):
+                result["agreement"] = visual_result["agreement"]
 
         result["code_issues"] = code_analysis.get("issues", [])
         result["code_summary"] = code_analysis.get("summary", "")

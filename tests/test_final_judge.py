@@ -363,3 +363,85 @@ class TestCompareAnswer:
         assert _compare_answer("16", "1.6 * 10^1") is True
         # 負指數
         assert _compare_answer("0.16", r"1.6 \times 10^{-1}") is True
+
+
+# ── P1-2 inter-pass agreement (2026-05-21) ──────────────────────────────────
+
+from agents.utils.final_judge import _event_agreement, _clarity_agreement  # noqa: E402
+
+
+class TestEventAgreement:
+    def test_unanimous_yes(self):
+        # 3 events, all 3 passes vote yes for each
+        votes = {"E1": [1, 1, 1], "E2": [1, 1, 1], "E3": [1, 1, 1]}
+        overall, per = _event_agreement(votes)
+        assert overall == 1.0
+        assert all(v == 1.0 for v in per.values())
+
+    def test_unanimous_no(self):
+        votes = {"E1": [0, 0, 0]}
+        overall, per = _event_agreement(votes)
+        assert overall == 1.0   # all-no also counts as unanimous
+        assert per["E1"] == 1.0
+
+    def test_split_2_1(self):
+        # 2/3 majority → unanimity = 2/3 ≈ 0.667
+        votes = {"E1": [1, 1, 0]}
+        overall, per = _event_agreement(votes)
+        assert abs(per["E1"] - 2/3) < 1e-6
+        assert abs(overall - 2/3) < 1e-6
+
+    def test_even_split(self):
+        # 4 passes, 2/2 split → 0.5
+        votes = {"E1": [1, 1, 0, 0]}
+        overall, per = _event_agreement(votes)
+        assert per["E1"] == 0.5
+
+    def test_mixed_events(self):
+        # one unanimous + one split
+        votes = {"E1": [1, 1, 1], "E2": [1, 0, 0]}
+        overall, per = _event_agreement(votes)
+        assert per["E1"] == 1.0
+        assert abs(per["E2"] - 2/3) < 1e-6
+        assert abs(overall - (1.0 + 2/3) / 2) < 1e-6
+
+    def test_empty_votes_skipped_in_overall(self):
+        # event with zero votes should not drag overall to 0
+        votes = {"E1": [1, 1, 1], "E2": []}
+        overall, per = _event_agreement(votes)
+        assert per["E2"] == 0.0
+        assert overall == 1.0  # only E1 counted
+
+    def test_no_events(self):
+        overall, per = _event_agreement({})
+        assert overall == 0.0
+        assert per == {}
+
+
+class TestClarityAgreement:
+    def test_identical_scores(self):
+        assert _clarity_agreement([4, 4, 4]) == 1.0
+
+    def test_single_score(self):
+        assert _clarity_agreement([5]) == 1.0
+
+    def test_empty(self):
+        assert _clarity_agreement([]) == 1.0
+
+    def test_with_nones(self):
+        # None values dropped
+        assert _clarity_agreement([4, None, 4]) == 1.0
+
+    def test_small_disagreement(self):
+        # [4, 5] → mean=4.5, var=0.25, std=0.5 → 1 - 0.25 = 0.75
+        a = _clarity_agreement([4, 5])
+        assert 0.7 < a < 0.8
+
+    def test_moderate_disagreement(self):
+        # [3, 4, 5] → mean=4, var=2/3, std≈0.816 → ≈0.59
+        a = _clarity_agreement([3, 4, 5])
+        assert 0.5 < a < 0.65
+
+    def test_extreme_disagreement(self):
+        # [1, 5] → std=2.0 → 1 - 1.0 = 0.0
+        assert _clarity_agreement([1, 5]) == 0.0
