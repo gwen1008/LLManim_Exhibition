@@ -29,16 +29,60 @@ def _normalize_text(s: str) -> str:
 
 
 _LATEX_FRAC_RE = re.compile(r"\\[td]?frac\s*\{\s*(-?\d+)\s*\}\s*\{\s*(-?\d+)\s*\}")
+# 帶分數 LaTeX:  3\frac{1}{2} 或 -3\frac{1}{2}  → (3, 1, 2) / (-3, 1, 2)
+_MIXED_LATEX_RE = re.compile(r"(-?\d+)\s*\\[td]?frac\s*\{\s*(\d+)\s*\}\s*\{\s*(\d+)\s*\}")
+# 帶分數 ASCII:  3 1/2  → (3, 1, 2)。前後 boundary 用 \b 避免吃到 13 1/2 的 31
+_MIXED_ASCII_RE = re.compile(r"(?<![\d./])(-?\d+)\s+(\d+)\s*/\s*(\d+)(?!\d)")
+# 科學記號:  1.6 \times 10^1   1.6 * 10^{-2}   1.6e3
+_SCI_LATEX_RE = re.compile(
+    r"(-?\d+(?:\.\d+)?)\s*(?:\\times|\\cdot|[×*])\s*10\s*\^\s*\{?\s*(-?\d+)\s*\}?"
+)
+_SCI_E_RE = re.compile(r"(-?\d+(?:\.\d+)?)[eE]([+-]?\d+)\b")
+
+
+def _mixed_to_improper(mantissa: int, num: int, den: int) -> str:
+    """3 1/2 → '7/2'；-3 1/2 → '-7/2'。整數符號傳遞到分子。"""
+    if den == 0:
+        return f"{mantissa}"
+    sign = -1 if mantissa < 0 else 1
+    improper = sign * (abs(mantissa) * den + num)
+    return f"{improper}/{den}"
 
 
 def _normalize_latex_fractions(s: str) -> str:
-    r"""Rewrite \frac{a}{b} (and \dfrac{a}{b}) → a/b so _extract_numbers picks them up.
+    r"""Rewrite LaTeX/混分/科學記號 → ASCII 形式給 _extract_numbers 吃。
+
+    處理順序很關鍵（先長後短）:
+      1. 帶分數 LaTeX  3\frac{1}{2} → 7/2  （必須在 _LATEX_FRAC_RE 前）
+      2. 帶分數 ASCII  3 1/2        → 7/2
+      3. 科學記號 LaTeX 1.6\times10^1 → (1.6*10) 用乘積值替換成 16
+      4. 科學記號 e-form 1.6e3       → 同上
+      5. 純 \frac{a}{b} → a/b
 
     Without this, GT '\\frac{3}{4}' is parsed as [3.0, 4.0] while extracted '3/4'
     is parsed as [0.75], and they never match. Five variant-A questions
     (Q026/Q122/Q123/Q124/Q137) failed for exactly this reason.
     """
-    return _LATEX_FRAC_RE.sub(lambda m: f"{m.group(1)}/{m.group(2)}", str(s))
+    s = str(s)
+    s = _MIXED_LATEX_RE.sub(
+        lambda m: _mixed_to_improper(int(m.group(1)), int(m.group(2)), int(m.group(3))),
+        s,
+    )
+    s = _MIXED_ASCII_RE.sub(
+        lambda m: _mixed_to_improper(int(m.group(1)), int(m.group(2)), int(m.group(3))),
+        s,
+    )
+
+    def _sci_sub(m):
+        try:
+            return f"{float(m.group(1)) * (10 ** int(m.group(2))):g}"
+        except (ValueError, OverflowError):
+            return m.group(0)
+
+    s = _SCI_LATEX_RE.sub(_sci_sub, s)
+    s = _SCI_E_RE.sub(_sci_sub, s)
+    s = _LATEX_FRAC_RE.sub(lambda m: f"{m.group(1)}/{m.group(2)}", s)
+    return s
 
 
 def _extract_numbers(s: str) -> list[float]:

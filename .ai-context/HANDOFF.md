@@ -9,9 +9,9 @@
 ## 1. 當前焦點
 
 <!-- SECTION_1_UPDATED_AT: 2026-05-21 -->
-- **Active**: benchmark_set 30 題精修（用戶手動 review 中）
-- **Next**: compare_variants.py 跑 A/B/C 最終比較
-- **Blocked**: 等 Azure TTS quota 確認恢復（rate limit 還是月配額未知）
+- **Active**: FJ Phase 2 切 Opus 預設完成（`.env FJ_VISION_BACKEND=opus`）+ A 組 5 題假 FAIL rescore 後全 PASS、A 組真實 30/30；benchmark_set 30 題字幕改寫 27 題待人工核對
+- **Next**: 重跑 A vs C 30 題 full Opus eval 拿完整 baseline，或推進 BJ benchmark_set 30 題精修（下個 session 拍板）
+- **Blocked**: 無
 
 > 改動規則：完成就直接覆寫，不留歷史、不打勾、不加日期。歷史去 git log 查。
 > Section 1 由 `/handoff` slash command 維護。

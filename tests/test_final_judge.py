@@ -313,3 +313,53 @@ class TestCompareAnswer:
         # 1/2 = 0.5
         assert _compare_answer("0.5", "1/2") is True
         assert _compare_answer("1/2", "0.5") is True
+
+    def test_latex_frac_vs_ascii_regression(self):
+        # A-group 2026-05-20 假 FAIL regression — see commit de4cc85.
+        # GT 用 \frac{a}{b}、extracted 用 a/b，舊版誤判 False，新版必須 True。
+        assert _compare_answer("32/15", r"\frac{32}{15}") is True   # Q026
+        assert _compare_answer("1/3", r"\frac{1}{3}") is True       # Q123
+        assert _compare_answer("29/20", r"\frac{29}{20}") is True   # Q124
+        assert _compare_answer("1/10", r"\frac{1}{10}") is True     # Q137
+
+    def test_chained_equation_equivalent_forms(self):
+        # Q122: extracted 同時寫了假分數跟帶分數，GT 是 \frac{49}{10}
+        # _extract_numbers 會抓到 49/10 = 4.9 → 跟 GT 49/10 = 4.9 匹配
+        assert _compare_answer("49/10 = 4 9/10", r"\frac{49}{10}") is True
+
+    # ── P0-2 邊界 bug (2026-05-21) ─────────────────────────────────────────
+    def test_negative_latex_fraction(self):
+        # \frac{-3}{4} = -0.75；現有版本其實已 work（regex -?\d+ 涵蓋負號），
+        # 鎖規格避免未來 regex 改動誤傷。
+        assert _compare_answer("-0.75", r"\frac{-3}{4}") is True
+        assert _compare_answer(r"\frac{-3}{4}", "-0.75") is True
+        assert _compare_answer("-3/4", r"\frac{-3}{4}") is True
+
+    def test_negative_dfrac_tfrac(self):
+        assert _compare_answer("-0.5", r"\dfrac{-1}{2}") is True
+        assert _compare_answer("-0.5", r"\tfrac{-1}{2}") is True
+
+    def test_mixed_fraction_latex(self):
+        # 帶分數 3\frac{1}{2} = 3.5；舊版 _extract_numbers 把 "3" 跟 "frac{1}{2}" 之間
+        # 沒有分隔當成 31/2 → 15.5（bug）
+        assert _compare_answer("3.5", r"3\frac{1}{2}") is True
+        assert _compare_answer(r"3\frac{1}{2}", "3.5") is True
+        # 負帶分數
+        assert _compare_answer("-3.5", r"-3\frac{1}{2}") is True
+
+    def test_mixed_fraction_ascii(self):
+        # 3 1/2 = 3.5；舊版抓到 [0.5, 3.0] 沒合併
+        assert _compare_answer("3.5", "3 1/2") is True
+        assert _compare_answer("3 1/2", "3.5") is True
+        # 帶分數 ↔ 假分數
+        assert _compare_answer("7/2", "3 1/2") is True
+
+    def test_scientific_notation_latex(self):
+        # 1.6 × 10^1 = 16；舊版抓到 [1.6, 10, 1] 三個獨立數
+        assert _compare_answer("16", r"1.6 \times 10^1") is True
+        assert _compare_answer(r"1.6 \times 10^1", "16") is True
+        assert _compare_answer("160", r"1.6 \times 10^2") is True
+        # ASCII 形式
+        assert _compare_answer("16", "1.6 * 10^1") is True
+        # 負指數
+        assert _compare_answer("0.16", r"1.6 \times 10^{-1}") is True
