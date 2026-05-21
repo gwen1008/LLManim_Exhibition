@@ -9,8 +9,8 @@
 ## 1. 當前焦點
 
 <!-- SECTION_1_UPDATED_AT: 2026-05-21 -->
-- **Active**: FJ Phase 2 切 Opus 預設完成（`.env FJ_VISION_BACKEND=opus`）+ A 組 5 題假 FAIL rescore 後全 PASS、A 組真實 30/30；benchmark_set 30 題字幕改寫 27 題待人工核對
-- **Next**: 重跑 A vs C 30 題 full Opus eval 拿完整 baseline，或推進 BJ benchmark_set 30 題精修（下個 session 拍板）
+- **Active**: A vs C BJ 評分跑完（30/30 paired，A mean=84.1 / C mean=83.7 / C−A=-0.3，C 勝 14 平 5 負 11，方差大：Q075 +78、Q106 -35、Q092 -30）；FJ 維修 P0-2/P1-2/P1-1 完工；report 在 `evaluation/bj_AvsC_20260521_201243/`
+- **Next**: 下個 session 討論用過去 ele/mid/high run（最大批：`runs/20260516_084003` 20 部、`runs/20260516_145823` 18 部）做 FJ/BJ 判分能力 meta-evaluation；BJ runner `--only-judgable` 有 bug——寫死要求 A+B 同時 present，A+C 配對會全 skip（line 222-223），目前 workaround 是不加該 flag
 - **Blocked**: 無
 
 > 改動規則：完成就直接覆寫，不留歷史、不打勾、不加日期。歷史去 git log 查。
