@@ -60,9 +60,11 @@ test_ab_compare.py
 test_ab_planner_bypass.py
 test_route_2.py
 
-# Personal Claude config (hooks are tracked, personal settings are not)
+# Personal Claude config (hooks/commands/settings tracked, personal stuff like .credentials.json not)
 .claude/*
 !.claude/hooks
+!.claude/commands
+!.claude/settings.json
 
 # Claude Code agent skills (local AI tool config, not useful to teammates)
 .agent/
