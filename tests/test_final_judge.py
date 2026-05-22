@@ -140,14 +140,15 @@ class TestAggregate:
         result = _aggregate(code, _make_visual(4, 4))
         assert result["scores"]["math_displayed"] == 5
 
-    def test_math_displayed_from_gt_false_triggers_floor(self):
-        """gt_match=False → math_displayed=1 ≤ DIMENSION_FLOOR → FAIL.
-        Note: the older ground_truth_mismatch veto also still fires; whichever
-        check runs first wins. Both are correct verdicts."""
+    def test_math_displayed_from_gt_false_yields_none_and_veto_fail(self):
+        """gt_match=False is handled by the ground_truth_mismatch hard veto in
+        _decide_verdict; math_displayed itself stays None (positive-only signal)
+        to avoid double-counting and bimodal 1/5 distortion of the weighted mean."""
         code = {"math_score": 5, "issues": [], "summary": "", "ground_truth_match": False}
         result = _aggregate(code, _make_visual(5, 5))
-        assert result["scores"]["math_displayed"] == 1
+        assert result["scores"]["math_displayed"] is None
         assert result["verdict"] == "FAIL"
+        assert result["veto_reason"] == "ground_truth_mismatch"
 
     def test_math_displayed_none_when_gt_inconclusive(self):
         code = {"math_score": 4, "issues": [], "summary": "", "ground_truth_match": None}

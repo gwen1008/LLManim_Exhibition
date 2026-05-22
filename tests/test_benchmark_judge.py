@@ -56,8 +56,13 @@ class TestModeLikert:
         # "junk" filtered, remaining {worse:2, same:1}
         assert BenchmarkJudge._mode_likert(["worse", "junk", "worse", "same"]) == "worse"
 
-    def test_inconclusive_majority(self):
-        assert BenchmarkJudge._mode_likert(["inconclusive", "inconclusive", "worse"]) == "inconclusive"
+    def test_inconclusive_never_wins_against_a_real_verdict(self):
+        """inconclusive is filtered from the mode pool — it's a non-answer,
+        not a midpoint. A single real verdict beats any number of inconclusive."""
+        assert BenchmarkJudge._mode_likert(["inconclusive", "inconclusive", "worse"]) == "worse"
+
+    def test_all_inconclusive_stays_inconclusive(self):
+        assert BenchmarkJudge._mode_likert(["inconclusive", "inconclusive"]) == "inconclusive"
 
 
 # ── _dim_score ───────────────────────────────────────────────────────────────

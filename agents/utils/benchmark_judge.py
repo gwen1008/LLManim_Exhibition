@@ -104,7 +104,8 @@ LIKERT_OFFSET = {
     "worse":       -20,
     "much_worse":  -40,
     "broken":      -70,
-    "inconclusive": -5,
+    "inconclusive": 0,    # neutral: don't inflate (was -5, which paradoxically lifted
+                          # all-inconclusive cases to ~95 after the +100 base)
 }
 
 # Penalty if Claude's math_score (1–5) is bad, applied as an additional
@@ -338,8 +339,9 @@ Output STRICT JSON only, no markdown fences, no preamble:
         """Mode across passes. Tiebreak: pick the more pessimistic likert."""
         if not votes:
             return "inconclusive"
-        # Filter valid only
-        filt = [v for v in votes if v in VALID_LIKERTS]
+        # Filter valid only; exclude inconclusive from mode pool so it never wins
+        # ties against real verdicts (it's a non-answer, not a midpoint).
+        filt = [v for v in votes if v in VALID_LIKERTS and v != "inconclusive"]
         if not filt:
             return "inconclusive"
         counter = {}
@@ -350,8 +352,7 @@ Output STRICT JSON only, no markdown fences, no preamble:
         if len(winners) == 1:
             return winners[0]
         # Tiebreak: pick the worst (more conservative) outcome
-        order = ["much_better", "better", "same", "inconclusive",
-                 "worse", "much_worse", "broken"]
+        order = ["much_better", "better", "same", "worse", "much_worse", "broken"]
         for label in reversed(order):
             if label in winners:
                 return label
