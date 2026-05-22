@@ -9,9 +9,9 @@
 ## 1. 當前焦點
 
 <!-- SECTION_1_UPDATED_AT: 2026-05-23 -->
-- **Active**: 專題展覽前端外包啟動，feat/exhibition 分支已 push（commit dfa4327）；spec 在 `docs/exhibition_interface.md`、frontend 工作目錄 `exhibition/frontend/`、mock data 已就位；組員擁有 UI/UX 完整裁量權，4 條硬約束（API schema 不可改 / 必含 Opus vs. 本系統對比 / baseline 公平性聲明 / 交付 dist/）
-- **Next**: 2026-05-24 晚交 10 題清單 → 跑 `scripts/generate_opus_baseline.py` 用 claudealt CLI 純一發 prompt 生 10 部 Opus baseline → `scripts/build_gallery_data.py` 聚合 gallery.json/stats.json → `exhibition/api.py` FastAPI 後端（先 /api/gallery + /api/stats，live 模式為 stretch）；deadline 2026-05-26 二晚
-- **Blocked**: 等用戶交 10 題清單（從 30 題 benchmark_set 親自挑），未交清單前 baseline 開不了工
+- **Active**: 兩條 track 並行 ——（1）展覽前端：feat/exhibition 分支已 push（dfa4327），spec/mock 就位、等用戶交 10 題清單；（2）Vision prompt-eng：vision/prompt-eng 分支已 push（456c97b），ONBOARDING.md 改寫成 vision track，5 方向順序執行（Opus backend → few-shot → defect code → negative example → CoT 重排），組員從 runs/ 撈 ELEM/MID/HIGH 50 部標 label，Quota ~540 Opus call/組員
+- **Next**: （展覽）2026-05-24 晚交 10 題清單 → 跑 scripts/generate_opus_baseline.py → build_gallery_data.py → exhibition/api.py，deadline 2026-05-26 二晚；（Vision）等組員 onboard，pre-onboarding 要先跟 owner 拍板 claudealt quota cap + 帳號選擇（自己 vs claudealt）
+- **Blocked**: 等用戶交 10 題清單（展覽 baseline 阻塞）；Vision track 無 blocker，等組員人選即可開工
 
 > 改動規則：完成就直接覆寫，不留歷史、不打勾、不加日期。歷史去 git log 查。
 > Section 1 由 `/handoff` slash command 維護。
