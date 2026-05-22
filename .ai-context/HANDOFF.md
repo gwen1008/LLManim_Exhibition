@@ -8,10 +8,10 @@
 
 ## 1. 當前焦點
 
-<!-- SECTION_1_UPDATED_AT: 2026-05-21 -->
-- **Active**: A vs C BJ 評分跑完（30/30 paired，A mean=84.1 / C mean=83.7 / C−A=-0.3，C 勝 14 平 5 負 11，方差大：Q075 +78、Q106 -35、Q092 -30）；FJ 維修 P0-2/P1-2/P1-1 完工；report 在 `evaluation/bj_AvsC_20260521_201243/`
-- **Next**: 下個 session 討論用過去 ele/mid/high run（最大批：`runs/20260516_084003` 20 部、`runs/20260516_145823` 18 部）做 FJ/BJ 判分能力 meta-evaluation；BJ runner `--only-judgable` 有 bug——寫死要求 A+B 同時 present，A+C 配對會全 skip（line 222-223），目前 workaround 是不加該 flag
-- **Blocked**: 無
+<!-- SECTION_1_UPDATED_AT: 2026-05-23 -->
+- **Active**: 專題展覽前端外包啟動，feat/exhibition 分支已 push（commit dfa4327）；spec 在 `docs/exhibition_interface.md`、frontend 工作目錄 `exhibition/frontend/`、mock data 已就位；組員擁有 UI/UX 完整裁量權，4 條硬約束（API schema 不可改 / 必含 Opus vs. 本系統對比 / baseline 公平性聲明 / 交付 dist/）
+- **Next**: 2026-05-24 晚交 10 題清單 → 跑 `scripts/generate_opus_baseline.py` 用 claudealt CLI 純一發 prompt 生 10 部 Opus baseline → `scripts/build_gallery_data.py` 聚合 gallery.json/stats.json → `exhibition/api.py` FastAPI 後端（先 /api/gallery + /api/stats，live 模式為 stretch）；deadline 2026-05-26 二晚
+- **Blocked**: 等用戶交 10 題清單（從 30 題 benchmark_set 親自挑），未交清單前 baseline 開不了工
 
 > 改動規則：完成就直接覆寫，不留歷史、不打勾、不加日期。歷史去 git log 查。
 > Section 1 由 `/handoff` slash command 維護。
