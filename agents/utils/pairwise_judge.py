@@ -44,6 +44,74 @@ def _extract_frame(video: str, ts: float, out_path: str, w: int, h: int) -> None
     )
 
 
+def build_comparison_grid(
+    top_video: str,
+    bottom_video: str,
+    out_path: str,
+    sample_pcts=(0.15, 0.38, 0.62, 0.88),
+    tile_w: int = 480,
+    tile_h: int = 270,
+    durations: Optional[dict] = None,
+    tmpdir_prefix: str = "judge_tiles_",
+    tmpdir_dir: Optional[str] = None,
+) -> str:
+    """Build a 2×N labeled comparison grid (top = T1..TN, bottom = D1..DN).
+
+    Shared by PairwiseJudge and BenchmarkJudge. `durations` is an optional
+    {video_path: duration_sec} cache so callers can avoid double ffprobe across
+    multiple passes on the same pair. Writes JPEG to out_path with mode 0o644
+    so a different-user subprocess (e.g. `sudo -u claudealt` Opus CLI) can Read it.
+    """
+    from PIL import Image, ImageDraw, ImageFont
+
+    durations = durations or {}
+    dur_t = durations.get(top_video) or _ffprobe_duration(top_video)
+    dur_b = durations.get(bottom_video) or _ffprobe_duration(bottom_video)
+    ts_t = [dur_t * p for p in sample_pcts]
+    ts_b = [dur_b * p for p in sample_pcts]
+
+    mk_kwargs = {"prefix": tmpdir_prefix}
+    if tmpdir_dir is not None:
+        mk_kwargs["dir"] = tmpdir_dir
+    tmpdir = tempfile.mkdtemp(**mk_kwargs)
+    try:
+        tiles = []
+        for i, ts in enumerate(ts_t):
+            p = os.path.join(tmpdir, f"t{i}.jpg")
+            _extract_frame(top_video, ts, p, tile_w, tile_h)
+            tiles.append((f"T{i+1}", p))
+        for i, ts in enumerate(ts_b):
+            p = os.path.join(tmpdir, f"d{i}.jpg")
+            _extract_frame(bottom_video, ts, p, tile_w, tile_h)
+            tiles.append((f"D{i+1}", p))
+
+        cols = len(sample_pcts)
+        rows = 2
+        canvas = Image.new("RGB", (cols * tile_w, rows * tile_h), "black")
+        try:
+            font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 36)
+        except Exception:
+            font = ImageFont.load_default()
+        draw = ImageDraw.Draw(canvas)
+        for idx, (label, path) in enumerate(tiles):
+            if not os.path.exists(path):
+                continue
+            tile = Image.open(path).convert("RGB")
+            x = (idx % cols) * tile_w
+            y = (idx // cols) * tile_h
+            canvas.paste(tile, (x, y))
+            draw.rectangle((x + 5, y + 5, x + 85, y + 52), fill=(0, 0, 0))
+            draw.text((x + 14, y + 9), label, fill="yellow", font=font)
+        canvas.save(out_path, "JPEG", quality=88)
+        try:
+            os.chmod(out_path, 0o644)
+        except OSError:
+            pass
+    finally:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+    return out_path
+
+
 class PairwiseJudge:
     # 4 frames per side at 15/38/62/88% of duration
     SAMPLE_PCTS = (0.15, 0.38, 0.62, 0.88)
@@ -109,56 +177,15 @@ Output ONLY a single JSON object, no preamble, no markdown fence:
         self._run_as = os.getenv("CLAUDE_RUN_AS_USER", "claudealt")
 
     # ──────────────────────────────────────────────────────────────────────
-    # Grid construction
+    # Grid construction (delegates to module-level build_comparison_grid)
     # ──────────────────────────────────────────────────────────────────────
     def _build_grid(self, top_video: str, bottom_video: str, out_path: str) -> str:
-        """Build a 2×4 labeled comparison grid. Returns out_path."""
-        from PIL import Image, ImageDraw, ImageFont
-
-        dur_t = _ffprobe_duration(top_video)
-        dur_b = _ffprobe_duration(bottom_video)
-        ts_t = [dur_t * p for p in self.SAMPLE_PCTS]
-        ts_b = [dur_b * p for p in self.SAMPLE_PCTS]
-
-        tmpdir = tempfile.mkdtemp(prefix="pwj_")
-        try:
-            tiles = []
-            for i, ts in enumerate(ts_t):
-                p = os.path.join(tmpdir, f"t{i}.jpg")
-                _extract_frame(top_video, ts, p, self.TILE_W, self.TILE_H)
-                tiles.append((f"T{i+1}", p))
-            for i, ts in enumerate(ts_b):
-                p = os.path.join(tmpdir, f"d{i}.jpg")
-                _extract_frame(bottom_video, ts, p, self.TILE_W, self.TILE_H)
-                tiles.append((f"D{i+1}", p))
-
-            cols = 4
-            rows = 2
-            canvas = Image.new("RGB", (cols * self.TILE_W, rows * self.TILE_H), "black")
-            try:
-                font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 36)
-            except Exception:
-                font = ImageFont.load_default()
-            draw = ImageDraw.Draw(canvas)
-            for idx, (label, path) in enumerate(tiles):
-                if not os.path.exists(path):
-                    continue
-                tile = Image.open(path).convert("RGB")
-                x = (idx % cols) * self.TILE_W
-                y = (idx // cols) * self.TILE_H
-                canvas.paste(tile, (x, y))
-                draw.rectangle((x + 5, y + 5, x + 85, y + 52), fill=(0, 0, 0))
-                draw.text((x + 14, y + 9), label, fill="yellow", font=font)
-            canvas.save(out_path, "JPEG", quality=88)
-            # Make the grid world-readable so `sudo -u claudealt` Opus subprocess
-            # can Read it (avoids EACCES on /var/folders/... default mode 0o600).
-            try:
-                os.chmod(out_path, 0o644)
-            except OSError:
-                pass
-        finally:
-            shutil.rmtree(tmpdir, ignore_errors=True)
-        return out_path
+        return build_comparison_grid(
+            top_video, bottom_video, out_path,
+            sample_pcts=self.SAMPLE_PCTS,
+            tile_w=self.TILE_W, tile_h=self.TILE_H,
+            tmpdir_prefix="pwj_",
+        )
 
     # ──────────────────────────────────────────────────────────────────────
     # Single judgement call (CLI subprocess)

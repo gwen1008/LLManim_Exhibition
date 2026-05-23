@@ -30,18 +30,11 @@ from collections import defaultdict
 REPO = Path(__file__).resolve().parents[1]
 SAMPLE = REPO / "evaluation" / "experiment_sample_30.json"
 
-# Chinese knowledge_point → English knowledge_slug used by ingest_code.py
-KP_TO_SLUG = {
-    "整數加減": "integer_add_sub",
-    "整數乘除": "integer_mul_div",
-    "分數加減": "fraction_add_sub",
-    "分數乘除": "fraction_mul_div",
-    "因數與倍數": "factor_multiple",
-    "指數與科學記號": "exponent_scientific_notation",
-    "完整的四則混合運算": "mixed_arithmetic_full",
-    "四則運算算則（不含去括號）": "pemdas_no_bracket_removal",
-    "四則運算（含去括號）": "pemdas_with_bracket_removal",
-}
+import sys
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+from agents.core.knowledge_slug_map import KP_TO_SLUG  # noqa: E402
 
 
 def query_collection(client, collection_name: str, query: str, slug: str | None,

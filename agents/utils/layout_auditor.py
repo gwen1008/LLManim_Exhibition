@@ -19,37 +19,13 @@ from typing import Optional
 
 from .scene_instrumentor import (
     CANVAS_AREA,
+    INTENTIONAL_TYPE_PAIRS,  # noqa: F401  (kept exported in case downstream uses it)
     _aabb_iou,
     _is_label_on_shape,
     _is_text_type,
     _text_containment_ratio,
+    is_intentional_overlay as _is_intentional_overlay,
 )
-
-# Mirror SceneInstrumentor's intentional-overlay whitelist so the recomputed
-# IoU here does not over-count things like pie-chart Sector/Circle pairs that
-# the live instrumentor explicitly excludes.
-_INTENTIONAL_TYPE_PAIRS = {
-    frozenset({"Sector", "Circle"}),
-    frozenset({"AnnularSector", "Circle"}),
-    frozenset({"Sector", "Arc"}),
-    frozenset({"AnnularSector", "Arc"}),
-}
-
-
-def _is_intentional_overlay(m1: dict, m2: dict) -> bool:
-    """Replicate SceneInstrumentor's intentional-overlay heuristic."""
-    pair = frozenset({m1.get("type", ""), m2.get("type", "")})
-    if pair in _INTENTIONAL_TYPE_PAIRS:
-        return True
-    # Containment: one bbox fully (~) inside the other.
-    for small, large in [(m1, m2), (m2, m1)]:
-        if small["width"] <= large["width"] * 1.05 and small["height"] <= large["height"] * 1.05:
-            dx = abs(small["center"][0] - large["center"][0])
-            dy = abs(small["center"][1] - large["center"][1])
-            if (dx <= (large["width"] - small["width"]) / 2 + 0.1
-                    and dy <= (large["height"] - small["height"]) / 2 + 0.1):
-                return True
-    return False
 
 
 class LayoutVerdict:

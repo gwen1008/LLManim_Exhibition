@@ -25,7 +25,12 @@ import tempfile
 import time
 from typing import Optional
 
-from .pairwise_judge import _extract_frame, _ffprobe_duration, _lenient_json_parse
+from .pairwise_judge import (
+    _extract_frame,
+    _ffprobe_duration,
+    _lenient_json_parse,
+    build_comparison_grid,
+)
 
 
 # ── Cache helpers (module-level so tests can import directly) ────────────────
@@ -233,58 +238,16 @@ Output STRICT JSON only, no markdown fences, no preamble:
         rubric/anchor edit auto-invalidates the cache."""
         return hashlib.sha1(cls._SYSTEM.encode("utf-8")).hexdigest()[:8]
 
-    # ── Grid construction ──────────────────────────────────────────────────
+    # ── Grid construction (delegates to shared build_comparison_grid) ──────
     def _build_grid(self, top_video: str, bottom_video: str, out_path: str,
                     durations: Optional[dict] = None) -> str:
-        """Build 2×4 labeled grid; writes JPEG to out_path and returns it.
-
-        `durations` is an optional {video_path: duration_sec} cache so we don't
-        re-ffprobe the same file once per pass.
-        """
-        from PIL import Image, ImageDraw, ImageFont
-
-        durations = durations or {}
-        dur_t = durations.get(top_video) or _ffprobe_duration(top_video)
-        dur_b = durations.get(bottom_video) or _ffprobe_duration(bottom_video)
-        ts_t = [dur_t * p for p in self.SAMPLE_PCTS]
-        ts_b = [dur_b * p for p in self.SAMPLE_PCTS]
-
-        tmpdir = tempfile.mkdtemp(prefix="bjudge_tiles_", dir="/tmp")
-        try:
-            tiles = []
-            for i, ts in enumerate(ts_t):
-                p = os.path.join(tmpdir, f"t{i}.jpg")
-                _extract_frame(top_video, ts, p, self.TILE_W, self.TILE_H)
-                tiles.append((f"T{i+1}", p))
-            for i, ts in enumerate(ts_b):
-                p = os.path.join(tmpdir, f"d{i}.jpg")
-                _extract_frame(bottom_video, ts, p, self.TILE_W, self.TILE_H)
-                tiles.append((f"D{i+1}", p))
-
-            cols, rows = 4, 2
-            canvas = Image.new("RGB", (cols * self.TILE_W, rows * self.TILE_H), "black")
-            try:
-                font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 36)
-            except Exception:
-                font = ImageFont.load_default()
-            draw = ImageDraw.Draw(canvas)
-            for idx, (label, path) in enumerate(tiles):
-                if not os.path.exists(path):
-                    continue
-                tile = Image.open(path).convert("RGB")
-                x = (idx % cols) * self.TILE_W
-                y = (idx // cols) * self.TILE_H
-                canvas.paste(tile, (x, y))
-                draw.rectangle((x + 5, y + 5, x + 85, y + 52), fill=(0, 0, 0))
-                draw.text((x + 14, y + 9), label, fill="yellow", font=font)
-            canvas.save(out_path, "JPEG", quality=88)
-            try:
-                os.chmod(out_path, 0o644)
-            except OSError:
-                pass
-        finally:
-            shutil.rmtree(tmpdir, ignore_errors=True)
-        return out_path
+        return build_comparison_grid(
+            top_video, bottom_video, out_path,
+            sample_pcts=self.SAMPLE_PCTS,
+            tile_w=self.TILE_W, tile_h=self.TILE_H,
+            durations=durations,
+            tmpdir_prefix="bjudge_tiles_", tmpdir_dir="/tmp",
+        )
 
     # ── Single Opus pass via Claude Code CLI ───────────────────────────────
     def _call_opus(self, grid_path: str, user_prompt: str) -> dict:

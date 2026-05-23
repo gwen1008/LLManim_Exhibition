@@ -15,6 +15,37 @@ def _is_text_type(t: str) -> bool:
     return t in _TEXT_TYPES
 
 
+# Type pairs that are always intentional overlays (e.g. Sector drawn inside
+# its Circle). Public so LayoutAuditor's recomputed-IoU path can mirror this
+# whitelist without redefining it (single source of truth).
+INTENTIONAL_TYPE_PAIRS = frozenset({
+    frozenset({"Sector", "Circle"}),
+    frozenset({"AnnularSector", "Circle"}),
+    frozenset({"Sector", "Arc"}),
+    frozenset({"AnnularSector", "Arc"}),
+})
+
+
+def is_intentional_overlay(m1: dict, m2: dict) -> bool:
+    """Return True if an overlap between m1 and m2 should be treated as intentional.
+
+    Two rules:
+      1. Type-pair whitelist (INTENTIONAL_TYPE_PAIRS).
+      2. Containment: one bbox is fully (~) inside the other (≤5% margin error).
+    """
+    pair = frozenset({m1.get("type", ""), m2.get("type", "")})
+    if pair in INTENTIONAL_TYPE_PAIRS:
+        return True
+    for small, large in [(m1, m2), (m2, m1)]:
+        if small["width"] <= large["width"] * 1.05 and small["height"] <= large["height"] * 1.05:
+            dx = abs(small["center"][0] - large["center"][0])
+            dy = abs(small["center"][1] - large["center"][1])
+            if (dx <= (large["width"] - small["width"]) / 2 + 0.1
+                    and dy <= (large["height"] - small["height"]) / 2 + 0.1):
+                return True
+    return False
+
+
 def _aabb_intersection_area(m1: dict, m2: dict) -> float:
     """Axis-aligned bounding box intersection area.
 
@@ -153,34 +184,10 @@ class SceneInstrumentor:
         
         # Rough pairwise overlap count (simple AABB intersection)
         # with intentional-overlay whitelist to suppress false positives
+        # (see module-level is_intentional_overlay — also used by LayoutAuditor)
         overlap_count = 0
         mobs = snapshot["mobjects"]
-
-        # Type pairs that are always intentional overlays (e.g. Sector drawn inside its Circle)
-        _INTENTIONAL_TYPE_PAIRS = {
-            frozenset({"Sector", "Circle"}),
-            frozenset({"AnnularSector", "Circle"}),
-            frozenset({"Sector", "Arc"}),
-            frozenset({"AnnularSector", "Arc"}),
-        }
-
-        def _is_intentional_overlay(m1, m2):
-            """Return True if this overlap should be treated as intentional."""
-            # 1. Type-pair whitelist
-            pair = frozenset({m1["type"], m2["type"]})
-            if pair in _INTENTIONAL_TYPE_PAIRS:
-                return True
-            # 2. Containment check: one bbox is fully (≥90%) inside the other
-            #    Uses AABB: if the smaller fits inside the larger with ≤5% margin error
-            for small, large in [(m1, m2), (m2, m1)]:
-                if small["width"] <= large["width"] * 1.05 and small["height"] <= large["height"] * 1.05:
-                    # Check center proximity: small center within large bbox
-                    dx = abs(small["center"][0] - large["center"][0])
-                    dy = abs(small["center"][1] - large["center"][1])
-                    if dx <= (large["width"] - small["width"]) / 2 + 0.1 and \
-                       dy <= (large["height"] - small["height"]) / 2 + 0.1:
-                        return True
-            return False
+        _is_intentional_overlay = is_intentional_overlay
 
         # Track worst (max) IoU and text-occlusion *for this step* so we can
         # produce actionable fix hints later.

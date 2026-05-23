@@ -14,20 +14,11 @@ from pathlib import Path
 
 import pandas as pd
 
-# Slug map: Chinese 知識點 -> ASCII directory name (filesystem-safe).
-# Keys must match exactly the 知識點 values appearing in the source xlsx.
-# Verified against data/_xlsx_inspect.json on 2026-05-17.
-SLUG_MAP = {
-    "整數加減": "integer_add_sub",
-    "整數乘除": "integer_mul_div",
-    "分數加減": "fraction_add_sub",
-    "分數乘除": "fraction_mul_div",
-    "四則運算算則（不含去括號）": "pemdas_no_bracket_removal",
-    "四則運算（含去括號）": "pemdas_with_bracket_removal",
-    "完整的四則混合運算": "mixed_arithmetic_full",
-    "指數與科學記號": "exponent_scientific_notation",
-    "因數與倍數": "factor_multiple",
-}
+import sys
+_REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
+from agents.core.knowledge_slug_map import KP_TO_SLUG as SLUG_MAP  # noqa: E402
 
 REQUIRED_COLUMNS = ["編號", "題幹", "知識點", "難度", "詳解", "引導策略"]
 
