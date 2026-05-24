@@ -174,7 +174,8 @@ Output ONLY a single JSON object, no preamble, no markdown fence:
         self._claude_bin = (
             os.getenv("CLAUDE_BIN") or shutil.which("claude") or "/Users/liaozhenting/.local/bin/claude"
         )
-        self._run_as = os.getenv("CLAUDE_RUN_AS_USER", "claudealt")
+        # Empty default: claudealt was retired 2026-05-23 (keychain locked).
+        self._run_as = os.getenv("CLAUDE_RUN_AS_USER", "")
 
     # ──────────────────────────────────────────────────────────────────────
     # Grid construction (delegates to module-level build_comparison_grid)

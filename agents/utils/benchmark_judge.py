@@ -230,7 +230,9 @@ Output STRICT JSON only, no markdown fences, no preamble:
             or shutil.which("claude")
             or "/Users/liaozhenting/.local/bin/claude"
         )
-        self._run_as = os.getenv("CLAUDE_RUN_AS_USER", "claudealt")
+        # Empty default: claudealt was retired 2026-05-23 (keychain locked).
+        # Set CLAUDE_RUN_AS_USER explicitly in .env if you really need sudo -u.
+        self._run_as = os.getenv("CLAUDE_RUN_AS_USER", "")
 
     @classmethod
     def _prompt_sig(cls) -> str:
@@ -535,6 +537,19 @@ Output STRICT JSON only, no markdown fences, no preamble:
             per_dim_scores[dim] = score
             per_dim_modes[dim] = mode
 
+        # P1 guard: vision had no signal on accuracy (e.g. sampled frames missed
+        # the key moments). Without this clamp, all-inconclusive votes ride
+        # math_score=5 (penalty=0) to a free 100. Code review only checks code,
+        # not whether the animation actually rendered the math.
+        acc_votes = dim_votes.get("accuracy", [])
+        inconclusive_ratio = (
+            sum(1 for v in acc_votes if v == "inconclusive") / len(acc_votes)
+            if acc_votes else 0.0
+        )
+        acc_insufficient_signal = inconclusive_ratio >= 0.8
+        if acc_insufficient_signal:
+            per_dim_scores["accuracy"] = min(per_dim_scores["accuracy"], 60)
+
         # ── Deterministic adjustments ──────────────────────────────────────
         # #1: skip the 8-second Opus Phase-1 if caller already has math_score
         # (e.g. RefiningLoop already ran FinalJudge on this candidate).
@@ -579,6 +594,8 @@ Output STRICT JSON only, no markdown fences, no preamble:
                 "bench_layout":  bench_layout,
                 "layout_gap_penalty": layout_penalty,
                 "accuracy_factor": round(accuracy_factor, 3),
+                "acc_inconclusive_ratio": round(inconclusive_ratio, 3),
+                "acc_insufficient_signal": acc_insufficient_signal,
             },
             "confidences": confidences,
             "passes": passes_log,
@@ -595,6 +612,8 @@ Output STRICT JSON only, no markdown fences, no preamble:
             print(f"   math_review:  {math_score}/5  → penalty {math_penalty}")
         if cand_layout is not None and bench_layout is not None:
             print(f"   layout gap:   cand={cand_layout} bench={bench_layout}  → clarity adj {layout_penalty:+d}")
+        if acc_insufficient_signal:
+            print(f"   ⚠️  acc insufficient signal: inconclusive_ratio={inconclusive_ratio:.0%} → acc clamped to ≤60")
         print(f"   accuracy_factor: {accuracy_factor:.2f}  (= min(1, acc/{ACCURACY_GATE_THRESHOLD}))")
         print(f"{'='*60}\n")
 

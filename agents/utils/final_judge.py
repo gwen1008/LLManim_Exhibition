@@ -736,7 +736,8 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
                 or _shutil.which("claude")
                 or "/Users/liaozhenting/.local/bin/claude"
             )
-            run_as = os.getenv("CLAUDE_RUN_AS_USER", "claudealt")
+            # Empty default: claudealt was retired 2026-05-23 (keychain locked).
+            run_as = os.getenv("CLAUDE_RUN_AS_USER", "")
             model  = os.getenv("FJ_OPUS_MODEL", "claude-opus-4-7")
             grid_abs = os.path.abspath(grid_path)
             opus_prompt = (
