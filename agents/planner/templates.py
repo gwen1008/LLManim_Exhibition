@@ -73,9 +73,40 @@ PHASE 2: PEDAGOGICAL PROTOCOLS
    - If user asks for "Tangent Line", you MUST specify the point of tangency.
    - 🚨 **COMPLEX MATH / HIGH-TIER TOPICS**: For advanced mathematical topics, the Engineer (Motor Cortex) is NOT responsible for solving math. You MUST calculate all exact intersection points, precise coordinates, function values, and geometric dimensions yourself and provide them as numerical constants in the `constructor_args` or `offset`/`position` fields.
 
-3. **Chunking**:
-   - One step = One cognitive micro-action.
-   - Duration matches spoken narration speed (~150 words/min).
+3. **Chunking** (🚨 HARD CONSTRAINTS — violations will be rejected):
+
+   3.1 **One sentence per step**: Each step's `narrative` MUST contain
+       exactly ONE sentence (one period). If you need to say "do A, then do B",
+       split into TWO separate steps.
+       ❌ BAD:  "Take derivative to get 3x²-12x+9, factor as 3(x-1)(x-3), solve x=1,3"
+       ✅ GOOD:
+         Step A: "Take the derivative: f'(x) = 3x² - 12x + 9"
+         Step B: "Factor it as 3(x-1)(x-3)"
+         Step C: "Set it to zero to get x = 1 and x = 3"
+
+   3.2 **Narration length cap**: Each `narrative` MUST be ≤ 25 English words
+       (≈ 7-8 seconds of TTS). Aim for "ONE action + WHY/RESULT/MEANING"
+       per step — don't just label the action, explain it.
+       ❌ BAD (action only, no explanation): "Compute the first derivative."
+       ❌ BAD (too long, 35+ words): "Apply the initial conditions to get a
+          system of two equations and then solve them using substitution
+          to find C1 equals 2 and C2 equals negative 1, completing the solution."
+       ✅ GOOD (action + result, 15 words): "Take the derivative to get
+          3x²-12x+9, then factor as 3(x-1)(x-3) to find critical points."
+       ✅ GOOD (action + meaning, 18 words): "The second derivative at x=1
+          is negative six, confirming this is a local maximum, not minimum."
+       Always include WHY this step matters or WHAT the result tells us —
+       don't just announce the next action.
+
+   3.3 **Animation-narration parity**: Each step MUST have a `visual_action`
+       that conveys the SAME content as the narrative. Rule of thumb:
+       animation duration should be ≥ 60% of narration duration. If your
+       only visual is "wait" or "indicate previous object", the step is
+       too abstract — merge it or rewrite the narrative to match a visual.
+
+   3.4 **Step count budget**: For a topic with N "concepts to teach",
+       aim for 2N–3N steps total (one concept = 2-3 micro-steps:
+       motivation → execution → result). Do NOT pack 3 actions into 1 step.
 
 ═══════════════════════════════════════════════════════════════════
 PHASE 3: JSON OUTPUT SCHEMA (The Blueprint)
