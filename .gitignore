@@ -178,3 +178,7 @@ evaluation/golden_set/benchmark_judge_cache.*.json
 # Nested repo accident (2026-05-23) — do not track, do not auto-add
 /LLManim_Agent/
 
+# Local exhibition offline experiment scratch (2026-05-24) — 41MB, 10 topics × 2 arms
+# Not the same as exhibition/ (live SPA, tracked). This is pre-rendered comparison output.
+exhibition_demo/
+
