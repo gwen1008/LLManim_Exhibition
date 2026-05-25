@@ -76,7 +76,7 @@ class AudioEngine:
 
             duration = self._get_wav_duration(out_path)
 
-            step["audio_path"] = str(out_path.resolve())
+            step["audio_path"] = out_path.resolve().as_posix()  # forward slashes to avoid escape issues in injected code
             step["duration"] = duration
 
             print(f"  - 語音片段 {i}: {duration:.2f}s | {text[:15]}...")
@@ -112,7 +112,7 @@ class AudioEngine:
         else:
             print(f"⚠️ 語音部分完成（{len(valid_paths)}/{len(steps)} 片段）合併音檔: {final_file}")
 
-        return steps, str(final_file)
+        return steps, Path(final_file).resolve().as_posix()
 
     def _tts_azure(self, text, out_path):
         # 確保使用絕對路徑

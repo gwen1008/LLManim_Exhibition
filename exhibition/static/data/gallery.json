@@ -1,0 +1,93 @@
+{
+  "items": [
+    {
+      "id": "Q024",
+      "topic": "畢氏定理",
+      "topic_en": "Pythagorean Theorem",
+      "opus_video_url": "/static/videos/opus_only/Q024.mp4",
+      "system_video_url": "/static/videos/full_system/Q024.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "render_duration_sec": 45.2,
+        "code_lines": 87,
+        "deprecated_api_count": 3,
+        "notes": "ManimGL syntax used, ShowCreation deprecated"
+      },
+      "system_metrics": {
+        "render_success": true,
+        "render_duration_sec": 312.5,
+        "code_lines": 215,
+        "deprecated_api_count": 0,
+        "bj_score": 78,
+        "refining_iterations": 2
+      }
+    },
+    {
+      "id": "Q070",
+      "topic": "三角形內角和證明",
+      "topic_en": "Triangle Angle Sum Proof",
+      "opus_video_url": "/static/videos/opus_only/Q070.mp4",
+      "system_video_url": "/static/videos/full_system/Q070.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "render_duration_sec": 38.7,
+        "code_lines": 62,
+        "deprecated_api_count": 1,
+        "notes": "動畫缺乏教育性脈絡、觀感粗糙"
+      },
+      "system_metrics": {
+        "render_success": true,
+        "render_duration_sec": 287.3,
+        "code_lines": 198,
+        "deprecated_api_count": 0,
+        "bj_score": 82,
+        "refining_iterations": 1
+      }
+    },
+    {
+      "id": "Q031",
+      "topic": "等差數列",
+      "topic_en": "Arithmetic Sequence",
+      "opus_video_url": "/static/videos/opus_only/Q031.mp4",
+      "system_video_url": "/static/videos/full_system/Q031.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "render_duration_sec": 22.1,
+        "code_lines": 54,
+        "deprecated_api_count": 2,
+        "notes": "ImportError: ShowCreation not found"
+      },
+      "system_metrics": {
+        "render_success": true,
+        "render_duration_sec": 198.4,
+        "code_lines": 167,
+        "deprecated_api_count": 0,
+        "bj_score": 75,
+        "refining_iterations": 3
+      }
+    },
+    {
+      "id": "Q055",
+      "topic": "微積分基本定理",
+      "topic_en": "Fundamental Theorem of Calculus",
+      "opus_video_url": "/static/videos/opus_only/Q055.mp4",
+      "system_video_url": "/static/videos/full_system/Q055.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "render_duration_sec": 61.3,
+        "code_lines": 103,
+        "deprecated_api_count": 0,
+        "notes": "動畫流暢但缺乏直觀說明"
+      },
+      "system_metrics": {
+        "render_success": true,
+        "render_duration_sec": 445.2,
+        "code_lines": 312,
+        "deprecated_api_count": 0,
+        "bj_score": 91,
+        "refining_iterations": 2
+      }
+    }
+  ],
+  "generated_at": "2026-05-25T00:00:00+08:00"
+}
