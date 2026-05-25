@@ -6,82 +6,109 @@ from manim import *
 
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Non-blocking subtitle: shows in parallel with animation via add_updater."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
+    FADE_DURATION = 0.15
 
     def __init__(self, scene, font_size=28):
+        import re
         self.scene = scene
         self.font_size = font_size
-        self._current = None
-        self._y = 3.2 * DOWN
+        self._re = re
+        self._active_drivers = []
 
-    def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
+    def _split_sentences(self, text):
+        parts = self._re.split(r'([，。！？,\.!?]+)', str(text))
         sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
+        for i in range(0, len(parts) - 1, 2):
+            sentences.append((parts[i] + parts[i + 1]).strip())
         if len(parts) % 2 == 1 and parts[-1].strip():
             sentences.append(parts[-1].strip())
+        return [s for s in sentences if s]
 
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
+    def _make_mob(self, text):
+        text_mob = Text(text, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if mob.width > self.MAX_WIDTH:
+            mob.scale_to_fit_width(self.MAX_WIDTH)
+        return mob
+
+    def show(self, text_str, run_time=1.0):
+        """Non-blocking subtitle display for run_time seconds."""
+        self._clear_active()
+        sentences = self._split_sentences(text_str)
         if not sentences:
             return
+        total_chars = sum(len(s) for s in sentences)
 
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
+        intervals = []
+        cursor = 0.0
+        for s in sentences:
+            seg = run_time * (len(s) / max(1, total_chars))
+            intervals.append((cursor, cursor + seg))
+            cursor += seg
 
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
+        mobs = []
+        for s, _ in zip(sentences, intervals):
+            m = self._make_mob(s)
+            m.set_opacity(0)
+            self.scene.add(m)
+            mobs.append(m)
 
-        for idx, s in enumerate(sentences):
+        driver = Dot(radius=0.001).set_opacity(0).move_to(LEFT * 100)
+        driver._sm_elapsed = 0.0
+        driver._sm_run_time = run_time
+        driver._sm_mobs = mobs
+        driver._sm_intervals = intervals
+        driver._sm_fade = self.FADE_DURATION
+        driver._sm_scene = self.scene
 
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
+        def _sub_updater(mob, dt):
+            mob._sm_elapsed += dt
+            t = mob._sm_elapsed
+            for i, (start, end) in enumerate(mob._sm_intervals):
+                tm = mob._sm_mobs[i]
+                fd = mob._sm_fade
+                if t < start:
+                    op = 0.0
+                elif t < start + fd:
+                    op = (t - start) / fd
+                elif t < end - fd:
+                    op = 1.0
+                elif t < end:
+                    op = (end - t) / fd
+                else:
+                    op = 0.0
+                tm.set_opacity(max(0.0, min(1.0, op)))
+            if t >= mob._sm_run_time + 0.05:
+                mob.clear_updaters()
+                for tm in mob._sm_mobs:
+                    if tm in mob._sm_scene.mobjects:
+                        mob._sm_scene.remove(tm)
+                if mob in mob._sm_scene.mobjects:
+                    mob._sm_scene.remove(mob)
 
-            is_last = (idx == n - 1)
+        driver.add_updater(_sub_updater)
+        self.scene.add(driver)
+        self._active_drivers.append(driver)
 
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
+    def _clear_active(self):
+        for d in list(self._active_drivers):
+            try:
+                d.clear_updaters()
+                for m in getattr(d, "_sm_mobs", []):
+                    if m in self.scene.mobjects:
+                        self.scene.remove(m)
+                if d in self.scene.mobjects:
+                    self.scene.remove(d)
+            except Exception:
+                pass
+        self._active_drivers.clear()
 
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
-        if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
-            self._current = None
-
+    def clear(self, run_time=0.0):
+        self._clear_active()
 
 class SceneInstrumentor:
     """Auto-injected by RefiningLoop.pre_render_patch to quantitatively track object overlap."""
@@ -165,49 +192,44 @@ class GeneratedScene(Scene):
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/What_is_the_smallest_ff79a3f8a4/step_00.mp3")  # [auto-injected] duration=6.72s
         _audio_dur_0 = 6.72  # [audio-sync] actual TTS duration
-        # Step 1
         self.set_subtitle("我們要找最小的正整數 N，使 N 乘上這三個分數都是整數。", run_time=_audio_dur_0)
+        # Step 1
         anim_time_1 = 3.0
         self.play(Write(title), run_time=1.5)
         self.play(Write(fractions), run_time=1.5)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.5)
-        self.wait(max(0.1, remaining_1))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/What_is_the_smallest_ff79a3f8a4/step_01.mp3")  # [auto-injected] duration=13.87s
+        self.wait(max(0.1, _audio_dur_0 - 3.00))
         _audio_dur_1 = 13.87  # [audio-sync] actual TTS duration
-        # Step 2
         self.set_subtitle("N 必須能消掉每個分母，因此 N 是 15、20、24 的公倍數，取最小者即最小公倍數。", run_time=_audio_dur_1)
+        # Step 2
         anim_time_2 = 3.2
         self.play(Circumscribe(fractions, color=YELLOW), run_time=1.2)
         self.play(Write(insight), run_time=2.0)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.5)
-        self.wait(max(0.1, remaining_2))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/What_is_the_smallest_ff79a3f8a4/step_02.mp3")  # [auto-injected] duration=10.80s
+        self.wait(max(0.1, _audio_dur_1 - 3.20))
         _audio_dur_2 = 10.80  # [audio-sync] actual TTS duration
+        self.set_subtitle("把每個分母分解質因數：15 = 3 × 5，20 = 2² × 5，24 = 2³ × 3。", run_time=_audio_dur_2)
         # Step 3
-        self.set_subtitle("把每個分母分解質因數：15 = 3×5，20 = 2²×5，24 = 2³×3。", run_time=_audio_dur_2)
         anim_time_3 = 4.5
         self.play(LaggedStart(Write(fact15), Write(fact20), Write(fact24), lag_ratio=0.4, run_time=4.5))
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.5)
-        self.wait(max(0.1, remaining_3))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/What_is_the_smallest_ff79a3f8a4/step_03.mp3")  # [auto-injected] duration=9.55s
+        self.wait(max(0.1, _audio_dur_2 - 4.50))
         _audio_dur_3 = 9.55  # [audio-sync] actual TTS duration
-        # Step 4
         self.set_subtitle("取每個質數的最高次方：2³ 來自 24，3 與 5 任取，相乘即可。", run_time=_audio_dur_3)
+        # Step 4
         anim_time_4 = 3.2
         self.play(Indicate(fact24, color=BLUE), run_time=1.2)
         self.play(Write(lcm_expr), run_time=2.0)
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.5)
-        self.wait(max(0.1, remaining_4))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/What_is_the_smallest_ff79a3f8a4/step_04.mp3")  # [auto-injected] duration=7.70s
+        self.wait(max(0.1, _audio_dur_3 - 3.20))
         _audio_dur_4 = 7.70  # [audio-sync] actual TTS duration
-        # Step 5
         self.set_subtitle("8 × 3 × 5 = 120，所以最小的 N 為 120。", run_time=_audio_dur_4)
+        # Step 5
         anim_time_5 = 3.0
         self.play(Write(answer), run_time=1.5)
         self.play(Create(answer_box), Circumscribe(answer, color=GREEN), run_time=1.5)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.5)
-        self.wait(max(0.1, remaining_5))
+        self.wait(max(0.1, _audio_dur_4 - 3.00))

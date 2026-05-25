@@ -140,22 +140,12 @@
         "min_animation_count": 4
     },
     {
-        "id": "HIGH_06",
+        "id": "HIGH_05",
         "category": "High",
-        "topic": "幾何證明無窮等比級數 1/2 + 1/4 + 1/8 ... = 1。使用一個大正方形，透過不斷對半分切並塗色來展示填滿過程。",
-        "topic_en": "Geometrically prove 1/2 + 1/4 + 1/8... = 1. Use a large square and show the filling process by repeatedly halving and shading.",
-        "description": "Calculus: Infinite series visualization.",
-        "required_patterns": ["Square|Rectangle", "self\\.play\\(", "FadeIn|Write"],
-        "disallowed_patterns": ["ShowCreation", "TextMobject", "TexMobject"],
-        "min_animation_count": 4
-    },
-    {
-        "id": "HIGH_07",
-        "category": "High",
-        "topic": "展示 y = 2^x 與 y = log2(x) 的對稱性。畫出兩條曲線與 y = x 漸近線，並用移動的點展示它們關於 y = x 對稱。",
-        "topic_en": "Show the symmetry of y = 2^x and y = log2(x). Plot both curves and the y=x line, using moving points to demonstrate reflection.",
-        "description": "Functions: Inverse symmetry.",
-        "required_patterns": ["Axes|NumberPlane", "self\\.play\\(", "ValueTracker|always_redraw"],
+        "topic": "畫出向量 A=(3,1) 與 B=(1,2)，使用三角形法（首尾相接）來呈現合成向量 C=(4,3) 的過程。",
+        "topic_en": "Draw vector A=(3,1) and B=(1,2). Use the head-to-tail method to demonstrate the vector addition process, resulting in the composite vector C=(4,3).",
+        "description": "Vectors: Triangle law of addition.",
+        "required_patterns": ["Arrow|Vector|Line", "self\\.play\\(", "MathTex|Text"],
         "disallowed_patterns": ["ShowCreation", "TextMobject", "TexMobject"],
         "min_animation_count": 4
     }
