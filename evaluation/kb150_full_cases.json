@@ -1,0 +1,727 @@
+[
+  {
+    "id": "KB150V2_CompareScientificNotationAndDecimal",
+    "category": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "比較三數大小並由小到大排列：A = 7.5×10^-3, B = 8.2×10^-4, C = 0.00021",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：科學記號統一後比較大小\n備註：結構同：兩個科學記號 + 一個十進制；每階差 10 倍視覺清楚；排序 C < B < A（驗算 OK）",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "CompareScientificNotationAndDecimal",
+      "chapter": "exponent_scientific_notation",
+      "method": "科學記號統一後比較大小",
+      "original_v1": "比較 A=3.4×10^-5, B=4.3×10^-6, C=0.000035"
+    }
+  },
+  {
+    "id": "KB150V2_OrderOfOperationsWithNegativeExponents",
+    "category": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "計算 (-3)^3 ÷ 9 - (-2)^4 × 3 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：負數冪次運算遵循指數優先規則\n備註：結構同：負數冪 + 除 + 負數冪 + 乘；答案 -3-48=-51",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "OrderOfOperationsWithNegativeExponents",
+      "chapter": "exponent_scientific_notation",
+      "method": "負數冪次運算遵循指數優先規則",
+      "original_v1": "(-2)^4 ÷ (-4) - (-3)^2 × 2"
+    }
+  },
+  {
+    "id": "KB150V2_ScientificNotationBacterialLength",
+    "category": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "某病毒直徑約 6×10^-8 公尺，若 5×10^9 個首尾相連緊密排成一直線，求總長度，請以科學記號 a×10^n 表示",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：單位換算 + 科學記號分離數字與指數相乘\n備註：結構同：微觀單位 × 大量；答案 30×10 = 3.0×10^2 公尺；明確要求科學記號表示",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "ScientificNotationBacterialLength",
+      "chapter": "exponent_scientific_notation",
+      "method": "單位換算 + 科學記號分離數字與指數相乘",
+      "original_v1": "細菌長 8nm（=8×10^-9 m）× 4×10^7 個"
+    }
+  },
+  {
+    "id": "KB150V2_ScientificNotationSubtraction",
+    "category": "指數與科學記號",
+    "difficulty": 3,
+    "topic": "計算 (5.4×10^6) + (9×10^4) 並化為科學記號",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：統一指數後提公因數加減\n備註：結構同：兩項科學記號相加，指數差 2 級；答案 5.49×10^6",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "ScientificNotationSubtraction",
+      "chapter": "exponent_scientific_notation",
+      "method": "統一指數後提公因數加減",
+      "original_v1": "3.6×10^5 + 8×10^3"
+    }
+  },
+  {
+    "id": "KB150V2_FindExponentsGCDLCM",
+    "category": "因數與倍數",
+    "difficulty": 3,
+    "topic": "已知 M = 2^x × 3^3 × 7^z, N = 2^4 × 3^y × 7^2, GCD(M,N) = 2^2 × 3^2 × 7, LCM(M,N) = 2^4 × 3^3 × 7^2，求 x, y, z 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：利用 GCD(最小指數) 與 LCM(最大指數) 反推質因數分解中的未知指數\n備註：結構同：兩個質因數式 + GCD + LCM 反推三個未知指數；推 x=2, y=2, z=1（驗算 OK，補上 LCM 才完整）",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "FindExponentsGCDLCM",
+      "chapter": "factor_multiple",
+      "method": "利用 GCD(最小指數) 與 LCM(最大指數) 反推質因數分解中的未知指數",
+      "original_v1": "A=2^a×3^2×5^c, B=2^3×3^b×5^2, GCD(A,B)=2^2×3^1×5^2 求 a,b,c"
+    }
+  },
+  {
+    "id": "KB150V2_GCDLCMAndSum",
+    "category": "因數與倍數",
+    "difficulty": 3,
+    "topic": "求 28、42、105 的最大公因數與最小公倍數之和",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：質因數分解後標出各數共有因數(最低次)與全部因數(最高次)\n備註：結構同：三個數 GCD+LCM；質因數涉及 2,3,5,7",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "GCDLCMAndSum",
+      "chapter": "factor_multiple",
+      "method": "質因數分解後標出各數共有因數(最低次)與全部因數(最高次)",
+      "original_v1": "24, 40, 90 的 GCD 與 LCM"
+    }
+  },
+  {
+    "id": "KB150V2_GCDLCMExponents",
+    "category": "因數與倍數",
+    "difficulty": 3,
+    "topic": "已知 P = 3^a × 5^2 × 7, Q = 3^2 × 5^b × 11, GCD(P,Q) = 3^2 × 5^2 = 225, LCM(P,Q) = 3^3 × 5^3 × 7 × 11，求 a + b 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：用 GCD 和 LCM 的質因數分解式反推多個未知指數\n備註：推 a=3, b=3, a+b=6（驗算：P=4725, Q=12375, GCD=225, LCM=259875 自洽）；★ v1 原算式就是 Q111！這版完全避開",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "GCDLCMExponents",
+      "chapter": "factor_multiple",
+      "method": "用 GCD 和 LCM 的質因數分解式反推多個未知指數",
+      "original_v1": "M=2^a×3^2×7, N=2^3×3^b×5, GCD=72, LCM=2^4×3^3×5×7"
+    }
+  },
+  {
+    "id": "KB150V2_AbsoluteValueFractionSubtraction",
+    "category": "分數加減",
+    "difficulty": 3,
+    "topic": "若 a = -3 2/5, b = 2 1/4, 求 |a| - |b| 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：絕對值 → 帶分數化假分數 → 通分 → 分子加減\n備註：結構同：兩個帶分數絕對值相減，分母互質需通分",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "AbsoluteValueFractionSubtraction",
+      "chapter": "fraction_add_sub",
+      "method": "絕對值 → 帶分數化假分數 → 通分 → 分子加減",
+      "original_v1": "|a|-|b|, a=-2 1/3, b=1 1/6"
+    }
+  },
+  {
+    "id": "KB150V2_FractionExpressionSimplification",
+    "category": "分數加減",
+    "difficulty": 3,
+    "topic": "計算 -(5 3/11 - 2 5/8) + (5 3/8 - 2 8/11) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：去括號(含符號變換)→相同分母項歸類→分別計算→合併\n備註：結構同：四個帶分數，兩組相同分母（11 和 8）；配對成 A+D=8, B+C=8 → 答案 0（驗算 OK）",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "FractionExpressionSimplification",
+      "chapter": "fraction_add_sub",
+      "method": "去括號(含符號變換)→相同分母項歸類→分別計算→合併",
+      "original_v1": "-(4 2/7 - 3 5/9) + (2 4/9 - 1 5/7)"
+    }
+  },
+  {
+    "id": "KB150V2_FractionSubtractionComparison",
+    "category": "分數加減",
+    "difficulty": 3,
+    "topic": "若 a = -3/7, 求下列哪個 b 值不滿足 a - b > 0：(A) -1/2 (B) -4/5 (C) -7/10 (D) -2/5",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：利用 x - y > 0 ⇒ x > y 來建立分數不等式比較條件\n備註：結構同：分數比較不等式；A/B/C 滿足，D = -2/5 > -3/7 故 a-b<0 不滿足，正解 (D)（驗算 OK，原稿選項 D 設計失誤已修）",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "FractionSubtractionComparison",
+      "chapter": "fraction_add_sub",
+      "method": "利用 x - y > 0 ⇒ x > y 來建立分數不等式比較條件",
+      "original_v1": "x=-5/8, 求 y 使 x-y>0"
+    }
+  },
+  {
+    "id": "KB150V2_FractionMultiplicationCancellation",
+    "category": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 18 × (-37/18) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：整數與分母相同時直接約分\n備註：結構同：整數=分母（18=18）直接消去；答案 -37",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "FractionMultiplicationCancellation",
+      "chapter": "fraction_mul_div",
+      "method": "整數與分母相同時直接約分",
+      "original_v1": "12 × (-25/12)"
+    }
+  },
+  {
+    "id": "KB150V2_MixedFractionMultiplicationCancellation",
+    "category": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 (-4 1/3) × 1 1/2 × (-1 2/5) × 5/26 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：帶分數化假分數 → 重排項使相鄰項相同 → 配對約分\n備註：結構同：四項帶分數連乘、含負號、可配對約分；化假分數 (-13/3)(3/2)(-7/5)(5/26)：3↔3, 5↔5, 13↔26 配對；答案 7/4（驗算 OK）",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "MixedFractionMultiplicationCancellation",
+      "chapter": "fraction_mul_div",
+      "method": "帶分數化假分數 → 重排項使相鄰項相同 → 配對約分",
+      "original_v1": "(-5 1/7) × 1 1/11 × (-1 2/9) × 7/36"
+    }
+  },
+  {
+    "id": "KB150V2_TelescopingProductFractions",
+    "category": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 (3/5) × (5/7) × (7/9) × (9/11) × (11/13) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：相鄰分子分母相消的連乘式化簡（望遠鏡型約分）\n備註：結構同：望遠鏡連乘；答案 3/13",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "TelescopingProductFractions",
+      "chapter": "fraction_mul_div",
+      "method": "相鄰分子分母相消的連乘式化簡（望遠鏡型約分）",
+      "original_v1": "a/b × b/c × c/d × d/e 抽象式"
+    }
+  },
+  {
+    "id": "KB150V2_GroupedIntegerSubtraction",
+    "category": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 45 - 58 + 65 - 78 + 85 - 98 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：交替加減式兩兩分組，每組差值相等時可快速化簡\n備註：結構同：交替加減、每對差值固定（-13）、答案 -39",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "GroupedIntegerSubtraction",
+      "chapter": "integer_add_sub",
+      "method": "交替加減式兩兩分組，每組差值相等時可快速化簡",
+      "original_v1": "30 - 42 + 50 - 62"
+    }
+  },
+  {
+    "id": "KB150V2_IntegerExpressionSimplification",
+    "category": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 (-3456) + 789 - (-4456) - 1789 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：雙負號化簡 → 相反數分組相消 → 剩餘項相加減\n備註：結構同：四項含雙負號、可配對成相反數（-3456+4456=1000, 789-1789=-1000）；答案 0",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "IntegerExpressionSimplification",
+      "chapter": "integer_add_sub",
+      "method": "雙負號化簡 → 相反數分組相消 → 剩餘項相加減",
+      "original_v1": "(-1234) + 567 - (-2234) - 1567"
+    }
+  },
+  {
+    "id": "KB150V2_IntegerSubtractionErrorAnalysis",
+    "category": "整數加減",
+    "difficulty": 3,
+    "topic": "錯誤分析：學生計算 -58 - (-31) + (-17)，請找出符號處理錯誤的步驟並改正",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：負號提取規則 = 括號前的負號改變括號內所有項的符號\n備註：結構同：三項含負號變號的錯誤分析；答案 -44",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "IntegerSubtractionErrorAnalysis",
+      "chapter": "integer_add_sub",
+      "method": "負號提取規則 = 括號前的負號改變括號內所有項的符號",
+      "original_v1": "-45 - (-23) + (-12)"
+    }
+  },
+  {
+    "id": "KB150V2_IntegerSubtractionWithBrackets",
+    "category": "整數加減",
+    "difficulty": 3,
+    "topic": "計算 365 - [148 + (-365)] - 217 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：括號去除法則 + 項重排優化（相反數相消）\n備註：結構同：括號內含被減數的相反數；365 與 -365 相消，剩 365-148-217+365=365（驗算 OK，原稿答案 -244 算錯）",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "IntegerSubtractionWithBrackets",
+      "chapter": "integer_add_sub",
+      "method": "括號去除法則 + 項重排優化（相反數相消）",
+      "original_v1": "543 - [219 + (-543)] - 381"
+    }
+  },
+  {
+    "id": "KB150V2_DistributivePropertyFactoring",
+    "category": "整數乘除",
+    "difficulty": 3,
+    "topic": "計算 (-17) × 35 - (-17) × (-65) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：分配律逆用 = 提取公因數簡化表達式\n備註：結構同：兩項共因數 (-17)，括號內 35-(-65)=100；答案 -1700",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "DistributivePropertyFactoring",
+      "chapter": "integer_mul_div",
+      "method": "分配律逆用 = 提取公因數簡化表達式",
+      "original_v1": "(-13) × 24 - (-13) × (-76)"
+    }
+  },
+  {
+    "id": "KB150V2_DistributivePropertyNegativeFactor",
+    "category": "整數乘除",
+    "difficulty": 3,
+    "topic": "計算 73 × (-28) - 27 × 28 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：負公因數提取 = 改寫減法並提出負號共同因數\n備註：結構同：兩項可提負公因數 (-28)；答案 (-28)×100=-2800",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "DistributivePropertyNegativeFactor",
+      "chapter": "integer_mul_div",
+      "method": "負公因數提取 = 改寫減法並提出負號共同因數",
+      "original_v1": "20 × (-15) - 30 × 15"
+    }
+  },
+  {
+    "id": "KB150V2_IntegerSignDeduction",
+    "category": "整數乘除",
+    "difficulty": 3,
+    "topic": "若 m × n > 0 且 n ÷ p < 0，且已知 m < 0，求 n 和 p 的正負",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：符號推理 = 從乘除不等式推導整數符號關係\n備註：結構同：兩條件聯立推符號；答案 n<0, p>0",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "IntegerSignDeduction",
+      "chapter": "integer_mul_div",
+      "method": "符號推理 = 從乘除不等式推導整數符號關係",
+      "original_v1": "a×b<0, b÷c>0 求 a,c 符號"
+    }
+  },
+  {
+    "id": "KB150V2_DistributivePropertyMixedNumberMultiplication",
+    "category": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "計算 49 5/6 × (-6) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：混合數分配律 = 將帶分數展開為整數加分數後分配乘法\n備註：結構同：帶分數×整數、整數可消分母；答案 -299",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "DistributivePropertyMixedNumberMultiplication",
+      "chapter": "mixed_arithmetic_full",
+      "method": "混合數分配律 = 將帶分數展開為整數加分數後分配乘法",
+      "original_v1": "39 7/8 × (-4)"
+    }
+  },
+  {
+    "id": "KB150V2_MixedArithmeticOrderOfOperations",
+    "category": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "計算 (-1/3)^2 ÷ (1/6 - 1/4) × (-3)^2 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：運算順序 = 先算冪次、括號、乘除、加減\n備註：結構同：負分數冪 + 括號差 + 整數冪；答案 (1/9)÷(-1/12)×9 = -12",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "MixedArithmeticOrderOfOperations",
+      "chapter": "mixed_arithmetic_full",
+      "method": "運算順序 = 先算冪次、括號、乘除、加減",
+      "original_v1": "(-1/2)^3 ÷ (1/4 - 1/3) × (-2)^2"
+    }
+  },
+  {
+    "id": "KB150V2_MixedOperationsFractionsDecimals",
+    "category": "完整的四則混合運算",
+    "difficulty": 3,
+    "topic": "計算 -4.5 ÷ [(1/5 - 1) × 5/4 + 3/4] 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：嵌套括號化簡 = 由內到外逐步計算括號、乘除、加減\n備註：結構同：小數 ÷ [括號內分數計算]；答案 -4.5 ÷ (-1/4) = 18",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "MixedOperationsFractionsDecimals",
+      "chapter": "mixed_arithmetic_full",
+      "method": "嵌套括號化簡 = 由內到外逐步計算括號、乘除、加減",
+      "original_v1": "-3.2 ÷ [(1/4 - 1) × 8/3 + 1/2]"
+    }
+  },
+  {
+    "id": "KB150V2_DistributivePropertyWithNegatives",
+    "category": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 (-83) × 124 - (-83) × 24 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：分配律簡化 = 提取公因數轉化減法為括號形式\n備註：結構同：兩項共因數 (-83)、括號內 124-24=100；答案 -8300",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "DistributivePropertyWithNegatives",
+      "chapter": "pemdas_no_bracket_removal",
+      "method": "分配律簡化 = 提取公因數轉化減法為括號形式",
+      "original_v1": "(-76) × 115 - (-76) × 15"
+    }
+  },
+  {
+    "id": "KB150V2_MixedArithmeticOrderOfOperations",
+    "category": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 25 - 36 ÷ (-5 - 4) × 2 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：不含去括號的運算順序 = 先括號、後乘除、最後加減\n備註：結構同：減法 + 除法 + 括號內負數加 + 乘法；答案 25-(-8) = 33",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "MixedArithmeticOrderOfOperations",
+      "chapter": "pemdas_no_bracket_removal",
+      "method": "不含去括號的運算順序 = 先括號、後乘除、最後加減",
+      "original_v1": "38 - 48 ÷ (-6 - 2) × 3"
+    }
+  },
+  {
+    "id": "KB150V2_OrderOfOperationsComplexArithmetic",
+    "category": "四則運算算則（不含去括號）",
+    "difficulty": 3,
+    "topic": "計算 (-72) ÷ (-8) × (-3) - (17 - 30) × 2 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：複雜運算順序 = 先括號、乘除左右順序、最後加減\n備註：結構同：負數除乘鏈 + 括號內減法 × 整數；答案 -27-(-26) = -1",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "OrderOfOperationsComplexArithmetic",
+      "chapter": "pemdas_no_bracket_removal",
+      "method": "複雜運算順序 = 先括號、乘除左右順序、最後加減",
+      "original_v1": "(-48) ÷ (-6) × (-2) - (13 - 25) × 3"
+    }
+  },
+  {
+    "id": "KB150V2_DistributiveLawComplexSubtraction",
+    "category": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 2025 × (-2026) - 2024 × (-2027) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：代換法 + 分配律 = 用代換簡化相似項結構，再用分配律展開\n備註：結構同：大數相近項代換消去；答案 -2",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "DistributiveLawComplexSubtraction",
+      "chapter": "pemdas_with_bracket_removal",
+      "method": "代換法 + 分配律 = 用代換簡化相似項結構，再用分配律展開",
+      "original_v1": "1999 × (-2000) - 1998 × (-2001)"
+    }
+  },
+  {
+    "id": "KB150V2_FractionArithmeticWithBrackets",
+    "category": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 1/3 × [3/4 - (-1/6) × 3] ÷ 5/4 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：帶括號分數運算 = 按運算順序計算最內層乘除、括號內加減、最後乘除\n備註：結構同：分數 × [分數差 - 負分數×整數] ÷ 分數；答案 1/3 × (5/4) ÷ (5/4) = 1/3",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "FractionArithmeticWithBrackets",
+      "chapter": "pemdas_with_bracket_removal",
+      "method": "帶括號分數運算 = 按運算順序計算最內層乘除、括號內加減、最後乘除",
+      "original_v1": "1/2 × [2/3 - (-1/4) × 2] ÷ 7/6"
+    }
+  },
+  {
+    "id": "KB150V2_NestedParenthesesArithmetic",
+    "category": "四則運算（含去括號）",
+    "difficulty": 3,
+    "topic": "計算 30 - (-5) × [18 - (-2) × 4] ÷ 10 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：嵌套括號優先 = 先算最內層乘法、再括號內減法、最後外層乘除加減\n備註：結構同：外層減 + 負數 × [括號內含負數乘] ÷ 整數；答案 30-(-13) = 43",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "NestedParenthesesArithmetic",
+      "chapter": "pemdas_with_bracket_removal",
+      "method": "嵌套括號優先 = 先算最內層乘法、再括號內減法、最後外層乘除加減",
+      "original_v1": "24 - (-3) × [12 - (-4) × 3] ÷ 6"
+    }
+  }
+]

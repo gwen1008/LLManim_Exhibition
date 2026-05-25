@@ -97,7 +97,11 @@ class ManimCodeChunker:
                     # Extract docstring to use as video_description
                     docstring = ast.get_docstring(node)
                     topic_name = filepath.relative_to(self.source_dir).parts[0]
-                    video_desc = docstring.strip() if docstring else f"{node.name} example about {topic_name}"
+                    raw_desc = docstring.strip() if docstring else f"{node.name} example about {topic_name}"
+                    # [W1.2] Prefix knowledge slug into description so BM25 + embedding
+                    # both get an explicit knowledge-point signal. Helps reduce top-1
+                    # cross-knowledge-point misretrievals (~12% in pre-fix baseline).
+                    video_desc = f"[knowledge: {topic_name}] {raw_desc}"
 
                     # Extract used Manim modules (uses module-level MANIM_CLASSES constant)
                     used_modules = set()
@@ -114,8 +118,10 @@ class ManimCodeChunker:
                         'complexity_score': complexity,
                         'manim_modules': ', '.join(used_modules),
                         'source_file': str(filepath.relative_to(self.source_dir)),
+                        'source_library': 'examples',
                         'topic': topic_name,
-                        'video_description': video_desc
+                        'knowledge_slug': topic_name,  # [W1.2] explicit field for filter queries
+                        'video_description': video_desc,
                     })
         
         return chunks
@@ -134,20 +140,32 @@ class ManimCodeChunker:
 
 class WeaviateIndexer:
     """Handles Weaviate schema creation and data upload."""
-    
-    def __init__(self, url: str = "http://localhost:8080"):
+
+    def __init__(self, url: str = "http://localhost:8080", collection_name: str = "ManimGoldenPair"):
         self.client = weaviate.connect_to_local()
-        
+        self.collection_name = collection_name
+
     def create_schema(self):
-        """Create the ManimGoldenPair collection schema (idempotent: skip if already exists)."""
+        """Create the collection schema.
+
+        Always drops + recreates: switching vectorizer (or its dimensions)
+        leaves old vectors with incompatible shape and breaks retrieval
+        silently. Drop + re-ingest is cheap (<60 chunks per KB).
+
+        Vectorizer: text2vec-google with gemini-embedding-001
+        (Google's current production embedding model — replaces deprecated
+        embedding-001 / text-embedding-004).
+        """
         existing = [c.name for c in self.client.collections.list_all().values()]
-        if "ManimGoldenPair" in existing:
-            print("ℹ️  Schema already exists: ManimGoldenPair (skipping create)")
-            return
+        if self.collection_name in existing:
+            print(f"⚠️  Existing collection {self.collection_name} found — dropping for clean re-ingest")
+            self.client.collections.delete(self.collection_name)
 
         self.client.collections.create(
-            name="ManimGoldenPair",
-            vectorizer_config=Configure.Vectorizer.text2vec_openai(),
+            name=self.collection_name,
+            vectorizer_config=Configure.Vectorizer.text2vec_google_aistudio(
+                model_id="gemini-embedding-001",
+            ),
             properties=[
                 # skip_vectorization=True: BM25 still indexes these for keyword search,
                 # but they are NOT included in the OpenAI embedding vector.
@@ -160,39 +178,65 @@ class WeaviateIndexer:
                 Property(name="source_file", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="source_library", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="topic", data_type=DataType.TEXT, skip_vectorization=True),
+                # [W1.2] dedicated field for cross-knowledge-point filter queries.
+                # Same value as `topic` but kept as a separate field so the filter
+                # path is unambiguous (topic is overloaded across libraries).
+                Property(name="knowledge_slug", data_type=DataType.TEXT, skip_vectorization=True),
                 Property(name="video_description", data_type=DataType.TEXT),  # vectorized: primary semantic field
             ]
         )
-        print("✅ Schema created: ManimGoldenPair")
-    
+        print(f"✅ Schema created: {self.collection_name}")
+
     def upload_chunks(self, chunks: List[Dict]):
-        """Upload code chunks to Weaviate."""
-        collection = self.client.collections.get("ManimGoldenPair")
-        
-        with collection.batch.dynamic() as batch:
+        """Upload code chunks to Weaviate.
+
+        rate_limit=60 RPM keeps us under Gemini free-tier's 100 RPM cap.
+        Without throttling, dynamic() batches fire concurrent vectorize
+        requests and hit Google 429 on ~half the inserts.
+        """
+        collection = self.client.collections.get(self.collection_name)
+
+        with collection.batch.rate_limit(requests_per_minute=60) as batch:
             for chunk in chunks:
                 batch.add_object(properties=chunk)
-        
-        print(f"✅ Uploaded {len(chunks)} code chunks to Weaviate")
+
+        failed = collection.batch.failed_objects
+        if failed:
+            print(f"❌ {len(failed)} chunks failed to upload (first 3):")
+            for f in failed[:3]:
+                print(f"   - {f.message}")
+        print(f"✅ Uploaded {len(chunks) - len(failed)} / {len(chunks)} code chunks to {self.collection_name}")
     
     def close(self):
         self.client.close()
 
 
 if __name__ == "__main__":
-    # Configuration
-    KNOWLEDGE_BASE_DIR = "./knowledge_base/examples"  # manim-examples-contribution submodule
-    
-    print("🚀 Starting Code Ingestion Pipeline...")
-    
+    import argparse
+    ap = argparse.ArgumentParser(description="Ingest Manim Scene KB into Weaviate")
+    ap.add_argument(
+        "--kb-dir", default=os.environ.get("RAG_KB_DIR", "./knowledge_base/examples"),
+        help="Directory holding Scene .py files (default: ./knowledge_base/examples, "
+             "or env RAG_KB_DIR if set)",
+    )
+    ap.add_argument(
+        "--collection", default=os.environ.get("RAG_COLLECTION", "ManimGoldenPair"),
+        help="Weaviate collection name (default: ManimGoldenPair, or env RAG_COLLECTION if set)",
+    )
+    args = ap.parse_args()
+
+    print(f"🚀 Starting Code Ingestion Pipeline...")
+    print(f"   KB dir:     {args.kb_dir}")
+    print(f"   Collection: {args.collection}")
+
     # Step 1: Extract code chunks
-    chunker = ManimCodeChunker(KNOWLEDGE_BASE_DIR)
+    chunker = ManimCodeChunker(args.kb_dir)
     chunks = chunker.process_directory()
-    
+
     # Step 2: Upload to Weaviate
-    indexer = WeaviateIndexer()
+    indexer = WeaviateIndexer(collection_name=args.collection)
     indexer.create_schema()
     indexer.upload_chunks(chunks)
     indexer.close()
-    
+
     print("🎉 Code ingestion complete!")

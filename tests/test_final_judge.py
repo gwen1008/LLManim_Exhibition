@@ -108,23 +108,51 @@ def _make_visual(concept: int, clarity: int) -> dict:
 
 
 class TestAggregate:
-    # WEIGHTS = math 0.40, concept 0.15, clarity 0.15, spatial_layout 0.30
+    # WEIGHTS (post P1-1): math_logic 0.20, math_displayed 0.20, concept 0.15,
+    # clarity 0.15, spatial_layout 0.30. math_displayed=None when no gt_match.
     # When spatial_layout=None it's excluded and remaining weights renormalize.
     def test_all_scores_present_correct_weighted_total(self):
-        """math=5, concept=4, clarity=3, spatial=None
-        → renorm over (math+concept+clarity) = 0.70
-        → (5*0.4 + 4*0.15 + 3*0.15) / 0.70 = 3.05/0.70 ≈ 4.357"""
+        """math_score=5, gt=None (→ math_displayed=None), concept=4, clarity=3, spatial=None
+        → only math_logic + concept + clarity contribute, weight sum = 0.50
+        → (5*0.2 + 4*0.15 + 3*0.15) / 0.50 = 2.05/0.50 = 4.10"""
         code = {"math_score": 5, "math_justification": "", "issues": [], "summary": ""}
         visual = _make_visual(concept=4, clarity=3)
         result = _aggregate(code, visual)
-        assert result["weighted_total"] == pytest.approx(4.357, abs=0.01)
+        assert result["weighted_total"] == pytest.approx(4.10, abs=0.01)
 
-    def test_scores_dict_has_all_four_dimensions(self):
+    def test_scores_dict_has_all_dimensions(self):
         code = {"math_score": 4, "issues": [], "summary": ""}
         result = _aggregate(code, _make_visual(4, 4))
+        # math_correctness retained as back-compat alias of math_logic
         assert set(result["scores"].keys()) == {
-            "math_correctness", "concept_alignment", "visual_clarity", "spatial_layout"
+            "math_logic", "math_displayed", "math_correctness",
+            "concept_alignment", "visual_clarity", "spatial_layout",
         }
+
+    def test_math_correctness_alias_matches_math_logic(self):
+        """Back-compat: math_correctness key must equal math_logic value."""
+        code = {"math_score": 4, "issues": [], "summary": ""}
+        result = _aggregate(code, _make_visual(4, 4))
+        assert result["scores"]["math_correctness"] == result["scores"]["math_logic"] == 4
+
+    def test_math_displayed_from_gt_true(self):
+        code = {"math_score": 4, "issues": [], "summary": "", "ground_truth_match": True}
+        result = _aggregate(code, _make_visual(4, 4))
+        assert result["scores"]["math_displayed"] == 5
+
+    def test_math_displayed_from_gt_false_triggers_floor(self):
+        """gt_match=False → math_displayed=1 ≤ DIMENSION_FLOOR → FAIL.
+        Note: the older ground_truth_mismatch veto also still fires; whichever
+        check runs first wins. Both are correct verdicts."""
+        code = {"math_score": 5, "issues": [], "summary": "", "ground_truth_match": False}
+        result = _aggregate(code, _make_visual(5, 5))
+        assert result["scores"]["math_displayed"] == 1
+        assert result["verdict"] == "FAIL"
+
+    def test_math_displayed_none_when_gt_inconclusive(self):
+        code = {"math_score": 4, "issues": [], "summary": "", "ground_truth_match": None}
+        result = _aggregate(code, _make_visual(4, 4))
+        assert result["scores"]["math_displayed"] is None
 
     def test_math_none_renormalizes_to_visual_only(self):
         """math=None, spatial=None → only concept(0.15) + clarity(0.15), renorm weight=0.30
@@ -220,11 +248,11 @@ class TestVerdict:
         assert result["weighted_total"] == pytest.approx(5.0, abs=0.01)
 
     def test_dimension_floor_triggers_fail(self):
-        """math=2 (<=DIMENSION_FLOOR) → FAIL even if other dims are 5."""
+        """math_logic=2 (<=DIMENSION_FLOOR) → FAIL even if other dims are 5."""
         code = {"math_score": 2, "issues": [], "summary": ""}
         result = _aggregate(code, _make_visual(5, 5))
         assert result["verdict"] == "FAIL"
-        assert result["veto_reason"] == "low_dimension_math_correctness"
+        assert result["veto_reason"] == "low_dimension_math_logic"
 
     def test_below_threshold_fails(self):
         """All 3s → weighted=3.0 < 3.5 → FAIL."""
@@ -313,3 +341,135 @@ class TestCompareAnswer:
         # 1/2 = 0.5
         assert _compare_answer("0.5", "1/2") is True
         assert _compare_answer("1/2", "0.5") is True
+
+    def test_latex_frac_vs_ascii_regression(self):
+        # A-group 2026-05-20 假 FAIL regression — see commit de4cc85.
+        # GT 用 \frac{a}{b}、extracted 用 a/b，舊版誤判 False，新版必須 True。
+        assert _compare_answer("32/15", r"\frac{32}{15}") is True   # Q026
+        assert _compare_answer("1/3", r"\frac{1}{3}") is True       # Q123
+        assert _compare_answer("29/20", r"\frac{29}{20}") is True   # Q124
+        assert _compare_answer("1/10", r"\frac{1}{10}") is True     # Q137
+
+    def test_chained_equation_equivalent_forms(self):
+        # Q122: extracted 同時寫了假分數跟帶分數，GT 是 \frac{49}{10}
+        # _extract_numbers 會抓到 49/10 = 4.9 → 跟 GT 49/10 = 4.9 匹配
+        assert _compare_answer("49/10 = 4 9/10", r"\frac{49}{10}") is True
+
+    # ── P0-2 邊界 bug (2026-05-21) ─────────────────────────────────────────
+    def test_negative_latex_fraction(self):
+        # \frac{-3}{4} = -0.75；現有版本其實已 work（regex -?\d+ 涵蓋負號），
+        # 鎖規格避免未來 regex 改動誤傷。
+        assert _compare_answer("-0.75", r"\frac{-3}{4}") is True
+        assert _compare_answer(r"\frac{-3}{4}", "-0.75") is True
+        assert _compare_answer("-3/4", r"\frac{-3}{4}") is True
+
+    def test_negative_dfrac_tfrac(self):
+        assert _compare_answer("-0.5", r"\dfrac{-1}{2}") is True
+        assert _compare_answer("-0.5", r"\tfrac{-1}{2}") is True
+
+    def test_mixed_fraction_latex(self):
+        # 帶分數 3\frac{1}{2} = 3.5；舊版 _extract_numbers 把 "3" 跟 "frac{1}{2}" 之間
+        # 沒有分隔當成 31/2 → 15.5（bug）
+        assert _compare_answer("3.5", r"3\frac{1}{2}") is True
+        assert _compare_answer(r"3\frac{1}{2}", "3.5") is True
+        # 負帶分數
+        assert _compare_answer("-3.5", r"-3\frac{1}{2}") is True
+
+    def test_mixed_fraction_ascii(self):
+        # 3 1/2 = 3.5；舊版抓到 [0.5, 3.0] 沒合併
+        assert _compare_answer("3.5", "3 1/2") is True
+        assert _compare_answer("3 1/2", "3.5") is True
+        # 帶分數 ↔ 假分數
+        assert _compare_answer("7/2", "3 1/2") is True
+
+    def test_scientific_notation_latex(self):
+        # 1.6 × 10^1 = 16；舊版抓到 [1.6, 10, 1] 三個獨立數
+        assert _compare_answer("16", r"1.6 \times 10^1") is True
+        assert _compare_answer(r"1.6 \times 10^1", "16") is True
+        assert _compare_answer("160", r"1.6 \times 10^2") is True
+        # ASCII 形式
+        assert _compare_answer("16", "1.6 * 10^1") is True
+        # 負指數
+        assert _compare_answer("0.16", r"1.6 \times 10^{-1}") is True
+
+
+# ── P1-2 inter-pass agreement (2026-05-21) ──────────────────────────────────
+
+from agents.utils.final_judge import _event_agreement, _clarity_agreement  # noqa: E402
+
+
+class TestEventAgreement:
+    def test_unanimous_yes(self):
+        # 3 events, all 3 passes vote yes for each
+        votes = {"E1": [1, 1, 1], "E2": [1, 1, 1], "E3": [1, 1, 1]}
+        overall, per = _event_agreement(votes)
+        assert overall == 1.0
+        assert all(v == 1.0 for v in per.values())
+
+    def test_unanimous_no(self):
+        votes = {"E1": [0, 0, 0]}
+        overall, per = _event_agreement(votes)
+        assert overall == 1.0   # all-no also counts as unanimous
+        assert per["E1"] == 1.0
+
+    def test_split_2_1(self):
+        # 2/3 majority → unanimity = 2/3 ≈ 0.667
+        votes = {"E1": [1, 1, 0]}
+        overall, per = _event_agreement(votes)
+        assert abs(per["E1"] - 2/3) < 1e-6
+        assert abs(overall - 2/3) < 1e-6
+
+    def test_even_split(self):
+        # 4 passes, 2/2 split → 0.5
+        votes = {"E1": [1, 1, 0, 0]}
+        overall, per = _event_agreement(votes)
+        assert per["E1"] == 0.5
+
+    def test_mixed_events(self):
+        # one unanimous + one split
+        votes = {"E1": [1, 1, 1], "E2": [1, 0, 0]}
+        overall, per = _event_agreement(votes)
+        assert per["E1"] == 1.0
+        assert abs(per["E2"] - 2/3) < 1e-6
+        assert abs(overall - (1.0 + 2/3) / 2) < 1e-6
+
+    def test_empty_votes_skipped_in_overall(self):
+        # event with zero votes should not drag overall to 0
+        votes = {"E1": [1, 1, 1], "E2": []}
+        overall, per = _event_agreement(votes)
+        assert per["E2"] == 0.0
+        assert overall == 1.0  # only E1 counted
+
+    def test_no_events(self):
+        overall, per = _event_agreement({})
+        assert overall == 0.0
+        assert per == {}
+
+
+class TestClarityAgreement:
+    def test_identical_scores(self):
+        assert _clarity_agreement([4, 4, 4]) == 1.0
+
+    def test_single_score(self):
+        assert _clarity_agreement([5]) == 1.0
+
+    def test_empty(self):
+        assert _clarity_agreement([]) == 1.0
+
+    def test_with_nones(self):
+        # None values dropped
+        assert _clarity_agreement([4, None, 4]) == 1.0
+
+    def test_small_disagreement(self):
+        # [4, 5] → mean=4.5, var=0.25, std=0.5 → 1 - 0.25 = 0.75
+        a = _clarity_agreement([4, 5])
+        assert 0.7 < a < 0.8
+
+    def test_moderate_disagreement(self):
+        # [3, 4, 5] → mean=4, var=2/3, std≈0.816 → ≈0.59
+        a = _clarity_agreement([3, 4, 5])
+        assert 0.5 < a < 0.65
+
+    def test_extreme_disagreement(self):
+        # [1, 5] → std=2.0 → 1 - 1.0 = 0.0
+        assert _clarity_agreement([1, 5]) == 0.0

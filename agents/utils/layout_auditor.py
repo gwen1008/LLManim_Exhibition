@@ -17,6 +17,40 @@ import json
 from pathlib import Path
 from typing import Optional
 
+from .scene_instrumentor import (
+    CANVAS_AREA,
+    _aabb_iou,
+    _is_label_on_shape,
+    _is_text_type,
+    _text_containment_ratio,
+)
+
+# Mirror SceneInstrumentor's intentional-overlay whitelist so the recomputed
+# IoU here does not over-count things like pie-chart Sector/Circle pairs that
+# the live instrumentor explicitly excludes.
+_INTENTIONAL_TYPE_PAIRS = {
+    frozenset({"Sector", "Circle"}),
+    frozenset({"AnnularSector", "Circle"}),
+    frozenset({"Sector", "Arc"}),
+    frozenset({"AnnularSector", "Arc"}),
+}
+
+
+def _is_intentional_overlay(m1: dict, m2: dict) -> bool:
+    """Replicate SceneInstrumentor's intentional-overlay heuristic."""
+    pair = frozenset({m1.get("type", ""), m2.get("type", "")})
+    if pair in _INTENTIONAL_TYPE_PAIRS:
+        return True
+    # Containment: one bbox fully (~) inside the other.
+    for small, large in [(m1, m2), (m2, m1)]:
+        if small["width"] <= large["width"] * 1.05 and small["height"] <= large["height"] * 1.05:
+            dx = abs(small["center"][0] - large["center"][0])
+            dy = abs(small["center"][1] - large["center"][1])
+            if (dx <= (large["width"] - small["width"]) / 2 + 0.1
+                    and dy <= (large["height"] - small["height"]) / 2 + 0.1):
+                return True
+    return False
+
 
 class LayoutVerdict:
     PASS = "PASS"
@@ -62,18 +96,36 @@ class LayoutAuditor:
                 "note": f"log unreadable: {e}",
             }
 
-        metrics = {
-            "text_occlusion_max": float(log.get("text_occlusion_max", 0.0) or 0.0),
-            "overlap_iou_max":    float(log.get("overlap_iou_max", 0.0) or 0.0),
-            "crowding_max":       float(log.get("crowding_max", 0.0) or 0.0),
-            "balance_offset_max": float(log.get("balance_offset_max", 0.0) or 0.0),
-        }
+        # Detect schema version by checking whether the new top-level metric keys exist.
+        # Older instrumentor versions wrote only per-step `mobjects` arrays, with no
+        # aggregated text_occlusion_max / overlap_iou_max / crowding_max keys. In that
+        # case we re-derive the metrics from the timeline so historical logs are still
+        # auditable instead of silently defaulting to 0 (which masquerades as PASS).
+        _has_new_schema = any(
+            k in log for k in ("text_occlusion_max", "overlap_iou_max", "crowding_max")
+        )
+        if _has_new_schema:
+            metrics = {
+                "text_occlusion_max": float(log.get("text_occlusion_max", 0.0) or 0.0),
+                "overlap_iou_max":    float(log.get("overlap_iou_max", 0.0) or 0.0),
+                "crowding_max":       float(log.get("crowding_max", 0.0) or 0.0),
+                "balance_offset_max": float(log.get("balance_offset_max", 0.0) or 0.0),
+            }
+            metric_source = "instrumentor"
+        else:
+            metrics, worst_steps = self._recompute_from_timeline(log)
+            # Stash worst-step indices on the log so _describe_violation can find them.
+            log["_recomputed_worst_steps"] = worst_steps
+            metric_source = "recomputed"
 
         violations = []
         for metric, threshold in self.THRESHOLDS.items():
             val = metrics[metric]
             if val >= threshold:
-                step = log.get(f"{metric.replace('_max','')}_worst_step")
+                if metric_source == "instrumentor":
+                    step = log.get(f"{metric.replace('_max','')}_worst_step")
+                else:
+                    step = log.get("_recomputed_worst_steps", {}).get(metric)
                 violations.append({
                     "metric": metric,
                     "severity": self.SEVERITY[metric],
@@ -92,7 +144,103 @@ class LayoutAuditor:
             "violations": violations,
             "metrics": metrics,
             "score_1_to_5": score,
+            "metric_source": metric_source,
         }
+
+    def _recompute_from_timeline(self, log: dict) -> tuple[dict, dict]:
+        """Re-derive layout metrics from timeline[*].mobjects when the top-level
+        aggregated keys are absent (older SceneInstrumentor schema).
+
+        Returns (metrics_dict, worst_step_dict). Both keyed by the same metric
+        names used by the new schema. worst_step is 1-indexed to match instrumentor.
+        Returns zeroed metrics if timeline is unusable.
+        """
+        timeline = log.get("timeline") or []
+        zero = {
+            "text_occlusion_max": 0.0,
+            "overlap_iou_max":    0.0,
+            "crowding_max":       0.0,
+            "balance_offset_max": 0.0,
+        }
+        if not timeline:
+            return zero, {}
+
+        worst_iou      = 0.0
+        worst_iou_step = None
+        worst_occ      = 0.0
+        worst_occ_step = None
+        worst_crd      = 0.0
+        worst_crd_step = None
+
+        for snap in timeline:
+            mobs = snap.get("mobjects") or []
+            step_idx = snap.get("step")  # already 1-indexed in the new format
+            # Sanity-check mobject schema; skip step if any required field missing.
+            valid_mobs = []
+            for m in mobs:
+                if not isinstance(m, dict):
+                    continue
+                if "center" not in m or "width" not in m or "height" not in m:
+                    continue
+                if "area" not in m:
+                    # Older logs may omit area; derive it.
+                    try:
+                        m = {**m, "area": float(m["width"]) * float(m["height"])}
+                    except Exception:
+                        continue
+                valid_mobs.append(m)
+            if not valid_mobs:
+                continue
+
+            # Pairwise IoU + text occlusion
+            n = len(valid_mobs)
+            for i in range(n):
+                m1 = valid_mobs[i]
+                for j in range(i + 1, n):
+                    m2 = valid_mobs[j]
+                    # Skip intentional overlays (pie-chart Sectors over Circle,
+                    # full containment) — matches live instrumentor behavior.
+                    if not _is_intentional_overlay(m1, m2):
+                        iou = _aabb_iou(m1, m2)
+                        if iou > worst_iou:
+                            worst_iou = iou
+                            worst_iou_step = step_idx
+                    # Text occlusion: exactly one is text-typed, and not an
+                    # intentional label-on-shape pattern.
+                    t1, t2 = _is_text_type(m1.get("type", "")), _is_text_type(m2.get("type", ""))
+                    if t1 ^ t2:
+                        if t1:
+                            text_mob, other, text_z, other_z = m1, m2, i, j
+                        else:
+                            text_mob, other, text_z, other_z = m2, m1, j, i
+                        if _is_label_on_shape(text_mob, other, text_z, other_z):
+                            continue
+                        occ = _text_containment_ratio(text_mob, other)
+                        if occ > worst_occ:
+                            worst_occ = occ
+                            worst_occ_step = step_idx
+
+            # Crowding: total screen coverage / canvas area, capped 1.0.
+            cov = snap.get("total_screen_coverage")
+            if cov is None:
+                cov = sum(m.get("area", 0.0) for m in valid_mobs)
+            crd = min(1.0, float(cov) / CANVAS_AREA)
+            if crd > worst_crd:
+                worst_crd = crd
+                worst_crd_step = step_idx
+
+        metrics = {
+            "text_occlusion_max": round(worst_occ, 3),
+            "overlap_iou_max":    round(worst_iou, 3),
+            "crowding_max":       round(worst_crd, 3),
+            "balance_offset_max": 0.0,  # not recomputed; not used by _score()
+        }
+        worst_steps = {
+            "text_occlusion_max": worst_occ_step,
+            "overlap_iou_max":    worst_iou_step,
+            "crowding_max":       worst_crd_step,
+        }
+        return metrics, worst_steps
 
     def _score(self, metrics: dict) -> int:
         """Map metrics → 1..5 dimension score for FinalJudge."""

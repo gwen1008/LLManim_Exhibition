@@ -1,0 +1,56 @@
+file,rule,line,detail
+knowledge_base/kb150_v2/exponent_scientific_notation/CompareScientificNotationAndDecimal.py,A_FADEOUT_GAP,0,"create-like=6, remove-like=0, gap=6"
+knowledge_base/kb150_v2/exponent_scientific_notation/OrderOfOperationsWithNegativeExponents.py,A_FADEOUT_GAP,0,"create-like=4, remove-like=1, gap=3"
+knowledge_base/kb150_v2/exponent_scientific_notation/OrderOfOperationsWithNegativeExponents.py,D_OVERLAP_RISK,0,mobjects=10 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/exponent_scientific_notation/ScientificNotationBacterialLength.py,A_FADEOUT_GAP,0,"create-like=5, remove-like=2, gap=3"
+knowledge_base/kb150_v2/exponent_scientific_notation/ScientificNotationBacterialLength.py,D_OVERLAP_RISK,0,mobjects=8 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/exponent_scientific_notation/ScientificNotationSubtraction.py,A_FADEOUT_GAP,0,"create-like=6, remove-like=4, gap=2"
+knowledge_base/kb150_v2/exponent_scientific_notation/ScientificNotationSubtraction.py,D_OVERLAP_RISK,0,mobjects=12 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/factor_multiple/FindExponentsGCDLCM.py,A_FADEOUT_GAP,0,"create-like=9, remove-like=1, gap=8"
+knowledge_base/kb150_v2/factor_multiple/FindExponentsGCDLCM.py,D_OVERLAP_RISK,0,mobjects=9 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/factor_multiple/GCDLCMAndSum.py,A_FADEOUT_GAP,0,"create-like=7, remove-like=5, gap=2"
+knowledge_base/kb150_v2/factor_multiple/GCDLCMExponents.py,A_FADEOUT_GAP,0,"create-like=7, remove-like=3, gap=4"
+knowledge_base/kb150_v2/factor_multiple/GCDLCMExponents.py,D_OVERLAP_RISK,0,mobjects=6 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/fraction_add_sub/AbsoluteValueFractionSubtraction.py,A_FADEOUT_GAP,0,"create-like=6, remove-like=3, gap=3"
+knowledge_base/kb150_v2/fraction_add_sub/AbsoluteValueFractionSubtraction.py,D_OVERLAP_RISK,0,mobjects=14 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/fraction_add_sub/FractionExpressionSimplification.py,A_FADEOUT_GAP,0,"create-like=5, remove-like=1, gap=4"
+knowledge_base/kb150_v2/fraction_add_sub/FractionExpressionSimplification.py,D_OVERLAP_RISK,0,mobjects=12 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/fraction_add_sub/FractionSubtractionComparison.py,A_FADEOUT_GAP,0,"create-like=9, remove-like=0, gap=9"
+knowledge_base/kb150_v2/fraction_mul_div/FractionMultiplicationCancellation.py,A_FADEOUT_GAP,0,"create-like=5, remove-like=2, gap=3"
+knowledge_base/kb150_v2/fraction_mul_div/FractionMultiplicationCancellation.py,D_OVERLAP_RISK,0,mobjects=7 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/fraction_mul_div/MixedFractionMultiplicationCancellation.py,A_FADEOUT_GAP,0,"create-like=7, remove-like=3, gap=4"
+knowledge_base/kb150_v2/fraction_mul_div/MixedFractionMultiplicationCancellation.py,D_OVERLAP_RISK,0,mobjects=15 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/fraction_mul_div/TelescopingProductFractions.py,A_FADEOUT_GAP,0,"create-like=9, remove-like=0, gap=9"
+knowledge_base/kb150_v2/fraction_mul_div/TelescopingProductFractions.py,D_OVERLAP_RISK,0,mobjects=8 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/integer_add_sub/GroupedIntegerSubtraction.py,A_FADEOUT_GAP,0,"create-like=9, remove-like=5, gap=4"
+knowledge_base/kb150_v2/integer_add_sub/GroupedIntegerSubtraction.py,D_OVERLAP_RISK,0,mobjects=9 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/integer_add_sub/IntegerExpressionSimplification.py,A_FADEOUT_GAP,0,"create-like=5, remove-like=0, gap=5"
+knowledge_base/kb150_v2/integer_add_sub/IntegerExpressionSimplification.py,B_ADD_NO_REMOVE,35,self.add(...) used but file has 0 FadeOut/Uncreate
+knowledge_base/kb150_v2/integer_add_sub/IntegerExpressionSimplification.py,D_OVERLAP_RISK,0,mobjects=7 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/integer_add_sub/IntegerSubtractionErrorAnalysis.py,A_FADEOUT_GAP,0,"create-like=5, remove-like=1, gap=4"
+knowledge_base/kb150_v2/integer_add_sub/IntegerSubtractionErrorAnalysis.py,D_OVERLAP_RISK,0,mobjects=6 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/integer_add_sub/IntegerSubtractionWithBrackets.py,A_FADEOUT_GAP,0,"create-like=4, remove-like=1, gap=3"
+knowledge_base/kb150_v2/integer_add_sub/IntegerSubtractionWithBrackets.py,D_OVERLAP_RISK,0,mobjects=14 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/integer_mul_div/DistributivePropertyFactoring.py,A_FADEOUT_GAP,0,"create-like=11, remove-like=6, gap=5"
+knowledge_base/kb150_v2/integer_mul_div/DistributivePropertyFactoring.py,D_OVERLAP_RISK,0,mobjects=13 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/integer_mul_div/DistributivePropertyNegativeFactor.py,A_FADEOUT_GAP,0,"create-like=6, remove-like=3, gap=3"
+knowledge_base/kb150_v2/integer_mul_div/DistributivePropertyNegativeFactor.py,D_OVERLAP_RISK,0,mobjects=9 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/integer_mul_div/IntegerSignDeduction.py,A_FADEOUT_GAP,0,"create-like=12, remove-like=0, gap=12"
+knowledge_base/kb150_v2/mixed_arithmetic_full/DistributivePropertyMixedNumberMultiplication.py,A_FADEOUT_GAP,0,"create-like=4, remove-like=1, gap=3"
+knowledge_base/kb150_v2/mixed_arithmetic_full/DistributivePropertyMixedNumberMultiplication.py,D_OVERLAP_RISK,0,mobjects=9 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/mixed_arithmetic_full/MixedArithmeticOrderOfOperations.py,A_FADEOUT_GAP,0,"create-like=7, remove-like=3, gap=4"
+knowledge_base/kb150_v2/mixed_arithmetic_full/MixedArithmeticOrderOfOperations.py,D_OVERLAP_RISK,0,mobjects=14 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/mixed_arithmetic_full/MixedOperationsFractionsDecimals.py,A_FADEOUT_GAP,0,"create-like=7, remove-like=3, gap=4"
+knowledge_base/kb150_v2/mixed_arithmetic_full/MixedOperationsFractionsDecimals.py,D_OVERLAP_RISK,0,mobjects=11 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/pemdas_no_bracket_removal/DistributivePropertyWithNegatives.py,A_FADEOUT_GAP,0,"create-like=6, remove-like=2, gap=4"
+knowledge_base/kb150_v2/pemdas_no_bracket_removal/DistributivePropertyWithNegatives.py,D_OVERLAP_RISK,0,mobjects=12 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/pemdas_no_bracket_removal/MixedArithmeticOrderOfOperations.py,A_FADEOUT_GAP,0,"create-like=4, remove-like=0, gap=4"
+knowledge_base/kb150_v2/pemdas_no_bracket_removal/MixedArithmeticOrderOfOperations.py,D_OVERLAP_RISK,0,mobjects=10 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/pemdas_no_bracket_removal/OrderOfOperationsComplexArithmetic.py,A_FADEOUT_GAP,0,"create-like=4, remove-like=0, gap=4"
+knowledge_base/kb150_v2/pemdas_no_bracket_removal/OrderOfOperationsComplexArithmetic.py,D_OVERLAP_RISK,0,mobjects=12 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/pemdas_with_bracket_removal/DistributiveLawComplexSubtraction.py,A_FADEOUT_GAP,0,"create-like=4, remove-like=1, gap=3"
+knowledge_base/kb150_v2/pemdas_with_bracket_removal/DistributiveLawComplexSubtraction.py,D_OVERLAP_RISK,0,mobjects=12 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/pemdas_with_bracket_removal/FractionArithmeticWithBrackets.py,A_FADEOUT_GAP,0,"create-like=8, remove-like=4, gap=4"
+knowledge_base/kb150_v2/pemdas_with_bracket_removal/FractionArithmeticWithBrackets.py,D_OVERLAP_RISK,0,mobjects=16 but no VGroup/arrange/next_to
+knowledge_base/kb150_v2/pemdas_with_bracket_removal/NestedParenthesesArithmetic.py,A_FADEOUT_GAP,0,"create-like=4, remove-like=0, gap=4"
+knowledge_base/kb150_v2/pemdas_with_bracket_removal/NestedParenthesesArithmetic.py,D_OVERLAP_RISK,0,mobjects=11 but no VGroup/arrange/next_to

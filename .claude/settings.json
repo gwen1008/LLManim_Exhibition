@@ -1,0 +1,36 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/session-start.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/block-dangerous-git.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c \"\nimport sys, ast, json\n\ndata = json.load(sys.stdin)\nfile_path = data.get('tool_input', {}).get('file_path', '')\n\nif not file_path or not file_path.endswith('.py'):\n    sys.exit(0)\n\ntry:\n    with open(file_path, 'r', encoding='utf-8') as f:\n        source = f.read()\n    ast.parse(source)\nexcept SyntaxError as e:\n    print(f'[Hook] Syntax Error in {file_path}\\nLine {e.lineno}: {e.msg}', file=sys.stderr)\n    sys.exit(2)\nexcept FileNotFoundError:\n    sys.exit(0)\n\nprint(f'[Hook] Syntax OK: {file_path}')\n\""
+          }
+        ]
+      }
+    ]
+  }
+}

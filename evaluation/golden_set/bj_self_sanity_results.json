@@ -1,0 +1,22 @@
+[
+  {
+    "qid": "Q024",
+    "status": "ok",
+    "final_100": 100,
+    "modes": {
+      "completeness": "same",
+      "accuracy": "same",
+      "clarity": "same"
+    }
+  },
+  {
+    "qid": "Q070",
+    "status": "ok",
+    "final_100": 100,
+    "modes": {
+      "completeness": "same",
+      "accuracy": "same",
+      "clarity": "same"
+    }
+  }
+]

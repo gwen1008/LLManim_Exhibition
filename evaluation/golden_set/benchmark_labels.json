@@ -1,0 +1,15 @@
+[
+  {
+    "id": "BV_PLACEHOLDER_Q050_self",
+    "candidate_video": "runs/20260518_001817/Q050/video.mp4",
+    "benchmark_video": "runs/20260518_001817/Q050/video.mp4",
+    "candidate_code": "runs/20260518_001817/Q050/code.py",
+    "candidate_state_log": "runs/20260518_001817/Q050/scene_state_log.json",
+    "benchmark_state_log": "runs/20260518_001817/Q050/scene_state_log.json",
+    "topic": "計算 (-48) ÷ (-6) × (-3) 的值。",
+    "ground_truth": {"answer": "-24"},
+    "human_final_100": 100,
+    "human_dim": {"completeness": 100, "accuracy": 100, "clarity": 100},
+    "notes": "PLACEHOLDER — self-vs-self pipeline smoke. Replace once real benchmark videos exist in evaluation/benchmark_set/."
+  }
+]

@@ -1,0 +1,77 @@
+[
+  {
+    "id": "KB150V2_GCDLCMExponents",
+    "category": "因數與倍數",
+    "difficulty": 3,
+    "topic": "已知 P = 3^a × 5^2 × 7, Q = 3^2 × 5^b × 11, GCD(P,Q) = 3^2 × 5^2 = 225, LCM(P,Q) = 3^3 × 5^3 × 7 × 11，求 a + b 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：用 GCD 和 LCM 的質因數分解式反推多個未知指數\n備註：推 a=3, b=3, a+b=6（驗算：P=4725, Q=12375, GCD=225, LCM=259875 自洽）；★ v1 原算式就是 Q111！這版完全避開",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "GCDLCMExponents",
+      "chapter": "factor_multiple",
+      "method": "用 GCD 和 LCM 的質因數分解式反推多個未知指數",
+      "original_v1": "M=2^a×3^2×7, N=2^3×3^b×5, GCD=72, LCM=2^4×3^3×5×7"
+    }
+  },
+  {
+    "id": "KB150V2_FractionExpressionSimplification",
+    "category": "分數加減",
+    "difficulty": 3,
+    "topic": "計算 -(5 3/11 - 2 5/8) + (5 3/8 - 2 8/11) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：去括號(含符號變換)→相同分母項歸類→分別計算→合併\n備註：結構同：四個帶分數，兩組相同分母（11 和 8）；配對成 A+D=8, B+C=8 → 答案 0（驗算 OK）",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "FractionExpressionSimplification",
+      "chapter": "fraction_add_sub",
+      "method": "去括號(含符號變換)→相同分母項歸類→分別計算→合併",
+      "original_v1": "-(4 2/7 - 3 5/9) + (2 4/9 - 1 5/7)"
+    }
+  },
+  {
+    "id": "KB150V2_FractionMultiplicationCancellation",
+    "category": "分數乘除",
+    "difficulty": 3,
+    "topic": "計算 18 × (-37/18) 的值",
+    "answer": null,
+    "question_type": "計算題",
+    "solution": "教學手法：整數與分母相同時直接約分\n備註：結構同：整數=分母（18=18）直接消去；答案 -37",
+    "required_patterns": [
+      "MathTex|Tex|Text",
+      "self\\.play\\("
+    ],
+    "disallowed_patterns": [
+      "ShowCreation",
+      "TextMobject",
+      "TexMobject"
+    ],
+    "min_animation_count": 3,
+    "_kb150v2_meta": {
+      "scene_name": "FractionMultiplicationCancellation",
+      "chapter": "fraction_mul_div",
+      "method": "整數與分母相同時直接約分",
+      "original_v1": "12 × (-25/12)"
+    }
+  }
+]

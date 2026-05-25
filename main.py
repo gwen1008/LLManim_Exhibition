@@ -197,18 +197,34 @@ if __name__ == "__main__":
         # ========== 🎬 Original AI Pipeline (Planner + Coder) ==========
 
         # [Optimization V5] Start RAG task in parallel with Planner
+        # [Experiment toggle] DISABLE_RAG=1 → run as no-RAG baseline (Group A in the
+        # three-way comparison). Returns "" so Coder prompt has no example/rule block.
+        _disable_rag = os.environ.get("DISABLE_RAG", "0") == "1"
+        # [W1.2] Optional knowledge-point pinning. When set, the retriever
+        # only considers examples whose knowledge_slug matches. Eliminates
+        # the cross-knowledge-point misretrieval (e.g. an integer-add query
+        # pulling a scientific-notation example as top-1). Caller (e.g.
+        # run_evaluation.py) sets this per-case based on the question's
+        # knowledge_point field.
+        _rag_knowledge_slug = os.environ.get("RAG_KNOWLEDGE_SLUG", "").strip() or None
+
         def _rag_task():
+            if _disable_rag:
+                print("\n🚫 [階段 1.8: RAG DISABLED] DISABLE_RAG=1 → 跳過 RAG 檢索（純 Opus baseline 模式）")
+                return ""
             print("\n📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...")
+            if _rag_knowledge_slug:
+                print(f"🎯 [RAG] Knowledge-point filter: {_rag_knowledge_slug}")
             from agents.core.rag_retriever import RAGRetriever as _RAG
             with StageTimer("RAG", llm.session_stats, "time_rag_sec"):
                 _rag = _RAG()
-                _results = _rag.retrieve_examples(user_topic, limit=2)
+                _results = _rag.retrieve_examples(user_topic, limit=2, knowledge_slug=_rag_knowledge_slug)
                 _results += _rag.retrieve_rules(user_topic, limit=2)
                 _ctx = _rag.format_for_prompt(_results)
                 print(f"📏 [RAG Debug] Total RAG context length: {len(_ctx)} chars (~{len(_ctx)//4} tokens)")
                 _rag.close()
             return _ctx
-            
+
         _pipeline_executor = concurrent.futures.ThreadPoolExecutor(max_workers=6)
         _rag_future = _pipeline_executor.submit(_rag_task)
 
@@ -272,12 +288,13 @@ if __name__ == "__main__":
                 if not sequence_data:
                     return None, None
                 print(f"\n🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...")
-                try:
-                    audio_engine = AudioEngine(topic=user_topic)
-                    return audio_engine.generate_narration(sequence_data)
-                except Exception as e:
-                    print(f"❌ 語音生成發生錯誤: {e}")
-                    return None, None
+                with StageTimer("Audio", llm.session_stats, "time_audio_sec", silent=True):
+                    try:
+                        audio_engine = AudioEngine(topic=user_topic)
+                        return audio_engine.generate_narration(sequence_data)
+                    except Exception as e:
+                        print(f"❌ 語音生成發生錯誤: {e}")
+                        return None, None
 
             # [Optimization V4] Audio ‖ RAG ‖ Coder 三路並行。
             # Coder 內部先 block 等 RAG（~5-10s），拿到 rag_context 後立即呼叫 LLM。
@@ -411,11 +428,12 @@ if __name__ == "__main__":
                     _final_code = _cf.read()
                 _fj = FinalJudge(llm_client=llm)
                 _scene_log = os.path.join(os.path.dirname(os.path.abspath(target_file)), "scene_state_log.json")
-                _fj_result = _fj.judge(
-                    str(result), script_json, _final_code,
-                    ground_truth=_ground_truth,
-                    scene_state_log_path=_scene_log if os.path.exists(_scene_log) else None,
-                )
+                with StageTimer("FinalJudge", llm.session_stats, "time_final_judge_sec"):
+                    _fj_result = _fj.judge(
+                        str(result), script_json, _final_code,
+                        ground_truth=_ground_truth,
+                        scene_state_log_path=_scene_log if os.path.exists(_scene_log) else None,
+                    )
                 # Attach to session_stats so it's saved in cost_report.json
                 llm.session_stats["final_judge"] = {
                     "verdict":             _fj_result.get("verdict"),

@@ -82,7 +82,10 @@ class LLMClient:
             "time_coder_sec": 0.0,
             "time_render_sec": 0.0,
             "time_vision_sec": 0.0,
-            "time_rag_sec": 0.0
+            "time_rag_sec": 0.0,
+            "time_audio_sec": 0.0,
+            "time_final_judge_sec": 0.0,
+            "vision_per_iter_sec": []
         }
         
         # Pricing per 1M tokens (USD) — updated 2026-04
@@ -688,7 +691,10 @@ class LLMClient:
             "time_coder_sec": 0.0,
             "time_render_sec": 0.0,
             "time_vision_sec": 0.0,
-            "time_rag_sec": 0.0
+            "time_rag_sec": 0.0,
+            "time_audio_sec": 0.0,
+            "time_final_judge_sec": 0.0,
+            "vision_per_iter_sec": []
         }
 
     def close(self):

@@ -1,0 +1,178 @@
+[
+  {
+    "id": "V01_proof_triangle",
+    "video_path": "stable_outputs/proof_that_the_sum_of_angles_in_a_triangle_is_180__20260505_170704.mp4",
+    "code_path": "stable_outputs/proof_that_the_sum_of_angles_in_a_triangle_is_180__20260505_170704.py",
+    "scene_state_log_path": null,
+    "topic": "Prove that the sum of angles in a triangle is 180 degrees.",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 3, "concept": 3, "clarity": 2},
+    "notes": "stable_outputs sample; blueprint.json belongs to a different run"
+  },
+  {
+    "id": "V02_Q050",
+    "video_path": "runs/20260518_001817/Q050/video.mp4",
+    "code_path": "runs/20260518_001817/Q050/code.py",
+    "scene_state_log_path": "runs/20260518_001817/Q050/scene_state_log.json",
+    "topic": "計算 (-48) ÷ (-6) × (-3) 的值。",
+    "ground_truth": {"answer": "-24"},
+    "expected_verdict": "PASS",
+    "human_scores": {"overall": 5, "math": 5, "concept": 5, "clarity": 5},
+    "notes": "明顯好"
+  },
+  {
+    "id": "V03_Q18",
+    "video_path": "runs/20260518_002240/Q18/video.mp4",
+    "code_path": "runs/20260518_002240/Q18/code.py",
+    "scene_state_log_path": "runs/20260518_002240/Q18/scene_state_log.json",
+    "topic": "求 48、72、120 的最大公因數。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 5, "concept": 3, "clarity": 3},
+    "notes": "math 對但概念/clarity 普通"
+  },
+  {
+    "id": "V08_HSAT_115_17",
+    "video_path": "runs/20260516_122305/HSAT_115_17/video.mp4",
+    "code_path": "runs/20260516_122305/HSAT_115_17/code.py",
+    "scene_state_log_path": "runs/20260516_122305/HSAT_115_17/scene_state_log.json",
+    "topic": "直角三角形 ABC 中 angle CAB 為直角，AB 邊上一點 D。",
+    "ground_truth": null,
+    "expected_verdict": "PASS",
+    "human_scores": {"overall": 4, "math": 5, "concept": 4, "clarity": 3},
+    "notes": "整體中上"
+  },
+  {
+    "id": "V09_MEX_111_7",
+    "video_path": "runs/20260516_122305/MEX_111_7/video.mp4",
+    "code_path": "runs/20260516_122305/MEX_111_7/code.py",
+    "scene_state_log_path": "runs/20260516_122305/MEX_111_7/scene_state_log.json",
+    "topic": "坐標平面上直線 L 的方程式為 x = -2, A 點坐標 (6, 5), 求 A 點到 L 的距離。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 5, "concept": 3, "clarity": 2},
+    "notes": "math 對但 clarity 差"
+  },
+  {
+    "id": "V10_MEX_NEW_03",
+    "video_path": "runs/20260516_084003/MEX_NEW_03/video.mp4",
+    "code_path": "runs/20260516_084003/MEX_NEW_03/code.py",
+    "scene_state_log_path": "runs/20260516_084003/MEX_NEW_03/scene_state_log.json",
+    "topic": "動畫展示兩個三角形 ABC 與 DEF，其中 angle A 相等。",
+    "ground_truth": null,
+    "expected_verdict": "PASS",
+    "human_scores": {"overall": 4, "math": 5, "concept": 5, "clarity": 4},
+    "notes": "中上"
+  },
+  {
+    "id": "V11_HSAT_109_C",
+    "video_path": "runs/20260515_170224/HSAT_109_C/video.mp4",
+    "code_path": "runs/20260515_170224/HSAT_109_C/code.py",
+    "scene_state_log_path": "runs/20260515_170224/HSAT_109_C/scene_state_log.json",
+    "topic": "坐標平面上直線 2x+y=10 被平行線 x-2y+15=0 與 x-2y=0 所截的線段。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 4, "concept": 2, "clarity": 2},
+    "notes": "概念與排版差"
+  },
+  {
+    "id": "V13_MEX_110_10",
+    "video_path": "runs/20260512_201847/MEX_110_10/video.mp4",
+    "code_path": "runs/20260512_201847/MEX_110_10/code.py",
+    "scene_state_log_path": "runs/20260512_201847/MEX_110_10/scene_state_log.json",
+    "topic": "將半徑為 6 的圓形紙片沿著兩條半徑剪開形成兩個扇形，其中一個扇形的弧長為 5π。",
+    "ground_truth": null,
+    "expected_verdict": "PASS",
+    "human_scores": {"overall": 5, "math": 5, "concept": 5, "clarity": 5},
+    "notes": "明顯好"
+  },
+  {
+    "id": "V14_ELEM_01_20260328",
+    "video_path": "runs/20260328_222030/ELEM_01/video.mp4",
+    "code_path": "runs/20260328_222030/ELEM_01/code.py",
+    "scene_state_log_path": "runs/20260328_222030/ELEM_01/scene_state_log.json",
+    "topic": "用兩個一樣的披薩圖形，示範為什麼 1/2 等於 2/4，並塗色對比區域。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 1, "math": 1, "concept": 1, "clarity": 1},
+    "notes": "明顯爛 (worst case)"
+  },
+  {
+    "id": "V15_HIGH_03_20260406",
+    "video_path": "runs/20260406_183233/HIGH_03/video.mp4",
+    "code_path": "runs/20260406_183233/HIGH_03/code.py",
+    "scene_state_log_path": "runs/20260406_183233/HIGH_03/scene_state_log.json",
+    "topic": "演示單位圓運動同步正弦波。左邊有一個點在單位圓上移動，右邊同步描繪出 y = sin(x) 的圖形。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 3, "concept": 2, "clarity": 3},
+    "notes": "中等偏弱"
+  },
+  {
+    "id": "V16_HIGH_05_20260421",
+    "video_path": "runs/20260421_101329/HIGH_05/video.mp4",
+    "code_path": "runs/20260421_101329/HIGH_05/code.py",
+    "scene_state_log_path": "runs/20260421_101329/HIGH_05/scene_state_log.json",
+    "topic": "畫出向量 A=(3,1) 與 B=(1,2)，使用三角形法首尾相接呈現合成向量 C=(4,3)。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 4, "concept": 2, "clarity": 3},
+    "notes": "math 對但概念差"
+  },
+  {
+    "id": "V17_Q19",
+    "video_path": "runs/20260518_002240/Q19/video.mp4",
+    "code_path": "runs/20260518_002240/Q19/code.py",
+    "scene_state_log_path": "runs/20260518_002240/Q19/scene_state_log.json",
+    "topic": "算式 8/15 + 5/12 - (23/15 - 7/12) 之值為何？",
+    "ground_truth": null,
+    "expected_verdict": "PASS",
+    "human_scores": {"overall": 5, "math": 5, "concept": 5, "clarity": 5},
+    "notes": "明顯好"
+  },
+  {
+    "id": "V18_HIGH_02_20260421",
+    "video_path": "runs/20260421_101329/HIGH_02/video.mp4",
+    "code_path": "runs/20260421_101329/HIGH_02/code.py",
+    "scene_state_log_path": "runs/20260421_101329/HIGH_02/scene_state_log.json",
+    "topic": "畫出 y = (x-2)^2 - 3 的拋物線。標註頂點 (2, -3) 並畫出垂直的對稱軸。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 4, "concept": 2, "clarity": 2},
+    "notes": "math 對但概念/排版差"
+  },
+  {
+    "id": "V19_HIGH_04_20260421",
+    "video_path": "runs/20260421_101329/HIGH_04/video.mp4",
+    "code_path": "runs/20260421_101329/HIGH_04/code.py",
+    "scene_state_log_path": "runs/20260421_101329/HIGH_04/scene_state_log.json",
+    "topic": "畫出 y = 0.5 * x^2 的曲線。顯示一條沿著曲線移動的切線，並即時顯示更新的斜率數值。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 2, "math": 3, "concept": 2, "clarity": 1},
+    "notes": "偏爛"
+  },
+  {
+    "id": "V20_ELEM_03_20260421",
+    "video_path": "runs/20260421_101329/ELEM_03/video.mp4",
+    "code_path": "runs/20260421_101329/ELEM_03/code.py",
+    "scene_state_log_path": "runs/20260421_101329/ELEM_03/scene_state_log.json",
+    "topic": "畫一個 4x3 的長方形。用填充小方格來呈現面積，並用一條沿著邊界移動的線來呈現周長。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 2, "math": 3, "concept": 2, "clarity": 2},
+    "notes": "偏爛"
+  },
+  {
+    "id": "V21_MID_02_20260421",
+    "video_path": "runs/20260421_013945/MID_02/video.mp4",
+    "code_path": "runs/20260421_013945/MID_02/code.py",
+    "scene_state_log_path": "runs/20260421_013945/MID_02/scene_state_log.json",
+    "topic": "一種混合物含有 2 份牛奶與 5 份水。使用帶有標籤的條型圖（Tape Diagram）來視覺化 2:5 的比例。",
+    "ground_truth": null,
+    "expected_verdict": "FAIL",
+    "human_scores": {"overall": 3, "math": 3, "concept": 2, "clarity": 2},
+    "notes": "中等偏弱"
+  }
+]
