@@ -3,6 +3,7 @@ Opus-only runner: Planner → single Coder call → single render.
 No RAG, no VisionQA, no Reflexion.
 Prints structured markers:  [STAGE] label|percent  [VIDEO] url  [PLANNER_JSON] {...}  [CODE] N
 """
+import concurrent.futures
 import json
 import os
 import re
@@ -57,19 +58,22 @@ def main():
     _emit("PLANNER_JSON", json.dumps(script_obj, ensure_ascii=False))
     _emit("STAGE", "planner_done|30")
 
-    # ── Audio generation ──────────────────────────────────────────────
+    # ── Audio (parallel with Coder) ────────────────────────────────────
     sequence_data = script_obj.get("sequence") or script_obj.get("scenes") or []
-    updated_sequence, final_audio_path = None, None
-    if sequence_data:
+    executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+
+    def _audio_task():
+        if not sequence_data:
+            return None, None
         try:
             from agents.utils.audio_engine import AudioEngine
-            audio_engine = AudioEngine(
-                output_dir=str(out_dir / "media" / "audio"),
-                topic=topic_en,
-            )
-            updated_sequence, final_audio_path = audio_engine.generate_narration(sequence_data)
+            eng = AudioEngine(output_dir=str(out_dir / "media" / "audio"), topic=topic_en)
+            return eng.generate_narration(sequence_data)
         except Exception as e:
             _emit("LOG", f"AudioEngine skipped: {e}")
+            return None, None
+
+    audio_future = executor.submit(_audio_task)
 
     # ── Single Coder (no RAG) ─────────────────────────────────────────
     _emit("STAGE", "coder|35")
@@ -85,15 +89,21 @@ def main():
     _emit("STAGE", "coder_done|60")
 
     # ── Inject audio ──────────────────────────────────────────────────
+    try:
+        updated_sequence, final_audio_path = audio_future.result(timeout=90)
+    except Exception:
+        updated_sequence, final_audio_path = None, None
+        _emit("LOG", "Audio skipped (timeout or error)")
+    executor.shutdown(wait=False)
     if updated_sequence is not None:
         try:
-            from main import _inject_audio_sync
-            code = _inject_audio_sync(code, updated_sequence, final_audio_path)
+            from exhibition.audio_inject import inject_audio_sync
+            code = inject_audio_sync(code, updated_sequence, final_audio_path)
             _emit("LOG", "Audio injection complete")
         except Exception as e:
             _emit("LOG", f"Audio injection skipped: {e}")
 
-    # Apply zero-cost deterministic patches (API compat fixes, subtitle binding, etc.)
+    # Apply zero-cost deterministic patches
     from agents.orchestrator.refining_loop import RefiningLoop
     code = RefiningLoop.pre_render_patch(code)
 
@@ -110,7 +120,6 @@ def main():
     render_err = render_result[1] if len(render_result) > 1 else ""
 
     if render_ok:
-        # Copy rendered mp4 to task output dir
         script_stem = Path(TARGET_FILE).stem
         media_mp4 = ROOT / "media" / "videos" / script_stem / "480p15" / f"{SCENE_NAME}.mp4"
         dest = out_dir / "video.mp4"
@@ -120,7 +129,6 @@ def main():
         _emit("STAGE", "done|100")
         sys.exit(0)
     else:
-        # Extract the most useful line from the error (AttributeError / TypeError etc.)
         err_lines = [l for l in str(render_err).splitlines() if "Error" in l or "error" in l]
         short_err = err_lines[-1].strip() if err_lines else str(render_err)[:200]
         _emit("RENDER_ERROR", short_err)

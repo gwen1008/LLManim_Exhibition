@@ -138,8 +138,8 @@ class AudioEngine:
         """
         
         import time as _time
-        _max_retries = 5
-        _backoff = 3.0  # seconds, doubles each 429 retry
+        _max_retries = 3
+        _backoff = 2.0  # seconds, doubles each 429 retry (max wait: 2+4+8=14s per step)
         for _attempt in range(_max_retries):
             try:
                 response = requests.post(url, headers=headers, data=ssml.encode('utf-8'), timeout=15)
@@ -175,16 +175,31 @@ class AudioEngine:
         if sys.platform == "darwin":
             self._tts_macos_say(text, out_path)
         else:
-            # Non-macOS: fall back to pyttsx3
-            try:
-                import pyttsx3
-                with AudioEngine._pyttsx3_lock:
-                    engine = pyttsx3.init()
-                    engine.save_to_file(text, str(out_path))
-                    engine.runAndWait()
-            except ImportError:
-                print("❌ 缺少 pyttsx3，請執行 pip install pyttsx3。")
-                out_path.touch()
+            # Windows: pyttsx3 uses SAPI5 (COM) which deadlocks inside ThreadPoolExecutor.
+            # Run in a fresh subprocess to give it its own COM apartment + message loop.
+            self._tts_pyttsx3_subprocess(text, out_path)
+
+    def _tts_pyttsx3_subprocess(self, text: str, out_path: Path):
+        """Spawn a one-shot Python subprocess to call pyttsx3, avoiding COM threading deadlock."""
+        import sys as _sys
+        script = (
+            "import pyttsx3\n"
+            "engine = pyttsx3.init()\n"
+            f"engine.save_to_file({text!r}, {str(out_path)!r})\n"
+            "engine.runAndWait()\n"
+        )
+        try:
+            result = subprocess.run(
+                [_sys.executable, "-c", script],
+                timeout=30,
+                capture_output=True,
+            )
+            if result.returncode != 0:
+                print(f"  ⚠️ pyttsx3 subprocess failed: {result.stderr.decode(errors='replace')[:200]}")
+        except subprocess.TimeoutExpired:
+            print("  ⚠️ pyttsx3 subprocess timed out (30s)")
+        except Exception as e:
+            print(f"  ⚠️ pyttsx3 subprocess error: {e}")
 
     def _tts_macos_say(self, text, out_path: Path):
         """Use macOS `say` command to synthesize speech. Outputs WAV via ffmpeg conversion."""

@@ -228,14 +228,16 @@ async def post_generate(req: GenerateRequest):
 
 @app.get("/api/task/{task_id}")
 async def get_task(task_id: str):
+    import time
     task = tasks.get(task_id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
+    elapsed = task["duration_sec"] if task["status"] in ("done", "failed") else round(time.time() - task["_start"], 1)
     return {
         "status": task["status"],
         "progress": task["progress"],
         "artifacts": {k: v for k, v in task["artifacts"].items() if k != "code_chars"},
-        "duration_sec": task["duration_sec"],
+        "duration_sec": elapsed,
         "error": task["error"],
         "logs": task["logs"][-30:],
     }

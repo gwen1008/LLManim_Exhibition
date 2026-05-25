@@ -113,11 +113,15 @@ def main():
     _emit("STAGE", "coder_done|50")
 
     # ── Inject audio into generated code ─────────────────────────────
-    updated_sequence, final_audio_path = audio_future.result()
+    try:
+        updated_sequence, final_audio_path = audio_future.result(timeout=90)
+    except Exception:
+        updated_sequence, final_audio_path = None, None
+        _emit("LOG", "Audio skipped (timeout or error)")
     if updated_sequence is not None:
         try:
-            from main import _inject_audio_sync
-            first_code = _inject_audio_sync(first_code, updated_sequence, final_audio_path)
+            from exhibition.audio_inject import inject_audio_sync
+            first_code = inject_audio_sync(first_code, updated_sequence, final_audio_path)
             _emit("LOG", "Audio injection complete")
         except Exception as e:
             _emit("LOG", f"Audio injection skipped: {e}")

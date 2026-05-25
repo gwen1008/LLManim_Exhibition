@@ -105,7 +105,7 @@ function ProgressPanel({
             </div>
           )}
 
-          <div className="text-xs text-gray-600">{run.task.duration_sec}s elapsed</div>
+          <div className="text-xs text-gray-600">{Math.floor(run.task.duration_sec)}s elapsed</div>
         </div>
       )}
     </div>
