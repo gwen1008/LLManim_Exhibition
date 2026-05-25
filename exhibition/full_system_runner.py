@@ -118,6 +118,7 @@ def main():
     except Exception:
         updated_sequence, final_audio_path = None, None
         _emit("LOG", "Audio skipped (timeout or error)")
+    executor.shutdown(wait=False)
     if updated_sequence is not None:
         try:
             from exhibition.audio_inject import inject_audio_sync
