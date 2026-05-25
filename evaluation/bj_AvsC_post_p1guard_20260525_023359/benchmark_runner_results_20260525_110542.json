@@ -1,0 +1,1412 @@
+[
+  {
+    "qid": "Q028",
+    "topic": "計算 $(-45) - (-18) + 20$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數加減\n【正確答案】-7.0\n【解題步驟】\n【計算過程】\n步驟 1: -(-18) = +18\n步驟 2: -45 + 18 = -27\n步驟 3: -27 + 20 = -7\n最終答案: -7",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "2649b50d7a59d80b",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "6465968a90cbdf41",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q029",
+    "topic": "計算 $185 + [(-215) + (-185)]$ 的值。\n\n【題目類型】計算題\n【知識點】整數加減\n【正確答案】-215.0\n【解題步驟】\n【計算過程】\n步驟 1: 185 + [(-215) + (-185)] = 185 + (-215) + (-185)\n步驟 2: 185 + (-185) + (-215) = 0 + (-215)\n步驟 3: 0 + (-215) = -215\n最終答案: -215",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "3d013d9ee237e08d",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "1ecdafe9b54395c3",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q039",
+    "topic": "計算 $99 - 198 + 299 - 398$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數加減\n【正確答案】-198.0\n【解題步驟】\n【計算過程】\n步驟 1: 99 - 198 = -99\n步驟 2: 299 - 398 = -99\n步驟 3: (-99) + (-99) = -198\n最終答案: -198",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 82,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "baf03e4ef536d400",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "85d5892c2d860e44",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q042",
+    "topic": "計算 $24 \\times (-5)$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】整數乘除\n【正確答案】-120.0\n【解題步驟】\n【計算過程】\n步驟 1: 24 * 5 = 120\n步驟 2: -(120) = -120\n最終答案: -120",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "0219ad71cd44a78b",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "3a02ed2279277e4c",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q043",
+    "topic": "計算 $(-48) \\div (-8) \\times (-3)$ 的值。\n\n【題目類型】計算題\n【知識點】整數乘除\n【正確答案】-18.0\n【解題步驟】\n【計算過程】\n步驟 1: (-48) / (-8) = 6\n步驟 2: 6 * (-3) = -18\n最終答案: -18",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "793f941c840060c1",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "6224db82a15af1a9",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q048",
+    "topic": "計算 $54 \\times (-39) - 46 \\times 39$ 的值。\n\n【題目類型】計算題\n【知識點】整數乘除\n【正確答案】-3900.0\n【解題步驟】\n【計算過程】\n步驟 1: 54 * (-39) + 46 * (-39) = (-39) * (54 + 46)\n步驟 2: (-39) * 100 = -3900\n最終答案: -3900",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "c97d527c7374e706",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "7e34dcf16584d7c1",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q122",
+    "topic": "算式 $3 \\frac{1}{2} - (-1 \\frac{2}{5})$ 之值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】\\frac{49}{10}\n【解題步驟】\n【計算過程】\n步驟 1: 3 \\frac{1}{2} - (-1 \\frac{2}{5}) = 3 \\frac{1}{2} + 1 \\frac{2}{5}\n步驟 2: 3 \\frac{1}{2} + 1 \\frac{2}{5} = \\frac{7}{2} + \\frac{7}{5}\n步驟 3: \\frac{7}{2} + \\frac{7}{5} = \\frac{35}{10} + \\frac{14}{10}\n步驟 4: \\frac{35}{10} + \\frac{14}{10} = \\frac{49}{10}\n最終答案: \\frac{49}{10}",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "better"
+      },
+      "cache": {
+        "hit": false,
+        "key": "4417a8a21bd70d50",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 74,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 80,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "worse",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "dd2e40ca14dccd85",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q123",
+    "topic": "計算 $2 \\frac{3}{4} + (-1 \\frac{5}{6}) - \\frac{7}{12}$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】\\frac{1}{3}\n【解題步驟】\n【計算過程】\n步驟 1: 2 \\frac{3}{4} + (-1 \\frac{5}{6}) - \\frac{7}{12} = 2 \\frac{3}{4} - 1 \\frac{5}{6} - \\frac{7}{12}\n步驟 2: 2 \\frac{3}{4} - 1 \\frac{5}{6} - \\frac{7}{12} = \\frac{11}{4} - \\frac{11}{6} - \\frac{7}{12}\n步驟 3: \\frac{11}{4} - \\frac{11}{6} - \\frac{7}{12} = \\frac{33}{12} - \\frac{22}{12} - \\frac{7}{12}\n步驟 4: \\frac{33-22-7}{12} = \\frac{4}{12}\n步驟 5: \\frac{4}{12} = \\frac{1}{3}\n最終答案: \\frac{1}{3}",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "523cb2af1a8e8f3d",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "f6cf1e7a5e4e21d2",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q124",
+    "topic": "若 $a = -3 \\frac{1}{5}$， $b = 1 \\frac{3}{4}$，求 $|a| - |b|$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】分數加減\n【正確答案】\\frac{29}{20}\n【解題步驟】\n【計算過程】\n步驟 1: |-3 \\frac{1}{5}| - |1 \\frac{3}{4}| = 3 \\frac{1}{5} - 1 \\frac{3}{4}\n步驟 2: 3 \\frac{1}{5} - 1 \\frac{3}{4} = \\frac{16}{5} - \\frac{7}{4}\n步驟 3: \\frac{16}{5} - \\frac{7}{4} = \\frac{64}{20} - \\frac{35}{20}\n步驟 4: \\frac{64}{20} - \\frac{35}{20} = \\frac{29}{20}\n最終答案: \\frac{29}{20}",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "a5aca45513fab263",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "4148c1243be1fa8f",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q125",
+    "topic": "計算 $-(4 \\frac{2}{7} - 3 \\frac{5}{9}) + (2 \\frac{4}{9} - 1 \\frac{5}{7})$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數加減\n【正確答案】0.0\n【解題步驟】\n【計算過程】\n步驟 1: -(4 \\frac{2}{7} - 3 \\frac{5}{9}) + (2 \\frac{4}{9} - 1 \\frac{5}{7}) = -4 \\frac{2}{7} + 3 \\frac{5}{9} + 2 \\frac{4}{9} - 1 \\frac{5}{7}\n步驟 2: -4 \\frac{2}{7} + 3 \\frac{5}{9} + 2 \\frac{4}{9} - 1 \\frac{5}{7} = (-4 \\frac{2}{7} - 1 \\frac{5}{7}) + (3 \\frac{5}{9} + 2 \\frac{4}{9})\n步驟 3: -4 \\frac{2}{7} - 1 \\frac{5}{7} = -6\n步驟 4: 3 \\frac{5}{9} + 2 \\frac{4}{9} = 6\n步驟 5: -6 + 6 = 0\n最終答案: 0",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "094b1e23045c5f37",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "1e638a9b6ab3336e",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q139",
+    "topic": "計算 2\\frac{1}{4} \\times (-\\frac{8}{9}) \\times \\frac{1}{2} 的值為何？\n\n【題目類型】計算題\n【知識點】分數乘除\n【正確答案】-1.0\n【解題步驟】\n【計算過程】\n步驟 1: 2\\frac{1}{4} = \\frac{9}{4}\n步驟 2: \\frac{9}{4} \\times (-\\frac{8}{9}) = -2\n步驟 3: -2 \\times \\frac{1}{2} = -1\n最終答案: -1",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 82,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "e3f405e33de29de0",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "d146581532788876",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q024",
+    "topic": "計算 $(-\\frac{7}{18}) \\times 2\\frac{4}{7} \\div (-1\\frac{1}{3})$ 的值為何？\n\n【題目類型】計算題\n【知識點】分數乘除\n【正確答案】3/4\n【解題步驟】\n【計算過程】\n步驟 1: 2\\frac{4}{7} = \\frac{18}{7}\n步驟 2: -1\\frac{1}{3} = -\\frac{4}{3}\n步驟 3: (-\\frac{7}{18}) \\times \\frac{18}{7} \\div (-\\frac{4}{3}) = (-\\frac{7}{18}) \\times \\frac{18}{7} \\times (-\\frac{3}{4})\n步驟 4: (-\\frac{7}{18}) \\times \\frac{18}{7} = -1\n步驟 5: -1 \\times (-\\frac{3}{4}) = \\frac{3}{4}\n最終答案: 3/4",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "better"
+      },
+      "cache": {
+        "hit": false,
+        "key": "57e93dee5ef5f0ee",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 82,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 70,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "better"
+      },
+      "cache": {
+        "hit": false,
+        "key": "19898942e25188cc",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q137",
+    "topic": "計算 $(1 - \\frac{1}{2}) \\times (1 - \\frac{1}{3}) \\times (1 - \\frac{1}{4}) \\times \\dots \\times (1 - \\frac{1}{10})$ 的值為何？\n\n【題目類型】填空題\n【知識點】分數乘除\n【正確答案】\\frac{1}{10}\n【解題步驟】\n【計算過程】\n步驟 1: 1 - 1/2 = 1/2\n步驟 2: 1 - 1/3 = 2/3\n步驟 3: 1 - 1/10 = 9/10\n步驟 4: 1/2 \\times 2/3 \\times 3/4 \\times 4/5 \\times 5/6 \\times 6/7 \\times 7/8 \\times 8/9 \\times  9/10 = 1/10\n最終答案: \\frac{1}{10}",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "21473bbe88cb1cf6",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 68,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 80,
+        "clarity": 60
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "worse",
+        "clarity": "much_worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "a4e1e9eacec7a410",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q144",
+    "topic": "計算 (-2024) \\times (\\frac{1}{2023} - \\frac{1}{2024}) 的值。\n\n【題目類型】填空題\n【知識點】分數乘除\n【正確答案】-0.000494315\n【解題步驟】\n【計算過程】\n步驟 1: (-2024) \\times \\frac{1}{2023} - (-2024) \\times \\frac{1}{2024} = -\\frac{2024}{2023} - (-1)\n步驟 2: -\\frac{2024}{2023} + 1 = -\\frac{2024}{2023} + \\frac{2023}{2023}\n步驟 3: -\\frac{2024}{2023} + \\frac{2023}{2023} = -\\frac{1}{2023}\n最終答案: -1/2023",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "f6b368e3d519b99c",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 80,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 80,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "worse",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "ba3fb3975d164c6a",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q057",
+    "topic": "計算 $75 \\times (-38) + 75 \\times (-62)$ 的值。\n\n【題目類型】計算題\n【知識點】四則運算算則（不含去括號）\n【正確答案】-7500.0\n【解題步驟】\n【計算過程】\n步驟 1: (-38) + (-62) = -100\n步驟 2: 75 \\times (-100) = -7500\n最終答案: -7500",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "c30d418c0d9a7db2",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "717edc25e6b97dff",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q070",
+    "topic": "計算 $38 - 48 \\div (-6 - 2) \\times 3$ 的值。\n\n【題目類型】計算題\n【知識點】四則運算算則（不含去括號）\n【正確答案】56.0\n【解題步驟】\n【計算過程】\n步驟 1: -6 - 2 = -8\n步驟 2: 48 \\div (-8) = -6\n步驟 3: -6 \\times 3 = -18\n步驟 4: 38 - (-18) = 56\n最終答案: 56",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "258245084a324466",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "56ff154d64fc58a6",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q076",
+    "topic": "在數線上，絕對值大於 2 且小於 7 的整數共有 _____ 個。\n\n【題目類型】填空題\n【知識點】四則運算（含去括號）\n【正確答案】8.0\n【解題步驟】\n【計算過程】\n步驟 1: 4 \\times 2 = 8\n最終答案: 8",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "0a2de54e459e3a56",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 82,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 85,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "859f931c8503d520",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q082",
+    "topic": "計算 $15 - 3 \\times [(-4) + 2 \\times (-3)]$ 之值為何？\n\n【題目類型】計算題\n【知識點】四則運算（含去括號）\n【正確答案】45.0\n【解題步驟】\n【計算過程】\n步驟 1: 2 \\times (-3) = -6\n步驟 2: (-4) + (-6) = -10\n步驟 3: 3 \\times (-10) = -30\n步驟 4: 15 - (-30) = 45\n最終答案: 45",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "better"
+      },
+      "cache": {
+        "hit": false,
+        "key": "47f0328984815916",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "better",
+        "accuracy": "better",
+        "clarity": "better"
+      },
+      "cache": {
+        "hit": false,
+        "key": "d92f95ec8215aa31",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q075",
+    "topic": "計算 $24 - (-3) \\times [ 12 - (-4) \\times 3 ] \\div 6$ 之值為何？\n\n【題目類型】計算題\n【知識點】四則運算（含去括號）\n【正確答案】36.0\n【解題步驟】\n【計算過程】\n步驟 1: (-4) \\times 3 = -12\n步驟 2: 12 - (-12) = 24\n步驟 3: (-3) \\times 24 = -72\n步驟 4: -72 \\div 6 = -12\n步驟 5: 24 - (-12) = 36\n最終答案: 36",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 16,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 30,
+        "clarity": 30
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "broken",
+        "clarity": "broken"
+      },
+      "cache": {
+        "hit": false,
+        "key": "cb3b6332505a5854",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "40ba6c8b46cb555e",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q147",
+    "topic": "計算 $[(-8) - (-14)] \\div (\\frac{2}{3} \\times 3)$ 的值為 _____\n\n【題目類型】填空題\n【知識點】完整的四則混合運算\n【正確答案】3.0\n【解題步驟】\n【計算過程】\n步驟 1: (-8) - (-14) = 6\n步驟 2: \\frac{2}{3} \\times 3 = 2\n步驟 3: 6 \\div 2 = 3\n最終答案: 3",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "6e076e9210ae68b1",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "8c930ab14a1e6708",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q148",
+    "topic": "計算 $1.5 \\div [(\\frac{1}{3} - 1) \\times 3 + \\frac{1}{2}]$ 的值為何？\n\n【題目類型】計算題\n【知識點】完整的四則混合運算\n【正確答案】-1.0\n【解題步驟】\n【計算過程】\n步驟 1: \\frac{1}{3} - 1 = -\\frac{2}{3}\n步驟 2: -\\frac{2}{3} \\times 3 = -2\n步驟 3: -2 + \\frac{1}{2} = -\\frac{3}{2}\n步驟 4: \\frac{3}{2} \\div (-\\frac{3}{2}) = -1\n最終答案: -1",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 26,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 30,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "broken",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "9b65b425f4bd5cfc",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 24,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 30,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "broken",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "0ac12615e1834d3e",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q026",
+    "topic": "算式 $-3.2 \\div [(\\frac{1}{4} - 1) \\times \\frac{8}{3} + \\frac{1}{2}]$ 之值為何？\n\n【題目類型】計算題\n【知識點】完整的四則混合運算\n【正確答案】\\frac{32}{15}\n【解題步驟】\n【計算過程】\n步驟 1: \\frac{1}{4} - 1 = -\\frac{3}{4}\n步驟 2: -\\frac{3}{4} \\times \\frac{8}{3} = -2\n步驟 3: -2 + \\frac{1}{2} = -\\frac{3}{2}\n步驟 4: -3.2 = -\\frac{16}{5}\n步驟 5: -\\frac{16}{5} \\div (-\\frac{3}{2}) = \\frac{32}{15}\n最終答案: \\frac{32}{15}",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "better"
+      },
+      "cache": {
+        "hit": false,
+        "key": "99d027cf75de467a",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 80,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 80,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "worse",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "01d5dc21a4c906bb",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q104",
+    "topic": "求 $280$ 與 $2^3 \\times 3 \\times 5^2$ 的最小公倍數，請將答案以標準分解式表示。\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】2^3 \\times 3 \\times 5^2 \\times 7\n【解題步驟】\n【計算過程】\n步驟 1: 280 = 2^3 \\times 5 \\times 7\n最終答案: 2^3 \\times 3 \\times 5^2 \\times 7",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "da81b3d5843780de",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "8b4eb9c781e31a31",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q106",
+    "topic": "求 $45$、$75$、$105$ 的最小公倍數。\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】1575.0\n【解題步驟】\n【計算過程】\n步驟 1: 45 = 3^2 \\times 5\n步驟 2: 75 = 3 \\times 5^2\n步驟 3: 105 = 3 \\times 5 \\times 7\n步驟 4: 3^2 \\times 5^2 \\times 7 = 1575\n最終答案: 1575",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "cddfa7f32f6c3519",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 74,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 80,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "worse",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "e62d32cdb901406d",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q109",
+    "topic": "有三個數 $36$、$60$、$126$，求它們的最大公因數與最小公倍數之和。\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】1266.0\n【解題步驟】\n【計算過程】\n步驟 1: 36 = 2^2 \\times 3^2\n步驟 2: 60 = 2^2 \\times 3 \\times 5\n步驟 3: 126 = 2 \\times 3^2 \\times 7\n步驟 4: 2 \\times 3 = 6\n步驟 5: 2^2 \\times 3^2 \\times 5 \\times 7 = 1260\n步驟 6: 1260 + 6 = 1266\n最終答案: 1266",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "b0fde54efd5bb1f3",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 100,
+      "scores": {
+        "completeness": 100,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "same",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "37c98ede6dedd00a",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q116",
+    "topic": "有三個分數分別為 $\\frac{14}{15}$、$\\frac{21}{20}$、$\\frac{35}{24}$，若要將這三個分數同乘上一個正整數 $N$ 之後，這三個數的結果都會變成整數，則 $N$ 的最小值為多少？\n\n【題目類型】計算題\n【知識點】因數與倍數\n【正確答案】120.0\n【解題步驟】\n【計算過程】\n步驟 1: 15 = 3 \\times 5\n步驟 2: 20 = 2^2 \\times 5\n步驟 3: 24 = 2^3 \\times 3\n步驟 4: 2^3 \\times 3 \\times 5 = 120\n最終答案: 120",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 94,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "829afc5856fd014e",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "10abd7bd813ed5b0",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q092",
+    "topic": "某種微小細菌的長度約為 $0.0000025$ 公尺，若將此長度以科學記號表示為 $a \\times 10^n$ 公尺，則 $a + n = $ _____。\n\n【題目類型】填空題\n【知識點】指數與科學記號\n【正確答案】-3.5",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "8c40ea132522ba5f",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 80,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 80,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "worse",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "f09aab3fce291d35",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q094",
+    "topic": "計算 $\\left(-\\frac{1}{2}\\right)^3 \\times 16 + (-4)^2$ 的值。\n\n【題目類型】計算題\n【知識點】指數與科學記號\n【正確答案】14.0\n【解題步驟】\n【計算過程】\n步驟 1: (-1/2)^3 = -1/8\n步驟 2: -1/8 * 16 = -2\n步驟 3: (-4)^2 = 16\n步驟 4: -2 + 16 = 14\n最終答案: 14",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 80,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 80,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "worse",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "475b3ffa6acd7ae0",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 22,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 30,
+        "clarity": 80
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "broken",
+        "clarity": "worse"
+      },
+      "cache": {
+        "hit": false,
+        "key": "e9870509774579f5",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q102",
+    "topic": "計算 $(4.5 \\times 10^5) + (7 \\times 10^4)$，並將結果以科學記號表示為 $a \\times 10^n$，求 $a+n$ 的值為 _____。\n\n【題目類型】填空題\n【知識點】指數與科學記號\n【正確答案】10.2\n【解題步驟】\n【計算過程】\n步驟 1: 7 \\times 10^4 = 0.7 \\times 10^5\n步驟 2: 4.5 \\times 10^5 + 0.7 \\times 10^5 = 5.2 \\times 10^5\n步驟 3: 5.2 + 5 = 10.2\n最終答案: 10.2",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 88,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 100,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "same",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "f820fa97f401fb13",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 24,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 30,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "broken",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "52bfb84bcff121bf",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  },
+  {
+    "qid": "Q101",
+    "topic": "某種微小細菌的長度約為 $3.2$ 微米。已知 $1$ 微米等於 $10^{-6}$ 公尺，如果將 $5$ 百萬個這種細菌首尾相連緊密排成一直線，請問總長度是多少公尺？（請將答案以科學記號表示）\n\n【題目類型】計算題\n【知識點】指數與科學記號\n【正確答案】1.6 \\times 10^1 公尺\n【解題步驟】\n【計算過程】\n步驟 1: 3.2 \\times 10^{-6} \\times 5 \\times 10^6 = 16 \\times 10^0\n步驟 2: 16 \\times 1 = 16\n步驟 3: 16 = 1.6 \\times 10^1\n最終答案: 1.6 \\times 10^1 公尺",
+    "benchmark_source": "final",
+    "variant_A": {
+      "status": "ok",
+      "final_100": 80,
+      "scores": {
+        "completeness": 60,
+        "accuracy": 80,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "much_worse",
+        "accuracy": "worse",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "4c13cce11bd3410a",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "variant_B": {
+      "status": "missing"
+    },
+    "variant_C": {
+      "status": "ok",
+      "final_100": 86,
+      "scores": {
+        "completeness": 80,
+        "accuracy": 80,
+        "clarity": 100
+      },
+      "modes": {
+        "completeness": "worse",
+        "accuracy": "worse",
+        "clarity": "same"
+      },
+      "cache": {
+        "hit": false,
+        "key": "df5ffa621dc28ed0",
+        "path": "/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/golden_set/benchmark_judge_cache.json"
+      }
+    },
+    "status": "done"
+  }
+]
