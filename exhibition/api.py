@@ -21,7 +21,7 @@ app = FastAPI(title="LLManim Exhibition API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origin_regex=r"^http://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)(:\d+)?$",
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -32,6 +32,28 @@ app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 # ── In-memory task store ──────────────────────────────────────────────
 
 tasks: dict[str, dict] = {}
+TASK_TTL_SEC = 60 * 60  # 1h
+MAX_TASKS = 200
+
+
+def _gc_tasks():
+    import time
+    now = time.time()
+    # Drop finished tasks older than TTL
+    stale = [
+        tid for tid, t in tasks.items()
+        if t["status"] in ("done", "failed") and now - t["_start"] > TASK_TTL_SEC
+    ]
+    for tid in stale:
+        tasks.pop(tid, None)
+    # Hard cap: drop oldest finished if over limit
+    if len(tasks) > MAX_TASKS:
+        finished = sorted(
+            ((tid, t) for tid, t in tasks.items() if t["status"] in ("done", "failed")),
+            key=lambda kv: kv[1]["_start"],
+        )
+        for tid, _ in finished[: len(tasks) - MAX_TASKS]:
+            tasks.pop(tid, None)
 
 _STAGE_PERCENT: dict[str, int] = {
     "translate": 5,
@@ -126,7 +148,7 @@ async def _run_task(task_id: str, topic: str, mode: str):
     task = tasks[task_id]
     out_dir = RUNS_DIR / task_id
 
-    runner_script = str(HERE / ("opus_only.py" if mode == "opus_only" else "full_system_runner.py"))
+    runner_script = str(HERE / ("naked_opus.py" if mode == "opus_only" else "full_system_lite_runner.py"))
 
     proc_env = os.environ.copy()
     proc_env["PYTHONUTF8"] = "1"
@@ -207,11 +229,12 @@ class GenerateRequest(BaseModel):
 @app.post("/api/generate", status_code=200)
 async def post_generate(req: GenerateRequest):
     import time
-    if req.mode not in ("opus_only", "full_system"):
-        raise HTTPException(status_code=400, detail="mode must be opus_only or full_system")
     if req.topic == "__probe__":
         return {"task_id": "__probe__"}
+    if req.mode not in ("opus_only", "full_system"):
+        raise HTTPException(status_code=400, detail="mode must be opus_only or full_system")
 
+    _gc_tasks()
     task_id = str(uuid.uuid4())[:8]
     tasks[task_id] = {
         "status": "queued",
@@ -231,6 +254,17 @@ async def get_task(task_id: str):
     import time
     task = tasks.get(task_id)
     if not task:
+        # Fallback: task evicted from memory (uvicorn reload etc) but video exists on disk
+        recovered_video = RUNS_DIR / task_id / "video.mp4"
+        if recovered_video.exists():
+            return {
+                "status": "done",
+                "progress": {"stage": "完成（從磁碟還原）", "percent": 100},
+                "artifacts": {"video_url": f"/static/runs/{task_id}/video.mp4"},
+                "duration_sec": 0,
+                "error": None,
+                "logs": ["[RECOVERED] 後端重啟後從磁碟還原"],
+            }
         raise HTTPException(status_code=404, detail="Task not found")
     elapsed = task["duration_sec"] if task["status"] in ("done", "failed") else round(time.time() - task["_start"], 1)
     return {

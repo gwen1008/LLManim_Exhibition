@@ -1,0 +1,46 @@
+{
+  "Q01_riemann_sum": {
+    "final_100": 94,
+    "scores": {
+      "completeness": 100,
+      "accuracy": 100,
+      "clarity": 80
+    },
+    "evidence": {
+      "completeness": "Candidate shows explicit S_n formula, numerical convergence values (2.05→2.00→2.0002), and final ∫=2 result; benchmark only narrates progression without explicit numeric convergence or final equality. | Candidate shows explicit Sₙ numeric values (2.0523→2.0032→2.0002) and final answer =2; benchmark lacks final numeric conclusion. | Candidate shows explicit n=4/16/64 progression with S_n values converging to 2.0002 plus final ∫=2; benchmark lacks numeric convergence and final value.",
+      "accuracy": "Both correctly depict y=sin(x) on [0,π] with rectangles converging to 2; values 2.0523/2.0032/2.0002 are mathematically correct. | Both correctly depict sin curve on [0,π] with Riemann rectangles; candidate's Sₙ values converge correctly toward 2. | Candidate's rectangles align tightly to sin curve with correct S_n values (2.0523→2.0002→2); benchmark rectangles are coarser and asymmetric without numeric verification.",
+      "clarity": "Candidate crowds top-left with stacked S_n formula, n=, and integral text overlapping near axis; benchmark has cleaner separation with captions below the plot. | Candidate left-side stacks Sₙ formula, value, n label crowded near axis; benchmark layout cleaner with single sigma expression up top. | Candidate stacks S_n formula, S_n value, n, and integral in top-left causing crowding/overlap with axis; benchmark has cleaner caption-below layout."
+    },
+    "topic": "Riemann 和逼近積分",
+    "status": "ok",
+    "judge_time_sec": 41.9
+  },
+  "Q02_newton_iteration": {
+    "final_100": 94,
+    "scores": {
+      "completeness": 100,
+      "accuracy": 100,
+      "clarity": 80
+    },
+    "evidence": {
+      "completeness": "Candidate shows full iteration table converging to 1.4142 across multiple steps; benchmark only reaches x1 visually without numeric convergence table. | Candidate shows multiple iterations and final numeric convergence table (x5≈1.414214); benchmark stops at x1. | Candidate includes iteration table showing numerical convergence (1.4142) that benchmark lacks, plus formula and tangent visualization.",
+      "accuracy": "Both correctly depict f(x)=x^2-2, tangent at x0=2, and iteration toward √2; candidate's numeric values 1.4142 are correct. | Both display correct f(x)=x²-2 parabola, tangent lines, and convergence toward √2. | Both show correct parabola, tangent lines at x_0=2, and converging iterates; formula x_{n+1}=½(x_n+2/x_n) correct in candidate.",
+      "clarity": "Candidate's top-right iteration table is tiny and overlaps with f(x) label and tangent line; benchmark layout is cleaner with subtitle captions guiding viewer. | Candidate has small/cramped iteration table top-right and overlapping formula text on left edge; benchmark layout is cleaner with single focus. | Candidate has overlapping text top-left (formula partially clipped 'f(x)=x²-2'), tiny iteration numbers crammed in corner, and clipped '√2≈' label; benchmark is cleaner with subtitles."
+    },
+    "topic": "Newton 迭代法求 √2",
+    "status": "ok",
+    "judge_time_sec": 41.5
+  },
+  "Q03_taylor_sine": {
+    "final_100": 0,
+    "status": "naked_render_failed",
+    "topic": "Taylor 級數逼近 sin(x)",
+    "note": "Naked Opus did not produce a renderable video; system wins by default."
+  },
+  "Q04_pythagorean": {
+    "final_100": 0,
+    "status": "naked_render_failed",
+    "topic": "畢氏定理面積證明",
+    "note": "Naked Opus did not produce a renderable video; system wins by default."
+  }
+}

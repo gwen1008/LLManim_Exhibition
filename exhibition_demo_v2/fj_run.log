@@ -1,0 +1,933 @@
+
+[1/20] Q01_sin_squared_integral / system  — judging video.mp4 (13906 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 13.47 秒
+📊 [Token 統計]: 輸入 12122 (純輸入 2) [✍️ 建立快取: 12,120] | 輸出 920
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=6
+  · [E1 w=0.5] Title text 'Integral of sin^2(x) from 0 to pi' at top of screen
+  · [E2 w=1.0] MathTex integral ∫₀^π sin²x dx displayed in upper-center
+  · [E3 w=1.0] Axes with a blue sin²x curve plotted from 0 to π in lower half
+  · [E4 w=1.0] Teal shaded area under the curve between 0 and π
+  · [E5 w=0.5] Equation transforms showing half-angle form (1-cos2x)/2 and split inte
+  · [E6 w=1.0] Final answer π/2 in yellow with a yellow surrounding rectangle box
+  ❓ extracted_answer='π/2' (gt_match=None)
+  🟡 [LAYOUT_ERROR] Leading import block is indented (from manim import * followed by indented impor
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 2] Opus 11.2s in=18924 out=644
+  [pass 0] Opus 12.0s in=18924 out=664
+  [pass 1] Opus 14.4s in=18934 out=875
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=5/6 confirmed → concept=4; clarity=[4, 3, 3] → median=3; agreement: event=1.00 clarity=0.76]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Title text 'Integral of sin^2(x) from 0 to pi' at top of scr
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — MathTex integral ∫₀^π sin²x dx displayed in upper-center
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — Axes with a blue sin²x curve plotted from 0 to π in lower ha
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Teal shaded area under the curve between 0 and π
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Equation transforms showing half-angle form (1-cos2x)/2 and 
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Final answer π/2 in yellow with a yellow surrounding rectang
+concept_alignment = 4 (alignment=0.8)
+visual_clarity    = 3 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=4 | visual_clarity=3 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.1
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.1 verdict=PASS (28.2s)
+
+[2/20] Q01_sin_squared_integral / naked_opus  — judging scene.mp4 (3081 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 14.67 秒
+📊 [Token 統計]: 輸入 9449 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1086
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=6
+  · [E1 w=1.0] Title text 'Evaluating ∫₀^π sin²x dx' appears at top in yellow
+  · [E2 w=1.0] Axes with a blue sin²x curve and teal shaded area under it in the lowe
+  · [E3 w=1.0] Integral statement 'I = ∫₀^π sin²x dx' shown on the left
+  · [E4 w=1.0] Half-angle identity 'sin²x = (1-cos2x)/2' shown in green
+  · [E5 w=0.5] Antiderivative '[x/2 - sin2x/4]' shown in orange
+  · [E6 w=1.0] Boxed final answer 'I = π/2' in yellow
+  ❓ extracted_answer='π/2' (gt_match=None)
+  🟡 [LAYOUT_ERROR] Six equations stacked downward from below the title (s1..s6 each with buff 0.4) 
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 0] Opus 10.6s in=18961 out=661
+  [pass 1] Opus 11.1s in=18972 out=659
+  [pass 2] Opus 11.2s in=18961 out=676
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=6/6 confirmed → concept=5; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Title text 'Evaluating ∫₀^π sin²x dx' appears at top in yell
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Axes with a blue sin²x curve and teal shaded area under it i
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — Integral statement 'I = ∫₀^π sin²x dx' shown on the left
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Half-angle identity 'sin²x = (1-cos2x)/2' shown in green
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Antiderivative '[x/2 - sin2x/4]' shown in orange
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — Boxed final answer 'I = π/2' in yellow
+concept_alignment = 5 (alignment=1.0)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=5 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.7
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.7 verdict=PASS (26.1s)
+
+[3/20] Q02_cubic_extrema / system  — judging video.mp4 (16286 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 22.43 秒
+📊 [Token 統計]: 輸入 12147 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1840
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=3 | events=6
+  · [E1 w=1.0] Title text 'f(x) = x³ - 6x² + 9x 的局部極值' at top of screen
+  · [E2 w=1.0] A blue cubic curve drawn on grey axes in the left half of the screen
+  · [E3 w=1.0] MathTex derivative 'f'(x) = 3x^2 - 12x + 9' on the right side, transfo
+  · [E4 w=1.0] Yellow MathTex 'x = 1 or x = 3' circumscribed/highlighted on the right
+  · [E5 w=0.5] Green MathTex 'f''(1) = -6 < 0 ⇒ max' then red 'f''(3) = +6 > 0 ⇒ min'
+  · [E6 w=1.0] A green dot labeled (1,4) marked on the curve at the local maximum
+  ❓ extracted_answer='Local max at (1,4), local min at (3,0)' (gt_match=None)
+  🟡 [LAYOUT_ERROR] Curve plotted over x_range=[-0.5, 4.5] reaches y≈10.1 at x=4.5 and y≈-6.1 at x=-
+  🟡 [API_ERROR] MathTex uses bare \max / \min via single-escaped '\max' in a non-raw string; com
+  🟡 [API_ERROR] Module-level imports show inconsistent indentation ('        import re') which, 
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 2] Opus 16.9s in=19868 out=1008
+  [pass 1] Opus 16.9s in=19878 out=1094
+  [pass 0] Opus 17.4s in=19868 out=1053
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=6/6 confirmed → concept=5; clarity=[3, 4, 4] → median=4; agreement: event=1.00 clarity=0.76]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Title text 'f(x) = x³ - 6x² + 9x 的局部極值' at top of screen
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — A blue cubic curve drawn on grey axes in the left half of th
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — MathTex derivative 'f'(x) = 3x^2 - 12x + 9' on the right sid
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Yellow MathTex 'x = 1 or x = 3' circumscribed/highlighted on
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Green MathTex 'f''(1) = -6 < 0 ⇒ max' then red 'f''(3) = +6 
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — A green dot labeled (1,4) marked on the curve at the local m
+concept_alignment = 5 (alignment=1.0)
+visual_clarity    = 4 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=5 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.7
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.7 verdict=PASS (40.0s)
+
+[4/20] Q02_cubic_extrema / naked_opus  — judging scene.mp4 (3564 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 14.39 秒
+📊 [Token 統計]: 輸入 9704 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1179
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=6
+  · [E1 w=1.0] A green cubic curve plotted on labeled axes in the left half of the sc
+  · [E2 w=1.0] Step equations on the right showing f'(x)=3x²-12x+9 and =3(x-1)(x-3)
+  · [E3 w=1.0] Text 'f''(1) = -6 < 0 ⇒ max' and 'f''(3) = 6 > 0 ⇒ min' displayed
+  · [E4 w=1.0] A red dot labeled (1,4) marking the local maximum on the curve
+  · [E5 w=1.0] An orange dot labeled (3,0) marking the local minimum on the curve
+  · [E6 w=0.5] Horizontal tangent lines drawn through both extremum points
+  ❓ extracted_answer='Local max at (1,4), local min at (3,0)' (gt_match=None)
+  🟡 [LAYOUT_ERROR] Graph plotted over x_range [-0.4, 4.2] produces y-values below the axis y_range 
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 11.8s in=19249 out=707
+  [pass 0] Opus 12.0s in=19249 out=714
+  [pass 2] Opus 12.4s in=19249 out=734
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=6/6 confirmed → concept=5; clarity=[3, 4, 3] → median=3; agreement: event=1.00 clarity=0.76]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A green cubic curve plotted on labeled axes in the left half
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Step equations on the right showing f'(x)=3x²-12x+9 and =3(x
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — Text 'f''(1) = -6 < 0 ⇒ max' and 'f''(3) = 6 > 0 ⇒ min' disp
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — A red dot labeled (1,4) marking the local maximum on the cur
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — An orange dot labeled (3,0) marking the local minimum on the
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — Horizontal tangent lines drawn through both extremum points
+concept_alignment = 5 (alignment=1.0)
+visual_clarity    = 3 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=5 | visual_clarity=3 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.4
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.4 verdict=PASS (27.0s)
+
+[5/20] Q03_taylor_sin_approximation / system  — judging video.mp4 (12579 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 17.84 秒
+📊 [Token 統計]: 輸入 11378 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1336
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=2 | events=6
+  · [E1 w=1.0] A blue sine curve plotted on axes spanning x from -6 to 6
+  · [E2 w=1.0] A yellow straight line (T1 = x) overlaid, matching sine only near orig
+  · [E3 w=1.0] A green curve (T3) overlaid, hugging the blue curve over a wider range
+  · [E4 w=1.0] An orange curve (T5) and a red curve (T7) added, T7 tracking sine over
+  · [E5 w=1.0] A legend in the upper-right with colored labels sin(x), T1, T3, T5, T7
+  · [E6 w=0.5] Text 'Higher order = wider matching interval' near the bottom, circums
+  ❓ extracted_answer='Higher order = wider matching interval' (gt_match=None)
+  🔴 [API_ERROR] The header has indented import statements ('        import re', '            imp
+  🟡 [LAYOUT_ERROR] y_range is only [-2,2] but T5/T7 polynomials reach large magnitudes near x=±6 (e
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 2] Opus 12.0s in=19385 out=764
+  [pass 0] Opus 12.2s in=19385 out=753
+  [pass 1] Opus 12.8s in=19385 out=792
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=5/6 confirmed → concept=4; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A blue sine curve plotted on axes spanning x from -6 to 6
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — A yellow straight line (T1 = x) overlaid, matching sine only
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A green curve (T3) overlaid, hugging the blue curve over a w
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — An orange curve (T5) and a red curve (T7) added, T7 tracking
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — A legend in the upper-right with colored labels sin(x), T1, 
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Text 'Higher order = wider matching interval' near the botto
+concept_alignment = 4 (alignment=0.9090909090909091)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=4 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.4
+🏛️  [FinalJudge] Verdict: FAIL (reason: critical_code_issue)
+==================================================
+
+  → score=4.4 verdict=FAIL (30.8s)
+
+[6/20] Q03_taylor_sin_approximation / naked_opus  — judging scene.mp4 (3972 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 15.09 秒
+📊 [Token 統計]: 輸入 9764 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1154
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=6
+  · [E1 w=1.0] A blue sine curve plotted on labeled axes
+  · [E2 w=1.0] A yellow straight line T1=x overlaid, matching only near the origin
+  · [E3 w=1.0] A green curve T3 = x - x³/6 added
+  · [E4 w=1.0] An orange curve T5 and a red curve T7 added
+  · [E5 w=1.0] A legend in the upper-right listing sin(x), T1, T3, T5, T7 in matching
+  · [E6 w=0.5] A final conclusion text in a teal SurroundingRectangle at the bottom
+  ❓ extracted_answer='Higher-order Taylor polynomials match sin(x) over a wider interval' (gt_match=None)
+  🟡 [MATH_ERROR] sine_lbl MathTex is created but never added to the scene; harmless but unused (t
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 2] Opus 11.5s in=18908 out=647
+  [pass 1] Opus 12.9s in=18918 out=768
+  [pass 0] Opus 15.0s in=18918 out=793
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=6/6 confirmed → concept=5; clarity=[2, 3, 3] → median=3; agreement: event=1.00 clarity=0.76]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A blue sine curve plotted on labeled axes
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — A yellow straight line T1=x overlaid, matching only near the
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A green curve T3 = x - x³/6 added
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — An orange curve T5 and a red curve T7 added
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — A legend in the upper-right listing sin(x), T1, T3, T5, T7 i
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — A final conclusion text in a teal SurroundingRectangle at th
+concept_alignment = 5 (alignment=1.0)
+visual_clarity    = 3 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=5 | visual_clarity=3 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.4
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.4 verdict=PASS (30.2s)
+
+[7/20] Q04_eigenvalues_2x2 / system  — judging video.mp4 (15846 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 13.19 秒
+📊 [Token 統計]: 輸入 12295 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1089
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=6
+  · [E1 w=1.0] Matrix A = [[3,1],[0,2]] shown as MathTex in upper-center
+  · [E2 w=1.0] Characteristic equation det(A-λI)=0 appears in yellow
+  · [E3 w=1.0] Eigenvalues λ₁=3, λ₂=2 displayed in green
+  · [E4 w=1.0] Eigenvector v₁=[1,0] in blue and v₂=[1,-1] in red shown
+  · [E5 w=1.0] A NumberPlane (2D grid) with a blue arrow pointing right ([1,0]) and a
+  · [E6 w=0.5] Yellow footer text 'Eigenvectors only stretch, never rotate'
+  ❓ extracted_answer='λ₁=3, v₁=[1,0]; λ₂=2, v₂=[1,-1]' (gt_match=None)
+  🟡 [API_ERROR] Top-level code shows indented 'import re' / 'import json' lines (likely a wrappe
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 11.5s in=19264 out=709
+  [pass 0] Opus 14.7s in=19264 out=1031
+  [pass 2] Opus 18.0s in=19274 out=1044
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=3/6 confirmed → concept=3; clarity=[3, 3, 3] → median=3; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Matrix A = [[3,1],[0,2]] shown as MathTex in upper-center
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Characteristic equation det(A-λI)=0 appears in yellow
+  ❌ E3 votes=[0, 0, 0] unan=1.00 — Eigenvalues λ₁=3, λ₂=2 displayed in green
+  ❌ E4 votes=[0, 0, 0] unan=1.00 — Eigenvector v₁=[1,0] in blue and v₂=[1,-1] in red shown
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — A NumberPlane (2D grid) with a blue arrow pointing right ([1
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Yellow footer text 'Eigenvectors only stretch, never rotate'
+concept_alignment = 3 (alignment=0.5454545454545454)
+visual_clarity    = 3 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=3 | visual_clarity=3 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 3.8
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=3.8 verdict=PASS (31.4s)
+
+[8/20] Q04_eigenvalues_2x2 / naked_opus  — judging scene.mp4 (4470 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 26.33 秒
+📊 [Token 統計]: 輸入 10248 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 2373
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=2 | events=7
+  · [E1 w=1.0] Title 'Eigenvalues & Eigenvectors' with matrix A=[[3,1],[0,2]] shown
+  · [E2 w=1.0] Characteristic equation det(A-λI)=0 and det of [[3-λ,1],[0,2-λ]]=0 dis
+  · [E3 w=1.0] Solution λ1=3, λ2=2 shown in yellow
+  · [E4 w=1.0] Eigenvectors v1=[1,0] (red) and v2=[1,-1] (blue) equations displayed
+  · [E5 w=1.0] NumberPlane with red arrow to (1,0) and blue arrow to (1,-1)
+  · [E6 w=0.5] Plane transformed by matrix A, arrows stretch; text 'Eigenvectors only
+  · [E7 w=0.5] Labels 'v1 → 3 v1' and 'v2 → 2 v2' in upper-right corner
+  ❓ extracted_answer='λ1=3 (v1=[1,0]), λ2=2 (v2=[1,-1])' (gt_match=None)
+  🟠 [LAYOUT_ERROR] v1_lbl/v2_lbl are placed using transform_pt(3,0) and transform_pt(2,-2), but tra
+  🟡 [API_ERROR] Mixing plane.animate.apply_matrix(matrix) with plane.c2p() inside the same .play
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 2] Opus 13.1s in=20135 out=859
+  [pass 0] Opus 15.4s in=20135 out=891
+  [pass 1] Opus 24.7s in=20148 out=1984
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=5/7 confirmed → concept=4; clarity=[3, 2, 3] → median=3; agreement: event=0.86 clarity=0.76]
+  ❌ E1 votes=[0, 0, 1] unan=0.67 ⚠️low-agreement — Title 'Eigenvalues & Eigenvectors' with matrix A=[[3,1],[0,2
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Characteristic equation det(A-λI)=0 and det of [[3-λ,1],[0,2
+  ✅ E3 votes=[1, 0, 1] unan=0.67 ⚠️low-agreement — Solution λ1=3, λ2=2 shown in yellow
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Eigenvectors v1=[1,0] (red) and v2=[1,-1] (blue) equations d
+  ✅ E5 votes=[1, 0, 1] unan=0.67 ⚠️low-agreement — NumberPlane with red arrow to (1,0) and blue arrow to (1,-1)
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — Plane transformed by matrix A, arrows stretch; text 'Eigenve
+  ❌ E7 votes=[0, 0, 0] unan=1.00 — Labels 'v1 → 3 v1' and 'v2 → 2 v2' in upper-right corner
+concept_alignment = 4 (alignment=0.75)
+visual_clarity    = 3 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=4 | visual_clarity=3 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.1
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.1 verdict=PASS (51.3s)
+
+[9/20] Q05_double_integral / system  — judging video.mp4 (12623 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 20.02 秒
+📊 [Token 統計]: 輸入 11367 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1746
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=2 | events=6
+  · [E1 w=1.0] A 2D coordinate axes (Axes) appears in the left half of the screen
+  · [E2 w=1.0] A blue shaded triangle is drawn over the axes region
+  · [E3 w=0.5] A yellow 'y=x' label appears near the triangle's hypotenuse
+  · [E4 w=1.0] The iterated integral ∫₀¹∫₀ˣ xy dy dx is shown on the right side
+  · [E5 w=1.0] Equation transforms to ∫₀¹ x³/2 dx then to [x⁴/8]₀¹
+  · [E6 w=1.0] Final answer '= 1/8' in green, surrounded by a green rectangle
+  ❓ extracted_answer='1/8' (gt_match=None)
+  🔴 [API_ERROR] The top-of-file import statements are indented (e.g., '        import re', '    
+  🟡 [LAYOUT_ERROR] triangle.move_to(axes.get_center()) centers the polygon on the axes center, but 
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 2] Opus 12.8s in=19494 out=677
+  [pass 0] Opus 14.0s in=19494 out=919
+  [pass 1] Opus 16.1s in=19494 out=993
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=4/6 confirmed → concept=3; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A 2D coordinate axes (Axes) appears in the left half of the 
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — A blue shaded triangle is drawn over the axes region
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A yellow 'y=x' label appears near the triangle's hypotenuse
+  ❌ E4 votes=[0, 0, 0] unan=1.00 — The iterated integral ∫₀¹∫₀ˣ xy dy dx is shown on the right 
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Equation transforms to ∫₀¹ x³/2 dx then to [x⁴/8]₀¹
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Final answer '= 1/8' in green, surrounded by a green rectang
+concept_alignment = 3 (alignment=0.6363636363636364)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=3 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.1
+🏛️  [FinalJudge] Verdict: FAIL (reason: critical_code_issue)
+==================================================
+
+  → score=4.1 verdict=FAIL (36.3s)
+
+[10/20] Q05_double_integral / naked_opus  — judging scene.mp4 (2945 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 15.60 秒
+📊 [Token 統計]: 輸入 9339 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 987
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=0 | events=6
+  · [E1 w=1.0] A blue shaded triangle on axes with vertices at origin, (1,0), (1,1)
+  · [E2 w=1.0] A green line labeled 'y = x' along the triangle's hypotenuse
+  · [E3 w=1.0] Setup equation showing double integral converted to iterated integral 
+  · [E4 w=0.5] Intermediate step ∫₀¹ x³/2 dx shown
+  · [E5 w=1.0] Final answer = 1/8 highlighted in yellow with surrounding rectangle
+  · [E6 w=0.5] Concluding screen with ∬_R xy dA = 1/8
+  ❓ extracted_answer='1/8' (gt_match=None)
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 14.7s in=18813 out=1062
+  [pass 2] Opus 14.7s in=18809 out=1029
+  [pass 0] Opus 15.3s in=18812 out=1114
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=4/6 confirmed → concept=3; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A blue shaded triangle on axes with vertices at origin, (1,0
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — A green line labeled 'y = x' along the triangle's hypotenuse
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — Setup equation showing double integral converted to iterated
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Intermediate step ∫₀¹ x³/2 dx shown
+  ❌ E5 votes=[0, 0, 0] unan=1.00 — Final answer = 1/8 highlighted in yellow with surrounding re
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Concluding screen with ∬_R xy dA = 1/8
+concept_alignment = 3 (alignment=0.7)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=3 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.1
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.1 verdict=PASS (31.0s)
+
+[11/20] Q06_second_order_ode / system  — judging video.mp4 (15748 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 15.14 秒
+📊 [Token 統計]: 輸入 12085 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1269
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=7
+  · [E1 w=1.0] MathTex 'y'' + 3y' + 2y = 0' appears with initial conditions 'y(0)=1, 
+  · [E2 w=1.0] Characteristic equation 'r^2 + 3r + 2 = 0' shown center screen
+  · [E3 w=0.5] Factored form '(r+1)(r+2) = 0' displayed
+  · [E4 w=1.0] Roots 'r = -1, r = -2' shown in green and circumscribed
+  · [E5 w=1.0] General solution 'y(t) = C_1 e^{-t} + C_2 e^{-2t}' displayed
+  · [E6 w=1.0] Constants 'C_1 = 2, C_2 = -1' shown in green
+  · [E7 w=1.0] Final particular solution 'y(t) = 2e^{-t} - e^{-2t}' with Axes plotted
+  ❓ extracted_answer='y(t) = 2e^{-t} - e^{-2t}' (gt_match=None)
+  🟡 [API_ERROR] Indented stray imports at module top ('        import re', '        import json'
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 0] Opus 12.2s in=19429 out=815
+  [pass 2] Opus 12.5s in=19417 out=781
+  [pass 1] Opus 12.8s in=19426 out=845
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=3/7 confirmed → concept=2; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — MathTex 'y'' + 3y' + 2y = 0' appears with initial conditions
+  ❌ E2 votes=[0, 0, 0] unan=1.00 — Characteristic equation 'r^2 + 3r + 2 = 0' shown center scre
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — Factored form '(r+1)(r+2) = 0' displayed
+  ❌ E4 votes=[0, 0, 0] unan=1.00 — Roots 'r = -1, r = -2' shown in green and circumscribed
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — General solution 'y(t) = C_1 e^{-t} + C_2 e^{-2t}' displayed
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Constants 'C_1 = 2, C_2 = -1' shown in green
+  ❌ E7 votes=[0, 0, 0] unan=1.00 — Final particular solution 'y(t) = 2e^{-t} - e^{-2t}' with Ax
+concept_alignment = 2 (alignment=0.38461538461538464)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=2 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 3.8
+🏛️  [FinalJudge] Verdict: FAIL (reason: low_dimension_concept_alignment)
+==================================================
+
+  → score=3.8 verdict=FAIL (28.1s)
+[12/20] Q06_second_order_ode / naked_opus  — no video (render failed)
+
+[13/20] Q07_laplace_exp_sin / system  — judging video.mp4 (10973 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 16.39 秒
+📊 [Token 統計]: 輸入 10393 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1165
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=2 | events=6
+  · [E1 w=0.5] A title text about Laplace Transform appears at the top edge
+  · [E2 w=1.0] MathTex equation 'L{sin(bt)} = b/(s²+b²)' shown at center, circumscrib
+  · [E3 w=1.0] A teal shifting-rule formula 'e^{at}f(t) → F(s-a)' in a teal surroundi
+  · [E4 w=1.0] Center equation transforms into 'b/((s-a)²+b²)'
+  · [E5 w=1.0] Final yellow equation 'L{e^{at}sin(bt)} = b/((s-a)²+b²)' shown at cent
+  · [E6 w=0.5] A yellow box drawn around the final answer equation
+  ❓ extracted_answer='L{e^{at}sin(bt)} = b/((s-a)^2 + b^2)' (gt_match=None)
+  🟡 [METAPHOR_MISMATCH] Title uses Text() with LaTeX-style markup 'e^{at} sin(bt)' which will render lit
+  🟡 [LAYOUT_ERROR] rule_text/rule_box at y=-2.2 coexists with eq_base at ORIGIN; when eq_base trans
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 11.9s in=19333 out=721
+  [pass 2] Opus 13.0s in=19333 out=790
+  [pass 0] Opus 15.7s in=19333 out=1072
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=4/6 confirmed → concept=3; clarity=[4, 3, 3] → median=3; agreement: event=1.00 clarity=0.76]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A title text about Laplace Transform appears at the top edge
+  ❌ E2 votes=[0, 0, 0] unan=1.00 — MathTex equation 'L{sin(bt)} = b/(s²+b²)' shown at center, c
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A teal shifting-rule formula 'e^{at}f(t) → F(s-a)' in a teal
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Center equation transforms into 'b/((s-a)²+b²)'
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Final yellow equation 'L{e^{at}sin(bt)} = b/((s-a)²+b²)' sho
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — A yellow box drawn around the final answer equation
+concept_alignment = 3 (alignment=0.7)
+visual_clarity    = 3 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=3 | visual_clarity=3 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 3.8
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=3.8 verdict=PASS (32.3s)
+
+[14/20] Q07_laplace_exp_sin / naked_opus  — judging scene.mp4 (3735 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 12.24 秒
+📊 [Token 統計]: 輸入 9712 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 814
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=5
+  · [E1 w=1.0] Yellow title with underline appears, then scales down to top edge
+  · [E2 w=1.0] MathTex 'L{sin(bt)} = b/(s²+b²)' shown in Step 1
+  · [E3 w=1.0] MathTex showing first shifting theorem 'e^{at}f(t) ⟹ s→s-a' in Step 2
+  · [E4 w=1.0] MathTex 'b/((s-a)²+b²)' with red surrounding rectangle in Step 3
+  · [E5 w=1.0] Final boxed MathTex 'L{e^{at}sin(bt)} = b/((s-a)²+b²)' with yellow rec
+  ❓ extracted_answer='L{e^{at}sin(bt)} = b/((s-a)²+b²)' (gt_match=None)
+  🟡 [METAPHOR_MISMATCH] Title uses Text() with raw LaTeX 'e^{at} sin(bt)' which renders literally with c
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 11.6s in=18927 out=687
+  [pass 0] Opus 12.2s in=18927 out=737
+  [pass 2] Opus 18.3s in=18937 out=1259
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=5/5 confirmed → concept=5; clarity=[3, 3, 4] → median=3; agreement: event=0.93 clarity=0.76]
+  ✅ E1 votes=[1, 1, 0] unan=0.67 ⚠️low-agreement — Yellow title with underline appears, then scales down to top
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — MathTex 'L{sin(bt)} = b/(s²+b²)' shown in Step 1
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — MathTex showing first shifting theorem 'e^{at}f(t) ⟹ s→s-a' 
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — MathTex 'b/((s-a)²+b²)' with red surrounding rectangle in St
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Final boxed MathTex 'L{e^{at}sin(bt)} = b/((s-a)²+b²)' with 
+concept_alignment = 5 (alignment=1.0)
+visual_clarity    = 3 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=5 | visual_clarity=3 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.4
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.4 verdict=PASS (30.7s)
+
+[15/20] Q08_square_wave_fourier / system  — judging video.mp4 (14910 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 17.25 秒
+📊 [Token 統計]: 輸入 11929 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1332
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=6
+  · [E1 w=1.0] Grey axes with a grey square-wave (step function between +1 and -1) pl
+  · [E2 w=1.0] MathTex Fourier formula f(x)=4/π Σ sin((2k-1)x)/(2k-1) appears near to
+  · [E3 w=1.0] A red smooth sine curve (first harmonic) labeled 'n = 1' appears
+  · [E4 w=1.0] An orange curve (sum through 3rd harmonic) labeled 'n = 3' with flatte
+  · [E5 w=1.0] A green curve (sum through 7th harmonic) labeled 'n = 7' hugging the s
+  · [E6 w=1.0] A teal curve (sum through 9th harmonic) labeled 'n = 9' closely approx
+  ❓ extracted_answer='f(x)=4/π Σ sin((2k-1)x)/(2k-1)' (gt_match=None)
+  🟡 [LAYOUT_ERROR] Step 6 creates sum5 (n=5) but the bottom label jumps directly from 'n=3' to 'n=7
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 14.9s in=19400 out=652
+  [pass 0] Opus 15.3s in=19410 out=1024
+  [pass 2] Opus 15.3s in=19410 out=922
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=4/6 confirmed → concept=3; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Grey axes with a grey square-wave (step function between +1 
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — MathTex Fourier formula f(x)=4/π Σ sin((2k-1)x)/(2k-1) appea
+  ❌ E3 votes=[0, 0, 0] unan=1.00 — A red smooth sine curve (first harmonic) labeled 'n = 1' app
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — An orange curve (sum through 3rd harmonic) labeled 'n = 3' w
+  ❌ E5 votes=[0, 0, 0] unan=1.00 — A green curve (sum through 7th harmonic) labeled 'n = 7' hug
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — A teal curve (sum through 9th harmonic) labeled 'n = 9' clos
+concept_alignment = 3 (alignment=0.6666666666666666)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=3 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.1
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.1 verdict=PASS (32.7s)
+
+[16/20] Q08_square_wave_fourier / naked_opus  — judging scene.mp4 (4669 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 21.97 秒
+📊 [Token 統計]: 輸入 10070 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1831
+------------------------------
+🔬 [Phase 1] math_score=4 | issues=2 | events=6
+  · [E1 w=1.0] A white square-wave step function (+1 and -1 horizontal segments with 
+  · [E2 w=1.0] Fourier series formula f(x)=(4/π)Σ sin((2k-1)x)/(2k-1) written, then s
+  · [E3 w=1.0] A red sine curve (first harmonic 4/π sin x) appears over the axes
+  · [E4 w=1.0] Successive partial-sum curves in different colors (orange, green, teal
+  · [E5 w=0.5] A yellow dot and arrow with text 'Gibbs phenomenon: overshoot near jum
+  · [E6 w=0.5] Closing green text 'More harmonics → closer to the square wave' at bot
+  ❓ extracted_answer='More harmonics → closer to the square wave' (gt_match=None)
+  🟡 [MATH_ERROR] First harmonic tag renders '\sin(1x)' instead of '\sin(x)', which is unconventio
+  🟡 [LAYOUT_ERROR] gibbs_text is placed above axes.c2p(1.3,1.5) (already near top of y-range 1.6) w
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 12.9s in=19609 out=795
+  [pass 2] Opus 16.0s in=19619 out=1117
+  [pass 0] Opus 17.5s in=19619 out=1241
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=4/6 confirmed → concept=3; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A white square-wave step function (+1 and -1 horizontal segm
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Fourier series formula f(x)=(4/π)Σ sin((2k-1)x)/(2k-1) writt
+  ❌ E3 votes=[0, 0, 0] unan=1.00 — A red sine curve (first harmonic 4/π sin x) appears over the
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Successive partial-sum curves in different colors (orange, g
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — A yellow dot and arrow with text 'Gibbs phenomenon: overshoo
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Closing green text 'More harmonics → closer to the square wa
+concept_alignment = 3 (alignment=0.7)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=4 | math_displayed=None | concept_alignment=3 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 3.7
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=3.7 verdict=PASS (39.7s)
+
+[17/20] Q09_rc_charging / system  — judging video.mp4 (16013 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 16.90 秒
+📊 [Token 統計]: 輸入 12114 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1337
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=7
+  · [E1 w=1.0] A rectangular RC series circuit loop with red battery line (V0), orang
+  · [E2 w=0.5] A yellow current arrow 'i' along the top of the circuit
+  · [E3 w=1.0] KVL equation 'V_0 = Ri + V(t)' displayed center
+  · [E4 w=1.0] Green solution equation 'V(t) = V_0(1 - e^{-t/RC})'
+  · [E5 w=1.0] Axes with a green exponential rise curve approaching a red dashed hori
+  · [E6 w=1.0] Yellow dashed line/dot at τ with label 'τ = RC, 63%'
+  · [E7 w=0.5] Teal dot at 5τ labeled '5τ, 99%'
+  ❓ extracted_answer='V(t) = V_0(1 - e^{-t/RC})' (gt_match=None)
+  🟡 [API_ERROR] Top-of-file imports ('import re', 'import json') appear indented inside the modu
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 0] Opus 11.8s in=19484 out=742
+  [pass 1] Opus 11.9s in=19472 out=755
+  [pass 2] Opus 15.8s in=19472 out=723
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=4/7 confirmed → concept=3; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ❌ E1 votes=[0, 0, 0] unan=1.00 — A rectangular RC series circuit loop with red battery line (
+  ❌ E2 votes=[0, 0, 0] unan=1.00 — A yellow current arrow 'i' along the top of the circuit
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — KVL equation 'V_0 = Ri + V(t)' displayed center
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Green solution equation 'V(t) = V_0(1 - e^{-t/RC})'
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Axes with a green exponential rise curve approaching a red d
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — Yellow dashed line/dot at τ with label 'τ = RC, 63%'
+  ❌ E7 votes=[0, 0, 0] unan=1.00 — Teal dot at 5τ labeled '5τ, 99%'
+concept_alignment = 3 (alignment=0.6666666666666666)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=3 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.1
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.1 verdict=PASS (32.8s)
+
+[18/20] Q09_rc_charging / naked_opus  — judging scene.mp4 (9109 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 23.66 秒
+📊 [Token 統計]: 輸入 10944 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1975
+------------------------------
+🔬 [Phase 1] math_score=4 | issues=3 | events=6
+  · [E1 w=1.0] A rectangular RC series circuit with a red zigzag resistor (R) on top,
+  · [E2 w=1.0] A green exponential rise curve plotted on axes starting at zero approa
+  · [E3 w=1.0] A blue dashed horizontal asymptote line labeled V_0 at the top of the 
+  · [E4 w=1.0] Yellow dot with dashed lines marking tau=RC, labeled '63% V_0'
+  · [E5 w=0.5] Orange dot with dashed line at 5tau labeled '≈99%'
+  · [E6 w=0.5] MathTex equation V_0 = RC dV/dt + V(t) shown earlier in derivation
+  ❓ extracted_answer='V(t) = V_0(1 - e^{-t/RC}), tau = RC (63%)' (gt_match=None)
+  🟡 [MATH_ERROR] graph_lbl y-position computed with np.exp(-4.2) instead of np.exp(-4.2/RC); if R
+  🟡 [LAYOUT_ERROR] 5tau dot at t5=5*RC may fall outside the plotted x_range [0,6] and the asymptote
+  🟡 [API_ERROR] long_plate is a degenerate zero-length Line (point + RIGHT*0) and is never retur
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 0] Opus 11.6s in=19761 out=733
+  [pass 2] Opus 11.6s in=19761 out=755
+  [pass 1] Opus 13.5s in=19771 out=926
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=6/6 confirmed → concept=5; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — A rectangular RC series circuit with a red zigzag resistor (
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — A green exponential rise curve plotted on axes starting at z
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A blue dashed horizontal asymptote line labeled V_0 at the t
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Yellow dot with dashed lines marking tau=RC, labeled '63% V_
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Orange dot with dashed line at 5tau labeled '≈99%'
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — MathTex equation V_0 = RC dV/dt + V(t) shown earlier in deri
+concept_alignment = 5 (alignment=1.0)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=4 | math_displayed=None | concept_alignment=5 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.3
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.3 verdict=PASS (37.3s)
+
+[19/20] Q10_gradient_descent / system  — judging video.mp4 (15190 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 28.49 秒
+📊 [Token 統計]: 輸入 12018 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 2595
+------------------------------
+🔬 [Phase 1] math_score=4 | issues=2 | events=7
+  · [E1 w=1.0] Three concentric ellipses (teal, blue, purple) centered at origin on a
+  · [E2 w=1.0] Yellow MathTex '∇f = (2x, 4y)' in the upper-right corner
+  · [E3 w=1.0] A red Dot at point (3,2) labeled '(3,2)'
+  · [E4 w=0.5] Green MathTex '-∇f = (-6,-8)' in the upper-left corner
+  · [E5 w=1.0] A green arrow from (3,2) to (2.4,1.2) and an orange dot at (2.4,1.2)
+  · [E6 w=1.0] Orange dots connected by green line segments forming a zigzag path mov
+  · [E7 w=0.5] Yellow text noting y converges faster than x because its coefficient (
+  ❓ extracted_answer='Gradient descent converges toward the minimum at the origin (0,0); y decreases faster than x because its coefficient (4) is larger' (gt_match=None)
+  🟡 [MATH_ERROR] The descent path skips intermediate iterates: segments connect dot2(1.92,0.72) d
+  🟡 [LAYOUT_ERROR] Indicate(dot4, color=ORANGE) is called in Step 9 after dir_label was faded out i
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 2] Opus 12.0s in=20010 out=780
+  [pass 1] Opus 12.5s in=20021 out=742
+  [pass 0] Opus 12.9s in=20023 out=784
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=7/7 confirmed → concept=5; clarity=[4, 5, 5] → median=5; agreement: event=1.00 clarity=0.76]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Three concentric ellipses (teal, blue, purple) centered at o
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Yellow MathTex '∇f = (2x, 4y)' in the upper-right corner
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A red Dot at point (3,2) labeled '(3,2)'
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Green MathTex '-∇f = (-6,-8)' in the upper-left corner
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — A green arrow from (3,2) to (2.4,1.2) and an orange dot at (
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — Orange dots connected by green line segments forming a zigza
+  ✅ E7 votes=[1, 1, 1] unan=1.00 — Yellow text noting y converges faster than x because its coe
+concept_alignment = 5 (alignment=1.0)
+visual_clarity    = 5 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=4 | math_displayed=None | concept_alignment=5 | visual_clarity=5 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.6
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.6 verdict=PASS (41.5s)
+
+[20/20] Q10_gradient_descent / naked_opus  — judging scene.mp4 (5207 chars code)
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 19.14 秒
+📊 [Token 統計]: 輸入 10346 (純輸入 2) [🔥 快取命中: 1,417] | 輸出 1569
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=2 | events=7
+  · [E1 w=1.0] Concentric ellipses (contour lines) centered at origin on axes
+  · [E2 w=1.0] Gradient formula '∇f = (2x, 4y)' shown on the right
+  · [E3 w=1.0] Red dot at point (3,2) labeled '(3, 2)'
+  · [E4 w=1.0] Red arrow showing descent direction from start point
+  · [E5 w=1.0] Equation 'x₁ = (2.4, 1.2)' displayed in yellow
+  · [E6 w=1.0] Zigzag red path with yellow dots tracing toward origin over iterations
+  · [E7 w=0.5] Green final dot near origin with '∇f ≈ 0' label and pulsing circle
+  ❓ extracted_answer='x₁=(2.4, 1.2), converges to origin where ∇f≈0' (gt_match=None)
+  🟡 [API_ERROR] Transform(dot.copy(), new_dot) transforms a throwaway copy; the original red 'do
+  🟡 [LAYOUT_ERROR] step_calc, iter_lbl, and insight are stacked under grad_box on the right edge; w
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Fixed sampling (no step info): 4 frames
+  [pass 1] Opus 13.6s in=19582 out=865
+  [pass 0] Opus 14.3s in=19582 out=771
+  [pass 2] Opus 14.4s in=19582 out=779
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=6/7 confirmed → concept=4; clarity=[4, 3, 4] → median=4; agreement: event=0.95 clarity=0.76]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Concentric ellipses (contour lines) centered at origin on ax
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Gradient formula '∇f = (2x, 4y)' shown on the right
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — Red dot at point (3,2) labeled '(3, 2)'
+  ❌ E4 votes=[0, 0, 1] unan=0.67 ⚠️low-agreement — Red arrow showing descent direction from start point
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Equation 'x₁ = (2.4, 1.2)' displayed in yellow
+  ✅ E6 votes=[1, 1, 1] unan=1.00 — Zigzag red path with yellow dots tracing toward origin over 
+  ✅ E7 votes=[1, 1, 1] unan=1.00 — Green final dot near origin with '∇f ≈ 0' label and pulsing 
+concept_alignment = 4 (alignment=0.8461538461538461)
+visual_clarity    = 4 (agreement=0.76)
+-----------------------------------
+
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=4 | visual_clarity=4 | spatial_layout=None
+🏛️  [FinalJudge] Weighted Total: 4.4
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+  → score=4.4 verdict=PASS (33.7s)
+
+=== Done in 641.1s. Results in /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo_v2/fj_scores.json ===

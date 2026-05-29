@@ -1,0 +1,160 @@
+Manim Community v0.19.2
+
+[05/26/26 03:48:10] INFO     Writing A = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix} to                        tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eig                        
+                             envalues_2x2/media/Tex/eb461622060424a7.tex                                                               
+Animation 0: Write(Text('Eigenvalues & Eigenvectors')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                  INFO     Animation 0 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/1584795214                         
+                             _2779514999_223132457.mp4'                                                                                
+Animation 1: FadeIn(MathTex('A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 2 \\end{pmatrix}')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                                INFO     Animation 1 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _288265280_2541985737.mp4'                                                                                
+[05/26/26 03:48:11] INFO     Animation 2 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4217992463_3966828627.mp4'                                                                               
+Animation 3: _MethodAnimation(Text('Eigenvalues & Eigenvectors')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                   INFO     Animation 3 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3849735157_351510224.mp4'                                                                                
+                    INFO     Animation 4 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3394500337_1263565371.mp4'                                                                               
+                    INFO     Writing \det\begin{pmatrix} 3-\lambda & 1 \\ 0 & 2-\lambda \end{pmatrix} = 0 to    tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eig                        
+                             envalues_2x2/media/Tex/a754b9c87f5c2f1d.tex                                                               
+Animation 5: FadeIn(Text('1. Characteristic equation')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                   INFO     Animation 5 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3555991343_1933178471.mp4'                                                                               
+Animation 6: Write(MathTex('\\det(A - \\lambda I) = 0')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                    INFO     Animation 6 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3923932962_1059628621.mp4'                                                                               
+Animation 7: Write(MathTex('\\det\\begin{pmatrix} 3-\\lambda & 1 \\\\ 0 & 2-\\lambda \\end{pmatrix} = 0')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                                                  [05/26/26 03:48:12] INFO     Animation 7 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4124759478_349488820.mp4'                                                                                
+                    INFO     Animation 8 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3366045169_1113008082.mp4'                                                                               
+                    INFO     Writing (3-\lambda)(2-\lambda) = 0 to                                              tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eig                        
+                             envalues_2x2/media/Tex/b40891edceade939.tex                                                               
+Animation 9: FadeIn(Text('2. Expand')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                  INFO     Animation 9 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1463230200_271652436.mp4'                                                                                
+Animation 10: Write(MathTex('(3-\\lambda)(2-\\lambda) = 0')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                        INFO     Animation 10 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2151720609_4201575354.mp4'                                                                               
+[05/26/26 03:48:13] INFO     Animation 11 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3366045169_2730784780.mp4'                                                                               
+Animation 12: FadeIn(Text('3. Solve')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                  INFO     Animation 12 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3282128020_2531656301.mp4'                                                                               
+Animation 13: Write(MathTex('\\lambda_1 = 3, \\quad \\lambda_2 = 2')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                 INFO     Animation 13 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1644566945_3996689617.mp4'                                                                               
+                    INFO     Animation 14 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2844360058_1215193444.mp4'                                                                               
+Animation 15: FadeOut(Text('1. Characteristic equation')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]Animation 15: FadeOut(Text('1. Characteristic equation')), etc.:  80%|████████  | 12/15 [00:00<00:00, 119.48it/s]                                                                                                                 [05/26/26 03:48:14] INFO     Animation 15 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2320331375_1450190978.mp4'                                                                               
+                    INFO     Animation 16 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2318836581_2111681703.mp4'                                                                               
+                    INFO     Writing \lambda_1 = 3:\ (A-3I)v = 0 \Rightarrow v_1 = \begin{pmatrix} 1 \\ 0       tex_file_writing.py:111
+                             \end{pmatrix} to                                                                                          
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eig                        
+                             envalues_2x2/media/Tex/1ebd0449cf45cf63.tex                                                               
+                    INFO     Writing \lambda_2 = 2:\ (A-2I)v = 0 \Rightarrow v_2 = \begin{pmatrix} 1 \\ -1      tex_file_writing.py:111
+                             \end{pmatrix} to                                                                                          
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eig                        
+                             envalues_2x2/media/Tex/2f74ce3c52e93811.tex                                                               
+Animation 17: Write(MathTex('\\lambda_1 = 3:\\ (A-3I)v = 0 \\Rightarrow v_1 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                                                                                     INFO     Animation 17 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2565846189_83419365.mp4'                                                                                 
+[05/26/26 03:48:15] INFO     Animation 18 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4217992463_244298233.mp4'                                                                                
+Animation 19: Write(MathTex('\\lambda_2 = 2:\\ (A-2I)v = 0 \\Rightarrow v_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                                                                                      INFO     Animation 19 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _502997219_61555342.mp4'                                                                                  
+                    INFO     Animation 20 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2844360058_203704002.mp4'                                                                                
+Animation 21: FadeOut(MathTex('\\lambda_1 = 3:\\ (A-3I)v = 0 \\Rightarrow v_1 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                                                                             INFO     Animation 21 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2474771842_1086057962.mp4'                                                                               
+Animation 22: Create(NumberPlane of 4 submobjects):   0%|          | 0/23 [00:00<?, ?it/s]                                                                                                              INFO     Animation 22 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _122602745_1552638792.mp4'                                                                                
+Animation 23: GrowArrow(Arrow), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                INFO     Animation 23 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1194138373_2389595915.mp4'                                                                               
+Animation 24: GrowArrow(Arrow), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                INFO     Animation 24 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1679761387_2462260939.mp4'                                                                               
+[05/26/26 03:48:16] INFO     Animation 25 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3366045169_3750305.mp4'                                                                                  
+Animation 26: FadeIn(Text('Eigenvectors only stretch — no rotation')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                 INFO     Animation 26 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4249511983_701623713.mp4'                                                                                
+Animation 27: _MethodAnimation(NumberPlane of 4 submobjects), etc.:   0%|          | 0/45 [00:00<?, ?it/s]Animation 27: _MethodAnimation(NumberPlane of 4 submobjects), etc.:  49%|████▉     | 22/45 [00:00<00:00, 211.49it/s]Animation 27: _MethodAnimation(NumberPlane of 4 submobjects), etc.:  98%|█████████▊| 44/45 [00:00<00:00, 213.35it/s]                                                                                                                                        INFO     Animation 27 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3154194582_1605086081.mp4'                                                                               
+                    INFO     Animation 28 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4217992463_1329225551.mp4'                                                                               
+                    INFO     Writing v_1 \to 3\,v_1 to                                                          tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eig                        
+                             envalues_2x2/media/Tex/0d07984b631a8e6e.tex                                                               
+[05/26/26 03:48:17] INFO     Writing v_2 \to 2\,v_2 to                                                          tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eig                        
+                             envalues_2x2/media/Tex/7308a0dcaf43e824.tex                                                               
+Animation 29: Write(VGroup of 2 submobjects):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                        INFO     Animation 29 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4278252407_1398004307.mp4'                                                                               
+                    INFO     Animation 30 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2552855209_1116892120.mp4'                                                                               
+                    INFO     Combining to Movie file.                                                          scene_file_writer.py:742
+                    INFO                                                                                       scene_file_writer.py:893
+                             File ready at                                                                                             
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_e                         
+                             igenvalues_2x2/media/videos/scene/480p15/MainScene.mp4'                                                   
+                                                                                                                                       
+                    INFO     Rendered MainScene                                                                            scene.py:278
+                             Played 31 animations                                                                                      
+[05/26/26 03:48:18] INFO     Previewed File at:                                                                         file_ops.py:237
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q04_eigenvalue                
+                             s_2x2/media/videos/scene/480p15/MainScene.mp4'                                                            

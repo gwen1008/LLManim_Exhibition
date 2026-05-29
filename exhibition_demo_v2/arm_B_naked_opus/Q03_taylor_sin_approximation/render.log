@@ -1,0 +1,150 @@
+Manim Community v0.19.2
+
+Animation 0: Write(Text('Taylor Series Approximation of sin(x)')):   0%|          | 0/30 [00:00<?, ?it/s]Animation 0: Write(Text('Taylor Series Approximation of sin(x)')):  93%|█████████▎| 28/30 [00:00<00:00, 273.05it/s]                                                                                                                   [05/26/26 03:44:36] INFO     Animation 0 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/1                         
+                             584795214_692261400_223132457.mp4'                                                                        
+                    INFO     Animation 1 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_3394500337_1717160675.mp4'                                                                      
+                    INFO     Writing x to                                                                       tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_tay                        
+                             lor_sin_approximation/media/Tex/d3c1af651a272204.tex                                                      
+                    INFO     Writing y to                                                                       tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_tay                        
+                             lor_sin_approximation/media/Tex/3ecdda5b14fcaacb.tex                                                      
+Animation 2: Create(Axes of 2 submobjects), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                            INFO     Animation 2 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_3490180098_2595380805.mp4'                                                                      
+                    INFO     Animation 3 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2318836581_2719105577.mp4'                                                                      
+                    INFO     Writing \sin(x) to                                                                 tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_tay                        
+                             lor_sin_approximation/media/Tex/f9c15c78681bd50d.tex                                                      
+Animation 4: Create(ParametricFunction):   0%|          | 0/23 [00:00<?, ?it/s]                                                                                                   INFO     Animation 4 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_3481260518_2372907313.mp4'                                                                      
+[05/26/26 03:44:37] INFO     Animation 5 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2318836581_3032149749.mp4'                                                                      
+Animation 6: FadeIn(VGroup of 1 submobjects):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                        INFO     Animation 6 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2484581053_505212424.mp4'                                                                       
+Animation 7: Create(ParametricFunction):   0%|          | 0/18 [00:00<?, ?it/s]                                                                                                   INFO     Animation 7 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2264950514_1295229892.mp4'                                                                      
+                    INFO     Writing T_1 = x to                                                                 tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_tay                        
+                             lor_sin_approximation/media/Tex/71f67059862128e1.tex                                                      
+Animation 8: FadeIn(VGroup of 2 submobjects):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                        INFO     Animation 8 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_953473958_3026744731.mp4'                                                                       
+Animation 9: FadeIn(Text('Matches only near origin')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                 INFO     Animation 9 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_767782260_3788750695.mp4'                                                                       
+                    INFO     Animation 10 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2536175139_1701328011.mp4'                                                                      
+Animation 11: FadeOut(Text('Matches only near origin')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                               [05/26/26 03:44:38] INFO     Animation 11 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_4777362_3692922036.mp4'                                                                         
+Animation 12: Create(ParametricFunction):   0%|          | 0/18 [00:00<?, ?it/s]                                                                                                    INFO     Animation 12 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2407494533_2146503475.mp4'                                                                      
+                    INFO     Writing T_3 = x - \tfrac{x^3}{6} to                                                tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_tay                        
+                             lor_sin_approximation/media/Tex/4ca0a3467f197112.tex                                                      
+Animation 13: FadeIn(VGroup of 2 submobjects):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                         INFO     Animation 13 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_1485304742_3957687050.mp4'                                                                      
+Animation 14: FadeIn(Text('Better fit, wider range')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                 INFO     Animation 14 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2416270780_3211000740.mp4'                                                                      
+                    INFO     Animation 15 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2536175139_570005652.mp4'                                                                       
+Animation 16: FadeOut(Text('Better fit, wider range')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                              [05/26/26 03:44:39] INFO     Animation 16 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2085974231_1723592308.mp4'                                                                      
+Animation 17: Create(ParametricFunction):   0%|          | 0/18 [00:00<?, ?it/s]                                                                                                    INFO     Animation 17 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_1481212198_1438083660.mp4'                                                                      
+                    INFO     Writing T_5 = \dots + \tfrac{x^5}{120} to                                          tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_tay                        
+                             lor_sin_approximation/media/Tex/a3eaa82f42fbc7d1.tex                                                      
+Animation 18: FadeIn(VGroup of 2 submobjects):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                         INFO     Animation 18 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2279989143_2298674398.mp4'                                                                      
+                    INFO     Animation 19 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_2834709167_2164333266.mp4'                                                                      
+Animation 20: Create(ParametricFunction):   0%|          | 0/21 [00:00<?, ?it/s]                                                                                                    INFO     Animation 20 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_1247691076_2302577905.mp4'                                                                      
+                    INFO     Writing T_7 = \dots - \tfrac{x^7}{5040} to                                         tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_tay                        
+                             lor_sin_approximation/media/Tex/1c50115194bc493d.tex                                                      
+Animation 21: FadeIn(VGroup of 2 submobjects):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                     [05/26/26 03:44:40] INFO     Animation 21 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_813007121_1411226139.mp4'                                                                       
+Animation 22: FadeIn(Text('Matches over a much wider range!')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                          INFO     Animation 22 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_629854782_936743308.mp4'                                                                        
+                    INFO     Animation 23 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_3366045169_2769304888.mp4'                                                                      
+Animation 24: FadeOut(Text('Matches over a much wider range!')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                           INFO     Animation 24 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_3931223360_22431005.mp4'                                                                        
+Animation 25: Write(Text('Higher-order Taylor polynomials match the function\nover a wider interval.')), etc.:   0%|          | 0/30 [00:00<?, ?it/s]Animation 25: Write(Text('Higher-order Taylor polynomials match the function\nover a wider interval.')), etc.:  67%|██████▋   | 20/30 [00:00<00:00, 189.12it/s]                                                                                                                                                               [05/26/26 03:44:41] INFO     Animation 25 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_1320574557_1082976125.mp4'                                                                      
+                    INFO     Animation 26 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_3484913905_3117860256.mp4'                                                                      
+Animation 27: FadeOut(Text('Taylor Series Approximation of sin(x)')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]Animation 27: FadeOut(Text('Taylor Series Approximation of sin(x)')), etc.:  40%|████      | 6/15 [00:00<00:00, 57.00it/s]Animation 27: FadeOut(Text('Taylor Series Approximation of sin(x)')), etc.:  80%|████████  | 12/15 [00:00<00:00, 57.07it/s]                                                                                                                           [05/26/26 03:44:42] INFO     Animation 27 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_478002921_2875552282.mp4'                                                                       
+                    INFO     Animation 28 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/partial_movie_files/MainScene/4                         
+                             072820271_3394500337_631829896.mp4'                                                                       
+                    INFO     Combining to Movie file.                                                          scene_file_writer.py:742
+                    INFO                                                                                       scene_file_writer.py:893
+                             File ready at                                                                                             
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_t                         
+                             aylor_sin_approximation/media/videos/scene/480p15/MainScene.mp4'                                          
+                                                                                                                                       
+                    INFO     Rendered MainScene                                                                            scene.py:278
+                             Played 29 animations                                                                                      
+[05/26/26 03:44:43] INFO     Previewed File at:                                                                         file_ops.py:237
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q03_taylor_sin                
+                             _approximation/media/videos/scene/480p15/MainScene.mp4'                                                   

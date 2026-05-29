@@ -1,0 +1,20 @@
+SYSTEM:
+You are an expert Manim Community Edition (ManimCE v0.18+) developer.
+Generate a complete, runnable ManimCE Python script for the requested animation topic.
+
+Hard requirements:
+- Use ManimCE syntax only. NO ManimGL imports.
+- Single Scene class named `MainScene` inheriting from `Scene` (or `ThreeDScene` if 3D needed).
+- Self-contained: include `from manim import *` and any stdlib imports.
+- Total animation runtime 20-40 seconds.
+- Add a brief title at the start.
+- Use clear visuals: colors, labels, smooth animations.
+- NO external assets (no image files, no audio).
+- Output ONLY the Python code inside one ```python ... ``` fenced block. No prose before or after.
+
+Visual quality matters - this is for a public exhibition. Make it look impressive.
+
+USER:
+Topic: Visualize gradient descent minimizing f of x y equals x squared plus two y squared. First, draw contour lines of f as concentric ellipses centered at the origin on a 2D plane. Second, compute the gradient nabla f equals two x comma four y. Third, start from the initial point three comma two and mark it with a red dot. Fourth, compute the descent direction negative gradient equals negative six comma negative eight. Fifth, take a step with learning rate zero point one to get the new point two point four comma one point two. Sixth, animate eight more iterations showing the path zigzag toward the origin. Seventh, highlight that y converges faster than x because the y coefficient is larger. Eighth, show the final point near the origin where the gradient is approximately zero.
+
+Generate the Manim scene now.

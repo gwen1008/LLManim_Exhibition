@@ -1,0 +1,150 @@
+Manim Community v0.19.2
+
+/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_laplace_exp_sin/scene.py:8: DeprecationWarning: This method is not guaranteed to stay around. Please prefer setting the attribute normally or with Mobject.set().
+  underline = Line(LEFT, RIGHT, color=YELLOW).set_width(title.width + 0.5)
+Animation 0: Write(Text('Laplace Transform of  e^{at} sin(bt)')), etc.:   0%|          | 0/30 [00:00<?, ?it/s]Animation 0: Write(Text('Laplace Transform of  e^{at} sin(bt)')), etc.:  93%|█████████▎| 28/30 [00:00<00:00, 274.95it/s]                                                                                                                        [05/26/26 03:56:03] INFO     Animation 0 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/1584795214                         
+                             _1258802877_223132457.mp4'                                                                                
+                    INFO     Animation 1 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4217992463_1526654706.mp4'                                                                               
+Animation 2: _MethodAnimation(Text('Laplace Transform of  e^{at} sin(bt)')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                             INFO     Animation 2 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2614354729_2511828407.mp4'                                                                               
+                    INFO     Animation 3 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2318836581_3822563605.mp4'                                                                               
+                    INFO     Writing \mathcal{L}\{\sin(bt)\} = \frac{b}{s^{2}+b^{2}} to                         tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/b4ff6a42e5f2b3cb.tex                                                               
+                    INFO     Writing \mathcal{L}\{\sin(bt)\} to                                                 tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/3eb9d78adc9b494b.tex                                                               
+                    INFO     Writing \frac{b}{s^{2}+b^{2}} to                                                   tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/9bc9a279fb4945bf.tex                                                               
+Animation 4: FadeIn(Text('Step 1:  Laplace transform of sin(bt)')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                          [05/26/26 03:56:04] INFO     Animation 4 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1252262938_2229295534.mp4'                                                                               
+Animation 5: Write(MathTex('\\mathcal{L}\\{\\sin(bt)\\} = \\frac{b}{s^{2}+b^{2}}')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                                               INFO     Animation 5 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2404095747_2373778359.mp4'                                                                               
+                    INFO     Animation 6 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3366045169_242287725.mp4'                                                                                
+Animation 7: FadeOut(Text('Step 1:  Laplace transform of sin(bt)')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                 [05/26/26 03:56:05] INFO     Animation 7 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3533632888_1356197629.mp4'                                                                               
+                    INFO     Animation 8 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2318836581_3091399790.mp4'                                                                               
+                    INFO     Writing e^{at}f(t) \;\Longrightarrow\; s \rightarrow s-a to                        tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/358ffc5fdcf83ce5.tex                                                               
+                    INFO     Writing e^{at}f(t) to                                                              tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/ecc519bcda62a4c0.tex                                                               
+                    INFO     Writing \;\Longrightarrow\; to                                                     tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/d147d015b90940d3.tex                                                               
+                    INFO     Writing s \rightarrow s-a to                                                       tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/b7a46e46cfe41dd5.tex                                                               
+Animation 9: FadeIn(Text('Step 2:  First Shifting Theorem')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                    [05/26/26 03:56:06] INFO     Animation 9 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3868485293_1468870903.mp4'                                                                               
+Animation 10: Write(MathTex('e^{at}f(t) \\;\\Longrightarrow\\; s \\rightarrow s-a')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                                INFO     Animation 10 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1645013807_2975546833.mp4'                                                                               
+                    INFO     Animation 11 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2844360058_7250735.mp4'                                                                                  
+Animation 12: FadeOut(Text('Step 2:  First Shifting Theorem')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                INFO     Animation 12 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _376405615_2821995399.mp4'                                                                                
+[05/26/26 03:56:07] INFO     Animation 13 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2318836581_3295268525.mp4'                                                                               
+                    INFO     Writing \frac{b}{(s-a)^{2}+b^{2}} to                                               tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/857700e346112f43.tex                                                               
+Animation 14: FadeIn(Text('Step 3:  Substitute s → s - a')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                       INFO     Animation 14 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4007662667_640273249.mp4'                                                                                
+Animation 15: TransformFromCopy(MathTex('\\frac{b}{(s-a)^{2}+b^{2}}')):   0%|          | 0/15 [00:00<?, ?it/s]Animation 15: TransformFromCopy(MathTex('\\frac{b}{(s-a)^{2}+b^{2}}')): 100%|██████████| 15/15 [00:00<00:00, 147.11it/s]                                                                                                                                            INFO     Animation 15 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2878899529_1264184509.mp4'                                                                               
+Animation 16: Create(SurroundingRectangle):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                  [05/26/26 03:56:08] INFO     Animation 16 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1604829008_3055969865.mp4'                                                                               
+                    INFO     Animation 17 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2844360058_556030717.mp4'                                                                                
+Animation 18: FadeOut(Text('Step 3:  Substitute s → s - a')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]Animation 18: FadeOut(Text('Step 3:  Substitute s → s - a')), etc.:  67%|██████▋   | 10/15 [00:00<00:00, 93.43it/s]                                                                                                                                       INFO     Animation 18 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3898080751_2344734210.mp4'                                                                               
+[05/26/26 03:56:09] INFO     Animation 19 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2318836581_3316157657.mp4'                                                                               
+                    INFO     Writing \mathcal{L}\{e^{at}\sin(bt)\} = \frac{b}{(s-a)^{2}+b^{2}} to               tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_lap                        
+                             lace_exp_sin/media/Tex/f6cd257112f71457.tex                                                               
+Animation 20: FadeIn(Text('Final Result')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                      INFO     Animation 20 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3060663720_4077809925.mp4'                                                                               
+Animation 21: Write(MathTex('\\mathcal{L}\\{e^{at}\\sin(bt)\\} = \\frac{b}{(s-a)^{2}+b^{2}}')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                                                          INFO     Animation 21 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _1025831298_4057957742.mp4'                                                                               
+Animation 22: Create(SurroundingRectangle):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                      INFO     Animation 22 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _4228518922_3421003452.mp4'                                                                               
+Animation 23: Flash(VGroup of 12 submobjects):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                     [05/26/26 03:56:10] INFO     Animation 23 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _418984168_202430225.mp4'                                                                                 
+                    INFO     Animation 24 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3484913905_1735438097.mp4'                                                                               
+Animation 25: FadeOut(Text('Laplace Transform of  e^{at} sin(bt)')), etc.:   0%|          | 0/15 [00:00<?, ?it/s]Animation 25: FadeOut(Text('Laplace Transform of  e^{at} sin(bt)')), etc.:  93%|█████████▎| 14/15 [00:00<00:00, 136.25it/s]                                                                                                                                               INFO     Animation 25 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _2764101295_789372352.mp4'                                                                                
+                    INFO     Animation 26 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/partial_movie_files/MainScene/4072820271                         
+                             _3394500337_631829896.mp4'                                                                                
+                    INFO     Combining to Movie file.                                                          scene_file_writer.py:742
+                    INFO                                                                                       scene_file_writer.py:893
+                             File ready at                                                                                             
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_l                         
+                             aplace_exp_sin/media/videos/scene/480p15/MainScene.mp4'                                                   
+                                                                                                                                       
+                    INFO     Rendered MainScene                                                                            scene.py:278
+                             Played 27 animations                                                                                      
+                    INFO     Previewed File at:                                                                         file_ops.py:237
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q07_laplace_ex                
+                             p_sin/media/videos/scene/480p15/MainScene.mp4'                                                            

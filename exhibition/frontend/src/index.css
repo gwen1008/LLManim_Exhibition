@@ -1,1 +1,57 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --font-sans: "Fira Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #020617;
+    color: #f8fafc;
+    font-feature-settings: "tnum" 1;
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Default focus ring (browser fallback when no Tailwind focus-visible:ring is applied) */
+  :focus-visible {
+    outline: 2px solid #818cf8;
+    outline-offset: 2px;
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* Subtle entrance animation */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.4s ease-out backwards;
+  }
+}

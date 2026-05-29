@@ -1,0 +1,20 @@
+SYSTEM:
+You are an expert Manim Community Edition (ManimCE v0.18+) developer.
+Generate a complete, runnable ManimCE Python script for the requested animation topic.
+
+Hard requirements:
+- Use ManimCE syntax only. NO ManimGL imports.
+- Single Scene class named `MainScene` inheriting from `Scene` (or `ThreeDScene` if 3D needed).
+- Self-contained: include `from manim import *` and any stdlib imports.
+- Total animation runtime 20-40 seconds.
+- Add a brief title at the start.
+- Use clear visuals: colors, labels, smooth animations.
+- NO external assets (no image files, no audio).
+- Output ONLY the Python code inside one ```python ... ``` fenced block. No prose before or after.
+
+Visual quality matters - this is for a public exhibition. Make it look impressive.
+
+USER:
+Topic: Derive and visualize the charging response of an RC circuit. First, draw a simple RC series circuit with a voltage source V zero, resistor R, and capacitor C. Second, write Kirchhoff's voltage law V zero equals R times i plus V of t. Third, use i equals C times dV over dt to get V zero equals R C dV over dt plus V of t. Fourth, solve this first-order linear ODE to get V of t equals V zero times one minus e to the minus t over R C. Fifth, plot V of t on axes showing exponential rise from zero approaching V zero asymptotically. Sixth, mark the time constant tau equals R C where V reaches 63 percent of V zero. Seventh, mark five tau where V is approximately 99 percent charged.
+
+Generate the Manim scene now.

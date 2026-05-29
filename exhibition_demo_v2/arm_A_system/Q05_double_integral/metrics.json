@@ -1,0 +1,12 @@
+{
+  "topic_id": "Q05_double_integral",
+  "topic_en": "Compute the double integral of x times y over the triangular region where x ranges from zero to one and y ranges from zero to x. First, draw the triangular region on a 2D coordinate plane and shade it. Second, set up the iterated integral with outer integral over x from zero to one and inner integral over y from zero to x. Third, integrate with respect to y to get x times y squared over two evaluated from zero to x, which equals x cubed over two. Fourth, integrate the result with respect to x to get x to the fourth over eight, evaluated from zero to one. Fifth, simplify to get the final answer one over eight.",
+  "topic_zh": "計算二重積分 ∫∫ xy dA 在三角形區域 0≤x≤1, 0≤y≤x",
+  "arm": "system",
+  "success": true,
+  "elapsed_sec": 122.2,
+  "exit_code": 0,
+  "code_lines": 279,
+  "video_path": "exhibition_demo_v2/arm_A_system/Q05_double_integral/video.mp4",
+  "timestamp": "2026-05-26 03:50:20"
+}

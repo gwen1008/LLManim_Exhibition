@@ -1,0 +1,292 @@
+{
+  "Q01_sin_squared_integral": {
+    "system": {
+      "weighted_total": 4.1,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 4,
+        "visual_clarity": 3
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 28.2
+    },
+    "naked_opus": {
+      "weighted_total": 4.7,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 5,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 26.1
+    }
+  },
+  "Q02_cubic_extrema": {
+    "system": {
+      "weighted_total": 4.7,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 5,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 3,
+      "elapsed_sec": 40.0
+    },
+    "naked_opus": {
+      "weighted_total": 4.4,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 5,
+        "visual_clarity": 3
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 27.0
+    }
+  },
+  "Q03_taylor_sin_approximation": {
+    "system": {
+      "weighted_total": 4.4,
+      "verdict": "FAIL",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 4,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 2,
+      "elapsed_sec": 30.8
+    },
+    "naked_opus": {
+      "weighted_total": 4.4,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 5,
+        "visual_clarity": 3
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 30.2
+    }
+  },
+  "Q04_eigenvalues_2x2": {
+    "system": {
+      "weighted_total": 3.8,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 3,
+        "visual_clarity": 3
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 31.4
+    },
+    "naked_opus": {
+      "weighted_total": 4.1,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 4,
+        "visual_clarity": 3
+      },
+      "code_issues_count": 2,
+      "elapsed_sec": 51.3
+    }
+  },
+  "Q05_double_integral": {
+    "system": {
+      "weighted_total": 4.1,
+      "verdict": "FAIL",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 3,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 2,
+      "elapsed_sec": 36.3
+    },
+    "naked_opus": {
+      "weighted_total": 4.1,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 3,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 0,
+      "elapsed_sec": 31.0
+    }
+  },
+  "Q06_second_order_ode": {
+    "system": {
+      "weighted_total": 3.8,
+      "verdict": "FAIL",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 2,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 28.1
+    },
+    "naked_opus": {
+      "weighted_total": null,
+      "verdict": "NO_VIDEO"
+    }
+  },
+  "Q07_laplace_exp_sin": {
+    "system": {
+      "weighted_total": 3.8,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 3,
+        "visual_clarity": 3
+      },
+      "code_issues_count": 2,
+      "elapsed_sec": 32.3
+    },
+    "naked_opus": {
+      "weighted_total": 4.4,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 5,
+        "visual_clarity": 3
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 30.7
+    }
+  },
+  "Q08_square_wave_fourier": {
+    "system": {
+      "weighted_total": 4.1,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 3,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 32.7
+    },
+    "naked_opus": {
+      "weighted_total": 3.7,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 4,
+        "math_correctness": 4,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 3,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 2,
+      "elapsed_sec": 39.7
+    }
+  },
+  "Q09_rc_charging": {
+    "system": {
+      "weighted_total": 4.1,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 3,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 1,
+      "elapsed_sec": 32.8
+    },
+    "naked_opus": {
+      "weighted_total": 4.3,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 4,
+        "math_correctness": 4,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 5,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 3,
+      "elapsed_sec": 37.3
+    }
+  },
+  "Q10_gradient_descent": {
+    "system": {
+      "weighted_total": 4.6,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 4,
+        "math_correctness": 4,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 5,
+        "visual_clarity": 5
+      },
+      "code_issues_count": 2,
+      "elapsed_sec": 41.5
+    },
+    "naked_opus": {
+      "weighted_total": 4.4,
+      "verdict": "PASS",
+      "scores": {
+        "math_logic": 5,
+        "math_correctness": 5,
+        "math_displayed": null,
+        "spatial_layout": null,
+        "concept_alignment": 4,
+        "visual_clarity": 4
+      },
+      "code_issues_count": 2,
+      "elapsed_sec": 33.7
+    }
+  }
+}

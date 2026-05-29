@@ -1,0 +1,12 @@
+{
+  "topic_id": "Q08_square_wave_fourier",
+  "topic_en": "Visualize Fourier series approximation of a square wave with period two pi and amplitude one. First, plot the target square wave. Second, write the Fourier series formula f of x equals four over pi times the sum of sine of two k minus one x over two k minus one for k from one to infinity. Third, plot the first harmonic four over pi sine x. Fourth, add the third harmonic four over pi sine three x over three. Fifth, add the fifth harmonic. Sixth, add the seventh harmonic. Seventh, add the ninth harmonic. Each new partial sum should be a different color and approach the square wave more closely. Mention the Gibbs phenomenon at the discontinuities.",
+  "topic_zh": "傅立葉級數展開方波，視覺化前 5 個諧波的逼近",
+  "arm": "system",
+  "success": true,
+  "elapsed_sec": 152.4,
+  "exit_code": 0,
+  "code_lines": 359,
+  "video_path": "exhibition_demo_v2/arm_A_system/Q08_square_wave_fourier/video.mp4",
+  "timestamp": "2026-05-26 03:58:43"
+}

@@ -1,0 +1,60 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 20203,
+  "duration_api_ms": 20104,
+  "ttft_ms": 20032,
+  "num_turns": 1,
+  "result": "```python\nfrom manim import *\n\n\nclass MainScene(Scene):\n    def construct(self):\n        # ===== Title =====\n        title = Text(\"Eigenvalues & Eigenvectors\", font_size=44, color=YELLOW)\n        subtitle = MathTex(r\"A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 2 \\end{pmatrix}\", font_size=40)\n        subtitle.next_to(title, DOWN, buff=0.4)\n        self.play(Write(title))\n        self.play(FadeIn(subtitle, shift=UP))\n        self.wait(1)\n        self.play(\n            title.animate.scale(0.6).to_edge(UP),\n            FadeOut(subtitle),\n        )\n        self.wait(0.5)\n\n        # ===== Step 1: Characteristic equation =====\n        step1 = Text(\"1. Characteristic equation\", font_size=30, color=BLUE).to_edge(LEFT).shift(UP * 2)\n        eq1 = MathTex(r\"\\det(A - \\lambda I) = 0\", font_size=40).next_to(step1, DOWN, buff=0.4).to_edge(LEFT)\n        mat = MathTex(\n            r\"\\det\\begin{pmatrix} 3-\\lambda & 1 \\\\ 0 & 2-\\lambda \\end{pmatrix} = 0\",\n            font_size=40,\n        ).next_to(eq1, DOWN, buff=0.4).to_edge(LEFT)\n        self.play(FadeIn(step1, shift=RIGHT))\n        self.play(Write(eq1))\n        self.play(Write(mat))\n        self.wait(1.5)\n\n        # ===== Step 2: Expand =====\n        step2 = Text(\"2. Expand\", font_size=30, color=GREEN).next_to(mat, DOWN, buff=0.5).to_edge(LEFT)\n        eq2 = MathTex(r\"(3-\\lambda)(2-\\lambda) = 0\", font_size=40).next_to(step2, DOWN, buff=0.35).to_edge(LEFT)\n        self.play(FadeIn(step2, shift=RIGHT))\n        self.play(Write(eq2))\n        self.wait(1.5)\n\n        # ===== Step 3: Solve =====\n        step3 = Text(\"3. Solve\", font_size=30, color=ORANGE).next_to(eq2, DOWN, buff=0.5).to_edge(LEFT)\n        eq3 = MathTex(r\"\\lambda_1 = 3, \\quad \\lambda_2 = 2\", font_size=42, color=YELLOW)\n        eq3.next_to(step3, DOWN, buff=0.35).to_edge(LEFT)\n        self.play(FadeIn(step3, shift=RIGHT))\n        self.play(Write(eq3))\n        self.wait(2)\n\n        # Clear left column\n        self.play(\n            *[FadeOut(m) for m in [step1, eq1, mat, step2, eq2, step3, eq3]]\n        )\n        self.wait(0.3)\n\n        # ===== Steps 4 & 5: Eigenvectors =====\n        s4 = MathTex(r\"\\lambda_1 = 3:\\ (A-3I)v = 0 \\Rightarrow v_1 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}\",\n                     font_size=38, color=RED).shift(UP * 0.8)\n        s5 = MathTex(r\"\\lambda_2 = 2:\\ (A-2I)v = 0 \\Rightarrow v_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}\",\n                     font_size=38, color=BLUE).next_to(s4, DOWN, buff=0.6)\n        self.play(Write(s4))\n        self.wait(1)\n        self.play(Write(s5))\n        self.wait(2)\n        self.play(FadeOut(s4), FadeOut(s5))\n\n        # ===== Step 6: Draw eigenvectors on plane =====\n        plane = NumberPlane(\n            x_range=[-4, 4, 1], y_range=[-3, 3, 1],\n            background_line_style={\"stroke_color\": GREY_B, \"stroke_opacity\": 0.4},\n        ).scale(0.9)\n        self.play(Create(plane), run_time=1.5)\n\n        v1 = Arrow(plane.c2p(0, 0), plane.c2p(1, 0), buff=0, color=RED)\n        v2 = Arrow(plane.c2p(0, 0), plane.c2p(1, -1), buff=0, color=BLUE)\n        v1_lbl = MathTex(r\"v_1\", color=RED, font_size=36).next_to(v1, UP, buff=0.15)\n        v2_lbl = MathTex(r\"v_2\", color=BLUE, font_size=36).next_to(v2, DOWN, buff=0.15)\n\n        self.play(GrowArrow(v1), FadeIn(v1_lbl))\n        self.play(GrowArrow(v2), FadeIn(v2_lbl))\n        self.wait(1.5)\n\n        # ===== Step 7: Transform unit grid =====\n        note = Text(\"Eigenvectors only stretch — no rotation\",\n                    font_size=26, color=YELLOW).to_edge(DOWN)\n        self.play(FadeIn(note))\n\n        matrix = [[3, 1], [0, 2]]\n\n        def transform_pt(x, y):\n            return plane.c2p(matrix[0][0] * x + matrix[0][1] * y,\n                             matrix[1][0] * x + matrix[1][1] * y)\n\n        # animate plane transformation\n        self.play(\n            plane.animate.apply_matrix(matrix),\n            Transform(v1, Arrow(plane.c2p(0, 0), transform_pt(1, 0), buff=0, color=RED)),\n            Transform(v2, Arrow(plane.c2p(0, 0), transform_pt(1, -1), buff=0, color=BLUE)),\n            v1_lbl.animate.next_to(transform_pt(3, 0), UP, buff=0.15),\n            v2_lbl.animate.next_to(transform_pt(2, -2), DOWN, buff=0.15),\n            run_time=3,\n        )\n        self.wait(1)\n\n        stretch = VGroup(\n            MathTex(r\"v_1 \\to 3\\,v_1\", color=RED, font_size=34),\n            MathTex(r\"v_2 \\to 2\\,v_2\", color=BLUE, font_size=34),\n        ).arrange(DOWN, buff=0.3).to_corner(UR)\n        self.play(Write(stretch))\n        self.wait(3)\n```",
+  "stop_reason": "end_turn",
+  "session_id": "4c35cbd8-ad38-4030-99dc-69aaf402d31e",
+  "total_cost_usd": 0.0997475,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 6898,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2265,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 6898,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2265,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 6898,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 6898
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-opus-4-7": {
+      "inputTokens": 2,
+      "outputTokens": 2265,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 6898,
+      "webSearchRequests": 0,
+      "costUSD": 0.0997475,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "f5236f38-a8e2-470d-a293-34da11132f3e"
+}

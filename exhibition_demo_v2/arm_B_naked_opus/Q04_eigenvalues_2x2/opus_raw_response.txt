@@ -1,0 +1,108 @@
+```python
+from manim import *
+
+
+class MainScene(Scene):
+    def construct(self):
+        # ===== Title =====
+        title = Text("Eigenvalues & Eigenvectors", font_size=44, color=YELLOW)
+        subtitle = MathTex(r"A = \begin{pmatrix} 3 & 1 \\ 0 & 2 \end{pmatrix}", font_size=40)
+        subtitle.next_to(title, DOWN, buff=0.4)
+        self.play(Write(title))
+        self.play(FadeIn(subtitle, shift=UP))
+        self.wait(1)
+        self.play(
+            title.animate.scale(0.6).to_edge(UP),
+            FadeOut(subtitle),
+        )
+        self.wait(0.5)
+
+        # ===== Step 1: Characteristic equation =====
+        step1 = Text("1. Characteristic equation", font_size=30, color=BLUE).to_edge(LEFT).shift(UP * 2)
+        eq1 = MathTex(r"\det(A - \lambda I) = 0", font_size=40).next_to(step1, DOWN, buff=0.4).to_edge(LEFT)
+        mat = MathTex(
+            r"\det\begin{pmatrix} 3-\lambda & 1 \\ 0 & 2-\lambda \end{pmatrix} = 0",
+            font_size=40,
+        ).next_to(eq1, DOWN, buff=0.4).to_edge(LEFT)
+        self.play(FadeIn(step1, shift=RIGHT))
+        self.play(Write(eq1))
+        self.play(Write(mat))
+        self.wait(1.5)
+
+        # ===== Step 2: Expand =====
+        step2 = Text("2. Expand", font_size=30, color=GREEN).next_to(mat, DOWN, buff=0.5).to_edge(LEFT)
+        eq2 = MathTex(r"(3-\lambda)(2-\lambda) = 0", font_size=40).next_to(step2, DOWN, buff=0.35).to_edge(LEFT)
+        self.play(FadeIn(step2, shift=RIGHT))
+        self.play(Write(eq2))
+        self.wait(1.5)
+
+        # ===== Step 3: Solve =====
+        step3 = Text("3. Solve", font_size=30, color=ORANGE).next_to(eq2, DOWN, buff=0.5).to_edge(LEFT)
+        eq3 = MathTex(r"\lambda_1 = 3, \quad \lambda_2 = 2", font_size=42, color=YELLOW)
+        eq3.next_to(step3, DOWN, buff=0.35).to_edge(LEFT)
+        self.play(FadeIn(step3, shift=RIGHT))
+        self.play(Write(eq3))
+        self.wait(2)
+
+        # Clear left column
+        self.play(
+            *[FadeOut(m) for m in [step1, eq1, mat, step2, eq2, step3, eq3]]
+        )
+        self.wait(0.3)
+
+        # ===== Steps 4 & 5: Eigenvectors =====
+        s4 = MathTex(r"\lambda_1 = 3:\ (A-3I)v = 0 \Rightarrow v_1 = \begin{pmatrix} 1 \\ 0 \end{pmatrix}",
+                     font_size=38, color=RED).shift(UP * 0.8)
+        s5 = MathTex(r"\lambda_2 = 2:\ (A-2I)v = 0 \Rightarrow v_2 = \begin{pmatrix} 1 \\ -1 \end{pmatrix}",
+                     font_size=38, color=BLUE).next_to(s4, DOWN, buff=0.6)
+        self.play(Write(s4))
+        self.wait(1)
+        self.play(Write(s5))
+        self.wait(2)
+        self.play(FadeOut(s4), FadeOut(s5))
+
+        # ===== Step 6: Draw eigenvectors on plane =====
+        plane = NumberPlane(
+            x_range=[-4, 4, 1], y_range=[-3, 3, 1],
+            background_line_style={"stroke_color": GREY_B, "stroke_opacity": 0.4},
+        ).scale(0.9)
+        self.play(Create(plane), run_time=1.5)
+
+        v1 = Arrow(plane.c2p(0, 0), plane.c2p(1, 0), buff=0, color=RED)
+        v2 = Arrow(plane.c2p(0, 0), plane.c2p(1, -1), buff=0, color=BLUE)
+        v1_lbl = MathTex(r"v_1", color=RED, font_size=36).next_to(v1, UP, buff=0.15)
+        v2_lbl = MathTex(r"v_2", color=BLUE, font_size=36).next_to(v2, DOWN, buff=0.15)
+
+        self.play(GrowArrow(v1), FadeIn(v1_lbl))
+        self.play(GrowArrow(v2), FadeIn(v2_lbl))
+        self.wait(1.5)
+
+        # ===== Step 7: Transform unit grid =====
+        note = Text("Eigenvectors only stretch — no rotation",
+                    font_size=26, color=YELLOW).to_edge(DOWN)
+        self.play(FadeIn(note))
+
+        matrix = [[3, 1], [0, 2]]
+
+        def transform_pt(x, y):
+            return plane.c2p(matrix[0][0] * x + matrix[0][1] * y,
+                             matrix[1][0] * x + matrix[1][1] * y)
+
+        # animate plane transformation
+        self.play(
+            plane.animate.apply_matrix(matrix),
+            Transform(v1, Arrow(plane.c2p(0, 0), transform_pt(1, 0), buff=0, color=RED)),
+            Transform(v2, Arrow(plane.c2p(0, 0), transform_pt(1, -1), buff=0, color=BLUE)),
+            v1_lbl.animate.next_to(transform_pt(3, 0), UP, buff=0.15),
+            v2_lbl.animate.next_to(transform_pt(2, -2), DOWN, buff=0.15),
+            run_time=3,
+        )
+        self.wait(1)
+
+        stretch = VGroup(
+            MathTex(r"v_1 \to 3\,v_1", color=RED, font_size=34),
+            MathTex(r"v_2 \to 2\,v_2", color=BLUE, font_size=34),
+        ).arrange(DOWN, buff=0.3).to_corner(UR)
+        self.play(Write(stretch))
+        self.wait(3)
+```

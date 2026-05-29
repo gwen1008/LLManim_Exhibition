@@ -1,0 +1,213 @@
+{
+  "items": [
+    {
+      "id": "Q01_sin_squared_integral",
+      "topic": "計算定積分 sin²(x) 從 0 到 π，使用半角公式化簡",
+      "topic_en": "Sin Squared Integral",
+      "topic_prompt": "Evaluate the integral of sin squared x from 0 to pi step by step. First, state the integral. Second, apply the half-angle identity sin squared x equals one minus cosine of two x all over two. Third, split into two simpler integrals. Fourth, integrate each term to get x over two minus sine of two x over four. Fifth, substitute the bounds zero and pi. Sixth, simplify to get the final answer pi over two. Also show the sin squared curve plotted on axes and shade the area under it.",
+      "opus_video_url": "/static/videos/v2_naked/Q01_sin_squared_integral.mp4",
+      "system_video_url": "/static/videos/v2_system/Q01_sin_squared_integral.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 22.7,
+        "code_lines": 91,
+        "gen_time_sec": 27.4
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 97.8,
+        "code_lines": 289,
+        "gen_time_sec": 133.1
+      }
+    },
+    {
+      "id": "Q02_cubic_extrema",
+      "topic": "求三次函數 f(x)=x³−6x²+9x 的局部極值，使用二階導數檢驗",
+      "topic_en": "Cubic Extrema",
+      "topic_prompt": "Find the local extrema of f of x equals x cubed minus six x squared plus nine x. First, plot the function on axes. Second, compute the first derivative three x squared minus twelve x plus nine. Third, factor it as three times x minus one times x minus three. Fourth, set the derivative to zero and solve to get x equals one and x equals three. Fifth, compute the second derivative six x minus twelve. Sixth, evaluate at x equals one to get negative six, indicating a local maximum. Seventh, evaluate at x equals three to get positive six, indicating a local minimum. Finally, mark the points one comma four and three comma zero on the curve with horizontal tangent lines.",
+      "opus_video_url": "/static/videos/v2_naked/Q02_cubic_extrema.mp4",
+      "system_video_url": "/static/videos/v2_system/Q02_cubic_extrema.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 26.9,
+        "code_lines": 98,
+        "gen_time_sec": 27.7
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 125.5,
+        "code_lines": 339,
+        "gen_time_sec": 164.4
+      }
+    },
+    {
+      "id": "Q03_taylor_sin_approximation",
+      "topic": "用泰勒級數的前 1、3、5、7 階逼近 sin(x)，視覺化逼近過程",
+      "topic_en": "Taylor Sin Approximation",
+      "topic_prompt": "Visualize how Taylor series approximates sine of x near x equals zero. First, plot the true sine curve in blue. Second, plot the first-order approximation T one of x equals x in yellow and show it only matches near the origin. Third, add the third-order approximation T three of x equals x minus x cubed over six in green, showing improved accuracy. Fourth, add the fifth-order approximation in orange. Fifth, add the seventh-order approximation in red, which matches sine over a much wider range. Each new approximation should appear as a new curve overlaid on the same axes, with a legend showing the order. Conclude that higher-order Taylor polynomials match the function over a wider interval.",
+      "opus_video_url": "/static/videos/v2_naked/Q03_taylor_sin_approximation.mp4",
+      "system_video_url": "/static/videos/v2_system/Q03_taylor_sin_approximation.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 32.3,
+        "code_lines": 117,
+        "gen_time_sec": 28.2
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 86.6,
+        "code_lines": 265,
+        "gen_time_sec": 129.4
+      }
+    },
+    {
+      "id": "Q04_eigenvalues_2x2",
+      "topic": "求 2x2 矩陣 [[3,1],[0,2]] 的特徵值與特徵向量，並視覺化變換",
+      "topic_en": "Eigenvalues 2X2",
+      "topic_prompt": "Find eigenvalues and eigenvectors of the matrix A with rows three one and zero two. First, set up the characteristic equation determinant of A minus lambda I equals zero. Second, expand to get three minus lambda times two minus lambda equals zero. Third, solve to get lambda one equals three and lambda two equals two. Fourth, for lambda equals three, solve A minus three I times v equals zero to get the eigenvector one zero. Fifth, for lambda equals two, solve to get the eigenvector one minus one. Sixth, draw the two eigenvectors on a 2D coordinate plane with arrows. Seventh, animate how the matrix transforms a unit grid, showing that the eigenvectors only stretch by their eigenvalues and do not rotate.",
+      "opus_video_url": "/static/videos/v2_naked/Q04_eigenvalues_2x2.mp4",
+      "system_video_url": "/static/videos/v2_system/Q04_eigenvalues_2x2.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 41.7,
+        "code_lines": 106,
+        "gen_time_sec": 30.8
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 128.9,
+        "code_lines": 325,
+        "gen_time_sec": 184.4
+      }
+    },
+    {
+      "id": "Q05_double_integral",
+      "topic": "計算二重積分 ∫∫ xy dA 在三角形區域 0≤x≤1, 0≤y≤x",
+      "topic_en": "Double Integral",
+      "topic_prompt": "Compute the double integral of x times y over the triangular region where x ranges from zero to one and y ranges from zero to x. First, draw the triangular region on a 2D coordinate plane and shade it. Second, set up the iterated integral with outer integral over x from zero to one and inner integral over y from zero to x. Third, integrate with respect to y to get x times y squared over two evaluated from zero to x, which equals x cubed over two. Fourth, integrate the result with respect to x to get x to the fourth over eight, evaluated from zero to one. Fifth, simplify to get the final answer one over eight.",
+      "opus_video_url": "/static/videos/v2_naked/Q05_double_integral.mp4",
+      "system_video_url": "/static/videos/v2_system/Q05_double_integral.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 22.7,
+        "code_lines": 89,
+        "gen_time_sec": 25.8
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 68.1,
+        "code_lines": 279,
+        "gen_time_sec": 122.2
+      }
+    },
+    {
+      "id": "Q06_second_order_ode",
+      "topic": "解二階常微分方程 y''+3y'+2y=0，初值 y(0)=1, y'(0)=0",
+      "topic_en": "Second Order Ode",
+      "topic_prompt": "Solve the initial value problem y double prime plus three y prime plus two y equals zero, with y of zero equals one and y prime of zero equals zero. First, write down the ODE and initial conditions. Second, form the characteristic equation r squared plus three r plus two equals zero. Third, factor as r plus one times r plus two equals zero. Fourth, find the roots r equals negative one and r equals negative two. Fifth, write the general solution y of t equals C one e to the minus t plus C two e to the minus two t. Sixth, apply y of zero equals one to get C one plus C two equals one. Seventh, apply y prime of zero equals zero to get negative C one minus two C two equals zero. Eighth, solve the linear system to get C one equals two and C two equals negative one. Ninth, write the particular solution y of t equals two e to the minus t minus e to the minus two t. Tenth, plot y of t showing smooth decay to zero.",
+      "opus_video_url": "",
+      "system_video_url": "/static/videos/v2_system/Q06_second_order_ode.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "video_duration_sec": null,
+        "code_lines": 125,
+        "gen_time_sec": 29.3,
+        "notes": "Render 失敗：單模型生成的程式碼有錯，無法執行"
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 123.5,
+        "code_lines": 310,
+        "gen_time_sec": 176.1
+      }
+    },
+    {
+      "id": "Q07_laplace_exp_sin",
+      "topic": "求 Laplace 變換 L{e^(at) sin(bt)} 的結果",
+      "topic_en": "Laplace Exp Sin",
+      "topic_prompt": "Compute the Laplace transform of e to the a t times sine of b t. First, recall that the Laplace transform of sine of b t is b over s squared plus b squared. Second, apply the first shifting theorem, which states multiplying by e to the a t in the time domain shifts s to s minus a in the frequency domain. Third, substitute s with s minus a in the original transform to get b over s minus a squared plus b squared. Fourth, state the final answer L of e to the a t times sine of b t equals b over the quantity s minus a squared plus b squared. Show the formula at each step using MathTex.",
+      "opus_video_url": "/static/videos/v2_naked/Q07_laplace_exp_sin.mp4",
+      "system_video_url": "/static/videos/v2_system/Q07_laplace_exp_sin.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 30.5,
+        "code_lines": 110,
+        "gen_time_sec": 29.1
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 33.4,
+        "code_lines": 238,
+        "gen_time_sec": 90.0
+      }
+    },
+    {
+      "id": "Q08_square_wave_fourier",
+      "topic": "傅立葉級數展開方波，視覺化前 5 個諧波的逼近",
+      "topic_en": "Square Wave Fourier",
+      "topic_prompt": "Visualize Fourier series approximation of a square wave with period two pi and amplitude one. First, plot the target square wave. Second, write the Fourier series formula f of x equals four over pi times the sum of sine of two k minus one x over two k minus one for k from one to infinity. Third, plot the first harmonic four over pi sine x. Fourth, add the third harmonic four over pi sine three x over three. Fifth, add the fifth harmonic. Sixth, add the seventh harmonic. Seventh, add the ninth harmonic. Each new partial sum should be a different color and approach the square wave more closely. Mention the Gibbs phenomenon at the discontinuities.",
+      "opus_video_url": "/static/videos/v2_naked/Q08_square_wave_fourier.mp4",
+      "system_video_url": "/static/videos/v2_system/Q08_square_wave_fourier.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 31.7,
+        "code_lines": 132,
+        "gen_time_sec": 34.5
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 101.8,
+        "code_lines": 359,
+        "gen_time_sec": 152.4
+      }
+    },
+    {
+      "id": "Q09_rc_charging",
+      "topic": "RC 電路充電響應 V(t)=V0(1-e^(-t/RC))，推導並繪製充電曲線",
+      "topic_en": "Rc Charging",
+      "topic_prompt": "Derive and visualize the charging response of an RC circuit. First, draw a simple RC series circuit with a voltage source V zero, resistor R, and capacitor C. Second, write Kirchhoff's voltage law V zero equals R times i plus V of t. Third, use i equals C times dV over dt to get V zero equals R C dV over dt plus V of t. Fourth, solve this first-order linear ODE to get V of t equals V zero times one minus e to the minus t over R C. Fifth, plot V of t on axes showing exponential rise from zero approaching V zero asymptotically. Sixth, mark the time constant tau equals R C where V reaches 63 percent of V zero. Seventh, mark five tau where V is approximately 99 percent charged.",
+      "opus_video_url": "/static/videos/v2_naked/Q09_rc_charging.mp4",
+      "system_video_url": "/static/videos/v2_system/Q09_rc_charging.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 36.7,
+        "code_lines": 233,
+        "gen_time_sec": 51.5
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 112.0,
+        "code_lines": 347,
+        "gen_time_sec": 177.9
+      }
+    },
+    {
+      "id": "Q10_gradient_descent",
+      "topic": "用梯度下降找 f(x,y)=x²+2y² 的最小值，視覺化下降路徑",
+      "topic_en": "Gradient Descent",
+      "topic_prompt": "Visualize gradient descent minimizing f of x y equals x squared plus two y squared. First, draw contour lines of f as concentric ellipses centered at the origin on a 2D plane. Second, compute the gradient nabla f equals two x comma four y. Third, start from the initial point three comma two and mark it with a red dot. Fourth, compute the descent direction negative gradient equals negative six comma negative eight. Fifth, take a step with learning rate zero point one to get the new point two point four comma one point two. Sixth, animate eight more iterations showing the path zigzag toward the origin. Seventh, highlight that y converges faster than x because the y coefficient is larger. Eighth, show the final point near the origin where the gradient is approximately zero.",
+      "opus_video_url": "/static/videos/v2_naked/Q10_gradient_descent.mp4",
+      "system_video_url": "/static/videos/v2_system/Q10_gradient_descent.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 28.6,
+        "code_lines": 131,
+        "gen_time_sec": 33.4
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 67.0,
+        "code_lines": 314,
+        "gen_time_sec": 186.1
+      }
+    }
+  ],
+  "generated_at": "2026-05-26T11:16:44.352049",
+  "summary": {
+    "total_topics": 10,
+    "system_render_success": 10,
+    "naked_render_success": 9,
+    "system_avg_duration": 94.5,
+    "naked_avg_duration": 30.4
+  }
+}

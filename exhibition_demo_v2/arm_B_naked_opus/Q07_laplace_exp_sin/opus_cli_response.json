@@ -1,0 +1,60 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 18026,
+  "duration_api_ms": 17928,
+  "ttft_ms": 17719,
+  "num_turns": 1,
+  "result": "```python\nfrom manim import *\n\n\nclass MainScene(Scene):\n    def construct(self):\n        # ---------- Title ----------\n        title = Text(\"Laplace Transform of  e^{at} sin(bt)\", font_size=40, color=YELLOW)\n        underline = Line(LEFT, RIGHT, color=YELLOW).set_width(title.width + 0.5)\n        underline.next_to(title, DOWN, buff=0.15)\n        self.play(Write(title), GrowFromCenter(underline))\n        self.wait(1)\n        self.play(\n            title.animate.scale(0.7).to_edge(UP),\n            FadeOut(underline),\n        )\n        self.wait(0.3)\n\n        # ---------- Step 1 ----------\n        step1_label = Text(\"Step 1:  Laplace transform of sin(bt)\", font_size=28, color=BLUE)\n        step1_label.next_to(title, DOWN, buff=0.5)\n        eq1 = MathTex(\n            r\"\\mathcal{L}\\{\\sin(bt)\\}\",\n            r\"=\",\n            r\"\\frac{b}{s^{2}+b^{2}}\",\n            font_size=52,\n        )\n        eq1.next_to(step1_label, DOWN, buff=0.6)\n        eq1.set_color_by_tex(r\"\\frac{b}{s^{2}+b^{2}}\", GREEN)\n\n        self.play(FadeIn(step1_label, shift=RIGHT))\n        self.play(Write(eq1))\n        self.wait(1.5)\n\n        self.play(\n            FadeOut(step1_label, shift=LEFT),\n            eq1.animate.scale(0.65).to_corner(UL).shift(DOWN * 1.2 + RIGHT * 0.3),\n        )\n        self.wait(0.3)\n\n        # ---------- Step 2 ----------\n        step2_label = Text(\"Step 2:  First Shifting Theorem\", font_size=28, color=BLUE)\n        step2_label.next_to(title, DOWN, buff=0.5)\n        eq2 = MathTex(\n            r\"e^{at}f(t)\",\n            r\"\\;\\Longrightarrow\\;\",\n            r\"s \\rightarrow s-a\",\n            font_size=48,\n        )\n        eq2.set_color_by_tex(r\"e^{at}f(t)\", ORANGE)\n        eq2.set_color_by_tex(r\"s \\rightarrow s-a\", RED)\n        eq2.next_to(step2_label, DOWN, buff=0.6)\n\n        self.play(FadeIn(step2_label, shift=RIGHT))\n        self.play(Write(eq2))\n        self.wait(2)\n        self.play(FadeOut(step2_label, shift=LEFT), FadeOut(eq2, shift=DOWN))\n        self.wait(0.3)\n\n        # ---------- Step 3 ----------\n        step3_label = Text(\"Step 3:  Substitute s → s - a\", font_size=28, color=BLUE)\n        step3_label.next_to(title, DOWN, buff=0.5)\n\n        eq3 = MathTex(\n            r\"\\frac{b}{(s-a)^{2}+b^{2}}\",\n            font_size=56,\n            color=GREEN,\n        )\n        eq3.next_to(step3_label, DOWN, buff=0.7)\n\n        self.play(FadeIn(step3_label, shift=RIGHT))\n        # transform the small step-1 result into the substituted form\n        self.play(TransformFromCopy(eq1[2], eq3))\n        box = SurroundingRectangle(eq3, color=RED, buff=0.2)\n        self.play(Create(box))\n        self.wait(2)\n\n        self.play(\n            FadeOut(step3_label, shift=LEFT),\n            FadeOut(box),\n            FadeOut(eq1),\n            FadeOut(eq3),\n        )\n        self.wait(0.3)\n\n        # ---------- Step 4 : Final Answer ----------\n        step4_label = Text(\"Final Result\", font_size=30, color=BLUE)\n        step4_label.next_to(title, DOWN, buff=0.6)\n\n        final = MathTex(\n            r\"\\mathcal{L}\\{e^{at}\\sin(bt)\\}\",\n            r\"=\",\n            r\"\\frac{b}{(s-a)^{2}+b^{2}}\",\n            font_size=56,\n        )\n        final.set_color_by_tex(r\"\\mathcal{L}\\{e^{at}\\sin(bt)\\}\", ORANGE)\n        final.set_color_by_tex(r\"\\frac{b}{(s-a)^{2}+b^{2}}\", GREEN)\n        final.next_to(step4_label, DOWN, buff=0.8)\n\n        self.play(FadeIn(step4_label, shift=DOWN))\n        self.play(Write(final))\n\n        final_box = SurroundingRectangle(final, color=YELLOW, buff=0.3, corner_radius=0.1)\n        self.play(Create(final_box))\n        self.play(Flash(final, color=YELLOW, flash_radius=2.5))\n        self.wait(2.5)\n\n        self.play(\n            *[FadeOut(mob) for mob in self.mobjects]\n        )\n        self.wait(0.5)\n```",
+  "stop_reason": "end_turn",
+  "session_id": "d9cf04aa-f595-4e87-8b8b-8e2fcd32ffc5",
+  "total_cost_usd": 0.086535,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 6836,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1752,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 6836,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1752,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 6836,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 6836
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-opus-4-7": {
+      "inputTokens": 2,
+      "outputTokens": 1752,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 6836,
+      "webSearchRequests": 0,
+      "costUSD": 0.086535,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "a33d0569-a347-4e3d-8069-948da03477b4"
+}

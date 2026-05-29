@@ -1,13 +1,71 @@
 {
-  "benchmark_pass_rate": "30/30",
-  "gt_match_rate": 0.951,
-  "bj_average_score": 72.4,
   "total_videos_generated": 150,
+  "total_video_minutes": 234.7,
+  "total_cost_usd": 45.43,
+  "total_compute_minutes": 277.2,
+  "total_compute_hours": 4.6,
+  "total_tokens": 6549691,
+  "vision_qa_pass_rate": 0.893,
+  "vision_qa_pass_elementary": 0.91,
+  "vision_qa_pass_middle": 0.75,
+  "vision_qa_elem_n": [
+    122,
+    134
+  ],
+  "vision_qa_mid_n": [
+    12,
+    16
+  ],
+  "gt_match_rate_judged": 0.951,
+  "gt_match_true": 137,
+  "gt_match_false": 7,
+  "gt_match_unjudged": 6,
+  "gt_judged_n": 144,
+  "fj_math_avg": 4.61,
+  "fj_math_n": 150,
+  "iter1_count": 140,
+  "iter1_pass_count": 126,
+  "iter1_pass_rate": 0.9,
+  "iter_multi_count": 10,
+  "iter_multi_pass_count": 8,
+  "iter_multi_fail_count": 2,
+  "iter_multi_pass_rate": 0.8,
+  "iter_avg": 1.07,
+  "iter_max": 3,
+  "iter_distribution": {
+    "1": 140,
+    "2": 9,
+    "3": 1
+  },
+  "cost_avg_usd": 0.303,
+  "duration_avg_sec": 110.9,
+  "code_lines_avg": 244,
+  "video_duration_avg_sec": 93.9,
+  "tokens_avg": 43664,
   "refining_loop_max_iterations": 5,
+  "benchmark_pass_rate": "134/150",
+  "fj_fail_count": 16,
+  "fail_rate": 0.107,
   "agents": [
-    { "name": "Planner", "model": "gemini-2.5-flash", "role": "視覺計畫 JSON" },
-    { "name": "Coder", "model": "claude-opus-4-7", "role": "ManimCE 代碼生成" },
-    { "name": "VisionQA", "model": "gpt-4o", "role": "渲染後視覺驗收" },
-    { "name": "RefiningLoop", "model": "—", "role": "Reflexion 自動修正 (最多 5 輪)" }
+    {
+      "name": "Planner",
+      "model": "claude-opus-4-7",
+      "role": "視覺計畫 JSON"
+    },
+    {
+      "name": "Coder",
+      "model": "claude-opus-4-7",
+      "role": "ManimCE 代碼生成"
+    },
+    {
+      "name": "VisionQA",
+      "model": "gpt-4o",
+      "role": "渲染後視覺驗收"
+    },
+    {
+      "name": "RefiningLoop",
+      "model": "—",
+      "role": "Reflexion 自動修正 (最多 5 輪)"
+    }
   ]
 }

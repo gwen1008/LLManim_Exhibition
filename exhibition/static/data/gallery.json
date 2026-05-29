@@ -1,93 +1,340 @@
 {
   "items": [
     {
-      "id": "Q024",
-      "topic": "畢氏定理",
-      "topic_en": "Pythagorean Theorem",
-      "opus_video_url": "/static/videos/opus_only/Q024.mp4",
-      "system_video_url": "/static/videos/full_system/Q024.mp4",
+      "id": "Q01_sin_squared_integral",
+      "topic": "求 sin²(x) 從 0 到 π 的定積分",
+      "topic_en": "Sin Squared Integral",
+      "topic_prompt": "Evaluate the definite integral of sin^2(x) from 0 to pi by first applying the half-angle identity sin^2(x) = (1 - cos(2x))/2, then integrating step by step. Show the area under the curve being shaded as the answer is computed.",
+      "opus_video_url": "/static/videos/naked_opus/Q01_sin_squared_integral.mp4",
+      "system_video_url": "/static/videos/old_rag/Q01_sin_squared_integral.mp4",
       "opus_metrics": {
-        "render_success": false,
-        "render_duration_sec": 45.2,
-        "code_lines": 87,
-        "deprecated_api_count": 3,
-        "notes": "ManimGL syntax used, ShowCreation deprecated"
+        "render_success": true,
+        "gen_time_sec": 20.25,
+        "code_lines": 56,
+        "video_duration_sec": 24.47,
+        "video_resolution": "854x480",
+        "notes": "Zero-shot naked Opus (28-word system prompt)",
+        "render_duration_sec": 20.25,
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
       },
       "system_metrics": {
         "render_success": true,
-        "render_duration_sec": 312.5,
-        "code_lines": 215,
-        "deprecated_api_count": 0,
-        "bj_score": 78,
-        "refining_iterations": 2
+        "video_duration_sec": 70.8,
+        "code_lines": 244,
+        "gen_time_sec": null,
+        "notes": "✨ 精修版：手動拆細為「一句一動作」12 步，消除動畫凍結時間"
       }
     },
     {
-      "id": "Q070",
-      "topic": "三角形內角和證明",
-      "topic_en": "Triangle Angle Sum Proof",
-      "opus_video_url": "/static/videos/opus_only/Q070.mp4",
-      "system_video_url": "/static/videos/full_system/Q070.mp4",
+      "id": "Q02_cubic_extrema",
+      "topic": "求 f(x)=x³−6x²+9x 的極值",
+      "topic_en": "Cubic Extrema",
+      "topic_prompt": "Find the local extrema of f(x) = x^3 - 6x^2 + 9x. Take the first derivative, solve f'(x)=0 for critical points, use the second derivative test to classify them, and mark the extrema on the curve with tangent lines at those points.",
+      "opus_video_url": "/static/videos/naked_opus/Q02_cubic_extrema.mp4",
+      "system_video_url": "/static/videos/old_rag/Q02_cubic_extrema.mp4",
       "opus_metrics": {
         "render_success": true,
-        "render_duration_sec": 38.7,
-        "code_lines": 62,
-        "deprecated_api_count": 1,
-        "notes": "動畫缺乏教育性脈絡、觀感粗糙"
+        "gen_time_sec": 24.71,
+        "code_lines": 76,
+        "video_duration_sec": 19.2,
+        "video_resolution": "854x480",
+        "notes": "Zero-shot naked Opus (28-word system prompt)",
+        "render_duration_sec": 24.71,
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
       },
       "system_metrics": {
         "render_success": true,
-        "render_duration_sec": 287.3,
-        "code_lines": 198,
-        "deprecated_api_count": 0,
-        "bj_score": 82,
-        "refining_iterations": 1
+        "video_duration_sec": 67.1,
+        "code_lines": 149,
+        "gen_time_sec": null,
+        "notes": "✨ 精修版：手動拆細為「一句一動作」12 步，消除動畫凍結時間"
       }
     },
     {
-      "id": "Q031",
-      "topic": "等差數列",
-      "topic_en": "Arithmetic Sequence",
-      "opus_video_url": "/static/videos/opus_only/Q031.mp4",
-      "system_video_url": "/static/videos/full_system/Q031.mp4",
+      "id": "Q03_lhopital_sinx_over_x",
+      "topic": "證明 lim(x→0) sin(x)/x = 1",
+      "topic_en": "Lhopital Sinx Over X",
+      "topic_prompt": "Prove that the limit of sin(x)/x as x approaches 0 equals 1, using L'Hopital's rule. Visually compare the curves y=sin(x) and y=x near the origin, showing how they coincide. Then show the derivative-based proof step by step.",
+      "opus_video_url": "/static/videos/naked_opus/Q03_lhopital_sinx_over_x.mp4",
+      "system_video_url": "/static/videos/old_rag/Q03_lhopital_sinx_over_x.mp4",
       "opus_metrics": {
         "render_success": false,
-        "render_duration_sec": 22.1,
-        "code_lines": 54,
-        "deprecated_api_count": 2,
-        "notes": "ImportError: ShowCreation not found"
+        "gen_time_sec": 22.78,
+        "code_lines": 101,
+        "video_duration_sec": null,
+        "video_resolution": null,
+        "notes": "Zero-shot naked Opus (28-word system prompt) — render failed: TypeError: Animation.__init__() got an unexpected keyword argument 'scale'",
+        "render_duration_sec": 22.78,
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
       },
       "system_metrics": {
         "render_success": true,
-        "render_duration_sec": 198.4,
+        "video_duration_sec": 77.33,
+        "code_lines": 229,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q04_golden_spiral",
+      "topic": "黃金螺旋（費氏正方形嵌套）",
+      "topic_en": "Golden spiral via Fibonacci squares",
+      "topic_prompt": "繪製黃金螺旋。請用費氏數列邊長 (1, 1, 2, 3, 5, 8) 依序排列六個正方形（每個正方形貼著前一個），並在每個正方形內部畫一條四分之一圓弧，使所有弧線連接成一條完整的螺旋曲線。",
+      "opus_video_url": "/static/videos/naked_opus/Q04_golden_spiral.mp4",
+      "system_video_url": "/static/videos/old_rag/Q04_golden_spiral.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "gen_time_sec": 240.3,
+        "render_duration_sec": 240.3,
+        "code_lines": null,
+        "video_duration_sec": 13.13,
+        "video_resolution": "854x480",
+        "notes": "Zero-shot naked Opus (28-word system prompt)",
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
+      },
+      "system_metrics": {
+        "render_success": true,
+        "gen_time_sec": 713.37,
+        "render_duration_sec": null,
+        "code_lines": 148,
+        "video_duration_sec": 62.53,
+        "video_resolution": "854x480",
+        "vision_qa_verdict": "FAIL",
+        "llm_call_count": null,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "Q05_double_integral",
+      "topic": "計算二重積分 ∫∫ xy dA, 區域 0≤x≤1, 0≤y≤x",
+      "topic_en": "Double Integral",
+      "topic_prompt": "Compute the double integral of xy over the triangular region where 0 <= x <= 1 and 0 <= y <= x. First shade the integration region in 2D, set up the iterated integral with correct bounds, integrate with respect to y, then with respect to x, and show the final numerical answer.",
+      "opus_video_url": "/static/videos/naked_opus/Q05_double_integral.mp4",
+      "system_video_url": "/static/videos/old_rag/Q05_double_integral.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "gen_time_sec": 21.31,
+        "code_lines": 84,
+        "video_duration_sec": null,
+        "video_resolution": null,
+        "notes": "Zero-shot naked Opus (28-word system prompt) — render failed: ValueError: latex error converting to dvi. See log output above or the log file:",
+        "render_duration_sec": 21.31,
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 82.0,
+        "code_lines": 236,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q06_second_order_ode",
+      "topic": "解二階 ODE: y''+3y'+2y=0, y(0)=1, y'(0)=0",
+      "topic_en": "Second Order Ode",
+      "topic_prompt": "Solve the second-order linear ODE y'' + 3y' + 2y = 0 with initial conditions y(0)=1, y'(0)=0. Write the characteristic equation r^2 + 3r + 2 = 0, find the roots, write the general solution as a sum of exponentials, apply the initial conditions to find the constants, then plot the solution curve.",
+      "opus_video_url": "/static/videos/naked_opus/Q06_second_order_ode.mp4",
+      "system_video_url": "/static/videos/old_rag/Q06_second_order_ode.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "gen_time_sec": 34.36,
+        "code_lines": 119,
+        "video_duration_sec": 39.67,
+        "video_resolution": "854x480",
+        "notes": "Zero-shot naked Opus (28-word system prompt)",
+        "render_duration_sec": 34.36,
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 71.3,
+        "code_lines": 134,
+        "gen_time_sec": null,
+        "notes": "✨ 精修版：手動拆細為「一句一動作」12 步，消除動畫凍結時間"
+      }
+    },
+    {
+      "id": "Q07_unit_roots",
+      "topic": "複數方程 z⁸ = 1 的單位根",
+      "topic_en": "Roots of unity for the equation z^8 = 1",
+      "topic_prompt": "視覺化複數方程 z⁸ = 1 的所有解（即 8 次單位根）。請在複數平面上畫出單位圓，標出八個解的位置，並從原點畫向量連到每個解。",
+      "opus_video_url": "/static/videos/naked_opus/Q07_unit_roots.mp4",
+      "system_video_url": "/static/videos/old_rag/Q07_unit_roots.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "gen_time_sec": 15.64,
+        "render_duration_sec": 15.64,
+        "code_lines": null,
+        "video_duration_sec": 10.2,
+        "video_resolution": "854x480",
+        "notes": "Zero-shot naked Opus (28-word system prompt)",
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
+      },
+      "system_metrics": {
+        "render_success": true,
+        "gen_time_sec": 115.0,
+        "render_duration_sec": null,
+        "code_lines": 113,
+        "video_duration_sec": 48.33,
+        "video_resolution": "854x480",
+        "vision_qa_verdict": "PASS",
+        "llm_call_count": null,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "Q08_square_wave_fourier",
+      "topic": "方波的 Fourier 級數展開（前 5 項）",
+      "topic_en": "Square Wave Fourier",
+      "topic_prompt": "Derive the Fourier series of a square wave by computing the first 5 nonzero coefficients. Show the general formula a_n, b_n integrals, evaluate them step by step to get the (4/pi) * sum of sin((2k-1)x)/(2k-1) form, then visually add the harmonics one by one onto the same plot showing how the partial sum approaches the square wave.",
+      "opus_video_url": "/static/videos/naked_opus/Q08_square_wave_fourier.mp4",
+      "system_video_url": "/static/videos/old_rag/Q08_square_wave_fourier.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "gen_time_sec": 148.28,
         "code_lines": 167,
-        "deprecated_api_count": 0,
-        "bj_score": 75,
-        "refining_iterations": 3
-      }
-    },
-    {
-      "id": "Q055",
-      "topic": "微積分基本定理",
-      "topic_en": "Fundamental Theorem of Calculus",
-      "opus_video_url": "/static/videos/opus_only/Q055.mp4",
-      "system_video_url": "/static/videos/full_system/Q055.mp4",
-      "opus_metrics": {
-        "render_success": true,
-        "render_duration_sec": 61.3,
-        "code_lines": 103,
-        "deprecated_api_count": 0,
-        "notes": "動畫流暢但缺乏直觀說明"
+        "video_duration_sec": null,
+        "video_resolution": null,
+        "notes": "Zero-shot naked Opus (28-word system prompt) — render failed: Render Error: Manim process timed out after 120 seconds.",
+        "render_duration_sec": 148.28,
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
       },
       "system_metrics": {
         "render_success": true,
-        "render_duration_sec": 445.2,
-        "code_lines": 312,
-        "deprecated_api_count": 0,
-        "bj_score": 91,
-        "refining_iterations": 2
+        "video_duration_sec": 103.0,
+        "code_lines": 279,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q09_sierpinski",
+      "topic": "Sierpinski 三角形（遞迴 4 層）",
+      "topic_en": "Sierpinski triangle recursive 4 levels",
+      "topic_prompt": "繪製 Sierpinski 三角形。請從一個大的等邊三角形開始，每一輪將每個三角形分成四個小三角形並移除中間那個（保留三個角落的小三角形），重複這個遞迴過程四次。",
+      "opus_video_url": "/static/videos/naked_opus/Q09_sierpinski.mp4",
+      "system_video_url": "/static/videos/old_rag/Q09_sierpinski.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "gen_time_sec": 14.75,
+        "render_duration_sec": 14.75,
+        "code_lines": null,
+        "video_duration_sec": 12.67,
+        "video_resolution": "854x480",
+        "notes": "Zero-shot naked Opus (28-word system prompt)",
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
+      },
+      "system_metrics": {
+        "render_success": true,
+        "gen_time_sec": 125.31,
+        "render_duration_sec": null,
+        "code_lines": 140,
+        "video_duration_sec": 60.93,
+        "video_resolution": "854x480",
+        "vision_qa_verdict": "FAIL",
+        "llm_call_count": null,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": null,
+        "notes": null
+      }
+    },
+    {
+      "id": "Q10_pendulum_phase",
+      "topic": "單擺：時域擺動 vs 相位空間",
+      "topic_en": "Pendulum: time-domain swing vs phase space",
+      "topic_prompt": "視覺化單擺運動。請左右並排兩張圖：左圖顯示擺角 θ 隨時間 t 的變化（時域曲線），右圖顯示相位空間（橫軸 θ，縱軸角速度 dθ/dt 形成橢圓）。兩張圖同步演化，呈現同一單擺的兩種視角。",
+      "opus_video_url": "/static/videos/naked_opus/Q10_pendulum_phase.mp4",
+      "system_video_url": "/static/videos/old_rag/Q10_pendulum_phase.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "gen_time_sec": 18.01,
+        "render_duration_sec": 18.01,
+        "code_lines": null,
+        "video_duration_sec": null,
+        "video_resolution": null,
+        "notes": "Zero-shot naked Opus (28-word system prompt) — render failed: ValueError: latex error converting to dvi. See log output above or the log file:",
+        "vision_qa_verdict": null,
+        "llm_call_count": 1,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": 0
+      },
+      "system_metrics": {
+        "render_success": true,
+        "gen_time_sec": 137.91,
+        "render_duration_sec": null,
+        "code_lines": 146,
+        "video_duration_sec": 54.8,
+        "video_resolution": "854x480",
+        "vision_qa_verdict": "FAIL",
+        "llm_call_count": null,
+        "total_prompt_tokens": null,
+        "total_completion_tokens": null,
+        "refining_iterations": 0,
+        "rag_examples_retrieved": null,
+        "notes": null
       }
     }
   ],
-  "generated_at": "2026-05-25T00:00:00+08:00"
+  "generated_at": "2026-05-26T12:30:00+08:00",
+  "summary": {
+    "total_topics": 10,
+    "system_render_success": 10,
+    "naked_render_success": 8,
+    "note": "Q01/Q02/Q06 已替換為精修版（exhibition_demo/improved/）"
+  }
 }
