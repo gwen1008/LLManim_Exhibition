@@ -6,7 +6,7 @@ from ..core.llm_client import LLMClient
 from .templates import PLANNER_SYSTEM_PROMPT, OPUS_PLANNER_SYSTEM_PROMPT
 
 # Strict allowlist — new aliases routing to claude-opus must be added here explicitly.
-_OPUS_PLANNER_ALIASES = {"claude-code", "anthropic/claude-opus-4-7"}
+_OPUS_PLANNER_ALIASES = {"claude-code", "anthropic/claude-opus-4-7", "anthropic/claude-opus-4-8"}
 _OPUS_COMPACT_ALIASES = {"claude-code-planner-compact"}
 _OPUS_FULL_ALIASES    = {"claude-code-planner", "claude-code-planner-full"}
 

@@ -135,7 +135,7 @@ class BenchmarkJudge:
     TILE_H = 270
 
     DEFAULT_PASSES = 3
-    DEFAULT_MODEL = "claude-opus-4-7"
+    DEFAULT_MODEL = "claude-opus-4-8"
 
     _SYSTEM = """You are an expert benchmark judge for AI-generated math
 educational animations. You compare a CANDIDATE animation against a BENCHMARK

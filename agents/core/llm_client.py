@@ -105,6 +105,7 @@ class LLMClient:
             "anthropic/claude-haiku-4-5-20251001": {"input": 1.00, "output": 5.00},
             "anthropic/claude-sonnet-4-6": {"input": 1.09, "output": 15.00},
             "anthropic/claude-opus-4-7": {"input": 5.00, "output": 25.00},
+            "anthropic/claude-opus-4-8": {"input": 5.00, "output": 25.00},
             "google/gemini-2.5-flash": {"input": 0.10, "output": 0.40},
             "google/gemini-2.5-pro-preview": {"input": 1.25, "output": 10.00},
             "openai/gpt-5.5": {"input": 5.00, "output": 30.00},
@@ -152,7 +153,7 @@ class LLMClient:
             # Groq model
             return self._call_groq(model, system_prompt, user_prompt, temperature=req_temp, json_mode=json_mode)
 
-    def _call_claude_code(self, system_prompt: str, user_prompt: str, claude_model: str = "claude-opus-4-7") -> str:
+    def _call_claude_code(self, system_prompt: str, user_prompt: str, claude_model: str = "claude-opus-4-8") -> str:
         import subprocess, json
 
         import shutil
@@ -195,11 +196,11 @@ class LLMClient:
             c_create = usage.get("cache_creation_input_tokens", 0)
             input_tok = usage.get("input_tokens", 0) + c_read + c_create
             output_tok = usage.get("output_tokens", 0)
-            self._update_stats("anthropic/claude-opus-4-7", input_tok, output_tok)
+            self._update_stats(f"anthropic/{claude_model}", input_tok, output_tok)
 
             if self.debug:
                 print(f"\n" + "-"*30)
-                print(f"🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)")
+                print(f"🤖 [模型]: {claude_model} (Claude Code Subscription / 月費)")
                 print(f"⏱️  [API 耗時]: {elapsed:.2f} 秒")
                 cache_str = ""
                 if c_read > 0: cache_str = f" [🔥 快取命中: {c_read:,}]"
