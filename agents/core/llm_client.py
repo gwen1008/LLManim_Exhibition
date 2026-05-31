@@ -156,7 +156,7 @@ class LLMClient:
         import subprocess, json
 
         import shutil
-        claude_bin = os.getenv("CLAUDE_BIN") or shutil.which("claude") or "/Users/liaozhenting/.local/bin/claude"
+        claude_bin = os.getenv("CLAUDE_BIN") or shutil.which("claude") or r"C:\Users\gwenw\.local\bin\claude.exe"
         claude_cmd = [
             claude_bin, "-p", user_prompt.strip(),
             "--output-format", "json",

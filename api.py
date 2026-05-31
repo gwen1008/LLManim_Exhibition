@@ -17,7 +17,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -208,16 +208,15 @@ async def serve_video(filename: str):
     return FileResponse(str(path), media_type="video/mp4")
 
 
-# SPA fallback — serve index.html for all non-API routes (production build)
+# SPA fallback — serve static assets and index.html for all non-API routes
 FRONTEND_DIST = Path("frontend/dist")
 
 @app.get("/{full_path:path}")
 async def spa_fallback(full_path: str):
+    candidate = FRONTEND_DIST / full_path
+    if candidate.exists() and candidate.is_file():
+        return FileResponse(str(candidate))
     index = FRONTEND_DIST / "index.html"
     if index.exists():
-        return HTMLResponse(index.read_text())
+        return HTMLResponse(index.read_text(encoding="utf-8"))
     raise HTTPException(status_code=404, detail="frontend not built yet")
-
-
-if FRONTEND_DIST.exists():
-    app.mount("/assets", StaticFiles(directory=str(FRONTEND_DIST / "assets")), name="assets")
