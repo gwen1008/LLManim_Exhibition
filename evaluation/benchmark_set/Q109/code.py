@@ -3,82 +3,109 @@
 from manim import *
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Non-blocking subtitle: shows in parallel with animation via add_updater."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
+    FADE_DURATION = 0.15
 
     def __init__(self, scene, font_size=28):
+        import re
         self.scene = scene
         self.font_size = font_size
-        self._current = None
-        self._y = 3.2 * DOWN
+        self._re = re
+        self._active_drivers = []
 
-    def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
+    def _split_sentences(self, text):
+        parts = self._re.split(r'([，。！？,\.!?]+)', str(text))
         sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
+        for i in range(0, len(parts) - 1, 2):
+            sentences.append((parts[i] + parts[i + 1]).strip())
         if len(parts) % 2 == 1 and parts[-1].strip():
             sentences.append(parts[-1].strip())
+        return [s for s in sentences if s]
 
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
+    def _make_mob(self, text):
+        text_mob = Text(text, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if mob.width > self.MAX_WIDTH:
+            mob.scale_to_fit_width(self.MAX_WIDTH)
+        return mob
+
+    def show(self, text_str, run_time=1.0):
+        """Non-blocking subtitle display for run_time seconds."""
+        self._clear_active()
+        sentences = self._split_sentences(text_str)
         if not sentences:
             return
+        total_chars = sum(len(s) for s in sentences)
 
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
+        intervals = []
+        cursor = 0.0
+        for s in sentences:
+            seg = run_time * (len(s) / max(1, total_chars))
+            intervals.append((cursor, cursor + seg))
+            cursor += seg
 
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
+        mobs = []
+        for s, _ in zip(sentences, intervals):
+            m = self._make_mob(s)
+            m.set_opacity(0)
+            self.scene.add(m)
+            mobs.append(m)
 
-        for idx, s in enumerate(sentences):
+        driver = Dot(radius=0.001).set_opacity(0).move_to(LEFT * 100)
+        driver._sm_elapsed = 0.0
+        driver._sm_run_time = run_time
+        driver._sm_mobs = mobs
+        driver._sm_intervals = intervals
+        driver._sm_fade = self.FADE_DURATION
+        driver._sm_scene = self.scene
 
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
+        def _sub_updater(mob, dt):
+            mob._sm_elapsed += dt
+            t = mob._sm_elapsed
+            for i, (start, end) in enumerate(mob._sm_intervals):
+                tm = mob._sm_mobs[i]
+                fd = mob._sm_fade
+                if t < start:
+                    op = 0.0
+                elif t < start + fd:
+                    op = (t - start) / fd
+                elif t < end - fd:
+                    op = 1.0
+                elif t < end:
+                    op = (end - t) / fd
+                else:
+                    op = 0.0
+                tm.set_opacity(max(0.0, min(1.0, op)))
+            if t >= mob._sm_run_time + 0.05:
+                mob.clear_updaters()
+                for tm in mob._sm_mobs:
+                    if tm in mob._sm_scene.mobjects:
+                        mob._sm_scene.remove(tm)
+                if mob in mob._sm_scene.mobjects:
+                    mob._sm_scene.remove(mob)
 
-            is_last = (idx == n - 1)
+        driver.add_updater(_sub_updater)
+        self.scene.add(driver)
+        self._active_drivers.append(driver)
 
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
+    def _clear_active(self):
+        for d in list(self._active_drivers):
+            try:
+                d.clear_updaters()
+                for m in getattr(d, "_sm_mobs", []):
+                    if m in self.scene.mobjects:
+                        self.scene.remove(m)
+                if d in self.scene.mobjects:
+                    self.scene.remove(d)
+            except Exception:
+                pass
+        self._active_drivers.clear()
 
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
-        if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
-            self._current = None
-
+    def clear(self, run_time=0.0):
+        self._clear_active()
 
 class SceneInstrumentor:
     """Auto-injected by RefiningLoop.pre_render_patch to quantitatively track object overlap."""
@@ -162,49 +189,44 @@ class GeneratedScene(Scene):
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/The_sum_of_the_great_29cd909bc3/step_00.mp3")  # [auto-injected] duration=7.90s
         _audio_dur_0 = 7.90  # [audio-sync] actual TTS duration
-        # Step 1
         self.set_subtitle("我們先對 36、60、126 做質因數分解。", run_time=_audio_dur_0)
+        # Step 1
         anim_time_1 = 1.5
         self.play(Write(title), run_time=1.5)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.5)
-        self.wait(max(0.1, remaining_1))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/The_sum_of_the_great_29cd909bc3/step_01.mp3")  # [auto-injected] duration=12.82s
+        self.wait(max(0.1, _audio_dur_0 - 1.50))
         _audio_dur_1 = 12.82  # [audio-sync] actual TTS duration
+        self.set_subtitle("36 = 2² × 3²；60 = 2² × 3 × 5；126 = 2 × 3² × 7。", run_time=_audio_dur_1)
         # Step 2
-        self.set_subtitle("36 等於 2 平方乘 3 平方；60 等於 2 平方乘 3 乘 5；126 等於 2 乘 3 平方乘 7。", run_time=_audio_dur_1)
         anim_time_2 = 3.5
         self.play(LaggedStart(Write(fact36), Write(fact60), Write(fact126), lag_ratio=0.4, run_time=3.5))
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.5)
-        self.wait(max(0.1, remaining_2))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/The_sum_of_the_great_29cd909bc3/step_02.mp3")  # [auto-injected] duration=8.95s
+        self.wait(max(0.1, _audio_dur_1 - 3.50))
         _audio_dur_2 = 8.95  # [audio-sync] actual TTS duration
+        self.set_subtitle("最大公因數取共同質因數的最低次方：2 × 3 = 6。", run_time=_audio_dur_2)
         # Step 3
-        self.set_subtitle("最大公因數取共同質因數的最低次方：2 乘 3 等於 6。", run_time=_audio_dur_2)
         self.play(FadeOut(fact36), FadeOut(fact60), FadeOut(fact126))
         anim_time_3 = 2.5 + 1.0 + 0.5
         self.play(Write(gcd_eq), run_time=2.5)
         self.play(Circumscribe(gcd_eq, color=GREEN), run_time=1.0)
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.5)
-        self.wait(max(0.1, remaining_3))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/The_sum_of_the_great_29cd909bc3/step_03.mp3")  # [auto-injected] duration=10.94s
+        self.wait(max(0.1, _audio_dur_2 - 4.50))
         _audio_dur_3 = 10.94  # [audio-sync] actual TTS duration
+        self.set_subtitle("最小公倍數取所有質因數的最高次方：2² × 3² × 5 × 7 = 1260。", run_time=_audio_dur_3)
         # Step 4
-        self.set_subtitle("最小公倍數取所有質因數的最高次方：2 平方乘 3 平方乘 5 乘 7 等於 1260。", run_time=_audio_dur_3)
         anim_time_4 = 2.5 + 1.0
         self.play(Write(lcm_eq), run_time=2.5)
         self.play(Circumscribe(lcm_eq, color=BLUE), run_time=1.0)
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.5)
-        self.wait(max(0.1, remaining_4))
 
         self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/The_sum_of_the_great_29cd909bc3/step_04.mp3")  # [auto-injected] duration=7.73s
+        self.wait(max(0.1, _audio_dur_3 - 3.50))
         _audio_dur_4 = 7.73  # [audio-sync] actual TTS duration
+        self.set_subtitle("將 GCD 與 LCM 相加，6 + 1260 = 1266。", run_time=_audio_dur_4)
         # Step 5
-        self.set_subtitle("將 GCD 與 LCM 相加，6 加 1260 等於 1266。", run_time=_audio_dur_4)
         anim_time_5 = 2.0 + 1.0
         self.play(Write(sum_eq), run_time=2.0)
         self.play(Create(box), FadeIn(caption), run_time=1.0)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.5)
-        self.wait(max(0.1, remaining_5))
+        self.wait(max(0.1, _audio_dur_4 - 3.00))

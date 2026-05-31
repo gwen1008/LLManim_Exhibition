@@ -1,0 +1,13 @@
+
+🚀 v2 batch: 1 topics × arms=both (dry_run=False)
+
+=== [Q01_sin_squared_integral] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Evaluate the integral of sin squared x from 0 to pi step by step. First, state the integral. Second, apply the half-angl...
+  → success=False | exit=0 | 148.4s
+
+=== [Q01_sin_squared_integral] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q01_sin_squared_integral --render
+  → success=True | exit=0 | 24.5s
+
+✅ DONE in 173s. Summary at /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo_v2/batch_summary.json

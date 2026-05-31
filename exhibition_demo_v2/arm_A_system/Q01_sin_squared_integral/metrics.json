@@ -1,0 +1,12 @@
+{
+  "topic_id": "Q01_sin_squared_integral",
+  "topic_en": "Evaluate the integral of sin squared x from 0 to pi step by step. First, state the integral. Second, apply the half-angle identity sin squared x equals one minus cosine of two x all over two. Third, split into two simpler integrals. Fourth, integrate each term to get x over two minus sine of two x over four. Fifth, substitute the bounds zero and pi. Sixth, simplify to get the final answer pi over two. Also show the sin squared curve plotted on axes and shade the area under it.",
+  "topic_zh": "計算定積分 sin²(x) 從 0 到 π，使用半角公式化簡",
+  "arm": "system",
+  "success": true,
+  "elapsed_sec": 133.1,
+  "exit_code": 0,
+  "code_lines": 289,
+  "video_path": "exhibition_demo_v2/arm_A_system/Q01_sin_squared_integral/video.mp4",
+  "timestamp": "2026-05-26 03:38:26"
+}

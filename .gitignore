@@ -131,3 +131,54 @@ evaluation/benchmark_set/**/*.mp4
 
 # Reference papers (13MB, store externally)
 參考文獻/
+
+# Time-stamped manual backup snapshots (2026-05-25)
+*.bak_*
+*.llm-bak
+*.overlap-bak
+*.timing-bak
+*.tts-bak
+*.v2-bak
+evaluation/backup_*/
+
+# Benchmark per-question raw assets (regenerated, not source-of-truth)
+evaluation/benchmark_set/Q*/raw/audio.aac
+evaluation/benchmark_set/Q*/raw/tts_regen/
+
+# Benchmark finalize pipeline scratch logs (keep .py/.sh, drop logs/previews)
+evaluation/benchmark_set/finalize.log
+evaluation/benchmark_set/remux*.log
+evaluation/benchmark_set/subtitle_rewrite_*_preview.txt
+evaluation/benchmark_set/subtitle_scan_report.md
+evaluation/benchmark_set/subtitle_rewrite_preview.txt
+evaluation/benchmark_set/math_check_report.md
+evaluation/benchmark_set/math_check_results.json
+evaluation/benchmark_set/llm_results.json
+evaluation/benchmark_set/review.html
+
+# BJ A/C 評分 session 一次性輸出（結果已歸檔 memory）
+evaluation/bj_AvsC_*.log
+evaluation/bj_AvsC_*/
+evaluation/bj_AvsC_*.html
+evaluation/bj_outlier_*/
+evaluation/bj_outliers_*.html
+evaluation/bj_acc_diagnosis*.md
+evaluation/compare_variant*_vs_variant*.html
+evaluation/compare_variant*_vs_variant*.md
+evaluation/export_judge_analysis.py
+evaluation/gen_bj_AvsC_full.py
+evaluation/regen_opus_summary.py
+evaluation/rescore_opus_*.log
+evaluation/rescore_opus_summary_*.md
+evaluation/rescore_with_opus.py
+evaluation/run_15_judge.py
+evaluation/reports/15judge_*/
+evaluation/golden_set/benchmark_judge_cache.*.json
+
+# Nested repo accident (2026-05-23) — do not track, do not auto-add
+/LLManim_Agent/
+
+# Local exhibition offline experiment scratch (2026-05-24) — 41MB, 10 topics × 2 arms
+# Not the same as exhibition/ (live SPA, tracked). This is pre-rendered comparison output.
+exhibition_demo/
+

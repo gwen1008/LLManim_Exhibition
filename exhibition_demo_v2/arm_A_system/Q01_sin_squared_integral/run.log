@@ -1,0 +1,186 @@
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-05-26_03-36-14_Evaluate_the_integral_of_sin_squared_x_from_0_to_p.log
+
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+⚠️  RAG Warning: Could not connect to Weaviate at localhost:8080. Error: Connection to Weaviate failed. Details: Error: [Errno 61] Connection refused. 
+Is Weaviate running and reachable at http://localhost:8080?
+📏 [RAG Debug] Total RAG context length: 0 chars (~0 tokens)
+⏱  [RAG] 0.0s
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 42.01 秒
+📊 [Token 統計]: 輸入 15858 (純輸入 2) [🔥 快取命中: 15,856] | 輸出 4467
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete" pedagogy="9" feasibility="9" engagement="8">Show the sin²x curve with shaded area on axes alongside an in-place transforming equation chain so viewers connect the symbolic result π/2 to the visible area.</branch>
+  <branch id="B" type="Abstract" pedagogy="7" feasibility="9" engagement="6">Pure symbolic derivation with TransformMatchingTex only, no graph.</branch>
+  <selection>
+    <winner>A</winner>
+    <reason>Linking the analytic result to a shaded area gives intuition that pure symbols cannot.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+Title sits in HEADER; the equation chain lives in the upper CONTENT band (y≈+1.2) and morphs in place via ReplacementTransform to avoid stacking; the small axes with the sin²x curve and shaded area occupy the lower CONTENT band (y≈-1.4) so both symbolic and geometric views coexist without entering the subtitle zone.
+============================================================
+
+⏱  [Planner] 42.0s
+📉 [Compression] Planner Context Reduced: 10378 chars
+📄 [Blueprint] 已儲存完整劇本至: stable_outputs/blueprint.json
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+
+🛠️  [正在處理的錯誤/要求]:🎙️ 開始生成語音 (Azure: True)...
+
+
+
+═══════════════════════════════════════════════════════════════════
+🏗️ PLANNER SPATIAL HINTS (Use this for layout ideas)
+═══════════════════════════════════════════════════════════════════
+PLANNER SPATIAL HINTS:
+<branch id="A" type="Concrete" pedagogy="9" feasibility="9" engagement="8">Show the si...
+
+🧠 生成代碼中 (claude-code)... (System Msg Length: 3498)
+  - 語音片段 0: 5.11s | We begin with t...
+  - 語音片段 1: 3.29s | Here is the int...
+  - 語音片段 2: 5.74s | Let's plot sine...
+  - 語音片段 3: 6.67s | Apply the half-...
+  - 語音片段 4: 6.31s | Split the integ...
+  - 語音片段 5: 5.26s | Integrate each ...
+  - 語音片段 6: 5.09s | Substitute the ...
+  - 語音片段 7: 5.06s | Simplifying eve...
+  - 語音片段 8: 5.64s | This value, pi ...
+✅ 語音處理完成！合併音檔: media/audio/Evaluate_the_integra_1f23b7486f/final_narrative.mp3
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 25.78 秒
+📊 [Token 統計]: 輸入 13095 (純輸入 2) [✍️ 建立快取: 13,093] | 輸出 2769
+------------------------------
+✅ [Coder] T=0.3 通過編譯檢查
+✅ 語音處理完成！合併音檔: /Users/liaozhenting/Desktop/LLManim_Agent/media/audio/Evaluate_the_integra_1f23b7486f/final_narrative.mp3
+🎵 [Audio Post-Inject] 成功注入 9 個 self.add_sound() + set_subtitle run_time 同步
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+⚠️  RAG Warning: Could not connect to Weaviate at localhost:8080. Error: Connection to Weaviate failed. Details: Error: [Errno 61] Connection refused. 
+Is Weaviate running and reachable at http://localhost:8080?
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3 | layout retries: 0/2)
+══════════════════════════════════════════════════
+🔧 [Shift-Left] Scaled 9 step(s) anim_time to ≥ 0.7 × audio_dur
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+  💡 [Advisory] Line 153 [NO_CLEANUP_ADVISORY]: Found 6 object entry animations (Create/Write/FadeIn) but 0 exit animations (FadeOut/Uncreate). Objects may accumulate on screen causing visual clutter. Consider adding FadeOut calls when transitioning between concepts.
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14372 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (8fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (9.8s / 39.1s / 68.4s / 92.9s)
+📐 [Layout Gate] PASS (score=5)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: openai/gpt-4o (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 4.46 秒
+📊 [Token 統計]: 輸入 8256 | 輸出 156
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{"visual_rationale":"The frames depict the step-by-step evaluation of the integral of sin squared x from 0 to pi. The top frames show the initial integral and its transformation using the half-angle identity. The bottom frames show further simplification and the final result, with a consistent plot of the sin squared curve and shaded area under it.","temporal_analysis":"The transition from TL to TR introduces the half-angle identity transformation. From TR to BL, the integral is split into simpler parts. Finally, from BL to BR, the solution is simplified to the final answer, with the shaded area consistently displayed.","confidence_score":5,"verdict":"PASS","overall_critique":"All elements are correctly displayed and transitions are smooth, matching the expected sequence.","defects":[]}
+========================================
+
+✅ 視覺審查通過！影片品質符合標準。(confidence=5/5)
+🌟 [High-Quality Render] 預覽驗證無誤，啟動最終高品質 15fps 算繪...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 14372 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 31.25 秒
+📂  歸檔目錄: stable_outputs
+    🎥 Evaluate_the_integral_of_sin_squared_x_from_0_to_p_20260526_033753.mp4
+════════════════════════════════════════
+
+
+🏛️  [階段 4: FinalJudge] 啟動兩階段品質評分...
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+📐 [FinalJudge] Scene-state log provided: /Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 14.33 秒
+📊 [Token 統計]: 輸入 12199 (純輸入 2) [✍️ 建立快取: 12,197] | 輸出 978
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=1 | events=5
+  · [E1 w=0.5] Title text 'Integral of sin^2(x) from 0 to pi' appears at top of scree
+  · [E2 w=1.0] Equation ∫₀^π sin²x dx appears in upper area and is circumscribed in y
+  · [E3 w=1.0] A set of axes with a blue sin²(x) curve and teal shaded area appears i
+  · [E4 w=1.0] The equation transforms step-by-step through the half-angle form to th
+  · [E5 w=1.0] A yellow rectangle surrounds the final answer π/2
+  ❓ extracted_answer='π/2' (gt_match=None)
+  🟡 [LAYOUT_ERROR] eq3 is a long equation (two separate integrals with fractions) scaled only to 0.
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Step-based sampling: 9 steps → 6 frames
+  [pass 0] Opus 14.9s in=19835 out=865
+  [pass 1] Opus 17.0s in=19847 out=971
+  [pass 2] Opus 18.4s in=19835 out=901
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=2/5 confirmed → concept=2; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Title text 'Integral of sin^2(x) from 0 to pi' appears at to
+  ❌ E2 votes=[0, 0, 0] unan=1.00 — Equation ∫₀^π sin²x dx appears in upper area and is circumsc
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A set of axes with a blue sin²(x) curve and teal shaded area
+  ❌ E4 votes=[0, 0, 0] unan=1.00 — The equation transforms step-by-step through the half-angle 
+  ❌ E5 votes=[0, 0, 0] unan=1.00 — A yellow rectangle surrounds the final answer π/2
+concept_alignment = 2 (alignment=0.3333333333333333)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+📐 [FinalJudge Phase 3] Layout PASS | score=5 | violations=0
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=2 | visual_clarity=4 | spatial_layout=5
+🏛️  [FinalJudge] Weighted Total: 4.25
+🏛️  [FinalJudge] Verdict: FAIL (reason: low_dimension_concept_alignment)
+==================================================
+
+⏱  [FinalJudge] 32.9s
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 7
+Total Tokens: 120,032
+  - Prompt: 108,925
+  - Completion: 11,107
+----------------------------------------
+Estimated Cost: $0.782114 USD
+約合台幣: NT$ 24.2455
+========================================
+

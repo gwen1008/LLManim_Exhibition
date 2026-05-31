@@ -5,82 +5,109 @@
 from manim import *
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Non-blocking subtitle: shows in parallel with animation via add_updater."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
+    FADE_DURATION = 0.15
 
     def __init__(self, scene, font_size=28):
+        import re
         self.scene = scene
         self.font_size = font_size
-        self._current = None
-        self._y = 3.2 * DOWN
+        self._re = re
+        self._active_drivers = []
 
-    def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
+    def _split_sentences(self, text):
+        parts = self._re.split(r'([，。！？,\.!?]+)', str(text))
         sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
+        for i in range(0, len(parts) - 1, 2):
+            sentences.append((parts[i] + parts[i + 1]).strip())
         if len(parts) % 2 == 1 and parts[-1].strip():
             sentences.append(parts[-1].strip())
+        return [s for s in sentences if s]
 
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
+    def _make_mob(self, text):
+        text_mob = Text(text, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if mob.width > self.MAX_WIDTH:
+            mob.scale_to_fit_width(self.MAX_WIDTH)
+        return mob
+
+    def show(self, text_str, run_time=1.0):
+        """Non-blocking subtitle display for run_time seconds."""
+        self._clear_active()
+        sentences = self._split_sentences(text_str)
         if not sentences:
             return
+        total_chars = sum(len(s) for s in sentences)
 
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
+        intervals = []
+        cursor = 0.0
+        for s in sentences:
+            seg = run_time * (len(s) / max(1, total_chars))
+            intervals.append((cursor, cursor + seg))
+            cursor += seg
 
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
+        mobs = []
+        for s, _ in zip(sentences, intervals):
+            m = self._make_mob(s)
+            m.set_opacity(0)
+            self.scene.add(m)
+            mobs.append(m)
 
-        for idx, s in enumerate(sentences):
+        driver = Dot(radius=0.001).set_opacity(0).move_to(LEFT * 100)
+        driver._sm_elapsed = 0.0
+        driver._sm_run_time = run_time
+        driver._sm_mobs = mobs
+        driver._sm_intervals = intervals
+        driver._sm_fade = self.FADE_DURATION
+        driver._sm_scene = self.scene
 
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
+        def _sub_updater(mob, dt):
+            mob._sm_elapsed += dt
+            t = mob._sm_elapsed
+            for i, (start, end) in enumerate(mob._sm_intervals):
+                tm = mob._sm_mobs[i]
+                fd = mob._sm_fade
+                if t < start:
+                    op = 0.0
+                elif t < start + fd:
+                    op = (t - start) / fd
+                elif t < end - fd:
+                    op = 1.0
+                elif t < end:
+                    op = (end - t) / fd
+                else:
+                    op = 0.0
+                tm.set_opacity(max(0.0, min(1.0, op)))
+            if t >= mob._sm_run_time + 0.05:
+                mob.clear_updaters()
+                for tm in mob._sm_mobs:
+                    if tm in mob._sm_scene.mobjects:
+                        mob._sm_scene.remove(tm)
+                if mob in mob._sm_scene.mobjects:
+                    mob._sm_scene.remove(mob)
 
-            is_last = (idx == n - 1)
+        driver.add_updater(_sub_updater)
+        self.scene.add(driver)
+        self._active_drivers.append(driver)
 
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
+    def _clear_active(self):
+        for d in list(self._active_drivers):
+            try:
+                d.clear_updaters()
+                for m in getattr(d, "_sm_mobs", []):
+                    if m in self.scene.mobjects:
+                        self.scene.remove(m)
+                if d in self.scene.mobjects:
+                    self.scene.remove(d)
+            except Exception:
+                pass
+        self._active_drivers.clear()
 
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
-        if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
-            self._current = None
-
+    def clear(self, run_time=0.0):
+        self._clear_active()
 
 class SceneInstrumentor:
     """Auto-injected by RefiningLoop.pre_render_patch to quantitatively track object overlap."""
@@ -152,79 +179,74 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/__frac_3__4___17702db6bd/step_00.mp3")  # [auto-injected] duration=7.94s
-        _audio_dur_0 = 7.94  # [audio-sync] actual TTS duration
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/benchmark_set/Q024/raw/tts_regen/step_00.mp3")  # [regen] duration=7.75s
+        _audio_dur_0 = 7.75  # [audio-sync] actual TTS duration
+        self.set_subtitle("我們從這個算式開始：-7/18 × 2 4/7，再 ÷ -1 1/3。", run_time=_audio_dur_0)
         # Step 1
         title = Text("Mixed Fraction Multiplication & Division", color=WHITE, font_size=34).to_edge(UP, buff=0.5)
         eq_original = MathTex(r"\left(-\frac{7}{18}\right) \times 2\frac{4}{7} \div \left(-1\frac{1}{3}\right)", color=WHITE).scale(0.9).move_to(ORIGIN)
 
-        self.set_subtitle("我們從這個算式開始：負十八分之七乘以二又七分之四，再除以負一又三分之一。", run_time=_audio_dur_0)
         anim_time_1 = 2.5
         self.play(Write(title), run_time=0.8)
         self.play(Write(eq_original), run_time=2.5)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 - 0.8 + 0.5)
-        self.wait(max(0.1, remaining_1))
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/__frac_3__4___17702db6bd/step_01.mp3")  # [auto-injected] duration=11.47s
-        _audio_dur_1 = 11.47  # [audio-sync] actual TTS duration
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/benchmark_set/Q024/raw/tts_regen/step_01.mp3")  # [regen] duration=10.97s
+        self.wait(max(0.1, _audio_dur_0 - 3.30))
+        _audio_dur_1 = 10.97  # [audio-sync] actual TTS duration
+        self.set_subtitle("首先，將每個帶分數化為假分數。2 4/7 = 7/18，-1 1/3 = -4/3。", run_time=_audio_dur_1)
         # Step 2
         step_label_1 = Text("Step 1: Convert mixed numbers to improper fractions", color=YELLOW, font_size=26).move_to([0, 1.8, 0])
         explain_1 = Text("2 4/7 = 18/7 and -1 1/3 = -4/3", color=WHITE, font_size=24).move_to([0, -2.3, 0])
         eq_improper = MathTex(r"\left(-\frac{7}{18}\right) \times \frac{18}{7} \div \left(-\frac{4}{3}\right)", color=WHITE).scale(0.9).move_to(ORIGIN)
 
-        self.set_subtitle("首先，將每個帶分數化為假分數。二又七分之四等於十八分之七，負一又三分之一等於負三分之四。", run_time=_audio_dur_1)
         anim_time_2 = 4.0
         self.play(Circumscribe(eq_original, color=YELLOW), run_time=1.2)
         self.play(FadeIn(step_label_1), FadeIn(explain_1), run_time=0.5)
         self.play(ReplacementTransform(eq_original, eq_improper), run_time=2.3)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.5)
-        self.wait(max(0.1, remaining_2))
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/__frac_3__4___17702db6bd/step_02.mp3")  # [auto-injected] duration=10.58s
-        _audio_dur_2 = 10.58  # [audio-sync] actual TTS duration
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/benchmark_set/Q024/raw/tts_regen/step_02.mp3")  # [regen] duration=8.28s
+        self.wait(max(0.1, _audio_dur_1 - 4.00))
+        _audio_dur_2 = 8.28  # [audio-sync] actual TTS duration
+        self.set_subtitle("接著，把除法改為乘以倒數。÷ -4/3 = × -3/4。", run_time=_audio_dur_2)
         # Step 3
         step_label_2 = Text("Step 2: Convert division to multiplication by reciprocal", color=YELLOW, font_size=26).move_to([0, 1.8, 0])
         explain_2 = Text("Dividing by -4/3 is multiplying by -3/4", color=WHITE, font_size=24).move_to([0, -2.3, 0])
         eq_reciprocal = MathTex(r"\left(-\frac{7}{18}\right) \times \frac{18}{7} \times \left(-\frac{3}{4}\right)", color=WHITE).scale(0.9).move_to(ORIGIN)
 
-        self.set_subtitle("接著，把除法改為乘以倒數。除以負三分之四等於乘以負四分之三。", run_time=_audio_dur_2)
         anim_time_3 = 4.0
         self.play(FadeOut(step_label_1), FadeOut(explain_1), run_time=0.5)
         self.play(Indicate(eq_improper, color=RED), run_time=1.0)
         self.play(FadeIn(step_label_2), FadeIn(explain_2), run_time=0.5)
         self.play(ReplacementTransform(eq_improper, eq_reciprocal), run_time=2.0)
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.5)
-        self.wait(max(0.1, remaining_3))
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/__frac_3__4___17702db6bd/step_03.mp3")  # [auto-injected] duration=7.37s
-        _audio_dur_3 = 7.37  # [audio-sync] actual TTS duration
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/benchmark_set/Q024/raw/tts_regen/step_03.mp3")  # [regen] duration=6.65s
+        self.wait(max(0.1, _audio_dur_2 - 4.00))
+        _audio_dur_3 = 6.65  # [audio-sync] actual TTS duration
+        self.set_subtitle("負負得正。前兩個分數相乘剛好消去，結果是 -1。", run_time=_audio_dur_3)
         # Step 4
         step_label_3 = Text("Step 3: Two negatives make a positive; cancel terms", color=YELLOW, font_size=26).move_to([0, 1.8, 0])
         explain_3 = Text("(-7/18) x (18/7) = -1", color=WHITE, font_size=24).move_to([0, -2.3, 0])
         eq_simplified = MathTex(r"(-1) \times \left(-\frac{3}{4}\right)", color=WHITE).scale(0.9).move_to(ORIGIN)
 
-        self.set_subtitle("負負得正。前兩個分數相乘剛好消去，結果是負一。", run_time=_audio_dur_3)
         anim_time_4 = 4.0
         self.play(FadeOut(step_label_2), FadeOut(explain_2), run_time=0.5)
         self.play(Circumscribe(eq_reciprocal, color=BLUE), run_time=1.2)
         self.play(FadeIn(step_label_3), FadeIn(explain_3), run_time=0.5)
         self.play(ReplacementTransform(eq_reciprocal, eq_simplified), run_time=1.8)
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.5)
-        self.wait(max(0.1, remaining_4))
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/media/audio/__frac_3__4___17702db6bd/step_04.mp3")  # [auto-injected] duration=6.48s
-        _audio_dur_4 = 6.48  # [audio-sync] actual TTS duration
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/evaluation/benchmark_set/Q024/raw/tts_regen/step_04.mp3")  # [regen] duration=6.46s
+        self.wait(max(0.1, _audio_dur_3 - 4.00))
+        _audio_dur_4 = 6.46  # [audio-sync] actual TTS duration
+        self.set_subtitle("最後，-1 × -3/4，得到正的答案：3/4。", run_time=_audio_dur_4)
         # Step 5
         step_label_4 = Text("Step 4: Final result", color=YELLOW, font_size=26).move_to([0, 1.8, 0])
         explain_4 = Text("(-1) x (-3/4) = 3/4", color=WHITE, font_size=24).move_to([0, -2.3, 0])
         eq_final = MathTex(r"= \frac{3}{4}", color=GREEN).scale(0.9).move_to(ORIGIN)
 
-        self.set_subtitle("最後，負一乘以負四分之三，得到正的答案：四分之三。", run_time=_audio_dur_4)
         anim_time_5 = 3.5
         self.play(FadeOut(step_label_3), FadeOut(explain_3), run_time=0.5)
         self.play(FadeIn(step_label_4), FadeIn(explain_4), run_time=0.5)
         self.play(ReplacementTransform(eq_simplified, eq_final), run_time=1.5)
         answer_box = SurroundingRectangle(eq_final, color=GREEN, buff=0.2)
         self.play(Create(answer_box), run_time=1.0)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.5)
-        self.wait(max(0.1, remaining_5))
+        self.wait(max(0.1, _audio_dur_4 - 3.50))

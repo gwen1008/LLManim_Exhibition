@@ -8,10 +8,10 @@
 
 ## 1. 當前焦點
 
-<!-- SECTION_1_UPDATED_AT: 2026-05-21 -->
-- **Active**: A vs C BJ 評分跑完（30/30 paired，A mean=84.1 / C mean=83.7 / C−A=-0.3，C 勝 14 平 5 負 11，方差大：Q075 +78、Q106 -35、Q092 -30）；FJ 維修 P0-2/P1-2/P1-1 完工；report 在 `evaluation/bj_AvsC_20260521_201243/`
-- **Next**: 下個 session 討論用過去 ele/mid/high run（最大批：`runs/20260516_084003` 20 部、`runs/20260516_145823` 18 部）做 FJ/BJ 判分能力 meta-evaluation；BJ runner `--only-judgable` 有 bug——寫死要求 A+B 同時 present，A+C 配對會全 skip（line 222-223），目前 workaround 是不加該 flag
-- **Blocked**: 無
+<!-- SECTION_1_UPDATED_AT: 2026-05-23 -->
+- **Active**: 兩條 track 並行 ——（1）展覽前端：feat/exhibition 分支已 push（dfa4327），spec/mock 就位、等用戶交 10 題清單；（2）Vision prompt-eng：vision/prompt-eng 分支已 push（456c97b），ONBOARDING.md 改寫成 vision track，5 方向順序執行（Opus backend → few-shot → defect code → negative example → CoT 重排），組員從 runs/ 撈 ELEM/MID/HIGH 50 部標 label，Quota ~540 Opus call/組員
+- **Next**: （展覽）2026-05-24 晚交 10 題清單 → 跑 scripts/generate_opus_baseline.py → build_gallery_data.py → exhibition/api.py，deadline 2026-05-26 二晚；（Vision）等組員 onboard，pre-onboarding 要先跟 owner 拍板 claudealt quota cap + 帳號選擇（自己 vs claudealt）
+- **Blocked**: 等用戶交 10 題清單（展覽 baseline 阻塞）；Vision track 無 blocker，等組員人選即可開工
 
 > 改動規則：完成就直接覆寫，不留歷史、不打勾、不加日期。歷史去 git log 查。
 > Section 1 由 `/handoff` slash command 維護。

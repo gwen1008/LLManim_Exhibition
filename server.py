@@ -12,16 +12,23 @@ if hasattr(sys.stdout, "reconfigure"):
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(__file__).parent.resolve()
 app = FastAPI()
 
 _tasks: dict[str, dict] = {}
 
 
 class AnimateRequest(BaseModel):
-    topic: str
+    topic: str = Field(..., min_length=1, max_length=500)
+
+    @field_validator("topic")
+    @classmethod
+    def _no_control_chars(cls, v: str) -> str:
+        if any(ord(c) < 0x20 and c not in "\t\n" for c in v):
+            raise ValueError("topic contains control characters")
+        return v.strip()
 
 
 # (regex_string, stage, status)
@@ -191,9 +198,20 @@ async def stream_events(task_id: str):
     )
 
 
+_VIDEO_ALLOWED_ROOTS = ("stable_outputs", "runs", "exhibition")
+
+
 @app.get("/video/{path:path}")
 async def serve_video(path: str):
-    full = PROJECT_ROOT / path
-    if not full.exists():
+    try:
+        full = (PROJECT_ROOT / path).resolve()
+        rel = full.relative_to(PROJECT_ROOT)
+    except (ValueError, OSError):
+        raise HTTPException(status_code=403, detail="Forbidden")
+    if not rel.parts or rel.parts[0] not in _VIDEO_ALLOWED_ROOTS:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    if full.suffix.lower() != ".mp4":
+        raise HTTPException(status_code=403, detail="Only .mp4 files are served")
+    if not full.is_file():
         raise HTTPException(status_code=404, detail="Video not found")
     return FileResponse(str(full), media_type="video/mp4")

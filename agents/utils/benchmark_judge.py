@@ -25,7 +25,12 @@ import tempfile
 import time
 from typing import Optional
 
-from .pairwise_judge import _extract_frame, _ffprobe_duration, _lenient_json_parse
+from .pairwise_judge import (
+    _extract_frame,
+    _ffprobe_duration,
+    _lenient_json_parse,
+    build_comparison_grid,
+)
 
 
 # ── Cache helpers (module-level so tests can import directly) ────────────────
@@ -104,7 +109,8 @@ LIKERT_OFFSET = {
     "worse":       -20,
     "much_worse":  -40,
     "broken":      -70,
-    "inconclusive": -5,
+    "inconclusive": 0,    # neutral: don't inflate (was -5, which paradoxically lifted
+                          # all-inconclusive cases to ~95 after the +100 base)
 }
 
 # Penalty if Claude's math_score (1–5) is bad, applied as an additional
@@ -224,7 +230,9 @@ Output STRICT JSON only, no markdown fences, no preamble:
             or shutil.which("claude")
             or "/Users/liaozhenting/.local/bin/claude"
         )
-        self._run_as = os.getenv("CLAUDE_RUN_AS_USER", "claudealt")
+        # Empty default: claudealt was retired 2026-05-23 (keychain locked).
+        # Set CLAUDE_RUN_AS_USER explicitly in .env if you really need sudo -u.
+        self._run_as = os.getenv("CLAUDE_RUN_AS_USER", "")
 
     @classmethod
     def _prompt_sig(cls) -> str:
@@ -232,58 +240,16 @@ Output STRICT JSON only, no markdown fences, no preamble:
         rubric/anchor edit auto-invalidates the cache."""
         return hashlib.sha1(cls._SYSTEM.encode("utf-8")).hexdigest()[:8]
 
-    # ── Grid construction ──────────────────────────────────────────────────
+    # ── Grid construction (delegates to shared build_comparison_grid) ──────
     def _build_grid(self, top_video: str, bottom_video: str, out_path: str,
                     durations: Optional[dict] = None) -> str:
-        """Build 2×4 labeled grid; writes JPEG to out_path and returns it.
-
-        `durations` is an optional {video_path: duration_sec} cache so we don't
-        re-ffprobe the same file once per pass.
-        """
-        from PIL import Image, ImageDraw, ImageFont
-
-        durations = durations or {}
-        dur_t = durations.get(top_video) or _ffprobe_duration(top_video)
-        dur_b = durations.get(bottom_video) or _ffprobe_duration(bottom_video)
-        ts_t = [dur_t * p for p in self.SAMPLE_PCTS]
-        ts_b = [dur_b * p for p in self.SAMPLE_PCTS]
-
-        tmpdir = tempfile.mkdtemp(prefix="bjudge_tiles_", dir="/tmp")
-        try:
-            tiles = []
-            for i, ts in enumerate(ts_t):
-                p = os.path.join(tmpdir, f"t{i}.jpg")
-                _extract_frame(top_video, ts, p, self.TILE_W, self.TILE_H)
-                tiles.append((f"T{i+1}", p))
-            for i, ts in enumerate(ts_b):
-                p = os.path.join(tmpdir, f"d{i}.jpg")
-                _extract_frame(bottom_video, ts, p, self.TILE_W, self.TILE_H)
-                tiles.append((f"D{i+1}", p))
-
-            cols, rows = 4, 2
-            canvas = Image.new("RGB", (cols * self.TILE_W, rows * self.TILE_H), "black")
-            try:
-                font = ImageFont.truetype("/System/Library/Fonts/Helvetica.ttc", 36)
-            except Exception:
-                font = ImageFont.load_default()
-            draw = ImageDraw.Draw(canvas)
-            for idx, (label, path) in enumerate(tiles):
-                if not os.path.exists(path):
-                    continue
-                tile = Image.open(path).convert("RGB")
-                x = (idx % cols) * self.TILE_W
-                y = (idx // cols) * self.TILE_H
-                canvas.paste(tile, (x, y))
-                draw.rectangle((x + 5, y + 5, x + 85, y + 52), fill=(0, 0, 0))
-                draw.text((x + 14, y + 9), label, fill="yellow", font=font)
-            canvas.save(out_path, "JPEG", quality=88)
-            try:
-                os.chmod(out_path, 0o644)
-            except OSError:
-                pass
-        finally:
-            shutil.rmtree(tmpdir, ignore_errors=True)
-        return out_path
+        return build_comparison_grid(
+            top_video, bottom_video, out_path,
+            sample_pcts=self.SAMPLE_PCTS,
+            tile_w=self.TILE_W, tile_h=self.TILE_H,
+            durations=durations,
+            tmpdir_prefix="bjudge_tiles_", tmpdir_dir="/tmp",
+        )
 
     # ── Single Opus pass via Claude Code CLI ───────────────────────────────
     def _call_opus(self, grid_path: str, user_prompt: str) -> dict:
@@ -338,8 +304,9 @@ Output STRICT JSON only, no markdown fences, no preamble:
         """Mode across passes. Tiebreak: pick the more pessimistic likert."""
         if not votes:
             return "inconclusive"
-        # Filter valid only
-        filt = [v for v in votes if v in VALID_LIKERTS]
+        # Filter valid only; exclude inconclusive from mode pool so it never wins
+        # ties against real verdicts (it's a non-answer, not a midpoint).
+        filt = [v for v in votes if v in VALID_LIKERTS and v != "inconclusive"]
         if not filt:
             return "inconclusive"
         counter = {}
@@ -350,8 +317,7 @@ Output STRICT JSON only, no markdown fences, no preamble:
         if len(winners) == 1:
             return winners[0]
         # Tiebreak: pick the worst (more conservative) outcome
-        order = ["much_better", "better", "same", "inconclusive",
-                 "worse", "much_worse", "broken"]
+        order = ["much_better", "better", "same", "worse", "much_worse", "broken"]
         for label in reversed(order):
             if label in winners:
                 return label
@@ -571,6 +537,19 @@ Output STRICT JSON only, no markdown fences, no preamble:
             per_dim_scores[dim] = score
             per_dim_modes[dim] = mode
 
+        # P1 guard: vision had no signal on accuracy (e.g. sampled frames missed
+        # the key moments). Without this clamp, all-inconclusive votes ride
+        # math_score=5 (penalty=0) to a free 100. Code review only checks code,
+        # not whether the animation actually rendered the math.
+        acc_votes = dim_votes.get("accuracy", [])
+        inconclusive_ratio = (
+            sum(1 for v in acc_votes if v == "inconclusive") / len(acc_votes)
+            if acc_votes else 0.0
+        )
+        acc_insufficient_signal = inconclusive_ratio >= 0.8
+        if acc_insufficient_signal:
+            per_dim_scores["accuracy"] = min(per_dim_scores["accuracy"], 60)
+
         # ── Deterministic adjustments ──────────────────────────────────────
         # #1: skip the 8-second Opus Phase-1 if caller already has math_score
         # (e.g. RefiningLoop already ran FinalJudge on this candidate).
@@ -615,6 +594,8 @@ Output STRICT JSON only, no markdown fences, no preamble:
                 "bench_layout":  bench_layout,
                 "layout_gap_penalty": layout_penalty,
                 "accuracy_factor": round(accuracy_factor, 3),
+                "acc_inconclusive_ratio": round(inconclusive_ratio, 3),
+                "acc_insufficient_signal": acc_insufficient_signal,
             },
             "confidences": confidences,
             "passes": passes_log,
@@ -631,6 +612,8 @@ Output STRICT JSON only, no markdown fences, no preamble:
             print(f"   math_review:  {math_score}/5  → penalty {math_penalty}")
         if cand_layout is not None and bench_layout is not None:
             print(f"   layout gap:   cand={cand_layout} bench={bench_layout}  → clarity adj {layout_penalty:+d}")
+        if acc_insufficient_signal:
+            print(f"   ⚠️  acc insufficient signal: inconclusive_ratio={inconclusive_ratio:.0%} → acc clamped to ≤60")
         print(f"   accuracy_factor: {accuracy_factor:.2f}  (= min(1, acc/{ACCURACY_GATE_THRESHOLD}))")
         print(f"{'='*60}\n")
 

@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>20 題對比 · Naked Opus vs Full System</title>
+<style>
+  :root {
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    background: #020617;
+    color: #f8fafc;
+    line-height: 1.55;
+  }
+  header {
+    padding: 32px 24px 20px;
+    text-align: center;
+    border-bottom: 1px solid #1e293b;
+    background: radial-gradient(ellipse at top, rgba(99,102,241,0.12), transparent 65%);
+  }
+  header h1 { margin: 0 0 8px; font-size: 28px; letter-spacing: -0.01em; }
+  header p  { margin: 0; color: #94a3b8; font-size: 14px; }
+  .stats {
+    display: inline-flex; gap: 20px; margin-top: 14px;
+    font-family: ui-monospace, "Fira Code", monospace; font-size: 13px;
+  }
+  .stats b { color: #34d399; font-weight: 700; }
+  .filter-bar {
+    display: flex; gap: 8px; justify-content: center; padding: 16px;
+    border-bottom: 1px solid #1e293b; background: rgba(15,23,42,0.6); position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(8px);
+  }
+  .filter-bar button {
+    background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer; font-size: 13px;
+    font-family: inherit; transition: all 0.15s;
+  }
+  .filter-bar button:hover { background: #334155; color: #fff; }
+  .filter-bar button.active { background: #4f46e5; color: #fff; border-color: #6366f1; }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .card:hover { border-color: #334155; }
+  .card.naked-fail { border-left: 4px solid #f43f5e; }
+  .card.both-ok { border-left: 4px solid #64748b; }
+  .card-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 14px 18px; border-bottom: 1px solid #1e293b;
+  }
+  .card-head .id { color: #6366f1; font-family: ui-monospace, monospace; font-size: 12px; }
+  .card-head h3 { margin: 0 0 4px; font-size: 16px; color: #e2e8f0; }
+  .card-head .meta { font-size: 11px; color: #64748b; font-family: ui-monospace, monospace; }
+  .videos {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #1e293b;
+  }
+  .video-cell { background: #000; position: relative; }
+  .video-cell video { width: 100%; height: auto; display: block; aspect-ratio: 16/9; object-fit: contain; }
+  .video-cell .label {
+    position: absolute; top: 6px; left: 8px;
+    background: rgba(0,0,0,0.7); color: #fff; padding: 2px 8px;
+    border-radius: 4px; font-size: 11px; font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+  .video-cell.naked .label { color: #fda4af; }
+  .video-cell.system .label { color: #6ee7b7; }
+  .video-cell .placeholder {
+    aspect-ratio: 16/9; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 8px;
+    color: #94a3b8; font-size: 13px;
+  }
+  .video-cell .placeholder .icon { font-size: 28px; opacity: 0.6; }
+  .stats-row {
+    display: grid; grid-template-columns: 1fr 1fr; padding: 10px 14px;
+    border-top: 1px solid #1e293b; font-size: 12px; color: #94a3b8;
+    font-family: ui-monospace, monospace; gap: 8px;
+  }
+  .stats-row .col { display: flex; gap: 12px; }
+  .stats-row .col span { display: inline-flex; gap: 4px; }
+  .stats-row .ok { color: #34d399; }
+  .stats-row .fail { color: #f87171; }
+  .stats-row b { color: #e2e8f0; font-weight: 600; }
+  .prompt {
+    padding: 10px 18px 14px; font-size: 12px; color: #64748b;
+    border-top: 1px solid #1e293b; max-height: 4em; overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .prompt::before { content: "📝 "; opacity: 0.6; }
+  details { padding: 0; }
+  details summary {
+    list-style: none; cursor: pointer; padding: 6px 18px;
+    font-size: 11px; color: #6366f1; border-top: 1px solid #1e293b;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details[open] summary { color: #818cf8; }
+  details code {
+    display: block; padding: 8px 18px 14px; font-size: 11px;
+    color: #94a3b8; white-space: pre-wrap; word-break: break-word;
+    font-family: ui-monospace, "Fira Code", monospace;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>20 題對比實驗 · <span style="color:#fda4af">Naked Opus</span> vs <span style="color:#6ee7b7">本系統</span></h1>
+  <p>同一題目，左 = Opus zero-shot 直出，右 = Multi-Agent Pipeline</p>
+  <div class="stats">
+    <span>Naked 成功 <b>16/20</b></span>
+    <span>本系統成功 <b>20/20</b></span>
+    <span>平均時長 <b>17.1s</b> vs <b>56.7s</b></span>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="active" data-filter="all">全部 (20)</button>
+  <button data-filter="naked-fail">Naked Crash (4)</button>
+  <button data-filter="both-ok">兩邊都成功 (16)</button>
+</div>
+
+<div class="grid">
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Riemann 和逼近積分</h3>
+      <div class="id">Q01_riemann_sum</div>
+    </div>
+    <div class="meta">81 → 238 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q01_riemann_sum.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q01_riemann_sum.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>16.87</b>s</span>
+      <span>81行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>53.27</b>s</span>
+      <span>238行</span>
+      <span>9動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">計算定積分 ∫₀^π sin(x) dx 的值。請用 Riemann 和（將區間分成多個矩形）的方式視覺化近似過程。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Newton 迭代法求 √2</h3>
+      <div class="id">Q02_newton_iteration</div>
+    </div>
+    <div class="meta">89 → 257 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q02_newton_iteration.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q02_newton_iteration.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>24.33</b>s</span>
+      <span>89行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>61.0</b>s</span>
+      <span>257行</span>
+      <span>11動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">用 Newton 迭代法求 √2 的近似值（即求解方程 x² − 2 = 0）。請視覺化每一步切線如何逐漸逼近真正的根。</div>
+</div>
+<div class="card naked-fail">
+  <div class="card-head">
+    <div>
+      <h3>Taylor 級數逼近 sin(x)</h3>
+      <div class="id">Q03_taylor_sine</div>
+    </div>
+    <div class="meta">62 → 251 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q03_taylor_sine.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>62行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>61.47</b>s</span>
+      <span>251行</span>
+      <span>9動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">用 Taylor 級數逼近 sin(x) 在原點附近的值。請視覺化展示加入越多項時多項式如何越來越貼近真正的 sin(x) 曲線。</div>
+</div>
+<div class="card naked-fail">
+  <div class="card-head">
+    <div>
+      <h3>畢氏定理面積證明</h3>
+      <div class="id">Q04_pythagorean</div>
+    </div>
+    <div class="meta">106 → 265 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q04_pythagorean.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>106行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>64.07</b>s</span>
+      <span>265行</span>
+      <span>13動畫</span>
+      <span>6旁白</span>
+    </div>
+  </div>
+  <div class="prompt">用面積方法證明畢氏定理：建立一個直角三角形，在三邊外側分別建構正方形，視覺化展示兩股的正方形面積總和等於斜邊正方形的面積。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>二次函數配方法</h3>
+      <div class="id">Q05_complete_square</div>
+    </div>
+    <div class="meta">71 → 238 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q05_complete_square.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q05_complete_square.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>21.87</b>s</span>
+      <span>71行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>57.53</b>s</span>
+      <span>238行</span>
+      <span>10動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">示範如何將二次函數 y = x² − 6x + 5 透過配方法化為頂點式 (x−3)² − 4，並視覺化拋物線頂點的平移與對稱軸位置。</div>
+</div>
+<div class="card naked-fail">
+  <div class="card-head">
+    <div>
+      <h3>單位圓正弦餘弦動畫</h3>
+      <div class="id">Q06_unit_circle_trig</div>
+    </div>
+    <div class="meta">95 → 278 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q06_unit_circle_trig.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>95行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>59.13</b>s</span>
+      <span>278行</span>
+      <span>10動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">視覺化單位圓上的點如何旋轉並對應到正弦與餘弦函數：左側顯示單位圓上一個點繞圓旋轉，右側同步畫出 sin(θ) 曲線。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>z⁸ = 1 單位根</h3>
+      <div class="id">Q07_unit_roots</div>
+    </div>
+    <div class="meta">42 → 252 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q07_unit_roots.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q07_unit_roots.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>10.26</b>s</span>
+      <span>42行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>45.6</b>s</span>
+      <span>252行</span>
+      <span>7動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">視覺化複數方程 z⁸ = 1 的所有解（8 次單位根）。請在複數平面上畫出單位圓，標出 8 個解，並從原點畫向量連到每個解。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>斜率場與解曲線</h3>
+      <div class="id">Q08_slope_field</div>
+    </div>
+    <div class="meta">63 → 272 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q08_slope_field.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q08_slope_field.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>13.53</b>s</span>
+      <span>63行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>69.87</b>s</span>
+      <span>272行</span>
+      <span>12動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">解一階微分方程 dy/dx = x − y。請用斜率場視覺化方程的方向場，並從兩個不同初始點畫出對應的解曲線。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>黃金螺旋</h3>
+      <div class="id">Q09_golden_spiral</div>
+    </div>
+    <div class="meta">66 → 227 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q09_golden_spiral.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q09_golden_spiral.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>13.4</b>s</span>
+      <span>66行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>56.87</b>s</span>
+      <span>227行</span>
+      <span>6動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">繪製黃金螺旋。請用費氏數列邊長 (1, 1, 2, 3, 5, 8) 依序排列六個正方形，並在每個正方形內畫一條四分之一圓弧連成螺旋。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Sierpinski 三角形（4 層遞迴）</h3>
+      <div class="id">Q10_sierpinski</div>
+    </div>
+    <div class="meta">51 → 277 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q10_sierpinski.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q10_sierpinski.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>14.53</b>s</span>
+      <span>51行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>50.4</b>s</span>
+      <span>277行</span>
+      <span>7動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">繪製 Sierpinski 三角形。請從一個大的等邊三角形開始，每一輪將每個三角形分成四個並移除中間那個，重複這個遞迴過程四次。</div>
+</div>
+<div class="card naked-fail">
+  <div class="card-head">
+    <div>
+      <h3>2×2 矩陣特徵向量</h3>
+      <div class="id">Q11_eigenvectors</div>
+    </div>
+    <div class="meta">80 → 257 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q11_eigenvectors.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>80行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>57.2</b>s</span>
+      <span>257行</span>
+      <span>11動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">視覺化矩陣 A = [[3, 1], [0, 2]] 的線性變換：在 2D 平面上展示單位向量如何被變換，並標出特徵向量（不被旋轉只被縮放的方向）。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Fourier 級數逼近方波</h3>
+      <div class="id">Q12_fourier_square</div>
+    </div>
+    <div class="meta">52 → 276 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q12_fourier_square.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q12_fourier_square.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>19.8</b>s</span>
+      <span>52行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>51.53</b>s</span>
+      <span>276行</span>
+      <span>7動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">用 Fourier 級數逼近方波。請依序疊加奇數項（1 次、3 次、5 次諧波）正弦函數，視覺化展示越多項時級數越接近方波形狀。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>單擺：時域 vs 相位空間</h3>
+      <div class="id">Q13_pendulum_phase</div>
+    </div>
+    <div class="meta">92 → 279 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q13_pendulum_phase.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q13_pendulum_phase.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>11.67</b>s</span>
+      <span>92行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>55.87</b>s</span>
+      <span>279行</span>
+      <span>7動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">視覺化單擺運動。請左右並排兩張圖：左圖顯示擺角 θ 隨時間 t 的變化，右圖顯示相位空間（θ 對 dθ/dt 的橢圓軌跡），兩圖同步演化。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>雙擺混沌軌跡</h3>
+      <div class="id">Q14_double_pendulum</div>
+    </div>
+    <div class="meta">78 → 301 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q14_double_pendulum.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q14_double_pendulum.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>15.0</b>s</span>
+      <span>78行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>61.67</b>s</span>
+      <span>301行</span>
+      <span>9動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">視覺化雙擺系統的混沌運動。請畫出兩個連接的擺臂，模擬其動態並描繪第二個擺末端的運動軌跡曲線。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>1D 波動方程動畫</h3>
+      <div class="id">Q15_wave_equation</div>
+    </div>
+    <div class="meta">50 → 242 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q15_wave_equation.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q15_wave_equation.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>15.47</b>s</span>
+      <span>50行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>58.4</b>s</span>
+      <span>242行</span>
+      <span>9動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">視覺化 1D 波動方程的解 u(x, t) = sin(x − ct)：固定一個區間，動畫展示波形隨時間向右傳播。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Lorenz 吸引子（3D 蝴蝶曲線）</h3>
+      <div class="id">Q16_lorenz</div>
+    </div>
+    <div class="meta">69 → 211 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q16_lorenz.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q16_lorenz.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>15.53</b>s</span>
+      <span>69行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>39.4</b>s</span>
+      <span>211行</span>
+      <span>8動畫</span>
+      <span>6旁白</span>
+    </div>
+  </div>
+  <div class="prompt">繪製 Lorenz 吸引子的軌跡。請解 Lorenz 系統並在 3D 空間中描繪解曲線形成的蝴蝶形狀（σ=10, ρ=28, β=8/3）。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>馬鞍面 z = x² − y²</h3>
+      <div class="id">Q17_saddle_3d</div>
+    </div>
+    <div class="meta">61 → 291 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q17_saddle_3d.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q17_saddle_3d.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>18.93</b>s</span>
+      <span>61行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>55.93</b>s</span>
+      <span>291行</span>
+      <span>7動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">在 3D 空間中繪製馬鞍面 z = x² − y²。請展示其鞍點特性：沿 x 方向向上彎、沿 y 方向向下彎，並讓鏡頭旋轉觀察。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Galton 板（常態分佈）</h3>
+      <div class="id">Q18_galton_board</div>
+    </div>
+    <div class="meta">111 → 242 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q18_galton_board.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q18_galton_board.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>30.33</b>s</span>
+      <span>111行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>60.93</b>s</span>
+      <span>242行</span>
+      <span>10動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">用 Galton 板模擬常態分佈：許多小球從頂部落下，經過多層釘子隨機左右偏移，最後底部累積成鐘形分佈。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Mandelbrot 集合</h3>
+      <div class="id">Q19_mandelbrot</div>
+    </div>
+    <div class="meta">57 → 294 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q19_mandelbrot.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q19_mandelbrot.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>11.2</b>s</span>
+      <span>57行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>52.13</b>s</span>
+      <span>294行</span>
+      <span>11動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">繪製 Mandelbrot 集合：在複數平面上對每個點 c 計算迭代 zₙ₊₁ = zₙ² + c 是否發散，用顏色標示發散速度。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>Taylor 級數逼近 ln(1+x)</h3>
+      <div class="id">Q20_taylor_log</div>
+    </div>
+    <div class="meta">87 → 272 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q20_taylor_log.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/Q20_taylor_log.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>20.53</b>s</span>
+      <span>87行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>61.33</b>s</span>
+      <span>272行</span>
+      <span>9動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">視覺化 ln(1+x) 的 Taylor 級數逼近。請依序加入更多項（x、−x²/2、+x³/3...），展示多項式逐漸貼近 ln(1+x) 並標示收斂半徑 |x| < 1。</div>
+</div>
+</div>
+
+<script>
+const buttons = document.querySelectorAll('.filter-bar button');
+const cards = document.querySelectorAll('.card');
+buttons.forEach(b => {
+  b.addEventListener('click', () => {
+    buttons.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    const f = b.dataset.filter;
+    cards.forEach(c => {
+      if (f === 'all') c.style.display = '';
+      else c.style.display = c.classList.contains(f) ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -25,22 +25,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from agents.core.rag_retriever import RAGRetriever  # noqa: E402
+from agents.core.knowledge_slug_map import KP_TO_SLUG as KNOWLEDGE_POINT_TO_SLUG  # noqa: E402
 
 
 SIMILARITY_THRESHOLD = 0.70
-
-# [W1.2] Map experiment JSON's Chinese knowledge_point → kb150 directory slug.
-KNOWLEDGE_POINT_TO_SLUG = {
-    "整數加減": "integer_add_sub",
-    "整數乘除": "integer_mul_div",
-    "分數加減": "fraction_add_sub",
-    "分數乘除": "fraction_mul_div",
-    "四則運算算則（不含去括號）": "pemdas_no_bracket_removal",
-    "四則運算（含去括號）": "pemdas_with_bracket_removal",
-    "完整的四則混合運算": "mixed_arithmetic_full",
-    "因數與倍數": "factor_multiple",
-    "指數與科學記號": "exponent_scientific_notation",
-}
 
 
 def code_similarity(a: str, b: str) -> float:

@@ -1,0 +1,134 @@
+```python
+from manim import *
+import numpy as np
+
+
+class MainScene(Scene):
+    def construct(self):
+        # ---------- Title ----------
+        title = Text("Fourier Series of a Square Wave", font_size=44, color=YELLOW)
+        subtitle = Text("Period 2\u03c0  \u00b7  Amplitude 1", font_size=26, color=GREY_B)
+        subtitle.next_to(title, DOWN, buff=0.3)
+        self.play(Write(title))
+        self.play(FadeIn(subtitle, shift=UP))
+        self.wait(1)
+        self.play(FadeOut(subtitle), title.animate.scale(0.6).to_edge(UP))
+        self.wait(0.3)
+
+        # ---------- Axes ----------
+        axes = Axes(
+            x_range=[-PI, PI, PI / 2],
+            y_range=[-1.6, 1.6, 0.5],
+            x_length=10,
+            y_length=4.5,
+            axis_config={"include_tip": True, "color": GREY_B},
+        ).to_edge(DOWN, buff=0.7)
+
+        x_labels = axes.get_x_axis().add_labels(
+            {-PI: MathTex("-\\pi"), 0: MathTex("0"), PI: MathTex("\\pi")}
+        )
+        self.play(Create(axes), FadeIn(x_labels))
+
+        # ---------- Target square wave ----------
+        def square_wave(x):
+            return 1.0 if (x % (2 * PI)) < PI else -1.0
+
+        sq_pieces = VGroup()
+        for a, b, y in [(-PI, 0, -1), (0, PI, 1)]:
+            seg = axes.plot(
+                lambda t: y, x_range=[a + 0.001, b - 0.001], color=WHITE
+            )
+            sq_pieces.add(seg)
+        # vertical jump lines (dashed) at discontinuities
+        for xc in [-PI, 0, PI]:
+            jump = DashedLine(
+                axes.c2p(xc, -1), axes.c2p(xc, 1), color=GREY, stroke_width=2
+            )
+            sq_pieces.add(jump)
+
+        sq_label = Text("Target square wave", font_size=24, color=WHITE).to_corner(UR)
+        self.play(Create(sq_pieces), FadeIn(sq_label))
+        self.wait(1)
+
+        # ---------- Fourier formula ----------
+        formula = MathTex(
+            "f(x)=\\frac{4}{\\pi}\\sum_{k=1}^{\\infty}"
+            "\\frac{\\sin\\big((2k-1)x\\big)}{2k-1}",
+            font_size=40,
+        ).next_to(title, DOWN, buff=0.2)
+        self.play(Write(formula))
+        self.wait(1.5)
+        self.play(formula.animate.scale(0.7).to_corner(UL).shift(DOWN * 0.4))
+
+        # ---------- Partial sums ----------
+        colors = [RED, ORANGE, GREEN, TEAL, BLUE]
+        harmonics = [1, 3, 5, 7, 9]
+        names = ["1st", "3rd", "5th", "7th", "9th"]
+
+        def partial_sum(x, n_terms):
+            s = 0.0
+            for k in range(1, n_terms + 1):
+                m = 2 * k - 1
+                s += np.sin(m * x) / m
+            return 4 / PI * s
+
+        prev_curve = None
+        prev_tag = None
+        for i, (h, col, nm) in enumerate(zip(harmonics, colors, names)):
+            n_terms = i + 1
+            curve = axes.plot(
+                lambda t, n=n_terms: partial_sum(t, n),
+                x_range=[-PI + 0.01, PI - 0.01],
+                color=col,
+            )
+            tag = MathTex(
+                f"\\frac{{4}}{{\\pi}}\\sin({h}x)" if h == 1
+                else f"+\\frac{{4}}{{\\pi}}\\frac{{\\sin({h}x)}}{{{h}}}",
+                font_size=30,
+                color=col,
+            ).to_corner(UR).shift(DOWN * 0.8)
+
+            term_lbl = Text(f"{nm} harmonic", font_size=22, color=col).next_to(
+                tag, DOWN, buff=0.25
+            )
+
+            if prev_curve is None:
+                self.play(Create(curve), FadeIn(tag), FadeIn(term_lbl))
+            else:
+                self.play(
+                    ReplacementTransform(prev_curve, curve),
+                    FadeOut(prev_tag),
+                    FadeIn(tag),
+                    FadeIn(term_lbl),
+                    run_time=1.2,
+                )
+            self.wait(0.6)
+            self.play(FadeOut(term_lbl), run_time=0.3)
+            prev_curve = curve
+            prev_tag = tag
+
+        self.wait(0.5)
+
+        # ---------- Gibbs phenomenon ----------
+        gibbs_dot = Dot(axes.c2p(0.18, partial_sum(0.18, 5)), color=YELLOW)
+        gibbs_arrow = Arrow(
+            axes.c2p(1.3, 1.5), gibbs_dot.get_center(), color=YELLOW, buff=0.1
+        )
+        gibbs_text = Text(
+            "Gibbs phenomenon:\novershoot near jumps",
+            font_size=24,
+            color=YELLOW,
+        ).next_to(axes.c2p(1.3, 1.5), UP, buff=0.1)
+
+        self.play(GrowArrow(gibbs_arrow), FadeIn(gibbs_dot), Write(gibbs_text))
+        self.play(Flash(gibbs_dot, color=YELLOW, flash_radius=0.4))
+        self.wait(2)
+
+        closing = Text(
+            "More harmonics \u2192 closer to the square wave",
+            font_size=26,
+            color=GREEN_B,
+        ).to_edge(DOWN, buff=0.15)
+        self.play(FadeIn(closing, shift=UP))
+        self.wait(2)
+```

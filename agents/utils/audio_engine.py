@@ -138,8 +138,8 @@ class AudioEngine:
         """
         
         import time as _time
-        _max_retries = 3
-        _backoff = 2.0  # seconds, doubles each 429 retry (max wait: 2+4+8=14s per step)
+        _max_retries = 5
+        _backoff = 3.0  # seconds, doubles each 429 retry (worst case ~93s/step; needed for bulk eval 429 resilience)
         for _attempt in range(_max_retries):
             try:
                 response = requests.post(url, headers=headers, data=ssml.encode('utf-8'), timeout=15)

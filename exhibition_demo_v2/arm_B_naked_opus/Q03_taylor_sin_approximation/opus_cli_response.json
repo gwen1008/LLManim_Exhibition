@@ -1,0 +1,60 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 18328,
+  "duration_api_ms": 18228,
+  "ttft_ms": 18055,
+  "num_turns": 1,
+  "result": "```python\nfrom manim import *\n\n\nclass MainScene(Scene):\n    def construct(self):\n        # ---------- Title ----------\n        title = Text(\"Taylor Series Approximation of sin(x)\", font_size=40)\n        title.to_edge(UP)\n        self.play(Write(title))\n        self.wait(0.5)\n\n        # ---------- Axes ----------\n        axes = Axes(\n            x_range=[-PI - 0.5, PI + 0.5, PI / 2],\n            y_range=[-3, 3, 1],\n            x_length=10,\n            y_length=5,\n            axis_config={\"include_tip\": True, \"color\": GREY_B},\n            tips=True,\n        ).shift(DOWN * 0.4)\n\n        x_label = axes.get_x_axis_label(\"x\")\n        y_label = axes.get_y_axis_label(\"y\")\n\n        self.play(Create(axes), FadeIn(x_label, y_label))\n        self.wait(0.3)\n\n        xr = [-PI - 0.3, PI + 0.3]\n\n        # ---------- True sine curve ----------\n        sine = axes.plot(lambda x: np.sin(x), x_range=xr, color=BLUE)\n        sine_lbl = MathTex(r\"\\sin(x)\", color=BLUE).scale(0.7)\n\n        self.play(Create(sine), run_time=1.5)\n        self.wait(0.3)\n\n        # ---------- Legend setup ----------\n        def legend_entry(color, text):\n            line = Line(ORIGIN, RIGHT * 0.5, color=color, stroke_width=6)\n            lbl = MathTex(text, color=color).scale(0.55)\n            lbl.next_to(line, RIGHT, buff=0.15)\n            return VGroup(line, lbl)\n\n        legend = VGroup()\n        e0 = legend_entry(BLUE, r\"\\sin(x)\")\n        legend.add(e0)\n        legend.arrange(DOWN, aligned_edge=LEFT, buff=0.2)\n        legend.to_corner(UR).shift(DOWN * 0.8)\n        self.play(FadeIn(legend))\n\n        def add_legend(color, text):\n            entry = legend_entry(color, text)\n            entry.scale(1.0)\n            new_legend = VGroup(*legend.submobjects, entry)\n            new_legend.arrange(DOWN, aligned_edge=LEFT, buff=0.2)\n            new_legend.to_corner(UR).shift(DOWN * 0.8)\n            self.play(FadeIn(entry))\n            return entry\n\n        # ---------- T1 ----------\n        t1 = axes.plot(lambda x: x, x_range=xr, color=YELLOW)\n        cap1 = Text(\"Matches only near origin\", font_size=24, color=YELLOW)\n        cap1.to_edge(DOWN)\n        self.play(Create(t1), run_time=1.2)\n        add_legend(YELLOW, r\"T_1 = x\")\n        self.play(FadeIn(cap1))\n        self.wait(1.2)\n        self.play(FadeOut(cap1))\n\n        # ---------- T3 ----------\n        t3 = axes.plot(lambda x: x - x**3 / 6, x_range=xr, color=GREEN)\n        cap3 = Text(\"Better fit, wider range\", font_size=24, color=GREEN)\n        cap3.to_edge(DOWN)\n        self.play(Create(t3), run_time=1.2)\n        add_legend(GREEN, r\"T_3 = x - \\tfrac{x^3}{6}\")\n        self.play(FadeIn(cap3))\n        self.wait(1.2)\n        self.play(FadeOut(cap3))\n\n        # ---------- T5 ----------\n        t5 = axes.plot(\n            lambda x: x - x**3 / 6 + x**5 / 120, x_range=xr, color=ORANGE\n        )\n        self.play(Create(t5), run_time=1.2)\n        add_legend(ORANGE, r\"T_5 = \\dots + \\tfrac{x^5}{120}\")\n        self.wait(1.0)\n\n        # ---------- T7 ----------\n        t7 = axes.plot(\n            lambda x: x - x**3 / 6 + x**5 / 120 - x**7 / 5040,\n            x_range=xr,\n            color=RED,\n        )\n        cap7 = Text(\"Matches over a much wider range!\", font_size=26, color=RED)\n        cap7.to_edge(DOWN)\n        self.play(Create(t7), run_time=1.4)\n        add_legend(RED, r\"T_7 = \\dots - \\tfrac{x^7}{5040}\")\n        self.play(FadeIn(cap7))\n        self.wait(1.5)\n\n        # ---------- Conclusion ----------\n        self.play(FadeOut(cap7))\n        conclusion = Text(\n            \"Higher-order Taylor polynomials match the function\\nover a wider interval.\",\n            font_size=28,\n            color=WHITE,\n            line_spacing=0.8,\n        )\n        conclusion.to_edge(DOWN)\n        box = SurroundingRectangle(conclusion, color=TEAL, buff=0.25)\n        self.play(Write(conclusion), Create(box))\n        self.wait(2.5)\n\n        self.play(\n            *[FadeOut(m) for m in self.mobjects]\n        )\n        self.wait(0.5)\n```",
+  "stop_reason": "end_turn",
+  "session_id": "7a0f3027-7257-4718-9638-569b6b72771a",
+  "total_cost_usd": 0.088035,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 6864,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1805,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 6864,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1805,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 6864,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 6864
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-opus-4-7": {
+      "inputTokens": 2,
+      "outputTokens": 1805,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 6864,
+      "webSearchRequests": 0,
+      "costUSD": 0.088035,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "4bd836a2-db81-47db-bd2d-c9f241777a98"
+}

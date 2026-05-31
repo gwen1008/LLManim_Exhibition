@@ -1,0 +1,110 @@
+from manim import *
+
+
+class MainScene(Scene):
+    def construct(self):
+        # ---------- Title ----------
+        title = Text("Laplace Transform of  e^{at} sin(bt)", font_size=40, color=YELLOW)
+        underline = Line(LEFT, RIGHT, color=YELLOW).set_width(title.width + 0.5)
+        underline.next_to(title, DOWN, buff=0.15)
+        self.play(Write(title), GrowFromCenter(underline))
+        self.wait(1)
+        self.play(
+            title.animate.scale(0.7).to_edge(UP),
+            FadeOut(underline),
+        )
+        self.wait(0.3)
+
+        # ---------- Step 1 ----------
+        step1_label = Text("Step 1:  Laplace transform of sin(bt)", font_size=28, color=BLUE)
+        step1_label.next_to(title, DOWN, buff=0.5)
+        eq1 = MathTex(
+            r"\mathcal{L}\{\sin(bt)\}",
+            r"=",
+            r"\frac{b}{s^{2}+b^{2}}",
+            font_size=52,
+        )
+        eq1.next_to(step1_label, DOWN, buff=0.6)
+        eq1.set_color_by_tex(r"\frac{b}{s^{2}+b^{2}}", GREEN)
+
+        self.play(FadeIn(step1_label, shift=RIGHT))
+        self.play(Write(eq1))
+        self.wait(1.5)
+
+        self.play(
+            FadeOut(step1_label, shift=LEFT),
+            eq1.animate.scale(0.65).to_corner(UL).shift(DOWN * 1.2 + RIGHT * 0.3),
+        )
+        self.wait(0.3)
+
+        # ---------- Step 2 ----------
+        step2_label = Text("Step 2:  First Shifting Theorem", font_size=28, color=BLUE)
+        step2_label.next_to(title, DOWN, buff=0.5)
+        eq2 = MathTex(
+            r"e^{at}f(t)",
+            r"\;\Longrightarrow\;",
+            r"s \rightarrow s-a",
+            font_size=48,
+        )
+        eq2.set_color_by_tex(r"e^{at}f(t)", ORANGE)
+        eq2.set_color_by_tex(r"s \rightarrow s-a", RED)
+        eq2.next_to(step2_label, DOWN, buff=0.6)
+
+        self.play(FadeIn(step2_label, shift=RIGHT))
+        self.play(Write(eq2))
+        self.wait(2)
+        self.play(FadeOut(step2_label, shift=LEFT), FadeOut(eq2, shift=DOWN))
+        self.wait(0.3)
+
+        # ---------- Step 3 ----------
+        step3_label = Text("Step 3:  Substitute s → s - a", font_size=28, color=BLUE)
+        step3_label.next_to(title, DOWN, buff=0.5)
+
+        eq3 = MathTex(
+            r"\frac{b}{(s-a)^{2}+b^{2}}",
+            font_size=56,
+            color=GREEN,
+        )
+        eq3.next_to(step3_label, DOWN, buff=0.7)
+
+        self.play(FadeIn(step3_label, shift=RIGHT))
+        # transform the small step-1 result into the substituted form
+        self.play(TransformFromCopy(eq1[2], eq3))
+        box = SurroundingRectangle(eq3, color=RED, buff=0.2)
+        self.play(Create(box))
+        self.wait(2)
+
+        self.play(
+            FadeOut(step3_label, shift=LEFT),
+            FadeOut(box),
+            FadeOut(eq1),
+            FadeOut(eq3),
+        )
+        self.wait(0.3)
+
+        # ---------- Step 4 : Final Answer ----------
+        step4_label = Text("Final Result", font_size=30, color=BLUE)
+        step4_label.next_to(title, DOWN, buff=0.6)
+
+        final = MathTex(
+            r"\mathcal{L}\{e^{at}\sin(bt)\}",
+            r"=",
+            r"\frac{b}{(s-a)^{2}+b^{2}}",
+            font_size=56,
+        )
+        final.set_color_by_tex(r"\mathcal{L}\{e^{at}\sin(bt)\}", ORANGE)
+        final.set_color_by_tex(r"\frac{b}{(s-a)^{2}+b^{2}}", GREEN)
+        final.next_to(step4_label, DOWN, buff=0.8)
+
+        self.play(FadeIn(step4_label, shift=DOWN))
+        self.play(Write(final))
+
+        final_box = SurroundingRectangle(final, color=YELLOW, buff=0.3, corner_radius=0.1)
+        self.play(Create(final_box))
+        self.play(Flash(final, color=YELLOW, flash_radius=2.5))
+        self.wait(2.5)
+
+        self.play(
+            *[FadeOut(mob) for mob in self.mobjects]
+        )
+        self.wait(0.5)

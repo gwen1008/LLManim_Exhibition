@@ -1,0 +1,60 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "api_error_status": null,
+  "duration_ms": 23908,
+  "duration_api_ms": 23808,
+  "ttft_ms": 23740,
+  "num_turns": 1,
+  "result": "```python\nfrom manim import *\nimport numpy as np\n\n\nclass MainScene(Scene):\n    def construct(self):\n        self.camera.background_color = \"#0e1116\"\n\n        # ---------- Title ----------\n        title = Text(\"Solving an Initial Value Problem\", color=YELLOW, weight=BOLD).scale(0.8)\n        underline = Line(LEFT, RIGHT, color=YELLOW).set_width(title.width + 0.4)\n        underline.next_to(title, DOWN, buff=0.15)\n        title_grp = VGroup(title, underline).to_edge(UP, buff=0.4)\n        self.play(Write(title), GrowFromCenter(underline))\n        self.wait(0.5)\n\n        # ---------- Step 1: ODE + ICs ----------\n        ode = MathTex(\"y'' + 3y' + 2y = 0\", color=WHITE).scale(1.1)\n        ics = MathTex(\"y(0)=1,\\\\quad y'(0)=0\", color=BLUE_B).scale(0.9)\n        ode.next_to(title_grp, DOWN, buff=0.7)\n        ics.next_to(ode, DOWN, buff=0.35)\n        self.play(Write(ode))\n        self.play(FadeIn(ics, shift=UP))\n        self.wait(1)\n\n        self.play(\n            ode.animate.scale(0.65).to_corner(UL).shift(DOWN * 1.0),\n            ics.animate.scale(0.65).to_corner(UL).shift(DOWN * 1.7),\n            FadeOut(title_grp, shift=UP),\n        )\n\n        # ---------- Steps 2-5: algebra chain ----------\n        steps = VGroup(\n            MathTex(\"r^2 + 3r + 2 = 0\"),\n            MathTex(\"(r+1)(r+2) = 0\"),\n            MathTex(\"r = -1,\\\\quad r = -2\"),\n            MathTex(\"y(t) = C_1 e^{-t} + C_2 e^{-2t}\"),\n        ).scale(0.85).arrange(DOWN, buff=0.45)\n        steps.move_to(ORIGIN).shift(RIGHT * 1.5 + UP * 1.2)\n        steps[0].set_color(GREEN_B)\n        steps[1].set_color(GREEN_B)\n        steps[2].set_color(ORANGE)\n        steps[3].set_color(TEAL_B)\n\n        labels = [\"characteristic eq.\", \"factor\", \"roots\", \"general solution\"]\n        for s, lbl in zip(steps, labels):\n            tag = Text(lbl, color=GREY_B).scale(0.4).next_to(s, LEFT, buff=0.5)\n            self.play(Write(s), FadeIn(tag, shift=RIGHT), run_time=0.9)\n            self.wait(0.5)\n\n        self.wait(0.8)\n\n        # collapse algebra, keep general solution\n        gen = steps[3].copy()\n        self.play(\n            FadeOut(VGroup(*[m for m in self.mobjects if m not in (ode, ics, steps[3])])),\n        )\n        self.play(steps[3].animate.scale(0.8).to_corner(UR).shift(DOWN * 0.6 + LEFT * 0.2))\n\n        # ---------- Steps 6-8: apply ICs, solve system ----------\n        sys_lines = VGroup(\n            MathTex(\"y(0)=1:\\\\;\\\\; C_1 + C_2 = 1\"),\n            MathTex(\"y'(0)=0:\\\\;\\\\; -C_1 - 2C_2 = 0\"),\n            MathTex(\"\\\\Rightarrow\\\\; C_1 = 2,\\\\;\\\\; C_2 = -1\"),\n        ).scale(0.8).arrange(DOWN, buff=0.5, aligned_edge=LEFT)\n        sys_lines.move_to(LEFT * 2.0)\n        sys_lines[0].set_color(BLUE_B)\n        sys_lines[1].set_color(BLUE_B)\n        sys_lines[2].set_color(YELLOW)\n\n        for ln in sys_lines:\n            self.play(Write(ln), run_time=0.9)\n            self.wait(0.4)\n        self.wait(0.8)\n\n        # ---------- Step 9: particular solution ----------\n        part = MathTex(\"y(t) = 2e^{-t} - e^{-2t}\", color=YELLOW).scale(1.0)\n        box = SurroundingRectangle(part, color=YELLOW, buff=0.25, corner_radius=0.1)\n        part_grp = VGroup(part, box)\n\n        self.play(FadeOut(sys_lines, shift=DOWN), FadeOut(steps[3], shift=UP))\n        self.play(FadeIn(part, shift=UP))\n        self.play(Create(box))\n        self.wait(0.8)\n        self.play(part_grp.animate.scale(0.75).to_edge(UP, buff=1.4))\n\n        # ---------- Step 10: plot ----------\n        axes = Axes(\n            x_range=[0, 5, 1],\n            y_range=[0, 1.1, 0.25],\n            x_length=8,\n            y_length=3.6,\n            axis_config={\"color\": GREY_B, \"include_tip\": True, \"stroke_width\": 2},\n            tips=True,\n        ).to_edge(DOWN, buff=0.6)\n        x_lbl = axes.get_x_axis_label(MathTex(\"t\").scale(0.7))\n        y_lbl = axes.get_y_axis_label(MathTex(\"y\").scale(0.7))\n\n        def f(t):\n            return 2 * np.exp(-t) - np.exp(-2 * t)\n\n        graph = axes.plot(f, x_range=[0, 5, 0.02], color=TEAL)\n        graph_lbl = MathTex(\"y(t)=2e^{-t}-e^{-2t}\", color=TEAL).scale(0.55)\n        graph_lbl.next_to(axes.c2p(2.4, f(2.4)), UR, buff=0.2)\n\n        dot = Dot(color=YELLOW).move_to(axes.c2p(0, f(0)))\n        start_lbl = MathTex(\"y(0)=1\", color=YELLOW).scale(0.5).next_to(dot, UR, buff=0.1)\n\n        self.play(Create(axes), FadeIn(x_lbl), FadeIn(y_lbl))\n        self.play(FadeIn(dot), FadeIn(start_lbl))\n        self.play(Create(graph), run_time=2.5)\n        self.play(Write(graph_lbl))\n\n        # animate dot decaying to zero\n        moving = Dot(color=RED, radius=0.08).move_to(axes.c2p(0, f(0)))\n        self.add(moving)\n        self.play(\n            MoveAlongPath(moving, graph),\n            run_time=2.5,\n            rate_func=linear,\n        )\n        decay_txt = Text(\"smooth decay to zero\", color=GREEN_B).scale(0.5)\n        decay_txt.next_to(axes.c2p(4.0, f(4.0)), UP, buff=0.4)\n        self.play(FadeIn(decay_txt, shift=UP))\n        self.wait(2)\n```",
+  "stop_reason": "end_turn",
+  "session_id": "750ca2b6-89f0-413e-82bf-ae108538e765",
+  "total_cost_usd": 0.104435,
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 6952,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2439,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 6952,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2439,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 6952,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 6952
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard"
+  },
+  "modelUsage": {
+    "claude-opus-4-7": {
+      "inputTokens": 2,
+      "outputTokens": 2439,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 6952,
+      "webSearchRequests": 0,
+      "costUSD": 0.104435,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 64000
+    }
+  },
+  "permission_denials": [],
+  "terminal_reason": "completed",
+  "fast_mode_state": "off",
+  "uuid": "36c1fd20-d03f-444e-8b59-3a1d2a41529e"
+}

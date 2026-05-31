@@ -42,7 +42,7 @@ class SubtitleManager:
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.2 * DOWN
+        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
         import re
@@ -722,6 +722,59 @@ class RefiningLoop:
             for n in set(refs):
                 if n > max_injected:
                     patched = re.sub(rf'_audio_dur_{n}\b', f'_audio_dur_{max_injected}', patched)
+
+        # [Anim-time scale] 自動把動畫 run_time 拉長填滿旁白 70%，消除凍結畫面。
+        # LLM 不管 prompt 寫什麼都愛寫 anim_time=1.5 → 凍結。這裡：
+        #   1. 偵測每個 # Step N 區塊
+        #   2. 算 _scale_N = max(1.0, _audio_dur_[N-1] * 0.7 / anim_time_N_原值)
+        #   3. 把該區塊內所有 self.play(..., run_time=Y) 改成 run_time=Y*_scale_N
+        #   4. anim_time_N 也乘上 scale
+        try:
+            # 找 Step N 起點（# Step N 註解）跟對應的 anim_time_N 行
+            step_pattern = re.compile(
+                r'(^\s*#\s*Step\s+(\d+)\s*$)(.*?)'  # Step N 標頭 + 區塊內容
+                r'(^(\s*)anim_time_\2\s*=\s*([0-9.+\- ]+?)(?=\s*(?:#|$)))',  # anim_time_N 設定
+                re.MULTILINE | re.DOTALL
+            )
+            scaled_count = 0
+            new_chunks = []
+            last_end = 0
+            for m in step_pattern.finditer(patched):
+                header, n_str, body, anim_line, indent, expr = m.groups()
+                n = int(n_str)
+                try:
+                    orig_anim = eval(expr.strip(), {"__builtins__": {}}, {})
+                except Exception:
+                    continue
+                if orig_anim <= 0.1:
+                    continue
+                # 在 body 內把所有 run_time=Y 改成 run_time=Y*_scale_N
+                # 處理形式：run_time=1.5 / run_time = 1.5 / run_time=anim_time*0.7
+                def _scale_runtime(rm, n=n):
+                    rt_val = rm.group(1)
+                    return f'run_time=({rt_val})*_scale_{n}'
+                scaled_body = re.sub(
+                    r'run_time\s*=\s*([0-9.]+(?:\s*[*+\-/]\s*[0-9.]+)?)',
+                    _scale_runtime, body
+                )
+                # 在 # Step N 後立刻插入 _scale_N 定義（用原始 anim_time 算）
+                scale_def = f"\n{indent}_scale_{n} = max(1.0, (_audio_dur_{n-1} * 0.7) / {orig_anim:.3f})"
+                # 新 anim_time 行：乘上 scale
+                new_anim_line = f"{indent}anim_time_{n} = {orig_anim:.3f} * _scale_{n}"
+                # 拼接
+                new_chunks.append(patched[last_end:m.start()])
+                new_chunks.append(header)
+                new_chunks.append(scale_def)
+                new_chunks.append(scaled_body)
+                new_chunks.append(new_anim_line)
+                last_end = m.end()
+                scaled_count += 1
+            if scaled_count > 0:
+                new_chunks.append(patched[last_end:])
+                patched = ''.join(new_chunks)
+                print(f"🔧 [Shift-Left] Scaled {scaled_count} step(s) anim_time to ≥ 0.7 × audio_dur")
+        except Exception as _e:
+            print(f"⚠️ [Shift-Left] anim_time scale patch skipped: {_e}")
 
         return patched
 

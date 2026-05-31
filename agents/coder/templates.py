@@ -227,7 +227,7 @@ Write this planning block as a Python multiline string comment at the VERY TOP o
 # Layout: Header y=3.0 | Content y∈[-2,2.5] | NO objects below y=-2.8
 # Objects: [id→y-coord, confirm no two objects share y within ±0.5 units]
 # Flow: [step1_name → step2_name → step3_name → ... one line]
-# Audio: remaining_N = max(0.1, _audio_dur_[N-1] - anim_time_N + 0.5) ← mandatory
+# Audio: remaining_N = max(0.1, _audio_dur_[N-1] - anim_time_N + 0.1) ← mandatory
 '''
 
 This reasoning block prevents "Spatial Hallucinations". Keep it to 5 lines max.
@@ -407,7 +407,17 @@ self.play(FadeIn(self.objects["final_answer"]))
 
 **🚨 CRITICAL**:
 - DO NOT write `self.add_sound(...)` — audio is auto-injected by the system after code generation.
-- You MUST write `remaining_N = max(0.1, duration - anim_time + 0.5)` for EVERY step.
+- You MUST write `remaining_N = max(0.1, duration - anim_time + 0.1)` for EVERY step.
+
+🚨🚨🚨 **ANIMATION DURATION RULE (HARD CONSTRAINT — violations cause dead screen time)**:
+- `anim_time_N` MUST be ≥ **60%** of `_audio_dur_[N-1]` (the narration duration).
+- Typical narration is 4-8 seconds → `anim_time_N` should be **2.5-5 seconds**, NOT 1.5.
+- If your visual_action only "naturally" takes 1.5s, you MUST EXTEND it by ONE of:
+   (a) **Slow down run_time**: `self.play(Write(eq), run_time=3.0)` instead of 1.5
+   (b) **Chain emphasis**: add `Indicate`, `Circumscribe`, `Flash`, or color transitions
+   (c) **Split the visual into stages**: write part 1, pause, then part 2
+- ❌ BAD: `anim_time_1 = 1.5` when `_audio_dur_0 = 6.8` → 5.3s frozen screen
+- ✅ GOOD: `anim_time_1 = 4.5` when `_audio_dur_0 = 6.8` → only 2.3s tail
 
 **REQUIRED AUDIO PATTERN (UNROLLED — one block per step)**:
 
@@ -416,28 +426,33 @@ self.play(FadeIn(self.objects["final_answer"]))
    YOU MUST reference `_audio_dur_[N-1]` (0-indexed) in each step's remaining calculation.
 
 ```python
-# Step 1
-anim_time_1 = 1.5  # sum of sequential run_times in this step
-self.play(Write(self.objects["title"]), run_time=1.5)
-remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.5)
+# Step 1 (audio ~6s → anim ~4s)
+self.play(Write(self.objects["title"]), run_time=2.0)
+self.play(Circumscribe(self.objects["title"], color=YELLOW), run_time=1.0)
+self.play(Indicate(self.objects["title"]), run_time=1.0)
+anim_time_1 = 2.0 + 1.0 + 1.0  # = 4.0s, ~67% of 6s audio
+remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
 self.wait(remaining_1)
 
-# Step 2
-anim_time_2 = 2.0
-self.play(Create(self.objects["circle"]), run_time=2.0)
-remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.5)
+# Step 2 (audio ~5s → anim ~3.5s)
+self.play(Create(self.objects["circle"]), run_time=2.5)
+self.play(Indicate(self.objects["circle"], color=BLUE), run_time=1.0)
+anim_time_2 = 2.5 + 1.0  # = 3.5s, 70% of 5s audio
+remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
 self.wait(remaining_2)
 
-# Step 3
-anim_time_3 = 1.0 + 2.5  # two sequential play() calls
+# Step 3 (audio ~7s → anim ~5s with chained transforms)
 self.play(Indicate(obj), run_time=1.0)
 self.play(Transform(a, b), run_time=2.5)
-remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.5)
+self.play(Circumscribe(b, color=GREEN), run_time=1.5)
+anim_time_3 = 1.0 + 2.5 + 1.5  # = 5.0s, 71% of 7s audio
+remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
 self.wait(remaining_3)
 ```
 
 KEY RULES:
 - `anim_time_N` = sum of `run_time` for all SEQUENTIAL `self.play()` calls in that step. For concurrent animations (multiple args in ONE `self.play()`), use only ONE run_time.
+- `anim_time_N` ≥ 0.6 × `_audio_dur_[N-1]`. Use slower run_time or chain emphasis animations to reach this floor.
 - `_audio_dur_[N-1]` is 0-indexed: Step 1 uses `_audio_dur_0`, Step 2 uses `_audio_dur_1`, etc.
 - DO NOT hardcode the audio duration. ALWAYS use `_audio_dur_[N-1]`.
 - Each step's comment MUST be exactly `# Step N` (just the number, no extra text) so the system can find it.
@@ -514,7 +529,7 @@ Example:
 # Step 1
 anim_time_1 = 1.5
 self.play(Write(title), run_time=1.5)
-remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.5)
+remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
 self.wait(remaining_1)
 
 ═══════════════════════════════════════════════════════════════════

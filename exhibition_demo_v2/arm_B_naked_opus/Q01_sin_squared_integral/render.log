@@ -1,0 +1,110 @@
+Manim Community v0.19.2
+
+[05/26/26 03:38:46] INFO     Animation 0 : Using cached data (hash : 1584795214_3084382294_223132457)              cairo_renderer.py:94
+Animation 0: Write(Text('Evaluating ∫₀^π sin²x dx')):   0%|          | 0/1 [00:00<?, ?it/s]                                                                                                               INFO     Animation 1 : Using cached data (hash : 4072820271_3394500337_2553421414)             cairo_renderer.py:94
+                    INFO     Writing \sin^2 x to                                                                tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_sin                        
+                             _squared_integral/media/Tex/036ce16133a3221f.tex                                                          
+Animation 2: Create(Axes of 2 submobjects), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                            INFO     Animation 2 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_2768868237_1667508527.mp4'                                                                          
+Animation 3: Create(ParametricFunction), etc.:   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                         INFO     Animation 3 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3022676944_395338621.mp4'                                                                           
+Animation 4: FadeIn(Polygon):   0%|          | 0/15 [00:00<?, ?it/s]                                                                    [05/26/26 03:38:47] INFO     Animation 4 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_756188994_1076147664.mp4'                                                                           
+                    INFO     Animation 5 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3394500337_183360920.mp4'                                                                           
+Animation 6: Write(MathTex('I = \\int_{0}^{\\pi} \\sin^2 x \\, dx')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                INFO     Animation 6 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3683809911_2379648000.mp4'                                                                          
+                    INFO     Animation 7 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3394500337_1081933816.mp4'                                                                          
+Animation 8: Write(MathTex('\\sin^2 x = \\frac{1 - \\cos 2x}{2}')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                              INFO     Animation 8 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_4082120352_3383429162.mp4'                                                                          
+                    INFO     Animation 9 : Partial movie file written in                                       scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3394500337_2580018904.mp4'                                                                          
+                    INFO     Writing I = \frac{1}{2}\int_{0}^{\pi} 1\, dx - \frac{1}{2}\int_{0}^{\pi}\cos 2x\,  tex_file_writing.py:111
+                             dx to                                                                                                     
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_sin                        
+                             _squared_integral/media/Tex/a6346ec83b7cf7bc.tex                                                          
+Animation 10: Write(MathTex('I = \\frac{1}{2}\\int_{0}^{\\pi} 1\\, dx - \\frac{1}{2}\\int_{0}^{\\pi}\\cos 2x\\, dx')):   0%|          | 0/30 [00:00<?, ?it/s]Animation 10: Write(MathTex('I = \\frac{1}{2}\\int_{0}^{\\pi} 1\\, dx - \\frac{1}{2}\\int_{0}^{\\pi}\\cos 2x\\, dx')):  77%|███████▋  | 23/30 [00:00<00:00, 228.52it/s]                                                                                                                                                                       [05/26/26 03:38:48] INFO     Animation 10 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_473449409_3449200276.mp4'                                                                           
+                    INFO     Animation 11 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3394500337_1259369919.mp4'                                                                          
+                    INFO     Writing I = \left[\frac{x}{2} - \frac{\sin 2x}{4}\right]_{0}^{\pi} to              tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_sin                        
+                             _squared_integral/media/Tex/325ce70c176b1a6c.tex                                                          
+Animation 12: Write(MathTex('I = \\left[\\frac{x}{2} - \\frac{\\sin 2x}{4}\\right]_{0}^{\\pi}')):   0%|          | 0/30 [00:00<?, ?it/s]Animation 12: Write(MathTex('I = \\left[\\frac{x}{2} - \\frac{\\sin 2x}{4}\\right]_{0}^{\\pi}')): 100%|██████████| 30/30 [00:00<00:00, 299.51it/s]                                                                                                                                                  [05/26/26 03:38:49] INFO     Animation 12 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_2129197182_1935582779.mp4'                                                                          
+                    INFO     Animation 13 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3394500337_1348205677.mp4'                                                                          
+                    INFO     Writing = \left(\frac{\pi}{2} - \frac{\sin 2\pi}{4}\right) - \left(0 - 0\right) to tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_sin                        
+                             _squared_integral/media/Tex/fe73eb4f19d78a5d.tex                                                          
+Animation 14: Write(MathTex('= \\left(\\frac{\\pi}{2} - \\frac{\\sin 2\\pi}{4}\\right) - \\left(0 - 0\\right)')):   0%|          | 0/30 [00:00<?, ?it/s]                                                                                                                                                        [05/26/26 03:38:50] INFO     Animation 14 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_307170296_1361474214.mp4'                                                                           
+                    INFO     Animation 15 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3394500337_3405520791.mp4'                                                                          
+                    INFO     Writing = \frac{\pi}{2} - 0 = \frac{\pi}{2} to                                     tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_sin                        
+                             _squared_integral/media/Tex/c78ab441491c0b60.tex                                                          
+Animation 16: Write(MathTex('= \\frac{\\pi}{2} - 0 = \\frac{\\pi}{2}')):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                                                                   INFO     Animation 16 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_372094275_242412596.mp4'                                                                            
+[05/26/26 03:38:51] INFO     Animation 17 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_3394500337_1030169804.mp4'                                                                          
+                    INFO     Writing \boxed{I = \dfrac{\pi}{2}} to                                              tex_file_writing.py:111
+                             /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_sin                        
+                             _squared_integral/media/Tex/bcc7901780481609.tex                                                          
+Animation 18: Indicate(Polygon), etc.:   0%|          | 0/15 [00:00<?, ?it/s]Animation 18: Indicate(Polygon), etc.:  73%|███████▎  | 11/15 [00:00<00:00, 101.71it/s]                                                                                                           INFO     Animation 18 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_630176765_1729924160.mp4'                                                                           
+Animation 19: Circumscribe(Group):   0%|          | 0/15 [00:00<?, ?it/s]                                                                                             INFO     Animation 19 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_540346528_963356457.mp4'                                                                            
+[05/26/26 03:38:52] INFO     Animation 20 : Partial movie file written in                                      scene_file_writer.py:590
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/partial_movie_files/MainScene/40728                         
+                             20271_2844360058_3895291422.mp4'                                                                          
+                    INFO     Combining to Movie file.                                                          scene_file_writer.py:742
+                    INFO                                                                                       scene_file_writer.py:893
+                             File ready at                                                                                             
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_s                         
+                             in_squared_integral/media/videos/scene/480p15/MainScene.mp4'                                              
+                                                                                                                                       
+                    INFO     Rendered MainScene                                                                            scene.py:278
+                             Played 21 animations                                                                                      
+                    INFO     Previewed File at:                                                                         file_ops.py:237
+                             '/Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/arm_B_naked_opus/Q01_sin_square                
+                             d_integral/media/videos/scene/480p15/MainScene.mp4'                                                       

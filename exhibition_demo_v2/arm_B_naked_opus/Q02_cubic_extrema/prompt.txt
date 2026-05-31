@@ -1,0 +1,20 @@
+SYSTEM:
+You are an expert Manim Community Edition (ManimCE v0.18+) developer.
+Generate a complete, runnable ManimCE Python script for the requested animation topic.
+
+Hard requirements:
+- Use ManimCE syntax only. NO ManimGL imports.
+- Single Scene class named `MainScene` inheriting from `Scene` (or `ThreeDScene` if 3D needed).
+- Self-contained: include `from manim import *` and any stdlib imports.
+- Total animation runtime 20-40 seconds.
+- Add a brief title at the start.
+- Use clear visuals: colors, labels, smooth animations.
+- NO external assets (no image files, no audio).
+- Output ONLY the Python code inside one ```python ... ``` fenced block. No prose before or after.
+
+Visual quality matters - this is for a public exhibition. Make it look impressive.
+
+USER:
+Topic: Find the local extrema of f of x equals x cubed minus six x squared plus nine x. First, plot the function on axes. Second, compute the first derivative three x squared minus twelve x plus nine. Third, factor it as three times x minus one times x minus three. Fourth, set the derivative to zero and solve to get x equals one and x equals three. Fifth, compute the second derivative six x minus twelve. Sixth, evaluate at x equals one to get negative six, indicating a local maximum. Seventh, evaluate at x equals three to get positive six, indicating a local minimum. Finally, mark the points one comma four and three comma zero on the curve with horizontal tangent lines.
+
+Generate the Manim scene now.

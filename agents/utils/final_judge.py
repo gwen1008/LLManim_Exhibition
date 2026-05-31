@@ -37,7 +37,7 @@ _MIXED_ASCII_RE = re.compile(r"(?<![\d./])(-?\d+)\s+(\d+)\s*/\s*(\d+)(?!\d)")
 _SCI_LATEX_RE = re.compile(
     r"(-?\d+(?:\.\d+)?)\s*(?:\\times|\\cdot|[×*])\s*10\s*\^\s*\{?\s*(-?\d+)\s*\}?"
 )
-_SCI_E_RE = re.compile(r"(-?\d+(?:\.\d+)?)[eE]([+-]?\d+)\b")
+_SCI_E_RE = re.compile(r"(?<![A-Za-z0-9_])(-?\d+(?:\.\d+)?)[eE]([+-]?\d+)\b")
 
 
 def _mixed_to_improper(mantissa: int, num: int, den: int) -> str:
@@ -736,7 +736,8 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
                 or _shutil.which("claude")
                 or "/Users/liaozhenting/.local/bin/claude"
             )
-            run_as = os.getenv("CLAUDE_RUN_AS_USER", "claudealt")
+            # Empty default: claudealt was retired 2026-05-23 (keychain locked).
+            run_as = os.getenv("CLAUDE_RUN_AS_USER", "")
             model  = os.getenv("FJ_OPUS_MODEL", "claude-opus-4-7")
             grid_abs = os.path.abspath(grid_path)
             opus_prompt = (
@@ -898,7 +899,7 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
             if not vals:
                 return None
             mid = len(vals) // 2
-            return vals[mid] if len(vals) % 2 else (vals[mid - 1] + vals[mid]) // 2
+            return vals[mid] if len(vals) % 2 else (vals[mid - 1] + vals[mid]) / 2
 
         clarity_raw = [_extract_clarity(r) for r in valid]
         clarity_score = _median(clarity_raw)
@@ -989,16 +990,14 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
         # downstream reader / log writer still sees a number under the old key.
         scores["math_correctness"] = _logic_val
 
-        # math_displayed: derived from gt_match. None → dim excluded from
-        # weighted total (existing renorm handles it). 5/1 only — we trust
-        # _compare_answer's True/False as a binary signal, no middle ground.
+        # math_displayed: derived from gt_match. gt=False is already handled by
+        # the gt_mismatch hard veto in _decide_verdict (L1086) — assigning 1 here
+        # would be dead code that only pulls the weighted mean into a bimodal
+        # 1/5 distribution. Keep this dim as a positive-only signal: 5 when GT
+        # matches, None when GT is unavailable or mismatched (excluded from
+        # weighted total via existing renorm).
         _gt = code_analysis.get("ground_truth_match")
-        if _gt is True:
-            scores["math_displayed"] = 5
-        elif _gt is False:
-            scores["math_displayed"] = 1
-        else:
-            scores["math_displayed"] = None
+        scores["math_displayed"] = 5 if _gt is True else None
 
         # spatial_layout: deterministic; None when log unavailable (don't auto-fail)
         if layout_audit and layout_audit.get("score_1_to_5") is not None:

@@ -3,8 +3,8 @@
   "created": "2026-05-20",
   "source_sample": "evaluation/experiment_sample_30.json",
   "total": 30,
-  "done": 0,
-  "in_progress": 30,
+  "done": 30,
+  "in_progress": 0,
   "pending": 0,
   "cases": [
     {
@@ -13,12 +13,12 @@
       "difficulty": 2,
       "question_type": "填空題",
       "answer": "-7.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q028/benchmark.mp4",
       "code_py": "Q028/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q028/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_104516)，FJ=5.0/PASS。待人工精修後定 benchmark.mp4。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q029",
@@ -26,12 +26,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "-215.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q029/benchmark.mp4",
       "code_py": "Q029/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q029/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q039",
@@ -39,12 +39,12 @@
       "difficulty": 4,
       "question_type": "填空題",
       "answer": "-198.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q039/benchmark.mp4",
       "code_py": "Q039/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q039/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q042",
@@ -52,12 +52,12 @@
       "difficulty": 2,
       "question_type": "填空題",
       "answer": "-120.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q042/benchmark.mp4",
       "code_py": "Q042/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q042/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q043",
@@ -65,12 +65,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "-18.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q043/benchmark.mp4",
       "code_py": "Q043/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q043/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q048",
@@ -78,12 +78,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "-3900.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q048/benchmark.mp4",
       "code_py": "Q048/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q048/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q122",
@@ -91,12 +91,12 @@
       "difficulty": 2,
       "question_type": "計算題",
       "answer": "\\frac{49}{10}",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q122/benchmark.mp4",
       "code_py": "Q122/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q122/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q123",
@@ -104,12 +104,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "\\frac{1}{3}",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q123/benchmark.mp4",
       "code_py": "Q123/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q123/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q124",
@@ -117,12 +117,12 @@
       "difficulty": 4,
       "question_type": "填空題",
       "answer": "\\frac{29}{20}",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q124/benchmark.mp4",
       "code_py": "Q124/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q124/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q125",
@@ -130,12 +130,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "0.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q125/benchmark.mp4",
       "code_py": "Q125/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q125/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q139",
@@ -143,12 +143,12 @@
       "difficulty": 2,
       "question_type": "計算題",
       "answer": "-1.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q139/benchmark.mp4",
       "code_py": "Q139/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q139/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q024",
@@ -156,12 +156,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "3/4",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q024/benchmark.mp4",
       "code_py": "Q024/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q024/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q137",
@@ -169,12 +169,12 @@
       "difficulty": 4,
       "question_type": "填空題",
       "answer": "\\frac{1}{10}",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q137/benchmark.mp4",
       "code_py": "Q137/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q137/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q144",
@@ -182,12 +182,12 @@
       "difficulty": 4,
       "question_type": "填空題",
       "answer": "-0.000494315",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q144/benchmark.mp4",
       "code_py": "Q144/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q144/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q057",
@@ -195,12 +195,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "-7500.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q057/benchmark.mp4",
       "code_py": "Q057/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q057/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q070",
@@ -208,12 +208,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "56.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q070/benchmark.mp4",
       "code_py": "Q070/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q070/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q076",
@@ -221,12 +221,12 @@
       "difficulty": 2,
       "question_type": "填空題",
       "answer": "8.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q076/benchmark.mp4",
       "code_py": "Q076/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q076/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q082",
@@ -234,12 +234,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "45.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q082/benchmark.mp4",
       "code_py": "Q082/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q082/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q075",
@@ -247,12 +247,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "36.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q075/benchmark.mp4",
       "code_py": "Q075/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q075/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q147",
@@ -260,12 +260,12 @@
       "difficulty": 2,
       "question_type": "填空題",
       "answer": "3.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q147/benchmark.mp4",
       "code_py": "Q147/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q147/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q148",
@@ -273,12 +273,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "-1.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q148/benchmark.mp4",
       "code_py": "Q148/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q148/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q026",
@@ -286,12 +286,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "\\frac{32}{15}",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q026/benchmark.mp4",
       "code_py": "Q026/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q026/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q104",
@@ -299,12 +299,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "2^3 \\times 3 \\times 5^2 \\times 7",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q104/benchmark.mp4",
       "code_py": "Q104/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q104/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q106",
@@ -312,12 +312,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "1575.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q106/benchmark.mp4",
       "code_py": "Q106/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q106/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q109",
@@ -325,12 +325,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "1266.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q109/benchmark.mp4",
       "code_py": "Q109/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q109/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q116",
@@ -338,12 +338,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "120.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q116/benchmark.mp4",
       "code_py": "Q116/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q116/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q092",
@@ -351,12 +351,12 @@
       "difficulty": 3,
       "question_type": "填空題",
       "answer": "-3.5",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q092/benchmark.mp4",
       "code_py": "Q092/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q092/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q094",
@@ -364,12 +364,12 @@
       "difficulty": 3,
       "question_type": "計算題",
       "answer": "14.0",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q094/benchmark.mp4",
       "code_py": "Q094/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q094/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q102",
@@ -377,12 +377,12 @@
       "difficulty": 4,
       "question_type": "填空題",
       "answer": "10.2",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q102/benchmark.mp4",
       "code_py": "Q102/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q102/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     },
     {
       "id": "Q101",
@@ -390,12 +390,12 @@
       "difficulty": 4,
       "question_type": "計算題",
       "answer": "1.6 \\times 10^1 公尺",
-      "status": "draft",
-      "benchmark_mp4": null,
+      "status": "done",
+      "benchmark_mp4": "Q101/benchmark.mp4",
       "code_py": "Q101/code.py",
       "render_cmd": "manim -ql evaluation/benchmark_set/Q101/code.py GeneratedScene",
-      "notes": "Opus 豪華模式初稿 (runs/20260520_105335)，待人工精修。",
-      "last_updated": "2026-05-20"
+      "notes": "v2 subtitle + 阿拉伯數字字幕 + 時序同步 (2026-05-21)",
+      "last_updated": "2026-05-21"
     }
   ]
 }

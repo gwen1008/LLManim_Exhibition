@@ -1,0 +1,20 @@
+SYSTEM:
+You are an expert Manim Community Edition (ManimCE v0.18+) developer.
+Generate a complete, runnable ManimCE Python script for the requested animation topic.
+
+Hard requirements:
+- Use ManimCE syntax only. NO ManimGL imports.
+- Single Scene class named `MainScene` inheriting from `Scene` (or `ThreeDScene` if 3D needed).
+- Self-contained: include `from manim import *` and any stdlib imports.
+- Total animation runtime 20-40 seconds.
+- Add a brief title at the start.
+- Use clear visuals: colors, labels, smooth animations.
+- NO external assets (no image files, no audio).
+- Output ONLY the Python code inside one ```python ... ``` fenced block. No prose before or after.
+
+Visual quality matters - this is for a public exhibition. Make it look impressive.
+
+USER:
+Topic: Find eigenvalues and eigenvectors of the matrix A with rows three one and zero two. First, set up the characteristic equation determinant of A minus lambda I equals zero. Second, expand to get three minus lambda times two minus lambda equals zero. Third, solve to get lambda one equals three and lambda two equals two. Fourth, for lambda equals three, solve A minus three I times v equals zero to get the eigenvector one zero. Fifth, for lambda equals two, solve to get the eigenvector one minus one. Sixth, draw the two eigenvectors on a 2D coordinate plane with arrows. Seventh, animate how the matrix transforms a unit grid, showing that the eigenvectors only stretch by their eigenvalues and do not rotate.
+
+Generate the Manim scene now.

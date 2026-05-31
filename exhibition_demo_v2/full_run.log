@@ -1,0 +1,94 @@
+
+🚀 v2 batch: 10 topics × arms=both (dry_run=False)
+
+=== [Q01_sin_squared_integral] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Evaluate the integral of sin squared x from 0 to pi step by step. First, state the integral. Second, apply the half-angl...
+  → success=True | exit=0 | 133.1s
+
+=== [Q01_sin_squared_integral] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q01_sin_squared_integral --render
+  → success=True | exit=0 | 27.4s
+
+=== [Q02_cubic_extrema] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Find the local extrema of f of x equals x cubed minus six x squared plus nine x. First, plot the function on axes. Secon...
+  → success=True | exit=0 | 164.4s
+
+=== [Q02_cubic_extrema] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q02_cubic_extrema --render
+  → success=True | exit=0 | 27.7s
+
+=== [Q03_taylor_sin_approximation] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Visualize how Taylor series approximates sine of x near x equals zero. First, plot the true sine curve in blue. Second, ...
+  → success=True | exit=0 | 129.4s
+
+=== [Q03_taylor_sin_approximation] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q03_taylor_sin_approximation --render
+  → success=True | exit=0 | 28.2s
+
+=== [Q04_eigenvalues_2x2] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Find eigenvalues and eigenvectors of the matrix A with rows three one and zero two. First, set up the characteristic equ...
+  → success=True | exit=0 | 184.4s
+
+=== [Q04_eigenvalues_2x2] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q04_eigenvalues_2x2 --render
+  → success=True | exit=0 | 30.8s
+
+=== [Q05_double_integral] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Compute the double integral of x times y over the triangular region where x ranges from zero to one and y ranges from ze...
+  → success=True | exit=0 | 122.2s
+
+=== [Q05_double_integral] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q05_double_integral --render
+  → success=True | exit=0 | 25.8s
+
+=== [Q06_second_order_ode] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Solve the initial value problem y double prime plus three y prime plus two y equals zero, with y of zero equals one and ...
+  → success=True | exit=0 | 176.1s
+
+=== [Q06_second_order_ode] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q06_second_order_ode --render
+  → success=False | exit=1 | 29.3s
+
+=== [Q07_laplace_exp_sin] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Compute the Laplace transform of e to the a t times sine of b t. First, recall that the Laplace transform of sine of b t...
+  → success=True | exit=0 | 90.0s
+
+=== [Q07_laplace_exp_sin] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q07_laplace_exp_sin --render
+  → success=True | exit=0 | 29.1s
+
+=== [Q08_square_wave_fourier] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Visualize Fourier series approximation of a square wave with period two pi and amplitude one. First, plot the target squ...
+  → success=True | exit=0 | 152.4s
+
+=== [Q08_square_wave_fourier] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q08_square_wave_fourier --render
+  → success=True | exit=0 | 34.5s
+
+=== [Q09_rc_charging] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Derive and visualize the charging response of an RC circuit. First, draw a simple RC series circuit with a voltage sourc...
+  → success=True | exit=0 | 177.9s
+
+=== [Q09_rc_charging] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q09_rc_charging --render
+  → success=True | exit=0 | 51.5s
+
+=== [Q10_gradient_descent] arm_A_system ===
+$ echo '<topic_en>' | /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/main.py
+Topic (en): Visualize gradient descent minimizing f of x y equals x squared plus two y squared. First, draw contour lines of f as co...
+  → success=True | exit=0 | 186.1s
+
+=== [Q10_gradient_descent] arm_B_naked_opus ===
+$ /opt/homebrew/opt/python@3.11/bin/python3.11 /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo/run_naked_opus.py --topic-id Q10_gradient_descent --render
+  → success=True | exit=0 | 33.4s
+
+✅ DONE in 1834s. Summary at /Users/liaozhenting/Desktop/LLManim_Agent/exhibition_demo_v2/batch_summary.json

@@ -1,0 +1,194 @@
+
+╔════════════════════════════════════════════════╗
+║          EMA System: Multi-stage Manim Agent         ║
+╚════════════════════════════════════════════════╝
+
+請輸入動畫主題 (或輸入已存在的 .py 檔名直接播放): 🧹 Cleaned up 1 old log file(s)
+📝 Session log: logs/2026-05-26_03-48-20_Compute_the_double_integral_of_x_times_y_over_the_.log
+
+📚 [階段 1.8: RAG Retrieval 並行中] 正在搜尋黃金範例...
+🎬 [階段 1: Director] 正在規劃動畫腳本...
+
+⚠️  RAG Warning: Could not connect to Weaviate at localhost:8080. Error: Connection to Weaviate failed. Details: Error: [Errno 61] Connection refused. 
+Is Weaviate running and reachable at http://localhost:8080?
+📏 [RAG Debug] Total RAG context length: 0 chars (~0 tokens)
+⏱  [RAG] 0.0s
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 43.19 秒
+📊 [Token 統計]: 輸入 15890 (純輸入 2) [🔥 快取命中: 9,269] | 輸出 4384
+------------------------------
+
+============================================================
+🌳 **VISUAL TREE OF THOUGHTS (ToT)**
+============================================================
+<branch id="A" type="Concrete" pedagogy="9" feasibility="8" engagement="8">Show the shaded triangle on a coordinate plane, then derive integral steps beside it so geometry stays linked to algebra.</branch>
+  <branch id="B" type="Abstract" pedagogy="7" feasibility="9" engagement="6">Pure symbolic morphing of integral expressions with no diagram.</branch>
+  <selection>
+    <winner>A</winner>
+    <reason>Anchoring the iterated bounds to a visible region builds intuition for why inner limits go 0 to x.</reason>
+  </selection>
+============================================================
+
+
+============================================================
+🧠 **SPATIAL REASONING**
+============================================================
+Left half holds a small coordinate plane with the shaded triangle (vertices (0,0),(1,0),(1,1)) so bounds stay visible the whole time. Right half is a single equation anchor that uses ReplacementTransform to morph through each derivation step, keeping at most one equation plus one label on screen.
+============================================================
+
+⏱  [Planner] 43.2s
+📉 [Compression] Planner Context Reduced: 9383 chars
+📄 [Blueprint] 已儲存完整劇本至: stable_outputs/blueprint.json
+
+🎙️ [階段 1.5: Audio Generation 並行中] 正在生成語音...
+👨‍💻 [階段 2: Coder] 正在生成動畫程式碼...
+
+
+🛠️  [正在處理的錯誤/要求]:
+
+
+═══════════════════════════════════════════════════════════════════
+🏗️ PLANNER SPATIAL HINTS (Use this for layout ideas)
+═══════════════════════════════════════════════════════════════════
+PLANNER SPATIAL HINTS:
+<branch id="A" type="Concrete" pedagogy="9" feasibility="8" engagement="8">Show the sh...
+
+🧠 生成代碼中 (claude-code)... (System Msg Length: 3498)
+🎙️ 開始生成語音 (Azure: True)...
+  - 語音片段 0: 5.59s | We begin by dra...
+  - 語音片段 1: 6.00s | Shade the regio...
+  - 語音片段 2: 7.15s | Set up the iter...
+  - 語音片段 3: 6.53s | Integrate with ...
+  - 語音片段 4: 5.21s | Substituting th...
+  - 語音片段 5: 5.83s | Now integrate o...
+  - 語音片段 6: 5.45s | Evaluating at t...
+✅ 語音處理完成！合併音檔: media/audio/Compute_the_double_i_cba00fc8ec/final_narrative.mp3
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 20.16 秒
+📊 [Token 統計]: 輸入 12627 (純輸入 2) [✍️ 建立快取: 12,625] | 輸出 2198
+------------------------------
+✅ [Coder] T=0.3 通過編譯檢查
+✅ 語音處理完成！合併音檔: /Users/liaozhenting/Desktop/LLManim_Agent/media/audio/Compute_the_double_i_cba00fc8ec/final_narrative.mp3
+🎵 [Audio Post-Inject] 成功注入 7 個 self.add_sound() + set_subtitle run_time 同步
+
+🔄 [階段 3: Review & Fix] 啟動自動校對與渲染循環...
+⚠️  RAG Warning: Could not connect to Weaviate at localhost:8080. Error: Connection to Weaviate failed. Details: Error: [Errno 61] Connection refused. 
+Is Weaviate running and reachable at http://localhost:8080?
+
+══════════════════════════════════════════════════
+🔄  迭代進行中: 第 1 / 5 次嘗試 (linter retries: 0/3 | layout retries: 0/2)
+══════════════════════════════════════════════════
+🔧 [Shift-Left] Scaled 7 step(s) anim_time to ≥ 0.7 × audio_dur
+🔍 [步驟 1/2] 正在進行靜態代碼分析 (Linter Gatekeeper)...
+  💡 [Advisory] Line 153 [NO_CLEANUP_ADVISORY]: Found 6 object entry animations (Create/Write/FadeIn) but 0 exit animations (FadeOut/Uncreate). Objects may accumulate on screen causing visual clutter. Consider adding FadeOut calls when transitioning between concepts.
+✅ 靜態審查通過 (Static Analysis Passed)
+🔧 [System] Disabling caching to ensure audio sync (Issue #4005 workaround)
+✅ 靜態審查通過！執行渲染...
+🎬 [步驟 2/2] 正在執行 Manim 渲染檢查...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13059 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (8fps)...
+👁️ [步驟 3/3] 正在執行視覺 QA 審查 (Vision Audit)...
+🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit (6.8s / 27.2s / 47.7s / 64.7s)
+📐 [Layout Gate] PASS (score=5)
+🖼️  [Vision] 使用 detail=high (iteration 0)
+
+------------------------------
+👁️  [模型]: openai/gpt-4o (Vision Audit - Image Grid)
+⏱️  [API 耗時]: 3.56 秒
+📊 [Token 統計]: 輸入 7750 | 輸出 147
+------------------------------
+
+========================================
+👁️  [Vision Agent Audit - CoVT Framework]
+----------------------------------------
+{
+  "visual_rationale": "The frames depict a consistent left-right split with a shaded triangular region on the left and evolving equations on the right. The title 'Double Integral over a Triangular Region' remains at the top. The triangle and axes are static, while the equations transform step-by-step on the right.",
+  "temporal_analysis": "From TL to BR, the triangular region remains unchanged on the left. The equations on the right evolve from the initial integral setup to the final evaluated result, with each step clearly visible and correctly transformed.",
+  "confidence_score": 5,
+  "verdict": "PASS",
+  "overall_critique": "All checks passed.",
+  "defects": []
+}
+========================================
+
+✅ 視覺審查通過！影片品質符合標準。(confidence=5/5)
+🌟 [High-Quality Render] 預覽驗證無誤，啟動最終高品質 15fps 算繪...
+📄 [Debug] 準備渲染檔案: test_script.py (大小: 13059 bytes)
+🚀 正在啟動 Manim 引擎進行渲染 (標準)...
+
+════════════════════════════════════════
+✨ 【渲染成功 / Rendering Success】 ✨
+════════════════════════════════════════
+⏱️  總執行耗時: 25.47 秒
+📂  歸檔目錄: stable_outputs
+    🎥 Compute_the_double_integral_of_x_times_y_over_the__20260526_034949.mp4
+════════════════════════════════════════
+
+
+🏛️  [階段 4: FinalJudge] 啟動兩階段品質評分...
+
+==================================================
+🏛️  [FinalJudge] Starting multi-phase quality evaluation
+📐 [FinalJudge] Scene-state log provided: /Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json
+==================================================
+🔬 [FinalJudge Phase 1] Code analysis (Claude Opus)...
+
+------------------------------
+🤖 [模型]: claude-opus-4-7 (Claude Code Subscription / 月費)
+⏱️  [API 耗時]: 17.55 秒
+📊 [Token 統計]: 輸入 11399 (純輸入 2) [✍️ 建立快取: 11,397] | 輸出 1532
+------------------------------
+🔬 [Phase 1] math_score=5 | issues=2 | events=6
+  · [E1 w=0.5] Title text 'Double Integral over a Triangular Region' at top
+  · [E2 w=1.0] Axes drawn in the left portion of the screen
+  · [E3 w=1.0] A blue shaded right-triangle appears on the left
+  · [E4 w=0.5] Yellow label 'y=x' shown near the triangle
+  · [E5 w=1.0] Integral setup ∫₀¹∫₀ˣ xy dy dx shown on the right
+  · [E6 w=1.0] Equation morphs through steps to final '= 1/8' in green inside a green
+  ❓ extracted_answer='1/8' (gt_match=None)
+  🟡 [LAYOUT_ERROR] Triangle vertices are pre-computed in screen coordinates then re-centered with .
+  🟡 [LAYOUT_ERROR] Triangle vertex at x=-5 is near the left edge; acceptable but close to frame bou
+👁️  [FinalJudge Phase 2] Visual analysis (Claude Opus)...
+📐 [FinalJudge] Step-based sampling: 7 steps → 6 frames
+  [pass 2] Opus 12.6s in=20129 out=762
+  [pass 1] Opus 12.8s in=20128 out=738
+  [pass 0] Opus 13.9s in=20126 out=707
+
+--- FinalJudge Visual Consensus ---
+[3/3 passes; events=5/6 confirmed → concept=4; clarity=[4, 4, 4] → median=4; agreement: event=1.00 clarity=1.00]
+  ✅ E1 votes=[1, 1, 1] unan=1.00 — Title text 'Double Integral over a Triangular Region' at top
+  ✅ E2 votes=[1, 1, 1] unan=1.00 — Axes drawn in the left portion of the screen
+  ✅ E3 votes=[1, 1, 1] unan=1.00 — A blue shaded right-triangle appears on the left
+  ✅ E4 votes=[1, 1, 1] unan=1.00 — Yellow label 'y=x' shown near the triangle
+  ✅ E5 votes=[1, 1, 1] unan=1.00 — Integral setup ∫₀¹∫₀ˣ xy dy dx shown on the right
+  ❌ E6 votes=[0, 0, 0] unan=1.00 — Equation morphs through steps to final '= 1/8' in green insi
+concept_alignment = 4 (alignment=0.8)
+visual_clarity    = 4 (agreement=1.00)
+-----------------------------------
+
+📐 [FinalJudge Phase 3] Layout PASS | score=5 | violations=0
+
+==================================================
+🏛️  [FinalJudge] math_logic=5 | math_displayed=None | concept_alignment=4 | visual_clarity=4 | spatial_layout=5
+🏛️  [FinalJudge] Weighted Total: 4.625
+🏛️  [FinalJudge] Verdict: PASS
+==================================================
+
+⏱  [FinalJudge] 31.6s
+
+========================================
+📊 **LLM USAGE SESSION REPORT**
+========================================
+Total Calls: 7
+Total Tokens: 118,517
+  - Prompt: 108,049
+  - Completion: 10,468
+----------------------------------------
+Estimated Cost: $0.764209 USD
+約合台幣: NT$ 23.6905
+========================================
+

@@ -1,0 +1,216 @@
+{
+  "items": [
+    {
+      "id": "Q01_sin_squared_integral",
+      "topic": "求 sin²(x) 從 0 到 π 的定積分",
+      "topic_en": "Sin Squared Integral",
+      "topic_prompt": "Evaluate the definite integral of sin^2(x) from 0 to pi by first applying the half-angle identity sin^2(x) = (1 - cos(2x))/2, then integrating step by step. Show the area under the curve being shaded as the answer is computed.",
+      "opus_video_url": "/static/videos/naked_opus/Q01_sin_squared_integral.mp4",
+      "system_video_url": "/static/videos/old_rag/Q01_sin_squared_integral.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 27.4,
+        "code_lines": 119,
+        "gen_time_sec": 30.37
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 70.8,
+        "code_lines": 244,
+        "gen_time_sec": null,
+        "notes": "✨ 精修版：手動拆細為「一句一動作」12 步，消除動畫凍結時間"
+      }
+    },
+    {
+      "id": "Q02_cubic_extrema",
+      "topic": "求 f(x)=x³−6x²+9x 的極值",
+      "topic_en": "Cubic Extrema",
+      "topic_prompt": "Find the local extrema of f(x) = x^3 - 6x^2 + 9x. Take the first derivative, solve f'(x)=0 for critical points, use the second derivative test to classify them, and mark the extrema on the curve with tangent lines at those points.",
+      "opus_video_url": "/static/videos/naked_opus/Q02_cubic_extrema.mp4",
+      "system_video_url": "/static/videos/old_rag/Q02_cubic_extrema.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 26.67,
+        "code_lines": 114,
+        "gen_time_sec": 31.55
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 67.1,
+        "code_lines": 149,
+        "gen_time_sec": null,
+        "notes": "✨ 精修版：手動拆細為「一句一動作」12 步，消除動畫凍結時間"
+      }
+    },
+    {
+      "id": "Q03_lhopital_sinx_over_x",
+      "topic": "證明 lim(x→0) sin(x)/x = 1",
+      "topic_en": "Lhopital Sinx Over X",
+      "topic_prompt": "Prove that the limit of sin(x)/x as x approaches 0 equals 1, using L'Hopital's rule. Visually compare the curves y=sin(x) and y=x near the origin, showing how they coincide. Then show the derivative-based proof step by step.",
+      "opus_video_url": "/static/videos/naked_opus/Q03_lhopital_sinx_over_x.mp4",
+      "system_video_url": "/static/videos/old_rag/Q03_lhopital_sinx_over_x.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 34.93,
+        "code_lines": 99,
+        "gen_time_sec": 28.43
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 77.33,
+        "code_lines": 229,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q04_eigenvalues_2x2",
+      "topic": "求矩陣 [[3,1],[0,2]] 的特徵值與特徵向量",
+      "topic_en": "Eigenvalues 2X2",
+      "topic_prompt": "Find the eigenvalues and eigenvectors of the matrix A = [[3,1],[0,2]]. Set up det(A - lambda*I) = 0, solve the characteristic polynomial step by step, then solve (A - lambda*I)v = 0 for each eigenvector. Finally, show a 2D visualization of how the eigenvectors are preserved under the transformation.",
+      "opus_video_url": "/static/videos/naked_opus/Q04_eigenvalues_2x2.mp4",
+      "system_video_url": "/static/videos/old_rag/Q04_eigenvalues_2x2.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 30.33,
+        "code_lines": 154,
+        "gen_time_sec": 40.18
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 131.93,
+        "code_lines": 294,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q05_double_integral",
+      "topic": "計算二重積分 ∫∫ xy dA, 區域 0≤x≤1, 0≤y≤x",
+      "topic_en": "Double Integral",
+      "topic_prompt": "Compute the double integral of xy over the triangular region where 0 <= x <= 1 and 0 <= y <= x. First shade the integration region in 2D, set up the iterated integral with correct bounds, integrate with respect to y, then with respect to x, and show the final numerical answer.",
+      "opus_video_url": "/static/videos/naked_opus/Q05_double_integral.mp4",
+      "system_video_url": "/static/videos/old_rag/Q05_double_integral.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "video_duration_sec": null,
+        "code_lines": 111,
+        "gen_time_sec": 27.07,
+        "notes": "in enclosing scope"
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 82.0,
+        "code_lines": 236,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q06_second_order_ode",
+      "topic": "解二階 ODE: y''+3y'+2y=0, y(0)=1, y'(0)=0",
+      "topic_en": "Second Order Ode",
+      "topic_prompt": "Solve the second-order linear ODE y'' + 3y' + 2y = 0 with initial conditions y(0)=1, y'(0)=0. Write the characteristic equation r^2 + 3r + 2 = 0, find the roots, write the general solution as a sum of exponentials, apply the initial conditions to find the constants, then plot the solution curve.",
+      "opus_video_url": "/static/videos/naked_opus/Q06_second_order_ode.mp4",
+      "system_video_url": "/static/videos/old_rag/Q06_second_order_ode.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 37.27,
+        "code_lines": 106,
+        "gen_time_sec": 32.1
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 71.3,
+        "code_lines": 134,
+        "gen_time_sec": null,
+        "notes": "✨ 精修版：手動拆細為「一句一動作」12 步，消除動畫凍結時間"
+      }
+    },
+    {
+      "id": "Q07_laplace_exp_sin",
+      "topic": "求 Laplace 變換 L{e^(at) sin(bt)}",
+      "topic_en": "Laplace Exp Sin",
+      "topic_prompt": "Compute the Laplace transform of e^(at) * sin(bt) by applying the definition L{f} = integral from 0 to infinity of e^(-st) f(t) dt. Show the integral setup, use the s-shift property to handle the e^(at) factor, and arrive at the final formula b / ((s-a)^2 + b^2). Display both time-domain and s-domain interpretations.",
+      "opus_video_url": "/static/videos/naked_opus/Q07_laplace_exp_sin.mp4",
+      "system_video_url": "/static/videos/old_rag/Q07_laplace_exp_sin.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 38.33,
+        "code_lines": 127,
+        "gen_time_sec": 33.67
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 84.2,
+        "code_lines": 229,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q08_square_wave_fourier",
+      "topic": "方波的 Fourier 級數展開（前 5 項）",
+      "topic_en": "Square Wave Fourier",
+      "topic_prompt": "Derive the Fourier series of a square wave by computing the first 5 nonzero coefficients. Show the general formula a_n, b_n integrals, evaluate them step by step to get the (4/pi) * sum of sin((2k-1)x)/(2k-1) form, then visually add the harmonics one by one onto the same plot showing how the partial sum approaches the square wave.",
+      "opus_video_url": "/static/videos/naked_opus/Q08_square_wave_fourier.mp4",
+      "system_video_url": "/static/videos/old_rag/Q08_square_wave_fourier.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 34.6,
+        "code_lines": 135,
+        "gen_time_sec": 33.0
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 103.0,
+        "code_lines": 279,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q09_rc_charging",
+      "topic": "RC 電路充電響應 V(t)=V0(1-e^(-t/RC))",
+      "topic_en": "Rc Charging",
+      "topic_prompt": "Derive the charging response of an RC circuit. Draw the circuit (battery V0, resistor R, capacitor C, switch). Apply Kirchhoff's voltage law to get the first-order ODE RC*dV/dt + V = V0, solve it with V(0)=0 to get V(t) = V0*(1 - e^(-t/RC)), then plot V(t) and mark the time constant tau=RC at 63.2% of V0.",
+      "opus_video_url": "/static/videos/naked_opus/Q09_rc_charging.mp4",
+      "system_video_url": "/static/videos/old_rag/Q09_rc_charging.mp4",
+      "opus_metrics": {
+        "render_success": false,
+        "video_duration_sec": null,
+        "code_lines": 232,
+        "gen_time_sec": 63.83,
+        "notes": "AttributeError: 'dict' object has no attribute 'scale'"
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 113.67,
+        "code_lines": 276,
+        "gen_time_sec": null
+      }
+    },
+    {
+      "id": "Q10_gradient_descent",
+      "topic": "梯度下降找 f(x,y)=x²+2y² 的最小值",
+      "topic_en": "Gradient Descent",
+      "topic_prompt": "Demonstrate gradient descent on f(x,y) = x^2 + 2y^2. Show the function as a 2D contour plot (concentric ellipses), compute the gradient (2x, 4y), pick a starting point like (3, 2), then iteratively apply (x,y) <- (x,y) - alpha*grad with learning rate alpha=0.1. Animate the descent trajectory zigzagging toward the minimum at the origin.",
+      "opus_video_url": "/static/videos/naked_opus/Q10_gradient_descent.mp4",
+      "system_video_url": "/static/videos/old_rag/Q10_gradient_descent.mp4",
+      "opus_metrics": {
+        "render_success": true,
+        "video_duration_sec": 26.2,
+        "code_lines": 118,
+        "gen_time_sec": 29.42
+      },
+      "system_metrics": {
+        "render_success": true,
+        "video_duration_sec": 105.33,
+        "code_lines": 282,
+        "gen_time_sec": null
+      }
+    }
+  ],
+  "generated_at": "2026-05-26T12:30:00+08:00",
+  "summary": {
+    "total_topics": 10,
+    "system_render_success": 10,
+    "naked_render_success": 8,
+    "note": "Q01/Q02/Q06 已替換為精修版（exhibition_demo/improved/）"
+  }
+}

@@ -1,0 +1,125 @@
+from manim import *
+import numpy as np
+
+
+class MainScene(Scene):
+    def construct(self):
+        self.camera.background_color = "#0e1116"
+
+        # ---------- Title ----------
+        title = Text("Solving an Initial Value Problem", color=YELLOW, weight=BOLD).scale(0.8)
+        underline = Line(LEFT, RIGHT, color=YELLOW).set_width(title.width + 0.4)
+        underline.next_to(title, DOWN, buff=0.15)
+        title_grp = VGroup(title, underline).to_edge(UP, buff=0.4)
+        self.play(Write(title), GrowFromCenter(underline))
+        self.wait(0.5)
+
+        # ---------- Step 1: ODE + ICs ----------
+        ode = MathTex("y'' + 3y' + 2y = 0", color=WHITE).scale(1.1)
+        ics = MathTex("y(0)=1,\\quad y'(0)=0", color=BLUE_B).scale(0.9)
+        ode.next_to(title_grp, DOWN, buff=0.7)
+        ics.next_to(ode, DOWN, buff=0.35)
+        self.play(Write(ode))
+        self.play(FadeIn(ics, shift=UP))
+        self.wait(1)
+
+        self.play(
+            ode.animate.scale(0.65).to_corner(UL).shift(DOWN * 1.0),
+            ics.animate.scale(0.65).to_corner(UL).shift(DOWN * 1.7),
+            FadeOut(title_grp, shift=UP),
+        )
+
+        # ---------- Steps 2-5: algebra chain ----------
+        steps = VGroup(
+            MathTex("r^2 + 3r + 2 = 0"),
+            MathTex("(r+1)(r+2) = 0"),
+            MathTex("r = -1,\\quad r = -2"),
+            MathTex("y(t) = C_1 e^{-t} + C_2 e^{-2t}"),
+        ).scale(0.85).arrange(DOWN, buff=0.45)
+        steps.move_to(ORIGIN).shift(RIGHT * 1.5 + UP * 1.2)
+        steps[0].set_color(GREEN_B)
+        steps[1].set_color(GREEN_B)
+        steps[2].set_color(ORANGE)
+        steps[3].set_color(TEAL_B)
+
+        labels = ["characteristic eq.", "factor", "roots", "general solution"]
+        for s, lbl in zip(steps, labels):
+            tag = Text(lbl, color=GREY_B).scale(0.4).next_to(s, LEFT, buff=0.5)
+            self.play(Write(s), FadeIn(tag, shift=RIGHT), run_time=0.9)
+            self.wait(0.5)
+
+        self.wait(0.8)
+
+        # collapse algebra, keep general solution
+        gen = steps[3].copy()
+        self.play(
+            FadeOut(VGroup(*[m for m in self.mobjects if m not in (ode, ics, steps[3])])),
+        )
+        self.play(steps[3].animate.scale(0.8).to_corner(UR).shift(DOWN * 0.6 + LEFT * 0.2))
+
+        # ---------- Steps 6-8: apply ICs, solve system ----------
+        sys_lines = VGroup(
+            MathTex("y(0)=1:\\;\\; C_1 + C_2 = 1"),
+            MathTex("y'(0)=0:\\;\\; -C_1 - 2C_2 = 0"),
+            MathTex("\\Rightarrow\\; C_1 = 2,\\;\\; C_2 = -1"),
+        ).scale(0.8).arrange(DOWN, buff=0.5, aligned_edge=LEFT)
+        sys_lines.move_to(LEFT * 2.0)
+        sys_lines[0].set_color(BLUE_B)
+        sys_lines[1].set_color(BLUE_B)
+        sys_lines[2].set_color(YELLOW)
+
+        for ln in sys_lines:
+            self.play(Write(ln), run_time=0.9)
+            self.wait(0.4)
+        self.wait(0.8)
+
+        # ---------- Step 9: particular solution ----------
+        part = MathTex("y(t) = 2e^{-t} - e^{-2t}", color=YELLOW).scale(1.0)
+        box = SurroundingRectangle(part, color=YELLOW, buff=0.25, corner_radius=0.1)
+        part_grp = VGroup(part, box)
+
+        self.play(FadeOut(sys_lines, shift=DOWN), FadeOut(steps[3], shift=UP))
+        self.play(FadeIn(part, shift=UP))
+        self.play(Create(box))
+        self.wait(0.8)
+        self.play(part_grp.animate.scale(0.75).to_edge(UP, buff=1.4))
+
+        # ---------- Step 10: plot ----------
+        axes = Axes(
+            x_range=[0, 5, 1],
+            y_range=[0, 1.1, 0.25],
+            x_length=8,
+            y_length=3.6,
+            axis_config={"color": GREY_B, "include_tip": True, "stroke_width": 2},
+            tips=True,
+        ).to_edge(DOWN, buff=0.6)
+        x_lbl = axes.get_x_axis_label(MathTex("t").scale(0.7))
+        y_lbl = axes.get_y_axis_label(MathTex("y").scale(0.7))
+
+        def f(t):
+            return 2 * np.exp(-t) - np.exp(-2 * t)
+
+        graph = axes.plot(f, x_range=[0, 5, 0.02], color=TEAL)
+        graph_lbl = MathTex("y(t)=2e^{-t}-e^{-2t}", color=TEAL).scale(0.55)
+        graph_lbl.next_to(axes.c2p(2.4, f(2.4)), UR, buff=0.2)
+
+        dot = Dot(color=YELLOW).move_to(axes.c2p(0, f(0)))
+        start_lbl = MathTex("y(0)=1", color=YELLOW).scale(0.5).next_to(dot, UR, buff=0.1)
+
+        self.play(Create(axes), FadeIn(x_lbl), FadeIn(y_lbl))
+        self.play(FadeIn(dot), FadeIn(start_lbl))
+        self.play(Create(graph), run_time=2.5)
+        self.play(Write(graph_lbl))
+
+        # animate dot decaying to zero
+        moving = Dot(color=RED, radius=0.08).move_to(axes.c2p(0, f(0)))
+        self.add(moving)
+        self.play(
+            MoveAlongPath(moving, graph),
+            run_time=2.5,
+            rate_func=linear,
+        )
+        decay_txt = Text("smooth decay to zero", color=GREEN_B).scale(0.5)
+        decay_txt.next_to(axes.c2p(4.0, f(4.0)), UP, buff=0.4)
+        self.play(FadeIn(decay_txt, shift=UP))
+        self.wait(2)
