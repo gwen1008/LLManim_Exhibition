@@ -53,7 +53,7 @@ MAX_BUDGET_USD = 30.0
 
 WEIGHTS = {"math": 0.30, "pedagogy": 0.25, "spatial": 0.25, "feasibility": 0.20}
 
-JUDGE_MODEL = "anthropic/claude-opus-4-7"
+JUDGE_MODEL = "anthropic/claude-opus-4-8"
 
 # ────────────────────────────────────────────────────────────────────
 # Judge Prompt

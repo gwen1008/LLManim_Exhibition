@@ -33,84 +33,88 @@ Output a STRICT JSON object (no other text). Schema:
   "rationale":  "Rubber-Duck Debugging: explain EXACTLY why the traceback or visual feedback occurred in plain English step-by-step."
 }}"""
 
-_SUBTITLE_MANAGER_SNIPPET = '''\
+# 非阻塞字幕（瞬間版）。注入到每支生成的影片。
+#
+# 為何不用 add_updater 淡入淡出版（即 evaluation/benchmark_set/subtitle_manager_v2.py）：
+# 經 2026-05-31 實測，v2 靠 `mob.set_opacity(0)` 初始化 + updater 內 set_opacity 拉回，
+# 在當前 manim CE 0.19 下「VGroup(含 Text) 被 set_opacity(0) 後再也拉不回」→ 字幕永遠隱形。
+# 故改用瞬間 add/remove：opacity 直接維持預設（=1），不經 updater，保證字幕一定顯示。
+# 代價：無淡入淡出、不做句內分段輪播（整句一次顯示，留到下次 show 才替換）。
+# 兩個 must（顯示 + 非阻塞）優先於一個 nice（淡入淡出）。
+_SUBTITLE_MANAGER_SNIPPET_FALLBACK = '''\
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
 
     def __init__(self, scene, font_size=28):
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
-        sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
-        if len(parts) % 2 == 1 and parts[-1].strip():
-            sentences.append(parts[-1].strip())
-
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
-        if not sentences:
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
             return
-
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
-
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
-
-        for idx, s in enumerate(sentences):
-
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
-
-            is_last = (idx == n - 1)
-
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
-
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
         if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
             self._current = None
 '''
+
+
+def _load_subtitle_snippet():
+    """挑選要注入的 SubtitleManager 字幕實作。
+
+    原意是「單一事實來源」——直接讀 evaluation/benchmark_set/subtitle_manager_v2.py，但
+    2026-05-31 實測 v2 的 add_updater + set_opacity(0) 機制在當前 manim CE 0.19 失效（字幕
+    永遠隱形，見 _SUBTITLE_MANAGER_SNIPPET_FALLBACK 註解）。因此目前**只採用內嵌瞬間版**。
+
+    保留讀 v2 的程式碼路徑：未來若 v2 改成不靠 set_opacity 的可用實作（class 內不再同時出現
+    add_updater 與 set_opacity(0)），會自動切回讀 v2，恢復單一事實來源。否則一律用 fallback。
+    """
+    try:
+        # refining_loop.py 在 agents/orchestrator/ → 上溯兩層到 repo root
+        _root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        _v2_path = os.path.join(_root, 'evaluation', 'benchmark_set', 'subtitle_manager_v2.py')
+        with open(_v2_path, encoding='utf-8') as _f:
+            _src = _f.read()
+        # 抽 class SubtitleManagerV2 整段（到檔尾或下一個 top-level def/class）
+        _m = re.search(r'^class\s+SubtitleManagerV2\b.*?(?=\n(?:class |def )\S|\Z)', _src,
+                       re.MULTILINE | re.DOTALL)
+        if not _m:
+            return _SUBTITLE_MANAGER_SNIPPET_FALLBACK
+        _cls = _m.group(0)
+        # Guard：若 v2 仍是壞掉的 add_updater + set_opacity(0) 組合，拒用、改瞬間版 fallback。
+        if 'add_updater' in _cls and 'set_opacity(0)' in _cls:
+            return _SUBTITLE_MANAGER_SNIPPET_FALLBACK
+        _cls = _cls.rstrip() + '\n'
+        # 改名：注入點 grep 'SubtitleManager'、strip regex 抓 '^class SubtitleManager:'，
+        # 所以注入的 class 必須叫 SubtitleManager（不帶 V2）。
+        _cls = _cls.replace('class SubtitleManagerV2', 'class SubtitleManager')
+        compile(_cls, '<subtitle_snippet>', 'exec')  # sanity：注入產物必須合法
+        return _cls
+    except Exception:
+        return _SUBTITLE_MANAGER_SNIPPET_FALLBACK
+
+
+_SUBTITLE_MANAGER_SNIPPET = _load_subtitle_snippet()
+
 
 _INSTRUMENTOR_SNIPPET = '''\
 class SceneInstrumentor:
@@ -775,6 +779,70 @@ class RefiningLoop:
                 print(f"🔧 [Shift-Left] Scaled {scaled_count} step(s) anim_time to ≥ 0.7 × audio_dur")
         except Exception as _e:
             print(f"⚠️ [Shift-Left] anim_time scale patch skipped: {_e}")
+
+        # 11. [Write+Indicate Conflict] 移除緊跟 Write 同物件的 Indicate/Circumscribe。
+        # LLM 愛在同一個 LaggedStart 裡寫 Write(X) 緊跟 Indicate(X)/Circumscribe(X)。
+        # 因 lag_ratio<1，Indicate 在 Write 完成前啟動，結束時把「未寫完」的 X 還原 →
+        # X 整個消失或閃爍。對策：若同物件同時被 Write 與 Indicate/Circumscribe 作用，刪後者。
+        try:
+            _written = set(re.findall(r'\bWrite\(\s*([A-Za-z_]\w*)\s*\)', patched))
+            _removed_conflicts = 0
+            for _obj in _written:
+                # 移除作用於同物件的 Indicate(...) / Circumscribe(...)（含可選參數）。
+                # 涵蓋兩種 LLM 寫法，避免留下語法殘渣 / 空容器：
+                #   (a) 獨佔一行：連同前導縮排、其後逗號與換行整行刪除
+                #   (b) 同行 inline（如 self.play(Write(x), Indicate(x))）：只刪該動畫
+                #       與其相鄰的一個逗號＋空白，不碰換行（否則會吃掉同行其他動畫）。
+                # [^()]* 確保不跨括號；對「參數含內層括號」的 Indicate 保守不刪（漏修優於誤刪）。
+                _obj_re = re.escape(_obj)
+                # (a) 獨佔行
+                _pat_line = re.compile(
+                    r'^[ \t]*(?:Indicate|Circumscribe)\(\s*' + _obj_re + r'\b[^()]*\),?[ \t]*\n',
+                    re.MULTILINE
+                )
+                patched, _na = _pat_line.subn('', patched)
+                # (b) 同行 inline：吃掉「前一個逗號+空白」或「自身+後一個逗號+空白」
+                _pat_inline = re.compile(
+                    r',[ \t]*(?:Indicate|Circumscribe)\(\s*' + _obj_re + r'\b[^()]*\)'  # 前置逗號型
+                    r'|(?:Indicate|Circumscribe)\(\s*' + _obj_re + r'\b[^()]*\)[ \t]*,?'  # 自身+後置逗號型
+                )
+                patched, _nb = _pat_inline.subn('', patched)
+                _removed_conflicts += _na + _nb
+            if _removed_conflicts:
+                # 收尾：若刪到只剩空的 LaggedStart()/AnimationGroup()（含跨行空白），
+                # 整個 self.play(...) 會在 manim raise。把這種空 play 整段移除避免 crash。
+                # 觸發極罕見（Write 與其唯一同物件 Indicate 分屬不同 play），純防禦。
+                patched = re.sub(
+                    r'^[ \t]*self\.play\(\s*(?:LaggedStart|AnimationGroup)\(\s*\)\s*\)[ \t]*\n',
+                    '', patched, flags=re.MULTILINE
+                )
+                print(f"🔧 [Shift-Left] Write+Indicate: removed {_removed_conflicts} conflicting emphasis anim(s)")
+        except Exception as _e11:
+            print(f"⚠️ [Shift-Left] Write+Indicate patch skipped: {_e11}")
+
+        # 12. [Subtitle Zone Clearance] 字幕線（y = -3.5）以下不得有任何元素。
+        # 僅處理字面值 .move_to([x, y, z])：若 y < -2.8（字幕區安全邊界），上推到 -2.6。
+        # next_to(...) 鏈式不靜態解析（會誤傷座標軸），交由 LLM/其他 patch 處理。
+        try:
+            _SUB_SAFE_Y = -2.6  # 字幕在 -3.5，標籤底部留 ~0.9 緩衝
+            def _lift_y(m):
+                # 單一座標 float 失敗（半截字面值如 [1, ., 0]）只跳過這個 match，
+                # 不讓 subn 整個拋例外導致全檔合法座標都漏抬升。
+                try:
+                    _y = float(m.group(2))
+                except (ValueError, TypeError):
+                    return m.group(0)
+                if _y < -2.8:
+                    return f'.move_to([{m.group(1)}, {_SUB_SAFE_Y}, {m.group(3)}])'
+                return m.group(0)
+            patched, _lifted = re.subn(
+                r'\.move_to\(\[\s*([-\d.]+)\s*,\s*([-\d.]+)\s*,\s*([-\d.]+)\s*\]\)',
+                _lift_y, patched
+            )
+            if _lifted:
+                print(f"🔧 [Shift-Left] Subtitle Zone: scanned move_to, lifted labels below y=-2.8 to {_SUB_SAFE_Y}")
+        except Exception as _e12:
+            print(f"⚠️ [Shift-Left] Subtitle Zone patch skipped: {_e12}")
 
         return patched
 

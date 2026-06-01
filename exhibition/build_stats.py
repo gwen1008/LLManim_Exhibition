@@ -112,8 +112,8 @@ def main():
         "fail_rate": round(verdict.get("FAIL", 0) / n, 3),
         # Agents
         "agents": [
-            {"name": "Planner", "model": "claude-opus-4-7", "role": "視覺計畫 JSON"},
-            {"name": "Coder", "model": "claude-opus-4-7", "role": "ManimCE 代碼生成"},
+            {"name": "Planner", "model": "claude-opus-4-8", "role": "視覺計畫 JSON"},
+            {"name": "Coder", "model": "claude-opus-4-8", "role": "ManimCE 代碼生成"},
             {"name": "VisionQA", "model": "gpt-4o", "role": "渲染後視覺驗收"},
             {"name": "RefiningLoop", "model": "—", "role": "Reflexion 自動修正 (最多 5 輪)"},
         ],

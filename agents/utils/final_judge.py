@@ -738,7 +738,7 @@ Follow the protocol in your system prompt. Output ONLY the JSON object."""
             )
             # Empty default: claudealt was retired 2026-05-23 (keychain locked).
             run_as = os.getenv("CLAUDE_RUN_AS_USER", "")
-            model  = os.getenv("FJ_OPUS_MODEL", "claude-opus-4-7")
+            model  = os.getenv("FJ_OPUS_MODEL", "claude-opus-4-8")
             grid_abs = os.path.abspath(grid_path)
             opus_prompt = (
                 f"{user_text}\n\n"
