@@ -710,6 +710,85 @@ class ManimLinter(ast.NodeVisitor):
                         })
         self.generic_visit(node)
 
+# 白名單：合法的數學指令 / 常見公式詞，不算「純文字」。與 ManimLinter 的 MATHTEX_PLAIN_TEXT 同源。
+_MATHTEX_WORD_WHITELIST = {
+    'sin', 'cos', 'tan', 'log', 'exp', 'lim', 'inf', 'sup', 'max', 'min', 'det',
+    'dim', 'ker', 'mod', 'gcd', 'lcm', 'deg', 'arg', 'hom', 'sec', 'csc', 'cot',
+    'arcsin', 'arccos', 'arctan', 'sinh', 'cosh', 'tanh', 'text', 'mathrm', 'mathbf',
+    'mathbb', 'cdot', 'cdots', 'ldots', 'quad', 'qquad', 'left', 'right', 'begin',
+    'end', 'array', 'matrix', 'frac', 'sqrt', 'sum', 'prod', 'int', 'oint', 'over',
+    'times', 'div', 'approx', 'equiv', 'neq', 'leq', 'geq', 'infty', 'alpha', 'beta',
+    'gamma', 'delta', 'epsilon', 'theta', 'lambda', 'sigma', 'omega', 'phi', 'psi',
+    'pi', 'tau', 'rho', 'eta', 'zeta', 'chi',
+    'slope', 'angle', 'ratio', 'value', 'point', 'where', 'given', 'since', 'hence', 'there',
+}
+
+
+def _mathtex_string_is_plaintext(s):
+    """與 ManimLinter MATHTEX_PLAIN_TEXT 判準完全一致：MathTex 字串是否含會讓 LaTeX 崩的純文字。
+    涵蓋：(a) 字面 \\text{}/\\mathrm{}  (b) 單反斜線 "\\text" → Python 解析成 TAB  (c) ≥2 非數學長單字。"""
+    # 單反斜線 "\text" → Python 解析成 TAB：a.value 帶 TAB 字元，必崩，一定轉 Tex。
+    if '\t' in s:
+        return True
+    # ⚠️ 不可「含 \text{ 就轉 Tex」：數學為主的字串(如 r'a>b \Rightarrow \text{(A)}')剝掉 \text{}
+    # 後是純合法數學，應保持 MathTex（step 4 會剝 \text{}）。誤轉 Tex 會讓 a>b/\Rightarrow 落入
+    # text-mode 沒包 $ → 'Missing $ inserted'（cap20 MEX_112_4 連崩 4 輪的真兇）。
+    # 正解：剝掉 \text{}/\mathrm{} 後，看「剩餘部分」是否仍是文字為主（≥2 非數學長單字）。
+    cleaned = re.sub(r'\\(?:text|mathrm|mathbf)\{[^}]*\}', '', s)
+    cleaned = re.sub(r'\\{1,2}[a-zA-Z]+', '', cleaned)
+    cleaned = re.sub(r"[_^{}\\$=+\-*/()0-9.,<>|!\[\]&:']", ' ', cleaned)
+    words = [w for w in cleaned.split()
+             if len(w) >= 5 and w.isalpha() and w.lower() not in _MATHTEX_WORD_WHITELIST]
+    return len(words) >= 2
+
+
+def autofix_mathtex_to_tex(source):
+    """[Deterministic Auto-Fix] 把「裝純文字的 MathTex」就地改成 Tex（text-mode，純英文/\\text 都能編）。
+
+    根治 MATHTEX_PLAIN_TEXT：linter 偵測得到但 LLM 屢勸不聽（每輪換寫法繼續犯，燒光 retry budget）。
+    與 linter 偵測同源（_mathtex_string_is_plaintext），保證「linter 抓得到的，這裡一定修得到」。
+    用 ast.get_source_segment 精準定位整個 MathTex(...) 呼叫，只把開頭的 MathTex 換成 Tex，不動參數。
+
+    回傳 (fixed_source, n_fixed)。語法錯則原樣回傳（交給後續 linter/render 報）。
+    """
+    try:
+        tree = ast.parse(source)
+    except SyntaxError:
+        return source, 0
+
+    # 把每行起始的絕對 offset 算好，用來把 ast 的 (lineno, col_offset) 換成字串 index
+    _line_abs = [0]
+    for _ln in source.splitlines(keepends=True):
+        _line_abs.append(_line_abs[-1] + len(_ln))
+
+    def _to_offset(lineno, col):
+        return _line_abs[lineno - 1] + col
+
+    # 收集需要修的 MathTex node 起始 offset（去重）
+    _segments = []
+
+    seen = set()
+    for node in ast.walk(tree):
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id == 'MathTex'):
+            if any(isinstance(a, ast.Constant) and isinstance(a.value, str)
+                   and _mathtex_string_is_plaintext(a.value) for a in node.args):
+                # 只需替換函式名 'MathTex' 這 7 個字元（在 node.func 位置）
+                start = _to_offset(node.func.lineno, node.func.col_offset)
+                if source[start:start + 7] == 'MathTex' and start not in seen:
+                    seen.add(start)
+                    _segments.append(start)
+
+    if not _segments:
+        return source, 0
+
+    # 由後往前替換，offset 不位移
+    out = source
+    for start in sorted(_segments, reverse=True):
+        out = out[:start] + 'Tex' + out[start + 7:]
+    return out, len(_segments)
+
+
 def lint_file(filepath):
     if not os.path.exists(filepath):
         print(f"Error: File not found - {filepath}")

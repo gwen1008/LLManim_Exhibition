@@ -55,6 +55,7 @@ class ManimDiagnoser:
             "KeyError": "Dictionary KeyError. Likely accessing a nonexistent ID in the objects dictionary. Check: (1) Is the object created and stored? (2) Does the ID spelling match the JSON exactly? (3) Are you trying to reference the object before it's created?",
             
             # ========== LaTeX Errors ==========
+            "Missing \\$ inserted": "LaTeX 'Missing $ inserted' — a math-only symbol (e.g. \\odot, \\angle, \\triangle, \\times, \\frac, ^, _) appears in TEXT MODE without math delimiters. This happens in Tex(...) (text-mode) when you mix prose with bare math symbols. FIX: wrap every math symbol/expression in $...$. Example: Tex(r'(A) outside \\odot B, inside \\odot C') → Tex(r'(A) outside $\\odot B$, inside $\\odot C$'). Keep the plain English words OUTSIDE the $, keep math symbols INSIDE. Do NOT switch back to MathTex (it would re-break on the English words).",
             "LaTeX Error": "LaTeX compilation error. Common causes: (1) Syntax error (missing $ or mismatched {}). (2) Usage of undefined symbols. (3) Unescaped special characters in MathTex strings. Use raw strings r'...' or double backslashes \\\\.",
             "latexmk.*error": "LaTeX compilation failed. Check the LaTeX syntax in MathTex contents. If using special characters, ensure you use an r-string (e.g., r'\\frac{1}{2}').",
             "UnicodeDecodeError": "LaTeX Encoding Error. Avoid using Chinese characters directly in MathTex. Use Text() objects for Chinese text and MathTex() for mathematical formulas, then combine them visually using VGroup(Text(...), MathTex(...)).arrange().",
@@ -208,6 +209,18 @@ Other common API renames:
         "recursion",
     ]
 
+    # LaTeX *compilation* failures whose error message does NOT contain the broken source string.
+    # SEARCH/REPLACE can't locate the bad MathTex (e.g. unclosed \sqrt{), so the LLM blindly patches
+    # and often deletes the offending self.play(...) → "Called Scene.play with no animations" deadlock.
+    # These MUST go full-rewrite so the whole MathTex string is regenerated. (HSAT_114_16 / 114_5 bug)
+    LATEX_REWRITE_PATTERNS = [
+        "undefined control sequence",
+        "latex error converting to dvi",
+        "latex compilation error",
+        "missing $ inserted",
+        "no animations",  # downstream symptom of a botched LaTeX surgical patch
+    ]
+
     def diagnose_only(self, error_message: str) -> ErrorTriage:
         """
         Quickly check if we have a known fix for this error WITHOUT generating the full prompt.
@@ -244,11 +257,20 @@ Other common API renames:
                 advice = p_advice
                 break
 
+        # LaTeX compilation failures need full rewrite regardless of knowledge_base match,
+        # because SEARCH/REPLACE can't locate the broken string (see LATEX_REWRITE_PATTERNS).
+        _is_latex_rewrite = any(kw in error_lower for kw in self.LATEX_REWRITE_PATTERNS)
+
         if not matched:
+            # Unknown error is non-surgical by default; latex-compile errors stay non-surgical too.
             return ErrorTriage(matched=False, is_surgical=False, category=category, advice=advice)
 
-        # Even if matched, timeout / architectural errors need full rewrite
-        is_surgical = not ("TIMEOUT" in category) and not any(kw in error_message.lower() for kw in self.FULL_REWRITE_PATTERNS)
+        # Even if matched, timeout / architectural / latex-compile errors need full rewrite
+        is_surgical = (
+            not ("TIMEOUT" in category)
+            and not _is_latex_rewrite
+            and not any(kw in error_message.lower() for kw in self.FULL_REWRITE_PATTERNS)
+        )
         return ErrorTriage(matched=matched, is_surgical=is_surgical, category=category, advice=advice)
 
     def generate_fix_prompt(self, error_message, original_code, script_json=None, triage_result: ErrorTriage = None, slim=False):
