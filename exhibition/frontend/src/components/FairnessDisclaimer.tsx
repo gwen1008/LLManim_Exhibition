@@ -8,7 +8,7 @@ export function FairnessDisclaimer() {
     >
       <Info className="size-4 mt-0.5 text-gray-500 shrink-0" aria-hidden="true" />
       <span>
-        Zero-shot baseline = 直接給 Opus 用戶原始 topic + 「請寫一個 ManimCE 場景」最小指令。
+        Opus 直接生成 = 直接給 Opus 用戶原始 topic + 「請寫一個 ManimCE 場景」最小指令。
         不給 Planner JSON、不給 RAG 範例、不給規則表、不修正。
         這代表 Opus 在「無系統工程」下的真實能力。
       </span>

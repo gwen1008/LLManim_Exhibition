@@ -168,7 +168,7 @@ export function ComparisonCard({ item }: Props) {
         <div className="border-b sm:border-b-0 sm:border-r border-gray-800">
           <div className="bg-rose-950/40 px-3 py-1.5 text-center">
             <span className="text-rose-300 text-[11px] font-bold uppercase tracking-wider">
-              Opus 直接生成 · Zero-Shot
+              Opus 直接生成
             </span>
           </div>
           <div className="relative bg-black aspect-video">
