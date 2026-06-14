@@ -196,7 +196,8 @@ export function GalleryPage() {
             <span className="text-rose-300">Opus 直接生成對比</span>
           </p>
           <p className="text-gray-400 text-sm mt-4 max-w-2xl mx-auto leading-relaxed">
-            「系統能力展示」呈現 Multi-Agent Pipeline 全自動生成帶旁白與字幕之數學動畫；「Opus 直接生成對比」於相同 Prompt 條件下，對照 Opus 直接生成（無範例、無修正機制）與本系統 5-Agent Pipeline 之輸出品質。
+            「系統能力展示」呈現 Multi-Agent Pipeline 全自動生成帶旁白與字幕之數學動畫。<br />
+            「Opus 直接生成對比」於相同 Prompt 條件下，對照 Opus 直接生成（無範例、無修正機制）與本系統 5-Agent Pipeline 之輸出品質。
           </p>
           {!loading && !error && <HeroStats items={items} />}
         </div>
