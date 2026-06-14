@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { CheckCircle2, ChevronRight, FileText, Pause, Play, Trophy, XCircle } from "lucide-react";
 import type { GalleryItem, ArmMetrics } from "../types";
-import { FairnessDisclaimer } from "./FairnessDisclaimer";
 
 function WinnerBadge({ winner }: { winner: "system" | "opus" | null }) {
   if (!winner) return null;
@@ -271,7 +270,6 @@ export function ComparisonCard({ item }: Props) {
           </details>
         )}
 
-        <FairnessDisclaimer />
       </div>
     </article>
   );

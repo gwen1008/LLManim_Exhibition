@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AlertCircle, Inbox } from "lucide-react";
 import { getGallery } from "../api/client";
 import { ComparisonCard } from "../components/ComparisonCard";
+import { FairnessDisclaimer } from "../components/FairnessDisclaimer";
 import type { GalleryItem } from "../types";
 
 type Filter = "all" | "showcase" | "comparison";
@@ -259,6 +260,7 @@ export function GalleryPage() {
                       <p className="text-gray-400 text-sm mt-1">
                         相同 Prompt 下，Opus 直接生成與本系統 5-Agent Pipeline 的並排對比
                       </p>
+                      <FairnessDisclaimer />
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                       {comparisonItems.map((item) => (
