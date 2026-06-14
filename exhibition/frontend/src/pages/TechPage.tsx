@@ -302,7 +302,7 @@ export function TechPage() {
 
             {/* SECTION 2 — Quality (layered + honest denominator) */}
             <section aria-labelledby="quality-heading" className="mb-12">
-              <SectionLabel num="02" title="品質（依難度分層）" id="quality-heading" />
+              <SectionLabel num="02" title="品質" id="quality-heading" />
               <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
                 <div>
                   <div className="flex items-center gap-2 mb-3">
@@ -437,12 +437,11 @@ export function TechPage() {
             </section>
 
             {/* SECTION 4 — Pipeline */}
-            <section
-              aria-labelledby="pipeline-heading"
-              className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8"
-            >
+            <section aria-labelledby="pipeline-heading" className="mb-8">
               <SectionLabel num="04" title="Pipeline" id="pipeline-heading" />
-              <PipelineFlow agents={stats.agents} />
+              <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                <PipelineFlow agents={stats.agents} />
+              </div>
             </section>
 
             {/* SECTION 5 — Aggregate evidence */}
