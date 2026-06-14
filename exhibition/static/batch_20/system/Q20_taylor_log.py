@@ -1,87 +1,45 @@
-# [VISUAL REASONING]
-# Overlay successive Taylor polynomials on ln(1+x) to show convergence near 0
-# and divergence outside |x|<1. Axes centered, equation banner above, title in header,
-# convergence label in footer. Use axes.plot for proper coordinate mapping.
-
 from manim import *
-import math
+import numpy as np
 
+# [VISUAL REASONING]
+# A central Axes hosts the white target curve y=ln(1+x). Taylor polynomials P1..P5
+# are drawn sequentially in a warm-to-cool ramp (RED->ORANGE->YELLOW->GREEN->BLUE),
+# each clipped vertically to stay on screen. Earlier curves fade to opacity 0.25 so the
+# family is seen converging. A header formula morphs as terms accumulate, and dashed
+# purple walls at x=±1 anchor the radius of convergence to a concrete screen location.
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
 
     def __init__(self, scene, font_size=28):
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
-        sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
-        if len(parts) % 2 == 1 and parts[-1].strip():
-            sentences.append(parts[-1].strip())
-
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
-        if not sentences:
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
             return
-
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
-
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
-
-        for idx, s in enumerate(sentences):
-
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
-
-            is_last = (idx == n - 1)
-
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
-
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
         if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
             self._current = None
 
 
@@ -155,119 +113,161 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        # Title
-        title = Text("Taylor Series of ln(1+x)", color=WHITE, font_size=36)
-        title.to_edge(UP)
+        registry = {}
 
-        # Axes
-        axes = Axes(
-            x_range=[-1.8, 1.8, 0.5],
-            y_range=[-2.5, 1.5, 1],
-            x_length=7,
-            y_length=4,
-            axis_config={"color": GREY},
-        ).move_to(np.array([0, -0.3, 0]))
+        def clip(f):
+            def g(x):
+                y = f(x)
+                if y > 3.0 or y < -3.0:
+                    return np.nan
+                return y
+            return g
 
-        # Curves via axes.plot for correct coordinate mapping
-        ln_curve = axes.plot(lambda x: math.log(1 + x), x_range=[-0.95, 1.7, 0.02], color=WHITE)
-        poly1 = axes.plot(lambda x: x, x_range=[-1.7, 1.7, 0.02], color=BLUE)
-        poly2 = axes.plot(lambda x: x - x**2 / 2, x_range=[-1.7, 1.7, 0.02], color=GREEN)
-        poly3 = axes.plot(lambda x: x - x**2 / 2 + x**3 / 3, x_range=[-1.7, 1.7, 0.02], color=YELLOW)
-        poly4 = axes.plot(
-            lambda x: x - x**2 / 2 + x**3 / 3 - x**4 / 4,
-            x_range=[-1.7, 1.7, 0.02],
-            color=ORANGE,
-        )
-
-        # Equations banner
-        eq1 = MathTex(r"\ln(1+x) \approx x", color=BLUE).move_to(np.array([0, 2.3, 0]))
-        eq2 = MathTex(r"\ln(1+x) \approx x - \tfrac{x^2}{2}", color=GREEN).move_to(np.array([0, 2.3, 0]))
-        eq3 = MathTex(
-            r"\ln(1+x) \approx x - \tfrac{x^2}{2} + \tfrac{x^3}{3}", color=YELLOW
-        ).move_to(np.array([0, 2.3, 0]))
-        eq4 = MathTex(
-            r"\ln(1+x) \approx x - \tfrac{x^2}{2} + \tfrac{x^3}{3} - \tfrac{x^4}{4}",
-            color=ORANGE,
-        ).move_to(np.array([0, 2.3, 0]))
-
-        # Convergence boundaries (mapped through axes)
-        bound_left = DashedLine(
-            start=axes.c2p(-1, -2.0), end=axes.c2p(-1, 1.3), color=RED
-        )
-        bound_right = DashedLine(
-            start=axes.c2p(1, -2.0), end=axes.c2p(1, 1.3), color=RED
-        )
-        roc_label = MathTex(r"|x| < 1", color=RED, font_size=36).move_to(np.array([0, -2.8, 0]))
-
-        # Initial setup: title + axes
-        self.play(Write(title), Create(axes), run_time=1.5)
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1779989445/media/audio/Visualizing_the_Tayl_a0110213df/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 6.62  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1781379961/media/audio/Visualize_the_Taylor_b6d53338a1/step_00_f66cd8ee.mp3")  # [auto-injected]
+        _audio_dur_0 = 7.06  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.000)
-        self.set_subtitle("這是 ln(1+x) 的真實曲線，我們要在零附近逼近的目標函數。", run_time=_audio_dur_0)
-        anim_time_1 = 2.000 * _scale_1
-        self.play(Create(ln_curve), run_time=anim_time_1)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 1.500))
+        title = Text("Taylor Series of ln(1+x)", color=WHITE, font_size=36).to_edge(UP, buff=0.4)
+        registry["title"] = title
+
+        axes = Axes(
+            x_range=[-1.5, 2.5, 1],
+            y_range=[-3, 2, 1],
+            x_length=9,
+            y_length=5,
+            axis_config={"color": GREY},
+        ).move_to(ORIGIN)
+        registry["axes"] = axes
+
+        ln_curve = axes.plot(clip(lambda x: np.log(1 + x)), x_range=[-0.98, 2.4, 0.01], color=WHITE)
+        registry["ln_curve"] = ln_curve
+
+        ln_label = MathTex(r"y=\ln(1+x)", color=WHITE).next_to(axes, UR, buff=0.1)
+        registry["ln_label"] = ln_label
+
+        anim_time_1 = 1.500 * _scale_1
+        self.play(Write(title), run_time=(0.8)*_scale_1)
+        self.play(Create(axes), run_time=anim_time_1)
+        self.play(Create(ln_curve), Write(ln_label), run_time=(1.5)*_scale_1)
+        self.set_subtitle("我們先畫出真實曲線 y 等於 ln(1 加 x)，以白色作為我們的目標。", run_time=_audio_dur_0)
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - (0.8 + anim_time_1 + 1.5) + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1779989445/media/audio/Visualizing_the_Tayl_a0110213df/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 5.66  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1781379961/media/audio/Visualize_the_Taylor_b6d53338a1/step_01_77b7dbe1.mp3")  # [auto-injected]
+        _audio_dur_1 = 6.82  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 2.600)
-        self.set_subtitle("第一項泰勒展開就是 x，一條在原點與曲線相切的直線。", run_time=_audio_dur_1)
-        anim_time_2 = 2.600 * _scale_2
-        self.play(Write(eq1), Create(poly1), run_time=1.8)
-        self.play(Circumscribe(eq1, color=YELLOW), run_time=0.8)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
+        _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 2.000))
+        p1 = axes.plot(clip(lambda x: x), x_range=[-0.98, 1.8, 0.01], color=RED)
+        registry["p1"] = p1
+
+        series_label = MathTex(r"P_1 = x", color=RED).next_to(title, DOWN, buff=0.15)
+        registry["series_label"] = series_label
+
+        anim_time_2 = 2.000 * _scale_2
+        self.play(Create(p1), Write(series_label), run_time=anim_time_2)
+        self.wait(0.5)  # [Final Guard: removed empty self.play()]
+        self.set_subtitle("第一個泰勒項就是 x，一條直線，只在原點附近吻合曲線。", run_time=_audio_dur_1)
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - (anim_time_2 + 1.0) + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1779989445/media/audio/Visualizing_the_Tayl_a0110213df/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 6.26  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1781379961/media/audio/Visualize_the_Taylor_b6d53338a1/step_02_c9bd3c65.mp3")  # [auto-injected]
+        _audio_dur_2 = 8.54  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 2.000)
-        self.set_subtitle("加入負 x 平方除以二，使近似往下彎，更貼近曲線。", run_time=_audio_dur_2)
+        _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 2.000))
+        p2 = axes.plot(clip(lambda x: x - x**2 / 2), x_range=[-0.98, 1.8, 0.01], color=ORANGE)
+        registry["p2"] = p2
+
+        series_label_2 = MathTex(r"P_2 = x - \frac{x^2}{2}", color=ORANGE).next_to(title, DOWN, buff=0.15)
+
         anim_time_3 = 2.000 * _scale_3
+        self.play(Create(p2), run_time=anim_time_3)
         self.play(
-            TransformMatchingTex(eq1, eq2),
-            ReplacementTransform(poly1, poly2),
-            run_time=anim_time_3,
+            ReplacementTransform(series_label, series_label_2),
+            p1.animate.set_opacity(0.25),
         )
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
+        registry["series_label"] = series_label_2
+        self.play(Circumscribe(series_label_2, color=ORANGE))
+        self.set_subtitle("加上負 x 平方除以二，讓直線向下彎曲，在更大的範圍內貼近 ln(1 加 x)。", run_time=_audio_dur_2)
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - (anim_time_3 + 2.0) + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1779989445/media/audio/Visualizing_the_Tayl_a0110213df/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 7.54  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1781379961/media/audio/Visualize_the_Taylor_b6d53338a1/step_03_67ce3a01.mp3")  # [auto-injected]
+        _audio_dur_3 = 9.62  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 2.500)
-        self.set_subtitle("每加一項就讓零附近的擬合更緊，但在 x 等於正負一外面會發散。", run_time=_audio_dur_3)
+        _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 2.500))
+        p3 = axes.plot(clip(lambda x: x - x**2 / 2 + x**3 / 3), x_range=[-0.98, 1.8, 0.01], color=YELLOW)
+        registry["p3"] = p3
+        p4 = axes.plot(clip(lambda x: x - x**2 / 2 + x**3 / 3 - x**4 / 4), x_range=[-0.98, 1.8, 0.01], color=GREEN)
+        registry["p4"] = p4
+
+        series_label_4 = MathTex(
+            r"P_4 = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4}", color=GREEN
+        ).next_to(title, DOWN, buff=0.15)
+
         anim_time_4 = 2.500 * _scale_4
+        self.play(Succession(Create(p3), Create(p4)), run_time=anim_time_4)
         self.play(
-            TransformMatchingTex(eq2, eq3),
-            ReplacementTransform(poly2, poly3),
-            run_time=1.25,
+            ReplacementTransform(registry["series_label"], series_label_4),
+            p2.animate.set_opacity(0.25),
+            p3.animate.set_opacity(0.25),
         )
-        self.play(
-            TransformMatchingTex(eq3, eq4),
-            ReplacementTransform(poly3, poly4),
-            run_time=1.25,
-        )
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
+        registry["series_label"] = series_label_4
+        self.play(Indicate(series_label_4, color=GREEN))
+        self.set_subtitle("每加一項，先是加 x 立方除以三，再減 x 四次方除以四，多項式就越來越貼近曲線。", run_time=_audio_dur_3)
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - (anim_time_4 + 2.0) + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1779989445/media/audio/Visualizing_the_Tayl_a0110213df/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 6.94  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1781379961/media/audio/Visualize_the_Taylor_b6d53338a1/step_04_54b3ede3.mp3")  # [auto-injected]
+        _audio_dur_4 = 7.82  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.800)
-        self.set_subtitle("此級數只在絕對值 x 小於一時收斂，由這兩條紅色虛線標示。", run_time=_audio_dur_4)
-        anim_time_5 = 2.800 * _scale_5
-        self.play(
-            Create(bound_left),
-            Create(bound_right),
-            Write(roc_label),
-            run_time=2.0,
+        _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 2.000))
+        p5 = axes.plot(
+            clip(lambda x: x - x**2 / 2 + x**3 / 3 - x**4 / 4 + x**5 / 5),
+            x_range=[-0.98, 1.8, 0.01],
+            color=BLUE,
         )
-        self.play(Indicate(roc_label, color=RED), run_time=0.8)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
+        registry["p5"] = p5
+
+        series_label_5 = MathTex(
+            r"P_5 = x - \frac{x^2}{2} + \frac{x^3}{3} - \frac{x^4}{4} + \frac{x^5}{5}", color=BLUE
+        ).next_to(title, DOWN, buff=0.15)
+
+        anim_time_5 = 2.000 * _scale_5
+        self.play(Create(p5), run_time=anim_time_5)
+        self.play(
+            ReplacementTransform(registry["series_label"], series_label_5),
+            p4.animate.set_opacity(0.25),
+        )
+        registry["series_label"] = series_label_5
+        self.play(Indicate(p5, color=BLUE))
+        self.set_subtitle("到了第五項，藍色曲線在區間內幾乎完美地追隨 ln(1 加 x)。", run_time=_audio_dur_4)
+        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - (anim_time_5 + 2.0) + 0.1))
         self.wait(remaining_5)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q20_taylor_log_1781379961/media/audio/Visualize_the_Taylor_b6d53338a1/step_05_e48b39e0.mp3")  # [auto-injected]
+        _audio_dur_5 = 8.26  # [audio-sync]
+        # Step 6
+        _scale_6 = min(2.5, max(1.0, (_audio_dur_5 * 0.95) / 2.000))
+        bound_right = DashedLine(
+            start=axes.c2p(1, -2.5),
+            end=axes.c2p(1, 1.8),
+            color=PURPLE,
+        )
+        registry["bound_right"] = bound_right
+        bound_left = DashedLine(
+            start=axes.c2p(-1, -2.5),
+            end=axes.c2p(-1, 1.8),
+            color=PURPLE,
+        )
+        registry["bound_left"] = bound_left
+
+        bound_label = MathTex(r"|x|<1", color=PURPLE).next_to(bound_right, UP, buff=0.15)
+        registry["bound_label"] = bound_label
+
+        anim_time_6 = 2.000 * _scale_6
+        self.play(Create(bound_left), Create(bound_right), run_time=anim_time_6)
+        self.play(Write(bound_label), run_time=(1.0)*_scale_6)
+        self.play(Indicate(bound_right, color=PURPLE))
+        self.set_subtitle("但超過 x 等於一之後，部分和開始發散，標示出級數發散的收斂半徑。", run_time=_audio_dur_5)
+        remaining_6 = min(1.5, max(0.1, _audio_dur_5 - (anim_time_6 + 2.0) + 0.1))
+        self.wait(remaining_6)

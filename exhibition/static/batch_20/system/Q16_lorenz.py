@@ -63,150 +63,162 @@ class SceneInstrumentor:
         return result
 
 
+class SubtitleManager:
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
+    MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
+
+    def __init__(self, scene, font_size=28):
+        self.scene = scene
+        self.font_size = font_size
+        self._current = None
+
+    def show(self, text_str, run_time=1.0):
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
+            return
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
+        if self._current is not None:
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
+            self._current = None
+
+
 # [VISUAL REASONING]
-# 3D scene showing the Lorenz attractor. Title appears top, equations + params fixed
-# in upper-left (fixed_in_frame), 3D axes centered, then numerically integrated
-# trajectory traced while camera ambient-rotates to reveal the butterfly.
+# Lorenz attractor traced as a single continuous gradient curve in a ThreeDScene.
+# Equations and parameters are pinned as camera-fixed overlays. A red dot marks the
+# start near origin; the trajectory grows revealing the double-wing butterfly, then a
+# slow camera rotation exposes the full 3D structure of deterministic chaos.
 
 from manim import *
 import numpy as np
 
-class GeneratedScene(ThreeDScene):
-    def set_subtitle(self, text, **kwargs):
-        pass  # Overridden by system SubtitleManager
 
+def lorenz_points():
+    sigma, rho, beta = 10.0, 28.0, 8.0 / 3.0
+    dt = 0.005
+    steps = 4000
+    scale = 0.12
+    z_shift = 25.0 * scale
+    x, y, z = 0.1, 0.0, 0.0
+    pts = []
+    for _ in range(steps):
+        dx = sigma * (y - x)
+        dy = x * (rho - z) - y
+        dz = x * y - beta * z
+        x += dx * dt
+        y += dy * dt
+        z += dz * dt
+        pts.append([x * scale, y * scale, z * scale - z_shift])
+    return [np.array(p, dtype=float) for p in pts]
+
+
+class GeneratedScene(ThreeDScene):
     def construct(self):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
-        # Camera setup
+        self._sm = SubtitleManager(self)
+        self.set_subtitle = self._sm.show
         self.set_camera_orientation(phi=70 * DEGREES, theta=-45 * DEGREES)
 
-        registry = {}
+        axes3d = ThreeDAxes(
+            x_range=[-3, 3, 1],
+            y_range=[-3, 3, 1],
+            z_range=[-3, 3, 1],
+            axis_config={"color": GREY},
+        )
 
-        # Build objects from blueprint
-        title = Text("The Lorenz Attractor", color=WHITE, font_size=38).to_edge(UP, buff=0.4)
-        registry["title"] = title
+        title = Text("勞侖次吸子", color=WHITE, font_size=40)
+        title.to_edge(UP, buff=0.4)
 
-        axes_3d = ThreeDAxes(
-            x_range=[-30, 30, 10],
-            y_range=[-30, 30, 10],
-            z_range=[0, 55, 10],
-            x_length=5,
-            y_length=5,
-            z_length=4,
-        ).move_to(ORIGIN)
-        registry["axes_3d"] = axes_3d
+        eq_x = MathTex(r"\dot{x} = \sigma(y - x)", color=BLUE)
+        eq_x.to_corner(UL, buff=0.6)
 
-        _eq1 = MathTex(r"\dot{x} = \sigma(y-x)", color=WHITE)
-        _eq2 = MathTex(r"\dot{y} = x(\rho-z)-y", color=WHITE)
-        _eq3 = MathTex(r"\dot{z} = xy - \beta z", color=WHITE)
-        lorenz_eqs = VGroup(_eq1, _eq2, _eq3).arrange(DOWN, aligned_edge=LEFT, buff=0.2).to_corner(UL, buff=0.5)
-        registry["lorenz_eqs"] = lorenz_eqs
+        eq_y = MathTex(r"\dot{y} = x(\rho - z) - y", color=TEAL)
+        eq_y.next_to(eq_x, DOWN, buff=0.3)
 
-        params = MathTex(
-            r"\sigma=10,\ \rho=28,\ \beta=\tfrac{8}{3}",
-            color=YELLOW,
-        ).next_to(lorenz_eqs, DOWN, buff=0.3)
-        registry["params"] = params
+        eq_z = MathTex(r"\dot{z} = xy - \beta z", color=YELLOW)
+        eq_z.next_to(eq_y, DOWN, buff=0.3)
 
-        # Numerically integrate Lorenz ODEs (RK4)
-        sigma, rho, beta = 10.0, 28.0, 8.0 / 3.0
+        params = MathTex(r"\sigma=10,\ \rho=28,\ \beta=\tfrac{8}{3}", color=WHITE, font_size=32)
+        params.next_to(eq_z, DOWN, buff=0.4)
 
-        def lorenz(state):
-            x, y, z = state
-            return np.array([
-                sigma * (y - x),
-                x * (rho - z) - y,
-                x * y - beta * z,
-            ])
+        raw_points = lorenz_points()
 
-        dt = 0.01
-        T = 40.0
-        n_steps = int(T / dt)
-        state = np.array([1.0, 1.0, 1.0])
-        points = [state.copy()]
-        for _ in range(n_steps):
-            k1 = lorenz(state)
-            k2 = lorenz(state + 0.5 * dt * k1)
-            k3 = lorenz(state + 0.5 * dt * k2)
-            k4 = lorenz(state + dt * k3)
-            state = state + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
-            points.append(state.copy())
-        points = np.array(points)
+        lorenz_curve = VMobject()
+        lorenz_curve.set_points_smoothly(raw_points)
+        lorenz_curve.set_color_by_gradient(BLUE, TEAL, YELLOW)
+        lorenz_curve.set_stroke(width=2)
 
-        # Subsample for performance
-        sampled = points[::8]
-        curve_points = [axes_3d.c2p(p[0], p[1], p[2]) for p in sampled]
+        start_dot = Dot3D(point=raw_points[0], color=RED, radius=0.08)
 
-        trajectory = VMobject(stroke_width=1.5)
-        trajectory.set_points_smoothly(curve_points)
-        trajectory.set_color_by_gradient(BLUE, RED)
-        registry["trajectory"] = trajectory
-
-        start_dot = Dot3D(point=axes_3d.c2p(1, 1, 1), color=YELLOW, radius=0.08)
-        registry["start_dot"] = start_dot
-
-        # Fix equations & title in frame so they don't rotate
-        self.add_fixed_in_frame_mobjects(title, lorenz_eqs, params)
-        title.to_edge(UP, buff=0.4).shift(DOWN * 1.8).shift(DOWN * 1.8).shift(DOWN * 1.8).shift(DOWN * 1.8)
-        lorenz_eqs.to_corner(UL, buff=0.5)
-        params.next_to(lorenz_eqs, DOWN, buff=0.3)
-        self.remove(title, lorenz_eqs, params)
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1779988635/media/audio/Plot_the_trajectory__5cd5d22b08/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 6.74  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1781378425/media/audio/Plot_the_trajectory__4c48905cfe/step_00_ff1d1aa8.mp3")  # [auto-injected]
+        _audio_dur_0 = 6.48  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.000)
-        self.set_subtitle("勞侖次系統用三條耦合的非線性微分方程描述大氣對流。", run_time=_audio_dur_0)
+        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 2.000))
+        self.add_fixed_in_frame_mobjects(title, eq_x, eq_y, eq_z)
         anim_time_1 = 2.000 * _scale_1
-        self.add_fixed_in_frame_mobjects(title)
-        self.play(Write(title), run_time=anim_time_1)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        self.play(Write(eq_x), run_time=anim_time_1)
+        self.play(
+            LaggedStart(Write(eq_y), Write(eq_z), Write(title), lag_ratio=0.3),
+            run_time=(1.5) * _scale_1,
+        )
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - (anim_time_1 + 1.5) + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1779988635/media/audio/Plot_the_trajectory__5cd5d22b08/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 5.54  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1781378425/media/audio/Plot_the_trajectory__4c48905cfe/step_01_9d05911d.mp3")  # [auto-injected]
+        _audio_dur_1 = 8.57  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 2.500)
-        self.set_subtitle("這三條方程式描述 x、y、z 隨時間的演化。", run_time=_audio_dur_1)
-        anim_time_2 = 2.500 * _scale_2
-        self.add_fixed_in_frame_mobjects(lorenz_eqs)
-        self.play(Write(lorenz_eqs), run_time=anim_time_2)
-        self.play(Circumscribe(lorenz_eqs, color=YELLOW), run_time=1.0)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 - 1.0 + 0.1)
+        _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 2.000))
+        self.add_fixed_in_frame_mobjects(params)
+        anim_time_2 = 2.000 * _scale_2
+        self.play(
+            Write(params),
+            Create(axes3d),
+            run_time=anim_time_2,
+        )
+        self.wait(0.5)
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - (anim_time_2 + 1.0) + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1779988635/media/audio/Plot_the_trajectory__5cd5d22b08/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 8.66  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1781378425/media/audio/Plot_the_trajectory__4c48905cfe/step_02_37794b6d.mp3")  # [auto-injected]
+        _audio_dur_2 = 4.90  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 1.500)
-        self.set_subtitle("採用經典參數 σ=10、ρ=28、β=8/3,系統會產生混沌行為。", run_time=_audio_dur_2)
+        _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 1.500))
         anim_time_3 = 1.500 * _scale_3
-        self.add_fixed_in_frame_mobjects(params)
-        self.play(Write(params), run_time=anim_time_3)
-        self.play(Indicate(params, color=YELLOW), run_time=1.0)
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 - 1.0 + 0.1)
+        self.play(Create(start_dot), run_time=anim_time_3)
+        self.play(Indicate(start_dot, color=RED), run_time=(1.0) * _scale_3)
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - (anim_time_3 + 1.0) + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1779988635/media/audio/Plot_the_trajectory__5cd5d22b08/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 6.96  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1781378425/media/audio/Plot_the_trajectory__4c48905cfe/step_03_654725fd.mp3")  # [auto-injected]
+        _audio_dur_3 = 7.10  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 2.000)
-        self.set_subtitle("從初始點 (1,1,1) 出發,我們對系統做數值積分。", run_time=_audio_dur_3)
-        anim_time_4 = 2.000 * _scale_4
-        self.play(Create(axes_3d), run_time=anim_time_4)
-        self.play(FadeIn(start_dot, scale=0.5), run_time=0.8)
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 - 0.8 + 0.1)
+        _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 8.000))
+        anim_time_4 = 8.000 * _scale_4
+        self.play(Create(lorenz_curve, rate_func=linear), run_time=anim_time_4)
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - anim_time_4 + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1779988635/media/audio/Plot_the_trajectory__5cd5d22b08/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 6.53  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q16_lorenz_1781378425/media/audio/Plot_the_trajectory__4c48905cfe/step_04_7d604d2f.mp3")  # [auto-injected]
+        _audio_dur_4 = 6.43  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 8.000)
-        self.set_subtitle("軌跡永不重複,在兩個吸子之間穿梭,形成標誌性的蝴蝶形狀。", run_time=_audio_dur_4)
-        anim_time_5 = 8.000 * _scale_5
-        self.begin_ambient_camera_rotation(rate=0.2)
-        self.play(Create(trajectory), run_time=anim_time_5, rate_func=linear)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
+        _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 5.000))
+        self.play(FadeOut(start_dot), run_time=(0.5) * _scale_5)
+        anim_time_5 = 5.000 * _scale_5
+        self.move_camera(theta=-45 * DEGREES + 2 * PI, run_time=anim_time_5, rate_func=linear)
+        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - (anim_time_5 + 0.5) + 0.1))
         self.wait(remaining_5)
-        self.stop_ambient_camera_rotation()
-        self.wait(3)  # [Auto-injected by Shift-Left Repair]

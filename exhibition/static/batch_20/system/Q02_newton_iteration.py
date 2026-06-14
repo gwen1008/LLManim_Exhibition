@@ -1,9 +1,12 @@
-# [VISUAL REASONING]
-# Newton's method geometric visualization for √2.
-# Axes centered, parabola f(x)=x²-2, iterative tangent construction.
-# Title HEADER zone, formula FOOTER zone, all dots/tangents in CONTENT zone via axes.c2p.
-
 from manim import *
+
+# [VISUAL REASONING]
+# The equation is solved through one morphing central anchor: combine logs (product rule),
+# convert to exponential form, expand to a quadratic, factor, extract roots, then apply the
+# domain constraint to reject the extraneous root x=-2. A single equation stays visible at the
+# center and morphs in place via TransformMatchingTex for smooth continuity, while a yellow step
+# label sits above and a red domain note anchors the footer. The rejected root is struck through
+# in red before the green boxed final answer x=4 is revealed.
 
 class SubtitleManager:
     """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
@@ -153,106 +156,142 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        # Setup objects
-        title = Text("牛頓法:逼近 √2", color=WHITE, font_size=34).to_edge(UP, buff=0.4)
+        title_pos = UP * 2.9
+        eq_center = ORIGIN + UP * 0.5
+        step_pos = UP * 2.0
+        note_pos = DOWN * 2.2
 
-        axes = Axes(
-            x_range=[-0.5, 2.7, 0.5],
-            y_range=[-2.5, 2.5, 1],
-            x_length=7,
-            y_length=4.5,
-            axis_config={"color": GREY},
-        ).move_to(ORIGIN + np.array([0, 0.2, 0]))
+        title = Text("Solving a Logarithmic Equation", color=WHITE, font_size=36).move_to(title_pos)
+        eq0 = MathTex(r"\log_2(x) + \log_2(x-2) = 3", color=WHITE).move_to(eq_center)
+        eq1 = MathTex(r"\log_2\big(x(x-2)\big) = 3", color=WHITE).move_to(eq_center)
+        eq2 = MathTex(r"x(x-2) = 2^{3} = 8", color=WHITE).move_to(eq_center)
+        eq3 = MathTex(r"x^2 - 2x - 8 = 0", color=WHITE).move_to(eq_center)
+        eq4 = MathTex(r"(x-4)(x+2) = 0", color=WHITE).move_to(eq_center)
+        roots = MathTex(r"x = 4 \quad or \quad x = -2", color=WHITE).move_to(eq_center)
+        domain_note = Tex(r"Domain: $x>0$ and $x-2>0 \Rightarrow x>2$", color=RED).move_to(note_pos)
+        reject_cross = Line(start=[2.3, 0.5, 0], end=[3.6, 0.5, 0], color=RED).move_to(ORIGIN + [3.0, 0.5, 0])
+        final_answer = MathTex(r"x = 4", color=GREEN).move_to(eq_center)
+        answer_box = SurroundingRectangle(final_answer, color=GREEN, buff=0.25)
+        step_label = Text("Step 1: Combine the logarithms", color=YELLOW, font_size=28).move_to(step_pos)
 
-        parabola = axes.plot(lambda x: x**2 - 2, x_range=[-0.5, 2.5], color=BLUE)
+        self.add(title)
 
-        root_dot = Dot(point=axes.c2p(1.4142, 0), color=GREEN, radius=0.09)
-        root_label = MathTex(r"\sqrt{2}", color=GREEN).next_to(root_dot, DOWN, buff=0.15)
-
-        formula = MathTex(r"x_{n+1} = x_n - \frac{x_n^2 - 2}{2x_n}", color=YELLOW).to_edge(DOWN, buff=0.4)
-
-        x0_dot = Dot(point=axes.c2p(2, 0), color=RED, radius=0.09)
-        x0_label = MathTex(r"x_0=2", color=RED).next_to(x0_dot, UP, buff=0.15)
-
-        tangent0 = Line(
-            start=axes.c2p(1.0, -2),
-            end=axes.c2p(2.2, 2.8),
-            color=ORANGE,
-        )
-
-        x1_dot = Dot(point=axes.c2p(1.5, 0), color=RED, radius=0.09)
-        x1_label = MathTex(r"x_1=1.5", color=RED).next_to(x1_dot, UP, buff=0.15)
-
-        tangent1 = Line(
-            start=axes.c2p(1.3, -0.35),
-            end=axes.c2p(1.6, 0.55),
-            color=ORANGE,
-        )
-
-        x2_dot = Dot(point=axes.c2p(1.4167, 0), color=RED, radius=0.09)
-        x2_label = MathTex(r"x_2 \approx 1.4167", color=RED, font_size=32).next_to(x2_dot, UP, buff=0.25)
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1779986373/media/audio/Using_the_Newton_ite_f2aba6e782/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 7.08  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_00.mp3")  # [auto-injected]
+        _audio_dur_0 = 7.39  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 3.000)
-        self.set_subtitle("為了求 √2,我們把 x² - 2 = 0 畫成這條拋物線。", run_time=_audio_dur_0)
-        anim_time_1 = 3.000 * _scale_1
-        self.play(
-            LaggedStart(
-                Write(title),
-                Create(axes),
-                Create(parabola),
-                FadeIn(formula),
-                lag_ratio=0.3,
-            ),
-            run_time=3.0,
-        )
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.000)
+        self.set_subtitle("我們從對數方程式 log 以 2 為底 x 加上 log 以 2 為底 x 減 2 等於 3 開始。", run_time=_audio_dur_0)
+        anim_time_1 = 2.000 * _scale_1
+        self.play(Write(eq0), run_time=2.0)
+        self.play(Circumscribe(eq0, color=YELLOW))
+        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 - 1.0 + 0.1)
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1779986373/media/audio/Using_the_Newton_ite_f2aba6e782/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 6.70  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_01.mp3")  # [auto-injected]
+        _audio_dur_1 = 4.99  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 2.000)
-        self.set_subtitle("真正的根 √2 大約在 1.414 附近,這就是我們要逼近的目標。", run_time=_audio_dur_1)
-        anim_time_2 = 2.000 * _scale_2
-        self.play(FadeIn(root_dot), Write(root_label), run_time=1.5)
-        self.play(Indicate(root_dot, color=GREEN), run_time=0.5)
+        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 1.000)
+        self.set_subtitle("利用乘積律，對數的和會變成乘積的對數。", run_time=_audio_dur_1)
+        anim_time_2 = 1.000 * _scale_2
+        self.play(Write(step_label), run_time=1.0)
         remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1779986373/media/audio/Using_the_Newton_ite_f2aba6e782/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 5.93  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_02.mp3")  # [auto-injected]
+        _audio_dur_2 = 5.40  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 2.800)
-        self.set_subtitle("從初始猜測 x₀ = 2 開始,在曲線上該點畫出切線。", run_time=_audio_dur_2)
-        anim_time_3 = 2.800 * _scale_3
-        self.play(FadeIn(x0_dot), Write(x0_label), run_time=0.8)
-        self.play(Create(tangent0), run_time=2.0)
+        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 2.000)
+        self.set_subtitle("所以左邊合併成 log 以 2 為底 x 乘以 x 減 2。", run_time=_audio_dur_2)
+        anim_time_3 = 2.000 * _scale_3
+        self.play(TransformMatchingTex(eq0, eq1), run_time=2.0)
         remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1779986373/media/audio/Using_the_Newton_ite_f2aba6e782/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 6.38  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_03.mp3")  # [auto-injected]
+        _audio_dur_3 = 6.02  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 2.300)
-        self.set_subtitle("切線與 x 軸相交於 x₁ = 1.5,這就是改良後的估計值。", run_time=_audio_dur_3)
-        anim_time_4 = 2.300 * _scale_4
-        self.play(FadeIn(x1_dot), Write(x1_label), run_time=1.5)
-        self.play(Circumscribe(x1_dot, color=YELLOW), run_time=0.8)
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
+        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 2.000)
+        self.set_subtitle("改寫成指數形式，乘積必須等於 2 的 3 次方，也就是 8。", run_time=_audio_dur_3)
+        anim_time_4 = 2.000 * _scale_4
+        self.play(TransformMatchingTex(eq1, eq2), run_time=2.0)
+        self.play(Indicate(eq2, color=RED))
+        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 - 1.0 + 0.1)
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1779986373/media/audio/Using_the_Newton_ite_f2aba6e782/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 9.91  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_04.mp3")  # [auto-injected]
+        _audio_dur_4 = 5.06  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 4.000)
-        self.set_subtitle("再套用公式一次:下一條切線給出 x₂ ≈ 1.4167,已經非常接近 √2。", run_time=_audio_dur_4)
-        anim_time_5 = 4.000 * _scale_5
-        self.play(FadeOut(tangent0), FadeOut(x0_label), run_time=0.6)
-        self.play(Indicate(formula, color=YELLOW), run_time=0.8)
-        self.play(Create(tangent1), run_time=1.6)
-        self.play(FadeIn(x2_dot), Write(x2_label), run_time=1.0)
+        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.000)
+        self.set_subtitle("展開並把所有項移到一邊，得到一個標準二次式。", run_time=_audio_dur_4)
+        anim_time_5 = 2.000 * _scale_5
+        self.play(TransformMatchingTex(eq2, eq3), run_time=2.0)
         remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
         self.wait(remaining_5)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_05.mp3")  # [auto-injected]
+        _audio_dur_5 = 5.42  # [audio-sync]
+        # Step 6
+        _scale_6 = max(1.0, (_audio_dur_5 * 0.7) / 2.000)
+        self.set_subtitle("這個二次式可以漂亮地因式分解成 x 減 4 乘以 x 加 2。", run_time=_audio_dur_5)
+        anim_time_6 = 2.000 * _scale_6
+        self.play(TransformMatchingTex(eq3, eq4), run_time=2.0)
+        remaining_6 = max(0.1, _audio_dur_5 - anim_time_6 + 0.1)
+        self.wait(remaining_6)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_06.mp3")  # [auto-injected]
+        _audio_dur_6 = 7.15  # [audio-sync]
+        # Step 7
+        _scale_7 = max(1.0, (_audio_dur_6 * 0.7) / 2.000)
+        self.set_subtitle("令每個因式為零，得到兩個候選根，x 等於 4 或 x 等於負 2。", run_time=_audio_dur_6)
+        anim_time_7 = 2.000 * _scale_7
+        self.play(TransformMatchingTex(eq4, roots), run_time=2.0)
+        remaining_7 = max(0.1, _audio_dur_6 - anim_time_7 + 0.1)
+        self.wait(remaining_7)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_07.mp3")  # [auto-injected]
+        _audio_dur_7 = 6.31  # [audio-sync]
+        # Step 8
+        _scale_8 = max(1.0, (_audio_dur_7 * 0.7) / 2.000)
+        self.set_subtitle("但對數要求引數為正，所以定義域強制 x 大於 2。", run_time=_audio_dur_7)
+        anim_time_8 = 2.000 * _scale_8
+        self.play(Write(domain_note), run_time=2.0)
+        self.play(Circumscribe(domain_note, color=RED))
+        remaining_8 = max(0.1, _audio_dur_7 - anim_time_8 - 1.0 + 0.1)
+        self.wait(remaining_8)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_08.mp3")  # [auto-injected]
+        _audio_dur_8 = 5.11  # [audio-sync]
+        # Step 9
+        _scale_9 = max(1.0, (_audio_dur_8 * 0.7) / 1.500)
+        self.set_subtitle("由於負 2 違反定義域，我們將它視為增根而捨去。", run_time=_audio_dur_8)
+        anim_time_9 = 1.500 * _scale_9
+        self.play(Create(reject_cross), run_time=1.5)
+        self.play(Indicate(reject_cross, color=RED))
+        remaining_9 = max(0.1, _audio_dur_8 - anim_time_9 - 1.0 + 0.1)
+        self.wait(remaining_9)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_09.mp3")  # [auto-injected]
+        _audio_dur_9 = 4.30  # [audio-sync]
+        # Step 10
+        _scale_10 = max(1.0, (_audio_dur_9 * 0.7) / 1.500)
+        self.set_subtitle("因此唯一有效的解是 x 等於 4。", run_time=_audio_dur_9)
+        anim_time_10 = 1.500 * _scale_10
+        self.play(
+            FadeOut(roots),
+            FadeOut(reject_cross),
+            FadeOut(step_label),
+            FadeOut(domain_note),
+        )
+        self.play(Write(final_answer), run_time=1.5)
+        remaining_10 = max(0.1, _audio_dur_9 - anim_time_10 + 0.1)
+        self.wait(remaining_10)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q02_newton_iteration_1780228804/media/audio/log₂_x____log₂_x_2___ef4b301378/step_10.mp3")  # [auto-injected]
+        _audio_dur_10 = 4.15  # [audio-sync]
+        # Step 11
+        _scale_11 = max(1.0, (_audio_dur_10 * 0.7) / 1.500)
+        self.set_subtitle("我們把答案框起來，確認我們的解已經完成。", run_time=_audio_dur_10)
+        anim_time_11 = 1.500 * _scale_11
+        self.play(Create(answer_box), run_time=1.5)
+        remaining_11 = max(0.1, _audio_dur_10 - anim_time_11 + 0.1)
+        self.wait(remaining_11)

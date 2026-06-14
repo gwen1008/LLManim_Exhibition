@@ -40,6 +40,9 @@ class AudioEngine:
         _backend = os.getenv("AUDIO_BACKEND", "local")
         self.azure_enabled = _backend == "azure" and bool(self.azure_key and self.azure_region)
         self.voice_name = os.getenv("AZURE_VOICE", "en-US-JennyNeural")
+        # TTS 語速。Azure prosody rate 接受 "-14%" / "+10%" / "0%"。預設 -14%
+        # (≈ 原 -5% 再 ×0.9)。整體節奏覺得快/慢時調這個，動畫綁旁白時長會跟著縮放。
+        self.tts_rate = os.getenv("TTS_RATE", "-14%")
 
     def generate_narration(self, steps: list):
         """
@@ -51,6 +54,7 @@ class AudioEngine:
         print(f"🎙️ 開始生成語音 (Azure: {self.azure_enabled})...")
 
         import concurrent.futures
+        import hashlib
 
         def _process_step(i, step):
             text = step.get("narrative", "")
@@ -59,9 +63,21 @@ class AudioEngine:
                 return i, step, None
 
             ext = ".mp3" if self.azure_enabled else ".wav"
-            filename = f"step_{i:02d}{ext}"
+            # Content-addressed filename: re-running the same topic reuses the
+            # synthesized clip instead of re-hitting TTS (Azure 429 mitigation).
+            # Hash covers voice AND rate so switching AZURE_VOICE / TTS_RATE
+            # invalidates the cache (otherwise語速改了卻命中舊音檔，rate 不生效).
+            _text_hash = hashlib.md5(f"{self.voice_name}|{self.tts_rate}|{text}".encode("utf-8")).hexdigest()[:8]
+            filename = f"step_{i:02d}_{_text_hash}{ext}"
             out_path = self.output_dir / filename
-            
+
+            if out_path.exists() and out_path.stat().st_size >= 1024:
+                duration = self._get_wav_duration(out_path)
+                step["audio_path"] = out_path.resolve().as_posix()
+                step["duration"] = duration
+                print(f"  - 語音片段 {i}: {duration:.2f}s | {text[:15]}... (TTS 快取命中)")
+                return i, step, out_path
+
             if self.azure_enabled:
                 tts_ok = self._tts_azure(text, out_path)
             else:
@@ -130,7 +146,7 @@ class AudioEngine:
         ssml = f"""
         <speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="{lang}">
             <voice name="{self.voice_name}">
-                <prosody rate="-5.0%">
+                <prosody rate="{self.tts_rate}">
                     {text}
                 </prosody>
             </voice>

@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# 展覽部署需保留 build 產物
+!dist/
+!dist/**

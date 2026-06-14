@@ -182,3 +182,19 @@ evaluation/golden_set/benchmark_judge_cache.*.json
 # Not the same as exhibition/ (live SPA, tracked). This is pre-rendered comparison output.
 exhibition_demo/
 
+
+# 展覽前端 build 產物需上傳供別人直接跑
+!exhibition/frontend/dist/
+!exhibition/frontend/dist/**
+
+# 展覽製作過程備份/暫存,不上傳
+exhibition/static/batch_20/_keep_good/
+exhibition/static/**/*.bak
+exhibition/static/**/*.bak_*
+exhibition/static/data/gallery.json.bak_*
+
+# 展覽 runner debug log,不上傳
+exhibition/static/**/stdout.txt
+exhibition/static/**/stderr.txt
+exhibition/static/**/sys_stdout.txt
+exhibition/static/**/sys_stderr.txt

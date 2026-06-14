@@ -1,7 +1,6 @@
 import { BrowserRouter, Link, NavLink, Route, Routes } from "react-router-dom";
 import { Sparkles } from "lucide-react";
 import { GalleryPage } from "./pages/GalleryPage";
-import { LivePage } from "./pages/LivePage";
 import { TechPage } from "./pages/TechPage";
 
 function Nav() {
@@ -32,9 +31,6 @@ function Nav() {
           <NavLink to="/tech" className={({ isActive }) => `${base} ${isActive ? active : inactive}`}>
             Tech
           </NavLink>
-          <NavLink to="/live" className={({ isActive }) => `${base} ${isActive ? active : inactive}`}>
-            Live
-          </NavLink>
         </div>
       </div>
     </nav>
@@ -56,7 +52,6 @@ export default function App() {
           <Routes>
             <Route path="/" element={<GalleryPage />} />
             <Route path="/tech" element={<TechPage />} />
-            <Route path="/live" element={<LivePage />} />
           </Routes>
         </main>
       </div>

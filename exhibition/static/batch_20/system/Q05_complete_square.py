@@ -1,10 +1,13 @@
-# [VISUAL REASONING]
-# Pair algebraic completing-the-square with geometric vertex visualization.
-# Left half: axes + parabola. Right half: equation morphing at eq_anchor.
-# Vertex (3,-4) and axis of symmetry x=3 revealed after vertex form.
-
 from manim import *
 
+# [VISUAL REASONING]
+# L'Hôpital's rule is an iterative symbolic process. A single central equation
+# is morphed in place three times via TransformMatchingTex so each differentiation
+# visibly replaces the previous form. A recurring 0/0 indeterminate-form flag
+# motivates each repetition. Only one main equation is visible at the equation
+# anchor (y≈0.3); the step label sits above (y≈2.0) and the flag in the footer
+# (y≈-2.2). Long MathTex is scaled to 0.9. The final clean substitution yields -1/6,
+# highlighted by a green box.
 
 class SubtitleManager:
     """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
@@ -154,86 +157,113 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1779986807/media/audio/_final_translation___375556a503/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 7.42  # [audio-sync]
+        eq_center = np.array([0, 0.3, 0])
+
+        title = Text("L'Hopital's Rule", color=WHITE, font_size=40).to_edge(UP, buff=0.5)
+
+        eq0 = MathTex(r"\lim_{x \to 0} \frac{\sin x - x}{x^{3}}", color=WHITE).scale(0.9)
+        eq0.move_to(eq_center)
+
+        sub_check = MathTex(r"\frac{\sin 0 - 0}{0^{3}} = \frac{0}{0}", color=YELLOW).scale(0.9)
+        sub_check.next_to(eq0, DOWN, buff=0.6)
+
+        eq1 = MathTex(r"\lim_{x \to 0} \frac{\cos x - 1}{3x^{2}}", color=WHITE).scale(0.9)
+        eq1.move_to(eq_center)
+
+        eq2 = MathTex(r"\lim_{x \to 0} \frac{-\sin x}{6x}", color=WHITE).scale(0.9)
+        eq2.move_to(eq_center)
+
+        eq3 = MathTex(r"\lim_{x \to 0} \frac{-\cos x}{6}", color=WHITE).scale(0.9)
+        eq3.move_to(eq_center)
+
+        final = MathTex(r"\frac{-\cos 0}{6} = -\frac{1}{6}", color=GREEN).scale(0.9)
+        final.move_to(eq_center)
+
+        step_label = Text("Step 1: Check the form", color=BLUE, font_size=30)
+        step_label.move_to(np.array([0, 2.0, 0]))
+
+        flag = Text("Still 0/0 -> differentiate again", color=RED, font_size=28)
+        flag.move_to(np.array([0, -2.2, 0]))
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1780229122/media/audio/Using_L_Hôpital_s_ru_2518da042e/step_00.mp3")  # [auto-injected]
+        _audio_dur_0 = 6.94  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 3.500)
-        title = Text("配方法：y = x² − 6x + 5", color=WHITE, font_size=34)
-        title.to_edge(UP, buff=0.4)
-
-        axes = Axes(
-            x_range=[-1, 7, 1],
-            y_range=[-5, 6, 1],
-            x_length=5.0,
-            y_length=4.2,
-            axis_config={"color": GREY, "include_tip": False},
-        ).move_to(np.array([-3.5, 0.0, 0]))
-
-        parabola = axes.plot(lambda t: t * t - 6 * t + 5, x_range=[0.5, 5.5], color=BLUE)
-
-        eq_step1 = MathTex("y = x^2 - 6x + 5", color=WHITE).move_to(np.array([3.2, 1.5, 0]))
-
-        self.set_subtitle("我們從二次式 y 等於 x 平方減六 x 加五 開始，並畫出它的拋物線。", run_time=_audio_dur_0)
-        anim_time_1 = 3.500 * _scale_1
-        self.play(Write(title), run_time=1.0)
-        self.play(Create(axes), run_time=2.0)
-        self.play(Create(parabola), Write(eq_step1), run_time=1.5)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.000)
+        anim_time_1 = 2.000 * _scale_1
+        self.play(Write(eq0), run_time=2.0)
+        self.play(FadeIn(title), FadeIn(step_label), run_time=0.6)
+        self.set_subtitle("我們要求這個極限，但代入 x 等於零會得到不定型 零分之零。", run_time=_audio_dur_0)
+        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 - 0.6 + 0.1)
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1779986807/media/audio/_final_translation___375556a503/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 5.76  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1780229122/media/audio/Using_L_Hôpital_s_ru_2518da042e/step_01.mp3")  # [auto-injected]
+        _audio_dur_1 = 6.36  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 3.500)
-        eq_step2 = MathTex("y = (x^2 - 6x + 9) - 9 + 5", color=WHITE).move_to(np.array([3.2, 1.5, 0]))
-
-        self.set_subtitle("把負六的一半得到負三，再平方得到九。", run_time=_audio_dur_1)
-        anim_time_2 = 3.500 * _scale_2
-        self.play(Circumscribe(eq_step1, color=YELLOW), run_time=1.5)
-        self.play(TransformMatchingTex(eq_step1, eq_step2), run_time=2.0)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
+        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 1.800)
+        anim_time_2 = 1.800 * _scale_2
+        self.play(Write(sub_check), run_time=1.8)
+        self.play(Circumscribe(sub_check, color=YELLOW))
+        self.set_subtitle("代入零確認了這一點：零分之零，所以直接代入在這裡行不通。", run_time=_audio_dur_1)
+        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 - 1.0 + 0.1)
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1779986807/media/audio/_final_translation___375556a503/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 5.95  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1780229122/media/audio/Using_L_Hôpital_s_ru_2518da042e/step_02.mp3")  # [auto-injected]
+        _audio_dur_2 = 7.63  # [audio-sync]
         # Step 3
         _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 2.000)
-        eq_step3 = MathTex("y = (x - 3)^2 - 4", color=YELLOW).move_to(np.array([3.2, 1.5, 0]))
-
-        self.set_subtitle("前三項組成完全平方，剩下常數負四。", run_time=_audio_dur_2)
+        new_step_3 = Text("Step 2: Differentiate", color=BLUE, font_size=30).move_to(np.array([0, 2.0, 0]))
         anim_time_3 = 2.000 * _scale_3
-        self.play(TransformMatchingTex(eq_step2, eq_step3), run_time=2.0)
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
+        self.play(FadeOut(sub_check), Transform(step_label, new_step_3), run_time=0.6)
+        self.play(TransformMatchingTex(eq0, eq1), run_time=2.0)
+        self.play(Indicate(eq1, color=RED))
+        self.set_subtitle("羅必達法則讓我們分別對分子分母微分，得到三x平方分之 cos x 減一。", run_time=_audio_dur_2)
+        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 - 1.2 + 0.1)
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1779986807/media/audio/_final_translation___375556a503/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 6.79  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1780229122/media/audio/Using_L_Hôpital_s_ru_2518da042e/step_03.mp3")  # [auto-injected]
+        _audio_dur_3 = 5.09  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 3.000)
-        vertex_dot = Dot(point=axes.c2p(3, -4), color=RED, radius=0.09)
-        vertex_label = MathTex("(3,\\ -4)", color=RED, font_size=32).next_to(vertex_dot, DOWN, buff=0.2)
-
-        self.set_subtitle("頂點式揭示頂點在三、負四，是拋物線的最低點。", run_time=_audio_dur_3)
-        anim_time_4 = 3.000 * _scale_4
-        self.play(Indicate(eq_step3, color=RED), run_time=1.5)
-        self.play(Create(vertex_dot), Write(vertex_label), run_time=1.5)
+        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 1.200)
+        anim_time_4 = 1.200 * _scale_4
+        self.play(FadeIn(flag), run_time=1.2)
+        self.set_subtitle("這仍然是零分之零，所以我們第二次應用這個法則。", run_time=_audio_dur_3)
         remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1779986807/media/audio/_final_translation___375556a503/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 6.38  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1780229122/media/audio/Using_L_Hôpital_s_ru_2518da042e/step_04.mp3")  # [auto-injected]
+        _audio_dur_4 = 6.41  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.500)
-        axis_sym = DashedLine(
-            start=axes.c2p(3, -5),
-            end=axes.c2p(3, 6),
-            color=GREEN,
-        )
-        axis_label = MathTex("x = 3", color=GREEN, font_size=30).next_to(axis_sym, UP, buff=0.1)
-
-        self.set_subtitle("拋物線對稱於 x 等於三 這條垂直線，也就是對稱軸。", run_time=_audio_dur_4)
-        anim_time_5 = 2.500 * _scale_5
-        self.play(Create(axis_sym), run_time=2.0)
-        self.play(Write(axis_label), run_time=0.5)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
+        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.000)
+        anim_time_5 = 2.000 * _scale_5
+        self.play(FadeOut(flag), run_time=0.5)
+        self.play(TransformMatchingTex(eq1, eq2), run_time=2.0)
+        self.play(Indicate(eq2, color=RED))
+        self.set_subtitle("再次微分得到六x分之負 sin x，它仍然是不定型。", run_time=_audio_dur_4)
+        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 - 1.0 + 0.1)
         self.wait(remaining_5)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1780229122/media/audio/Using_L_Hôpital_s_ru_2518da042e/step_05.mp3")  # [auto-injected]
+        _audio_dur_5 = 7.18  # [audio-sync]
+        # Step 6
+        _scale_6 = max(1.0, (_audio_dur_5 * 0.7) / 2.000)
+        new_step_6 = Text("Step 3: Substitute", color=BLUE, font_size=30).move_to(np.array([0, 2.0, 0]))
+        anim_time_6 = 2.000 * _scale_6
+        self.play(Transform(step_label, new_step_6), run_time=0.6)
+        self.play(TransformMatchingTex(eq2, eq3), run_time=2.0)
+        self.play(Indicate(eq3, color=RED))
+        self.set_subtitle("再微分一次得到六分之負 cos x，此時分母不再是零。", run_time=_audio_dur_5)
+        remaining_6 = max(0.1, _audio_dur_5 - anim_time_6 - 1.2 + 0.1)
+        self.wait(remaining_6)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q05_complete_square_1780229122/media/audio/Using_L_Hôpital_s_ru_2518da042e/step_06.mp3")  # [auto-injected]
+        _audio_dur_6 = 7.37  # [audio-sync]
+        # Step 7
+        _scale_7 = max(1.0, (_audio_dur_6 * 0.7) / 2.000)
+        anim_time_7 = 2.000 * _scale_7
+        self.play(TransformMatchingTex(eq3, final), run_time=2.0)
+        answer_box = SurroundingRectangle(final, color=GREEN, buff=0.2)
+        self.play(Create(answer_box), run_time=0.8)
+        self.play(Circumscribe(final, color=GREEN))
+        self.set_subtitle("現在代入零是安全的，cos 零等於一，所以極限等於負六分之一。", run_time=_audio_dur_6)
+        remaining_7 = max(0.1, _audio_dur_6 - anim_time_7 - 1.8 + 0.1)
+        self.wait(remaining_7)

@@ -143,12 +143,17 @@ def main():
         sys.exit(1)
 
     video_path = loop_result.video_path
+    _counters = getattr(loop_result, "counters_final", {}) or {}
+    _emit("SYS_ITERATIONS", str(_counters.get("main_i", "")))
+    _emit("SYS_BEST_EFFORT", "1" if getattr(loop_result, "is_best_effort", False) else "0")
     _emit("STAGE", f"refining_done|80")
 
     # ── FinalJudge ────────────────────────────────────────────────────
     bj_score = None
     vision_verdict = None
-    if video_path and os.path.exists(str(video_path)):
+    if os.environ.get("SKIP_FINAL_JUDGE") == "1":
+        _emit("LOG", "FinalJudge skipped (SKIP_FINAL_JUDGE=1)")
+    elif video_path and os.path.exists(str(video_path)):
         _emit("STAGE", "judge|85")
         try:
             from agents.utils.final_judge import FinalJudge

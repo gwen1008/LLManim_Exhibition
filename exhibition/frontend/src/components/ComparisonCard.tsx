@@ -94,7 +94,11 @@ function RenderBadge({ success }: { success: boolean }) {
 }
 
 export function ComparisonCard({ item }: Props) {
-  const om: ArmMetrics = item.opus_metrics;
+  // 純展示模式：能力秀影片無 Opus 對比，只渲染系統單欄
+  if (item.showcase_only) {
+    return <ShowcaseCard item={item} />;
+  }
+  const om: ArmMetrics = item.opus_metrics as ArmMetrics;
   const sm: ArmMetrics = item.system_metrics;
   const opusVideoRef = useRef<HTMLVideoElement>(null);
   const sysVideoRef = useRef<HTMLVideoElement>(null);
@@ -268,6 +272,71 @@ export function ComparisonCard({ item }: Props) {
         )}
 
         <FairnessDisclaimer />
+      </div>
+    </article>
+  );
+}
+
+// 純展示卡片：能力秀（系統生成，無 Opus 對比），單欄滿版影片
+function ShowcaseCard({ item }: Props) {
+  const sm: ArmMetrics = item.system_metrics;
+  return (
+    <article
+      className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-lg shadow-black/20 hover:border-gray-700 transition-colors"
+      aria-labelledby={`card-${item.id}-title`}
+    >
+      <header className="px-4 py-3 border-b border-gray-800 flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <h3 id={`card-${item.id}-title`} className="text-white font-semibold text-base leading-snug">
+            {item.topic}
+          </h3>
+          <p className="text-gray-500 text-xs mt-0.5 font-mono">{item.id}</p>
+        </div>
+        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border bg-emerald-500/15 text-emerald-300 border-emerald-500/40 shrink-0">
+          <CheckCircle2 className="size-3" aria-hidden="true" />
+          系統生成
+        </span>
+      </header>
+
+      <div className="bg-emerald-950/40 px-3 py-1.5 text-center">
+        <span className="text-emerald-300 text-[11px] font-bold uppercase tracking-wider">
+          本系統（5-Agent Pipeline）
+        </span>
+      </div>
+      <div className="relative bg-black aspect-video">
+        {sm.render_success ? (
+          <video
+            src={item.system_video_url}
+            poster={`/static/thumbs/system/${item.id}.jpg`}
+            controls
+            playsInline
+            className="w-full h-full object-contain"
+            preload="metadata"
+            aria-label={`本系統影片 — ${item.topic}`}
+          />
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+            <XCircle className="size-9 text-rose-400" aria-hidden="true" />
+            <span className="text-rose-300 text-sm font-medium">Render Failed</span>
+          </div>
+        )}
+      </div>
+
+      <div className="px-4 py-3">
+        <div className="flex justify-between text-xs py-1">
+          <span className="text-gray-300">影片時長</span>
+          <span className="text-emerald-300 font-medium">{fmt(sm.video_duration_sec, "s")}</span>
+        </div>
+        {item.topic_prompt && (
+          <details className="mt-2 group [&>summary]:list-none [&>summary::-webkit-details-marker]:hidden">
+            <summary className="text-xs text-gray-400 cursor-pointer hover:text-gray-300 select-none inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded">
+              <ChevronRight className="size-3 transition-transform group-open:rotate-90" aria-hidden="true" />
+              <FileText className="size-4" aria-hidden="true" />
+              原始 Prompt
+            </summary>
+            <p className="mt-1 text-xs text-gray-300 leading-relaxed">{item.topic_prompt}</p>
+          </details>
+        )}
       </div>
     </article>
   );

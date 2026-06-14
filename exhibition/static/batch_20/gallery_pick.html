@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>展覽影片挑選 — 高難題能力秀 (batch_20 system 23 部)</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0d0d12; color: #e8e8ee; font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif; padding: 24px; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 4px; }
+  .sub { color: #8a8a96; font-size: 13px; margin-bottom: 20px; }
+  .filters { margin-bottom: 18px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .filters button { background: #1c1c26; color: #c8c8d2; border: 1px solid #2e2e3c; border-radius: 18px; padding: 6px 14px; font-size: 13px; cursor: pointer; }
+  .filters button.active { background: #3a6df0; color: #fff; border-color: #3a6df0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 18px; }
+  .card { background: #15151d; border: 1px solid #26262f; border-radius: 12px; overflow: hidden; transition: border-color .15s; }
+  .card.picked { border-color: #2ecc71; box-shadow: 0 0 0 1px #2ecc71; }
+  .card video { width: 100%; display: block; background: #000; aspect-ratio: 16/9; }
+  .meta { padding: 10px 12px; }
+  .meta .id { font-size: 12px; color: #6b6b78; letter-spacing: .3px; }
+  .meta .kp { font-size: 15px; font-weight: 600; margin: 2px 0 6px; }
+  .row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .tag { background: #232330; color: #a0a0b0; border-radius: 6px; padding: 2px 8px; }
+  .tag.cat-calc { color: #ffd166; } .tag.cat-linalg { color: #4ecdc4; }
+  .tag.cat-chaos { color: #ff6b6b; } .tag.cat-fractal { color: #c77dff; }
+  .tag.cat-geo { color: #95e1d3; } .tag.cat-hs { color: #f6a; }
+  .tag.cat-viz { color: #ffb3f0; }
+  .dur { color: #6b6b78; margin-left: auto; }
+  .pick { margin-left: 8px; background: #232330; border: 1px solid #3a3a48; color: #c8c8d2; border-radius: 6px; padding: 3px 10px; cursor: pointer; font-size: 12px; }
+  .card.picked .pick { background: #2ecc71; color: #08210f; border-color: #2ecc71; }
+  #picklist { position: fixed; bottom: 0; left: 0; right: 0; background: #16161f; border-top: 1px solid #2e2e3c; padding: 10px 24px; font-size: 13px; color: #9ad; }
+</style>
+</head>
+<body>
+<h1>展覽影片挑選 — 高難題能力秀</h1>
+<div class="sub">batch_20 system 共 23 部 · 系統生成 · 點「★ 選」標記你要放展的 · 下方即時列出已選清單(複製給 Claude)</div>
+
+<div class="filters" id="filters">
+  <button data-cat="all" class="active">全部</button>
+  <button data-cat="viz">華麗視覺(新)</button>
+  <button data-cat="calc">微積分/分析</button>
+  <button data-cat="linalg">線代</button>
+  <button data-cat="chaos">混沌/動力</button>
+  <button data-cat="fractal">碎形/幾何</button>
+  <button data-cat="geo">幾何/三角</button>
+  <button data-cat="hs">高中題</button>
+</div>
+
+<div class="grid" id="grid"></div>
+<div id="picklist">已選 (0): <span id="picks">— 還沒選 —</span></div>
+
+<script>
+const CATNAME = {viz:"華麗視覺(新)",calc:"微積分/分析",linalg:"線代",chaos:"混沌/動力",fractal:"碎形/幾何",geo:"幾何/三角",hs:"高中題"};
+const DATA = [
+  {id:"V01_rose_curve", kp:"玫瑰曲線 r=sin(kθ)", cat:"viz", dur:49},
+  {id:"V02_lissajous", kp:"利薩茹圖形", cat:"viz", dur:44},
+  {id:"V03_cardioid_envelope", kp:"心臟線包絡(弦線織心形)", cat:"viz", dur:38},
+  {id:"V04_vector_field_flow", kp:"旋轉向量場與流線", cat:"viz", dur:44},
+  {id:"V05_complex_square_map", kp:"複變換 w=z²(共形映射)", cat:"viz", dur:41},
+  {id:"Q16_lorenz", kp:"洛倫茲吸引子", cat:"chaos", dur:39},
+  {id:"Q19_mandelbrot", kp:"曼德博集合", cat:"fractal", dur:52},
+  {id:"Q17_saddle_3d", kp:"鞍面 3D 曲面", cat:"calc", dur:56},
+  {id:"Q14_double_pendulum", kp:"雙擺混沌", cat:"chaos", dur:62},
+  {id:"Q13_pendulum_phase", kp:"單擺相空間", cat:"chaos", dur:56},
+  {id:"Q08_slope_field", kp:"微分方程斜率場", cat:"chaos", dur:70},
+  {id:"Q18_galton_board", kp:"高爾頓板(常態分布)", cat:"chaos", dur:61},
+  {id:"Q11_eigenvectors", kp:"特徵向量(網格扭曲)", cat:"linalg", dur:57},
+  {id:"Q01_riemann_sum", kp:"黎曼和 → 定積分", cat:"calc", dur:53},
+  {id:"Q03_taylor_sine", kp:"泰勒展開逼近 sin", cat:"calc", dur:61},
+  {id:"Q20_taylor_log", kp:"泰勒展開逼近 log", cat:"calc", dur:61},
+  {id:"Q12_fourier_square", kp:"傅立葉級數合成方波", cat:"calc", dur:52},
+  {id:"Q15_wave_equation", kp:"波動方程", cat:"calc", dur:58},
+  {id:"Q02_newton_iteration", kp:"牛頓迭代求根", cat:"calc", dur:100},
+  {id:"Q09_golden_spiral", kp:"黃金螺旋", cat:"fractal", dur:57},
+  {id:"Q10_sierpinski", kp:"謝爾賓斯基三角", cat:"fractal", dur:50},
+  {id:"Q07_unit_roots", kp:"單位根(複數平面)", cat:"fractal", dur:46},
+  {id:"Q06_unit_circle_trig", kp:"單位圓三角函數", cat:"geo", dur:59},
+  {id:"Q04_pythagorean", kp:"畢氏定理", cat:"geo", dur:56},
+  {id:"H01_complete_square", kp:"配方法(高中)", cat:"hs", dur:93},
+  {id:"H02_sin_equation", kp:"三角方程(高中)", cat:"hs", dur:62},
+  {id:"H03_line_circle", kp:"直線與圓(高中)", cat:"hs", dur:82},
+  {id:"Q05_complete_square", kp:"配方法", cat:"calc", dur:75},
+];
+const picked = new Set();
+function render(cat){
+  const g = document.getElementById("grid"); g.innerHTML = "";
+  DATA.filter(d => cat==="all" || d.cat===cat).forEach(d => {
+    const c = document.createElement("div");
+    c.className = "card" + (picked.has(d.id)?" picked":"");
+    c.innerHTML = `
+      <video src="system/${d.id}.mp4" controls preload="metadata"></video>
+      <div class="meta">
+        <div class="id">${d.id}</div>
+        <div class="kp">${d.kp}</div>
+        <div class="row">
+          <span class="tag cat-${d.cat}">${CATNAME[d.cat]}</span>
+          <span class="dur">${d.dur}s</span>
+          <button class="pick">${picked.has(d.id)?"✓ 已選":"★ 選"}</button>
+        </div>
+      </div>`;
+    c.querySelector(".pick").onclick = () => {
+      picked.has(d.id) ? picked.delete(d.id) : picked.add(d.id);
+      render(cat); updatePicks();
+    };
+    g.appendChild(c);
+  });
+}
+function updatePicks(){
+  document.getElementById("picklist").firstChild.textContent = `已選 (${picked.size}): `;
+  const arr = [...picked].map(id => { const d = DATA.find(x=>x.id===id); return `${id} (${d.kp})`; });
+  document.getElementById("picks").textContent = arr.length ? arr.join("、") : "— 還沒選 —";
+}
+document.querySelectorAll("#filters button").forEach(b => b.onclick = () => {
+  document.querySelectorAll("#filters button").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); render(b.dataset.cat);
+});
+render("all");
+</script>
+</body>
+</html>

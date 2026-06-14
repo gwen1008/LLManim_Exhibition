@@ -21,7 +21,7 @@ app = FastAPI(title="LLManim Exhibition API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origin_regex=r"^http://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)(:\d+)?$",
+    allow_origin_regex=r"^http://(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?$",
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -34,6 +34,13 @@ app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 tasks: dict[str, dict] = {}
 TASK_TTL_SEC = 60 * 60  # 1h
 MAX_TASKS = 200
+
+# Concurrency guard: only N generations run at once, the rest queue.
+# Protects the host machine + Claude/Azure quota from being hammered when
+# the site is exposed publicly (ngrok / LAN at the exhibition).
+import os as _os
+MAX_CONCURRENT_GEN = int(_os.getenv("MAX_CONCURRENT_GEN", "1"))
+_gen_semaphore = asyncio.Semaphore(MAX_CONCURRENT_GEN)
 
 
 def _gc_tasks():
@@ -143,12 +150,21 @@ def _parse_line(line: str, task: dict):
 
 
 async def _run_task(task_id: str, topic: str, mode: str):
+    task = tasks[task_id]
+    runner_script = str(HERE / ("naked_opus.py" if mode == "opus_only" else "full_system_lite_runner.py"))
+
+    # Wait for a free generation slot. If others are running, show queue state.
+    if _gen_semaphore.locked():
+        task["progress"] = {"stage": "前面還有人在生成，排隊中…", "percent": 0}
+    async with _gen_semaphore:
+        await _run_task_inner(task_id, topic, runner_script)
+
+
+async def _run_task_inner(task_id: str, topic: str, runner_script: str):
     import os
     import time
     task = tasks[task_id]
     out_dir = RUNS_DIR / task_id
-
-    runner_script = str(HERE / ("naked_opus.py" if mode == "opus_only" else "full_system_lite_runner.py"))
 
     proc_env = os.environ.copy()
     proc_env["PYTHONUTF8"] = "1"

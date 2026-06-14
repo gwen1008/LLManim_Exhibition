@@ -1,0 +1,118 @@
+{
+  "N01_bezier_curve": {
+    "topic": "Bézier 曲線",
+    "prompt": "用 de Casteljau 演算法說明三次貝茲曲線：給定四個控制點，隨著參數 t 從 0 到 1 連續移動，遞迴線性內插畫出曲線。",
+    "challenge": "連續參數動畫（ValueTracker 沿 t 掃）",
+    "system": {
+      "render": true,
+      "gen_time_sec": 189.5,
+      "video_dur_sec": 64.4,
+      "video_kb": 1311,
+      "code_lines": 289,
+      "animations": 13,
+      "lagged_starts": 5,
+      "subtitles": 5,
+      "bj_score": "5.0",
+      "stderr_tail": ""
+    },
+    "lite": {
+      "render": true,
+      "gen_time_sec": 217.0,
+      "video_dur_sec": 95.13,
+      "video_kb": 1527,
+      "code_lines": 341,
+      "animations": 5,
+      "lagged_starts": 4,
+      "subtitles": 5,
+      "bj_score": "4.4",
+      "stderr_tail": ""
+    }
+  },
+  "N02_taylor_cosine": {
+    "topic": "cos(x) 泰勒展開",
+    "prompt": "說明餘弦函數的泰勒級數逼近：從常數項開始，逐項加入 -x²/2!、+x⁴/4!，每加一項曲線就更貼近真正的 cos(x)。",
+    "challenge": "離散疊加步驟（逐項加入）",
+    "system": {
+      "render": true,
+      "gen_time_sec": 133.6,
+      "video_dur_sec": 61.07,
+      "video_kb": 1331,
+      "code_lines": 247,
+      "animations": 11,
+      "lagged_starts": 0,
+      "subtitles": 6,
+      "bj_score": "4.7",
+      "stderr_tail": ""
+    },
+    "lite": {
+      "render": true,
+      "gen_time_sec": 176.9,
+      "video_dur_sec": 98.53,
+      "video_kb": 1662,
+      "code_lines": 346,
+      "animations": 5,
+      "lagged_starts": 5,
+      "subtitles": 5,
+      "bj_score": "4.3",
+      "stderr_tail": ""
+    }
+  },
+  "N03_gradient_descent": {
+    "topic": "梯度下降",
+    "prompt": "在二維損失曲面的等高線圖上，示範梯度下降：從一個起始點出發，沿負梯度方向逐步迭代，軌跡螺旋收斂到最低點。",
+    "challenge": "迭代收斂 + 多物件追蹤（dead air 高風險）",
+    "system": {
+      "render": true,
+      "gen_time_sec": 227.6,
+      "video_dur_sec": 77.07,
+      "video_kb": 1618,
+      "code_lines": 285,
+      "animations": 19,
+      "lagged_starts": 1,
+      "subtitles": 6,
+      "bj_score": "4.0",
+      "stderr_tail": ""
+    },
+    "lite": {
+      "render": true,
+      "gen_time_sec": 196.5,
+      "video_dur_sec": 82.0,
+      "video_kb": 1645,
+      "code_lines": 293,
+      "animations": 6,
+      "lagged_starts": 5,
+      "subtitles": 5,
+      "bj_score": "3.9",
+      "stderr_tail": ""
+    }
+  },
+  "N04_dft_phasors": {
+    "topic": "傅立葉相量合成方波",
+    "prompt": "用旋轉相量說明傅立葉級數如何合成方波：多個不同頻率與半徑的旋轉向量首尾相接，末端軌跡隨時間描繪出方波。",
+    "challenge": "多旋轉體並行 + 連續時間",
+    "system": {
+      "render": true,
+      "gen_time_sec": 302.4,
+      "video_dur_sec": 64.47,
+      "video_kb": 1410,
+      "code_lines": 324,
+      "animations": 13,
+      "lagged_starts": 0,
+      "subtitles": 5,
+      "bj_score": "5.0",
+      "stderr_tail": ""
+    },
+    "lite": {
+      "render": true,
+      "gen_time_sec": 304.2,
+      "video_dur_sec": 105.73,
+      "video_kb": 1693,
+      "code_lines": 340,
+      "animations": 5,
+      "lagged_starts": 5,
+      "subtitles": 5,
+      "bj_score": "4.4",
+      "stderr_tail": ""
+    }
+  }
+}

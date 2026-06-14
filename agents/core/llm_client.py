@@ -157,7 +157,11 @@ class LLMClient:
         import subprocess, json
 
         import shutil
-        claude_bin = os.getenv("CLAUDE_BIN") or shutil.which("claude") or "/Users/liaozhenting/.local/bin/claude"
+        claude_bin = os.getenv("CLAUDE_BIN") or shutil.which("claude")
+        if not claude_bin:
+            raise RuntimeError(
+                "claude CLI not found — set CLAUDE_BIN env var or ensure 'claude' is on PATH"
+            )
         claude_cmd = [
             claude_bin, "-p", user_prompt.strip(),
             "--output-format", "json",
@@ -177,43 +181,75 @@ class LLMClient:
         else:
             cmd = claude_cmd
 
-        try:
-            start = time.time()
-            result = subprocess.run(
-                cmd,
-                capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600
-            )
-            elapsed = time.time() - start
+        # Transient CLI failures (timeout, truncated JSON, non-zero exit) get retried;
+        # auth/login errors fail fast. Timeout retries at most once (600s each).
+        _max_attempts = 3
+        _last_err = None
+        _timeouts = 0
+        for _attempt in range(_max_attempts):
+            result = None
+            try:
+                start = time.time()
+                result = subprocess.run(
+                    cmd,
+                    capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=600
+                )
+                elapsed = time.time() - start
 
-            if result.returncode != 0:
-                raise LLMError(f"claude CLI error: {result.stderr.strip()}")
+                if result.returncode != 0:
+                    _stderr = result.stderr.strip()
+                    if any(k in _stderr.lower() for k in ("login", "authenticate", "unauthorized", "invalid api key")):
+                        raise LLMError(f"claude CLI auth error: {_stderr}")
+                    _last_err = f"claude CLI error (rc={result.returncode}): {_stderr}"
+                else:
+                    data = json.loads(result.stdout)
+                    content = data.get("result", "")
 
-            data = json.loads(result.stdout)
-            content = data.get("result", "")
+                    usage = data.get("usage", {})
+                    c_read = usage.get("cache_read_input_tokens", 0)
+                    c_create = usage.get("cache_creation_input_tokens", 0)
+                    input_tok = usage.get("input_tokens", 0) + c_read + c_create
+                    output_tok = usage.get("output_tokens", 0)
+                    self._update_stats(f"anthropic/{claude_model}", input_tok, output_tok)
 
-            usage = data.get("usage", {})
-            c_read = usage.get("cache_read_input_tokens", 0)
-            c_create = usage.get("cache_creation_input_tokens", 0)
-            input_tok = usage.get("input_tokens", 0) + c_read + c_create
-            output_tok = usage.get("output_tokens", 0)
-            self._update_stats(f"anthropic/{claude_model}", input_tok, output_tok)
+                    if self.debug:
+                        print(f"\n" + "-"*30)
+                        print(f"🤖 [模型]: {claude_model} (Claude Code Subscription / 月費)")
+                        print(f"⏱️  [API 耗時]: {elapsed:.2f} 秒")
+                        cache_str = ""
+                        if c_read > 0: cache_str = f" [🔥 快取命中: {c_read:,}]"
+                        elif c_create > 0: cache_str = f" [✍️ 建立快取: {c_create:,}]"
+                        print(f"📊 [Token 統計]: 輸入 {input_tok} (純輸入 {usage.get('input_tokens',0):,}){cache_str} | 輸出 {output_tok}")
+                        print("-"*30)
 
-            if self.debug:
-                print(f"\n" + "-"*30)
-                print(f"🤖 [模型]: {claude_model} (Claude Code Subscription / 月費)")
-                print(f"⏱️  [API 耗時]: {elapsed:.2f} 秒")
-                cache_str = ""
-                if c_read > 0: cache_str = f" [🔥 快取命中: {c_read:,}]"
-                elif c_create > 0: cache_str = f" [✍️ 建立快取: {c_create:,}]"
-                print(f"📊 [Token 統計]: 輸入 {input_tok} (純輸入 {usage.get('input_tokens',0):,}){cache_str} | 輸出 {output_tok}")
-                print("-"*30)
+                    return content
 
-            return content
+            except subprocess.TimeoutExpired:
+                _timeouts += 1
+                _last_err = "claude CLI timeout (>600s)"
+                if _timeouts >= 2:
+                    break
+            except json.JSONDecodeError as e:
+                _last_err = f"claude CLI JSON parse error: {e}\nstdout: {(result.stdout if result else '')[:500]}"
 
-        except subprocess.TimeoutExpired:
-            raise LLMError("claude CLI timeout (>600s)")
-        except json.JSONDecodeError as e:
-            raise LLMError(f"claude CLI JSON parse error: {e}\nstdout: {result.stdout[:500]}")
+            if _attempt < _max_attempts - 1:
+                _wait = 5 * (2 ** _attempt)  # 5s, 10s
+                print(f"⚠️ [claude CLI retry {_attempt+1}/{_max_attempts}] {_last_err.splitlines()[0]} — retrying in {_wait}s...")
+                time.sleep(_wait)
+
+        raise LLMError(_last_err)
+
+    @staticmethod
+    def _is_retryable_api_error(e) -> bool:
+        """429 / 5xx / connection errors → retry; other 4xx (bad key, bad request) → fail fast.
+
+        Groq and OpenAI-compatible SDKs expose .status_code on APIStatusError;
+        connection/timeout errors have no status_code → treat as retryable.
+        """
+        status = getattr(e, "status_code", None)
+        if status is None:
+            return True
+        return status == 429 or status >= 500
 
     def _call_groq(self, model, system_prompt, user_prompt, temperature=0.1, json_mode=False):
         """Internal method to call Groq API."""
@@ -261,6 +297,8 @@ class LLMClient:
 
                 return response
             except Exception as e:
+                if not self._is_retryable_api_error(e):
+                    raise LLMError(f"Groq non-retryable error ({getattr(e, 'status_code', '?')}): {e}") from e
                 last_exc = e
                 wait = 2 ** attempt  # 1s, 2s, 4s
                 print(f"⚠️ [Groq retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
@@ -324,6 +362,8 @@ class LLMClient:
                 return content
 
             except Exception as e:
+                if not self._is_retryable_api_error(e):
+                    raise LLMError(f"DeepSeek non-retryable error ({getattr(e, 'status_code', '?')}): {e}") from e
                 last_exc = e
                 wait = 2 ** attempt  # 1s, 2s, 4s
                 print(f"⚠️ [DeepSeek retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")
@@ -372,6 +412,8 @@ class LLMClient:
                 return content
 
             except Exception as e:
+                if not self._is_retryable_api_error(e):
+                    raise LLMError(f"OpenRouter non-retryable error ({getattr(e, 'status_code', '?')}): {e}") from e
                 last_exc = e
                 wait = 2 ** attempt
                 print(f"⚠️ [OpenRouter retry {attempt+1}/{max_retries}] {e} — retrying in {wait}s...")

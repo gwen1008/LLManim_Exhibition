@@ -1,86 +1,46 @@
 # [VISUAL REASONING]
-# Show convergence of Taylor polynomials to sin(x) by progressively
-# overlaying P1, P3, P5 on the same axes, with formulas morphing in place.
+# A persistent white sin(x) curve serves as the ground truth on axes spanning [-pi, pi].
+# Each Taylor partial sum (T1=BLUE, T2=GREEN, T3=YELLOW, T4=RED) is drawn in layers,
+# with a single footer polynomial label updated via ReplacementTransform so only one
+# expression shows at a time. Signal actions (Indicate/Circumscribe) emphasize each new
+# approximation, illustrating progressive convergence toward sin(x).
 
 from manim import *
 import numpy as np
 
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
 
     def __init__(self, scene, font_size=28):
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
-        sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
-        if len(parts) % 2 == 1 and parts[-1].strip():
-            sentences.append(parts[-1].strip())
-
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
-        if not sentences:
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
             return
-
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
-
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
-
-        for idx, s in enumerate(sentences):
-
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
-
-            is_last = (idx == n - 1)
-
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
-
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
         if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
             self._current = None
 
 
@@ -154,99 +114,103 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        title = Text("Taylor Series of sin(x)", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
+        title = Text("Taylor Series of sin(x)", color=WHITE, font_size=36)
+        title.to_edge(UP)
 
         axes = Axes(
-            x_range=[-3.5, 3.5, 1],
-            y_range=[-2, 2, 1],
+            x_range=[-3.15, 3.15, 1.57],
+            y_range=[-3, 3, 1],
             x_length=9,
-            y_length=4.5,
+            y_length=5,
             axis_config={"color": GREY},
-        ).move_to(ORIGIN + np.array([0, -0.2, 0]))
+        )
+        axes.move_to(ORIGIN)
 
         sin_curve = ParametricFunction(
             lambda t: axes.c2p(t, np.sin(t)),
-            t_range=[-3.3, 3.3],
+            t_range=[-3.14159, 3.14159, 0.05],
+            color=WHITE,
+        )
+        sin_label = MathTex("\\sin(x)", color=WHITE).next_to(axes, UR, buff=0.1)
+
+        curve_t1 = ParametricFunction(
+            lambda t: axes.c2p(t, t),
+            t_range=[-3.14159, 3.14159, 0.05],
             color=BLUE,
         )
-        sin_label = MathTex("y=\\sin(x)", color=BLUE).next_to(axes, UR, buff=0.1)
-
-        p1_curve = ParametricFunction(
-            lambda t: axes.c2p(t, t),
-            t_range=[-3.3, 3.3],
+        curve_t2 = ParametricFunction(
+            lambda t: axes.c2p(t, t - t**3 / 6),
+            t_range=[-3.14159, 3.14159, 0.05],
+            color=GREEN,
+        )
+        curve_t3 = ParametricFunction(
+            lambda t: axes.c2p(t, t - t**3 / 6 + t**5 / 120),
+            t_range=[-3.14159, 3.14159, 0.05],
             color=YELLOW,
         )
-        p3_curve = ParametricFunction(
-            lambda t: axes.c2p(t, t - t**3 / 6),
-            t_range=[-3.3, 3.3],
-            color=ORANGE,
-        )
-        p5_curve = ParametricFunction(
-            lambda t: axes.c2p(t, t - t**3 / 6 + t**5 / 120),
-            t_range=[-3.3, 3.3],
+        curve_t4 = ParametricFunction(
+            lambda t: axes.c2p(t, t - t**3 / 6 + t**5 / 120 - t**7 / 5040),
+            t_range=[-3.14159, 3.14159, 0.05],
             color=RED,
         )
 
-        formula_p1 = MathTex("P_1(x)=x", color=YELLOW).to_corner(UR, buff=0.8)
-        formula_p3 = MathTex("P_3(x)=x-\\tfrac{x^3}{3!}", color=ORANGE).to_corner(UR, buff=0.8)
-        formula_p5 = MathTex(
-            "P_5(x)=x-\\tfrac{x^3}{3!}+\\tfrac{x^5}{5!}", color=RED
-        ).to_corner(UR, buff=0.8)
+        label_t1 = MathTex("P_1(x) = x", color=BLUE).move_to([0, -2.3, 0])
+        label_t2 = MathTex("P_2(x) = x - \\dfrac{x^3}{3!}", color=GREEN).move_to([0, -2.3, 0])
+        label_t3 = MathTex("P_3(x) = x - \\dfrac{x^3}{3!} + \\dfrac{x^5}{5!}", color=YELLOW).move_to([0, -2.3, 0])
+        label_t4 = MathTex("P_4(x) = x - \\dfrac{x^3}{3!} + \\dfrac{x^5}{5!} - \\dfrac{x^7}{7!}", color=RED).move_to([0, -2.3, 0])
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1779986522/media/audio/Approximate_the_valu_032c86c11d/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 6.17  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1781379187/media/audio/Visualize_the_Taylor_ae6682017f/step_00_7975a1d6.mp3")  # [auto-injected]
+        _audio_dur_0 = 7.10  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 4.000)
-        self.set_subtitle("這是真正的正弦曲線，我們將用多項式在原點附近逼近它。", run_time=_audio_dur_0)
-        self.play(Write(title), Create(axes), run_time=(1.5)*_scale_1)
-        anim_time_1 = 4.000 * _scale_1
-        self.play(Create(sin_curve), Write(sin_label), run_time=2.5)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 3.500))
+        self.set_subtitle("這是從負 pi 到正 pi 區間上真正的正弦曲線，是我們要逼近的目標。", run_time=_audio_dur_0)
+        anim_time_1 = 3.500 * _scale_1
+        self.play(Write(title), run_time=(1.0)*_scale_1)
+        self.play(Create(axes), run_time=(1.0)*_scale_1)
+        self.play(Create(sin_curve), Write(sin_label), run_time=(2.5)*_scale_1)
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - anim_time_1 + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1779986522/media/audio/Approximate_the_valu_032c86c11d/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 6.41  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1781379187/media/audio/Visualize_the_Taylor_ae6682017f/step_01_38584ca3.mp3")  # [auto-injected]
+        _audio_dur_1 = 7.94  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 2.800)
-        self.set_subtitle("一階泰勒多項式就是 x，只在零附近與正弦吻合。", run_time=_audio_dur_1)
-        self.play(Create(p1_curve), Write(formula_p1), run_time=(2.0)*_scale_2)
-        self.play(Indicate(formula_p1, color=YELLOW), run_time=(0.8)*_scale_2)
-        anim_time_2 = 2.800 * _scale_2
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
+        _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 2.500))
+        self.set_subtitle("第一項就是 x，在原點附近完美貼合 sin(x)，但很快就發散。", run_time=_audio_dur_1)
+        anim_time_2 = 2.500 * _scale_2
+        self.play(Create(curve_t1), FadeIn(label_t1), run_time=(2.0)*_scale_2)
+        self.play(Indicate(curve_t1, color=BLUE), run_time=(0.5)*_scale_2)
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - anim_time_2 + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1779986522/media/audio/Approximate_the_valu_032c86c11d/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 5.76  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1781379187/media/audio/Visualize_the_Taylor_ae6682017f/step_02_9b5b3a71.mp3")  # [auto-injected]
+        _audio_dur_2 = 7.94  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 2.700)
-        self.set_subtitle("加入三次項得到 P3，在更寬的區間貼近正弦。", run_time=_audio_dur_2)
-        self.play(ReplacementTransform(formula_p1, formula_p3), run_time=(1.2)*_scale_3)
-        self.play(ReplacementTransform(p1_curve, p3_curve), run_time=(1.5)*_scale_3)
-        anim_time_3 = 2.700 * _scale_3
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
+        _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 2.500))
+        self.set_subtitle("減去 x 的三次方除以三階乘，曲線向下彎曲，更遠地貼合正弦波。", run_time=_audio_dur_2)
+        anim_time_3 = 2.500 * _scale_3
+        self.play(Create(curve_t2), ReplacementTransform(label_t1, label_t2), run_time=(2.0)*_scale_3)
+        self.play(Indicate(curve_t2, color=GREEN), run_time=(0.5)*_scale_3)
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - anim_time_3 + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1779986522/media/audio/Approximate_the_valu_032c86c11d/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 6.74  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1781379187/media/audio/Visualize_the_Taylor_ae6682017f/step_03_1642feaa.mp3")  # [auto-injected]
+        _audio_dur_3 = 8.95  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 2.700)
-        self.set_subtitle("再加入五次項，逼近結果在此區間幾乎與正弦無法分辨。", run_time=_audio_dur_3)
-        self.play(ReplacementTransform(formula_p3, formula_p5), run_time=(1.2)*_scale_4)
-        self.play(ReplacementTransform(p3_curve, p5_curve), run_time=(1.5)*_scale_4)
-        anim_time_4 = 2.700 * _scale_4
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
+        _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 2.500))
+        self.set_subtitle("加上 x 的五次方除以五階乘，把尾端拉回，幾乎追蹤 sin(x) 到邊緣。", run_time=_audio_dur_3)
+        anim_time_4 = 2.500 * _scale_4
+        self.play(Create(curve_t3), ReplacementTransform(label_t2, label_t3), run_time=(2.0)*_scale_4)
+        self.play(Indicate(curve_t3, color=YELLOW), run_time=(0.5)*_scale_4)
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - anim_time_4 + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1779986522/media/audio/Approximate_the_valu_032c86c11d/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 5.62  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q03_taylor_sine_1781379187/media/audio/Visualize_the_Taylor_ae6682017f/step_04_ceeeb7ed.mp3")  # [auto-injected]
+        _audio_dur_4 = 9.41  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.000)
-        self.set_subtitle("每多一項，多項式忠實重現正弦的範圍就更大。", run_time=_audio_dur_4)
-        self.play(
-            Indicate(sin_curve, color=BLUE),
-            Circumscribe(p5_curve, color=WHITE),
-            run_time=(2.0)*_scale_5,
-        )
-        anim_time_5 = 2.000 * _scale_5
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
+        _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 3.000))
+        self.set_subtitle("加入 x 的七次方項後，多項式在整個區間都與 sin(x) 重疊，展現快速收斂。", run_time=_audio_dur_4)
+        anim_time_5 = 3.000 * _scale_5
+        self.play(Create(curve_t4), ReplacementTransform(label_t3, label_t4), run_time=(2.0)*_scale_5)
+        self.play(Circumscribe(curve_t4, color=RED), run_time=(1.0)*_scale_5)
+        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - anim_time_5 + 0.1))
         self.wait(remaining_5)

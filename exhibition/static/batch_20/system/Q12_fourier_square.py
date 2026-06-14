@@ -1,87 +1,46 @@
-# [VISUAL REASONING]
-# Show convergence by progressively transforming a sine curve into higher-order
-# partial sums on shared axes, with the target square wave as a constant reference.
-# Title at HEADER, Axes at CONTENT center, formula at FOOTER below axes.
-
 from manim import *
-import math
+import numpy as np
 
+# [VISUAL REASONING]
+# A single shared Axes hosts a fixed dashed grey square wave reference plus an
+# evolving partial-sum Fourier curve. By morphing S1 -> S3 -> S9 with
+# ReplacementTransform while the square wave stays put, the viewer perceives
+# convergence and the persistent Gibbs edge overshoot. The bottom formula ties
+# the symbolic partial sum to the visual, and a final red arrow + label call out
+# the ~9% overshoot near the discontinuity.
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
 
     def __init__(self, scene, font_size=28):
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
-        sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
-        if len(parts) % 2 == 1 and parts[-1].strip():
-            sentences.append(parts[-1].strip())
-
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
-        if not sentences:
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
             return
-
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
-
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
-
-        for idx, s in enumerate(sentences):
-
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
-
-            is_last = (idx == n - 1)
-
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
-
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
         if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
             self._current = None
 
 
@@ -155,123 +114,134 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        # Setup: title and axes (always visible)
-        title = Text("Fourier Series: Approximating a Square Wave",
-                     color=WHITE, font_size=34).to_edge(UP, buff=0.4)
+        registry = {}
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1781379459/media/audio/Use_Fourier_series_t_11dc7dcb0a/step_00_70c365e0.mp3")  # [auto-injected]
+        _audio_dur_0 = 6.10  # [audio-sync]
+        # Step 1
+        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 2.000))
+        title = Text("Fourier Series: Building a Square Wave", color=WHITE, font_size=36)
+        title.move_to([0, 3.0, 0])
+        registry["title"] = title
 
         axes = Axes(
-            x_range=[-6.5, 6.5, 1.5708],
-            y_range=[-1.6, 1.6, 1],
-            x_length=11,
+            x_range=[-3.14, 3.14, 1.57],
+            y_range=[-1.5, 1.5, 0.5],
+            x_length=10,
             y_length=4,
             axis_config={"color": GREY},
-        ).move_to(ORIGIN + np.array([0, 0.2, 0]))
+        )
+        axes.move_to(ORIGIN)
+        registry["axes"] = axes
 
-        self.add(title, axes)
+        square_wave = axes.plot(
+            lambda x: np.sign(np.sin(x)),
+            x_range=[-3.14, 3.14, 0.01],
+            use_smoothing=False,
+            color=GREY_B,
+        )
+        square_wave = DashedVMobject(square_wave, num_dashes=80)
+        registry["square_wave"] = square_wave
 
-        # Curves (parametric in plot space, then shifted to axes)
-        square_wave = ParametricFunction(
-            lambda t: [t, 1.2 if (t % 6.2832) < 3.1416 else -1.2, 0],
-            t_range=[-6.28, 6.28, 0.005],
-            color=GREY,
-            stroke_width=3,
-        ).move_to(axes.get_center())
+        formula = MathTex(
+            r"S_N(x)=\frac{4}{\pi}\sum_{n\,odd}^{N}\frac{\sin(nx)}{n}",
+            color=WHITE,
+        )
+        formula.move_to([0, -2.3, 0])
+        registry["formula"] = formula
 
-        curve_s1 = ParametricFunction(
-            lambda t: [t, (4 / 3.14159) * 1.2 * math.sin(t), 0],
-            t_range=[-6.28, 6.28, 0.02],
-            color=YELLOW,
-            stroke_width=4,
-        ).move_to(axes.get_center())
-
-        curve_s3 = ParametricFunction(
-            lambda t: [t, (4 / 3.14159) * 1.2 * (math.sin(t) + math.sin(3 * t) / 3), 0],
-            t_range=[-6.28, 6.28, 0.02],
-            color=ORANGE,
-            stroke_width=4,
-        ).move_to(axes.get_center())
-
-        curve_s5 = ParametricFunction(
-            lambda t: [t, (4 / 3.14159) * 1.2 * (math.sin(t) + math.sin(3 * t) / 3 + math.sin(5 * t) / 5), 0],
-            t_range=[-6.28, 6.28, 0.02],
-            color=RED,
-            stroke_width=4,
-        ).move_to(axes.get_center())
-
-        curve_s9 = ParametricFunction(
-            lambda t: [t, (4 / 3.14159) * 1.2 * (
-                math.sin(t) + math.sin(3 * t) / 3 + math.sin(5 * t) / 5
-                + math.sin(7 * t) / 7 + math.sin(9 * t) / 9), 0],
-            t_range=[-6.28, 6.28, 0.02],
-            color=GREEN,
-            stroke_width=4,
-        ).move_to(axes.get_center())
-
-        formula_s1 = MathTex(r"S_1(x)=\tfrac{4}{\pi}\sin x", color=YELLOW).move_to([0, -2.3, 0])
-        formula_s3 = MathTex(r"S_3(x)=\tfrac{4}{\pi}\left(\sin x+\tfrac{\sin 3x}{3}\right)", color=ORANGE).move_to([0, -2.3, 0])
-        formula_s5 = MathTex(r"S_5(x)=\tfrac{4}{\pi}\left(\sin x+\tfrac{\sin 3x}{3}+\tfrac{\sin 5x}{5}\right)", color=RED).move_to([0, -2.3, 0])
-        formula_s9 = MathTex(r"S_9(x)=\tfrac{4}{\pi}\sum_{k=1,3,5,7,9}\tfrac{\sin kx}{k}", color=GREEN).move_to([0, -2.3, 0])
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1779987975/media/audio/Approximate_a_square_f5ca0c69d6/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 5.93  # [audio-sync]
-        # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.500)
-        self.set_subtitle("這是我們的目標:一個只用正弦函數來重建的方波。", run_time=_audio_dur_0)
-        anim_time_1 = 2.500 * _scale_1
-        self.play(Create(square_wave), run_time=2.5)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        self.set_subtitle("這是我們想要僅用正弦函數重建的理想方波。", run_time=_audio_dur_0)
+        anim_time_1 = 2.000 * _scale_1
+        self.play(Create(axes), run_time=(2.0)*_scale_1)
+        self.play(Create(square_wave), Write(formula), Write(title), run_time=(1.5)*_scale_1)
+        self.play(Circumscribe(square_wave, color=YELLOW))
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - (anim_time_1 + 1.5 + 1.0) + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1779987975/media/audio/Approximate_a_square_f5ca0c69d6/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 5.83  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1781379459/media/audio/Use_Fourier_series_t_11dc7dcb0a/step_01_ba592fda.mp3")  # [auto-injected]
+        _audio_dur_1 = 5.69  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 2.000)
-        self.set_subtitle("先從第一諧波開始:單一正弦波已經抓到基本形狀。", run_time=_audio_dur_1)
+        _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 2.000))
+        curve_n1 = axes.plot(
+            lambda x: (4 / np.pi) * np.sin(x),
+            x_range=[-3.14, 3.14, 0.01],
+            color=YELLOW,
+        )
+        registry["curve_n1"] = curve_n1
+
+        self.set_subtitle("第一諧波是係數為四除以 π 的單一正弦波。", run_time=_audio_dur_1)
         anim_time_2 = 2.000 * _scale_2
-        self.play(Create(curve_s1), Write(formula_s1), run_time=2.0)
-        self.play(Circumscribe(formula_s1, color=YELLOW), run_time=1.2)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 - 1.2 + 0.1)
+        self.play(Create(curve_n1), run_time=(2.0)*_scale_2)
+        self.wait(0.5)  # [Final Guard: removed empty self.play()]
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - (anim_time_2 + 1.0) + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1779987975/media/audio/Approximate_a_square_f5ca0c69d6/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 5.18  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1781379459/media/audio/Use_Fourier_series_t_11dc7dcb0a/step_02_f8a27404.mp3")  # [auto-injected]
+        _audio_dur_2 = 6.19  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 2.500)
-        self.set_subtitle("加入第三諧波後,波峰變平、邊緣更陡峭。", run_time=_audio_dur_2)
-        anim_time_3 = 2.500 * _scale_3
-        self.play(
-            ReplacementTransform(curve_s1, curve_s3),
-            TransformMatchingTex(formula_s1, formula_s3),
-            run_time=2.5,
+        _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 2.000))
+        curve_n3 = axes.plot(
+            lambda x: (4 / np.pi) * (np.sin(x) + np.sin(3 * x) / 3),
+            x_range=[-3.14, 3.14, 0.01],
+            color=GOLD,
         )
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
+        registry["curve_n3"] = curve_n3
+
+        self.set_subtitle("加入第三諧波後，頂部變平、邊緣更陡，更接近目標形狀。", run_time=_audio_dur_2)
+        anim_time_3 = 2.000 * _scale_3
+        self.play(ReplacementTransform(curve_n1, curve_n3), run_time=(2.0)*_scale_3)
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - anim_time_3 + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1779987975/media/audio/Approximate_a_square_f5ca0c69d6/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 5.88  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1781379459/media/audio/Use_Fourier_series_t_11dc7dcb0a/step_03_090bf320.mp3")  # [auto-injected]
+        _audio_dur_3 = 7.61  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 2.500)
-        self.set_subtitle("再納入第五諧波,逼近方波的程度更上一層樓。", run_time=_audio_dur_3)
-        anim_time_4 = 2.500 * _scale_4
-        self.play(
-            ReplacementTransform(curve_s3, curve_s5),
-            TransformMatchingTex(formula_s3, formula_s5),
-            run_time=2.5,
+        _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 2.500))
+        curve_n5 = axes.plot(
+            lambda x: (4 / np.pi) * (np.sin(x) + np.sin(3 * x) / 3 + np.sin(5 * x) / 5),
+            x_range=[-3.14, 3.14, 0.01],
+            color=ORANGE,
         )
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
+        registry["curve_n5"] = curve_n5
+
+        curve_n9 = axes.plot(
+            lambda x: (4 / np.pi) * (
+                np.sin(x)
+                + np.sin(3 * x) / 3
+                + np.sin(5 * x) / 5
+                + np.sin(7 * x) / 7
+                + np.sin(9 * x) / 9
+            ),
+            x_range=[-3.14, 3.14, 0.01],
+            color=RED,
+        )
+        registry["curve_n9"] = curve_n9
+
+        self.set_subtitle("再加入第五、第七與第九諧波，曲線幾乎處處貼合方波。", run_time=_audio_dur_3)
+        anim_time_4 = 2.500 * _scale_4
+        self.play(ReplacementTransform(curve_n3, curve_n5), run_time=(1.2)*_scale_4)
+        self.play(ReplacementTransform(curve_n5, curve_n9), run_time=(1.3)*_scale_4)
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - anim_time_4 + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1779987975/media/audio/Approximate_a_square_f5ca0c69d6/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 7.18  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q12_fourier_square_1781379459/media/audio/Use_Fourier_series_t_11dc7dcb0a/step_04_643281cd.mp3")  # [auto-injected]
+        _audio_dur_4 = 6.48  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 3.000)
-        self.set_subtitle("把奇數諧波加到第九階,總和幾乎貼合方波,展示傅立葉收斂。", run_time=_audio_dur_4)
-        anim_time_5 = 3.000 * _scale_5
-        self.play(
-            ReplacementTransform(curve_s5, curve_s9),
-            TransformMatchingTex(formula_s5, formula_s9),
-            run_time=3.0,
+        _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 1.500))
+        gibbs_arrow = Arrow(
+            start=[1.2, 2.0, 0],
+            end=[0.4, 1.25, 0],
+            color=RED,
         )
-        self.play(Indicate(curve_s9, color=GREEN), run_time=1.2)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 - 1.2 + 0.1)
+        registry["gibbs_arrow"] = gibbs_arrow
+
+        gibbs_label = Text("Gibbs overshoot (~9%)", color=RED, font_size=26)
+        gibbs_label.next_to(gibbs_arrow, UP, buff=0.15)
+        registry["gibbs_label"] = gibbs_label
+
+        self.set_subtitle("注意每個邊緣附近頑固的尖峰始終不會縮小：這就是吉布斯過衝現象。", run_time=_audio_dur_4)
+        anim_time_5 = 1.500 * _scale_5
+        self.play(Create(gibbs_arrow), FadeIn(gibbs_label), run_time=(1.5)*_scale_5)
+        self.play(Indicate(gibbs_arrow, color=RED))
+        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - (anim_time_5 + 1.0) + 0.1))
         self.wait(remaining_5)
