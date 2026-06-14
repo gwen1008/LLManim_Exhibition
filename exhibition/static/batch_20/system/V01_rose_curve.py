@@ -1,13 +1,9 @@
 from manim import *
 
 # [VISUAL REASONING]
-# A persistent polar grid (NumberPlane) sits at ORIGIN so every rose r = sin(kθ)
-# is drawn in the same frame of reference. ParametricFunction curves are traced
-# with Create(...) to simulate a moving pen sweeping θ from 0 to 2π. Formula and
-# petal-count labels in the footer use ReplacementTransform to update in-place,
-# reinforcing the odd-vs-even rule (odd k → k petals, even k → 2k petals).
-# All curve points stay within y in [-2, 2], safely above the subtitle zone.
-
+# Reusing one centered polar grid while swapping only the curve, formula,
+# and petal-count keeps cognitive load low and makes the odd/even parity
+# rule the visual punchline of each transition. One rose visible at a time.
 
 class SubtitleManager:
     """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
@@ -114,142 +110,116 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        self.camera.background_color = "#1e1e1e"
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781430342/media/audio/Visualize_the_polar__a8744d6610/step_00_e0161ac9.mp3")  # [auto-injected]
-        _audio_dur_0 = 6.62  # [audio-sync]
-        # Step 1
-        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 2.000))
-        title = Text("Polar Rose: r = sin(kθ)", color=WHITE, font_size=38).to_edge(UP)
+        title = Text("Polar Rose: r = sin(kθ)", color=WHITE, font_size=36).to_edge(UP, buff=0.4)
 
         polar_plane = NumberPlane(
-            x_range=[-2.5, 2.5, 1],
-            y_range=[-2.5, 2.5, 1],
+            x_range=[-3, 3, 1],
+            y_range=[-3, 3, 1],
             background_line_style={"stroke_color": GREY, "stroke_opacity": 0.4},
         ).move_to(ORIGIN)
 
+        formula_label = MathTex(r"r = \sin(2\theta)", color=YELLOW, font_size=40).to_corner(UL, buff=0.6)
+        petal_label = Text("k even → 2k = 4 petals", color=TEAL, font_size=28).to_corner(UR, buff=0.6)
+
+        rose_k2 = ParametricFunction(
+            lambda t: [2.4 * np.sin(2 * t) * np.cos(t), 2.4 * np.sin(2 * t) * np.sin(t), 0],
+            t_range=[0, 6.2832, 0.01], color=PINK,
+        ).move_to(ORIGIN)
+        rose_k3 = ParametricFunction(
+            lambda t: [2.4 * np.sin(3 * t) * np.cos(t), 2.4 * np.sin(3 * t) * np.sin(t), 0],
+            t_range=[0, 6.2832, 0.01], color=ORANGE,
+        ).move_to(ORIGIN)
+        rose_k4 = ParametricFunction(
+            lambda t: [2.4 * np.sin(4 * t) * np.cos(t), 2.4 * np.sin(4 * t) * np.sin(t), 0],
+            t_range=[0, 6.2832, 0.01], color=GREEN,
+        ).move_to(ORIGIN)
+        rose_k5 = ParametricFunction(
+            lambda t: [2.4 * np.sin(5 * t) * np.cos(t), 2.4 * np.sin(5 * t) * np.sin(t), 0],
+            t_range=[0, 6.2832, 0.01], color=BLUE,
+        ).move_to(ORIGIN)
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781441804/media/audio/Visualize_the_polar__0bbb1b8884/step_00_578d1395.mp3")  # [auto-injected]
+        _audio_dur_0 = 5.59  # [audio-sync]
+        # Step 1
+        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 2.000))
+        self.set_subtitle("我們建立一個極座標平面來描繪玫瑰曲線 r 等於 sin(kθ)。", run_time=_audio_dur_0)
         anim_time_1 = 2.000 * _scale_1
         self.play(Create(polar_plane), run_time=(2.0)*_scale_1)
         self.play(Write(title), run_time=(1.0)*_scale_1)
-        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - anim_time_1 - 1.0 + 0.1))
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - (anim_time_1 + 1.0) + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781430342/media/audio/Visualize_the_polar__a8744d6610/step_01_2b2b07e1.mp3")  # [auto-injected]
-        _audio_dur_1 = 7.78  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781441804/media/audio/Visualize_the_polar__0bbb1b8884/step_01_ce6e8eb7.mp3")  # [auto-injected]
+        _audio_dur_1 = 7.37  # [audio-sync]
         # Step 2
         _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 4.000))
-        formula_label = MathTex(r"r = \sin(2\theta)", color=YELLOW, font_size=36).move_to(
-            np.array([-3.0, -2.3, 0])
-        )
-        petal_label = MathTex(
-            r"k=2\ (even)\Rightarrow 4\ petals", color=PINK, font_size=32
-        ).move_to(np.array([2.5, -2.3, 0]))
-
-        curve_k2 = ParametricFunction(
-            lambda t: [np.sin(2 * t) * np.cos(t) * 2, np.sin(2 * t) * np.sin(t) * 2, 0],
-            t_range=[0, 6.2832, 0.01],
-            color=PINK,
-        ).move_to(ORIGIN)
-
+        self.set_subtitle("當 k 等於二，θ 由零掃到二倍 π，描出四片對稱的花瓣。", run_time=_audio_dur_1)
         self.play(Write(formula_label), Write(petal_label), run_time=(1.0)*_scale_2)
-        anim_time_2 = 4.000 * _scale_2
-        self.play(Create(curve_k2), run_time=(4.0)*_scale_2, rate_func=linear)
         self.wait(0.5)  # [Final Guard: removed empty self.play()]
-        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - anim_time_2 - 1.0 + 0.1))
+        anim_time_2 = 4.000 * _scale_2
+        self.play(Create(rose_k2), run_time=(4.0)*_scale_2, rate_func=linear)
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - (anim_time_2 + 1.8) + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781430342/media/audio/Visualize_the_polar__a8744d6610/step_02_0ec23f64.mp3")  # [auto-injected]
-        _audio_dur_2 = 6.00  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781441804/media/audio/Visualize_the_polar__0bbb1b8884/step_02_55c7b683.mp3")  # [auto-injected]
+        _audio_dur_2 = 7.32  # [audio-sync]
         # Step 3
         _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 4.000))
-        curve_k3 = ParametricFunction(
-            lambda t: [np.sin(3 * t) * np.cos(t) * 2, np.sin(3 * t) * np.sin(t) * 2, 0],
-            t_range=[0, 6.2832, 0.01],
-            color=TEAL,
-        ).move_to(ORIGIN)
-
-        new_formula_3 = MathTex(r"r = \sin(3\theta)", color=YELLOW, font_size=36).move_to(
-            formula_label.get_center()
-        )
-        new_petal_3 = MathTex(
-            r"k=3\ (odd)\Rightarrow 3\ petals", color=TEAL, font_size=32
-        ).move_to(petal_label.get_center())
-
-        self.play(FadeOut(curve_k2), run_time=(0.5)*_scale_3)
+        self.set_subtitle("換成 k 等於三，這是奇數，曲線正好產生三片花瓣。", run_time=_audio_dur_2)
+        new_formula_3 = MathTex(r"r = \sin(3\theta)", color=YELLOW, font_size=40).to_corner(UL, buff=0.6)
+        new_petal_3 = Text("k odd → k = 3 petals", color=TEAL, font_size=28).to_corner(UR, buff=0.6)
+        self.play(FadeOut(rose_k2), run_time=(0.6)*_scale_3)
         self.play(
             ReplacementTransform(formula_label, new_formula_3),
             ReplacementTransform(petal_label, new_petal_3),
-            run_time=(0.8)*_scale_3,
+            run_time=(1.0)*_scale_3,
         )
         formula_label = new_formula_3
         petal_label = new_petal_3
-
-        anim_time_3 = 4.000 * _scale_3
-        self.play(Create(curve_k3), run_time=(4.0)*_scale_3, rate_func=linear)
         self.wait(0.5)  # [Final Guard: removed empty self.play()]
-        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - anim_time_3 - 1.3 + 0.1))
+        anim_time_3 = 4.000 * _scale_3
+        self.play(Create(rose_k3), run_time=(4.0)*_scale_3, rate_func=linear)
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - (anim_time_3 + 2.5) + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781430342/media/audio/Visualize_the_polar__a8744d6610/step_03_c320aa02.mp3")  # [auto-injected]
-        _audio_dur_3 = 7.49  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781441804/media/audio/Visualize_the_polar__0bbb1b8884/step_03_65a80610.mp3")  # [auto-injected]
+        _audio_dur_3 = 7.75  # [audio-sync]
         # Step 4
         _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 4.500))
-        curve_k4 = ParametricFunction(
-            lambda t: [np.sin(4 * t) * np.cos(t) * 2, np.sin(4 * t) * np.sin(t) * 2, 0],
-            t_range=[0, 6.2832, 0.01],
-            color=ORANGE,
-        ).move_to(ORIGIN)
-
-        new_formula_4 = MathTex(r"r = \sin(4\theta)", color=YELLOW, font_size=36).move_to(
-            formula_label.get_center()
-        )
-        new_petal_4 = MathTex(
-            r"k=4\ (even)\Rightarrow 8\ petals", color=ORANGE, font_size=32
-        ).move_to(petal_label.get_center())
-
-        self.play(FadeOut(curve_k3), run_time=(0.5)*_scale_4)
+        self.set_subtitle("當 k 等於四，又是偶數，重疊的路徑帶來兩倍 k，也就是八片花瓣。", run_time=_audio_dur_3)
+        new_formula_4 = MathTex(r"r = \sin(4\theta)", color=YELLOW, font_size=40).to_corner(UL, buff=0.6)
+        new_petal_4 = Text("k even → 2k = 8 petals", color=TEAL, font_size=28).to_corner(UR, buff=0.6)
+        self.play(FadeOut(rose_k3), run_time=(0.6)*_scale_4)
         self.play(
             ReplacementTransform(formula_label, new_formula_4),
             ReplacementTransform(petal_label, new_petal_4),
-            run_time=(0.8)*_scale_4,
+            run_time=(1.0)*_scale_4,
         )
         formula_label = new_formula_4
         petal_label = new_petal_4
-
-        anim_time_4 = 4.500 * _scale_4
-        self.play(Create(curve_k4), run_time=(4.5)*_scale_4, rate_func=linear)
         self.wait(0.5)  # [Final Guard: removed empty self.play()]
-        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - anim_time_4 - 1.3 + 0.1))
+        anim_time_4 = 4.500 * _scale_4
+        self.play(Create(rose_k4), run_time=(4.5)*_scale_4, rate_func=linear)
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - (anim_time_4 + 2.4) + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781430342/media/audio/Visualize_the_polar__a8744d6610/step_04_6890c6b3.mp3")  # [auto-injected]
-        _audio_dur_4 = 7.97  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/system_V01_rose_curve_1781441804/media/audio/Visualize_the_polar__0bbb1b8884/step_04_0cf8f1d2.mp3")  # [auto-injected]
+        _audio_dur_4 = 8.83  # [audio-sync]
         # Step 5
         _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 4.500))
-        curve_k5 = ParametricFunction(
-            lambda t: [np.sin(5 * t) * np.cos(t) * 2, np.sin(5 * t) * np.sin(t) * 2, 0],
-            t_range=[0, 6.2832, 0.01],
-            color=PURPLE,
-        ).move_to(ORIGIN)
-
-        new_formula_5 = MathTex(r"r = \sin(5\theta)", color=YELLOW, font_size=36).move_to(
-            formula_label.get_center()
-        )
-        new_petal_5 = MathTex(
-            r"k=5\ (odd)\Rightarrow 5\ petals", color=PURPLE, font_size=32
-        ).move_to(petal_label.get_center())
-
-        self.play(FadeOut(curve_k4), run_time=(0.5)*_scale_5)
+        self.set_subtitle("最後 k 等於五，是奇數，重描同一條路徑只留下五片花瓣，印證了奇偶法則。", run_time=_audio_dur_4)
+        new_formula_5 = MathTex(r"r = \sin(5\theta)", color=YELLOW, font_size=40).to_corner(UL, buff=0.6)
+        new_petal_5 = Text("k odd → k = 5 petals", color=TEAL, font_size=28).to_corner(UR, buff=0.6)
+        self.play(FadeOut(rose_k4), run_time=(0.6)*_scale_5)
         self.play(
             ReplacementTransform(formula_label, new_formula_5),
             ReplacementTransform(petal_label, new_petal_5),
-            run_time=(0.8)*_scale_5,
+            run_time=(1.0)*_scale_5,
         )
         formula_label = new_formula_5
         petal_label = new_petal_5
-
-        anim_time_5 = 4.500 * _scale_5
-        self.play(Create(curve_k5), run_time=(4.5)*_scale_5, rate_func=linear)
         self.wait(0.5)  # [Final Guard: removed empty self.play()]
-        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - anim_time_5 - 1.3 + 0.1))
+        anim_time_5 = 4.500 * _scale_5
+        self.play(Create(rose_k5), run_time=(4.5)*_scale_5, rate_func=linear)
+        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - (anim_time_5 + 2.5) + 0.1))
         self.wait(remaining_5)

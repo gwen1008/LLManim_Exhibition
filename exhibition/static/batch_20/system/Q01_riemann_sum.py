@@ -1,12 +1,13 @@
-# [VISUAL REASONING]
-# One fixed axes + sin curve stage stays throughout. Midpoint Riemann rectangle
-# groups (n=4,8,16,32) are swapped in-place via ReplacementTransform while a single
-# sum readout morphs toward 2, visually demonstrating convergence of the Riemann sum
-# to the exact integral value of 2.
-
 from manim import *
-import numpy as np
+from numpy import sin
 
+# [VISUAL REASONING]
+# A right-Riemann sum on sin(x) over [0, pi] converges to 2 as rectangle count
+# doubles (4 -> 8 -> 16 -> 32). The graph stays centered; one n-label and one
+# sum-label update in place via ReplacementTransform so only a single set of
+# rectangles and a single numeric readout are ever visible, letting students
+# watch both geometric tightening and monotone numeric convergence
+# (1.8961 -> 1.9742 -> 1.9936 -> 1.9984 -> 2).
 
 class SubtitleManager:
     """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
@@ -113,106 +114,151 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781377994/media/audio/Calculate_the_value__533949b815/step_00_fd4fb78f.mp3")  # [auto-injected]
-        _audio_dur_0 = 6.17  # [audio-sync]
+        registry = {}
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781442105/media/audio/Calculate_the_value__533949b815/step_00_3bb03124.mp3")  # [auto-injected]
+        _audio_dur_0 = 6.89  # [audio-sync]
         # Step 1
         _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 2.000))
-        title = MathTex(r"\int_0^{\pi} \sin(x)\, dx = 2", color=WHITE).to_edge(UP)
+        title = MathTex(r"\int_0^{\pi} \sin(x)\, dx \approx 2", color=WHITE)
+        title.to_edge(UP)
+        registry["title"] = title
+
+        axes = Axes(
+            x_range=[0, 3.3, 0.7853981],
+            y_range=[0, 1.2, 0.5],
+            x_length=8.5,
+            y_length=3.6,
+            axis_config={"color": GREY, "include_tip": True},
+        )
+        axes.move_to(np.array([0, 0.1, 0]))
+        registry["axes"] = axes
+
         anim_time_1 = 2.000 * _scale_1
-        self.play(Write(title), run_time=anim_time_1)
+        self.play(Create(axes), run_time=(2.0)*_scale_1)
+        self.play(Write(title), run_time=(1.0)*_scale_1)
         self.wait(0.5)  # [Final Guard: removed empty self.play()]
-        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - anim_time_1 - 1.0 + 0.1))
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - (anim_time_1 + 2.0) + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781377994/media/audio/Calculate_the_value__533949b815/step_01_dcce0e87.mp3")  # [auto-injected]
-        _audio_dur_1 = 4.90  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781442105/media/audio/Calculate_the_value__533949b815/step_01_4f0555d3.mp3")  # [auto-injected]
+        _audio_dur_1 = 5.83  # [audio-sync]
         # Step 2
         _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 2.000))
-        axes = Axes(
-            x_range=[0, 3.2, 0.7853981],
-            y_range=[0, 1.2, 0.5],
-            x_length=8,
-            y_length=3.5,
-            axis_config={"color": GREY},
-        ).move_to(np.array([0, -0.6, 0]))
-        sin_curve = axes.plot(lambda x: np.sin(x), x_range=[0, PI], color=BLUE)
+        curve = axes.plot(lambda t: sin(t), x_range=[0, 3.14159, 0.05], color=TEAL)
+        registry["curve"] = curve
+
         anim_time_2 = 2.000 * _scale_2
-        self.play(Create(axes), run_time=(1.0)*_scale_2)
-        self.play(Create(sin_curve), run_time=(1.0)*_scale_2)
+        self.play(Create(curve), run_time=(2.0)*_scale_2)
         remaining_2 = min(1.5, max(0.1, _audio_dur_1 - anim_time_2 + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781377994/media/audio/Calculate_the_value__533949b815/step_02_2e327d4b.mp3")  # [auto-injected]
-        _audio_dur_2 = 7.18  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781442105/media/audio/Calculate_the_value__533949b815/step_02_b323ec26.mp3")  # [auto-injected]
+        _audio_dur_2 = 8.35  # [audio-sync]
         # Step 3
         _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 2.000))
         rects_4 = axes.get_riemann_rectangles(
-            sin_curve, x_range=[0, PI], dx=PI / 4,
-            input_sample_type="center", color=GREEN,
-            fill_opacity=0.5, stroke_width=1,
+            curve,
+            x_range=[0, 3.14159],
+            dx=0.785398,
+            input_sample_type="right",
+            stroke_width=0.5,
+            fill_opacity=0.6,
+            color=[BLUE, YELLOW],
         )
-        sum_4 = MathTex(r"n=4:\ S \approx 2.052", color=YELLOW)
-        sum_4.move_to(axes.get_center() + np.array([0, 2.2, 0]))
+        registry["rects_4"] = rects_4
+
+        n_label = MathTex("n = 4", color=ORANGE)
+        n_label.next_to(title, RIGHT, buff=0.6)
+        registry["n_label"] = n_label
+
+        sum_label = MathTex("S_4 = 1.8961", color=YELLOW)
+        sum_label.move_to(np.array([0, -2.2, 0]))
+        registry["sum_label"] = sum_label
+
         anim_time_3 = 2.000 * _scale_3
-        self.play(Create(rects_4), Write(sum_4), run_time=anim_time_3)
-        self.wait(0.5)  # [Final Guard: removed empty self.play()]
-        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - anim_time_3 - 1.0 + 0.1))
+        self.play(Create(rects_4), run_time=(2.0)*_scale_3)
+        self.play(FadeIn(n_label), FadeIn(sum_label), run_time=(0.8)*_scale_3)
+        self.play(Indicate(sum_label, color=YELLOW), run_time=(1.0)*_scale_3)
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - (anim_time_3 + 1.8) + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781377994/media/audio/Calculate_the_value__533949b815/step_03_521d733b.mp3")  # [auto-injected]
-        _audio_dur_3 = 7.34  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781442105/media/audio/Calculate_the_value__533949b815/step_03_b0abe004.mp3")  # [auto-injected]
+        _audio_dur_3 = 7.85  # [audio-sync]
         # Step 4
         _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 2.000))
         rects_8 = axes.get_riemann_rectangles(
-            sin_curve, x_range=[0, PI], dx=PI / 8,
-            input_sample_type="center", color=GREEN,
-            fill_opacity=0.5, stroke_width=1,
+            curve,
+            x_range=[0, 3.14159],
+            dx=0.392699,
+            input_sample_type="right",
+            stroke_width=0.5,
+            fill_opacity=0.6,
+            color=[BLUE, YELLOW],
         )
-        sum_8 = MathTex(r"n=8:\ S \approx 2.013", color=YELLOW).move_to(sum_4)
+        registry["rects_8"] = rects_8
+
+        n_label_8 = MathTex("n = 8", color=ORANGE).next_to(title, RIGHT, buff=0.6)
+        sum_label_8 = MathTex("S_8 = 1.9742", color=YELLOW).move_to(np.array([0, -2.2, 0]))
+
         anim_time_4 = 2.000 * _scale_4
         self.play(
             ReplacementTransform(rects_4, rects_8),
-            ReplacementTransform(sum_4, sum_8),
-            run_time=anim_time_4,
+            ReplacementTransform(n_label, n_label_8),
+            ReplacementTransform(sum_label, sum_label_8),
+            run_time=(2.0)*_scale_4,
         )
-        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - anim_time_4 + 0.1))
+        registry["n_label"] = n_label_8
+        registry["sum_label"] = sum_label_8
+        self.play(Indicate(n_label_8, color=ORANGE), run_time=(1.0)*_scale_4)
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - (anim_time_4 + 1.0) + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781377994/media/audio/Calculate_the_value__533949b815/step_04_0787056f.mp3")  # [auto-injected]
-        _audio_dur_4 = 7.34  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781442105/media/audio/Calculate_the_value__533949b815/step_04_c19db3ea.mp3")  # [auto-injected]
+        _audio_dur_4 = 12.00  # [audio-sync]
         # Step 5
-        _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 2.000))
         rects_16 = axes.get_riemann_rectangles(
-            sin_curve, x_range=[0, PI], dx=PI / 16,
-            input_sample_type="center", color=GREEN,
-            fill_opacity=0.5, stroke_width=1,
+            curve,
+            x_range=[0, 3.14159],
+            dx=0.196350,
+            input_sample_type="right",
+            stroke_width=0.5,
+            fill_opacity=0.6,
+            color=[BLUE, YELLOW],
         )
-        sum_16 = MathTex(r"n=16:\ S \approx 2.003", color=YELLOW).move_to(sum_4)
-        anim_time_5 = 2.000 * _scale_5
+        registry["rects_16"] = rects_16
+
+        rects_32 = axes.get_riemann_rectangles(
+            curve,
+            x_range=[0, 3.14159],
+            dx=0.098175,
+            input_sample_type="right",
+            stroke_width=0.5,
+            fill_opacity=0.6,
+            color=[BLUE, YELLOW],
+        )
+        registry["rects_32"] = rects_32
+
+        n_label_16 = MathTex("n = 16", color=ORANGE).next_to(title, RIGHT, buff=0.6)
+        sum_label_16 = MathTex("S_{16} = 1.9936", color=YELLOW).move_to(np.array([0, -2.2, 0]))
+
+        n_label_32 = MathTex("n = 32", color=ORANGE).next_to(title, RIGHT, buff=0.6)
+        sum_label_32 = MathTex("S_{32} = 1.9984", color=YELLOW).move_to(np.array([0, -2.2, 0]))
+
         self.play(
             ReplacementTransform(rects_8, rects_16),
-            ReplacementTransform(sum_8, sum_16),
-            run_time=anim_time_5,
+            ReplacementTransform(n_label_8, n_label_16),
+            ReplacementTransform(sum_label_8, sum_label_16),
+            run_time=1.5,
         )
-        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - anim_time_5 + 0.1))
-        self.wait(remaining_5)
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q01_riemann_sum_1781377994/media/audio/Calculate_the_value__533949b815/step_05_8e535482.mp3")  # [auto-injected]
-        _audio_dur_5 = 8.21  # [audio-sync]
-        # Step 6
-        _scale_6 = min(2.5, max(1.0, (_audio_dur_5 * 0.95) / 2.000))
-        rects_32 = axes.get_riemann_rectangles(
-            sin_curve, x_range=[0, PI], dx=PI / 32,
-            input_sample_type="center", color=TEAL,
-            fill_opacity=0.5, stroke_width=1,
-        )
-        sum_32 = MathTex(r"n=32:\ S \approx 2.0008", color=GREEN).move_to(sum_4)
-        anim_time_6 = 2.000 * _scale_6
         self.play(
             ReplacementTransform(rects_16, rects_32),
-            ReplacementTransform(sum_16, sum_32),
-            run_time=anim_time_6,
+            ReplacementTransform(n_label_16, n_label_32),
+            ReplacementTransform(sum_label_16, sum_label_32),
+            run_time=1.5,
         )
-        self.play(Circumscribe(sum_32, color=GREEN))
-        remaining_6 = min(1.5, max(0.1, _audio_dur_5 - anim_time_6 - 1.0 + 0.1))
-        self.wait(remaining_6)
+        registry["n_label"] = n_label_32
+        registry["sum_label"] = sum_label_32
+        self.play(Indicate(sum_label_32, color=GREEN), run_time=1.0)
+        remaining_5 = max(0.1, _audio_dur_4 - 4.0 + 0.1)
+        self.wait(remaining_5)
