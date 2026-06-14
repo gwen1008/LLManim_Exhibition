@@ -276,11 +276,30 @@ export function GalleryPage() {
                 <span>此分類下沒有對比項目</span>
               </div>
             ) : (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {filtered.map((item) => (
-                  <ComparisonCard key={item.id} item={item} />
-                ))}
-              </div>
+              <>
+                {filter === "showcase" && (
+                  <div className="mb-5 border-l-4 border-emerald-500 pl-3">
+                    <h2 className="text-2xl font-bold text-white">系統能力展示</h2>
+                    <p className="text-gray-400 text-sm mt-1">
+                      本系統自動生成的數學動畫，展現對複雜題型的視覺化能力
+                    </p>
+                  </div>
+                )}
+                {filter === "comparison" && (
+                  <div className="mb-5 border-l-4 border-rose-500 pl-3">
+                    <h2 className="text-2xl font-bold text-white">Opus 直接生成 vs 本系統</h2>
+                    <p className="text-gray-400 text-sm mt-1">
+                      相同 Prompt 下，Opus 直接生成與本系統 5-Agent Pipeline 的並排對比
+                    </p>
+                    <FairnessDisclaimer />
+                  </div>
+                )}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {filtered.map((item) => (
+                    <ComparisonCard key={item.id} item={item} />
+                  ))}
+                </div>
+              </>
             )}
           </>
         )}
