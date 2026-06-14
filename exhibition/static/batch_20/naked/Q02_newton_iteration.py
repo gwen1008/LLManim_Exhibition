@@ -1,90 +1,96 @@
 from manim import *
-import numpy as np
 
 
 class GeneratedScene(Scene):
     def construct(self):
-        title = Tex("Newton's Method: $x^2 - 2 = 0$").to_edge(UP)
+        title = Text("解對數方程", font_size=44, color=YELLOW)
+        title.to_edge(UP)
         self.play(Write(title))
+        self.wait(0.5)
 
-        axes = Axes(
-            x_range=[-0.5, 3.5, 1],
-            y_range=[-3, 8, 2],
-            x_length=8,
-            y_length=5,
-            axis_config={"include_tip": True},
-        ).shift(DOWN * 0.3)
-        labels = axes.get_axis_labels(x_label="x", y_label="y")
+        eq0 = MathTex(r"\log_2(x) + \log_2(x-2) = 3", font_size=48)
+        eq0.next_to(title, DOWN, buff=0.7)
+        self.play(Write(eq0))
+        self.wait(1)
 
-        f = lambda x: x**2 - 2
-        graph = axes.plot(f, x_range=[-0.4, 3.2], color=BLUE)
-        graph_label = MathTex("f(x)=x^2-2").scale(0.7).next_to(graph, UR, buff=-0.5).shift(LEFT*0.5)
+        step1_label = Text("1. 合併對數（對數運算律）", font_size=26, color=BLUE)
+        eq1 = MathTex(r"\log_2\big(x(x-2)\big) = 3", font_size=44)
+        step1 = VGroup(step1_label, eq1).arrange(DOWN, buff=0.3)
+        step1.next_to(eq0, DOWN, buff=0.6)
+        self.play(FadeIn(step1_label, shift=RIGHT))
+        self.play(TransformFromCopy(eq0, eq1))
+        self.wait(1)
 
-        root_val = np.sqrt(2)
-        root_dot = Dot(axes.c2p(root_val, 0), color=YELLOW)
-        root_label = MathTex("\\sqrt{2}").scale(0.6).next_to(root_dot, DOWN, buff=0.15).set_color(YELLOW)
+        step2_label = Text("2. 轉為指數形式", font_size=26, color=BLUE)
+        eq2 = MathTex(r"x(x-2) = 2^3 = 8", font_size=44)
+        step2 = VGroup(step2_label, eq2).arrange(DOWN, buff=0.3)
+        step2.next_to(step1, DOWN, buff=0.5)
+        self.play(FadeIn(step2_label, shift=RIGHT))
+        self.play(Write(eq2))
+        self.wait(1)
 
-        self.play(Create(axes), Write(labels))
-        self.play(Create(graph), Write(graph_label))
-        self.play(FadeIn(root_dot, scale=0.5), Write(root_label))
+        # Clear top equations to make room
+        self.play(
+            FadeOut(eq0),
+            FadeOut(step1),
+            step2.animate.next_to(title, DOWN, buff=0.6),
+        )
+        self.wait(0.3)
 
-        info_box = VGroup()
-        info_title = MathTex("x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}").scale(0.65)
-        info_title2 = MathTex("= \\tfrac{1}{2}\\left(x_n + \\tfrac{2}{x_n}\\right)").scale(0.65)
-        info_box = VGroup(info_title, info_title2).arrange(DOWN, buff=0.15)
-        info_box.to_corner(UL).shift(DOWN*0.6 + RIGHT*0.1)
-        self.play(Write(info_box))
+        step3_label = Text("3. 整理成二次方程", font_size=26, color=BLUE)
+        eq3 = MathTex(r"x^2 - 2x - 8 = 0", font_size=46)
+        step3 = VGroup(step3_label, eq3).arrange(DOWN, buff=0.3)
+        step3.next_to(step2, DOWN, buff=0.6)
+        self.play(FadeIn(step3_label, shift=RIGHT))
+        self.play(Write(eq3))
+        self.wait(1)
 
-        x = 3.0
-        colors = [RED, ORANGE, GREEN, PURPLE, TEAL]
-        iter_text = VGroup().to_corner(UR).shift(DOWN*0.8 + LEFT*0.2)
+        step4_label = Text("4. 因式分解", font_size=26, color=BLUE)
+        eq4 = MathTex(r"(x-4)(x+2) = 0", font_size=46)
+        step4 = VGroup(step4_label, eq4).arrange(DOWN, buff=0.3)
+        step4.next_to(step3, DOWN, buff=0.6)
+        self.play(FadeIn(step4_label, shift=RIGHT))
+        self.play(TransformFromCopy(eq3, eq4))
+        self.wait(1)
 
-        prev_tangent = None
-        prev_vline = None
-        prev_pt_curve = None
-        prev_pt_axis = None
+        roots = MathTex(r"x = 4 \quad \text{或} \quad x = -2", font_size=46)
+        roots.next_to(step4, DOWN, buff=0.6)
+        self.play(Write(roots))
+        self.wait(1)
 
-        for n in range(5):
-            fx = f(x)
-            slope = 2 * x
-            x_new = x - fx / slope
+        # Domain check
+        self.play(
+            FadeOut(step2),
+            FadeOut(step3),
+            step4.animate.to_edge(UP, buff=1.2),
+            roots.animate.next_to(title, DOWN, buff=2.4),
+        )
+        self.wait(0.3)
 
-            col = colors[n]
-            pt_curve = Dot(axes.c2p(x, fx), color=col, radius=0.06)
-            pt_axis = Dot(axes.c2p(x, 0), color=col, radius=0.06)
-            vline = DashedLine(axes.c2p(x, 0), axes.c2p(x, fx), color=col, stroke_width=2)
+        check_label = Text("5. 檢驗定義域", font_size=28, color=GREEN)
+        check_cond = MathTex(r"x > 0 \;\; \text{且} \;\; x - 2 > 0 \;\Rightarrow\; x > 2", font_size=40)
+        check = VGroup(check_label, check_cond).arrange(DOWN, buff=0.35)
+        check.next_to(roots, DOWN, buff=0.7)
+        self.play(FadeIn(check_label, shift=UP))
+        self.play(Write(check_cond))
+        self.wait(1)
 
-            # tangent line
-            x_left = max(-0.3, x - 2.5)
-            x_right = min(3.3, x + 2.5)
-            tangent = axes.plot(
-                lambda t, x0=x, fx0=fx, m=slope: m * (t - x0) + fx0,
-                x_range=[x_left, x_right],
-                color=col,
-                stroke_width=3,
-            )
+        # Reject extraneous root
+        reject = MathTex(r"x = -2", r"\;\;(\text{捨去：不符 } x>2)", font_size=40)
+        reject.set_color_by_tex(r"x = -2", RED)
+        reject.next_to(check, DOWN, buff=0.5)
+        cross = Line(
+            reject[0].get_left() + LEFT * 0.1,
+            reject[0].get_right() + RIGHT * 0.1,
+            color=RED,
+            stroke_width=5,
+        )
+        self.play(Write(reject))
+        self.play(Create(cross))
+        self.wait(1)
 
-            x_label_tex = MathTex(f"x_{n}").scale(0.55).set_color(col).next_to(pt_axis, UP*0.5 if n%2==0 else DOWN, buff=0.1)
-
-            line = MathTex(f"x_{n}={x:.4f} \\to x_{n+1}={x_new:.4f}").scale(0.4).set_color(col)
-            iter_text.add(line)
-            iter_text.arrange(DOWN, aligned_edge=LEFT, buff=0.1).to_corner(UR).shift(DOWN*0.8 + LEFT*0.1)
-
-            anims = [Create(vline), FadeIn(pt_curve), FadeIn(pt_axis), Write(x_label_tex)]
-            if prev_tangent is not None:
-                anims += [FadeOut(prev_tangent, run_time=0.5)]
-            self.play(*anims, run_time=0.8)
-            self.play(Create(tangent), run_time=0.9)
-            self.play(Write(line), run_time=0.5)
-
-            # show new x intercept
-            new_axis_dot = Dot(axes.c2p(x_new, 0), color=col, radius=0.05)
-            self.play(FadeIn(new_axis_dot, scale=2), run_time=0.4)
-
-            prev_tangent = tangent
-            x = x_new
-
-        conclusion = MathTex(f"x_5 \\approx {x:.6f}", "\\;\\;\\sqrt{2}\\approx 1.414214").scale(0.55)
-        conclusion.to_edge(DOWN).set_color(YELLOW)
-        self.play(Write(conclusion))
+        answer = MathTex(r"\boxed{x = 4}", font_size=60, color=YELLOW)
+        answer.next_to(reject, DOWN, buff=0.6)
+        self.play(Write(answer))
+        self.play(Flash(answer, color=YELLOW, flash_radius=1.2))
         self.wait(2)

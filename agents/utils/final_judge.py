@@ -89,6 +89,11 @@ def _extract_numbers(s: str) -> list[float]:
     """Pull all numeric tokens (incl. fractions like 1/2) from a string as floats."""
     if s is None:
         return []
+    # Unicode minus (U+2212) and digit-grouping commas would otherwise turn
+    # '−1' into +1 and split '1,000' into [1, 0] — both caused false FAILs.
+    # Comma removal requires a 3-digit group so '(1,2)' isn't merged into 12.
+    s = str(s).replace("−", "-")
+    s = re.sub(r"(?<=\d),(?=\d{3}(?!\d))", "", s)
     s = _normalize_latex_fractions(s)
     nums = []
     # Fractions a/b first (so we don't double-count a and b)
@@ -213,28 +218,37 @@ def _compare_answer(extracted: str, ground_truth: str) -> bool | None:
                 return False
 
         # Relational / equation answers: numbers alone are not enough.
-        # '0.7 < 0.75 = 3/4' must NOT match '0.7 > 0.75 = 3/4'.
-        # Require the operator sequence to match too, else fall back to None.
+        # BUT op-sequence equality is only safe for *inequalities*, where a
+        # flipped operator ('0.7 < 0.75' vs '0.7 > 0.75') genuinely means a
+        # wrong answer. For equality-only statements (Sₙ = 2ⁿ-1, x = -1,
+        # f'(x) = 3x²-3) the numbers already matched above, and vision OCR
+        # variants (superscript ⁿ→^n, dropped LHS, punctuation) make the op
+        # sequence differ for *equivalent* answers — strict '==' there caused
+        # 5 real false-FAILs (2026-06-01). So gate op-comparison on a true
+        # inequality operator; equality-only equations pass on numbers alone.
         if _is_relational(ground_truth):
-            # Use the *structural* op sequence (rel + arith) so equations like
-            # '3^2 + 4^2 = 5^2' don't collapse-equal to '3^2 - 4^2 = 5^2'.
-            gt_ops = _STRUCT_OP_RE.findall(str(ground_truth))
-            ex_ops = _STRUCT_OP_RE.findall(str(extracted))
-            if gt_ops:
-                if gt_ops == ex_ops:
+            gt_has_ineq = bool(re.search(r"<=|>=|<|>|≤|≥|≠", str(ground_truth)))
+            if gt_has_ineq:
+                # Use the *structural* op sequence (rel + arith) so '0.7 < 0.75'
+                # doesn't collapse-equal to '0.7 > 0.75'.
+                gt_ops = _STRUCT_OP_RE.findall(str(ground_truth))
+                ex_ops = _STRUCT_OP_RE.findall(str(extracted))
+                if gt_ops:
+                    if gt_ops == ex_ops:
+                        return True
+                    # Operators present in extracted but mismatch GT → conflict.
+                    if ex_ops and gt_ops != ex_ops:
+                        return False
+                    # Extracted has no operators at all — can't confirm.
+                    return None
+                # Inequality detected but no ops captured (rare); fall through.
+                gt_n = _normalize_relational(ground_truth)
+                ex_n = _normalize_relational(extracted)
+                if gt_n and ex_n and (gt_n in ex_n or ex_n in gt_n):
                     return True
-                # Operators present in GT but mismatch in extracted → conflict, not match.
-                if ex_ops and gt_ops != ex_ops:
-                    return False
-                # Extracted has no operators at all — can't confirm relational claim.
                 return None
-            # GT looks relational (e.g. equation with structured RHS) but no ops captured;
-            # require normalized-string containment as a stricter check.
-            gt_n = _normalize_relational(ground_truth)
-            ex_n = _normalize_relational(extracted)
-            if gt_n and ex_n and (gt_n in ex_n or ex_n in gt_n):
-                return True
-            return None
+            # Equality-only equation: numbers already verified → match.
+            return True
 
         return True
 

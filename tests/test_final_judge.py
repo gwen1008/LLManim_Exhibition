@@ -393,6 +393,41 @@ class TestCompareAnswer:
         # 負指數
         assert _compare_answer("0.16", r"1.6 \times 10^{-1}") is True
 
+    # ── op-sequence over-veto (2026-06-01) ─────────────────────────────────
+    def test_equation_equivalent_ocr_variants_not_false(self):
+        """真實 5 題假 FAIL:含等號的方程式 answer 被 op-sequence 嚴格比對誤殺。
+
+        extracted 來自 vision OCR,上標 ⁿ→^n、漏掉左式、標點差異會讓
+        _STRUCT_OP_RE 序列不等 → 舊版 return False(假 veto)。
+        數值已在上方通過,這些等號 case 不該 veto(True 或 None 皆可)。
+        """
+        assert _compare_answer("Sn = 2^n - 1", "Sₙ = 2ⁿ - 1（首項 1、公比 2）") is not False
+        assert _compare_answer("導數為 3x²-3", "f'(x) = 3x² - 3") is not False
+        assert _compare_answer("f'(x) = 3x² - 3", "f'(x) = 3x² - 3") is True
+        # NOTE: '準線 x=-1' vs GT '拋物線 y²=4x，準線為 x=-1。' 仍會 False,
+        # 但根因是 *數值層*(GT answer 含解題中間數字 4,extracted 只抽最終
+        # 答案 -1 → 4 對不到 → 211-213 行 return False),屬獨立的
+        # 「GT answer 含雜訊數字」bug,不在本次 op-sequence 修正範圍。
+
+    def test_inequality_direction_still_vetoes(self):
+        """不等式方向校驗必須保留:翻轉 = 答案錯。"""
+        assert _compare_answer("0.7 > 0.75", "0.7 < 0.75") is False
+        assert _compare_answer("0.7 < 0.75 = 3/4", "0.7 < 0.75 = 3/4") is True
+
+    # ── 千分位 / unicode 負號 (2026-06-12) ──────────────────────────────────
+    def test_thousands_separator(self):
+        """舊版 '1,000' 被抽成 [1.0, 0.0] vs GT [1000.0] → 假 FAIL。"""
+        assert _compare_answer("1,000", "1000") is True
+        assert _compare_answer("1000", "1,000") is True
+        assert _compare_answer("1,000,000", "1000000") is True
+        # 逗號移除限定 3 位數字群:座標 (1,2) 不能被併成 12
+        assert _compare_answer("(1,2)", "1 和 2") is True
+
+    def test_unicode_minus(self):
+        """U+2212 負號舊版只認 ASCII '-',會把 −1 抽成 +1 → 假 FAIL。"""
+        assert _compare_answer("−1", "-1") is True
+        assert _compare_answer("x = −0.75", "-3/4") is True
+
 
 # ── P1-2 inter-pass agreement (2026-05-21) ──────────────────────────────────
 

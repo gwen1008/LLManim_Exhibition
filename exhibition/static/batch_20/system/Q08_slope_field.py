@@ -1,88 +1,39 @@
-# [VISUAL REASONING]
-# A slope field reveals the local behavior dictated by dy/dx=x-y everywhere in the plane;
-# overlaying two solution curves from distinct initial conditions shows how all solutions
-# are attracted to the line y=x-1, illustrating both the geometric meaning and the
-# analytic solution y = x-1 + Ce^{-x}.
-
 from manim import *
 import numpy as np
 
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
 
     def __init__(self, scene, font_size=28):
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
-        sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
-        if len(parts) % 2 == 1 and parts[-1].strip():
-            sentences.append(parts[-1].strip())
-
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
-        if not sentences:
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
             return
-
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
-
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
-
-        for idx, s in enumerate(sentences):
-
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
-
-            is_last = (idx == n - 1)
-
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
-
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
         if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
             self._current = None
 
 
@@ -156,118 +107,124 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        # ===== Object Construction =====
-        title = Text("Slope Field for dy/dx = x - y", color=WHITE, font_size=36)
-        title.to_edge(UP, buff=0.4)
+        # [VISUAL REASONING]
+        # 1. Goal: Visualize the slope field of dy/dx = x - y and two solution curves converging to y = x - 1.
+        # 2. Layout: Title + equation in HEADER, single centered Axes in CONTENT holding slope field, asymptote, dots, curves.
+        # 3. Flow: axes -> slope field sweep -> asymptote -> red curve from (0,2) -> blue curve from (0,-2).
+
+        registry = {}
+
+        title = Text("Slope Field of dy/dx = x - y", color=WHITE, font_size=36)
+        title.to_edge(UP, buff=0.35)
+        registry["title"] = title
+
+        equation = MathTex(r"\frac{dy}{dx} = x - y", color=YELLOW)
+        equation.next_to(title, DOWN, buff=0.15)
+        registry["equation"] = equation
 
         axes = Axes(
-            x_range=[-3, 3, 1],
-            y_range=[-2.2, 2.2, 1],
-            x_length=7.0,
-            y_length=4.2,
+            x_range=[-4, 4, 1],
+            y_range=[-2.5, 2.5, 1],
+            x_length=8,
+            y_length=5,
             axis_config={"color": GREY, "include_tip": True},
         )
         axes.move_to(ORIGIN + np.array([0, -0.2, 0]))
+        registry["axes"] = axes
 
-        eq_label = MathTex(r"\frac{dy}{dx} = x - y", color=YELLOW)
-        eq_label.to_corner(UR, buff=0.6)
+        slope_field = VGroup()
+        for x in range(-3, 4):
+            for y in range(-2, 3):
+                angle = np.arctan(x - y)
+                seg = Line(LEFT * 0.15, RIGHT * 0.15, color=GREY_B, stroke_width=2)
+                seg.rotate(angle)
+                seg.move_to(axes.c2p(x, y))
+                slope_field.add(seg)
+        registry["slope_field"] = slope_field
 
-        # Slope field as VGroup of short Line segments
-        slope_segments = VGroup()
-        seg_len = 0.3
-        for x in np.arange(-3, 3.01, 0.6):
-            for y in np.arange(-2.2, 2.21, 0.6):
-                slope = x - y
-                angle = np.arctan(slope)
-                dx = (seg_len / 2) * np.cos(angle)
-                dy = (seg_len / 2) * np.sin(angle)
-                p_center = axes.c2p(x, y)
-                p_start = axes.c2p(x - dx, y - dy)
-                p_end = axes.c2p(x + dx, y + dy)
-                seg = Line(p_start, p_end, color=BLUE_C, stroke_width=2)
-                slope_segments.add(seg)
+        asymptote = axes.plot(lambda x: x - 1, x_range=[-4, 4], color=GREEN, stroke_width=3)
+        registry["asymptote"] = asymptote
 
-        # Asymptote y = x - 1, clipped to plot range
-        # at x=-3, y=-4 (below range); clip to y=-2.2 => x=-1.2
-        # at x=3, y=2 (in range)
-        asym_start = axes.c2p(-1.2, -2.2)
-        asym_end = axes.c2p(3, 2)
-        asymptote = DashedLine(start=asym_start, end=asym_end, color=GREY_B)
+        asym_label = MathTex("y = x - 1", color=GREEN)
+        asym_label.next_to(asymptote, DR, buff=0.15)
+        registry["asym_label"] = asym_label
 
-        # Curve 1: y = x - 1 + 3*exp(-x), through (0,2)
-        curve1 = axes.plot(
-            lambda x: x - 1 + 3 * np.exp(-x),
-            x_range=[-2.0, 3.0],
-            color=GREEN,
-        )
-        dot1 = Dot(point=axes.c2p(0, 2), color=GREEN, radius=0.08)
+        dot1 = Dot(axes.c2p(0, 2), color=RED, radius=0.09)
+        registry["dot1"] = dot1
 
-        # Curve 2: y = x - 1 - exp(-2)*exp(-x), through (-2,-2)
-        C2 = -np.exp(-2)
-        curve2 = axes.plot(
-            lambda x: x - 1 + C2 * np.exp(-x),
-            x_range=[-2.0, 3.0],
-            color=RED,
-        )
-        dot2 = Dot(point=axes.c2p(-2, -2), color=RED, radius=0.08)
+        dot2 = Dot(axes.c2p(0, -2), color=BLUE, radius=0.09)
+        registry["dot2"] = dot2
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1779987325/media/audio/Solve_the_first_orde_ce146244b5/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 8.30  # [audio-sync]
+        curve1 = axes.plot(lambda x: x - 1 + 3 * np.exp(-x), x_range=[-1.0, 4.0], color=RED, stroke_width=4)
+        registry["curve1"] = curve1
+
+        curve2 = axes.plot(lambda x: x - 1 - np.exp(-x), x_range=[0.0, 4.0], color=BLUE, stroke_width=4)
+        registry["curve2"] = curve2
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1781379315/media/audio/Solve_the_first_orde_17a070ccda/step_00_bb73c6ed.mp3")  # [auto-injected]
+        _audio_dur_0 = 9.38  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.500)
-        self.set_subtitle("我們研究一階常微分方程 dy/dx = x - y，其斜率取決於每點座標。", run_time=_audio_dur_0)
-        anim_time_1 = 2.500 * _scale_1
-        self.play(Write(title), run_time=1.5)
-        self.play(FadeIn(axes), FadeIn(eq_label), run_time=1.0)
+        self.set_subtitle("我們從一階方程式 dy/dx 等於 x 減 y 開始，它在平面上每一點都指定了一個斜率。", run_time=_audio_dur_0)
+        anim_time_1 = 0.0
+        self.play(Write(title), run_time=1.0)
+        anim_time_1 += 1.0
+        self.play(Write(equation), run_time=1.0)
+        anim_time_1 += 1.0
+        self.play(Create(axes), run_time=1.5)
+        anim_time_1 += 1.5
+        self.wait(0.5)  # [Final Guard: removed empty self.play()]
+        anim_time_1 += 1.0
         remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1779987325/media/audio/Solve_the_first_orde_ce146244b5/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 7.42  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1781379315/media/audio/Solve_the_first_orde_17a070ccda/step_01_af199caf.mp3")  # [auto-injected]
+        _audio_dur_1 = 8.28  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 4.000)
-        self.set_subtitle("在每個格點上，畫出斜率等於 x 減 y 的短線段，構成方向場。", run_time=_audio_dur_1)
-        self.play(Circumscribe(eq_label, color=YELLOW))
-        anim_time_2 = 4.000 * _scale_2
-        self.play(
-            LaggedStart(*[Create(s) for s in slope_segments], lag_ratio=0.01),
-            run_time=3.0,
-            rate_func=smooth,
-        )
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
+        _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 3.000))
+        self.set_subtitle("在每個格點上，我們畫一條斜率等於 x 減 y 的小線段，呈現出方向場。", run_time=_audio_dur_1)
+        anim_time_2 = 3.000 * _scale_2
+        self.play(LaggedStart(*[Create(seg) for seg in slope_field], lag_ratio=0.05, run_time=(3.0)*_scale_2))
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - anim_time_2 + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1779987325/media/audio/Solve_the_first_orde_ce146244b5/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 9.58  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1781379315/media/audio/Solve_the_first_orde_17a070ccda/step_02_a9a2956c.mp3")  # [auto-injected]
+        _audio_dur_2 = 8.26  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 4.000)
-        self.set_subtitle("從點 (0, 2) 出發，解曲線 y = x - 1 + 3e^{-x} 沿著方向場流動。", run_time=_audio_dur_2)
-        self.play(Indicate(dot1, color=GREEN))
-        anim_time_3 = 4.000 * _scale_3
-        self.play(FadeIn(dot1), run_time=0.5)
-        self.play(Create(curve1), run_time=2.5)
+        self.set_subtitle("注意線段沿著 y 等於 x 減一排列，這正是每條解都會趨近的漸近線。", run_time=_audio_dur_2)
+        anim_time_3 = 0.0
+        self.play(Create(asymptote), run_time=2.0)
+        anim_time_3 += 2.0
+        self.play(Write(asym_label), run_time=0.8)
+        anim_time_3 += 0.8
+        self.play(Indicate(asymptote, color=GREEN))
+        anim_time_3 += 1.0
         remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1779987325/media/audio/Solve_the_first_orde_ce146244b5/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 8.09  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1781379315/media/audio/Solve_the_first_orde_17a070ccda/step_03_61a3112c.mp3")  # [auto-injected]
+        _audio_dur_3 = 10.30  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 4.000)
-        self.set_subtitle("從不同起點 (-2, -2) 出發，第二條解曲線走自己的路徑卻同樣彎向相同方向。", run_time=_audio_dur_3)
-        self.play(Indicate(dot2, color=RED))
-        anim_time_4 = 4.000 * _scale_4
-        self.play(FadeIn(dot2), run_time=0.5)
-        self.play(Create(curve2), run_time=2.5)
+        self.set_subtitle("從 (0, 2) 出發，曲線 y 等於 x 減一加三倍 e 的負 x 次方，順著方向場向下逼近漸近線。", run_time=_audio_dur_3)
+        anim_time_4 = 0.0
+        self.play(FadeIn(dot1), run_time=0.5)
+        anim_time_4 += 0.5
+        self.play(Indicate(dot1, color=RED))
+        anim_time_4 += 1.0
+        self.play(Create(curve1), run_time=3.0)
+        anim_time_4 += 3.0
         remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1779987325/media/audio/Solve_the_first_orde_ce146244b5/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 7.03  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q08_slope_field_1781379315/media/audio/Solve_the_first_orde_17a070ccda/step_04_d42c981a.mp3")  # [auto-injected]
+        _audio_dur_4 = 11.40  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 3.000)
-        self.set_subtitle("兩條曲線都被虛線漸近線 y = x - 1 吸引，即方向場的長期吸引子。", run_time=_audio_dur_4)
-        anim_time_5 = 3.000 * _scale_5
-        self.play(Create(asymptote), run_time=2.0)
-        self.play(Indicate(asymptote, color=WHITE), run_time=1.0)
+        self.set_subtitle("從 (0, -2) 出發，曲線 y 等於 x 減一減 e 的負 x 次方向上攀升，兩條解都收斂到同一條直線。", run_time=_audio_dur_4)
+        anim_time_5 = 0.0
+        self.play(FadeIn(dot2), run_time=0.5)
+        anim_time_5 += 0.5
+        self.play(Indicate(dot2, color=BLUE))
+        anim_time_5 += 1.0
+        self.play(Create(curve2), run_time=3.0)
+        anim_time_5 += 3.0
         remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
         self.wait(remaining_5)

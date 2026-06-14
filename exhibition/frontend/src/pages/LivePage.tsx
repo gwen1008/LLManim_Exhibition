@@ -187,16 +187,14 @@ export function LivePage() {
   const [available, setAvailable] = useState<boolean | null>(null);
   const [topic, setTopic] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [opusRun, setOpusRun] = useState<RunState>(EMPTY);
   const [sysRun, setSysRun] = useState<RunState>(EMPTY);
-  const opusInterval = useRef<ReturnType<typeof setInterval> | null>(null);
   const sysInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ topic: "__probe__", mode: "opus_only" }),
+      body: JSON.stringify({ topic: "__probe__", mode: "full_system" }),
     })
       .then((r) => setAvailable(r.status !== 501))
       .catch(() => setAvailable(false));
@@ -204,12 +202,11 @@ export function LivePage() {
 
   useEffect(() => {
     return () => {
-      if (opusInterval.current) clearInterval(opusInterval.current);
       if (sysInterval.current) clearInterval(sysInterval.current);
     };
   }, []);
 
-  function poll(taskId: string, setter: typeof setOpusRun, intervalRef: typeof opusInterval) {
+  function poll(taskId: string, setter: typeof setSysRun, intervalRef: typeof sysInterval) {
     if (intervalRef.current) clearInterval(intervalRef.current);
     const startedAt = Date.now();
     let consecutiveFailures = 0;
@@ -245,7 +242,7 @@ export function LivePage() {
     intervalRef.current = handle;
   }
 
-  function cancelRun(setter: typeof setOpusRun, intervalRef: typeof opusInterval) {
+  function cancelRun(setter: typeof setSysRun, intervalRef: typeof sysInterval) {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -256,30 +253,22 @@ export function LivePage() {
   async function handleSubmit(e?: React.FormEvent) {
     e?.preventDefault();
     if (!topic.trim() || submitting) return;
-    if (opusInterval.current) clearInterval(opusInterval.current);
     if (sysInterval.current) clearInterval(sysInterval.current);
     setSubmitting(true);
-    setOpusRun(EMPTY);
     setSysRun(EMPTY);
 
     try {
-      const [opusRes, sysRes] = await Promise.all([
-        postGenerate(topic, "opus_only"),
-        postGenerate(topic, "full_system"),
-      ]);
+      const sysRes = await postGenerate(topic, "full_system");
 
-      if (!opusRes || !sysRes) {
+      if (!sysRes) {
         setAvailable(false);
         return;
       }
 
-      setOpusRun({ taskId: opusRes.task_id, task: null, error: null });
       setSysRun({ taskId: sysRes.task_id, task: null, error: null });
-      poll(opusRes.task_id, setOpusRun, opusInterval);
       poll(sysRes.task_id, setSysRun, sysInterval);
     } catch (err) {
       const msg = friendlyError(err);
-      setOpusRun({ taskId: null, task: null, error: msg });
       setSysRun({ taskId: null, task: null, error: msg });
     } finally {
       setSubmitting(false);
@@ -314,9 +303,9 @@ export function LivePage() {
       <div className="max-w-5xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-extrabold text-center mb-2 flex items-center justify-center gap-2">
           <Sparkles className="size-7 text-emerald-400" aria-hidden="true" />
-          <span>Live 對比生成</span>
+          <span>Live 即時生成</span>
         </h1>
-        <p className="text-gray-300 text-center mb-8">輸入數學主題，即時觀看兩個系統生成影片</p>
+        <p className="text-gray-300 text-center mb-8">輸入數學主題，本系統即時生成教學動畫影片</p>
 
         <form onSubmit={handleSubmit} className="flex gap-3 mb-10 max-w-xl mx-auto" aria-label="生成表單">
           <label htmlFor="topic-input" className="sr-only">
@@ -345,13 +334,7 @@ export function LivePage() {
           </button>
         </form>
 
-        <div className="flex flex-col md:flex-row gap-4">
-          <ProgressPanel
-            label="Opus 裸跑（Zero-Shot）"
-            run={opusRun}
-            color="rose"
-            onCancel={() => cancelRun(setOpusRun, opusInterval)}
-          />
+        <div className="max-w-2xl mx-auto">
           <ProgressPanel
             label="本系統（5-Agent Pipeline）"
             run={sysRun}

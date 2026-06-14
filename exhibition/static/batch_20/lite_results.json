@@ -69,20 +69,20 @@
   },
   "H02_sin_equation": {
     "render": true,
-    "gen_time_sec": 125.2,
-    "video_dur_sec": 105.93,
-    "video_kb": 1592,
-    "code_lines": 264,
+    "gen_time_sec": 130.7,
+    "video_dur_sec": 54.8,
+    "video_kb": 1059,
+    "code_lines": 252,
     "animations": 5,
-    "subtitles": 5,
+    "subtitles": 4,
     "stderr_tail": "",
     "topic": "三角方程 sinθ=1/2",
     "naked_render": "False",
     "naked_video_sec": "",
     "sys_render": "True",
-    "sys_video_sec": 61.73,
-    "sys_lines": 272,
-    "sys_subs": 5
+    "sys_video_sec": "61.73",
+    "sys_lines": "272",
+    "sys_subs": "5"
   },
   "H03_line_circle": {
     "render": true,

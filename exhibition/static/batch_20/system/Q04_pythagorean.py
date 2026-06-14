@@ -1,9 +1,11 @@
-# [VISUAL REASONING]
-# Concrete 3-4-5 triangle demonstrates Pythagorean theorem via area sum.
-# Three colored squares bloom outward; final equation 9+16=25 morphs to a²+b²=c².
-# Layout: title at HEADER, triangle+squares at CONTENT, equation at FOOTER.
-
 from manim import *
+
+# [VISUAL REASONING]
+# Split layout: shaded area-under-curve on the left (compact Axes ~0.8 scale),
+# symbolic FTC derivation morphing in-place on the right. ReplacementTransform
+# morphs the antiderivative bracket into the evaluated limits so equations never
+# stack messily. get_area shades f(x)=3x^2-2x on x in [0,2]. All z=0, nothing
+# extends below y=-2.5. Signal actions (Circumscribe/Indicate) hardcoded inline.
 
 class SubtitleManager:
     """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
@@ -153,114 +155,109 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        # Object registry
-        title = Text("畢氏定理：面積證明", color=WHITE, font_size=36).to_edge(UP, buff=0.5)
+        registry = {}
 
-        triangle = Polygon(
-            [-0.5, -0.75, 0], [1.5, -0.75, 0], [-0.5, 0.75, 0],
-            color=WHITE, fill_opacity=0.3, stroke_width=3
-        ).move_to(ORIGIN)
-
-        label_a = MathTex("a=3", color=BLUE).move_to(ORIGIN + np.array([-0.9, 0, 0]))
-        label_b = MathTex("b=4", color=GREEN).move_to(ORIGIN + np.array([0.5, -1.05, 0]))
-        label_c = MathTex("c=5", color=RED).move_to(ORIGIN + np.array([0.8, 0.4, 0]))
-
-        square_a = Polygon(
-            [-0.5, -0.75, 0], [-0.5, 0.75, 0], [-2.0, 0.75, 0], [-2.0, -0.75, 0],
-            color=BLUE, fill_opacity=0.5, stroke_width=2
-        )
-        area_a_label = MathTex("a^2=9", color=WHITE).move_to(square_a.get_center())
-
-        square_b = Polygon(
-            [-0.5, -0.75, 0], [1.5, -0.75, 0], [1.5, -2.0, 0], [-0.5, -2.0, 0],
-            color=GREEN, fill_opacity=0.5, stroke_width=2
-        )
-        area_b_label = MathTex("b^2=16", color=WHITE).move_to(square_b.get_center())
-
-        square_c = Polygon(
-            [1.5, -0.75, 0], [-0.5, 0.75, 0], [1.0, 2.25, 0], [3.0, 0.75, 0],
-            color=RED, fill_opacity=0.5, stroke_width=2
-        )
-        area_c_label = MathTex("c^2=25", color=WHITE).move_to(square_c.get_center())
-
-        eq_sum = MathTex("9", "+", "16", "=", "25", color=YELLOW, font_size=44).move_to(
-            ORIGIN + np.array([0, -2.3, 0])
-        )
-        eq_general = MathTex("a^2", "+", "b^2", "=", "c^2", color=YELLOW, font_size=48).move_to(
-            ORIGIN + np.array([0, -2.3, 0])
-        )
-
-        self.add(title)
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1779986651/media/audio/Prove_the_Pythagorea_d5a14d0ee5/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 4.78  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1780228981/media/audio/Calculate_the_defini_33d454edba/step_00.mp3")  # [auto-injected]
+        _audio_dur_0 = 5.64  # [audio-sync]
         # Step 1
         _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.000)
-        self.set_subtitle("從一個直角三角形開始，兩股長度分別為三與四。", run_time=_audio_dur_0)
+        title = Text("定積分與微積分基本定理", color=WHITE, font_size=34)
+        title.to_edge(UP)
+        registry["title"] = title
+
+        integral = MathTex(r"\int_0^2 (3x^2-2x)\,dx", color=WHITE)
+        integral.move_to(ORIGIN + np.array([3.2, 1.2, 0]))
+        registry["integral"] = integral
+
+        self.add(title)
+        self.set_subtitle("我們要計算 3x 平方減 2x 從 0 到 2 的定積分。", run_time=_audio_dur_0)
         anim_time_1 = 2.000 * _scale_1
-        self.play(
-            Create(triangle, run_time=2.0),
-            LaggedStart(
-                FadeIn(label_a), FadeIn(label_b), FadeIn(label_c),
-                lag_ratio=0.2
-            )
-        )
+        self.play(Write(integral), run_time=2.0)
         remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1779986651/media/audio/Prove_the_Pythagorea_d5a14d0ee5/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 5.74  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1780228981/media/audio/Calculate_the_defini_33d454edba/step_01.mp3")  # [auto-injected]
+        _audio_dur_1 = 5.88  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 2.500)
-        self.set_subtitle("在股 a 外側建立正方形，其面積等於 a 平方，也就是九。", run_time=_audio_dur_1)
-        anim_time_2 = 2.500 * _scale_2
-        self.play(Indicate(label_a, color=BLUE))
-        self.play(Create(square_a, run_time=2.0))
-        self.play(FadeIn(area_a_label, run_time=0.5))
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
+        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 1.500)
+        axes = Axes(
+            x_range=[0, 2.5, 1],
+            y_range=[0, 9, 3],
+            x_length=4.5,
+            y_length=4.0,
+            axis_config={"color": GREY},
+        )
+        axes.move_to(ORIGIN + np.array([-3.5, -0.3, 0]))
+        registry["axes"] = axes
+
+        curve = axes.plot(lambda x: 3 * x**2 - 2 * x, x_range=[0, 2.2, 0.05], color=BLUE)
+        registry["curve"] = curve
+
+        curve_label = MathTex(r"f(x)=3x^2-2x", color=BLUE)
+        curve_label.next_to(axes, UP, buff=0.15)
+        registry["curve_label"] = curve_label
+
+        self.set_subtitle("從幾何來看，這個積分就是曲線與 x 軸之間的陰影面積。", run_time=_audio_dur_1)
+        anim_time_2 = 1.500 * _scale_2
+        self.play(Create(axes), run_time=1.5)
+        self.play(Create(curve), Write(curve_label), run_time=1.5)
+        remaining_2 = max(0.1, _audio_dur_1 - (anim_time_2 + 1.5) + 0.1)
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1779986651/media/audio/Prove_the_Pythagorea_d5a14d0ee5/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 6.29  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1780228981/media/audio/Calculate_the_defini_33d454edba/step_02.mp3")  # [auto-injected]
+        _audio_dur_2 = 5.35  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 2.500)
-        self.set_subtitle("在股 b 外側建立另一個正方形，其面積等於 b 平方，也就是十六。", run_time=_audio_dur_2)
-        anim_time_3 = 2.500 * _scale_3
-        self.play(Indicate(label_b, color=GREEN))
-        self.play(Create(square_b, run_time=2.0))
-        self.play(FadeIn(area_b_label, run_time=0.5))
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
+        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 1.500)
+        area = axes.get_area(curve, x_range=[0, 2], color=TEAL, opacity=0.5)
+        registry["area"] = area
+
+        self.set_subtitle("把 0 到 2 之間塗上顏色，正好標出積分所量度的面積。", run_time=_audio_dur_2)
+        anim_time_3 = 1.500 * _scale_3
+        self.play(FadeIn(area), run_time=1.5)
+        self.play(Circumscribe(area, color=YELLOW))
+        remaining_3 = max(0.1, _audio_dur_2 - (anim_time_3 + 1.0) + 0.1)
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1779986651/media/audio/Prove_the_Pythagorea_d5a14d0ee5/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 6.38  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1780228981/media/audio/Calculate_the_defini_33d454edba/step_03.mp3")  # [auto-injected]
+        _audio_dur_3 = 6.89  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 3.000)
-        self.set_subtitle("現在在斜邊上建立正方形，其面積等於 c 平方，也就是二十五。", run_time=_audio_dur_3)
-        anim_time_4 = 3.000 * _scale_4
-        self.play(Indicate(label_c, color=RED))
-        self.play(Create(square_c, run_time=2.5))
-        self.play(FadeIn(area_c_label, run_time=0.5))
+        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 2.000)
+        antideriv = MathTex(r"=\Big[\,x^3-x^2\,\Big]_0^2", color=WHITE)
+        antideriv.move_to(ORIGIN + np.array([3.2, 0.0, 0]))
+        registry["antideriv"] = antideriv
+
+        self.set_subtitle("根據微積分基本定理，使用反導函數 F of x 等於 x 立方減 x 平方。", run_time=_audio_dur_3)
+        anim_time_4 = 2.000 * _scale_4
+        self.play(Write(antideriv), run_time=2.0)
         remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1779986651/media/audio/Prove_the_Pythagorea_d5a14d0ee5/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 6.86  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1780228981/media/audio/Calculate_the_defini_33d454edba/step_04.mp3")  # [auto-injected]
+        _audio_dur_4 = 6.07  # [audio-sync]
         # Step 5
         _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.000)
-        self.set_subtitle("兩個股的正方形相加等於斜邊的正方形：九加十六等於二十五。", run_time=_audio_dur_4)
+        evaluated = MathTex(r"=(8-4)-(0-0)", color=WHITE)
+        evaluated.move_to(ORIGIN + np.array([3.2, 0.0, 0]))
+        registry["evaluated"] = evaluated
+
+        self.set_subtitle("代入上下限得到 F of 2 等於 4，減去 F of 0 等於 0。", run_time=_audio_dur_4)
+        self.play(Indicate(antideriv, color=RED))
         anim_time_5 = 2.000 * _scale_5
-        self.play(Write(eq_sum, run_time=2.0))
-        self.play(Circumscribe(eq_sum, color=YELLOW))
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 - 1.0 + 0.1)
+        self.play(ReplacementTransform(antideriv, evaluated), run_time=2.0)
+        remaining_5 = max(0.1, _audio_dur_4 - (anim_time_5 + 1.0) + 0.1)
         self.wait(remaining_5)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1779986651/media/audio/Prove_the_Pythagorea_d5a14d0ee5/step_05.mp3")  # [auto-injected]
-        _audio_dur_5 = 6.12  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q04_pythagorean_1780228981/media/audio/Calculate_the_defini_33d454edba/step_05.mp3")  # [auto-injected]
+        _audio_dur_5 = 5.04  # [audio-sync]
         # Step 6
-        _scale_6 = max(1.0, (_audio_dur_5 * 0.7) / 2.000)
-        self.set_subtitle("這對每個直角三角形都成立：a 平方加 b 平方等於 c 平方。", run_time=_audio_dur_5)
-        anim_time_6 = 2.000 * _scale_6
-        self.play(TransformMatchingTex(eq_sum, eq_general, run_time=2.0))
-        remaining_6 = max(0.1, _audio_dur_5 - anim_time_6 + 0.1)
+        _scale_6 = max(1.0, (_audio_dur_5 * 0.7) / 1.500)
+        result = MathTex(r"=4", color=YELLOW)
+        result.move_to(ORIGIN + np.array([3.2, -1.2, 0]))
+        registry["result"] = result
+
+        self.set_subtitle("結果是 4，正是這個區間內曲線下方的精確面積。", run_time=_audio_dur_5)
+        anim_time_6 = 1.500 * _scale_6
+        self.play(Write(result), run_time=1.5)
+        self.play(Circumscribe(result, color=YELLOW))
+        remaining_6 = max(0.1, _audio_dur_5 - (anim_time_6 + 1.0) + 0.1)
         self.wait(remaining_6)

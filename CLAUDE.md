@@ -31,6 +31,7 @@ If I ask for adjustments to code I have provided you, do not repeat all of my co
 - Never run `git push` directly; the pre-push hook requires user execution. Stage and commit, then hand off the push command.
 
 ## Working Style
+- Before proposing a new system, prompt, or function, **first search the codebase to confirm it doesn't already exist** — do not argue about whether something exists, grep for it. (Past: a "compact Opus prompt" standoff that a single search would have settled.)
 - When asked to discuss/diagnose, stay focused — do NOT propose building parallel systems or listing exhaustive options without first checking the existing codebase.
 - After making fixes involving regex, string parsing, or comparison logic, run a self-review pass for edge cases (empty strings, escaped chars, missing operators) BEFORE declaring done.
 - Prefer free/local alternatives first when proposing services; ask before defaulting to paid APIs.

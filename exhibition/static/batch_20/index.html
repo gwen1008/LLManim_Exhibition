@@ -123,66 +123,31 @@
   <h1>20 題對比實驗 · <span style="color:#fda4af">Naked Opus</span> vs <span style="color:#6ee7b7">本系統</span></h1>
   <p>同一題目，左 = Opus zero-shot 直出，右 = Multi-Agent Pipeline</p>
   <div class="stats">
-    <span>Naked 成功 <b>16/20</b></span>
-    <span>本系統成功 <b>20/20</b></span>
-    <span>平均時長 <b>17.1s</b> vs <b>56.7s</b></span>
+    <span>Naked 成功 <b>11/18</b></span>
+    <span>本系統成功 <b>18/18</b></span>
+    <span>平均時長 <b>17.1s</b> vs <b>64.5s</b></span>
   </div>
 </header>
 
 <div class="filter-bar">
-  <button class="active" data-filter="all">全部 (20)</button>
-  <button data-filter="naked-fail">Naked Crash (4)</button>
-  <button data-filter="both-ok">兩邊都成功 (16)</button>
+  <button class="active" data-filter="all">全部 (18)</button>
+  <button data-filter="naked-fail">Naked Crash (7)</button>
+  <button data-filter="both-ok">兩邊都成功 (11)</button>
 </div>
 
 <div class="grid">
-<div class="card both-ok">
+<div class="card naked-fail">
   <div class="card-head">
     <div>
-      <h3>Riemann 和逼近積分</h3>
-      <div class="id">Q01_riemann_sum</div>
-    </div>
-    <div class="meta">81 → 238 行</div>
-  </div>
-  <div class="videos">
-    <div class="video-cell naked">
-      <span class="label">NAKED · ✅</span>
-      <video src="naked/Q01_riemann_sum.mp4" controls preload="metadata" playsinline></video>
-    </div>
-    <div class="video-cell system">
-      <span class="label">SYSTEM · ✅</span>
-      <video src="system/Q01_riemann_sum.mp4" controls preload="metadata" playsinline></video>
-    </div>
-  </div>
-  <div class="stats-row">
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>16.87</b>s</span>
-      <span>81行</span>
-      <span>?動畫</span>
-    </div>
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>53.27</b>s</span>
-      <span>238行</span>
-      <span>9動畫</span>
-      <span>5旁白</span>
-    </div>
-  </div>
-  <div class="prompt">計算定積分 ∫₀^π sin(x) dx 的值。請用 Riemann 和（將區間分成多個矩形）的方式視覺化近似過程。</div>
-</div>
-<div class="card both-ok">
-  <div class="card-head">
-    <div>
-      <h3>Newton 迭代法求 √2</h3>
+      <h3>對數方程求解（含檢驗增根）</h3>
       <div class="id">Q02_newton_iteration</div>
     </div>
-    <div class="meta">89 → 257 行</div>
+    <div class="meta">96 → 297 行</div>
   </div>
   <div class="videos">
     <div class="video-cell naked">
-      <span class="label">NAKED · ✅</span>
-      <video src="naked/Q02_newton_iteration.mp4" controls preload="metadata" playsinline></video>
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
     </div>
     <div class="video-cell system">
       <span class="label">SYSTEM · ✅</span>
@@ -191,20 +156,20 @@
   </div>
   <div class="stats-row">
     <div class="col">
-      <span class="ok">✅</span>
-      <span><b>24.33</b>s</span>
-      <span>89行</span>
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>96行</span>
       <span>?動畫</span>
     </div>
     <div class="col">
       <span class="ok">✅</span>
-      <span><b>61.0</b>s</span>
-      <span>257行</span>
+      <span><b>100.0</b>s</span>
+      <span>297行</span>
       <span>11動畫</span>
       <span>5旁白</span>
     </div>
   </div>
-  <div class="prompt">用 Newton 迭代法求 √2 的近似值（即求解方程 x² − 2 = 0）。請視覺化每一步切線如何逐漸逼近真正的根。</div>
+  <div class="prompt">解對數方程 log₂(x) + log₂(x−2) = 3。請逐步呈現解題過程：先用對數運算律合併左式為 log₂(x(x−2))，再轉成二次方程 x² − 2x − 8 = 0，因式分解求出 x = 4 與 x = −2，最後檢驗定義域（須 x>0 且 x−2>0）捨去增根 x = −2，得唯一解 x = 4。每一步用清楚排版的數學式逐行呈現。</div>
 </div>
 <div class="card naked-fail">
   <div class="card-head">
@@ -241,18 +206,18 @@
   </div>
   <div class="prompt">用 Taylor 級數逼近 sin(x) 在原點附近的值。請視覺化展示加入越多項時多項式如何越來越貼近真正的 sin(x) 曲線。</div>
 </div>
-<div class="card naked-fail">
+<div class="card both-ok">
   <div class="card-head">
     <div>
-      <h3>畢氏定理面積證明</h3>
+      <h3>定積分分步求值</h3>
       <div class="id">Q04_pythagorean</div>
     </div>
-    <div class="meta">106 → 265 行</div>
+    <div class="meta">49 → 263 行</div>
   </div>
   <div class="videos">
     <div class="video-cell naked">
-      <span class="label">NAKED · ❌</span>
-      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/Q04_pythagorean.mp4" controls preload="metadata" playsinline></video>
     </div>
     <div class="video-cell system">
       <span class="label">SYSTEM · ✅</span>
@@ -261,33 +226,33 @@
   </div>
   <div class="stats-row">
     <div class="col">
-      <span class="fail">❌</span>
-      <span><b>—</b>s</span>
-      <span>106行</span>
+      <span class="ok">✅</span>
+      <span><b>17.73</b>s</span>
+      <span>49行</span>
       <span>?動畫</span>
     </div>
     <div class="col">
       <span class="ok">✅</span>
-      <span><b>64.07</b>s</span>
-      <span>265行</span>
+      <span><b>55.93</b>s</span>
+      <span>263行</span>
       <span>13動畫</span>
       <span>6旁白</span>
     </div>
   </div>
-  <div class="prompt">用面積方法證明畢氏定理：建立一個直角三角形，在三邊外側分別建構正方形，視覺化展示兩股的正方形面積總和等於斜邊正方形的面積。</div>
+  <div class="prompt">計算定積分 ∫₀² (3x² − 2x) dx。請逐步呈現解題過程：先求被積函數的反導數 F(x) = x³ − x²，再代入上限 F(2) = 8 − 4 = 4 與下限 F(0) = 0，相減得 F(2) − F(0) = 4。每一步用清楚排版的數學式逐行呈現，並可在座標軸上標示積分區間 [0, 2] 下的面積。</div>
 </div>
-<div class="card both-ok">
+<div class="card naked-fail">
   <div class="card-head">
     <div>
-      <h3>二次函數配方法</h3>
+      <h3>L'Hôpital 法則求極限</h3>
       <div class="id">Q05_complete_square</div>
     </div>
-    <div class="meta">71 → 238 行</div>
+    <div class="meta">93 → 269 行</div>
   </div>
   <div class="videos">
     <div class="video-cell naked">
-      <span class="label">NAKED · ✅</span>
-      <video src="naked/Q05_complete_square.mp4" controls preload="metadata" playsinline></video>
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
     </div>
     <div class="video-cell system">
       <span class="label">SYSTEM · ✅</span>
@@ -296,20 +261,20 @@
   </div>
   <div class="stats-row">
     <div class="col">
-      <span class="ok">✅</span>
-      <span><b>21.87</b>s</span>
-      <span>71行</span>
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>93行</span>
       <span>?動畫</span>
     </div>
     <div class="col">
       <span class="ok">✅</span>
-      <span><b>57.53</b>s</span>
-      <span>238行</span>
+      <span><b>75.13</b>s</span>
+      <span>269行</span>
       <span>10動畫</span>
       <span>5旁白</span>
     </div>
   </div>
-  <div class="prompt">示範如何將二次函數 y = x² − 6x + 5 透過配方法化為頂點式 (x−3)² − 4，並視覺化拋物線頂點的平移與對稱軸位置。</div>
+  <div class="prompt">用 L'Hôpital 法則求極限 lim(x→0) (sin x − x) / x³。請逐步呈現解題過程：先確認代入 x=0 為 0/0 不定型，第一次對分子分母同時微分得 (cos x − 1)/(3x²)，仍為 0/0；第二次微分得 (−sin x)/(6x)，仍為 0/0；第三次微分得 (−cos x)/6，代入 x=0 得 −1/6。每一步用清楚排版的數學式逐行呈現，標明每次都驗證仍是不定型才繼續。</div>
 </div>
 <div class="card naked-fail">
   <div class="card-head">
@@ -415,41 +380,6 @@
     </div>
   </div>
   <div class="prompt">解一階微分方程 dy/dx = x − y。請用斜率場視覺化方程的方向場，並從兩個不同初始點畫出對應的解曲線。</div>
-</div>
-<div class="card both-ok">
-  <div class="card-head">
-    <div>
-      <h3>黃金螺旋</h3>
-      <div class="id">Q09_golden_spiral</div>
-    </div>
-    <div class="meta">66 → 227 行</div>
-  </div>
-  <div class="videos">
-    <div class="video-cell naked">
-      <span class="label">NAKED · ✅</span>
-      <video src="naked/Q09_golden_spiral.mp4" controls preload="metadata" playsinline></video>
-    </div>
-    <div class="video-cell system">
-      <span class="label">SYSTEM · ✅</span>
-      <video src="system/Q09_golden_spiral.mp4" controls preload="metadata" playsinline></video>
-    </div>
-  </div>
-  <div class="stats-row">
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>13.4</b>s</span>
-      <span>66行</span>
-      <span>?動畫</span>
-    </div>
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>56.87</b>s</span>
-      <span>227行</span>
-      <span>6動畫</span>
-      <span>5旁白</span>
-    </div>
-  </div>
-  <div class="prompt">繪製黃金螺旋。請用費氏數列邊長 (1, 1, 2, 3, 5, 8) 依序排列六個正方形，並在每個正方形內畫一條四分之一圓弧連成螺旋。</div>
 </div>
 <div class="card both-ok">
   <div class="card-head">
@@ -664,76 +594,6 @@
 <div class="card both-ok">
   <div class="card-head">
     <div>
-      <h3>Lorenz 吸引子（3D 蝴蝶曲線）</h3>
-      <div class="id">Q16_lorenz</div>
-    </div>
-    <div class="meta">69 → 211 行</div>
-  </div>
-  <div class="videos">
-    <div class="video-cell naked">
-      <span class="label">NAKED · ✅</span>
-      <video src="naked/Q16_lorenz.mp4" controls preload="metadata" playsinline></video>
-    </div>
-    <div class="video-cell system">
-      <span class="label">SYSTEM · ✅</span>
-      <video src="system/Q16_lorenz.mp4" controls preload="metadata" playsinline></video>
-    </div>
-  </div>
-  <div class="stats-row">
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>15.53</b>s</span>
-      <span>69行</span>
-      <span>?動畫</span>
-    </div>
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>39.4</b>s</span>
-      <span>211行</span>
-      <span>8動畫</span>
-      <span>6旁白</span>
-    </div>
-  </div>
-  <div class="prompt">繪製 Lorenz 吸引子的軌跡。請解 Lorenz 系統並在 3D 空間中描繪解曲線形成的蝴蝶形狀（σ=10, ρ=28, β=8/3）。</div>
-</div>
-<div class="card both-ok">
-  <div class="card-head">
-    <div>
-      <h3>馬鞍面 z = x² − y²</h3>
-      <div class="id">Q17_saddle_3d</div>
-    </div>
-    <div class="meta">61 → 291 行</div>
-  </div>
-  <div class="videos">
-    <div class="video-cell naked">
-      <span class="label">NAKED · ✅</span>
-      <video src="naked/Q17_saddle_3d.mp4" controls preload="metadata" playsinline></video>
-    </div>
-    <div class="video-cell system">
-      <span class="label">SYSTEM · ✅</span>
-      <video src="system/Q17_saddle_3d.mp4" controls preload="metadata" playsinline></video>
-    </div>
-  </div>
-  <div class="stats-row">
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>18.93</b>s</span>
-      <span>61行</span>
-      <span>?動畫</span>
-    </div>
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>55.93</b>s</span>
-      <span>291行</span>
-      <span>7動畫</span>
-      <span>5旁白</span>
-    </div>
-  </div>
-  <div class="prompt">在 3D 空間中繪製馬鞍面 z = x² − y²。請展示其鞍點特性：沿 x 方向向上彎、沿 y 方向向下彎，並讓鏡頭旋轉觀察。</div>
-</div>
-<div class="card both-ok">
-  <div class="card-head">
-    <div>
       <h3>Galton 板（常態分佈）</h3>
       <div class="id">Q18_galton_board</div>
     </div>
@@ -769,41 +629,6 @@
 <div class="card both-ok">
   <div class="card-head">
     <div>
-      <h3>Mandelbrot 集合</h3>
-      <div class="id">Q19_mandelbrot</div>
-    </div>
-    <div class="meta">57 → 294 行</div>
-  </div>
-  <div class="videos">
-    <div class="video-cell naked">
-      <span class="label">NAKED · ✅</span>
-      <video src="naked/Q19_mandelbrot.mp4" controls preload="metadata" playsinline></video>
-    </div>
-    <div class="video-cell system">
-      <span class="label">SYSTEM · ✅</span>
-      <video src="system/Q19_mandelbrot.mp4" controls preload="metadata" playsinline></video>
-    </div>
-  </div>
-  <div class="stats-row">
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>11.2</b>s</span>
-      <span>57行</span>
-      <span>?動畫</span>
-    </div>
-    <div class="col">
-      <span class="ok">✅</span>
-      <span><b>52.13</b>s</span>
-      <span>294行</span>
-      <span>11動畫</span>
-      <span>5旁白</span>
-    </div>
-  </div>
-  <div class="prompt">繪製 Mandelbrot 集合：在複數平面上對每個點 c 計算迭代 zₙ₊₁ = zₙ² + c 是否發散，用顏色標示發散速度。</div>
-</div>
-<div class="card both-ok">
-  <div class="card-head">
-    <div>
       <h3>Taylor 級數逼近 ln(1+x)</h3>
       <div class="id">Q20_taylor_log</div>
     </div>
@@ -835,6 +660,111 @@
     </div>
   </div>
   <div class="prompt">視覺化 ln(1+x) 的 Taylor 級數逼近。請依序加入更多項（x、−x²/2、+x³/3...），展示多項式逐漸貼近 ln(1+x) 並標示收斂半徑 |x| < 1。</div>
+</div>
+<div class="card both-ok">
+  <div class="card-head">
+    <div>
+      <h3>配方法解二次方程</h3>
+      <div class="id">H01_complete_square</div>
+    </div>
+    <div class="meta">88 → 257 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ✅</span>
+      <video src="naked/H01_complete_square.mp4" controls preload="metadata" playsinline></video>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/H01_complete_square.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>18.87</b>s</span>
+      <span>88行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>92.73</b>s</span>
+      <span>257行</span>
+      <span>14動畫</span>
+      <span>7旁白</span>
+    </div>
+  </div>
+  <div class="prompt">用配方法解一元二次方程 x²-6x+5=0：先將方程配成完全平方 (x-3)²=4，再開根號求出兩根 x=1 與 x=5。請同步畫出對應的拋物線 y=x²-6x+5，標出頂點 (3,-4) 與兩個 x 軸交點。</div>
+</div>
+<div class="card naked-fail">
+  <div class="card-head">
+    <div>
+      <h3>三角方程 sinθ=1/2</h3>
+      <div class="id">H02_sin_equation</div>
+    </div>
+    <div class="meta">108 → 272 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/H02_sin_equation.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>108行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>61.73</b>s</span>
+      <span>272行</span>
+      <span>14動畫</span>
+      <span>5旁白</span>
+    </div>
+  </div>
+  <div class="prompt">解三角方程 sinθ=1/2。在單位圓上找出第一象限與第二象限的兩個基本解 θ=30° 與 θ=150°，並說明因為正弦函數的週期性，通解為 θ=30°+360°k 與 θ=150°+360°k。請同步顯示單位圓上的點與 sinθ 曲線。</div>
+</div>
+<div class="card naked-fail">
+  <div class="card-head">
+    <div>
+      <h3>直線與圓相交</h3>
+      <div class="id">H03_line_circle</div>
+    </div>
+    <div class="meta">71 → 267 行</div>
+  </div>
+  <div class="videos">
+    <div class="video-cell naked">
+      <span class="label">NAKED · ❌</span>
+      <div class="placeholder"><div class="icon">❌</div><div>Render Failed</div></div>
+    </div>
+    <div class="video-cell system">
+      <span class="label">SYSTEM · ✅</span>
+      <video src="system/H03_line_circle.mp4" controls preload="metadata" playsinline></video>
+    </div>
+  </div>
+  <div class="stats-row">
+    <div class="col">
+      <span class="fail">❌</span>
+      <span><b>—</b>s</span>
+      <span>71行</span>
+      <span>?動畫</span>
+    </div>
+    <div class="col">
+      <span class="ok">✅</span>
+      <span><b>81.6</b>s</span>
+      <span>267行</span>
+      <span>19動畫</span>
+      <span>7旁白</span>
+    </div>
+  </div>
+  <div class="prompt">求直線 y=x+1 與圓 x²+y²=4 的交點。將直線代入圓方程得到 2x²+2x-3=0，用判別式判斷有兩個交點，解出交點座標。請畫出圓與直線，標出兩個交點。</div>
 </div>
 </div>
 

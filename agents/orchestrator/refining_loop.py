@@ -473,12 +473,26 @@ class RefiningLoop:
             # Strip param type annotations: (x: int | None, y: str = "a")  →  (x, y = "a")
             patched = re.sub(r'(\w+)\s*:\s*(?:[\w\[\], |]+)(\s*[=,)])', r'\1\2', patched)
         
+        # 3z. [純文字 MathTex → Tex] 必須在 step 4 剝 \text{} 之前跑（否則 \text{outside} 被剝成
+        # 裸 outside，偵測不到）。MathTex 裝純文字會 raise 'latex error converting to dvi'；Tex() 是
+        # text-mode，\text{}/裸符號/純英文都能編。linter 偵測得到但 LLM 屢修不掉（cap20 MEX_113_17
+        # 燒滿 5 輪+3 linter retry）。改用 lint_manim.autofix_mathtex_to_tex —— 與 linter 偵測「同源」，
+        # 保證 linter 抓得到的這裡一定修得到，且用 ast 絕對 offset 替換不會對不上位置。
+        try:
+            from ..coder.lint_manim import autofix_mathtex_to_tex
+            patched, _n_mt = autofix_mathtex_to_tex(patched)
+            if _n_mt:
+                print(f"🩹 [Pre-Render Patch] {_n_mt} 個純文字 MathTex → Tex (避免 latex dvi 崩)")
+        except Exception as _e3z:
+            print(f"⚠️ [Pre-Render Patch] MathTex→Tex autofix skipped: {_e3z}")
+
         # 4. Strip \mathrm{} and \text{} — keep content, remove command.
         # Both commands crash Manim v0.19/v0.20 with "Missing } inserted" (LaTeX brace splitter bug).
         # \text{} additionally requires amsmath which is not loaded by Manim's default template.
         # Fix: strip both X -> X so they never reach the LaTeX compiler.
         # This prevents LATEX_TEXT_CMD lint errors from triggering the LLM fix path,
         # which was causing syntax-error deadlocks that exhausted the linter budget.
+        # 注意：3z 已把純文字 MathTex 轉成 Tex，此處剝 \text{} 後 Tex 仍是 text-mode 合法。
         patched = re.sub(r'\\mathrm\{([^}]*)\}', r'\1', patched)
         patched = re.sub(r'\\text\{([^}]*)\}', r'\1', patched)
 
@@ -552,6 +566,71 @@ class RefiningLoop:
         if patched != _before_4e:
             print("🔧 [Shift-Left] Fixed keyword-as-assignment syntax → valid block")
 
+        # 4f. [Animation color= kwarg] color= is invalid on Create/Write/FadeIn/
+        # DrawBorderThenFill (TypeError at render time). AST-targeted so only a
+        # color= keyword belonging to the animation call itself is rewritten —
+        # Write(Text("x", color=RED)) is left alone (color belongs to Text, valid).
+        #   Create(obj, color=BLUE, run_time=2) → Create(obj.set_color(BLUE), run_time=2)
+        # Conservative: requires exactly one plain positional arg and no **kwargs;
+        # anything else is left for the error-driven fixer in auto_fix_loop.
+        _ANIM_COLOR_NAMES = {"Create", "Write", "FadeIn", "DrawBorderThenFill"}
+        try:
+            _tree4f = ast.parse(patched)
+            _line_starts = [0]
+            for _ln in patched.splitlines(keepends=True):
+                _line_starts.append(_line_starts[-1] + len(_ln))
+
+            def _off4f(lineno, col):
+                return _line_starts[lineno - 1] + col
+
+            _edits4f = []  # (start_offset, end_offset, replacement) in original coords
+            for _node in ast.walk(_tree4f):
+                if not (isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name)
+                        and _node.func.id in _ANIM_COLOR_NAMES):
+                    continue
+                if any(kw.arg is None for kw in _node.keywords):
+                    continue  # **kwargs present — too risky to reconstruct
+                _color_kw = next((kw for kw in _node.keywords if kw.arg == "color"), None)
+                if _color_kw is None or len(_node.args) != 1 or isinstance(_node.args[0], ast.Starred):
+                    continue
+                _obj_src = ast.get_source_segment(patched, _node.args[0])
+                _color_src = ast.get_source_segment(patched, _color_kw.value)
+                if not _obj_src or not _color_src:
+                    continue
+                _kw_srcs = []
+                for kw in _node.keywords:
+                    if kw is _color_kw:
+                        continue
+                    _v = ast.get_source_segment(patched, kw.value)
+                    if not _v:
+                        _kw_srcs = None
+                        break
+                    _kw_srcs.append(f"{kw.arg}={_v}")
+                if _kw_srcs is None:
+                    continue
+                _repl = (f"{_node.func.id}({_obj_src}.set_color({_color_src})"
+                         + (", " + ", ".join(_kw_srcs) if _kw_srcs else "") + ")")
+                _edits4f.append((_off4f(_node.lineno, _node.col_offset),
+                                 _off4f(_node.end_lineno, _node.end_col_offset), _repl))
+
+            # Apply from the end so earlier offsets stay valid. Nested flagged calls
+            # would invalidate the enclosing call's captured source → skip overlaps.
+            _edits4f.sort(key=lambda t: t[0], reverse=True)
+            _applied_spans = []
+            _n_color_fixed = 0
+            for _s4f, _e4f, _r4f in _edits4f:
+                if any(not (_e4f <= _s2 or _s4f >= _e2) for _s2, _e2 in _applied_spans):
+                    continue
+                patched = patched[:_s4f] + _r4f + patched[_e4f:]
+                _applied_spans.append((_s4f, _e4f))
+                _n_color_fixed += 1
+            if _n_color_fixed:
+                print(f"🔧 [Shift-Left] Animation color= kwarg → .set_color() ({_n_color_fixed} call(s))")
+        except SyntaxError:
+            pass  # invalid syntax at this point — later steps / linter handle it
+        except Exception as _e4f_err:
+            print(f"⚠️ [Shift-Left] Animation color= patch skipped: {_e4f_err}")
+
         # 5. [Enforce Final Wait] Ensure the construct method ends with a wait operation
         try:
             tree = ast.parse(patched)
@@ -599,6 +678,10 @@ class RefiningLoop:
                     print("⚠️ [Shift-Left] No self.play()/self.wait() detected — injected fallback self.wait(1). LLM forgot animations.")
         except Exception:
             pass  # AST parse failed; skip this guard, render will catch it
+
+        # [Empty Play Guard] 移至函式末端的 FINAL GUARD 統一處理（見下方）。
+        # 原本這裡有一個只替換首行的版本，對多行 self.play(\n run_time=2\n) 會留殘行 →
+        # IndentationError。空 play 清理改由 render 前唯一的終驗 pass 負責，避免重複且錯誤的邏輯。
 
         # 6. [LayoutEngine Neutralizer] Neutralize incorrectly-used LayoutEngine/LayoutObject blocks.
         # utils/layout_engine.py EXISTS in this project, but LLM almost always:
@@ -727,65 +810,155 @@ class RefiningLoop:
                 if n > max_injected:
                     patched = re.sub(rf'_audio_dur_{n}\b', f'_audio_dur_{max_injected}', patched)
 
-        # [Anim-time scale] 自動把動畫 run_time 拉長填滿旁白 70%，消除凍結畫面。
-        # LLM 不管 prompt 寫什麼都愛寫 anim_time=1.5 → 凍結。這裡：
+        # [Anim-time scale / Phase 1] 動畫 run_time 按比例縮放填滿旁白，消除中段乾等。
+        # 穩健版(不硬綁 clause↔play)：整段 step 的 run_time 同乘一個 _scale_N。
         #   1. 偵測每個 # Step N 區塊
-        #   2. 算 _scale_N = max(1.0, _audio_dur_[N-1] * 0.7 / anim_time_N_原值)
+        #   2. 算 _scale_N = clamp(_audio_dur*FILL / anim_time_原值, 1.0, CAP)
+        #      - FILL=0.95：動畫填到旁白 95%，留 5% 尾端(符合 research「video 領先
+        #        audio 可容忍 240ms」的不對稱容差；寧讓動畫略領先，不讓 audio 先到)。
+        #      - CAP=2.5：放大上限，避免動畫被拉成龜速失真(2.0s 動畫最多拉到 5.0s)。
         #   3. 把該區塊內所有 self.play(..., run_time=Y) 改成 run_time=Y*_scale_N
-        #   4. anim_time_N 也乘上 scale
+        #   4. anim_time_N 也乘上 scale → remaining_N 自動縮小成尾端 cognitive buffer
+        # NOTE: 只在 anim_time_N 原值可 eval 成純數字時生效（lite 的 anim_time_N=_audio_dur_N
+        #   含變數、eval 失敗→跳過，維持「動畫填滿整段旁白」由 LaggedStart 多事件鋪滿）。
+        _FILL = 0.95   # 動畫填滿旁白比例(原 0.7→0.95，砍中段乾等)
+        _SCALE_CAP = 2.5  # run_time 放大上限(防龜速)
+        _TAIL_CAP = 1.5   # 尾端 wait 上限(CAP 觸頂時的殘留截斷成 cognitive buffer)
         try:
-            # 找 Step N 起點（# Step N 註解）跟對應的 anim_time_N 行
-            step_pattern = re.compile(
-                r'(^\s*#\s*Step\s+(\d+)\s*$)(.*?)'  # Step N 標頭 + 區塊內容
-                r'(^(\s*)anim_time_\2\s*=\s*([0-9.+\- ]+?)(?=\s*(?:#|$)))',  # anim_time_N 設定
+            # 抓「整個 Step N 區塊」（# Step N 標頭 → 下一個 # Step 或檔尾）。
+            # 舊版只抓到 anim_time_N 行為止當 body，當 LLM 把 anim_time_N 寫在
+            # self.play 之前（H03 即如此）時，所有 play 都落在 body 之外，run_time
+            # 改不到 → anim_time 被灌水但動畫沒拉長 → remaining 算太小 → 動畫提早
+            # 跑完乾等。改抓整段，play 在 anim_time 前後都能命中。
+            step_block_pattern = re.compile(
+                r'(^([ \t]*)#\s*Step\s+(\d+)\s*$)'  # g1=標頭, g2=縮排, g3=N
+                r'(.*?)'                              # g4=整個區塊內容
+                r'(?=^[ \t]*#\s*Step\s+\d+\s*$|\Z)', # 前瞻：下一個 Step 或檔尾
                 re.MULTILINE | re.DOTALL
+            )
+            # 在區塊內找 anim_time_N = <純數字表達式>，用來算 _scale_N
+            anim_assign_re = lambda n: re.compile(
+                rf'^([ \t]*)anim_time_{n}\s*=\s*([0-9.+\-*/ ]+?)(?=\s*(?:#|$))',
+                re.MULTILINE
             )
             scaled_count = 0
             new_chunks = []
             last_end = 0
-            for m in step_pattern.finditer(patched):
-                header, n_str, body, anim_line, indent, expr = m.groups()
+            for m in step_block_pattern.finditer(patched):
+                header, indent, n_str, body = m.groups()
                 n = int(n_str)
+                am = anim_assign_re(n).search(body)
+                if not am:
+                    continue
                 try:
-                    orig_anim = eval(expr.strip(), {"__builtins__": {}}, {})
+                    orig_anim = eval(am.group(2).strip(), {"__builtins__": {}}, {})
                 except Exception:
                     continue
                 if orig_anim <= 0.1:
                     continue
-                # 在 body 內把所有 run_time=Y 改成 run_time=Y*_scale_N
-                # 處理形式：run_time=1.5 / run_time = 1.5 / run_time=anim_time*0.7
+
+                # (a) 把區塊內所有 run_time=Y 改成 run_time=(Y)*_scale_N
                 def _scale_runtime(rm, n=n):
-                    rt_val = rm.group(1)
-                    return f'run_time=({rt_val})*_scale_{n}'
+                    return f'run_time=({rm.group(1)})*_scale_{n}'
                 scaled_body = re.sub(
                     r'run_time\s*=\s*([0-9.]+(?:\s*[*+\-/]\s*[0-9.]+)?)',
                     _scale_runtime, body
                 )
-                # 在 # Step N 後立刻插入 _scale_N 定義（用原始 anim_time 算）
-                scale_def = f"\n{indent}_scale_{n} = max(1.0, (_audio_dur_{n-1} * 0.7) / {orig_anim:.3f})"
-                # 新 anim_time 行：乘上 scale
-                new_anim_line = f"{indent}anim_time_{n} = {orig_anim:.3f} * _scale_{n}"
-                # 拼接
+                # (b) anim_time_N 行改成原值 * _scale_N（覆蓋掉原本的賦值）
+                scaled_body = anim_assign_re(n).sub(
+                    lambda rm, n=n, v=orig_anim: f'{rm.group(1)}anim_time_{n} = {v:.3f} * _scale_{n}',
+                    scaled_body, count=1
+                )
+                # (b2) 尾端 wait 上限 _TAIL_CAP：CAP 觸頂時(動畫物理拉不長)殘留會很大，
+                #      截到 _TAIL_CAP 當 cognitive buffer(research:公式/aha 後停 1.5-2s 有益)，
+                #      避免長乾等。沒觸頂時殘留本就 < cap，min() 不影響。
+                scaled_body = re.sub(
+                    rf'\bremaining_{n}\s*=\s*(max\(0\.1,[^\n]+\))[ \t]*(?=$)',
+                    rf'remaining_{n} = min({_TAIL_CAP}, \1)',
+                    scaled_body, count=1, flags=re.MULTILINE
+                )
+                # (c) 在 # Step N 標頭後立刻插入 _scale_N 定義（最早，保證可用）
+                #     clamp 在 [1.0, CAP]：填滿到旁白 _FILL，但不超過 CAP 倍避免龜速。
+                scale_def = (
+                    f"\n{indent}_scale_{n} = min({_SCALE_CAP}, "
+                    f"max(1.0, (_audio_dur_{n-1} * {_FILL}) / {orig_anim:.3f}))"
+                )
+
                 new_chunks.append(patched[last_end:m.start()])
                 new_chunks.append(header)
                 new_chunks.append(scale_def)
                 new_chunks.append(scaled_body)
-                new_chunks.append(new_anim_line)
                 last_end = m.end()
                 scaled_count += 1
             if scaled_count > 0:
                 new_chunks.append(patched[last_end:])
                 patched = ''.join(new_chunks)
-                print(f"🔧 [Shift-Left] Scaled {scaled_count} step(s) anim_time to ≥ 0.7 × audio_dur")
+                print(f"🔧 [Shift-Left] Scaled {scaled_count} step(s) anim_time to fill ~{int(_FILL*100)}% audio (cap {_SCALE_CAP}x)")
         except Exception as _e:
             print(f"⚠️ [Shift-Left] anim_time scale patch skipped: {_e}")
+
+        # [Sync Invariant] 靜態估每個 step 的「視覺總時長 vs 音檔時長」缺口。
+        # 動畫播放時間 ≈ Σ run_time + Σ wait。理想下應 ≈ _audio_dur_[N-1]。
+        # 缺口為正 = 動畫比旁白短（乾等）；為負 = 動畫比旁白長（旁白被切）。
+        # 只 log 不阻斷 —— 讓同步迴歸（如本次 H03 bug）下次一眼可見。
+        # 估算用 _scale_N=1（保守下界）：run_time/anim_time 含 _scale 變數時，
+        # 拿原始係數估，足以抓「乾等數秒」這種數量級偏差。
+        try:
+            sb_pat = re.compile(
+                r'^([ \t]*)#\s*Step\s+(\d+)\s*$(.*?)(?=^[ \t]*#\s*Step\s+\d+\s*$|\Z)',
+                re.MULTILINE | re.DOTALL
+            )
+            _num = lambda s: float(re.match(r'\s*([0-9.]+)', s).group(1)) if re.match(r'\s*([0-9.]+)', s) else 0.0
+            for sm in sb_pat.finditer(patched):
+                n = int(sm.group(2)); blk = sm.group(3)
+                durs = re.findall(rf'_audio_dur_{n-1}\s*=\s*([0-9.]+)', patched)
+                if not durs:
+                    continue
+                audio = float(durs[-1])
+                # lite 模式：run_time 綁變數(anim_time/_audio_dur)→ 動畫已 = 音檔長，
+                # LaggedStart 內部塞滿，無乾等。靜態估不出數字，跳過避免假警報。
+                if re.search(r'run_time\s*=\s*(?:anim_time|_audio_dur)', blk):
+                    continue
+                rt = sum(_num(x) for x in re.findall(r'run_time\s*=\s*\(?([0-9.]+)', blk))
+                wt = sum(_num(x) for x in re.findall(r'self\.wait\(\s*([0-9.]+)', blk))
+                # wait(remaining_N) 動態補滿到音檔長度。但 Phase 1 的 min(_TAIL_CAP,...)
+                # 會把補滿量截到 _TAIL_CAP → 若 remaining 被 cap，補滿上限就是 _TAIL_CAP，
+                # 缺口 = audio - rt(動畫實長,以 _scale=CAP 上界估) - _TAIL_CAP。
+                has_remaining = f'remaining_{n}' in blk
+                remaining_capped = f'remaining_{n} = min(' in blk
+                # 動畫實長上界：run_time 原值 × CAP(觸頂時),但不超過 audio
+                anim_upper = min(audio, rt * _SCALE_CAP)
+                if not has_remaining:
+                    visual = rt + wt   # 無 remaining：動畫 + 所有固定 wait
+                elif remaining_capped:
+                    visual = anim_upper + _TAIL_CAP  # 補滿被 cap，可能仍 < audio
+                else:
+                    visual = max(anim_upper, audio)   # 無 cap remaining → 補滿到 audio
+                gap = audio - min(visual, audio)
+                if gap > 2.0:
+                    # 缺口 = 動畫拉到上限+尾端 buffer 後仍補不滿的部分(靜止公式時段)。
+                    # 屬 research 的 cognitive buffer，>2s 才提示「視覺密度不足，考慮加 sub-animation」。
+                    print(f"⚠️ [Sync Invariant] Step {n}: audio={audio:.1f}s vs visual≈{visual:.1f}s "
+                          f"(缺口 {gap:+.1f}s 靜止；動畫拉到上限仍補不滿，視覺密度不足)")
+                elif gap < -2.0:
+                    print(f"⚠️ [Sync Invariant] Step {n}: audio={audio:.1f}s vs visual≈{visual:.1f}s "
+                          f"(動畫比旁白長 {-gap:.1f}s，旁白可能被切)")
+        except Exception as _e:
+            print(f"⚠️ [Sync Invariant] check skipped: {_e}")
 
         # 11. [Write+Indicate Conflict] 移除緊跟 Write 同物件的 Indicate/Circumscribe。
         # LLM 愛在同一個 LaggedStart 裡寫 Write(X) 緊跟 Indicate(X)/Circumscribe(X)。
         # 因 lag_ratio<1，Indicate 在 Write 完成前啟動，結束時把「未寫完」的 X 還原 →
         # X 整個消失或閃爍。對策：若同物件同時被 Write 與 Indicate/Circumscribe 作用，刪後者。
         try:
-            _written = set(re.findall(r'\bWrite\(\s*([A-Za-z_]\w*)\s*\)', patched))
+            # 抓 Write(...) 內的「基底物件名」：涵蓋裸變數 Write(eq)、下標 Write(eq[0])、
+            # 方法 Write(eq.copy())、self 屬性 Write(self.eq)。取「該物件對應 Indicate 會用的名字」當衝突鍵：
+            #   - Write(eq[0]) / Write(eq.copy()) → eq（Indicate(eq) 作用整個物件，仍衝突）
+            #   - Write(self.eq) / Write(self.eq[0]) → self.eq（Indicate 也會寫 self.eq）
+            # (LLM 常把式子分組 Write(eq[0]), Write(eq[1]) 再 Indicate(eq) → 整個被 Indicate 還原消失。)
+            _written = set()
+            for _w in re.findall(r'\bWrite\(\s*((?:self\.)?[A-Za-z_]\w*)(?:\s*\[[^\]]*\]|\.\w+(?:\([^()]*\))?)*\s*\)', patched):
+                _written.add(_w)
             _removed_conflicts = 0
             for _obj in _written:
                 # 移除作用於同物件的 Indicate(...) / Circumscribe(...)（含可選參數）。
@@ -843,6 +1016,63 @@ class RefiningLoop:
                 print(f"🔧 [Shift-Left] Subtitle Zone: scanned move_to, lifted labels below y=-2.8 to {_SUB_SAFE_Y}")
         except Exception as _e12:
             print(f"⚠️ [Shift-Left] Subtitle Zone patch skipped: {_e12}")
+
+        # ============ FINAL GUARD (終驗守門員) ============
+        # 不變量：到這裡的代碼，render 前不該有任何「確定性致命結構」。
+        # 上面任何步驟（LLM 原生 / Step 11 刪 Indicate / 未來新步驟）都可能製造空 play；
+        # 各步驟自己的防禦只看自己製造的形式，會漏（pass-ordering 問題）。這裡是 render 前
+        # 唯一、權威、最後一道清理：不管誰製造的空 play，都在此統一掃除。新增致命模式改這裡。
+        #
+        # 空 play = self.play(...) 沒有任何 positional 動畫參數，包含：
+        #   self.play()                       裸空
+        #   self.play(run_time=...)           只剩 keyword（Step 11 刪 Indicate 殘留，本次 cap20 4 題崩源）
+        #   self.play( run_time=(1.0)*_s )    含縮放注入（用 AST 不受空格/縮排干擾）
+        #   self.play(LaggedStart())          只剩空容器
+        # 替換成 self.wait(0.5)（保時間軸長度 → 音畫同步不錯位），不刪行。
+        try:
+            _tree = ast.parse(patched)
+
+            def _is_empty_container(_arg):
+                # 唯一參數是空的 LaggedStart()/AnimationGroup()/VGroup()…（無內含動畫）
+                return (
+                    isinstance(_arg, ast.Call)
+                    and isinstance(_arg.func, (ast.Name, ast.Attribute))
+                    and not _arg.args
+                    and not _arg.keywords
+                )
+
+            _kill = {}  # start_lineno -> (end_lineno, indent)
+            for _node in ast.walk(_tree):
+                if not (isinstance(_node, ast.Call)
+                        and isinstance(_node.func, ast.Attribute)
+                        and _node.func.attr == 'play'):
+                    continue
+                # 致命：完全沒有 positional 動畫，或唯一 positional 是空容器
+                _empty = (not _node.args) or (
+                    len(_node.args) == 1 and _is_empty_container(_node.args[0])
+                )
+                if _empty:
+                    _start = getattr(_node, 'lineno', None)
+                    _end = getattr(_node, 'end_lineno', _start)
+                    if _start:
+                        _kill[_start] = _end
+
+            if _kill:
+                _src_lines = patched.splitlines(keepends=True)
+                # 由後往前替換，避免行號位移
+                for _start in sorted(_kill, reverse=True):
+                    _end = _kill[_start]
+                    _orig = _src_lines[_start - 1]
+                    _indent = _orig[:len(_orig) - len(_orig.lstrip())]
+                    # 整個 call（可能跨行）替換成單行 wait；多餘的後續行清空
+                    _src_lines[_start - 1] = f"{_indent}self.wait(0.5)  # [Final Guard: removed empty self.play()]\n"
+                    for _li in range(_start, _end):  # _start..(_end-1) 對應 index，刪掉 call 殘行
+                        if _li < len(_src_lines):
+                            _src_lines[_li] = ""
+                patched = "".join(_src_lines)
+                print(f"🛡️ [Final Guard] 清除 {len(_kill)} 個致命空動畫 self.play() → self.wait(0.5)")
+        except SyntaxError:
+            pass  # 代碼本身語法錯，交給後續 render/linter 報；終驗只在語法 OK 時介入
 
         return patched
 
@@ -913,6 +1143,7 @@ class RefiningLoop:
             
             is_linter_only_failure = False  # Track if this iteration was linter-only (cheap)
             patch_mode = False  # [Bug 1 Fix] Initialize at top of every iteration to prevent UnboundLocalError
+            _dedup_force_rewrite = False  # [Dedup Escalation] Set when repeated-error forces a full rewrite
 
             with open(file_path, "r", encoding="utf-8") as f:
                 current_code = f.read()
@@ -1211,7 +1442,10 @@ Fix this immediately.
                         print(f"🖼️  [Multi-Frame] Using 4-frame grid for Vision Audit ({ts_str})")
                     else:
                         frame_path = "temp_last_frame.jpg"
-                        subprocess.run(["ffmpeg", "-sseof", "-1", "-i", video_source, "-vframes", "1", "-update", "1", frame_path, "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                        try:
+                            subprocess.run(["ffmpeg", "-sseof", "-1", "-i", video_source, "-vframes", "1", "-update", "1", frame_path, "-y"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=15)
+                        except subprocess.TimeoutExpired:
+                            print("⚠️ [Fallback] last-frame extraction timed out (15s)")
                         print("🖼️  [Fallback] Using single last frame for Vision Audit")
                     
                     # ── [Layout Gate] Deterministic layout audit BEFORE Vision LLM call ──
@@ -1959,10 +2193,46 @@ Then provide the corrected code.
                                              "Switch to an entirely different approach.",
                             }
                             reflection_memory.append(_redirect)
-                            print(f"⚡ [Reflection Dedup] 相同簽名已存在，注入 REPEATED redirect 強制換方向")
+                            # [Dedup Escalation] Same signature repeating means the current strategy
+                            # is broken. If we were doing surgical SEARCH/REPLACE, the local patch keeps
+                            # re-applying the same bad edit (HSAT_114_16/114_5 deadlock). Discard this
+                            # iteration's diff output and regenerate from scratch in Full Rewrite mode.
+                            if patch_mode:
+                                patch_mode = False
+                                _dedup_force_rewrite = True
+                                print("⚡ [Reflection Dedup] 相同簽名重複 → 放棄 SEARCH/REPLACE，重生 Full Rewrite prompt")
+                            else:
+                                print(f"⚡ [Reflection Dedup] 相同簽名已存在，注入 REPEATED redirect 強制換方向")
                     elif raw_response and "<reflection>" not in raw_response:
                         reflection_memory.append(f"[Failed to parse JSON reflection] {raw_response[:200]}")
                     
+                    if _dedup_force_rewrite:
+                        # Dedup escalation: this iteration's output was a surgical diff built from the
+                        # broken strategy. Discard it and rebuild a full-rewrite prompt for next iter.
+                        patch_error_stripped = re.sub(
+                            re.compile(r"```(?:python)?\n(.*?)```", re.DOTALL), "", last_error_message
+                        )
+                        _triage_stripped = diagnoser.diagnose_only(patch_error_stripped)
+                        _code_for_llm = RefiningLoop.strip_injected_snippets(current_code)
+                        base_fix = diagnoser.generate_fix_prompt(patch_error_stripped, _code_for_llm, script_json, triage_result=_triage_stripped, slim=(i > 0))
+                        feedback_for_llm = f"""
+{base_fix}
+
+{RefiningLoop._format_reflection_memory(reflection_memory)}
+
+**CRITICAL**: You have repeated the SAME error multiple times. The surgical-patch approach is broken.
+Rewrite the ENTIRE scene from scratch with a fundamentally different implementation. Pay special
+attention to any LaTeX/MathTex strings — rebuild them completely, do not reuse the broken ones.
+
+**BEFORE writing code**, first analyze this failure in a <reflection> block:
+<reflection>
+{_REFLEXION_JSON_SCHEMA}
+</reflection>
+
+Then provide the corrected code.
+"""
+                        continue
+
                     if new_code and len(new_code.strip()) > 0:
                         if patch_mode:
                             print("🩹 [Patching] Applying unified diff patch...")

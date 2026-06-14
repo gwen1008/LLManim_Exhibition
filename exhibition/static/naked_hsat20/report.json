@@ -1,0 +1,202 @@
+[
+  {
+    "id": "HSAT_109_C",
+    "knowledge_point": "直線與線段相交範圍",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 27.2,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 直 (U+76F4)"
+  },
+  {
+    "id": "HSAT_112_15",
+    "knowledge_point": "向量分點與垂直條件",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 22.8,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 向 (U+5411)"
+  },
+  {
+    "id": "HSAT_113_1",
+    "knowledge_point": "指數衰退與半衰期",
+    "difficulty": 3,
+    "render": "OK",
+    "time_sec": 19.2,
+    "exit_code": 0,
+    "video_path": null,
+    "error": ""
+  },
+  {
+    "id": "HSAT_113_15",
+    "knowledge_point": "條件期望值（摸彩不放回）",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 20.5,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 摸 (U+6478)"
+  },
+  {
+    "id": "HSAT_113_16",
+    "knowledge_point": "向量投影",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 26.3,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 夾 (U+593E)"
+  },
+  {
+    "id": "HSAT_113_17",
+    "knowledge_point": "平面區域與距離條件",
+    "difficulty": 5,
+    "render": "FAIL",
+    "time_sec": 40.2,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "UnicodeDecodeError: 'utf-8' codec can't decode bytes in position 550-551:"
+  },
+  {
+    "id": "HSAT_113_3",
+    "knowledge_point": "三次多項式根與等差數列",
+    "difficulty": 5,
+    "render": "FAIL",
+    "time_sec": 20.4,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "UnicodeDecodeError: 'utf-8' codec can't decode bytes in position 550-551:"
+  },
+  {
+    "id": "HSAT_113_4",
+    "knowledge_point": "三角函數方程",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 18.9,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 求 (U+6C42)"
+  },
+  {
+    "id": "HSAT_114_13",
+    "knowledge_point": "多項式除法與對稱中心",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 24.6,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 對 (U+5C0D)"
+  },
+  {
+    "id": "HSAT_114_15",
+    "knowledge_point": "條件期望值",
+    "difficulty": 5,
+    "render": "FAIL",
+    "time_sec": 22.7,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 玩 (U+73A9)"
+  },
+  {
+    "id": "HSAT_114_16",
+    "knowledge_point": "圓與直線弦長",
+    "difficulty": 5,
+    "render": "OK",
+    "time_sec": 50.9,
+    "exit_code": 0,
+    "video_path": null,
+    "error": ""
+  },
+  {
+    "id": "HSAT_114_2",
+    "knowledge_point": "直線方程與三角形面積",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 20.5,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 求 (U+6C42)"
+  },
+  {
+    "id": "HSAT_114_5",
+    "knowledge_point": "三角函數不等式",
+    "difficulty": 5,
+    "render": "FAIL",
+    "time_sec": 23.4,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 求 (U+6C42)"
+  },
+  {
+    "id": "HSAT_115_1",
+    "knowledge_point": "機率與期望值",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 20.5,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 吉 (U+5409)"
+  },
+  {
+    "id": "HSAT_115_14",
+    "knowledge_point": "向量垂直與最大值",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 15.8,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 向 (U+5411)"
+  },
+  {
+    "id": "HSAT_115_15",
+    "knowledge_point": "等差數列、對數與共線",
+    "difficulty": 5,
+    "render": "FAIL",
+    "time_sec": 21.2,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 等 (U+7B49)"
+  },
+  {
+    "id": "HSAT_115_16",
+    "knowledge_point": "二次函數平移與兩點距離",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 27.1,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "SyntaxError: invalid syntax"
+  },
+  {
+    "id": "HSAT_115_17",
+    "knowledge_point": "直角三角形角度與向量分點",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 58.1,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "ValueError: latex error converting to dvi. See log output above or the log file:"
+  },
+  {
+    "id": "HSAT_115_3",
+    "knowledge_point": "指數函數與數列",
+    "difficulty": 4,
+    "render": "FAIL",
+    "time_sec": 19.9,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 等 (U+7B49)"
+  },
+  {
+    "id": "HSAT_115_6",
+    "knowledge_point": "坐標平面與等腰三角形",
+    "difficulty": 5,
+    "render": "FAIL",
+    "time_sec": 32.5,
+    "exit_code": 1,
+    "video_path": null,
+    "error": "! LaTeX Error: Unicode character 直 (U+76F4)"
+  }
+]

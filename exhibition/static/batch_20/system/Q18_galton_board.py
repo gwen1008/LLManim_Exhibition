@@ -1,85 +1,45 @@
 from manim import *
+import numpy as np
 
 # [VISUAL REASONING]
-# A concrete Galton board visualization shows how independent random left/right
-# deflections aggregate into a binomial distribution that approximates the normal curve,
-# making the Central Limit Theorem tangible.
+# 1. Goal: Show how a Galton board turns independent random left/right choices into a bell curve (CLT).
+# 2. Layout: Title in header, triangular pin grid in upper content (y +0.2..+2.0),
+#    histogram axes + normal curve in lower content (y -2.0..0), rotating caption in footer (y ~ -2.3).
+# 3. Flow: Build board -> one demo ball random walk -> 50 balls lumpy histogram ->
+#    500 balls smooth bars -> overlay normal pdf confirming convergence.
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
 
     def __init__(self, scene, font_size=28):
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
-        sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
-        if len(parts) % 2 == 1 and parts[-1].strip():
-            sentences.append(parts[-1].strip())
-
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
-        if not sentences:
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
             return
-
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
-
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
-
-        for idx, s in enumerate(sentences):
-
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
-
-            is_last = (idx == n - 1)
-
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
-
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
         if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
             self._current = None
 
 
@@ -153,91 +113,184 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1779989093/media/audio/Simulating_a_normal__957e01c20f/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 6.38  # [audio-sync]
+        registry = {}
+
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1781379742/media/audio/Simulate_a_normal_di_5bd79536dd/step_00_f7afa498.mp3")  # [auto-injected]
+        _audio_dur_0 = 6.05  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 3.500)
-        title = Text("高爾頓板：常態分布的湧現", color=WHITE, font_size=34)
-        title.move_to(ORIGIN + np.array([0, 3.0, 0]))
+        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 4.300))
+        title = Text("Galton Board: From Randomness to the Bell Curve", color=WHITE, font_size=34)
+        title.to_edge(UP)
+        registry["title"] = title
 
-        pegs = VGroup()
-        for row in range(5):
-            for i in range(row + 1):
-                peg = Dot(point=[i - row / 2.0, 1.8 - 0.5 * row, 0], color=GREY, radius=0.06)
-                pegs.add(peg)
-        pegs.move_to(ORIGIN + np.array([0, 0.8, 0]))
+        apex = np.array([0.0, 2.0 + 0.6, 0.0])
+        h_spacing = 0.45
+        v_spacing = 0.2
+        pin_grid = VGroup()
+        for i in range(10):
+            row = VGroup()
+            for j in range(i + 1):
+                x = apex[0] + (j - i / 2.0) * h_spacing
+                y = apex[1] - i * v_spacing
+                row.add(Dot(point=[x, y, 0], color=GREY_B, radius=0.04))
+            pin_grid.add(row)
+        registry["pin_grid"] = pin_grid
 
-        ball = Dot(point=[0, 2.2, 0], color=YELLOW, radius=0.12)
-
-        bin0 = Rectangle(width=0.55, height=0.1, color=BLUE, fill_opacity=0.7).move_to([-2.4, -1.95, 0])
-        bin1 = Rectangle(width=0.55, height=0.5, color=BLUE, fill_opacity=0.7).move_to([-1.4, -1.75, 0])
-        bin2 = Rectangle(width=0.55, height=1.0, color=BLUE, fill_opacity=0.7).move_to([-0.45, -1.5, 0])
-        bin3 = Rectangle(width=0.55, height=1.0, color=BLUE, fill_opacity=0.7).move_to([0.45, -1.5, 0])
-        bin4 = Rectangle(width=0.55, height=0.5, color=BLUE, fill_opacity=0.7).move_to([1.4, -1.75, 0])
-        bin5 = Rectangle(width=0.55, height=0.1, color=BLUE, fill_opacity=0.7).move_to([2.4, -1.95, 0])
-        bins_group = VGroup(bin0, bin1, bin2, bin3, bin4, bin5)
-
-        bell_curve = FunctionGraph(
-            lambda x: 1.05 * np.exp(-0.5 * (x / 0.95) ** 2) - 2.0,
-            x_range=[-3.0, 3.0],
-            color=RED,
+        funnel = Polygon(
+            [-0.4, 2.25 + 0.6, 0],
+            [0.4, 2.25 + 0.6, 0],
+            [0, 2.05 + 0.6, 0],
+            color=GREY, fill_opacity=0.4
         )
+        registry["funnel"] = funnel
 
-        self.set_subtitle("高爾頓板有多排釘子，能讓每顆下落的球以等機率向左或向右偏移。", run_time=_audio_dur_0)
-        anim_time_1 = 3.500 * _scale_1
-        self.play(Write(title), run_time=1.5)
-        self.play(Create(pegs), run_time=2.0)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        self.play(Write(title), run_time=(1.2)*_scale_1)
+        self.play(Create(funnel), run_time=(0.6)*_scale_1)
+        self.play(LaggedStart(*[Create(row) for row in pin_grid], lag_ratio=0.12, run_time=(2.5)*_scale_1))
+        self.set_subtitle("這是一個高爾頓板：球從頂端進入，穿過十排釘子。", run_time=_audio_dur_0)
+        anim_time_1 = 4.300 * _scale_1
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - anim_time_1 + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1779989093/media/audio/Simulating_a_normal__957e01c20f/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 6.65  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1781379742/media/audio/Simulate_a_normal_di_5bd79536dd/step_01_1b4e31cb.mp3")  # [auto-injected]
+        _audio_dur_1 = 8.11  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 4.000)
-        self.set_subtitle("觀察一顆球：每根釘子隨機把它推向旁邊，產生無法預測的路徑。", run_time=_audio_dur_1)
-        self.play(FadeIn(ball), run_time=(0.5)*_scale_2)
-        self.play(Indicate(ball, color=YELLOW), run_time=(0.5)*_scale_2)
-        anim_time_2 = 4.000 * _scale_2
-        deflections = [0.5, -0.5, 0.5, 0.5, -0.5]
-        for dx in deflections:
-            self.play(ball.animate.shift(np.array([dx, -0.5, 0])), run_time=0.6)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
+        _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 3.600))
+        ball_start = funnel.get_center() + np.array([0, 0.1, 0])
+        ball_demo = Dot(point=ball_start, color=YELLOW, radius=0.08)
+        registry["ball_demo"] = ball_demo
+
+        np.random.seed(7)
+        path_points = [ball_start.copy()]
+        cur = ball_start.copy()
+        net = 0
+        for i in range(10):
+            step = 0.225 if np.random.random() < 0.5 else -0.225
+            net += (1 if step > 0 else -1)
+            cur = cur + np.array([step, -v_spacing, 0])
+            path_points.append(cur.copy())
+        # land slightly above histogram zone
+        landing = np.array([net * 0.105, -0.2, 0])
+        path_points.append(landing)
+
+        demo_path = VMobject()
+        demo_path.set_points_as_corners(path_points)
+
+        self.add(ball_demo)
+        self.play(Indicate(ball_demo, color=YELLOW), run_time=(0.6)*_scale_2)
+        self.set_subtitle("每碰到一根釘子，球以相等機率向左或向右，所以最終落點是十次硬幣的總和。", run_time=_audio_dur_1)
+        self.play(MoveAlongPath(ball_demo, demo_path), run_time=(3.0)*_scale_2, rate_func=linear)
+        anim_time_2 = 3.600 * _scale_2
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - anim_time_2 + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1779989093/media/audio/Simulating_a_normal__957e01c20f/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 6.38  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1781379742/media/audio/Simulate_a_normal_di_5bd79536dd/step_02_0c00e170.mp3")  # [auto-injected]
+        _audio_dur_2 = 6.62  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 3.000)
-        self.set_subtitle("丟下成千上萬顆球後，每個格子被填滿的比例反映了抵達該格的路徑數量。", run_time=_audio_dur_2)
-        anim_time_3 = 3.000 * _scale_3
-        self.play(FadeOut(ball), run_time=0.5)
+        _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 5.400))
+        self.play(FadeOut(ball_demo), run_time=(0.4)*_scale_3)
+
+        hist_axes = Axes(
+            x_range=[-5, 5, 1],
+            y_range=[0, 5, 1],
+            x_length=5.0,
+            y_length=1.8,
+            axis_config={"color": GREY, "include_tip": False},
+        )
+        hist_axes.move_to(np.array([0, -1.0, 0]))
+        registry["hist_axes"] = hist_axes
+
+        bin_centers = np.arange(-5, 6, 1)
+        bar_width = 0.42
+
+        from math import comb
+        probs = np.array([comb(10, k) * (0.5 ** 10) for k in range(11)])
+
+        counts_50 = probs * 50.0
+        max_y = 5.0
+
+        def make_histogram(counts, color, opacity):
+            bars = VGroup()
+            for idx, c in enumerate(counts):
+                height_val = min(c, max_y)
+                base = hist_axes.c2p(bin_centers[idx], 0)
+                top = hist_axes.c2p(bin_centers[idx], height_val)
+                pixel_h = max(0.001, top[1] - base[1])
+                bar = Rectangle(
+                    width=bar_width,
+                    height=pixel_h,
+                    color=color,
+                    fill_opacity=opacity,
+                    stroke_width=1,
+                )
+                bar.move_to([base[0], base[1] + pixel_h / 2.0, 0])
+                bars.add(bar)
+            return bars
+
+        zero_hist = VGroup()
+        for idx in range(11):
+            base = hist_axes.c2p(bin_centers[idx], 0)
+            bar = Rectangle(width=bar_width, height=0.001, color=BLUE, fill_opacity=0.8, stroke_width=1)
+            bar.move_to([base[0], base[1], 0])
+            zero_hist.add(bar)
+
+        histogram = make_histogram(counts_50, BLUE, 0.8)
+        registry["histogram"] = histogram
+
+        self.play(Create(hist_axes), run_time=(1.0)*_scale_3)
+        self.add(zero_hist)
+        self.set_subtitle("現在丟下五十顆球，落點計數堆成一個不平整、參差不齊的直方圖。", run_time=_audio_dur_2)
         self.play(
             LaggedStart(
-                *[GrowFromEdge(b, DOWN) for b in [bin0, bin1, bin2, bin3, bin4, bin5]],
-                lag_ratio=0.15,
+                *[ReplacementTransform(zero_hist[i], histogram[i]) for i in range(11)],
+                lag_ratio=0.08,
             ),
-            run_time=2.5,
+            run_time=(4.0)*_scale_3,
         )
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
+        anim_time_3 = 5.400 * _scale_3
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - anim_time_3 + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1779989093/media/audio/Simulating_a_normal__957e01c20f/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 8.30  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1781379742/media/audio/Simulate_a_normal_di_5bd79536dd/step_03_20be5294.mp3")  # [auto-injected]
+        _audio_dur_3 = 5.45  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 3.000)
-        self.set_subtitle("長條的高度依照二項係數 1、5、10、10、5、1 分布，在中央達到最高峰。", run_time=_audio_dur_3)
-        anim_time_4 = 3.000 * _scale_4
-        self.play(Circumscribe(bin2, color=YELLOW), run_time=1.0)
-        self.play(Indicate(bin3), run_time=2.0)
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
+        _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 4.500))
+        counts_500 = probs * 500.0
+        histogram_500 = make_histogram(counts_500, BLUE, 0.8)
+        registry["histogram_500"] = histogram_500
+
+        self.set_subtitle("丟下五百顆球後，柱子變得平滑，緊貼出一條乾淨的鐘形曲線。", run_time=_audio_dur_3)
+        self.play(
+            ReplacementTransform(histogram, histogram_500),
+            run_time=(3.5)*_scale_4,
+        )
+        self.play(Circumscribe(histogram_500, color=YELLOW), run_time=(1.0)*_scale_4)
+        anim_time_4 = 4.500 * _scale_4
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - anim_time_4 + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1779989093/media/audio/Simulating_a_normal__957e01c20f/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 6.74  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q18_galton_board_1781379742/media/audio/Simulate_a_normal_di_5bd79536dd/step_04_ce7625c8.mp3")  # [auto-injected]
+        _audio_dur_4 = 8.42  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.500)
-        self.set_subtitle("當排數變得很大時，直方圖會收斂到平滑的鐘形常態分布曲線。", run_time=_audio_dur_4)
-        anim_time_5 = 2.500 * _scale_5
-        self.play(Create(bell_curve), run_time=2.5)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
+        _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 4.100))
+        mu = 0.0
+        sigma = 1.58
+        peak = min(max(counts_500), max_y)
+        normal_curve = hist_axes.plot(
+            lambda x: peak * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2)),
+            x_range=[-5, 5],
+            color=RED,
+        )
+        registry["bell_curve"] = normal_curve
+
+        caption = Text("More balls -> closer to the normal curve.", color=WHITE, font_size=26)
+        caption.move_to(np.array([0, -2.3, 0]))
+        registry["caption"] = caption
+
+        self.set_subtitle("疊上常態曲線後得到證實：隨著球數增加，直方圖收斂到鐘形分佈。", run_time=_audio_dur_4)
+        self.play(Create(normal_curve), run_time=(3.0)*_scale_5)
+        self.play(Indicate(normal_curve, color=RED), run_time=(0.6)*_scale_5)
+        self.play(FadeIn(caption), run_time=(0.5)*_scale_5)
+        anim_time_5 = 4.100 * _scale_5
+        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - anim_time_5 + 0.1))
         self.wait(remaining_5)

@@ -1,0 +1,202 @@
+[
+  {
+    "id": "MEX_110_10",
+    "topic": "將一半徑為 $6$ 的圓形紙片，沿著兩條半徑剪開形成兩個扇形。若其中一個扇形的弧長為 $5\\pi$，則另一個扇形的圓心角度數是多少？(A) 30 (B) 60 (C) 105 (D) 210",
+    "category": "Junior",
+    "knowledge_point": "扇形弧長與圓心角",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "MEX_110_12",
+    "topic": "美美和小儀到超市購物，且超市正在舉辦摸彩活動，單次消費金額每滿 $100$ 元可以拿到 $1$ 張摸彩券。已知美美一次購買 $5$ 盒餅乾拿到 $3$ 張摸彩券；小儀一次購買 $5$ 盒餅乾與 $1$ 個蛋糕拿到 $4$ 張摸彩券。若每盒餅乾的售價為 $x$ 元，每個蛋糕的售價為 $150$ 元，則 $x$ 的範圍為下列何者？(A) $50 \\leq x < 60$ (B) $60 \\leq x < 70$ (C) $70 \\leq x < 80$ (D) $80 \\leq x < 90$",
+    "category": "Junior",
+    "knowledge_point": "不等式應用（消費金額範圍）",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "2"
+  },
+  {
+    "id": "MEX_111_22",
+    "topic": "已知坐標平面上有二次函數 $y = -(x+6)^2 + 5$ 的圖形，函數圖形與 $x$ 軸相交於 $(a, 0)$、$(b, 0)$ 兩點，其中 $a < b$。今將此函數圖形往上平移，平移後函數圖形與 $x$ 軸相交於 $(c, 0)$、$(d, 0)$ 兩點，其中 $c < d$，判斷下列敘述何者正確？(A) $(a+b) = (c+d)$，$(b-a) < (d-c)$ (B) $(a+b) = (c+d)$，$(b-a) > (d-c)$ (C) $(a+b) < (c+d)$，$(b-a) < (d-c)$ (D) $(a+b) < (c+d)$，$(b-a) > (d-c)$",
+    "category": "Junior",
+    "knowledge_point": "二次函數平移與 x 軸交點",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "4"
+  },
+  {
+    "id": "MEX_111_6",
+    "topic": "$\\sqrt{2022}$ 的值介於下列哪兩個數之間？(A) 25, 30 (B) 30, 35 (C) 35, 40 (D) 40, 45",
+    "category": "Junior",
+    "knowledge_point": "平方根估算",
+    "question_type": "填空題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "MEX_111_7",
+    "topic": "已知坐標平面上有一直線 $L$ 與一點 $A$。若 $L$ 的方程式為 $x = -2$，$A$ 點坐標為 $(6, 5)$，則 $A$ 點到直線 $L$ 的距離為何？(A) 3 (B) 4 (C) 7 (D) 8",
+    "category": "Junior",
+    "knowledge_point": "點到鉛垂線距離",
+    "question_type": "填空題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "4"
+  },
+  {
+    "id": "MEX_111_9",
+    "topic": "箱子內有分別標示號碼 $1 \\sim 6$ 的球，每個號碼各 $2$ 顆，總共 $12$ 顆。已知小茹先從箱內抽出 $5$ 顆球且不將球放回箱內，這 $5$ 顆球的號碼分別是 $1, 2, 2, 3, 5$。今阿純打算從此箱內剩下的球中抽出 $1$ 顆球，若箱內剩下的每顆球被他抽出的機會相等，則他抽出的球的號碼，與小茹已抽出的 $5$ 顆球中任意一顆球的號碼相同的機率是多少？(A) 3/6 (B) 4/6 (C) 3/7 (D) 4/7",
+    "category": "Junior",
+    "knowledge_point": "古典機率（不放回抽球）",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "MEX_112_15",
+    "topic": "若想在等差數列 $1, 2, 3, 4, 5$ 中插入一些數，使得新的數列也是等差數列，且新數列首項仍是 $1$、末項仍是 $5$，則新數列的項數可能為下列何者？(A) 11 (B) 15 (C) 30 (D) 33",
+    "category": "Junior",
+    "knowledge_point": "等差數列插入項",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "3"
+  },
+  {
+    "id": "MEX_112_16",
+    "topic": "已知某速食店販售的套餐內容為一片雞排和一杯可樂，且一份套餐的價錢比單點一片雞排再單點一杯可樂的總價錢便宜 $40$ 元。阿俊打算到該速食店買兩份套餐，若他發現店內有單點一片雞排就再送一片雞排的促銷活動，且單點一片雞排再單點兩杯可樂的總價錢，比兩份套餐的總價錢便宜 $10$ 元，則根據題意可得到下列哪一個結論？(A) 一份套餐的價錢必為 $140$ 元 (B) 一份套餐的價錢必為 $120$ 元 (C) 單點一片雞排的價錢必為 $90$ 元 (D) 單點一片雞排的價錢必為 $70$ 元",
+    "category": "Junior",
+    "knowledge_point": "二元一次方程組（套餐應用）",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "MEX_112_3",
+    "topic": "坐標平面上，一次函數 $y = -2x - 6$ 的圖形通過下列哪一個點？(A) $(-4, 1)$ (B) $(-4, 2)$ (C) $(-4, -1)$ (D) $(-4, -2)$",
+    "category": "Junior",
+    "knowledge_point": "一次函數圖形通過點",
+    "question_type": "填空題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "3"
+  },
+  {
+    "id": "MEX_112_4",
+    "topic": "已知 $a = -1$、$b = -1\\frac{3}{4}$、$c = -1\\frac{5}{8}$，下列關於 $a, b, c$ 三數的大小關係，何者正確？(A) $a > c > b$ (B) $a > b > c$ (C) $b > c > a$ (D) $c > b > a$",
+    "category": "Junior",
+    "knowledge_point": "負分數大小比較",
+    "question_type": "填空題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "2"
+  },
+  {
+    "id": "MEX_113_12",
+    "topic": "甲、乙兩個二次函數分別為 $y = (x+20)^2 + 60$、$y = -(x-30)^2 + 60$，判斷下列敘述何者正確？(A) 甲有最大值，且其值為 $x=20$ 時的 $y$ 值 (B) 甲有最小值，且其值為 $x=20$ 時的 $y$ 值 (C) 乙有最大值，且其值為 $x=30$ 時的 $y$ 值 (D) 乙有最小值，且其值為 $x=30$ 時的 $y$ 值",
+    "category": "Junior",
+    "knowledge_point": "二次函數最大值與最小值",
+    "question_type": "填空題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "3"
+  },
+  {
+    "id": "MEX_113_16",
+    "topic": "有研究報告指出，$1880$ 年至 $2020$ 年全球平均氣溫上升趨勢約為每十年上升 $0.08°C$。已知 $2020$ 年全球平均氣溫為 $14.88°C$，假設未來的全球平均氣溫上升趨勢與上述趨勢相同，且每年上升的度數相同，則預估 $2020$ 年之後第 $x$ 年的全球平均氣溫為多少 $°C$？（以 $x$ 表示）(A) $14.88 + 0.08x$ (B) $14.88 + 0.008x$ (C) $14.88 + 0.08[x+(2020-1880)]$ (D) $14.88 + 0.008[x+(2020-1880)]$",
+    "category": "Junior",
+    "knowledge_point": "一次函數線性增長",
+    "question_type": "填空題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "MEX_113_17",
+    "topic": "$\\triangle ABC$ 中，$\\angle B = 55°$，$\\angle C = 65°$。今分別以 $B, C$ 為圓心，$\\overline{BC}$ 長為半徑畫圓 $B$、圓 $C$，關於 $A$ 點位置，下列敘述何者正確？(A) 在圓 $B$ 外部，在圓 $C$ 內部 (B) 在圓 $B$ 外部，在圓 $C$ 外部 (C) 在圓 $B$ 內部，在圓 $C$ 內部 (D) 在圓 $B$ 內部，在圓 $C$ 外部",
+    "category": "Junior",
+    "knowledge_point": "三角形與圓的內外位置",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "2"
+  },
+  {
+    "id": "MEX_113_6",
+    "topic": "箱內有 $50$ 顆白球和 $10$ 顆紅球，小慧打算從箱內抽球 $31$ 次，每次從箱內抽出一球，如果抽出白球則將白球放回箱內，如果抽出紅球則不將紅球放回箱內。已知小慧在前 $30$ 次抽球中共抽出紅球 $4$ 次，若她第 $31$ 次抽球時箱內的每顆球被抽出的機會相等，則這次她抽出紅球的機率為何？(A) 1/5 (B) 1/6 (C) 5/12 (D) 3/28",
+    "category": "Junior",
+    "knowledge_point": "條件機率（不放回抽球）",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "3"
+  },
+  {
+    "id": "MEX_114_21",
+    "topic": "坐標平面上有二次函數 $y = -(x+7)^2 + 12$ 的圖形，今將此圖形向右平移 $10$ 單位，平移過程中此圖形與 $y$ 軸的交點也會跟著變化。假設此圖形與 $y$ 軸的交點為 $P$，判斷在平移過程中，$P$ 點位置的變化情形為下列何者？(A) 持續向下 (B) 持續向上 (C) 先向下再向上 (D) 先向上再向下",
+    "category": "Junior",
+    "knowledge_point": "二次函數平移與 y 軸交點",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "3"
+  },
+  {
+    "id": "MEX_NEW_01",
+    "topic": "一個直角三角形兩股長分別為 6 公分和 8 公分，求斜邊長。用動畫逐步展示：標示兩股、套入畢氏定理 $6^2 + 8^2 = c^2$、計算 $36 + 64 = 100$、得 $c = 10$。",
+    "category": "Junior",
+    "knowledge_point": "畢氏定理應用（求斜邊）",
+    "question_type": "概念題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "4"
+  },
+  {
+    "id": "MEX_NEW_02",
+    "topic": "用指數遞減規律動畫說明 $2^0 = 1$ 與 $2^{-1} = \\frac{1}{2}$：從 $2^3=8$、$2^2=4$、$2^1=2$ 逐步除以 2，推導出 $2^0=1$，再繼續除以 2 得 $2^{-1}=\\frac{1}{2}$。",
+    "category": "Junior",
+    "knowledge_point": "整數指數律（負指數與零指數）",
+    "question_type": "概念題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "MEX_NEW_03",
+    "topic": "動畫展示兩個三角形 $\\triangle ABC$ 與 $\\triangle DEF$，其中 $\\angle A = \\angle D$、$\\angle B = \\angle E$，說明兩角相等即 AA 相似。標示對應邊比例：若 $AB=4$、$DE=6$、$BC=5$，求 $EF$。逐步列出比例式 $\\frac{AB}{DE} = \\frac{BC}{EF}$，解得 $EF = 7.5$。",
+    "category": "Junior",
+    "knowledge_point": "相似三角形（AA 相似）",
+    "question_type": "概念題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "4"
+  },
+  {
+    "id": "MEX_NEW_04",
+    "topic": "給定 7 個數據：3、7、5、7、2、8、7。動畫逐步計算：（1）平均數 = 總和 ÷ 個數 = 39 ÷ 7 ≈ 5.57；（2）排序後中位數為第 4 個數 = 7；（3）出現最多次的眾數 = 7。",
+    "category": "Junior",
+    "knowledge_point": "統計量（平均數、中位數、眾數）",
+    "question_type": "應用題",
+    "difficulty": 2,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "MEX_NEW_05",
+    "topic": "用動畫逐步解 $x^2 - 5x + 6 = 0$：（1）因式分解為 $(x-2)(x-3) = 0$；（2）依零積定理分別令每個因式為零；（3）得 $x=2$ 或 $x=3$。每步高亮顯示當前操作的因式。",
+    "category": "Junior",
+    "knowledge_point": "一元二次方程式（因式分解法）",
+    "question_type": "概念題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  }
+]

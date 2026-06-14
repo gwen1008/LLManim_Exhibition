@@ -4,6 +4,10 @@ export interface ArmMetrics {
   code_lines: number | null;
   gen_time_sec: number | null;
   notes?: string;
+  // Opus 裸跑：餵錯誤重試到第幾次成功
+  attempts?: number;
+  // 本系統：RefiningLoop 迭代次數（0 = 一次到位）
+  iterations?: number;
 }
 
 export interface GalleryItem {
@@ -11,9 +15,11 @@ export interface GalleryItem {
   topic: string;
   topic_en: string;
   topic_prompt?: string;
-  opus_video_url: string;
+  // showcase_only 為 true 時：純系統展示（無 Opus 對比），前端只渲染系統單欄
+  showcase_only?: boolean;
+  opus_video_url?: string;
   system_video_url: string;
-  opus_metrics: ArmMetrics;
+  opus_metrics?: ArmMetrics;
   system_metrics: ArmMetrics;
 }
 

@@ -1,0 +1,202 @@
+[
+  {
+    "id": "HSAT_109_C",
+    "topic": "設 $S$ 為坐標平面上直線 $2x+y=10$ 被平行線 $x-2y+15=0$ 與 $x-2y=0$ 所截的線段（含端點）。若直線 $3x-y=c$ 與 $S$ 有交點，則 $c$ 的最小值為多少？",
+    "category": "High",
+    "knowledge_point": "直線與線段相交範圍",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  },
+  {
+    "id": "HSAT_112_15",
+    "topic": "設 $O, A, B$ 為坐標平面上不共線三點，其中向量 $\\overrightarrow{OA}$ 垂直 $\\overrightarrow{OB}$。若 $C, D$ 兩點在直線 $AB$ 上，滿足 $\\overrightarrow{OC} = \\frac{3}{5}\\overrightarrow{OA} + \\frac{2}{5}\\overrightarrow{OB}$、$3\\overrightarrow{AD} = 8\\overrightarrow{BD}$，且 $\\overrightarrow{OC}$ 垂直 $\\overrightarrow{OD}$，則 $\\frac{\\overline{OB}}{\\overline{OA}}$ 等於多少？（化為最簡分數）",
+    "category": "High",
+    "knowledge_point": "向量分點與垂直條件",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Success",
+    "prev_fj_math": "2"
+  },
+  {
+    "id": "HSAT_113_1",
+    "topic": "研究顯示：服用某藥物後，在使用者體內的藥物殘留量隨時間呈指數型衰退。已知在服用某藥物 $2$ 小時後，體內仍殘留有該藥物的一半劑量。試問服用 $4$ 小時後，體內仍殘留該藥物的多少劑量？（化為最簡分數）",
+    "category": "High",
+    "knowledge_point": "指數衰退與半衰期",
+    "question_type": "填空題",
+    "difficulty": 3,
+    "prev_system_status": "Success",
+    "prev_fj_math": "5"
+  },
+  {
+    "id": "HSAT_113_15",
+    "topic": "某商場舉辦現場報名的摸彩箱抽獎活動，報名截止後，主持人依報名人數置入同數量的摸彩球，其中有 $10$ 顆被標示為幸運獎，其獎項為 $5000$ 元禮券及 $8000$ 元禮券各 $5$ 顆，每顆球被抽中的機率皆相同，抽後不放回。抽獎前，主辦單位依獎項個數與報名人數，主持人公告中獎機率為 $0.4\\%$。開始抽獎後，每人依序抽球，每個人只有一次抽獎機會。若前 $100$ 位參加抽獎者，恰有 $1$ 人抽中 $5000$ 元禮券且沒有人抽中 $8000$ 元禮券，則抽獎順序為第 $101$ 號者可獲禮券金額的期望值為多少元？",
+    "category": "High",
+    "knowledge_point": "條件期望值（摸彩不放回）",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  },
+  {
+    "id": "HSAT_113_16",
+    "topic": "坐標平面上，已知向量 $\\vec{v}$ 在向量 $(2,-3)$ 方向的正射影長比原長少 $1$，而在向量 $(3,2)$ 方向的正射影長比原長少 $2$。若 $\\vec{v}$ 與兩向量 $(2,-3), (3,2)$ 的夾角皆為銳角，則 $\\vec{v}$ 在向量 $(4,7)$ 方向的正射影長為多少？（化為最簡根式）",
+    "category": "High",
+    "knowledge_point": "向量投影",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  },
+  {
+    "id": "HSAT_113_17",
+    "topic": "坐標平面上，在以 $O(0,0), A(0,1), B(1,1), C(1,0)$ 為頂點的正方形（含邊界）內，令 $R$ 為滿足下述條件的點 $P(x,y)$ 所成區域：與點 $P(x,y)$ 的距離為 $|x-y|$ 的所有點所成圖形完全落在正方形 $OABC$（含邊界）內。則區域 $R$ 的面積為多少？（化為最簡分數）",
+    "category": "High",
+    "knowledge_point": "平面區域與距離條件",
+    "question_type": "填空題",
+    "difficulty": 5,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  },
+  {
+    "id": "HSAT_113_3",
+    "topic": "設 $a \\in \\{-6, -4, -2, 2, 4, 6\\}$，已知 $a$ 為實係數三次多項式 $f(x)$ 的最高次項係數，若函數 $y=f(x)$ 的圖形與 $x$ 軸交於三點，且其 $x$ 坐標成首項為 $-7$、公差為 $a$ 的等差數列。試問共有幾個 $a$ 使得 $f(0)>0$？",
+    "category": "High",
+    "knowledge_point": "三次多項式根與等差數列",
+    "question_type": "填空題",
+    "difficulty": 5,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_113_4",
+    "topic": "試問有多少個實數 $x$ 滿足 $\\sin(x + \\frac{\\pi}{6}) = \\sin x + \\sin \\frac{\\pi}{6}$ 且 $0 \\leq x < 2\\pi$？",
+    "category": "High",
+    "knowledge_point": "三角函數方程",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_114_13",
+    "topic": "已知實係數三次多項式 $f(x)$ 除以 $x+6$ 得商式 $q(x)$ 和餘式 $3$。若 $q(x)$ 在 $x=-6$ 有最大值 $8$，則 $y=f(x)$ 圖形的對稱中心坐標為何？",
+    "category": "High",
+    "knowledge_point": "多項式除法與對稱中心",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_114_15",
+    "topic": "假日市集有個攤位推出「試試手氣，定價 $480$ 元的可愛玩偶最低只要 $240$ 元」。規則為：顧客投擲一枚均勻硬幣至多 $5$ 次，前 $3$ 次連續擲得 $3$ 個正面者只能以 $240$ 元購得一個玩偶，擲到第 $4$ 次才累積得 $3$ 個正面者只能以 $320$ 元購得一個，擲到第 $5$ 次才累積得 $3$ 個正面者只能以 $400$ 元購得一個；$5$ 次投完仍未累積 $3$ 個正面者則只能以 $480$ 元購得一個。參與此遊戲的顧客購得一個玩偶所花金額的期望值為多少元？",
+    "category": "High",
+    "knowledge_point": "條件期望值",
+    "question_type": "填空題",
+    "difficulty": 5,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  },
+  {
+    "id": "HSAT_114_16",
+    "topic": "坐標平面上，設 $L_1, L_2$ 為通過點 $(3,1)$ 且斜率分別為 $m, -m$ 的兩條直線，其中 $m$ 為一實數。另設 $\\Gamma$ 為圓心在原點的一個圓。已知 $\\Gamma$ 與 $L_1$ 交於相異兩點 $A, B$，且圓心到 $L_1$ 的距離為 $1$，又 $\\Gamma$ 與 $L_2$ 相切，則弦 $\\overline{AB}$ 的長度為何？（化為最簡根式）",
+    "category": "High",
+    "knowledge_point": "圓與直線弦長",
+    "question_type": "填空題",
+    "difficulty": 5,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  },
+  {
+    "id": "HSAT_114_2",
+    "topic": "坐標平面上，$P(a,0)$ 為 $x$ 軸上一點，其中 $a>0$。令 $L_1$、$L_2$ 為通過 $P$ 點，斜率分別為 $-\\frac{4}{3}$、$-\\frac{3}{2}$ 的直線。已知 $L_1$、$L_2$ 分別與兩坐標軸圍成的兩個直角三角形的面積差為 $3$，試問 $a$ 值為何？",
+    "category": "High",
+    "knowledge_point": "直線方程與三角形面積",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_114_5",
+    "topic": "設 $0 \\leq \\theta \\leq 2\\pi$。已知所有滿足 $\\sin 2\\theta > \\sin\\theta$ 且 $\\cos 2\\theta > \\cos\\theta$ 的 $\\theta$ 可表為 $a\\pi < \\theta < b\\pi$，其中 $a, b$ 為實數，試問 $b-a$ 值為何？",
+    "category": "High",
+    "knowledge_point": "三角函數不等式",
+    "question_type": "填空題",
+    "difficulty": 5,
+    "prev_system_status": "Success",
+    "prev_fj_math": "3"
+  },
+  {
+    "id": "HSAT_115_1",
+    "topic": "財神廟舉辦抽發財金活動：參加者抽兩次籤，每次抽籤出現「吉」、「祥」的機率皆為 $\\frac{1}{3}$。如果兩次都抽得「吉」，獲得獎金 180 元；如果兩次都抽得「祥」，獲得獎金 90 元；其餘情況則無獎金。試問參加者可獲獎金的期望值為多少元？",
+    "category": "High",
+    "knowledge_point": "機率與期望值",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_115_14",
+    "topic": "坐標平面上，向量 $(a,b)$ 與直線 $y=bx-1$ 垂直，則 $a+b$ 的最大可能值為多少？（化為最簡分數）",
+    "category": "High",
+    "knowledge_point": "向量垂直與最大值",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_115_15",
+    "topic": "已知三正數 $a, b, c$ 成一等差數列，其中 $a<b<c$，且坐標平面上三點 $(a, \\log 3a)$、$(b, \\log 4b)$、$(c, \\log 6c)$ 在同一直線上，則 $\\frac{b}{a}$ 之值為多少？（化為最簡分數）",
+    "category": "High",
+    "knowledge_point": "等差數列、對數與共線",
+    "question_type": "填空題",
+    "difficulty": 5,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_115_16",
+    "topic": "坐標平面上，已知二次函數圖形 $\\Gamma: y=f(x)$ 的頂點 $P$ 在直線 $y=1+2x$ 上，且交 $x$ 軸於點 $A(-\\frac{1}{2},0)$、$B(\\frac{1}{2},0)$。將 $\\Gamma$ 平移使得平移後圖形的頂點 $Q$ 仍在直線 $y=1+2x$ 上，且亦通過點 $B(\\frac{1}{2},0)$，此時 $P$、$Q$ 為兩相異點，則 $\\overline{PQ}$ 等於多少？（化為最簡根式）",
+    "category": "High",
+    "knowledge_point": "二次函數平移與兩點距離",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Failed",
+    "prev_fj_math": "-"
+  },
+  {
+    "id": "HSAT_115_17",
+    "topic": "直角 $\\triangle ABC$ 中，$\\angle CAB$ 為直角，$\\overline{AB}$ 邊上一點 $D$，滿足 $\\angle BCD = 2\\angle ACD$，且 $\\overline{BC} = 2\\overline{BD}$。若 $\\overrightarrow{AD} = k\\overrightarrow{AB}$，則 $k$ 等於多少？（化為最簡分數）",
+    "category": "High",
+    "knowledge_point": "直角三角形角度與向量分點",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Success",
+    "prev_fj_math": "4"
+  },
+  {
+    "id": "HSAT_115_3",
+    "topic": "設 $f(x)=a^x$，其中 $a$ 為正實數。已知 $c_1, c_2, c_3$ 是公差為 $\\frac{10}{3}$ 的等差數列，且 $f(c_1), f(c_2), f(c_3)$ 是公比為 $4$ 的等比數列。則等比數列 $f(10), f(8), f(6)$ 的公比為何？",
+    "category": "High",
+    "knowledge_point": "指數函數與數列",
+    "question_type": "填空題",
+    "difficulty": 4,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  },
+  {
+    "id": "HSAT_115_6",
+    "topic": "坐標平面上有 $A(2,-2)$、$B(-1,2)$ 兩點，試問直線 $y=-6$ 上有多少個點 $C$ 使得 $\\triangle ABC$ 為等腰三角形？",
+    "category": "High",
+    "knowledge_point": "坐標平面與等腰三角形",
+    "question_type": "填空題",
+    "difficulty": 5,
+    "prev_system_status": "Success",
+    "prev_fj_math": "1"
+  }
+]

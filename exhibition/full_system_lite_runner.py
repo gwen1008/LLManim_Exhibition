@@ -213,6 +213,9 @@ exactly as in the system prompt above.
         sys.exit(1)
 
     video_path = loop_result.video_path
+    _counters = getattr(loop_result, "counters_final", {}) or {}
+    _emit("SYS_ITERATIONS", str(_counters.get("main_i", "")))
+    _emit("SYS_BEST_EFFORT", "1" if getattr(loop_result, "is_best_effort", False) else "0")
     _emit("STAGE", f"refining_done|80")
 
     # ── FinalJudge ───────────────────────────────────────────────────

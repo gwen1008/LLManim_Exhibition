@@ -1,85 +1,48 @@
 # [VISUAL REASONING]
-# Build the golden spiral incrementally from Fibonacci squares (1,1,2,3,5,8),
-# then overlay quarter-arcs inside each square to trace the spiral.
-# Title at HEADER, construction in CONTENT, Fibonacci label at bottom.
+# A concrete construction of the Golden Spiral: six Fibonacci-sized squares are
+# laid out in the classic spiral tiling using ABSOLUTE coordinates (no move_to on
+# squares/arcs). Each square's side length is labeled with MathTex placed at its
+# given centroid offset. Finally one tangent-continuous quarter-arc is drawn per
+# square (smallest to largest) so the golden spiral emerges continuously from the
+# squares the viewer just saw. Arc endpoints chain exactly via the given
+# start_angle/angle values.
 
 from manim import *
+import numpy
+
 
 class SubtitleManager:
-    """Auto-injected by RefiningLoop.pre_render_patch. Prevents subtitle overlap and implements YT-style chunking."""
+    """Auto-injected by RefiningLoop.pre_render_patch. Non-blocking subtitle (instant add/remove) —
+    runs in parallel with animations and never stalls the main timeline.
+    Does NOT use add_updater opacity tweening (broken on manim CE 0.19: VGroup.set_opacity(0)
+    on a Text cannot be reversed inside an updater → subtitle stays invisible)."""
     MAX_WIDTH = 12.5
+    Y_POSITION = 3.2 * DOWN
 
     def __init__(self, scene, font_size=28):
         self.scene = scene
         self.font_size = font_size
         self._current = None
-        self._y = 3.5 * DOWN
 
     def show(self, text_str, run_time=1.0):
-        import re
-        FADE_IN = 0.10
-        FADE_BETWEEN = 0.08
-
-        # Break text into chunks by punctuation (keeping the punctuation)
-        parts = re.split(r'([，。！？,\.!?]+)', str(text_str))
-        sentences = []
-        for i in range(0, len(parts)-1, 2):
-            sentences.append((parts[i] + parts[i+1]).strip())
-        if len(parts) % 2 == 1 and parts[-1].strip():
-            sentences.append(parts[-1].strip())
-
-        # 過濾空字串，確保 is_last 判斷正確
-        sentences = [s for s in sentences if s]
-        if not sentences:
+        # 瞬間顯示，不呼叫 scene.play/scene.wait → 不消耗時間軸（非阻塞）。
+        # opacity 維持預設=1（絕不 set_opacity(0)），確保字幕一定可見。
+        s = str(text_str).strip()
+        if not s:
             return
-
-        total_len = sum(len(s) for s in sentences)
-        n = len(sentences)
-
-        # run_time = 字幕總存活時間（= TTS 時長），字幕要撐滿這段時間
-        time_cursor = 0.0
-
-        for idx, s in enumerate(sentences):
-
-            text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
-            bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
-            new_mob = VGroup(bg, text_mob).move_to(self._y)
-            if new_mob.width > self.MAX_WIDTH:
-                new_mob.scale_to_fit_width(self.MAX_WIDTH)
-
-            is_last = (idx == n - 1)
-
-            if self._current is None:
-                self.scene.play(FadeIn(new_mob), run_time=FADE_IN)
-                time_cursor += FADE_IN
-            else:
-                self.scene.play(
-                    FadeOut(self._current, run_time=FADE_BETWEEN / 2),
-                    FadeIn(new_mob, run_time=FADE_BETWEEN / 2),
-                )
-                time_cursor += FADE_BETWEEN
-
-            self._current = new_mob
-
-            if not is_last:
-                # 按字數比例分配時間給非最後一句
-                chunk_ratio = len(s) / max(1, total_len)
-                hold = run_time * chunk_ratio - (FADE_IN if idx == 0 else FADE_BETWEEN)
-                if hold > 0:
-                    self.scene.wait(hold)
-                    time_cursor += hold
-            else:
-                # 最後一句：把剩餘時間全用掉，確保字幕撐到 TTS 結束
-                remaining = run_time - time_cursor
-                if remaining > 0:
-                    self.scene.wait(remaining)
-
-    def clear(self, run_time=0.5):
+        text_mob = Text(s, font_size=self.font_size, color=WHITE, weight="BOLD")
+        bg = BackgroundRectangle(text_mob, color=BLACK, fill_opacity=0.75, buff=0.15)
+        new_mob = VGroup(bg, text_mob).move_to(self.Y_POSITION)
+        if new_mob.width > self.MAX_WIDTH:
+            new_mob.scale_to_fit_width(self.MAX_WIDTH)
         if self._current is not None:
-            anim_time = min(0.2, run_time)
-            self.scene.play(FadeOut(self._current), run_time=anim_time)
-            if run_time > anim_time:
-                self.scene.wait(run_time - anim_time)
+            self.scene.remove(self._current)
+        self.scene.add(new_mob)
+        self._current = new_mob
+
+    def clear(self, run_time=0.0):
+        if self._current is not None:
+            self.scene.remove(self._current)
             self._current = None
 
 
@@ -153,76 +116,121 @@ class GeneratedScene(Scene):
         self._instrumentor = SceneInstrumentor(self, log_path='/Users/liaozhenting/Desktop/LLManim_Agent/scene_state_log.json')
         self._sm = SubtitleManager(self)
         self.set_subtitle = self._sm.show
-        # Build objects from blueprint
-        title = Text("Golden Spiral from Fibonacci Squares", color=GOLD, font_size=36).to_edge(UP, buff=0.4)
+        registry = {}
 
-        sq1 = Square(side_length=0.35, color=WHITE, stroke_width=2).move_to(np.array([-0.525, -0.7, 0]))
-        sq2 = Square(side_length=0.35, color=WHITE, stroke_width=2).move_to(np.array([-0.175, -0.7, 0]))
-        sq3 = Square(side_length=0.7, color=WHITE, stroke_width=2).move_to(np.array([-0.35, -0.175, 0]))
-        sq4 = Square(side_length=1.05, color=WHITE, stroke_width=2).move_to(np.array([-1.225, -0.35, 0]))
-        sq5 = Square(side_length=1.75, color=WHITE, stroke_width=2).move_to(np.array([-0.525, -1.75, 0]))
-        sq6 = Square(side_length=2.8, color=WHITE, stroke_width=2).move_to(np.array([2.1, -0.525, 0]))
-
-        arc1 = Arc(radius=0.35, start_angle=PI, angle=PI/2, arc_center=np.array([-0.35, -0.525, 0]), color=GOLD, stroke_width=3)
-        arc2 = Arc(radius=0.35, start_angle=-PI/2, angle=PI/2, arc_center=np.array([-0.35, -0.525, 0]), color=GOLD, stroke_width=3)
-        arc3 = Arc(radius=0.7, start_angle=0, angle=PI/2, arc_center=np.array([0, -0.525, 0]), color=GOLD, stroke_width=3)
-        arc4 = Arc(radius=1.05, start_angle=PI/2, angle=PI/2, arc_center=np.array([0, 0.175, 0]), color=GOLD, stroke_width=3)
-        arc5 = Arc(radius=1.75, start_angle=PI, angle=PI/2, arc_center=np.array([-1.75, 0.175, 0]), color=GOLD, stroke_width=3)
-        arc6 = Arc(radius=2.8, start_angle=-PI/2, angle=PI/2, arc_center=np.array([-1.75, -1.05, 0]), color=GOLD, stroke_width=3)
-
-        lbl_seq = MathTex(r"1,\ 1,\ 2,\ 3,\ 5,\ 8", color=YELLOW).to_edge(DOWN, buff=0.4)
-
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1779987515/media/audio/Draw_a_golden_spiral_6870d67e9f/step_00.mp3")  # [auto-injected]
-        _audio_dur_0 = 6.72  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1781378111/media/audio/Draw_a_golden_spiral_bab1eef485/step_00_529da97b.mp3")  # [auto-injected]
+        _audio_dur_0 = 6.29  # [audio-sync]
         # Step 1
-        _scale_1 = max(1.0, (_audio_dur_0 * 0.7) / 2.500)
-        self.set_subtitle("我們從費氏數列開始：1, 1, 2, 3, 5, 8。", run_time=_audio_dur_0)
-        anim_time_1 = 2.500 * _scale_1
-        self.play(Write(title), run_time=1.5)
-        self.play(Write(lbl_seq), run_time=1.0)
-        remaining_1 = max(0.1, _audio_dur_0 - anim_time_1 + 0.1)
+        _scale_1 = min(2.5, max(1.0, (_audio_dur_0 * 0.95) / 1.500))
+        title = Text("The Golden Spiral", color=WHITE, font_size=40).to_edge(UP, buff=0.3)
+        registry["title"] = title
+        anim_time_1 = 1.500 * _scale_1
+        self.play(Write(title), run_time=anim_time_1)
+        remaining_1 = min(1.5, max(0.1, _audio_dur_0 - anim_time_1 + 0.1))
         self.wait(remaining_1)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1779987515/media/audio/Draw_a_golden_spiral_6870d67e9f/step_01.mp3")  # [auto-injected]
-        _audio_dur_1 = 6.31  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1781378111/media/audio/Draw_a_golden_spiral_bab1eef485/step_01_4c202375.mp3")  # [auto-injected]
+        _audio_dur_1 = 5.83  # [audio-sync]
         # Step 2
-        _scale_2 = max(1.0, (_audio_dur_1 * 0.7) / 3.000)
-        self.set_subtitle("先放兩個單位正方形並排，再於上方擺一個 2×2 正方形，形成 L 形。", run_time=_audio_dur_1)
-        anim_time_2 = 3.000 * _scale_2
-        self.play(LaggedStart(Create(sq1), Create(sq2), Create(sq3), lag_ratio=0.4), run_time=3.0)
-        remaining_2 = max(0.1, _audio_dur_1 - anim_time_2 + 0.1)
+        _scale_2 = min(2.5, max(1.0, (_audio_dur_1 * 0.95) / 1.500))
+        fib_seq = MathTex(r"1,\ 1,\ 2,\ 3,\ 5,\ 8", color=GOLD, font_size=36)
+        fib_seq.move_to(ORIGIN + numpy.array([0, 2.7, 0]))
+        registry["fib_seq"] = fib_seq
+        anim_time_2 = 1.500 * _scale_2
+        self.play(Write(fib_seq), run_time=anim_time_2)
+        self.wait(0.5)  # [Final Guard: removed empty self.play()]
+        remaining_2 = min(1.5, max(0.1, _audio_dur_1 - anim_time_2 - 1.0 + 0.1))
         self.wait(remaining_2)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1779987515/media/audio/Draw_a_golden_spiral_6870d67e9f/step_02.mp3")  # [auto-injected]
-        _audio_dur_2 = 7.82  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1781378111/media/audio/Draw_a_golden_spiral_bab1eef485/step_02_3836a6e6.mp3")  # [auto-injected]
+        _audio_dur_2 = 6.02  # [audio-sync]
         # Step 3
-        _scale_3 = max(1.0, (_audio_dur_2 * 0.7) / 3.600)
-        self.set_subtitle("再在左側貼上 3×3，下方擺 5×5，最後右側加上 8×8。", run_time=_audio_dur_2)
-        anim_time_3 = 3.600 * _scale_3
-        self.play(LaggedStart(Create(sq4), Create(sq5), Create(sq6), lag_ratio=0.4), run_time=3.6)
-        remaining_3 = max(0.1, _audio_dur_2 - anim_time_3 + 0.1)
+        _scale_3 = min(2.5, max(1.0, (_audio_dur_2 * 0.95) / 2.500))
+        sq1 = Polygon(
+            [1.25, -1, 0], [1.75, -1, 0], [1.75, -0.5, 0], [1.25, -0.5, 0],
+            color=BLUE_D, fill_opacity=0.15, stroke_width=3
+        )
+        sq2 = Polygon(
+            [0.75, -1, 0], [1.25, -1, 0], [1.25, -0.5, 0], [0.75, -0.5, 0],
+            color=BLUE_D, fill_opacity=0.15, stroke_width=3
+        )
+        sq3 = Polygon(
+            [0.75, -2, 0], [1.75, -2, 0], [1.75, -1, 0], [0.75, -1, 0],
+            color=TEAL, fill_opacity=0.15, stroke_width=3
+        )
+        lbl1 = MathTex("1", color=WHITE, font_size=22).move_to(ORIGIN + numpy.array([1.5, -0.75, 0]))
+        lbl2 = MathTex("1", color=WHITE, font_size=22).move_to(ORIGIN + numpy.array([1.0, -0.75, 0]))
+        lbl3 = MathTex("2", color=WHITE, font_size=26).move_to(ORIGIN + numpy.array([1.25, -1.5, 0]))
+        registry.update({"sq1": sq1, "sq2": sq2, "sq3": sq3, "lbl1": lbl1, "lbl2": lbl2, "lbl3": lbl3})
+        anim_time_3 = 2.500 * _scale_3
+        self.play(
+            LaggedStart(
+                AnimationGroup(Create(sq1), Write(lbl1)),
+                AnimationGroup(Create(sq2), Write(lbl2)),
+                AnimationGroup(Create(sq3), Write(lbl3)),
+                lag_ratio=0.2,
+            ),
+            run_time=anim_time_3,
+        )
+        remaining_3 = min(1.5, max(0.1, _audio_dur_2 - anim_time_3 + 0.1))
         self.wait(remaining_3)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1779987515/media/audio/Draw_a_golden_spiral_6870d67e9f/step_03.mp3")  # [auto-injected]
-        _audio_dur_3 = 5.50  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1781378111/media/audio/Draw_a_golden_spiral_bab1eef485/step_03_831f9cc0.mp3")  # [auto-injected]
+        _audio_dur_3 = 6.70  # [audio-sync]
         # Step 4
-        _scale_4 = max(1.0, (_audio_dur_3 * 0.7) / 4.200)
-        self.set_subtitle("在每個正方形內畫一條四分之一圓弧，連接相對的兩個角。", run_time=_audio_dur_3)
-        anim_time_4 = 4.200 * _scale_4
-        self.play(LaggedStart(
-            Create(arc1), Create(arc2), Create(arc3),
-            Create(arc4), Create(arc5), Create(arc6),
-            lag_ratio=0.35
-        ), run_time=4.2)
-        remaining_4 = max(0.1, _audio_dur_3 - anim_time_4 + 0.1)
+        _scale_4 = min(2.5, max(1.0, (_audio_dur_3 * 0.95) / 3.000))
+        sq4 = Polygon(
+            [1.75, -2, 0], [3.25, -2, 0], [3.25, -0.5, 0], [1.75, -0.5, 0],
+            color=TEAL, fill_opacity=0.15, stroke_width=3
+        )
+        sq5 = Polygon(
+            [0.75, -0.5, 0], [3.25, -0.5, 0], [3.25, 2, 0], [0.75, 2, 0],
+            color=GREEN, fill_opacity=0.12, stroke_width=3
+        )
+        sq6 = Polygon(
+            [-3.25, -2, 0], [0.75, -2, 0], [0.75, 2, 0], [-3.25, 2, 0],
+            color=GREEN, fill_opacity=0.12, stroke_width=3
+        )
+        lbl4 = MathTex("3", color=WHITE, font_size=30).move_to(ORIGIN + numpy.array([2.5, -1.25, 0]))
+        lbl5 = MathTex("5", color=WHITE, font_size=34).move_to(ORIGIN + numpy.array([2.0, 0.75, 0]))
+        lbl6 = MathTex("8", color=WHITE, font_size=38).move_to(ORIGIN + numpy.array([-1.25, 0, 0]))
+        registry.update({"sq4": sq4, "sq5": sq5, "sq6": sq6, "lbl4": lbl4, "lbl5": lbl5, "lbl6": lbl6})
+        anim_time_4 = 3.000 * _scale_4
+        self.play(
+            LaggedStart(
+                AnimationGroup(Create(sq4), Write(lbl4)),
+                AnimationGroup(Create(sq5), Write(lbl5)),
+                AnimationGroup(Create(sq6), Write(lbl6)),
+                lag_ratio=0.2,
+            ),
+            run_time=anim_time_4,
+        )
+        remaining_4 = min(1.5, max(0.1, _audio_dur_3 - anim_time_4 + 0.1))
         self.wait(remaining_4)
 
-        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1779987515/media/audio/Draw_a_golden_spiral_6870d67e9f/step_04.mp3")  # [auto-injected]
-        _audio_dur_4 = 6.24  # [audio-sync]
+        self.add_sound("/Users/liaozhenting/Desktop/LLManim_Agent/exhibition/static/runs/batch_sys_Q09_golden_spiral_1781378111/media/audio/Draw_a_golden_spiral_bab1eef485/step_04_ae6d4954.mp3")  # [auto-injected]
+        _audio_dur_4 = 7.25  # [audio-sync]
         # Step 5
-        _scale_5 = max(1.0, (_audio_dur_4 * 0.7) / 2.000)
-        self.set_subtitle("這些弧線連在一起，就形成了藏在費氏數列中的黃金螺旋。", run_time=_audio_dur_4)
-        anim_time_5 = 2.000 * _scale_5
-        self.play(Indicate(lbl_seq), Indicate(arc6, color=GOLD), run_time=2.0)
-        remaining_5 = max(0.1, _audio_dur_4 - anim_time_5 + 0.1)
+        _scale_5 = min(2.5, max(1.0, (_audio_dur_4 * 0.95) / 4.000))
+        arc1 = Arc(radius=0.5, arc_center=[1.75, -0.5, 0], start_angle=180 * DEGREES, angle=90 * DEGREES, color=GOLD, stroke_width=6)
+        arc2 = Arc(radius=0.5, arc_center=[1.25, -1, 0], start_angle=180 * DEGREES, angle=-90 * DEGREES, color=GOLD, stroke_width=6)
+        arc3 = Arc(radius=1.0, arc_center=[1.75, -1, 0], start_angle=270 * DEGREES, angle=-90 * DEGREES, color=GOLD, stroke_width=6)
+        arc4 = Arc(radius=1.5, arc_center=[1.75, -0.5, 0], start_angle=0 * DEGREES, angle=-90 * DEGREES, color=GOLD, stroke_width=6)
+        arc5 = Arc(radius=2.5, arc_center=[0.75, -0.5, 0], start_angle=90 * DEGREES, angle=-90 * DEGREES, color=GOLD, stroke_width=6)
+        arc6 = Arc(radius=4.0, arc_center=[0.75, -2, 0], start_angle=90 * DEGREES, angle=90 * DEGREES, color=GOLD, stroke_width=6)
+        registry.update({"arc1": arc1, "arc2": arc2, "arc3": arc3, "arc4": arc4, "arc5": arc5, "arc6": arc6})
+        anim_time_5 = 4.000 * _scale_5
+        self.play(
+            Succession(
+                Create(arc1),
+                Create(arc2),
+                Create(arc3),
+                Create(arc4),
+                Create(arc5),
+                Create(arc6),
+            ),
+            run_time=anim_time_5,
+        )
+        self.play(Circumscribe(arc6, color=YELLOW))
+        remaining_5 = min(1.5, max(0.1, _audio_dur_4 - anim_time_5 - 1.0 + 0.1))
         self.wait(remaining_5)
