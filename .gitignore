@@ -198,3 +198,6 @@ exhibition/static/**/stdout.txt
 exhibition/static/**/stderr.txt
 exhibition/static/**/sys_stdout.txt
 exhibition/static/**/sys_stderr.txt
+
+# Runtime 臨時生成檔
+test_script_*.py
