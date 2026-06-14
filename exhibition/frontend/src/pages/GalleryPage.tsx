@@ -69,7 +69,7 @@ function HeroStats({ items }: { items: GalleryItem[] }) {
         <span className="text-rose-300 font-bold tabular-nums text-lg">
           {stats.opusFail}/{stats.cmpTotal}
         </span>
-        <span className="text-gray-400">對比中直出失敗</span>
+        <span className="text-gray-400">Opus 直接生成失敗</span>
       </div>
       <span className="text-gray-700" aria-hidden="true">·</span>
       <div className="inline-flex items-baseline gap-1.5">
@@ -104,7 +104,7 @@ function FilterTabs({
 }) {
   const tabs: { key: Filter; label: string }[] = [
     { key: "all", label: "全部" },
-    { key: "opus_fail", label: "直出失敗對比" },
+    { key: "opus_fail", label: "Opus 生成失敗" },
     { key: "both_success", label: "兩邊都成功" },
   ];
   return (
@@ -189,19 +189,19 @@ export function GalleryPage() {
         />
         <div className="relative max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
-            從一句話，到
-            <span className="text-emerald-300">會說話的數學動畫</span>
+            AI 自動生成
+            <span className="text-emerald-300">數學教學動畫</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-200 mb-2 inline-flex flex-wrap items-center justify-center gap-2">
-            <span className="text-emerald-300 font-semibold">本系統（Multi-Agent Pipeline）</span>
+            <span className="text-emerald-300 font-semibold">本系統（LLManim）</span>
             <span className="text-gray-500">·</span>
             <span className="text-gray-300">能力展示</span>
             <span className="text-gray-500">＋</span>
-            <span className="text-rose-300">Opus 裸跑對比</span>
+            <span className="text-rose-300">Opus 直接生成對比</span>
           </p>
           <p className="text-gray-400 text-sm mt-4 max-w-2xl mx-auto leading-relaxed">
             上半部「系統能力展示」：把數學主題交給完整 pipeline（Translator → Planner → RAG → Coder → VisionQA → Reflexion），
-            自動生成帶旁白與字幕的動畫。下半部「Opus 裸跑對比」：相同 Prompt 下，零樣本 Opus（僅給「請寫一個 ManimCE 場景」、不給範例、不修正）與本系統的並排對照。
+            自動生成帶旁白與字幕的動畫。下半部「Opus 直接生成對比」：相同 Prompt 下，Opus 直接生成（僅給「請寫一個 ManimCE 場景」、不給範例、不修正）與本系統的並排對照。
           </p>
           {!loading && !error && <HeroStats items={items} />}
         </div>
@@ -259,10 +259,10 @@ export function GalleryPage() {
                   <section aria-labelledby="sec-comparison">
                     <div className="mb-5 border-l-4 border-rose-500 pl-3">
                       <h2 id="sec-comparison" className="text-2xl font-bold text-white">
-                        Opus 裸跑 vs 本系統
+                        Opus 直接生成 vs 本系統
                       </h2>
                       <p className="text-gray-400 text-sm mt-1">
-                        相同 Prompt 下，零樣本 Opus 與本系統 5-Agent Pipeline 的並排對比
+                        相同 Prompt 下，Opus 直接生成與本系統 5-Agent Pipeline 的並排對比
                       </p>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
