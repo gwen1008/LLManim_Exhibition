@@ -155,13 +155,6 @@ export function TechPage() {
             aria-hidden="true"
             className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(34,197,94,0.08),transparent_65%)]"
           />
-          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-slate-800/60 border border-slate-700 text-slate-300 text-xs font-mono">
-            <span className="relative flex size-1.5" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-emerald-400" />
-            </span>
-            TECH DASHBOARD · BENCHMARK Q01-Q150
-          </div>
           {stats ? (
             <h1 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
               <span className="text-white">{stats.total_videos_generated} 部數學動畫</span>
@@ -177,8 +170,6 @@ export function TechPage() {
           )}
           <p className="text-gray-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
             Multi-Agent Pipeline + Reflexion 自我修正的真實 benchmark 數據。
-            <br className="hidden md:inline" />
-            來源：<code className="font-mono text-gray-200 text-xs">runs/merged_q01_q150_with_review.csv</code>
           </p>
         </header>
 
@@ -520,8 +511,6 @@ export function TechPage() {
 
             <p className="text-center text-gray-500 text-xs mt-6 leading-relaxed">
               所有數字均含明確分母（n=...）以避免「樂觀偏差」。
-              <br />
-              更新指令：<code className="font-mono text-gray-300">python3 exhibition/build_stats.py</code>
             </p>
           </>
         )}

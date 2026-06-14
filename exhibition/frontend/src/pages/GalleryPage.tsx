@@ -4,7 +4,7 @@ import { getGallery } from "../api/client";
 import { ComparisonCard } from "../components/ComparisonCard";
 import type { GalleryItem } from "../types";
 
-type Filter = "all" | "opus_fail" | "both_success";
+type Filter = "all" | "showcase" | "comparison";
 
 function CardSkeleton() {
   return (
@@ -104,8 +104,8 @@ function FilterTabs({
 }) {
   const tabs: { key: Filter; label: string }[] = [
     { key: "all", label: "全部" },
-    { key: "opus_fail", label: "Opus 生成失敗" },
-    { key: "both_success", label: "兩邊都成功" },
+    { key: "showcase", label: "能力展示" },
+    { key: "comparison", label: "Opus 直接生成對比" },
   ];
   return (
     <div
@@ -157,27 +157,22 @@ export function GalleryPage() {
   }, []);
 
   const counts: Record<Filter, number> = useMemo(() => {
-    // showcase 項無 Opus 對比，不計入對比類統計
-    const cmp = items.filter((i) => !i.showcase_only);
-    const opusFail = cmp.filter((i) => !i.opus_metrics?.render_success).length;
-    const bothOk = cmp.filter(
-      (i) => i.opus_metrics?.render_success && i.system_metrics.render_success
-    ).length;
-    return { all: items.length, opus_fail: opusFail, both_success: bothOk };
+    const showcaseN = items.filter((i) => i.showcase_only).length;
+    return {
+      all: items.length,
+      showcase: showcaseN,
+      comparison: items.length - showcaseN,
+    };
   }, [items]);
 
   const showcaseItems = useMemo(() => items.filter((i) => i.showcase_only), [items]);
   const comparisonItems = useMemo(() => items.filter((i) => !i.showcase_only), [items]);
 
   const filtered = useMemo(() => {
-    if (filter === "opus_fail")
-      return items.filter((i) => !i.showcase_only && !i.opus_metrics?.render_success);
-    if (filter === "both_success")
-      return items.filter(
-        (i) => !i.showcase_only && i.opus_metrics?.render_success && i.system_metrics.render_success
-      );
+    if (filter === "showcase") return showcaseItems;
+    if (filter === "comparison") return comparisonItems;
     return items;
-  }, [items, filter]);
+  }, [items, filter, showcaseItems, comparisonItems]);
 
   return (
     <div className="min-h-dvh bg-gray-950 text-white">
