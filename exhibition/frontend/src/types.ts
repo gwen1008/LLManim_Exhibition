@@ -15,6 +15,7 @@ export interface GalleryItem {
   topic: string;
   topic_en: string;
   topic_prompt?: string;
+  topic_source?: string;
   // showcase_only 為 true 時：純系統展示（無 Opus 對比），前端只渲染系統單欄
   showcase_only?: boolean;
   opus_video_url?: string;

@@ -140,7 +140,11 @@ export function ComparisonCard({ item }: Props) {
           <h3 id={`card-${item.id}-title`} className="text-white font-semibold text-base leading-snug">
             {item.topic}
           </h3>
-          <p className="text-gray-500 text-xs mt-0.5 font-mono">{item.id}</p>
+          {item.topic_source ? (
+            <p className="text-gray-400 text-xs mt-0.5">{item.topic_source}</p>
+          ) : (
+            <p className="text-gray-600 text-xs mt-0.5 font-mono">{item.id}</p>
+          )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <WinnerBadge winner={winner} />
@@ -264,7 +268,7 @@ export function ComparisonCard({ item }: Props) {
             <summary className="text-xs text-gray-400 cursor-pointer hover:text-gray-300 select-none inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded">
               <ChevronRight className="size-3 transition-transform group-open:rotate-90" aria-hidden="true" />
               <FileText className="size-4" aria-hidden="true" />
-              原始 Prompt
+              題目
             </summary>
             <p className="mt-1 text-xs text-gray-300 leading-relaxed">{item.topic_prompt}</p>
           </details>
@@ -288,7 +292,11 @@ function ShowcaseCard({ item }: Props) {
           <h3 id={`card-${item.id}-title`} className="text-white font-semibold text-base leading-snug">
             {item.topic}
           </h3>
-          <p className="text-gray-500 text-xs mt-0.5 font-mono">{item.id}</p>
+          {item.topic_source ? (
+            <p className="text-gray-400 text-xs mt-0.5">{item.topic_source}</p>
+          ) : (
+            <p className="text-gray-600 text-xs mt-0.5 font-mono">{item.id}</p>
+          )}
         </div>
         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border bg-emerald-500/15 text-emerald-300 border-emerald-500/40 shrink-0">
           <CheckCircle2 className="size-3" aria-hidden="true" />
@@ -330,7 +338,7 @@ function ShowcaseCard({ item }: Props) {
             <summary className="text-xs text-gray-400 cursor-pointer hover:text-gray-300 select-none inline-flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 rounded">
               <ChevronRight className="size-3 transition-transform group-open:rotate-90" aria-hidden="true" />
               <FileText className="size-4" aria-hidden="true" />
-              原始 Prompt
+              題目
             </summary>
             <p className="mt-1 text-xs text-gray-300 leading-relaxed">{item.topic_prompt}</p>
           </details>

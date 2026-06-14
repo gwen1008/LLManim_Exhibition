@@ -94,6 +94,7 @@
       "id": "Q01_sin_squared_integral",
       "topic": "求 sin²(x) 從 0 到 π 的定積分",
       "topic_en": "Sin Squared Integral",
+      "topic_source": "自訂示範題",
       "topic_prompt": "Evaluate the definite integral of sin^2(x) from 0 to pi by first applying the half-angle identity sin^2(x) = (1 - cos(2x))/2, then integrating step by step. Show the area under the curve being shaded as the answer is computed.",
       "opus_video_url": "/static/videos/naked_opus/Q01_sin_squared_integral.mp4",
       "system_video_url": "/static/videos/old_rag/Q01_sin_squared_integral.mp4",
@@ -124,6 +125,7 @@
       "id": "Q02_cubic_extrema",
       "topic": "求 f(x)=x³−6x²+9x 的極值",
       "topic_en": "Cubic Extrema",
+      "topic_source": "自訂示範題",
       "topic_prompt": "Find the local extrema of f(x) = x^3 - 6x^2 + 9x. Take the first derivative, solve f'(x)=0 for critical points, use the second derivative test to classify them, and mark the extrema on the curve with tangent lines at those points.",
       "opus_video_url": "/static/videos/naked_opus/Q02_cubic_extrema.mp4",
       "system_video_url": "/static/videos/old_rag/Q02_cubic_extrema.mp4",
@@ -154,7 +156,8 @@
       "id": "MEX_111_9",
       "topic": "古典機率（不放回抽球）",
       "topic_en": "Classical Probability",
-      "topic_prompt": "",
+      "topic_source": "111 年國中教育會考・數學 第 9 題",
+      "topic_prompt": "箱子內有分別標示號碼 1~6 的球，每個號碼各 2 顆，總共 12 顆。已知小茹先從箱內抽出 5 顆球且不將球放回箱內，這 5 顆球的號碼分別是 1, 2, 2, 3, 5。今阿純打算從此箱內剩下的球中抽出 1 顆球，若箱內剩下的每顆球被他抽出的機會相等，則他抽出的球的號碼，與小茹已抽出的 5 顆球中任意一顆球的號碼相同的機率是多少？",
       "opus_video_url": "/static/retry_cap20/MEX_111_9/video.mp4",
       "system_video_url": "/static/retry_cap20/MEX_111_9/sys_video.mp4",
       "opus_metrics": {
@@ -178,7 +181,8 @@
       "id": "HSAT_114_13",
       "topic": "多項式除法與對稱中心",
       "topic_en": "Polynomial Division & Symmetry",
-      "topic_prompt": "",
+      "topic_source": "114 年大學學測・數學 A 第 13 題",
+      "topic_prompt": "已知實係數三次多項式 f(x) 除以 x+6 得商式 q(x) 和餘式 3。若 q(x) 在 x=−6 有最大值 8，則 y=f(x) 圖形的對稱中心坐標為何？",
       "opus_video_url": "/static/retry_hsat20/HSAT_114_13/video.mp4",
       "system_video_url": "/static/retry_hsat20/HSAT_114_13/sys_video.mp4",
       "opus_metrics": {
@@ -197,37 +201,13 @@
         "notes": "本系統 5-Agent Pipeline",
         "iterations": 2
       }
-    },
-    {
-      "id": "HSAT_115_1",
-      "topic": "機率與期望值",
-      "topic_en": "Probability & Expectation",
-      "topic_prompt": "",
-      "opus_video_url": "/static/retry_hsat20/HSAT_115_1/video.mp4",
-      "system_video_url": "/static/retry_hsat20/HSAT_115_1/sys_video.mp4",
-      "opus_metrics": {
-        "render_success": true,
-        "video_duration_sec": 23.5,
-        "code_lines": null,
-        "gen_time_sec": null,
-        "notes": "Opus 裸跑 + retry≤5",
-        "attempts": 2
-      },
-      "system_metrics": {
-        "render_success": true,
-        "video_duration_sec": 40.1,
-        "code_lines": null,
-        "gen_time_sec": null,
-        "notes": "本系統 5-Agent Pipeline",
-        "iterations": 2
-      }
     }
   ],
   "generated_at": "2026-05-26T12:30:00+08:00",
   "summary": {
-    "total_topics": 11,
+    "total_topics": 10,
     "showcase_count": 6,
-    "comparison_count": 5,
+    "comparison_count": 4,
     "note": "展覽版：能力秀（系統純展示）+ 對比區（Opus vs 系統）"
   }
 }
