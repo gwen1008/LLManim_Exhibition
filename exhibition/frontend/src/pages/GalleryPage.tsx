@@ -196,8 +196,7 @@ export function GalleryPage() {
             <span className="text-rose-300">Opus 直接生成對比</span>
           </p>
           <p className="text-gray-400 text-sm mt-4 max-w-2xl mx-auto leading-relaxed">
-            上半部「系統能力展示」：把數學主題交給完整 pipeline（Translator → Planner → RAG → Coder → VisionQA → Reflexion），
-            自動生成帶旁白與字幕的動畫。下半部「Opus 直接生成對比」：相同 Prompt 下，Opus 直接生成（僅給「請寫一個 ManimCE 場景」、不給範例、不修正）與本系統的並排對照。
+            「系統能力展示」呈現 Multi-Agent Pipeline 全自動生成帶旁白與字幕之數學動畫；「Opus 直接生成對比」於相同 Prompt 條件下，對照 Opus 直接生成（無範例、無修正機制）與本系統 5-Agent Pipeline 之輸出品質。
           </p>
           {!loading && !error && <HeroStats items={items} />}
         </div>
