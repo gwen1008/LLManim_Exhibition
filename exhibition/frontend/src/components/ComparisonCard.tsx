@@ -15,7 +15,7 @@ function WinnerBadge({ winner }: { winner: "system" | "opus" | null }) {
       }`}
     >
       <Trophy className="size-3" aria-hidden="true" />
-      {isSystem ? "本系統勝" : "裸跑勝"}
+      {isSystem ? "本系統勝" : "直接生成勝"}
     </span>
   );
 }
@@ -168,7 +168,7 @@ export function ComparisonCard({ item }: Props) {
         <div className="border-b sm:border-b-0 sm:border-r border-gray-800">
           <div className="bg-rose-950/40 px-3 py-1.5 text-center">
             <span className="text-rose-300 text-[11px] font-bold uppercase tracking-wider">
-              Opus 裸跑 · Zero-Shot
+              Opus 直接生成 · Zero-Shot
             </span>
           </div>
           <div className="relative bg-black aspect-video">
@@ -183,7 +183,7 @@ export function ComparisonCard({ item }: Props) {
                 preload="metadata"
                 onPause={() => setSyncPlaying(false)}
                 onEnded={() => setSyncPlaying(false)}
-                aria-label={`Opus 裸跑影片 — ${item.topic}`}
+                aria-label={`Opus 直接生成影片 — ${item.topic}`}
               />
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 px-3">
@@ -232,10 +232,10 @@ export function ComparisonCard({ item }: Props) {
 
       {/* Metrics */}
       <div className="px-4 py-3">
-        <div className="grid grid-cols-[1fr_auto] gap-4 text-xs mb-2">
-          <span className="sr-only">指標</span>
+        <div className="flex justify-between text-xs mb-2">
+          <span className="text-gray-400">指標</span>
           <div className="flex gap-4">
-            <span className="w-20 text-right text-rose-300 font-medium">裸跑</span>
+            <span className="w-20 text-right text-rose-300 font-medium">直接生成</span>
             <span className="w-20 text-right text-emerald-300 font-medium">本系統</span>
           </div>
         </div>
